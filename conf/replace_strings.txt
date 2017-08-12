@@ -1,0 +1,9 @@
+# encoding: UTF-8
+# comments are marked with #
+#key=value key is searched in youtube needle (track/artist) and replaced by value
+#note, to remove from youtube needle simply leave the value blank
+#note this file is tested with eol character line feet only
+[unknown]=
+Various Artists=
+_122747299=
+www.qsound.eu=

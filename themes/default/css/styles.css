@@ -1,0 +1,73 @@
+/* 
+encoding: UTF-8
+*/
+
+body {
+	margin: 10px;
+}
+#hotkeys_view {
+	text-align:left;
+	border:1px solid #686868;
+	padding:10px;
+	margin-top:10px;
+	display:none;
+}
+
+.playercontrol {
+	border:1px solid #686868;
+	padding: 15px;
+}
+.lastfmuser {
+	float:left;
+}
+.pages {
+	display:inline-block;
+	position:relative;
+	left: 15px; 
+}
+
+.playlist {	
+	padding-top:15px;
+	margin-top: 15px;
+	width:100%;
+}
+
+
+.topusers table thead,
+.userlist table thead,
+.charts table thead{
+	font-weight: bold;
+}
+
+.charts table tbody tr:hover,
+.topusers table tbody tr:hover,
+.userlist table tbody tr:hover,
+.playlistcontainer table tbody tr:hover{
+	cursor: pointer;	
+	background-color: lightblue;
+	color: white;
+}
+.charts table thead tr,
+.topusers table thead tr,
+.userlist table thead tr,
+.playlistcontainer table thead tr {
+	background-color: lightblue;		
+}
+
+.charts table,
+.topusers table,
+.userlist table, 
+.playlistcontainer table {
+	width: 100%;
+}
+
+.footer {	
+	text-align:center;
+	display: table;
+	margin: 0 auto;
+}
+.footer span {
+	display:table-cell;
+	text-align:center;
+	vertical-align: middle;
+}
