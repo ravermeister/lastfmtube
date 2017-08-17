@@ -1,5 +1,5 @@
 <?php
-	require_once dirname(__FILE__).'/../includes/bootstrap.php';
+	require_once 'includes/bootstrap.php';	
 	
 	//enter a sha1 password (default is lfmtube)
 	$sha1_password = '8e86808ce4d6f7ed6d0a0b8bf0de8e366106a9c7'; 
@@ -32,7 +32,7 @@
 		$replace_strings = $_POST['replace_strings'];
 		//$replace_strings = Functions::br2nl($replace_strings);
 		$replace_strings = strip_tags($replace_strings);
-		file_put_contents(dirname(__FILE__).'/../conf/replace_strings.txt', $replace_strings);
+		file_put_contents('conf/replace_strings.txt', $replace_strings);
 		//replace_strings.txt
 		
 		if(strlen(trim(strip_tags($_POST['general_baseurl']))) > 0 ) $settings['general']['baseurl'] = $_POST['general_baseurl'];		
@@ -67,10 +67,10 @@
 	
 	
 	
-	$replace_strings = file_get_contents(dirname(__FILE__).'/../conf/replace_strings.txt');
+	$replace_strings = file_get_contents('conf/replace_strings.txt');
 	//$replace_strings = nl2br($replace_strings);
 	
-	$locales = file(dirname(__FILE__).'/../locale/locale.info');	
+	$locales = file('locale/locale.info');	
 	for($row=0; $row<count($locales); $row++) {
 		$line = $locales[$row];
 		$larr = explode(' ', $line);
@@ -90,7 +90,7 @@
 	}
 	//supported locales
 	
-	$themedir = dirname(__FILE__).'/../themes/*';	
+	$themedir = 'themes/*';	
 	foreach(glob($themedir, GLOB_ONLYDIR) as $name) {
 		$supported_themes[] = basename($name);
 	}
