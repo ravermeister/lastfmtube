@@ -88,21 +88,21 @@ var cmenu_user_base_menu =
     {'close Menu' : 
         {
             onclick: function(menuItemClicked,menuObject){return true},
-            icon: './images/icons/Token_Light/Multimedia_Graphics/Xion_24.png'
+            icon: './images/Xion_24.png'
         }
     },
     
     {'remove from Playlist' :
         {
             onclick: function(menuItemClicked,menuObject){userlist_removeFromPlaylist($(this));return true;},
-            icon: './images/icons/Token_Light/Multimedia_Graphics/Xion_24.png'
+            icon: './images/Xion_24.png'
         }
     },  
     
     {'clear Playlist' :
         {
             onclick: function(menuItemClicked,menuObject){userlist_clearPlaylist($(this));return true;},
-            icon: './images/icons/Token_Light/OS_Folders/Recycle_24.png'
+            icon: './images/Recycle_24.png'
         }
     },
 ];

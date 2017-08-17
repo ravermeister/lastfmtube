@@ -88,14 +88,14 @@ var cmenu_charts_base_menu =
     {'close Menu' : 
         {
             onclick: function(menuItemClicked,menuObject){return true},
-            icon: './images/icons/Token_Light/Multimedia_Graphics/Xion_24.png'
+            icon: './images/Xion_24.png'
         }
     },
     
     {'add to Playlist' :
         {
             onclick: function(menuItemClicked,menuObject){charts_addToPlaylist();return true;},
-            icon: './images/icons/Token_Light/OS_Folders/Music_24.png'
+            icon: './images/Music_24.png'
         }
     }
 ];

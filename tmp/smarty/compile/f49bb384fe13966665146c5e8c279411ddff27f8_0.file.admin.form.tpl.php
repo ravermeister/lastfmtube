@@ -1,4 +1,28 @@
-</script>
+<?php
+/* Smarty version 3.1.30, created on 2017-08-17 01:59:20
+  from "/home/ravermeister/lfmtube/themes/dark/admin.form.tpl" */
+
+/* @var Smarty_Internal_Template $_smarty_tpl */
+if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
+  'version' => '3.1.30',
+  'unifunc' => 'content_5994dc581b0669_76254408',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'f49bb384fe13966665146c5e8c279411ddff27f8' => 
+    array (
+      0 => '/home/ravermeister/lfmtube/themes/dark/admin.form.tpl',
+      1 => 1502927911,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+),false)) {
+function content_5994dc581b0669_76254408 (Smarty_Internal_Template $_smarty_tpl) {
+echo '</script'; ?>
+>
 		<h1>Last.fm Youtube Radio</h1>
 		<p>
 			The last.fm Youtube Radio searches the listened tracks of the given last.fm user on YouTube.<br/>
@@ -85,7 +109,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['general']['baseurl']}" name="general_baseurl" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['baseurl'];?>
+" name="general_baseurl" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -99,14 +124,27 @@
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<select name="general_lang" size="1">
-							{foreach from=$SUPPORTED_LOCALES item=LANG}	
-								{if $LANG['value'] == $SETTINGS['general']['lang']}
-									<option value="{$LANG['value']}" selected="selected">{$LANG['desc']}</option>
-								{else}
-									<option value="{$LANG['value']}">{$LANG['desc']}</option>
-								{/if}
+							<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['SUPPORTED_LOCALES']->value, 'LANG');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['LANG']->value) {
+?>	
+								<?php if ($_smarty_tpl->tpl_vars['LANG']->value['value'] == $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['lang']) {?>
+									<option value="<?php echo $_smarty_tpl->tpl_vars['LANG']->value['value'];?>
+" selected="selected"><?php echo $_smarty_tpl->tpl_vars['LANG']->value['desc'];?>
+</option>
+								<?php } else { ?>
+									<option value="<?php echo $_smarty_tpl->tpl_vars['LANG']->value['value'];?>
+"><?php echo $_smarty_tpl->tpl_vars['LANG']->value['desc'];?>
+</option>
+								<?php }?>
 								
-							{/foreach}
+							<?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
+?>
+
 						</select>
 					</td>
 				</tr>
@@ -120,7 +158,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['general']['logpath']}" name="general_logpath" value=""/> 
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['logpath'];?>
+" name="general_logpath" value=""/> 
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -133,9 +172,11 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						Width: <input type="text" value="{$SETTINGS['general']['playerwidth']}" name="general_playerwidth" size="4" value=""/> 
+						Width: <input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['playerwidth'];?>
+" name="general_playerwidth" size="4" value=""/> 
 						&nbsp;&nbsp;
-						Height: <input type="text" value="{$SETTINGS['general']['playerheight']}" name="general_playerheight" size="4" value=""/> 
+						Height: <input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['playerheight'];?>
+" name="general_playerheight" size="4" value=""/> 
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -149,14 +190,25 @@
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<select name="general_theme" size="1">
-							{foreach from=$SUPPORTED_THEMES item=THEME}	
-								{if $THEME == $SETTINGS['general']['theme']}
-									<option selected="selected">{$THEME}</option>
-								{else}
-									<option>{$THEME}</option>
-								{/if}
+							<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['SUPPORTED_THEMES']->value, 'THEME');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['THEME']->value) {
+?>	
+								<?php if ($_smarty_tpl->tpl_vars['THEME']->value == $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['theme']) {?>
+									<option selected="selected"><?php echo $_smarty_tpl->tpl_vars['THEME']->value;?>
+</option>
+								<?php } else { ?>
+									<option><?php echo $_smarty_tpl->tpl_vars['THEME']->value;?>
+</option>
+								<?php }?>
 								
-							{/foreach}
+							<?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
+?>
+
 						</select>
 					</td>
 				</tr>
@@ -171,14 +223,25 @@
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<select name="general_cmenutheme" size="1">
-							{foreach from=$SUPPORTED_CMENUTHEMES item=CMENUTHEME}	
-								{if $CMENUTHEME == $SETTINGS['general']['cmenutheme']}
-									<option selected="selected">{$CMENUTHEME}</option>
-								{else}
-									<option>{$CMENUTHEME}</option>
-								{/if}
+							<?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['SUPPORTED_CMENUTHEMES']->value, 'CMENUTHEME');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['CMENUTHEME']->value) {
+?>	
+								<?php if ($_smarty_tpl->tpl_vars['CMENUTHEME']->value == $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['cmenutheme']) {?>
+									<option selected="selected"><?php echo $_smarty_tpl->tpl_vars['CMENUTHEME']->value;?>
+</option>
+								<?php } else { ?>
+									<option><?php echo $_smarty_tpl->tpl_vars['CMENUTHEME']->value;?>
+</option>
+								<?php }?>
 								
-							{/foreach}
+							<?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
+?>
+
 						</select>
 					</td>
 				</tr>
@@ -192,7 +255,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['general']['lastfm_defaultuser']}" name="general_lastfm_defaultuser" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['general']['lastfm_defaultuser'];?>
+" name="general_lastfm_defaultuser" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="60">&nbsp;</td></tr>
@@ -206,7 +270,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['database']['dsn']}" name="database_dsn" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['database']['dsn'];?>
+" name="database_dsn" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -219,7 +284,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['database']['table_prefix']}" name="database_table_prefix" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['database']['table_prefix'];?>
+" name="database_table_prefix" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -232,7 +298,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['database']['username']}" name="database_username" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['database']['username'];?>
+" name="database_username" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -258,7 +325,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['lastfm']['user']}" name="lastfm_user" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['lastfm']['user'];?>
+" name="lastfm_user" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -271,7 +339,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['lastfm']['apikey']}" name="lastfm_apikey" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['lastfm']['apikey'];?>
+" name="lastfm_apikey" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="60">&nbsp;</td></tr>
@@ -284,7 +353,8 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['youtube']['apikey']}" name="youtube_apikey" />
+						<input type="text" value="<?php echo $_smarty_tpl->tpl_vars['SETTINGS']->value['youtube']['apikey'];?>
+" name="youtube_apikey" />
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -342,9 +412,11 @@
 				the part in the title is replaced by the value. <br/>
 				Note, leave blank if you simply want to remove the key from the Song title
 			</p>
-			<textarea class="texteditor" name="replace_strings" style="width:90%;height:250px;">{$REPLACE_STRINGS_FILE}</textarea>
+			<textarea class="texteditor" name="replace_strings" style="width:90%;height:250px;"><?php echo $_smarty_tpl->tpl_vars['REPLACE_STRINGS_FILE']->value;?>
+</textarea>
 			
 			<br />
 			<input type="submit" name="submit" value="Save" class="pure-button" />			
 			</form>
-		</p>
+		</p><?php }
+}

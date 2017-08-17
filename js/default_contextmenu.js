@@ -88,7 +88,7 @@ var cmenu_default_base_menu =
     {'close Menu' : 
         {
             onclick: function(menuItemClicked,menuObject){return true},
-            icon: './images/icons/Token_Light/Multimedia_Graphics/Xion_24.png'
+            icon: './images/Xion_24.png'
         }
     },
     
@@ -96,7 +96,7 @@ var cmenu_default_base_menu =
         {
             className: 'delete_alternative',
             onclick: function(menuItemClicked,menuObject){deleteAlternative(); return false;},
-            icon: './images/icons/Token_Light/OS_Folders/Recycle_24.png'                    
+            icon: './images/Recycle_24.png'                    
         }
     },
     
@@ -111,7 +111,7 @@ var cmenu_default_base_menu =
                 return false;
             },
             
-            icon: './images/icons/Token_Light/Multimedia_Graphics/Paint_24.png',
+            icon: './images/Paint_24.png',
             className: 'custom_video_menu'          
         }       
     },
@@ -127,7 +127,7 @@ var cmenu_default_base_menu =
                 userlist_addToPlaylist(trackinfo);
                 return true;
             },
-            icon: './images/icons/Token_Light/OS_Folders/Music_24.png'
+            icon: './images/Music_24.png'
         }
     },
     
@@ -197,7 +197,7 @@ function loadDynamicMenu(cmenu) {
             }                            
                                             
             $(div_item).text((cnt+1)+'. '+title);            
-            $(div_item).css('background-image','url(./images/icons/Token_Light/Multimedia_Graphics/iTunes_24.png)');            
+            $(div_item).css('background-image','url(./images/iTunes_24.png)');            
             $(div_item).click({'needle': needle, 'videoId' : response[cnt].video_id },setAlternative);    
                                 
                     

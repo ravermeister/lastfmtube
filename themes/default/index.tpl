@@ -111,14 +111,14 @@ encoding: UTF-8
                                 <div class="lastfmuser">
                                     <a href="//www.last.fm/" target="_blank">{$LANG['site.playercontrol.lasftm.label']}</a> {$LANG['site.playercontrol.user.label']}
                                     <input type="text" value="{$lastfm_user}" id="lastfm_user" /> 
-                                    <input type="button" value="Load" onclick="loadLastFMUser();"/>                                    
+                                    <input type="button" value="{$LANG['site.playercontrol.user.button']}" onclick="loadLastFMUser();"/>                                    
                                 </div>
                                 
 			<div class="pages">
 			<input type="button" id="loadprev"  value="&lt;&lt;" />
 			{$LANG['site.pagecontrol.page']}
 			<input type="text" id="pagefield" value="{$current_page}" size="1" maxlength="5" /> {$LANG['site.pagecontrol.page.of']} <span id="lastfm_user_pages_total">{$total_pages}</span> 
-			<input type="button" id="pageload" value="load Page"/>
+			<input type="button" id="pageload" value="{$LANG['site.pagecontrol.load']}"/>
 
 			<input type="button" id="loadnext" value="&gt;&gt;" />
                                  </div>

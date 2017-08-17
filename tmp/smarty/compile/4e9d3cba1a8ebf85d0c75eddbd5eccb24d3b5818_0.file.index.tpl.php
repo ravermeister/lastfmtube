@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-08-17 01:44:16
-  from "/home/ravermeister/lfmtube/themes/dark/index.tpl" */
+/* Smarty version 3.1.30, created on 2017-08-17 01:49:20
+  from "/home/ravermeister/lfmtube/themes/default/index.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5994d8d00dbf87_33524961',
+  'unifunc' => 'content_5994da008a6ba8_20386311',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '1c679b086883bcb25fdead0001e063836945e9bb' => 
+    '4e9d3cba1a8ebf85d0c75eddbd5eccb24d3b5818' => 
     array (
-      0 => '/home/ravermeister/lfmtube/themes/dark/index.tpl',
-      1 => 1502927049,
+      0 => '/home/ravermeister/lfmtube/themes/default/index.tpl',
+      1 => 1502927060,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:./playlist.tpl' => 1,
   ),
 ),false)) {
-function content_5994d8d00dbf87_33524961 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5994da008a6ba8_20386311 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!--//
 encoding: UTF-8
@@ -49,9 +49,9 @@ encoding: UTF-8
 		
 		
 		<link rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['BASE_PATH']->value;?>
-/themes/dark/css/jquery.contextmenu.css" type="text/css" />
+/themes/default/css/jquery.contextmenu.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['BASE_PATH']->value;?>
-/themes/dark/css/styles.css" type="text/css" />		
+/themes/default/css/styles.css" type="text/css" />		
 		
 		
 		
@@ -268,12 +268,13 @@ encoding: UTF-8
 
 			    
 	<div class="footer">
-		<a href="//validator.w3.org/check?uri=referer" target="_blank"><img src="//www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
-		&nbsp;&nbsp;
 		<span style="vertical-align:middle;text-align:center;">
-		&copy;2017 <a href="https://www.rimkus.it" target="_blank">Jonny Rimkus</a> | 
-		you can buy me! ask here: <a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>
+		&copy;2017 <a href="https://www.rimkus.it" target="_blank">Jonny Rimkus</a>
 		</span>
+		&nbsp;&nbsp;
+		<a href="//validator.w3.org/check?uri=referer" target="_blank">
+			<img src="//www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
+		</a>
 	</div>
         </body>
 </html><?php }

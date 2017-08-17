@@ -1,7 +1,8 @@
 <?php
 	require_once dirname(__FILE__).'/../includes/bootstrap.php';
 	
-	$sha1_password = 'f1477e1ac4fb674c6eb0d1ddd15dbefc5a93d8d8'; //enter a sha1 password
+	//enter a sha1 password (default is lfmtube)
+	$sha1_password = '8e86808ce4d6f7ed6d0a0b8bf0de8e366106a9c7'; 
 	$smarty->assign('ADMIN_AUTHORIZED', false);	
 	if(!isset($_SESSION['admin']['password'])||strcmp($sha1_password, $_SESSION['admin']['password']) != 0) {
 		$return = true;

@@ -1,5 +1,11 @@
 		<h1>Last.fm Youtube Radio</h1>
-		
+		<p>
+			The last.fm Youtube Radio searches the listened tracks of the given last.fm user on YouTube.<br/>
+			when a Video is found (via the YouTube Search or in preference a Custom video id or alternative search result selected through the context menü)<br/>
+			the Video is played in the Youtube player, charts will be updated and you can use the hotkeys to control the player. <br/>
+			Additionally you can create your own playlist via the context menu 'Add to playlist' or drag n drop.<br/><br/>
+			See a more detailed description <a href="/?about" target="_self">here</a>
+		</p>
 		<p>
 			<h2>Requirements:</h2>
 			<table>
@@ -11,7 +17,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>PHP PDO SQLite or Mysql</td>		
+					<td>PHP PDO SQLite or Mysql (any PDO DB should work, but untested)</td>		
 					<td width="20">&nbsp;</td>
 					<td id="req_db_pdo">
 						<img src="../images/icon-cross-128.png" width="32" height="32"/>
