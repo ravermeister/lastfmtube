@@ -1,3 +1,18 @@
+function toggleAboutContent(content) {
+	$('.pure-menu-list .pure-menu-item .pure-button').removeClass('pure-button');		
+	
+	switch(content) {
+		case 'about':			
+			$('#requirements').hide();
+			$('#about').fadeIn();
+		break;
+		case 'requirements': 
+			$('#about').hide();
+			$('#requirements').fadeIn();				
+		break;
+	}
+}
+
 function checkRequirements(){
 	loader = '<img src="../images/progress.gif" width="32" height="32"/>';
 	cross = '<img src="../images/icon-cross-128.png" width="32" height="32"/>';
@@ -73,6 +88,6 @@ function pageInit(){
 			mode: 'properties'
 		});
 	}
-	
+
 	checkRequirements();
 }
