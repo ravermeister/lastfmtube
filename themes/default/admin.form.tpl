@@ -1,68 +1,8 @@
-		<h1>Last.fm Youtube Radio</h1>
-		<p>
-			The last.fm Youtube Radio searches the listened tracks of the given last.fm user on YouTube.<br/>
-			when a Video is found (via the YouTube Search or in preference a Custom video id or alternative search result selected through the context menü)<br/>
-			the Video is played in the Youtube player, charts will be updated and you can use the hotkeys to control the player. <br/>
-			Additionally you can create your own playlist via the context menu 'Add to playlist' or drag n drop.<br/><br/>
-			See a more detailed description <a href="/?about" target="_self">here</a>
-		</p>
-		<p>
-			<h2>Requirements:</h2>
-			<table>
-				<tr>
-					<td>PHP >= 5.6</td>
-					<td width="20">&nbsp;</td>					
-					<td id="req_php_version">
-						<img src="../images/icon-cross-128.png" width="32" height="32"/>
-					</td>
-				</tr>
-				<tr>
-					<td>PHP PDO SQLite or Mysql (any PDO DB should work, but untested)</td>		
-					<td width="20">&nbsp;</td>
-					<td id="req_db_pdo">
-						<img src="../images/icon-cross-128.png" width="32" height="32"/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">
-					YouTube (Google) developer Account</a>, <br/>
-					you need the API Key for doing automated search queries on youtube,<br/>and embed the player to your site
-					</td>
-					<td width="20">&nbsp;</td>
-					<td id="req_yt_api">
-						<img src="../images/icon-cross-128.png" width="32" height="32"/>
-					</td>
-				</tr>				
-				<tr>
-					<td>
-					last.fm API  <a href="https://www.last.fm/api/account/create"target="_blank">User</a>  
-					with <a href="https://www.last.fm/api" target="_blank">API Key</a>
-					</td>
-					<td width="20">&nbsp;</td>
-					<td id="req_lfm_api">
-						<img src="../images/icon-cross-128.png" width="32" height="32"/>
-					</td>
-				</tr>
-				<tr>
-					<td>Database Connection</td>		
-					<td width="20">&nbsp;</td>
-					<td id="req_db_con">
-						<img src="../images/icon-cross-128.png" width="32" height="32"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3" id="req_msg" style="padding:10px">&nbsp;</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<input type="button" value="Check" class="pure-button" onclick="javascript:checkRequirements();" />
-					</td>
-				</tr>
-			</table>
-		</p>
-<hr noshade />
-		<p>
+<h1>Last.fm Youtube Radio</h1>
+{include file='admin.about.tpl'}
+
+<hr noshade="noshade" />
+		<div>
 			<h2>Configuration:</h2>
 
 			<h3>conf/settings.ini</h3>
@@ -118,7 +58,7 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['general']['logpath']}" name="general_logpath" value=""/> 
+						<input type="text" value="{$SETTINGS['general']['logpath']}" name="general_logpath" /> 
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -131,9 +71,9 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						Width: <input type="text" value="{$SETTINGS['general']['playerwidth']}" name="general_playerwidth" size="4" value=""/> 
+						Width: <input type="text" value="{$SETTINGS['general']['playerwidth']}" name="general_playerwidth" size="4" /> 
 						&nbsp;&nbsp;
-						Height: <input type="text" value="{$SETTINGS['general']['playerheight']}" name="general_playerheight" size="4" value=""/> 
+						Height: <input type="text" value="{$SETTINGS['general']['playerheight']}" name="general_playerheight" size="4" /> 
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -340,9 +280,9 @@
 				the part in the title is replaced by the value. <br/>
 				Note, leave blank if you simply want to remove the key from the Song title
 			</p>
-			<textarea class="texteditor" name="replace_strings" style="width:90%;height:250px;">{$REPLACE_STRINGS_FILE}</textarea>
+			<textarea class="texteditor" name="replace_strings" rows="20" cols="100" >{$REPLACE_STRINGS_FILE}</textarea>
 			
 			<br />
 			<input type="submit" name="submit" value="Save" class="pure-button" />			
 			</form>
-		</p>
+		</div>

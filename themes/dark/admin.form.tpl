@@ -1,8 +1,8 @@
-</script>
-		<h1>Last.fm Youtube Radio</h1>
-		{include file='admin.about.tpl'}
-<hr noshade />
-		<p>
+<h1>Last.fm Youtube Radio</h1>
+{include file='admin.about.tpl'}
+
+<hr noshade="noshade" />
+		<div>
 			<h2>Configuration:</h2>
 
 			<h3>conf/settings.ini</h3>
@@ -58,7 +58,7 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						<input type="text" value="{$SETTINGS['general']['logpath']}" name="general_logpath" value=""/> 
+						<input type="text" value="{$SETTINGS['general']['logpath']}" name="general_logpath" /> 
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -71,9 +71,9 @@
 					</td>
 					<td width="20">&nbsp;</td>
 					<td style="vertical-align: top;">
-						Width: <input type="text" value="{$SETTINGS['general']['playerwidth']}" name="general_playerwidth" size="4" value=""/> 
+						Width: <input type="text" value="{$SETTINGS['general']['playerwidth']}" name="general_playerwidth" size="4" /> 
 						&nbsp;&nbsp;
-						Height: <input type="text" value="{$SETTINGS['general']['playerheight']}" name="general_playerheight" size="4" value=""/> 
+						Height: <input type="text" value="{$SETTINGS['general']['playerheight']}" name="general_playerheight" size="4" /> 
 					</td>
 				</tr>
 				<tr><td colspan="3" height="20">&nbsp;</td></tr>
@@ -280,9 +280,9 @@
 				the part in the title is replaced by the value. <br/>
 				Note, leave blank if you simply want to remove the key from the Song title
 			</p>
-			<textarea class="texteditor" name="replace_strings" style="width:90%;height:250px;">{$REPLACE_STRINGS_FILE}</textarea>
+			<textarea class="texteditor" name="replace_strings" rows="20" cols="100" >{$REPLACE_STRINGS_FILE}</textarea>
 			
 			<br />
 			<input type="submit" name="submit" value="Save" class="pure-button" />			
 			</form>
-		</p>
+		</div>
