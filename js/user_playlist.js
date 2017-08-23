@@ -296,7 +296,7 @@ function userlist_generatePlaylist(trackdata) {
 			
 		}).disableSelection(); 
 		
-		elem.droppable({
+		userlist.droppable({
 			accept: '#charts_list tbody tr, #playlistdata .track_row',
 			tolerance: 'intersect',
 			classes: {
