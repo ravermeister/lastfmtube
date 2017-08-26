@@ -1,0 +1,3 @@
+[submodule "includes/milkshake"]
+	path = includes/milkshake
+	url = https://github.com/gattis/milkshake
