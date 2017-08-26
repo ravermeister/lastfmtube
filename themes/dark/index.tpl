@@ -47,9 +47,9 @@ encoding: UTF-8
 			
 		</script>				
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>       										
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="{$BASE_PATH}/js/jquery/jquery.cookie.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/jquery/jquery.contextmenu.js"></script>   		
+		<script type="text/javascript" src="{$BASE_PATH}/js/jquery/jquery.contextmenu.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hazzik-jquery.livequery/1.3.6/jquery.livequery.min.js"></script>   
 		<script type="text/javascript" src="{$BASE_PATH}/js/messageResource.min.js"></script>
 
