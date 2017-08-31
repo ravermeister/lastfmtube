@@ -1,12 +1,12 @@
 var topusers_selected_row = null;
 
-function topusers_load(){
+function topusers_load() {
         $.ajax({
         type: "POST",
         url: "./php/topusers.php",
         dataType: 'json',
         data: {
-                'action': 'show'                
+                'action': 'show'
         }
         
     }).done(function(response){ 
@@ -48,7 +48,13 @@ function topusers_generate(topusers){
        tbody    = document.createElement('tbody');
        
        for(cnt=0;cnt<topusers.length;cnt++) {
-           
+		
+	        //show the last visit and playcount without our current visit
+		if(lastfm_user==topusers[cnt].lastfm_user) {
+			topusers[cnt].last_played = lastfm_user_visit;
+			topusers[cnt].playcount--;
+		}
+	       
            row          = document.createElement('tr');
            row.className = row.className + ' topuser_entry';
            

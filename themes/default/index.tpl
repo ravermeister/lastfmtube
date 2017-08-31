@@ -37,7 +37,8 @@ encoding: UTF-8
 			var chartcounter ='{$charts_counter}';						
 			var totalpages = '{$total_pages}';
 			var active_page = '{$current_page}';
-			
+			var lastfm_user = '{$lastfm_user}';
+			var lastfm_user_visit = '{$lastfm_user_visit}';
 			
 			start_track = new Object();
 			start_track.artist      = '{$startvideo['artist']|escape:"html"}';

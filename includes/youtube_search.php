@@ -50,12 +50,10 @@ class youtubeSearch {
     }
     function setNeedle($needle) {
         foreach ( $this->replaceStrings as $key => $value ) {
-		Functions::getInstance()->logMessage('k: "'.$key.'" | v: "'.$value.'"');    
             $needle = str_replace ( $key, $value, $needle );
         }
         $needle = trim ( $needle );   
         $this->needle = $needle;
-	Functions::getInstance()->logMessage('needle: '.$needle);
     }
     function search($resultcount = 1) {
         $this->video_list = array ();

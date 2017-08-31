@@ -6,13 +6,100 @@ class DB {
 
 	private $pdo = false;
 	private $settings;
+	private $statements = false;
 	
+	
+	private function prepareQueries(){
+		if ($this->statements!==false) return;		
+		$this->statements = array(
+			'SELECT_ALL_LASTFM_USER' => '
+				SELECT lastfm_user, last_played,
+				CASE 
+					WHEN lastfm_user = ? OR
+					last_played = ? THEN		
+						playcount-1
+					ELSE 
+						playcount
+				END AS playcount
+						
+				FROM "'.$this->settings['database']['table_prefix'].'charts_lastfm_user"	
+				ORDER BY 
+					playcount DESC,
+					last_played DESC;
+			',
+			//add limit to sql to limit the result for the top xx users
+			//LIMIT 0,5;
+			
+			'SELECT_LASTFM_USER_VISIT' => '
+				SELECT * 
+				FROM "'.$this->settings['database']['table_prefix'].'charts_lastfm_user"
+				WHERE lastfm_user = ?;
+			',
+			
+			'UPDATE_LASTFM_USER_VISIT' => 
+			'
+				UPDATE "'.$this->settings['database']['table_prefix'].'charts_lastfm_user" 
+				SET
+				"playcount"="playcount"+1,
+				"last_played"= ?
+				WHERE "lastfm_user"= ?;
+			',
+			
+			'INSERT_LASTFM_USER_VISIT' => 
+			'
+				INSERT INTO "'.$this->settings['database']['table_prefix'].'charts_lastfm_user" VALUES(?, ?, 1);
+			',
+						
+			'UPDATE_CHARTS' =>
+			'
+			    UPDATE "'.$this->settings['database']['table_prefix'].'charts"
+			    SET
+				"playcount"="playcount"+1,
+				"lastplay_time"= ?,
+				"lastplay_user"= ?,
+				"lastplay_ip"= ?
 
+			    WHERE
+				"interpret"= ? AND
+				"title"= ?;
+			',
+			
+			'INSERT_CHARTS' => 
+			'
+				INSERT INTO "'.$this->settings['database']['table_prefix'].'charts" VALUES(?, ?, 1, ?, ?, ?);
+			',
+			
+			'GET_ENVVAR' => 
+			'
+				SELECT "value" FROM "'.$this->settings['database']['table_prefix'].'envvars" 
+				WHERE "key"= ?
+			',
+			
+			'DEL_ENVVAR' => 
+			'
+				DELETE FROM "'.$this->settings['database']['table_prefix'].'envvars" 
+				WHERE "key"= ?
+			',
+			
+			'SET_ENVVAR' =>
+			'
+				INSERT INTO "'.$this->settings['database']['table_prefix'].'envvars"  VALUES (?, ?);
+			',
+		);
+		
+		
+		
+		
+		foreach($this->statements as $prefix => $query) {
+			$this->statements[$prefix] = $this->pdo->prepare($query);
+		}			
+	}
 
 	private function __construct($file = false) {
-	    if($file===false) $file=dirname(__FILE__).'/../conf/settings.ini';
-	    if (!$this->settings = parse_ini_file($file, TRUE)) throw new exception('Unable to open ' . $file . '.');
-	    $this->connect();
+		if ($file===false) $file=dirname(__FILE__).'/../conf/settings.ini';
+		if (!$this->settings = parse_ini_file($file, TRUE)) throw new exception('Unable to open ' . $file . '.');		
+		$this->connect();
+		$this->prepareQueries();
 	}
 
         public static function getInstance() {
@@ -124,103 +211,85 @@ class DB {
 	    return $result !== FALSE;
 	}
 
-
-
-
 	public function updateLastFMUserVisit($user, $ignoreCase=true) {
 		$prefix = $this->settings['database']['table_prefix'];
+		$origUser = $user;
 		if($ignoreCase) $user = strtolower($user);
+		$curvisit = date('Y-m-d H:i:s');
+		$lastvisit = $curvisit;
+		$res = $this->statements['SELECT_LASTFM_USER_VISIT']->execute(array($origUser));
+		if($res!==false) {			
+			$data = $this->statements['SELECT_LASTFM_USER_VISIT']->fetchAll(PDO::FETCH_ASSOC);
+			if(sizeof($data)>0) $lastvisit = $data[0]['last_played'];
+		}
 		
-		$upres = $this->pdo->exec(
-			'UPDATE "'.$prefix.'charts_lastfm_user" 
-			SET
-			"playcount"="playcount"+1,
-			"last_played"=\''.date('Y-m-d H:i:s').'\'
-			WHERE "lastfm_user"=\''.$user.'\''
-		);
 		
-		if($upres!==false && $upres==1) return;
-
-                $upres = $this->pdo->exec(
-                        'INSERT INTO "'.$prefix.'charts_lastfm_user"
-                        VALUES(\''.$user.'\', \''.date('Y-m-d H:i:s').'\', 1)'
-                );				
+		$upres = $this->statements['UPDATE_LASTFM_USER_VISIT']->execute(array($curvisit, $user));		
+		if($upres!==false && $this->statements['UPDATE_LASTFM_USER_VISIT']->rowCount()==1) return $lastvisit;
+                $upres = $this->statements['INSERT_LASTFM_USER_VISIT']->execute(array($user, $curvisit));
 		
+		return $lastvisit;
 	}
 
         public function updateCharts($track, $uid=0) {
                 $prefix = $this->settings['database']['table_prefix'];
+		$lastvisit = date('Y-m-d H:i:s');
 		
-                $upres = $this->pdo->exec('
-        	    UPDATE "'.$prefix.'charts"
-	            SET
-        	        "playcount"="playcount"+1,
-                	"lastplay_time"=\''.date('Y-m-d H:i:s').'\',
-	                "lastplay_user"='.$uid.',
-        	        "lastplay_ip"=\''.$_SERVER['REMOTE_ADDR'].'\'
-
-	            WHERE
-        	        "interpret"=\''.$track['artist'].'\' AND
-	                "title"=\''.$track['title'].'\';
-		');
+                $upres = $this->statements['UPDATE_CHARTS']->execute(array(
+			$lastvisit,
+			$uid,
+			$_SERVER['REMOTE_ADDR'],
+			$track['artist'],
+			$track['title']
+		));		
+                if($upres!==false && $this->statements['UPDATE_CHARTS']->rowCount()==1) return;		
+                $upres = $this->statements['INSERT_CHARTS']->execute(array(
+			$track['artist'],
+			$track['title'],
+			1,
+			$lastvisit,
+			$uid,
+			$_SERVER['REMOTE_ADDR']
+		));
 		
-                if($upres!==false && $upres==1) return;
-		
-                $upres = $this->pdo->exec('
-			INSERT INTO "'.$prefix.'charts"
-			VALUES(
-				\''.$track['artist'].'\',
-				\''.$track['title'].'\',
-				1,
-				\''.date('Y-m-d H:i:s').'\',
-				'.$uid.',
-				\''.$_SERVER['REMOTE_ADDR'].'\'
-			);
-		');
+		return $lastvisit;
         }
 
 
 	public function getEnvVar($needle) {
 		$prefix = $this->settings['database']['table_prefix'];
-		$result = $this->pdo->query(
-			'SELECT "value" FROM "'.$prefix.'envvars" 
-			WHERE "key"=\''.$needle.'\'',
-			PDO::FETCH_ASSOC
-		);
+		$result = $this->statements['GET_ENVVAR']->execute(array($needle));
 
 		if($result===false) return '';
 
-		$data = $result->fetch();
-		return $data['value'];
-		
+		$data = $this->statements['GET_ENVVAR']->fetchAll(PDO::FETCH_ASSOC);
+		if(sizeof($data)<1) return '';
+		return $data[0]['value'];		
 	}
 	
 	public function delEnvVar($key) {
-		$prefix = $this->settings['database']['table_prefix'];			
-		$res = $this->pdo->exec(
-			'DELETE FROM "'.$prefix.'envvars" 
-			WHERE "key"=\''.$key.'\''
-		);	
+		$prefix = $this->settings['database']['table_prefix'];	
+		
+		$res = $this->statements['DEL_ENVVAR']->execute(array($key));	
 		return $res!==false && $res==1;		
 	}
 	
 	public function setEnvVar($key,$value) {
 		$prefix = $this->settings['database']['table_prefix'];
-		$res = $this->pdo->exec(
-			'INSERT INTO "'.$prefix.'envvars" 
-			VALUES (\''.$key.'\',\''.$value.'\');'
-		);
+		$res = $this->statements['SET_ENVVAR']->execute(array(
+			$key,
+			$value
+		));
 		return $res!==false && $res==1;	
 	}
 
-	public function query($sql) {
-                $result = $this->pdo->query($sql, PDO::FETCH_ASSOC);
+	public function query($queryName, ...$vars) {
+		
+		if(!isset($this->statements[$queryName])) return false;
+                $result = $this->statements[$queryName]->execute($vars);
 		if($result===false) return false;
-		$resdata = array();
-		while(($data = $result->fetch())!==false) {
-			$resdata[] = $data;			
-		}
-		return $resdata;
+		$data = $this->statements[$queryName]->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
 	}
 }
 

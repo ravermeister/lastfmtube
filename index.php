@@ -3,7 +3,7 @@
 
 require_once 'includes/bootstrap.php';
 
-DB::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
+$lastvisit = DB::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
 
 
 $page=1;
@@ -61,6 +61,7 @@ else
 
 $smarty->assign('music',1);
 $smarty->assign('lastfm_user',$_SESSION['music']['lastfm_user']);
+$smarty->assign('lastfm_user_visit', $lastvisit);
 $smarty->assign('current_page',$page);
 $smarty->assign('total_pages',$playlist->totalpages);
 $smarty->assign('track_no',$trackno);

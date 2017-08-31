@@ -4,6 +4,7 @@ class Functions {
 	private static $instance;	
 	private $settings = false;
 	private $settingsFile = false;
+	
 	private function __construct($file=false){
 		$this->settingsFile = $file;
 		$this->initSettings();
