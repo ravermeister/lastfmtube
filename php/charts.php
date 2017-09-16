@@ -7,7 +7,7 @@ switch($_POST['action'])
         $track = $_POST['track'];
 	DB::getInstance()->updateCharts($track);
     break;
-    
+
     case 'show' :
 	$data = DB::getInstance()->query('SELECT_CHARTS');            
         echo json_encode($data); 

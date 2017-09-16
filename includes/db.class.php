@@ -66,7 +66,8 @@ class DB {
 			
 			'INSERT_CHARTS' => 
 			'
-				INSERT INTO "'.$this->settings['database']['table_prefix'].'charts" VALUES(?, ?, 1, ?, ?, ?);
+			    INSERT INTO "'.$this->settings['database']['table_prefix'].'charts"
+			    VALUES(?, ?, 1, ?, ?, ?);
 			',
 			
 			'SELECT_CHARTS' => 
@@ -255,17 +256,15 @@ class DB {
 			$_SERVER['REMOTE_ADDR'],
 			$track['artist'],
 			$track['title']
-		));		
-                if($upres!==false && $this->statements['UPDATE_CHARTS']->rowCount()==1) return;		
+		));
+                if($upres!==false && $this->statements['UPDATE_CHARTS']->rowCount()==1)	return;
                 $upres = $this->statements['INSERT_CHARTS']->execute(array(
 			$track['artist'],
 			$track['title'],
-			1,
 			$lastvisit,
 			$uid,
 			$_SERVER['REMOTE_ADDR']
 		));
-		
 		return $lastvisit;
         }
 
