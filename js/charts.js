@@ -45,12 +45,12 @@ function charts_startTimer(tracklength) {
         */
         var now_playing        = new Object();
         now_playing.artist = current_track.artist;
-        now_playing.title  = current_track.title; 
-        chart_timer = setTimeout(function(){        
+        now_playing.title  = current_track.title;
+        chart_timer = setTimeout(function(){
 	    //console.log('saving track: '+now_playing.artist+' - '+now_playing.title+'  Timer: '+current_track.timer);
             charts_saveTrack(now_playing);
         },timeout);
-        current_track.timer = chart_timer;  
+        current_track.timer = chart_timer;
         //console.log('starting timer for: '+now_playing.artist+' - '+now_playing.title+'  Timer: '+current_track.timer+' Timeout: '+timeout/1000+' sec.');                 
     }
 }
