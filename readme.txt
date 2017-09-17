@@ -29,7 +29,7 @@ Directory Structure:
 |   +- replace_strings.txt -> this file is checked when parsing the Song Title and Artist 
 |                             for searching the Song on YouTube. You can define replacements 
 |                             for a specific part of a song here 
-                              e.g. remove [unnknown] from all Song Titles.
+|                             e.g. remove [unnknown] from all Song Titles.
 |   +- lasttube.db -> this is the sqlite Database (will be created automatically)
 +- themes -> place new themes into this directory. 
              simply copy an existing theme directory and rename it to your new theme name
