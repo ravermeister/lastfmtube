@@ -1,5 +1,5 @@
 <?php
-require_once dirname ( __FILE__ ) . '/googleapi/src/Google/autoload.php';
+require_once dirname ( __FILE__ ) . '/googleapi/vendor/autoload.php';
 
 class youtubeSearch {
 
