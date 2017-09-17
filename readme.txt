@@ -14,6 +14,10 @@ You can use the hotkeys to control the player.
 
 Demo: http://lastfm.rimkus.it
 
+requirements:
+
+PHP >= 5.6
+PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
 Installation:
 
 1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
