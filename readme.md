@@ -1,5 +1,23 @@
+About:
+
+The last.fm Youtube Radio searches the listened tracks of a given last.fm user on YouTube.
+When a Video is found (via the YouTube search,
+or in preference a custom video id or alternative search result selected through the context menu)
+the Video is playing in the Youtube player.
+You can create your own playlist via the context menu 'Add to playlist' or drag n drop.
+additionally there is a Chart list which will be updated each time a song is heared.
+You can use the hotkeys to control the player.
 
 
+Installation:
+
+1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
+2. create a last.fm user with a Developer API key
+3. create a youtube user with a Developer API Key
+4. copy the file conf/example.settings to conf/settings.ini
+5. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin (password is lfmtube)
+   and adjust other settings as needed
+5. open http://example.com/lfmtube and enjoy
 
 Directory Structure:
 |
@@ -26,6 +44,7 @@ Installation:
 1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
 2. create a last.fm user with a Developer API key
 3. create a youtube user with a Developer API Key
-4. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin (password is lfmtube)
+4. copy the file conf/example.settings to conf/settings.ini
+5. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin (password is lfmtube)
    and adjust other settings as needed
 5. open http://example.com/lfmtube and enjoy
