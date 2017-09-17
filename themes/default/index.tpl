@@ -163,6 +163,7 @@ encoding: UTF-8
 		&nbsp;&nbsp;
 		<a href="//validator.w3.org/check?uri=referer" target="_blank">
 			<img src="//www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
+			&copy;2017 <a href="https://www.rimkus.it" target="_blank">Jonny Rimkus</a> &gt; <a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a> &lt;
 		</a>
 	</div>
         </body>

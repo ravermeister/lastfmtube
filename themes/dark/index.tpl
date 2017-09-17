@@ -160,8 +160,7 @@ encoding: UTF-8
 		<a href="//validator.w3.org/check?uri=referer" target="_blank"><img src="//www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
 		&nbsp;&nbsp;
 		<span style="vertical-align:middle;text-align:center;">
-		&copy;2017 <a href="https://www.rimkus.it" target="_blank">Jonny Rimkus</a> | 
-		you can buy me! ask here: <a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>
+		&copy;2017 <a href="https://www.rimkus.it" target="_blank">Jonny Rimkus</a> &gt; <a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a> &lt;
 		</span>
 	</div>
         </body>
