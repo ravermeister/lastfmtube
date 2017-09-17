@@ -1,3 +1,6 @@
+Author: Jonny Rimkus <jonny@rimkus.it> 
+https://www.rimkus.it
+
 About:
 
 The last.fm Youtube Radio searches the listened tracks of a given last.fm user on YouTube.
