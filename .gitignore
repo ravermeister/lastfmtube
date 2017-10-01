@@ -1,1 +1,4 @@
 conf/settings.ini
+.buildpath
+.project
+.settings/

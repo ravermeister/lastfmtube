@@ -69,20 +69,27 @@ class DB {
 			    INSERT INTO "'.$this->settings['database']['table_prefix'].'charts"
 			    VALUES(?, ?, 1, ?, ?, ?);
 			',
-			
-			'SELECT_CHARTS' => 
-			'
-				SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts" 
-				WHERE ("playcount" > 1) OR (
-				    "playcount" = 1 AND 
-				    "lastplay_time" IN (
-					SELECT MAX("lastplay_time") 
-					FROM "'.$this->settings['database']['table_prefix'].'charts"
-					WHERE "playcount"=1
-				    )
-					)
+
+		    'SELECT_CHARTS' =>
+		    '
+				SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts"
 			     ORDER BY `playcount` DESC, `lastplay_time` DESC;
 			',
+		    
+// 		    SELECT ONLY the last heared song with playcount 1
+// 			'SELECT_CHARTS' => 
+// 			'
+// 				SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts" 
+// 				WHERE ("playcount" > 1) OR (
+// 				    "playcount" = 1 AND 
+// 				    "lastplay_time" IN (
+// 					SELECT MAX("lastplay_time") 
+// 					FROM "'.$this->settings['database']['table_prefix'].'charts"
+// 					WHERE "playcount"=1
+// 				    )
+// 					)
+// 			     ORDER BY `playcount` DESC, `lastplay_time` DESC;
+// 			',
 			
 			'GET_ENVVAR' => 
 			'
