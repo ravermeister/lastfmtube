@@ -109,7 +109,7 @@ a {
 #charts_list,
 #user_list,
 #topuser_list{
-	visibility: none;	
+	display: none;	
 }
 /**  end hide topusers, charts, userlist at beginning **/
 
