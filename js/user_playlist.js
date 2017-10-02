@@ -123,8 +123,8 @@ function userlist_addToPlaylist(trackinfo) {
         userlist_generatePlaylist(response);
         
         elem = $("#user_list").find('tbody');
-        console.log(elem);
-        elem.scrollTop = elem.scrollHeight;
+        console.log(elem.scrollHeight);
+        elem.scrollTop = 400;//elem.scrollHeight;
     });
 }
 
