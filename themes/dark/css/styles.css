@@ -96,7 +96,7 @@ a {
 }
 .charts thead { 	
 	/* scrollbar is average 1em/16px width, remove it from thead width */
-    width: calc( 100% - 1em );
+    /*width: calc( 100% - 1em );*/
 }
 .charts tbody {
 	display:block;
