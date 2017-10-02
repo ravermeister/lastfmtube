@@ -81,14 +81,14 @@ function initToggle(){
 	    elem_title_basetext = messageResource.get('charts.title','locale',locale);
 	    
 	    hide_elems[0] = $("#topuser_list");
-	    hide_elems[1] = $("#playlist-title");	    
+	    hide_elems[1] = $("#playlistdata").parent();	    
 	} else if(type=='topuser'){
 	    elem = $("#topuser_list");
 	    elem_title = $("#topuser_title");
 	    elem_title_basetext = messageResource.get('topuser.title','locale',locale);
 	    
 	    hide_elems[0] = $("#charts_list");
-	    hide_elems[1] = $("#playlist-title");
+	    hide_elems[1] = $("#playlistdata").parent();
 	} else if(type=='user'){
 	    elem = $("#user_list");
 	    elem_title = $("#user_title");
