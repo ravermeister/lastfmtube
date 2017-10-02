@@ -145,12 +145,12 @@ function pageInit(){
 		charts_setCurrentTrack(start_track);   
 	});
 	$('#topuser_list').ready(function(){
-		//setTimeout(topusers_load, 50);
-		topusers_load(); 	
+		setTimeout(topusers_load, 50);
+		//topusers_load(); 	
 	});	
 	$('#user_list').ready(function (){
-		//setTimeout(userlist_loadPlaylist, 200);
-		userlist_loadPlaylist();
+		setTimeout(userlist_loadPlaylist, 50);
+		//userlist_loadPlaylist();
 	});
 
 	
