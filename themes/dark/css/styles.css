@@ -86,15 +86,15 @@ a {
  ***************/
  
 .charts thead, 
-.charts tbody tr,
+/*.charts tbody tr,*/
 .userlist thead, 
-.userlist tbody tr,
+/*.userlist tbody tr,*/
 .playlist thead, 
-.playlist tbody tr {
+/*.playlist tbody tr*/ {
 	display:table;
     width:100%;
     /* even columns width , fix width of table too*/
-    /*table-layout:fixed;*/
+    table-layout:fixed;
 }
 .charts tbody,
 .userlist tbody,
