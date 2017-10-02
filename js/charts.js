@@ -221,8 +221,7 @@ function charts_load() {
     if(charts_active_row!=null) 
     	//scrollIntoView(charts_active_row,charts_container);
 	
-});     
-}
+});
 
 
 function charts_setActiveRow(row) {
