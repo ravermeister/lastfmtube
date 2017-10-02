@@ -120,7 +120,9 @@ function userlist_addToPlaylist(trackinfo) {
             }
         }
     ).done(function(response){
-        userlist_generatePlaylist(response);     
+        userlist_generatePlaylist(response);
+        elem = $("#user_list tbody");
+        elem.scrollTop = elem.scrollHeight;
     });
 }
 
