@@ -89,15 +89,15 @@ a {
  
 .charts thead, 
 .charts tbody tr,
-.playlist thead, 
-.playlist tbody tr {
+.userlist thead, 
+.userlist tbody tr {
 	display:table;
     width:100%;
     /* even columns width , fix width of table too*/
     table-layout:fixed;
 }
 .charts tbody,
-.playlist tbody {
+.userlist tbody {
 	display:block;
 	overflow: auto;
 	height: 350px;

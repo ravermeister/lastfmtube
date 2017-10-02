@@ -36,15 +36,28 @@ body {
 	width:100%;
 }
 
-.playlist table tbody,
-.topusers  table tbody,
-.userlist table tbody,
-.charts table tbody {
-	height: 300px;
-    display: inline-block;
-    /*width: 100%;*/
-    overflow: auto;
+
+/*********** make table scrollable *********
+ * see
+ * https://stackoverflow.com/questions/23989463/how-to-set-tbody-height-with-overflow-scroll
+ ***************/
+ 
+.charts thead, 
+.charts tbody tr,
+.userlist thead, 
+.userlist tbody tr {
+	display:table;
+    width:100%;
+    /* even columns width , fix width of table too*/
+    table-layout:fixed;
 }
+.charts tbody,
+.userlist tbody {
+	display:block;
+	overflow: auto;
+	height: 350px;
+}
+/***********  end make table scrollable *********/
 
 
 .topusers table thead,
