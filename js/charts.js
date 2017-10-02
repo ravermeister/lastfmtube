@@ -169,12 +169,12 @@ function charts_load() {
             row.appendChild(rowdata);   
             
             rowdata = document.createElement('td');                        
-            rowdata.innerHTML = htmlDecode(chartlist[cnt].interpret);
+            rowdata.innerHTML = he.decode(chartlist[cnt].interpret);
             //rowdata.innerHTML = chartlist[cnt].interpret;  
             rowdata.className = rowdata.className + 'charts_data';           
             row.appendChild(rowdata);            
             rowdata = document.createElement('td');
-            rowdata.innerHTML = htmlDecode(chartlist[cnt].title);
+            rowdata.innerHTML = he.decode(chartlist[cnt].title);
             //rowdata.innerHTML = (chartlist[cnt].title);
             rowdata.className = rowdata.className + 'charts_data';        
             row.appendChild(rowdata);
