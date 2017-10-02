@@ -82,25 +82,28 @@ function initToggle(){
 	    elem_title = $("#charts_title");
 	    elem_title_basetext = messageResource.get('charts.title','locale',locale);
 
-	    //title
-	    hide_elems[0][0] = $("#topuser_title");
-	    hide_elems[1][0] = $("#playlist-title");
 	    
+	    hide_elems[0][0] = messageResource.get('topuser.title','locale',locale);
+	    hide_elems[0][1] = $("#topuser_title");
+	    hide_elems[0][2] = $("#topuser_list");
 	    
-	    //list elems	   
-	    hide_elems[0][1] = $("#topuser_list");
-	    hide_elems[1][1] = $("#playlistdata").parent();	    
+	    hide_elems[1][0] = messageResource.get('playlist.title','locale',locale);
+	    hide_elems[1][1] = $("#playlist-title");
+	    hide_elems[1][2] = $("#playlistdata").parent();
+	    
 	} else if(type=='topuser'){
 	    elem = $("#topuser_list");
 	    elem_title = $("#topuser_title");
 	    elem_title_basetext = messageResource.get('topuser.title','locale',locale);
 	    
-	    //title
-	    hide_elems[0][0] = $("#charts_title");
-	    hide_elems[1][0] = $("#playlist-title");
-	    //list elems	    
-	    hide_elems[0][1] = $("#charts_list");
-	    hide_elems[1][1] = $("#playlistdata").parent();
+	    hide_elems[0][0] = messageResource.get('charts.title','locale',locale);
+	    hide_elems[0][1] = $("#charts_title");
+	    hide_elems[0][2] = $("#charts_list");
+	    
+	    hide_elems[1][0] = messageResource.get('playlist.title','locale',locale);
+	    hide_elems[1][1] = $("#playlist-title");
+	    hide_elems[1][2] = $("#playlistdata").parent();
+	    
 	} else if(type=='user'){
 	    elem = $("#user_list");
 	    elem_title = $("#user_title");
@@ -110,12 +113,13 @@ function initToggle(){
 	    elem_title = $("#playlist-title");
 	    elem_title_basetext = messageResource.get('playlist.title','locale',locale);
 	    
-	    //title
-	    hide_elems[0][0] = $("#charts_title");
-	    hide_elems[1][0] = $("#topuser_title");
-	    //list elems
-	    hide_elems[0][1] = $("#charts_list");
-	    hide_elems[1][1] = $("#topuser_list");
+	    hide_elems[0][0] = messageResource.get('charts.title','locale',locale);
+	    hide_elems[0][1] = $("#charts_title");
+	    hide_elems[0][2] = $("#charts_list");
+	    
+	    hide_elems[1][0] = messageResource.get('topuser.title','locale',locale);
+	    hide_elems[1][1] = $("#topuser_title");
+	    hide_elems[1][2] = $("#topuser_list");
 	}
 	
 	elem_title_str = elem_title_basetext;
@@ -128,8 +132,9 @@ function initToggle(){
 	elem.toggle(600);
 	
 	for(cnt=0;cnt<hide_elems.length;cnt++) {
-		elem_title 	= hide_elems[cnt][0];
-		elem 		= hide_elems[cnt][1];
+		elem_title_basetext	= hide_elems[cnt][0];
+		elem_title 			= hide_elems[cnt][1];
+		elem 				= hide_elems[cnt][2];
 		
 		if(elem.is(":visible")){
 		    elem_title_str = '+ '+elem_title_basetext;
