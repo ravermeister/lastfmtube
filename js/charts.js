@@ -208,8 +208,10 @@ function charts_generate(){
 	
 	//drag n drop
     
-    if(charts_active_row!=null) 
+    if(charts_active_row!=null) {
     	//scrollIntoView(charts_active_row,charts_container);
+    }
+    	
 }
 
 function charts_load() {
