@@ -95,6 +95,7 @@ function charts_load() {
         
     }).done(function(response){
         //chartlist = $.parseJSON(response);
+    	console.log(chartlist);
         chartlist    = response;
                                  
         table        = document.createElement('table');
@@ -167,13 +168,13 @@ function charts_load() {
             row.appendChild(rowdata);   
             
             rowdata = document.createElement('td');                        
-            //rowdata.innerHTML = htmlDecode(chartlist[cnt].interpret);
-            rowdata.innerHTML = chartlist[cnt].interpret;  
+            rowdata.innerHTML = htmlDecode(chartlist[cnt].interpret);
+            //rowdata.innerHTML = chartlist[cnt].interpret;  
             rowdata.className = rowdata.className + 'charts_data';           
             row.appendChild(rowdata);            
             rowdata = document.createElement('td');
-            //rowdata.innerHTML = htmlDecode(chartlist[cnt].title);
-            rowdata.innerHTML = (chartlist[cnt].title);
+            rowdata.innerHTML = htmlDecode(chartlist[cnt].title);
+            //rowdata.innerHTML = (chartlist[cnt].title);
             rowdata.className = rowdata.className + 'charts_data';        
             row.appendChild(rowdata);
             
