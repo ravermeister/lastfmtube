@@ -83,17 +83,7 @@ function charts_saveTrack(myTrack) {
     //current_track.timer = null;
 }
 
-function charts_load() {
-    
-    $.ajax({
-        type: "POST",
-        url: "./php/charts.php",
-        dataType: 'json',
-        data: {
-                'action': 'show'                
-        }
-        
-    }).done(function(response){    
+function charts_generate(){
 
     //chartlist = $.parseJSON(response);
     chartlist    = response;
@@ -220,8 +210,22 @@ function charts_load() {
     
     if(charts_active_row!=null) 
     	//scrollIntoView(charts_active_row,charts_container);
-	
-});
+}
+
+function charts_load() {
+    
+    $.ajax({
+        type: "POST",
+        url: "./php/charts.php",
+        dataType: 'json',
+        data: {
+                'action': 'show'                
+        }
+        
+    }).done(function(response){
+    	charts_generate();
+    });
+}
 
 
 function charts_setActiveRow(row) {
