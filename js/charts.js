@@ -95,7 +95,8 @@ function charts_load() {
         
     }).done(function(response){
         //chartlist = $.parseJSON(response);
-    	console.log(chartlist);
+    	//console.log(response);
+    	
         chartlist    = response;
                                  
         table        = document.createElement('table');
