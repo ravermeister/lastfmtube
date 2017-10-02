@@ -88,20 +88,19 @@ a {
  ***************/
  
 .charts thead, 
-.charts tbody tr {
+.charts tbody tr,
+.playlist thead, 
+.playlist tbody tr {
 	display:table;
     width:100%;
     /* even columns width , fix width of table too*/
     table-layout:fixed;
 }
-.charts thead { 	
-	/* scrollbar is average 1em/16px width, remove it from thead width */
-    /*width: calc( 100% - 1em );*/
-}
-.charts tbody {
+.charts tbody,
+.playlist tbody {
 	display:block;
 	overflow: auto;
-	height: 300px;
+	height: 350px;
 }
 /***********  end make table scrollable *********/
 
