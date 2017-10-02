@@ -14,7 +14,7 @@ initPlaylistDnD();
 <table class="pure-table" id="playlistdata">
 <thead>
 	<tr>
-		<th align="left">&nbsp;</th>
+		<th align="left" width="5%">&nbsp;</th>
 		<th align="left">{$LANG['playlist.header.nr']}</th>
 		<th align="left">{$LANG['playlist.header.artist']}</th>
 		<th align="left">{$LANG['playlist.header.title']}</th>
