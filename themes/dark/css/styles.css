@@ -105,6 +105,14 @@ a {
 /***********  end make table scrollable *********/
 
 
+/** hide topusers, charts, userlist at beginning **/
+#charts_list,
+#user_list,
+#topuser_list{
+	visibility: none;	
+}
+/**  end hide topusers, charts, userlist at beginning **/
+
 
 .footer {	
 	text-align:center;
