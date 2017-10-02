@@ -52,16 +52,6 @@ a {
 	
 }
 
-.playlist table tbody,
-.topusers  table tbody,
-.userlist table tbody,
-.charts table tbody {
-	height: 400px;
-    display: inline-block;
-    width: 100%;    
-    overflow: auto;
-}
-
 .topusers table thead,
 .userlist table thead,
 .charts table thead{
@@ -89,6 +79,41 @@ a {
 .playlistcontainer table {
 	width: 100%;
 }
+
+
+
+/*********** make table scrollable *********/
+
+.playlist table,
+.topusers  table,
+.userlist table,
+.charts table {
+    display: block;
+    width: 100%;   
+}
+
+.playlist table thead,
+.topusers  table thead,
+.userlist table thead,
+.charts table thead {	
+    display: inline-block;
+    width: 100%;   
+    height: 30px;
+}
+
+.playlist table tbody,
+.topusers  table tbody,
+.userlist table tbody,
+.charts table tbody {
+	height: 400px;
+    display: inline-block;
+    width: 100%;    
+    overflow: auto;
+}
+
+/***********  end make table scrollable *********/
+
+
 
 .footer {	
 	text-align:center;
