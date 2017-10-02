@@ -136,12 +136,7 @@ function initToggle(){
 		elem_title 			= hide_elems[cnt][1];
 		elem 				= hide_elems[cnt][2];
 		
-		if(elem.is(":visible")){
-		    elem_title_str = '+ '+elem_title_basetext;
-		}else {
-		    elem_title_str = '- '+elem_title_basetext;
-		}   
-		
+		elem_title_str = '+ '+elem_title_basetext;		
 		elem_title.html(elem_title_str);       	
 		elem.hide(600);
 	}
