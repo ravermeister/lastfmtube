@@ -36,6 +36,16 @@ body {
 	width:100%;
 }
 
+.playlist table tbody,
+.topusers  table tbody,
+.userlist table tbody,
+.charts table tbody {
+	height: 300px;
+    display: inline-block;
+    width: 100%;
+    overflow: auto;
+}
+
 
 .topusers table thead,
 .userlist table thead,
