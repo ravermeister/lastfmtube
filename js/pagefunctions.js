@@ -69,6 +69,7 @@ function initToggle(){
 	elem = null;
 	elem_title = null;
 	elem_title_basetext = null;
+	hide_elems = array();
 	
 	if(type=='hotkeys'){
 	    elem = $("#hotkeys_view");
@@ -78,10 +79,16 @@ function initToggle(){
 	    elem = $("#charts_list");
 	    elem_title = $("#charts_title");
 	    elem_title_basetext = messageResource.get('charts.title','locale',locale);
+	    
+	    hide_elems[0] = $("#topuser_list");
+	    hide_elems[1] = $("#playlist-title");	    
 	} else if(type=='topuser'){
 	    elem = $("#topuser_list");
 	    elem_title = $("#topuser_title");
 	    elem_title_basetext = messageResource.get('topuser.title','locale',locale);
+	    
+	    hide_elems[0] = $("#charts_list");
+	    hide_elems[1] = $("#playlist-title");
 	} else if(type=='user'){
 	    elem = $("#user_list");
 	    elem_title = $("#user_title");
@@ -90,6 +97,9 @@ function initToggle(){
 	    elem = $("#playlistdata").parent();
 	    elem_title = $("#playlist-title");
 	    elem_title_basetext = messageResource.get('playlist.title','locale',locale);
+	    
+	    hide_elems[0] = $("#charts_list");
+	    hide_elems[1] = $("#topuser_list");
 	}
 	
 	elem_title_str = elem_title_basetext;
@@ -100,6 +110,10 @@ function initToggle(){
 	}                                            
 	elem_title.html(elem_title_str);       		        
 	elem.toggle(600);
+	
+	for(cnt=0;cnt<hide_elems.length;cnt++) {
+		hide_elems[cnt].hide();
+	}
 }    
 
 function initHotkeys(){
