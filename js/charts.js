@@ -279,20 +279,3 @@ function Timer(fn, countdown) {
 
     return { cancel: cancel, pause: pause, resume: resume };
 }
-
-
-function scrollIntoView(element, container) {
-    
-    var jqContainer = $(container);
-    var jqElement   = $(element);
-       
-    var containerTop = jqContainer.scrollTop(); 
-    var containerBottom = containerTop + jqContainer.height(); 
-    var elemTop = element.offsetTop;
-    var elemBottom = elemTop + jqElement.height(); 
-    if (elemTop < containerTop) {
-        jqContainer.scrollTop(elemTop);
-    } else if (elemBottom > containerBottom) {
-        jqContainer.scrollTop(elemBottom - jqContainer.height());
-    }
-}
