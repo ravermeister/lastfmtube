@@ -129,9 +129,19 @@ function userlist_addToPlaylist(trackinfo) {
         tbody = $("#user_list tbody");
         ltr = $("#user_list tbody tr").last();
         ltr = ltr[0];
-        tbody = tbody[0];
-        alert(ltr+"<>"+tbody);
-        scrollIntoView(ltr, tbody);
+        tbody = tbody[0];        
+        //scrollIntoView(ltr, tbody);
+        
+        container = tbody;
+        element = ltr;
+        var jqContainer = $(container);
+        var jqElement   = $(element);
+           
+        var containerTop = jqContainer.scrollTop(); 
+        var containerBottom = containerTop + jqContainer.height(); 
+        var elemTop = element.offsetTop;
+        var elemBottom = elemTop + jqElement.height(); 
+        jqContainer.scrollTop(elemBottom - jqContainer.height());
     });
 }
 
