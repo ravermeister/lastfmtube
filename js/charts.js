@@ -67,15 +67,15 @@ function charts_saveTrack(myTrack) {
                     'action': 'add'
             }
         }).done(function(response){	
-	    //console.log('Chart Timer Saved Track: '+myTrack.artist+' - '+myTrack.title + 'current song timer: '+current_track.timer);
-	    //console.log('response: '+response);
+	    console.log('Chart Timer Saved Track: '+myTrack.artist+' - '+myTrack.title + 'current song timer: '+current_track.timer);
+	    console.log('response: '+response);
             charts_load();
         });
 
     } else {
         //console.log('Chart Timer Skipped Track: '+myTrack.artist+' - '+myTrack.title);
         //console.log('because now playing: '+current_track.artist+' - '+current_track.title);
-        charts_load();
+        //charts_load();
     }
         
       
