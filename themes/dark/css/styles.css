@@ -87,9 +87,9 @@ a {
  
 /*.charts thead,*/ 
 .charts tbody tr,
-/*.userlist thead, */
+.userlist thead, 
 .userlist tbody tr,
-/*.playlist thead, */
+.playlist thead, 
 .playlist tbody tr {
 	display:table;
     width:100%;
