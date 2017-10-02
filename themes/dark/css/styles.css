@@ -85,7 +85,7 @@ a {
  * https://stackoverflow.com/questions/23989463/how-to-set-tbody-height-with-overflow-scroll
  ***************/
  
-/*.charts thead,*/ 
+.charts thead, 
 .charts tbody tr,
 .userlist thead, 
 .userlist tbody tr,
