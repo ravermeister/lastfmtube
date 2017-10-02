@@ -94,7 +94,6 @@ function charts_load() {
         }
         
     }).done(function(response){
-    	console.log('inside charts load');
         //chartlist = $.parseJSON(response);
         chartlist    = response;
                                  
@@ -102,7 +101,7 @@ function charts_load() {
         table.setAttribute('class', 'pure-table');
             
         thead        = document.createElement('thead');
-        tbody        = document.createElement('tbody');
+        tbody        = document.createElement('tbody');        
         row          = document.createElement('tr');
         
         table.appendChild(thead);
@@ -219,7 +218,7 @@ function charts_load() {
     	//drag n drop
         
         if(charts_active_row!=null) {
-        	//scrollIntoView(charts_active_row,charts_container);
+        	scrollIntoView(charts_active_row,tbody);
         }
     });
 }
