@@ -107,8 +107,7 @@ a {
 
 /** hide topusers, charts, userlist at beginning **/
 #charts_list,
-#user_list,
-#topuser_list{
+#user_list {
 	display: none;	
 }
 /**  end hide topusers, charts, userlist at beginning **/
