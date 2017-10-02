@@ -83,25 +83,13 @@ a {
 
 
 /*********** make table scrollable *********/
-
-.playlist table thead,
-.topusers  table thead,
-.userlist table thead,
-.charts table thead {	
-    display: block;
-    width: 100%;
+.charts tbody {
+	
+	display:inline-block;
+	overflow: auto;
+	height: 300px;
+	
 }
-
-.playlist table tbody,
-.topusers  table tbody,
-.userlist table tbody,
-.charts table tbody {
-	height: 400px;
-    display: block;
-    width: 100%;    
-    overflow: auto;
-}
-
 /***********  end make table scrollable *********/
 
 
