@@ -174,8 +174,8 @@ function charts_load() {
             rowdata.className = rowdata.className + 'charts_data';           
             row.appendChild(rowdata);            
             rowdata = document.createElement('td');
-            //rowdata.innerHTML = he.decode(chartlist[cnt].title);
-            rowdata.innerHTML = (chartlist[cnt].title);
+            rowdata.innerHTML = he.decode(chartlist[cnt].title);
+            //rowdata.innerHTML = (chartlist[cnt].title);
             rowdata.className = rowdata.className + 'charts_data';        
             row.appendChild(rowdata);
             
