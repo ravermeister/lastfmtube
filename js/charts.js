@@ -67,9 +67,9 @@ function charts_saveTrack(myTrack) {
                     'action': 'add'
             }
         }).done(function(response){	
-	    console.log('Chart Timer Saved Track: '+myTrack.artist+' - '+myTrack.title + 'current song timer: '+current_track.timer);
-	    console.log('response: '+response);
-            charts_load();
+		    //console.log('Chart Timer Saved Track: '+myTrack.artist+' - '+myTrack.title + 'current song timer: '+current_track.timer);
+		    //console.log('response: '+response);
+	        charts_load();
         });
 
     } else {
@@ -94,6 +94,7 @@ function charts_load() {
         }
         
     }).done(function(response){
+    	console.log('inside charts load');
         //chartlist = $.parseJSON(response);
         chartlist    = response;
                                  
