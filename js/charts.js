@@ -218,8 +218,13 @@ function charts_load() {
 	
 	//drag n drop
     
-    if(charts_active_row!=null)
-        scrollIntoView(charts_active_row,charts_container);
+    if(charts_active_row!=null) {
+    	/**
+    	 * FIXME: fix charts scrolling
+    	 */
+//    	scrollIntoView(charts_active_row,charts_container);
+    }
+        
 	
 });     
 }
