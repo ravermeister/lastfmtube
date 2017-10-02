@@ -122,7 +122,7 @@ function userlist_addToPlaylist(trackinfo) {
     ).done(function(response){
         userlist_generatePlaylist(response);
         
-        elem = document.findElementById("user_list");
+        elem = document.getElementById("user_list");
         console.log(elem.scrollTop);
         elem.scrollTop = 400;//elem.scrollHeight;
     });
