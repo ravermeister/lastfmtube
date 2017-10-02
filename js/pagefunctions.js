@@ -59,20 +59,21 @@ function initToggle(){
 	});
 }
 
-    function inHover(){
+function inHover(){
 	$(this).css('cursor','pointer');
-    }                                   
-    function outHover(){
+}                                   
+function outHover(){
 	$(this).css('cursor','default');
-    }     
-    function doClick(type){
+}     
+function doClick(type) {
 	elem = null;
 	elem_title = null;
 	elem_title_basetext = null;
 	hide_elems = new Array();
 	hide_elems[0] = new Array();
     hide_elems[1] = new Array();
-	
+    hide_other = false; 
+    
 	if(type=='hotkeys'){
 	    elem = $("#hotkeys_view");
 	    elem_title = $("#hotkeys_title");
@@ -82,7 +83,7 @@ function initToggle(){
 	    elem_title = $("#charts_title");
 	    elem_title_basetext = messageResource.get('charts.title','locale',locale);
 
-	    
+	    hide_other = true;	    
 	    hide_elems[0][0] = messageResource.get('topuser.title','locale',locale);
 	    hide_elems[0][1] = $("#topuser_title");
 	    hide_elems[0][2] = $("#topuser_list");
@@ -96,6 +97,7 @@ function initToggle(){
 	    elem_title = $("#topuser_title");
 	    elem_title_basetext = messageResource.get('topuser.title','locale',locale);
 	    
+	    hide_other = true;
 	    hide_elems[0][0] = messageResource.get('charts.title','locale',locale);
 	    hide_elems[0][1] = $("#charts_title");
 	    hide_elems[0][2] = $("#charts_list");
@@ -113,6 +115,7 @@ function initToggle(){
 	    elem_title = $("#playlist-title");
 	    elem_title_basetext = messageResource.get('playlist.title','locale',locale);
 	    
+	    hide_other = true;
 	    hide_elems[0][0] = messageResource.get('charts.title','locale',locale);
 	    hide_elems[0][1] = $("#charts_title");
 	    hide_elems[0][2] = $("#charts_list");
@@ -130,6 +133,8 @@ function initToggle(){
 	}                                            
 	elem_title.html(elem_title_str);       		        
 	elem.toggle(600);
+	
+	if(!hide_other) return;
 	
 	for(cnt=0;cnt<hide_elems.length;cnt++) {
 		elem_title_basetext	= hide_elems[cnt][0];
