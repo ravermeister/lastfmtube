@@ -122,7 +122,7 @@ function charts_load() {
     row.appendChild(rowdata);
     
     rowdata      = document.createElement('td');
-    rowdata.setAttribute('style','width: 5%;')
+    rowdata.setAttribute('style','width: 8%;')
     rowdata.innerText = messageResource.get('charts.header.playcount','locale',locale);  
     row.appendChild(rowdata);
     
@@ -179,7 +179,7 @@ function charts_load() {
         row.appendChild(rowdata);
         
         rowdata = document.createElement('td');
-        rowdata.setAttribute('style','width: 5%;')
+        rowdata.setAttribute('style','width: 8%;')
         rowdata.innerHTML = chartlist[cnt].playcount;  
         rowdata.className = rowdata.className + 'charts_data'; 
         row.appendChild(rowdata);     
