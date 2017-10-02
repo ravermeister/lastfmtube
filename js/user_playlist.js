@@ -122,10 +122,13 @@ function userlist_addToPlaylist(trackinfo) {
     ).done(function(response){
         userlist_generatePlaylist(response);
         
-        elem = $("#user_list tbody")[0];
-        console.log(elem.scrollTop+"<>"+elem.scrollHeight);
-        elem.scrollTop = elem.scrollHeight;
-        console.log(elem.scrollTop+"<<>>"+elem.scrollHeight);
+        /**
+         * why does this not work???
+         */
+//        elem = $("#user_list tbody")[0];
+//        console.log(elem.scrollTop+"<>"+elem.scrollHeight);
+//        elem.scrollTop = elem.scrollHeight;
+//        console.log(elem.scrollTop+"<<>>"+elem.scrollHeight);
     });
 }
 
