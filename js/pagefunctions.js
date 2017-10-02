@@ -139,8 +139,8 @@ function pageInit(){
 	initPlaylistDnD();
 	
 	$('#charts_list').ready(function(){
-		//setTimeout(charts_load(), 50);
-		charts_load();  			
+		setTimeout(charts_load(), 50);
+		//charts_load();  			
 		charts_setActive(chartcounter);                                        
 		charts_setCurrentTrack(start_track);   
 	});
