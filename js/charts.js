@@ -137,9 +137,6 @@ function charts_load() {
             charts_active_row = charts_imagecell.parentNode;            
             active_data = $(charts_active_row).find('td');
             active_track = new Object();
-            $(active_data.get(0)).css('width', '5%');
-            $(active_data.get(3)).css('width', '8%');
-            
             active_track.artist = $(active_data.get(1)).text();
             active_track.title = $(active_data.get(2)).text();            
         }                
@@ -150,7 +147,7 @@ function charts_load() {
                 active_track.title==chartlist[cnt].title
                ) {
                     $(active_data.get(3)).text(chartlist[cnt].playcount);
-                    table.appendChild(charts_active_row);
+                    tbody.appendChild(charts_active_row);
                     continue;
                }
             
