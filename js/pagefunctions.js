@@ -1,3 +1,4 @@
+
 function scrollIntoView(element, container) {
     
     var jqContainer = $(container);

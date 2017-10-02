@@ -125,10 +125,10 @@ function userlist_addToPlaylist(trackinfo) {
         /**
          * why does this not work???
          */
-//        elem = $("#user_list tbody")[0];
-//        console.log(elem.scrollTop+"<>"+elem.scrollHeight);
-//        elem.scrollTop = elem.scrollHeight;
-//        console.log(elem.scrollTop+"<<>>"+elem.scrollHeight);
+        
+        tbody = $("#user_list tbody");
+        ltr = $("#user_list tbody tr").last();
+        scrollIntoView(ltr[0], tbody[0]);
     });
 }
 
@@ -142,7 +142,7 @@ function userlist_loadPlaylist()
             dataType : 'json'
         }
     ).done(function(response){
-	userlist_generatePlaylist(response);   
+    	userlist_generatePlaylist(response);   
     });   
     
 }
