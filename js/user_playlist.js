@@ -121,6 +121,7 @@ function userlist_addToPlaylist(trackinfo) {
         }
     ).done(function(response){
         userlist_generatePlaylist(response);
+        console.log('scroll to bottom')
         elem = $("#user_list tbody");
         elem.scrollTop = elem.scrollHeight;
     });
