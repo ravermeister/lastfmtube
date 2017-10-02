@@ -84,19 +84,11 @@ a {
 
 /*********** make table scrollable *********/
 
-.playlist table,
-.topusers  table,
-.userlist table,
-.charts table {
-    display: block;
-    width: 100%;   
-}
-
 .playlist table thead,
 .topusers  table thead,
 .userlist table thead,
 .charts table thead {	
-    display: inline-block;
+    display: block;
     width: 100%;
 }
 
@@ -105,7 +97,7 @@ a {
 .userlist table tbody,
 .charts table tbody {
 	height: 400px;
-    display: inline-block;
+    display: block;
     width: 100%;    
     overflow: auto;
 }
