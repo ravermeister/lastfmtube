@@ -88,6 +88,7 @@ a {
 	display:inline-block;
 	overflow: auto;
 	height: 300px;
+	width: 100%;
 	
 }
 /***********  end make table scrollable *********/
