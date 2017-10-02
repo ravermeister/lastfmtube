@@ -141,7 +141,7 @@ function userlist_addToPlaylist(trackinfo) {
         var containerBottom = containerTop + jqContainer.height(); 
         var elemTop = element.offsetTop;
         var elemBottom = elemTop + jqElement.height(); 
-        jqContainer.scrollTop(elemBottom - jqContainer.height());
+        jqContainer.scrollTop(40000);
     });
 }
 
