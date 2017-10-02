@@ -33,7 +33,7 @@ initPlaylistDnD();
 	onmouseover="activeRow(this);"
 	onmouseout="inactiveRow(this);"
 	>	
-		<td>
+		<td  width="5%">
 			{if $autostart==true&&($track_count-1)=={$startvideo['videoIndex']}}
 			<img src="./images/equalizer.gif" alt="equalizer" width="20" height="15"/>
 			{assign var="current_play" value="track_{$track_count}"}
