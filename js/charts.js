@@ -103,7 +103,6 @@ function charts_load() {
         
     thead        = document.createElement('thead');
     tbody        = document.createElement('tbody');
-    tbody.setAttribute('class', 'charts_container');
     row          = document.createElement('tr');
     
     table.appendChild(thead);
@@ -219,11 +218,8 @@ function charts_load() {
 	
 	//drag n drop
     
-    if(charts_active_row!=null) {
-    	console.log('scrollIntoView disabled, cause buggy');
+    if(charts_active_row!=null) 
     	//scrollIntoView(charts_active_row,charts_container);
-    }
-        
 	
 });     
 }
@@ -288,9 +284,6 @@ function Timer(fn, countdown) {
 
 function scrollIntoView(element, container) {
     
-	console.log('scrollIntoView disabled, cause buggy');
-	return;
-	
     var jqContainer = $(container);
     var jqElement   = $(element);
        
