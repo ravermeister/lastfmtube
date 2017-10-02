@@ -92,6 +92,13 @@ a {
     width: 100%;   
 }
 
+.playlist table thead,
+.topusers  table thead,
+.userlist table thead,
+.charts table thead {	
+    display: inline-block;
+    width: 100%;
+}
 
 .playlist table tbody,
 .topusers  table tbody,
