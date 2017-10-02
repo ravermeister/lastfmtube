@@ -18,7 +18,7 @@ initPlaylistDnD();
 		<th align="left" width="5%">{$LANG['playlist.header.nr']}</th>
 		<th align="left">{$LANG['playlist.header.artist']}</th>
 		<th align="left">{$LANG['playlist.header.title']}</th>
-		<th align="left" width="100px">{$LANG['playlist.header.lastplay']}</th>
+		<th align="left" width="200px">{$LANG['playlist.header.lastplay']}</th>
 	</tr>
 </thead>
 <tbody class="cmenu_default">
@@ -46,12 +46,12 @@ initPlaylistDnD();
 		<td class="title_playing" width="5%">{$track_count}*</td>
 		<td class="title_playing">{$track['artist']}</td>
 		<td class="title_playing">{$track['title']}</td>
-		<td class="title_playing" width="100px">{$track['dateofplay']}</td>
+		<td class="title_playing" width="200px">{$track['dateofplay']}</td>
 		{else}
 		<td width="5%">{$track_count}</td>
 		<td>{$track['artist']}</td>
 		<td>{$track['title']}</td>
-		<td width="100px">{$track['dateofplay']}</td>
+		<td width="200px">{$track['dateofplay']}</td>
 		{/if}
 	</tr>
 {counter name=track_counter}
