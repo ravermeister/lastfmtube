@@ -56,9 +56,9 @@ a {
 .topusers  table tbody,
 .userlist table tbody,
 .charts table tbody {
-	height: 300px;
+	height: 400px;
     display: inline-block;
-    /*width: 100%;*/    
+    width: 100%;    
     overflow: auto;
 }
 
