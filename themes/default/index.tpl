@@ -126,7 +126,7 @@ encoding: UTF-8
                                 </div>
 			
         	<div class="topusers">
-				<h2 id="topuser_title" title="{$LANG['site.tooltip.hideshow']}">- {$LANG['topuser.title']}</h2>
+				<h2 id="topuser_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['topuser.title']}</h2>
 				<div id="topuser_list" class="cmenu_topuser">
 				in this box, the Top Last.fm user will be shown
 				</div>                                      
@@ -139,14 +139,14 @@ encoding: UTF-8
                     
 			<div class="listcontainer">
         		<div class="charts">
-				<h2 id="charts_title" title="{$LANG['site.tooltip.hideshow']}">- {$LANG['charts.title']}</h2>
+				<h2 id="charts_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['charts.title']}</h2>
 				<div id="charts_list" class="cmenu_charts">
 				in this box, the Top Songs will appear
 				</div>
 			</div>
 
         	<div class="userlist">				
-				<h2 id="user_title" title="{$LANG['site.tooltip.hideshow']}">- {$LANG['userplaylist.title']}</h2>
+				<h2 id="user_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['userplaylist.title']}</h2>
 				<div id="user_list" class="cmenu_user">
 				in this box, the custom playlist will appear
 				</div>   
