@@ -83,137 +83,6 @@ function charts_saveTrack(myTrack) {
     //current_track.timer = null;
 }
 
-function charts_generate(){
-
-    //chartlist = $.parseJSON(response);
-    chartlist    = response;
-                             
-    table        = document.createElement('table');
-    table.setAttribute('class', 'pure-table');
-        
-    thead        = document.createElement('thead');
-    tbody        = document.createElement('tbody');
-    row          = document.createElement('tr');
-    
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    
-    rowdata      = document.createElement('td');
-    rowdata.setAttribute('style','width: 5%;')
-    rowdata.innerText = messageResource.get('charts.header.nr','locale',locale);  
-    row.appendChild(rowdata);
-    
-    rowdata      = document.createElement('td');
-    rowdata.innerText = messageResource.get('charts.header.artist','locale',locale);  
-    row.appendChild(rowdata);
-    
-    rowdata      = document.createElement('td');
-    rowdata.innerText = messageResource.get('charts.header.title','locale',locale);  
-    row.appendChild(rowdata);
-    
-    rowdata      = document.createElement('td');
-    rowdata.setAttribute('style','width: 8%;')
-    rowdata.innerText = messageResource.get('charts.header.playcount','locale',locale);  
-    row.appendChild(rowdata);
-    
-    thead.appendChild(row);
-        
-    active_track = null;
-    charts_active_row = null;
-    charts_active_data = null;
-    
-    
-    if(charts_imagecell!=null) {
-        charts_active_row = charts_imagecell.parentNode;            
-        active_data = $(charts_active_row).find('td');
-        active_track = new Object();
-        active_track.artist = $(active_data.get(1)).text();
-        active_track.title = $(active_data.get(2)).text();            
-    }                
-    for(cnt=0;cnt<chartlist.length;cnt++) {                
-        if(
-            active_track!=null&&
-            active_track.artist==chartlist[cnt].interpret&&
-            active_track.title==chartlist[cnt].title
-           ) {
-                $(active_data.get(3)).text(chartlist[cnt].playcount);
-                table.appendChild(charts_active_row);
-                continue;
-           }
-        
-        row = document.createElement('tr');
-        row.className = row.className + 'charts_entry';
-        $(row).click(function(){
-            setPlaylist(PLAYLIST.CHARTS);
-            loadSong($(this));
-        });
-	        
-                     
-        
-        rowdata = document.createElement('td');   
-        rowdata.setAttribute('style','width: 5%;')
-        //rowdata.innerHTML = '<input type="hidden" id="videoId" value="'+chartlist[cnt].videoId+'" />'+(cnt+1);  
-        rowdata.innerHTML = (cnt+1);
-        rowdata.className = rowdata.className + 'charts_data'; 
-        row.appendChild(rowdata);   
-        
-        rowdata = document.createElement('td');                        
-        //rowdata.innerHTML = htmlDecode(chartlist[cnt].interpret);
-        rowdata.innerHTML = chartlist[cnt].interpret;  
-        rowdata.className = rowdata.className + 'charts_data';           
-        row.appendChild(rowdata);            
-        rowdata = document.createElement('td');
-        //rowdata.innerHTML = htmlDecode(chartlist[cnt].title);
-        rowdata.innerHTML = (chartlist[cnt].title);
-        rowdata.className = rowdata.className + 'charts_data';        
-        row.appendChild(rowdata);
-        
-        rowdata = document.createElement('td');
-        rowdata.setAttribute('style','width: 8%;')
-        rowdata.innerHTML = chartlist[cnt].playcount;  
-        rowdata.className = rowdata.className + 'charts_data'; 
-        row.appendChild(rowdata);     
-        
-        $(row).mouseover(function(){
-            charts_setActiveRow($(this));
-        });                        
-        
-        tbody.appendChild(row);
-    }
-
-	charts = $("#charts_list");
-	charts.html('');
-	charts.append(table);
-	elem = $("#charts_list tbody tr");	
-	elem.draggable({    
-		revert: false,
-		cursor: 'move',
-		helper: function() {
-			
-			var $originals = $(this).children();
-			var $helper = $(this).clone();
-
-			//$helper.css('background','lightblue');
-			$helper.addClass('dragelem');
-			$helper.children().each(function(index) {
-				$(this).width($originals.eq(index).width());
-				$(this).addClass('dragelem');
-			});
-			return $helper;
-		},
-		opacity: 0.8,
-		start: null,
-		stop: null		
-	}).disableSelection(); 
-	
-	//drag n drop
-    
-    if(charts_active_row!=null) {
-    	//scrollIntoView(charts_active_row,charts_container);
-    }
-    	
-}
-
 function charts_load() {
     
     $.ajax({
@@ -225,7 +94,132 @@ function charts_load() {
         }
         
     }).done(function(response){
-    	charts_generate();
+        //chartlist = $.parseJSON(response);
+        chartlist    = response;
+                                 
+        table        = document.createElement('table');
+        table.setAttribute('class', 'pure-table');
+            
+        thead        = document.createElement('thead');
+        tbody        = document.createElement('tbody');
+        row          = document.createElement('tr');
+        
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        
+        rowdata      = document.createElement('td');
+        rowdata.setAttribute('style','width: 5%;')
+        rowdata.innerText = messageResource.get('charts.header.nr','locale',locale);  
+        row.appendChild(rowdata);
+        
+        rowdata      = document.createElement('td');
+        rowdata.innerText = messageResource.get('charts.header.artist','locale',locale);  
+        row.appendChild(rowdata);
+        
+        rowdata      = document.createElement('td');
+        rowdata.innerText = messageResource.get('charts.header.title','locale',locale);  
+        row.appendChild(rowdata);
+        
+        rowdata      = document.createElement('td');
+        rowdata.setAttribute('style','width: 8%;')
+        rowdata.innerText = messageResource.get('charts.header.playcount','locale',locale);  
+        row.appendChild(rowdata);
+        
+        thead.appendChild(row);
+            
+        active_track = null;
+        charts_active_row = null;
+        charts_active_data = null;
+        
+        
+        if(charts_imagecell!=null) {
+            charts_active_row = charts_imagecell.parentNode;            
+            active_data = $(charts_active_row).find('td');
+            active_track = new Object();
+            active_track.artist = $(active_data.get(1)).text();
+            active_track.title = $(active_data.get(2)).text();            
+        }                
+        for(cnt=0;cnt<chartlist.length;cnt++) {                
+            if(
+                active_track!=null&&
+                active_track.artist==chartlist[cnt].interpret&&
+                active_track.title==chartlist[cnt].title
+               ) {
+                    $(active_data.get(3)).text(chartlist[cnt].playcount);
+                    table.appendChild(charts_active_row);
+                    continue;
+               }
+            
+            row = document.createElement('tr');
+            row.className = row.className + 'charts_entry';
+            $(row).click(function(){
+                setPlaylist(PLAYLIST.CHARTS);
+                loadSong($(this));
+            });
+    	        
+                         
+            
+            rowdata = document.createElement('td');   
+            rowdata.setAttribute('style','width: 5%;')
+            //rowdata.innerHTML = '<input type="hidden" id="videoId" value="'+chartlist[cnt].videoId+'" />'+(cnt+1);  
+            rowdata.innerHTML = (cnt+1);
+            rowdata.className = rowdata.className + 'charts_data'; 
+            row.appendChild(rowdata);   
+            
+            rowdata = document.createElement('td');                        
+            //rowdata.innerHTML = htmlDecode(chartlist[cnt].interpret);
+            rowdata.innerHTML = chartlist[cnt].interpret;  
+            rowdata.className = rowdata.className + 'charts_data';           
+            row.appendChild(rowdata);            
+            rowdata = document.createElement('td');
+            //rowdata.innerHTML = htmlDecode(chartlist[cnt].title);
+            rowdata.innerHTML = (chartlist[cnt].title);
+            rowdata.className = rowdata.className + 'charts_data';        
+            row.appendChild(rowdata);
+            
+            rowdata = document.createElement('td');
+            rowdata.setAttribute('style','width: 8%;')
+            rowdata.innerHTML = chartlist[cnt].playcount;  
+            rowdata.className = rowdata.className + 'charts_data'; 
+            row.appendChild(rowdata);     
+            
+            $(row).mouseover(function(){
+                charts_setActiveRow($(this));
+            });                        
+            
+            tbody.appendChild(row);
+        }
+
+    	charts = $("#charts_list");
+    	charts.html('');
+    	charts.append(table);
+    	elem = $("#charts_list tbody tr");	
+    	elem.draggable({    
+    		revert: false,
+    		cursor: 'move',
+    		helper: function() {
+    			
+    			var $originals = $(this).children();
+    			var $helper = $(this).clone();
+
+    			//$helper.css('background','lightblue');
+    			$helper.addClass('dragelem');
+    			$helper.children().each(function(index) {
+    				$(this).width($originals.eq(index).width());
+    				$(this).addClass('dragelem');
+    			});
+    			return $helper;
+    		},
+    		opacity: 0.8,
+    		start: null,
+    		stop: null		
+    	}).disableSelection(); 
+    	
+    	//drag n drop
+        
+        if(charts_active_row!=null) {
+        	//scrollIntoView(charts_active_row,charts_container);
+        }
     });
 }
 
