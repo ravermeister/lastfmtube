@@ -69,7 +69,7 @@ function initToggle(){
 	elem = null;
 	elem_title = null;
 	elem_title_basetext = null;
-	hide_elems = new array();
+	hide_elems = new Array();
 	
 	if(type=='hotkeys'){
 	    elem = $("#hotkeys_view");
