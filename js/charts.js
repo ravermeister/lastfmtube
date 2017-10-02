@@ -287,6 +287,9 @@ function Timer(fn, countdown) {
 
 function scrollIntoView(element, container) {
     
+	console.log('scrollIntoView disabled, cause buggy');
+	return;
+	
     var jqContainer = $(container);
     var jqElement   = $(element);
        
