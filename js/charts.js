@@ -109,6 +109,7 @@ function charts_load() {
     table.appendChild(tbody);
     
     rowdata      = document.createElement('td');
+    rowdata.setAttribute('style','width: 5%;')
     rowdata.innerText = messageResource.get('charts.header.nr','locale',locale);  
     row.appendChild(rowdata);
     
@@ -121,6 +122,7 @@ function charts_load() {
     row.appendChild(rowdata);
     
     rowdata      = document.createElement('td');
+    rowdata.setAttribute('style','width: 5%;')
     rowdata.innerText = messageResource.get('charts.header.playcount','locale',locale);  
     row.appendChild(rowdata);
     
@@ -158,7 +160,8 @@ function charts_load() {
 	        
                      
         
-        rowdata = document.createElement('td');                        
+        rowdata = document.createElement('td');   
+        rowdata.setAttribute('style','width: 5%;')
         //rowdata.innerHTML = '<input type="hidden" id="videoId" value="'+chartlist[cnt].videoId+'" />'+(cnt+1);  
         rowdata.innerHTML = (cnt+1);
         rowdata.className = rowdata.className + 'charts_data'; 
@@ -176,6 +179,7 @@ function charts_load() {
         row.appendChild(rowdata);
         
         rowdata = document.createElement('td');
+        rowdata.setAttribute('style','width: 5%;')
         rowdata.innerHTML = chartlist[cnt].playcount;  
         rowdata.className = rowdata.className + 'charts_data'; 
         row.appendChild(rowdata);     
