@@ -128,7 +128,10 @@ function userlist_addToPlaylist(trackinfo) {
         
         tbody = $("#user_list tbody");
         ltr = $("#user_list tbody tr").last();
-        scrollIntoView(ltr[0], tbody[0]);
+        ltr = ltr[0];
+        tbody = tbody[0];
+        alert(ltr+"<>"+tbody);
+        scrollIntoView(ltr, tbody);
     });
 }
 

@@ -27,7 +27,7 @@ function charts_startTimer(tracklength) {
         timeout=120;
     timeout = timeout*1000;
     
-    timeout = 3000; //testing
+    //timeout = 3000; //testing
 
     //console.log('chartcounter_active: '+((chartcounter_active==true) ? 'true' : 'false')+' | current_track.timer: '+ current_track.timer);
     if(chartcounter_active&&current_track.timer==null) {
