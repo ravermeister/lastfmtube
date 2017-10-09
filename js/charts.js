@@ -120,7 +120,11 @@ function charts_load() {
         rowdata      = document.createElement('td');
         rowdata.innerText = messageResource.get('charts.header.title','locale',locale);  
         row.appendChild(rowdata);
-        
+
+        rowdata      = document.createElement('td');
+        rowdata.innerText = messageResource.get('charts.header.lastplay','locale',locale);
+        row.appendChild(rowdata);
+
         rowdata      = document.createElement('td');
         rowdata.innerText = messageResource.get('charts.header.playcount','locale',locale);  
         row.appendChild(rowdata);
@@ -160,22 +164,25 @@ function charts_load() {
                          
             
             rowdata = document.createElement('td');   
-            //rowdata.innerHTML = '<input type="hidden" id="videoId" value="'+chartlist[cnt].videoId+'" />'+(cnt+1);  
             rowdata.innerHTML = (cnt+1);
             rowdata.className = rowdata.className + 'charts_data'; 
             row.appendChild(rowdata);   
             
             rowdata = document.createElement('td');                        
             rowdata.innerHTML = he.decode(chartlist[cnt].interpret);
-            //rowdata.innerHTML = chartlist[cnt].interpret;  
             rowdata.className = rowdata.className + 'charts_data';           
             row.appendChild(rowdata);            
+
             rowdata = document.createElement('td');
             rowdata.innerHTML = he.decode(chartlist[cnt].title);
-            //rowdata.innerHTML = (chartlist[cnt].title);
             rowdata.className = rowdata.className + 'charts_data';        
             row.appendChild(rowdata);
-            
+
+            rowdata = document.createElement('td');
+            rowdata.innerHTML = chartlist[cnt].lastplay_time;
+            rowdata.className = rowdata.className + 'charts_data';
+            row.appendChild(rowdata);
+
             rowdata = document.createElement('td');
             rowdata.innerHTML = chartlist[cnt].playcount;  
             rowdata.className = rowdata.className + 'charts_data'; 
