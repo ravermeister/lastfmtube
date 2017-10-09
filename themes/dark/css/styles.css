@@ -80,32 +80,6 @@ a {
 
 
 
-/*********** make table scrollable *********
- * see
- * https://stackoverflow.com/questions/23989463/how-to-set-tbody-height-with-overflow-scroll
- ***************/
- 
-.charts thead, 
-.charts tbody tr,
-.userlist thead, 
-.userlist tbody tr,
-.playlist thead, 
-.playlist tbody tr {
-	display:table;
-    width:100%;
-    /* even columns width , fix width of table too*/
-    table-layout:fixed;
-}
-.charts tbody,
-.userlist tbody,
-.playlist tbody {
-	display:block;
-	overflow: auto;
-	height: 350px;
-}
-/***********  end make table scrollable *********/
-
-
 /** hide topusers, charts, userlist at beginning **/
 #charts_list,
 #user_list,

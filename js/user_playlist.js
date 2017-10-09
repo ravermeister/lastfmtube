@@ -189,7 +189,6 @@ function userlist_generatePlaylist(trackdata) {
        row          = document.createElement('tr');
        
        rowdata      = document.createElement('td');
-       rowdata.setAttribute('style','width: 5%;')
        rowdata.innerHTML = messageResource.get('userplaylist.header.nr','locale',locale)
 
        row.appendChild(rowdata);
@@ -214,7 +213,6 @@ function userlist_generatePlaylist(trackdata) {
                 custom_active_row = row;
            
            rowdata      = document.createElement('td');
-           rowdata.setAttribute('style','width: 5%;')
            
            if(custom_active_row!=null&&custom_active_index==cnt)
            {

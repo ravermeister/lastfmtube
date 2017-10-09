@@ -14,7 +14,7 @@ initPlaylistDnD();
 <table class="pure-table" id="playlistdata">
 <thead>
 	<tr>
-		<th align="left" width="25px">&nbsp;</th>
+		<th align="left">&nbsp;</th>
 		<th align="left">{$LANG['playlist.header.nr']}</th>
 		<th align="left">{$LANG['playlist.header.artist']}</th>
 		<th align="left">{$LANG['playlist.header.title']}</th>
@@ -33,7 +33,7 @@ initPlaylistDnD();
 	onmouseover="activeRow(this);"
 	onmouseout="inactiveRow(this);"
 	>	
-		<td width="25px">
+		<td>
 			{if $autostart==true&&($track_count-1)=={$startvideo['videoIndex']}}
 			<img src="./images/equalizer.gif" alt="equalizer" width="20" height="15"/>
 			{assign var="current_play" value="track_{$track_count}"}
@@ -43,15 +43,15 @@ initPlaylistDnD();
 		</td>
 
 		{if $track['video_id'] != -1}
-		<td class="title_playing" width="5%">{$track_count}*</td>
+		<td class="title_playing">{$track_count}*</td>
 		<td class="title_playing">{$track['artist']}</td>
 		<td class="title_playing">{$track['title']}</td>
-		<td class="title_playing" width="200px">{$track['dateofplay']}</td>
+		<td class="title_playing">{$track['dateofplay']}</td>
 		{else}
-		<td width="5%">{$track_count}</td>
+		<td>{$track_count}</td>
 		<td>{$track['artist']}</td>
 		<td>{$track['title']}</td>
-		<td width="200px">{$track['dateofplay']}</td>
+		<td>{$track['dateofplay']}</td>
 		{/if}
 	</tr>
 {counter name=track_counter}
