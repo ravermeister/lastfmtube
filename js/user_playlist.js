@@ -179,7 +179,7 @@ function userlist_generatePlaylist(trackdata) {
        
        table        = document.createElement('table');
        table.id     = 'sort';
-       table.setAttribute('class', 'pure-table');
+       table.setAttribute('class', 'pure-table pure-table-horizontal');
        //table.style.width='100%';
        //table.style.heiht='100%';
        

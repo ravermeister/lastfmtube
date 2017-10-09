@@ -19,11 +19,13 @@ a {
 	color: black;
 	background-color: #C2B280;
 }
+
 .pure-table,
 .pure-table th,
 .pure-table td {		
 	border-color: #a7a395;
 }
+
 #hotkeys_view {
 	text-align:left;
 	border:1px solid #a7a395;

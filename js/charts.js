@@ -100,7 +100,7 @@ function charts_load() {
         chartlist    = response;
                                  
         table        = document.createElement('table');
-        table.setAttribute('class', 'pure-table');
+        table.setAttribute('class', 'pure-table pure-table-horizontal');
             
         thead        = document.createElement('thead');
         tbody        = document.createElement('tbody');        

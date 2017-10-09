@@ -11,7 +11,7 @@ initPlaylistDnD();
 //-->
 </script>
 
-<table class="pure-table" id="playlistdata">
+<table class="pure-table pure-table-horizontal" id="playlistdata">
 <thead>
 	<tr>
 		<th align="left">&nbsp;</th>

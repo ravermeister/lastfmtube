@@ -17,7 +17,7 @@ function topusers_load() {
 
 function topusers_generate(topusers){
        topuser        = document.createElement('table');
-       topuser.setAttribute('class', 'pure-table');
+       topuser.setAttribute('class', 'pure-table pure-table-horizontal');
        topuser.id     = 'sort';
        //topuser.style.width='100%';
        //topuser.style.heiht='100%';
