@@ -196,7 +196,9 @@ function loadYoutubeVideo(trackdata)
 
 function loadLastFMUser(user=false) {
     if(user!=false)  lm_username = user;
-    else lm_username = $("#lastfm_user").val();    
+    else lm_username = $("#lastfm_user").val();
+
+    lm_username = $.trim(lm_username);
     trackid=-1;
     trackname='';
     trackartist='';
