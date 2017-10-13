@@ -9,7 +9,7 @@ function jsonExit($data) {
 }
 
 if(isset($_POST['lastfm_user'])) {
-
+$_POST['lastfm_user']=trim($_POST['lastfm_user']);
 	/*lastfm user is not case sensitive*/
 	if(strcasecmp($_POST['lastfm_user'], $_SESSION['music']['lastfm_user']) == 0) jsonExit(array('response_code' => 'same_playlist'));
 	//if(strcmp($_POST['lastfm_user'], $_SESSION['music']['lastfm_user']) == 0) jsonExit(array('response_code' => 'same_playlist'));

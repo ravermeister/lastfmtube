@@ -24,6 +24,7 @@
 	} else if(!isset($_SESSION['music']['lastfm_user'])) {
 	    $_SESSION['music']['lastfm_user'] = $settings['general']['lastfm_defaultuser'];
 	}
+	$_SESSION['music']['lastfm_user'] = trim($_SESSION['music']['lastfm_user']);
 
 	$lastfm = new lastfm();
 	$lastfm->setApiKey($settings['lastfm']['apikey']);
