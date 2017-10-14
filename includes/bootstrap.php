@@ -15,7 +15,8 @@
 	$smarty->setTemplateDir(dirname(__FILE__).'/../themes/'.$settings['general']['theme']);
 	$smarty->setCacheDir(dirname(__FILE__).'/../tmp/smarty/cache');
 	$smarty->setCompileDir(dirname(__FILE__).'/../tmp/smarty/compile');
-
+	$smarty->caching = false;
+	
 	Functions::getInstance()->startSession();
 
 	if(isset($_GET['lastfm_user'])) {
