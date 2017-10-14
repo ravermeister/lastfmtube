@@ -3,6 +3,7 @@
 var selected_row = false;
 var custom_video_active = false;
 var custom_video_default_textval = 'youtube video id...';
+
 if(typeof cmenutheme === 'undefined') {
 	cmenutheme = 'default';
 }
@@ -78,7 +79,10 @@ var cmenu_default_base_options =
   // Multiple themes may be applied with a comma-separated list.  
   theme:cmenutheme,
   
-  beforeShow : function(){loadDynamicMenu($(this.menu))}  
+  beforeShow : function() {
+		resetVars();
+		loadDynamicMenu($(this.menu));
+	}  
 }  
  
 
@@ -107,7 +111,7 @@ var cmenu_default_base_menu =
                     return false;
                 
                 custom_video_active = true;
-                enterVideoID(menuObject);
+                enterVideoID(menuObject, custom_video_default_textval);
                 return false;
             },
             
@@ -147,13 +151,31 @@ var cmenu_default_base_menu =
 
 ///////////////////////// functions
 
+function resetVars(){
+	
+	selected_row=false; 
+	selected_row=$(active_row); 
+	custom_video_active = false;
+	
+	cells = selected_row.children('td');
+	needle = $(cells.get(2)).text()+' '+$(cells.get(3)).text();
+	request_url='./php/edit_env_vars.php?action=get&key='+needle;
+	$.ajax(request_url,{
+		dataType : 'text'        
+	}).done(function(response){		
+		video_id = response;
+		custom_video_active = true;
+		if(video_id == '')  video_id = custom_video_default_textval;		
+		enterVideoID($('.custom_video_menu'), video_id);		
+	});
+
+}
+    
 function loadDynamicMenu(cmenu) {
     if(active_row==null) return;
-	
-    selected_row=false; 
-    selected_row=$(active_row); 
+
     selected_row.parent().children('td').css('cursor','wait');
-            
+	
     cells = selected_row.children('td');
     needle = $(cells.get(2)).text()+' '+$(cells.get(3)).text();
     //console.log(needle);
@@ -176,8 +198,7 @@ function loadDynamicMenu(cmenu) {
     }).done(function(response){      
         items = new Array();
         current_video = getCurrentVideoID();        
-        for(cnt=0;cnt<response.length;cnt++)       
-        {
+        for(cnt=0;cnt<response.length;cnt++) {
             div_container = document.createElement('div');
             $(div_container).addClass('context-menu-item');
             $(div_container).addClass('dynamic_menu');
@@ -190,10 +211,9 @@ function loadDynamicMenu(cmenu) {
             //title       = decodeURIComponent(response[cnt].title);
             //title       = htmlDecode(title);
         
-            if(response[cnt].video_id==current_video)
-            {
-                title   = '* '+title;
-                $(div_item).css('font-style','italic');       
+            if(response[cnt].video_id==current_video) {
+			title   = '* '+title;
+			$(div_item).css('font-style','italic');       
             }                            
                                             
             $(div_item).text((cnt+1)+'. '+title);            
@@ -205,15 +225,12 @@ function loadDynamicMenu(cmenu) {
             $(div_container).append(div_item);
             items[cnt] = $(div_container);                                                
         }
-        if(response.length>0)
-        {
+        if(response.length>0) {
             //$(item_delete).removeClass('context-menu-item-disabled');
-            $(item_delete)
+            //$(item_delete)
             $(item_loader).css('display','none');            
             $(item_loader).after(items);   
-        }   
-        else
-        {
+        }    else {
             div_container = document.createElement('div');
             $(div_container).addClass('context-menu-item');
             $(div_container).addClass('dynamic_menu');
@@ -260,37 +277,22 @@ function saveCustomVideoID(event) {
     
 }
 
-function enterVideoID(menu)
-{            
-    
-    
+function enterVideoID(menu, value) {            
+	
     $('.custom_video_menu').each(function(){
-          
+	
         input = document.createElement('input');
         $(input).attr('type','text');
-        $(input).attr('value',custom_video_default_textval);
+        $(input).val(value);
         $(input).attr('size','25');        
         $(input).addClass('customVideoID');
         
-        $(input).unbind('focus.clearer');
-        $(input).bind('focus.clearer',function(){
-            if($(this).attr('value')==custom_video_default_textval);
-                $(this).attr('value','');            
-        });
-        
-        $(input).unbind('focusout.clearer');
-        $(input).bind('focusout.clearer',function(){            
-           if($(this).attr('value')=='')
-                $(this).attr('value',custom_video_default_textval); 
-        });
-        
-        
-        
+	resetEnterVideoTextField(input);
         
         submit = document.createElement('input');
         $(submit).attr('type','button');
         $(submit).attr('value','Speichern');
-        $(submit).click({'textfield':input,'cmenu':menu},saveCustomVideoID);
+        $(submit).click({'textfield':input,'cmenu':menu}, saveCustomVideoID);
         
         $(this).children('.context-menu-item-inner').html('');        
         $(this).children('.context-menu-item-inner').append(input);
@@ -300,7 +302,27 @@ function enterVideoID(menu)
     
 }
 
-
+function resetEnterVideoTextField(input) {
+	
+        $(input).unbind('focus.clearer');
+        $(input).bind('focus.clearer',function(){
+		val=$(this).val();		
+		if(val==custom_video_default_textval) {
+			$(this).val('');			
+		}
+			
+        });
+        
+        $(input).unbind('focusout.clearer');
+        $(input).bind('focusout.clearer',function(){            
+		val=$(this).val();
+		if(val=='') {
+			$(this).val(custom_video_default_textval); 
+		}
+			
+		
+        });
+}
 
 function setAlternative(event) {    
     needle=event.data.needle;
@@ -311,8 +333,7 @@ function setAlternative(event) {
 
     //console.log(event.data.videoId);
 
-    if(!('customVideoID' in event.data))
-    {
+    if(!('customVideoID' in event.data)) {
         unmarkContextAlternative();
         markContextAlternative($(this));
     }
@@ -341,7 +362,7 @@ function markContextAlternative(menu_item) {
 }
 function markAlternatives(needle) {
     needle=unescape(needle);
-    rows = $(".track_row");//selected_row.parent().children('TR');
+    rows = $(".track_row");
     
     for(cnt=0;cnt<rows.length;cnt++) {
         cur_row = rows.get(cnt);
@@ -363,12 +384,10 @@ function markAlternatives(needle) {
     }
 }
 
-function unmarkContextAlternative()
-{
+function unmarkContextAlternative() {
     $(".context-menu-item-inner").each(function(){
     old_text = $(this).text();
-    if(old_text.indexOf('*')!=-1)
-    {
+    if(old_text.indexOf('*')!=-1) {
         old_text = old_text.replace('*','');
         $(this).text(old_text);
         $(this).css('font-style','normal');
@@ -376,7 +395,8 @@ function unmarkContextAlternative()
     });    
     
     $('.custom_video_menu input[type=text]').each(function(){
-       $(this).val(custom_video_default_textval); 
+		$(this).val(custom_video_default_textval); 	
+		resetEnterVideoTextField(this);
     });
 }
 
@@ -423,5 +443,6 @@ function deleteAlternative() {
         unmarkContextAlternative();
         unmarkAlternatives(needle);   
         loadSong(selected_row);   
+		
     });   
 }
