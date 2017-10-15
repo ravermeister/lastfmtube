@@ -149,7 +149,7 @@ function charts_load() {
                 active_track.artist==chartlist[cnt].interpret&&
                 active_track.title==chartlist[cnt].title
                ) {
-                    $(active_data.get(3)).text(chartlist[cnt].playcount);
+                    $(active_data.get(4)).text(chartlist[cnt].playcount);
                     tbody.appendChild(charts_active_row);
                     continue;
                }
