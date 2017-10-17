@@ -88,6 +88,8 @@ class Functions {
 			"cmenutheme = ".$config['general']['cmenutheme']."\n".
 			"; the default last.fm user when initally loading the playlist\n".
 			"lastfm_defaultuser = ".$config['general']['lastfm_defaultuser']."\n".
+			"; the Admin Password as sha1_value (default is lfmtube)\n".
+			"adminpw = ".$config['general']['adminpw'].
 			"\n".
 			";[database]\n".
 			";dsn = mysql:host=127.0.0.1;port=3306;dbname=lasttube;charset=UTF8;\n".
