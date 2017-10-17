@@ -54,6 +54,11 @@ table thead{
 	left: 15px; 
 }
 
+.playlist-menu {
+        margin-top: 10px;
+        margin-bottom: 10px;
+}
+
 /** playlists **/
 .playlist-container {
         width: 100%;
