@@ -152,8 +152,8 @@ encoding: UTF-8
 						in this box, the custom playlist will appear
 					</div>   
 				</div>
+				<div style="clear:both;">&nbsp;</div>
 			</div>
-			<div style="clear:both;">&nbsp;</div>
 
         <div class="footer">
                 <a href="//validator.w3.org/check?uri=referer" target="_blank"><img src="//www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>

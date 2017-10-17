@@ -25,9 +25,7 @@ encoding: UTF-8
 		<link rel="stylesheet" href="{$BASE_PATH}/themes/dark/css/jquery.contextmenu.css" type="text/css" />
 		<link rel="stylesheet" href="{$BASE_PATH}/themes/dark/css/styles.css" type="text/css" />		
 		
-		
-		
-                                <script type="text/javascript">
+		<script type="text/javascript">
 				
 			var startvideo = '{$startvideo['videoId']}';
 			var ytplayerwidth = '{$ytplayerwidth}';	
@@ -44,9 +42,8 @@ encoding: UTF-8
 			start_track.artist      = '{$startvideo['artist']|escape:"html"}';
 			start_track.title       = '{$startvideo['title']|escape:"html"}';
 			start_track.videoId     = '{$startvideo['videoId']}';
-			
-			
 		</script>				
+
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>
@@ -55,9 +52,6 @@ encoding: UTF-8
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hazzik-jquery.livequery/1.3.6/jquery.livequery.min.js"></script>   
 		<script type="text/javascript" src="{$BASE_PATH}/js/messageResource.min.js"></script>
 		
-		
-		
-
 		<script type="text/javascript" src="{$BASE_PATH}/js/pagefunctions.js"></script> 
 		<script type="text/javascript" src="{$BASE_PATH}/js/player.js"></script>
 		<script type="text/javascript" src="{$BASE_PATH}/js/playercontrol.js"></script>
@@ -66,12 +60,12 @@ encoding: UTF-8
 		<script type="text/javascript" src="{$BASE_PATH}/js/charts_contextmenu.js"></script>
 		<script type="text/javascript" src="{$BASE_PATH}/js/hotkeys.js"></script>
 		<script type="text/javascript" src="{$BASE_PATH}/js/charts.js"></script>     
-		<script type="text/javascript" src="{$BASE_PATH}/js/user_playlist.js"></script>                                                                
-		<script type="text/javascript" src="{$BASE_PATH}/js/topusers.js"></script> 	
+		<script type="text/javascript" src="{$BASE_PATH}/js/user_playlist.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/topusers.js"></script>
 	</head>
 	<body>
 
-    	
+
                             <h2 align="center"><a href="//www.last.fm/user/{$lastfm_user}" id="lastfm_user_title_url" target="_blank">
 				<span id="lastfm_user_title">{$lastfm_user}</span></a>'s {$LANG['site.header.lastfmuser.suffix']}
 			   </h2>                                                        
@@ -82,7 +76,7 @@ encoding: UTF-8
 				    <div id="player"></div>  
 				</div>	
 		
-                                <script type="text/javascript">  	
+                                <script type="text/javascript">
 			
 			
 			// initialize messageResource.js with settings
@@ -95,7 +89,7 @@ encoding: UTF-8
 			// will load the file moduleName_fr_FR.properties.
 			messageResource.load('locale', null, locale);		
 			
-			$(document).ready(function(){        				
+			$(document).ready(function(){
 				pageInit();
 			}); 
                                 </script>  
@@ -119,44 +113,48 @@ encoding: UTF-8
                                     <input type="button" value="{$LANG['site.playercontrol.user.button']}" onclick="loadLastFMUser();"/>                                    
                                 </div>
                                 
-			<div class="pages">
-			<input type="button" id="loadprev"  value="&lt;&lt;" />
-			{$LANG['site.pagecontrol.page']}
-			<input type="text" id="pagefield" value="{$current_page}" size="1" maxlength="5" /> {$LANG['site.pagecontrol.page.of']} <span id="lastfm_user_pages_total">{$total_pages}</span> 
-			<input type="button" id="pageload" value="{$LANG['site.pagecontrol.load']}"/>
+				<div class="pages">
+					<input type="button" id="loadprev"  value="&lt;&lt;" />
+					{$LANG['site.pagecontrol.page']}
+					<input type="text" id="pagefield" value="{$current_page}" size="1" maxlength="5" /> {$LANG['site.pagecontrol.page.of']} <span id="lastfm_user_pages_total">{$total_pages}</span> 
+					<input type="button" id="pageload" value="{$LANG['site.pagecontrol.load']}"/>
 
-			<input type="button" id="loadnext" value="&gt;&gt;" />
+					<input type="button" id="loadnext" value="&gt;&gt;" />
                                  </div>
-                                </div>
-			
-        	<div class="topusers">
-				<h2 id="topuser_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['topuser.title']}</h2>
-				<div id="topuser_list" class="cmenu_topuser">
-				in this box, the Top Last.fm user will be shown
-				</div>                                      
-			</div>
-				
-			<div class="playlist">         
-		  <h2 id="playlist-title" title="{$LANG['site.tooltip.hideshow']}">- {$LANG['playlist.title']}</h2>
-                                    {include file='./playlist.tpl'}                                          
-            </div>
-                    
-			<div class="listcontainer">
-        		<div class="charts">
-				<h2 id="charts_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['charts.title']}</h2>
-				<div id="charts_list" class="cmenu_charts">
-				in this box, the Top Songs will appear
-				</div>
 			</div>
 
-       		<div class="userlist">				
-				<h2 id="user_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['userplaylist.title']}</h2>
-				<div id="user_list" class="cmenu_user">
-				in this box, the custom playlist will appear
-				</div>   
-			</div>
-			</div>
-			<div style="clear:both;">&nbsp;</div>
+
+                        <div class="playlist-menu pure-menu pure-menu-horizontal">
+                                <ul class="pure-menu-list">
+                                <li class="pure-menu-item"><a class="pure-menu-link" id="topuser_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['topuser.title']}</a></li>
+                                <li class="pure-menu-item"><a class="pure-menu-link" id="playlist-title" title="{$LANG['site.tooltip.hideshow']}">- {$LANG['playlist.title']}</a></li>
+                                <li class="pure-menu-item"><a class="pure-menu-link" id="charts_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['charts.title']}</a></li>
+                                <li class="pure-menu-item"><a class="pure-menu-link" id="user_title" title="{$LANG['site.tooltip.hideshow']}">+ {$LANG['userplaylist.title']}</a></li>
+                                </ul>
+                        </div>
+
+			<div class="playlist-container">
+				<div class="playlist-main">
+					<div id="topuser_list" class="topusers cmenu_topuser">
+						in this box, the Top Last.fm user will be shown
+					</div>
+
+					<div class="playlist">
+						{include file='./playlist.tpl'}
+					</div>
+
+					<div id="charts_list" class="charts cmenu_charts">
+						in this box, the Top Songs will appear
+					</div>
+				</div>
+
+                                <div class="playlist-sidebar">
+                                        <div id="user_list" class="userlist cmenu_user">
+                                                in this box, the custom playlist will appear
+                                        </div>
+                                </div>
+				<div style="clear:both;">&nbsp;</div>
+                        </div>
 
 			    
 	<div class="footer">

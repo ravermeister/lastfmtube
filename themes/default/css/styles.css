@@ -10,26 +10,11 @@ body {
 table thead{
         font-weight: bold;
 }
-table tbody tr:hover{
-        cursor: pointer;
-        background-color: lightblue;
-        color: white;
-}
-table thead tr {
-        background-color: lightblue;
-}
 /**** end table config ***/
 
 .dragelem{
         color: white;
         background-color: lightblue;
-}
-
-.charts table,
-.topusers table,
-.userlist table,
-.playlistcontainer table {
-        width: 100%;
 }
 
 #hotkeys_view {
@@ -70,12 +55,22 @@ table thead tr {
 	float: right;
 	width: 0%;
 }
-
-.charts table,
-.topusers table,
-.userlist table, 
-.playlistcontainer table {
-	width: 100%;
+.playlist-container table {
+        width: 100%;
+}
+.playlist-container table tbody tr:hover{
+        cursor: pointer;
+        background-color: lightblue;
+        color: white;
+}
+.playlist-container table thead tr {
+        background-color: lightblue;
+}
+.userlist tbody td:nth-child(3),
+.playlist tbody td:nth-child(4),
+.charts tbody td:nth-child(3)
+ {
+	word-break:break-all;
 }
 /** end playlists **/
 

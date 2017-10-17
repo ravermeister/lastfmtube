@@ -15,16 +15,23 @@ a {
 	color: #a7a49a
 }
 
+/** table config **/
+table thead{
+        font-weight: bold;
+}
+
+.pure-table,
+.pure-table th,
+.pure-table td {
+        border-color: #a7a395;
+}
+/**** end table config ***/
+
 .dragelem{
 	color: black;
 	background-color: #C2B280;
 }
 
-.pure-table,
-.pure-table th,
-.pure-table td {		
-	border-color: #a7a395;
-}
 
 #hotkeys_view {
 	text-align:left;
@@ -47,39 +54,37 @@ a {
 	left: 15px; 
 }
 
-.playlist {	
-	margin-top: 15px;
-	width:100%;	
+/** playlists **/
+.playlist-container {
+        width: 100%;
+}
+.playlist-container .playlist-main {
+        float:left;
+        width: 100%;
+}
+.playlist-container .playlist-sidebar {
+        float: right;
+        width: 0%;
+}
+.playlist-container table {
+        width: 100%;
 }
 
-.topusers table thead,
-.userlist table thead,
-.charts table thead{
-	font-weight: bold;
-}
-
-.charts table tbody tr:hover,
-.topusers table tbody tr:hover,
-.userlist table tbody tr:hover,
-.playlistcontainer table tbody tr:hover{
+.playlist-container table tbody tr:hover{
 	cursor: pointer;	
 	background-color: #C2B280;
 	color: black;
 }
-.charts table thead tr,
-.topusers table thead tr,
-.userlist table thead tr,
-.playlistcontainer table thead tr {
-	background-color: #a7a395;		
+.playlist-container table thead tr {
+	background-color: #a7a395;
 }
-
-.charts table,
-.topusers table,
-.userlist table, 
-.playlistcontainer table {
-	width: 100%;
+.userlist tbody td:nth-child(3),
+.playlist tbody td:nth-child(4),
+.charts tbody td:nth-child(3)
+ {
+        word-break:break-all;
 }
-
+/** end playlists **/
 
 
 /** hide topusers, charts, userlist at beginning **/
