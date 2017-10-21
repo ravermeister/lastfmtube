@@ -66,9 +66,10 @@ table thead{
 .playlist-container .playlist-main {
         float:left;
         width: 100%;
+	margin-right: 10px;
 }
 .playlist-container .playlist-sidebar {
-        float: right;
+        float: left;
         width: 0%;
 }
 .playlist-container table {

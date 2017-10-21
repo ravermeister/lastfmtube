@@ -46,13 +46,15 @@ table thead{
 /** playlists **/
 .playlist-container {
 	width: 100%;
+	padding: 10px;
 }
 .playlist-container .playlist-main {
 	float:left;
+	margin-right: 10px;
 	width: 100%;
 }
 .playlist-container .playlist-sidebar {
-	float: right;
+	float: left;
 	width: 0%;
 }
 .playlist-container table {
