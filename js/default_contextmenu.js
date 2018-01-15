@@ -286,7 +286,6 @@ function enterVideoID(menu, value) {
         $(input).val(value);
         $(input).attr('size','25');        
         $(input).addClass('customVideoID');
-        
 	resetEnterVideoTextField(input);
         
         submit = document.createElement('input');
