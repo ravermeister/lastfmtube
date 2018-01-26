@@ -42,9 +42,9 @@ class youtubeSearch {
     function loadReplaceFile($file) {
         foreach ( file ( $file ) as $line ) {
             if (substr ( trim($line), 0, 1 ) === "#") continue;
+            $line=str_replace(array("\r", "\n", "\r\n"), "", $line);
             $entry = explode ( "=", $line, 2 );
-	    
-	    if(sizeof($entry<2)) $entry[1] = '';
+	    if(sizeof($entry)<2) $entry[1] = '';
             $this->replaceStrings [$entry [0]] = $entry [1];
         }
     }
@@ -52,14 +52,14 @@ class youtubeSearch {
         foreach ( $this->replaceStrings as $key => $value ) {
             $needle = str_replace ( $key, $value, $needle );
         }
-        $needle = trim ( $needle );   
+        $needle = trim ( $needle );
         $this->needle = $needle;
     }
     function search($resultcount = 1) {
         $this->video_list = array ();
 
         if (! empty ( $this->api_pk12 )) {
-            //logMessage ( 'Create youtube client using OAuth PK12 File' );
+            //Functions::llogMessage ( 'Create youtube client using OAuth PK12 File' );
             $scopes = array (
                     'https://www.googleapis.com/auth/youtube'
             );

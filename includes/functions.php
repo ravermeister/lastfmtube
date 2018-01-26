@@ -48,8 +48,8 @@ class Functions {
 
 
 	public function logMessage($msg) {
-		$this->initSettings();
-		$logfile = fopen($this->settings['general']['logpath'],'a+');
+		Functions::getInstance()->initSettings();
+		$logfile = fopen(Functions::getInstance()->settings['general']['logpath'],'a+');
 
 		$prefix = date('d.m.Y H:i:s');
 		$msgArr = explode("\n",Functions::br2nl($msg));
@@ -116,8 +116,8 @@ class Functions {
 			";keyfile = /home/ravermeister/lastfm.rimkus.it/conf/youtube.p12\n".
 			";user = info@rimkus.it\n"
 		);
-		fclose($fh);		
-		$this->initSettings(true);
+		fclose($fh);
+		Functions::getInstance()->initSettings(true);
 	}
 
 }
