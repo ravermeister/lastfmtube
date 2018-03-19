@@ -1,0 +1,3 @@
+[submodule "includes/googleapi"]
+	path = includes/googleapi
+	url = git@github.com:google/google-api-php-client.git
