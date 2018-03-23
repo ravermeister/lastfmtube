@@ -1,6 +1,8 @@
 conf/settings.ini
 conf/lasttube.db.prod
 conf/lasttube.db.dev
+conf/lasttube.db
 .buildpath
 .project
 .settings/
+tmp/
