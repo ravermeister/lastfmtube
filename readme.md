@@ -1,4 +1,4 @@
-Author | Jonny Rimkus jonny@rimkus.it
+Author | Jonny Rimkus &lt;jonny@rimkus.it&gt;
 ------ | ---------------------------
 hey | https://www.rimkus.it
 License | http://www.wtfpl.net/
