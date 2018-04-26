@@ -43,6 +43,7 @@ mv google-api-php-client-2.2.1 includes/googleapi
 
 
 Directory Structure:
+```
 |
 +- conf -> Configuration Files and sqlite Database
 |   |
@@ -63,3 +64,4 @@ Directory Structure:
 +- js -> all required js files 
 +- php -> all required php files
 +- tmp -> temp folder for generated templates
+```
