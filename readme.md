@@ -1,6 +1,6 @@
 Author | Jonny Rimkus &lt;jonny@rimkus.it&gt;
 ------ | ---------------------------
-hey | https://www.rimkus.it
+Website | https://www.rimkus.it
 License | http://www.wtfpl.net/
 
 
