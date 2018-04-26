@@ -1,8 +1,7 @@
-Author: Jonny Rimkus `<jonny@rimkus.it>`
-
-https://www.rimkus.it
-
-License: http://www.wtfpl.net/
+Author| Jonny Rimkus jonny@rimkus.it
+------| https://www.rimkus.it
+License| http://www.wtfpl.net/
+-------
 
 
 About:
