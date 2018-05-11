@@ -13,8 +13,6 @@ $pagecnt=25;
 $playlist       = $lastfm->getRecentlyPlayed($page,$pagecnt);
 $tracklist      = $playlist->getTracks();
 
-$default_video='31H7--Cjo7w';
-
 $final_tracklist = array();
 
 for($i=0;$i<sizeof($tracklist);$i++) {
@@ -22,10 +20,10 @@ for($i=0;$i<sizeof($tracklist);$i++) {
 	$track->title 	= Functions::getInstance()->prepareNeedle($track->title);
 	$track->artist	= Functions::getInstance()->prepareNeedle($track->artist);
 	$track->album	= Functions::getInstance()->prepareNeedle($track->album);	
-	$video_id=DB::getInstance()->getEnvVar(Functions::getInstance()->prepareNeedle($track->artist.' '.$track->title));    
+	$needle         = Functions::getInstance()->prepareNeedle($track->artist.' '.$track->title);
+	$video_id=DB::getInstance()->getEnvVar($needle);    
 	
-
-    if($video_id!=''&&$video_id!='undefined') {
+    if($video_id!=''&&$video_id!='undefined') {    
         if(!isset($startvideo)) {
             $startvideo['videoId']      = $video_id;
             $startvideo['videoIndex']   = $i;
@@ -38,12 +36,12 @@ for($i=0;$i<sizeof($tracklist);$i++) {
         $searcher->search();
         $search_result = $searcher->getVideoList();
 
-        if(sizeof($search_result)>0)
-        {
+        if(sizeof($search_result)>0) {
             $video                          = $search_result[0];
             $startvideo['videoId']          = $video->getVideoID();
             $startvideo['videoIndex']       = $i;
-
+            $startvideo['artist']          = $track->artist;
+            $startvideo['title']        = $track->title;
         }
 
         $final_tracklist[] = array('artist'=>$track->artist,'title'=>$track->title,'dateofplay'=>$track->dateofplay,'isplaying'=>(($track->isPlaying())?true:false),'video_id'=>'-1');
