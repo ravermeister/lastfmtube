@@ -43,7 +43,7 @@ encoding: UTF-8
 			start_track.title       = '{$startvideo['title']|escape:"html"}';
 			start_track.videoId     = '{$startvideo['videoId']}';
 		</script>				
-
+		
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>
@@ -65,6 +65,17 @@ encoding: UTF-8
 	</head>
 	<body>
 
+{literal}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-26904270-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-26904270-14');
+</script>
+{/literal}
 
 <!--// fork me on github logo // -->
 <a href="https://github.com/ravermeister/lastfmtube" target="_blank">

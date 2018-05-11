@@ -4,19 +4,39 @@ class Functions {
 	private static $instance;	
 	private $settings = false;
 	private $settingsFile = false;
+	private $replacements = false;
+	private $replacementFile = false;
 	
 	private function __construct($file=false){
 		$this->settingsFile = $file;
 		$this->initSettings();
+		$this->initReplacements();
 	}
 
 	private function initSettings($force=false){
 		if(!$force && is_array($this->settings)) return;
 		
 		if($this->settingsFile===false) $this->settingsFile=dirname(__FILE__).'/../conf/settings.ini';
-		if (!$this->settings = parse_ini_file($this->settingsFile, TRUE)) throw new exception('Unable to open ' . $file . '.');
+		if (!$this->settings = parse_ini_file($this->settingsFile, TRUE)) throw new exception('Unable to open ' . $this->settingsFile . '.');
 	}
 
+
+	private function initReplacements($force=false) {
+		if(!$force && is_array($this->replacements)) return;
+		
+		if($this->replacementFile===false) $this->replacementFile=dirname(__FILE__).'/../conf/replace_strings.txt';		
+		$lines = file ( $this->replacementFile );
+		if($lines === false) throw new exception('Unable to open ' . $this-replacementFile . '.');	
+		
+		foreach ( $lines  as $line ) {
+		    if (substr ( trim($line), 0, 1 ) === "#") continue;
+		    $line=str_replace(array("\r", "\n", "\r\n"), "", $line);
+		    $entry = explode ( "=", $line, 2 );
+		    if(sizeof($entry)<2) $entry[1] = '';
+		    $this->replacements [$entry [0]] = $entry [1];
+		}
+	}
+	
 	public static function getInstance() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new Functions();
@@ -60,6 +80,17 @@ class Functions {
 		fclose($logfile);
 	}
 	
+	public function prepareNeedle($needle) {
+		Functions::getInstance()->initReplacements();
+		$needle = html_entity_decode(trim ( $needle ), ENT_QUOTES | ENT_HTML5);	
+		if(is_array($this->replacements)) {
+		        foreach ( $this->replacements as $key => $value ) {
+			    $needle = str_replace ( $key, $value, $needle );
+			}
+		}		
+		return $needle;
+	}
+ 	
 	public function loadLangFile() {
 		return parse_ini_file(
 			dirname(__FILE__).'/../locale/locale_'.

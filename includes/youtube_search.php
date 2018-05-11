@@ -15,7 +15,6 @@ class youtubeSearch {
     private $api_user = '';
     private $needle = '';
     private $video_list = array ();
-    private $replaceStrings = array ();
     private $ignoreVids = array ();
     private $client;
     function __construct() {
@@ -39,20 +38,8 @@ class youtubeSearch {
     function setAPIVersion($version) {
         $this->api_version = $version;
     }
-    function loadReplaceFile($file) {
-        foreach ( file ( $file ) as $line ) {
-            if (substr ( trim($line), 0, 1 ) === "#") continue;
-            $line=str_replace(array("\r", "\n", "\r\n"), "", $line);
-            $entry = explode ( "=", $line, 2 );
-	    if(sizeof($entry)<2) $entry[1] = '';
-            $this->replaceStrings [$entry [0]] = $entry [1];
-        }
-    }
-    function setNeedle($needle) {
-        foreach ( $this->replaceStrings as $key => $value ) {
-            $needle = str_replace ( $key, $value, $needle );
-        }
-        $needle = trim ( $needle );
+
+    function setNeedle($needle) {        
         $this->needle = $needle;
     }
     function search($resultcount = 1) {

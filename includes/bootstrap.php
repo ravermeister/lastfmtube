@@ -31,8 +31,7 @@
 	$lastfm->setApiKey($settings['lastfm']['apikey']);
 	$lastfm->setUser($_SESSION['music']['lastfm_user']);
 	
-	$searcher = new youtubeSearch();
-	$searcher->loadReplaceFile(dirname(__FILE__).'/../conf/replace_strings.txt');	
+	$searcher = new youtubeSearch();	
 	if(isset($settings['youtube']['email'])) $searcher->setAPIEmail($settings['youtube']['email']);
 	if(isset($settings['youtube']['keyfile'])) $searcher->setAPIPK12($settings['youtube']['keyfile']);
         if(isset($settings['youtube']['user'])) $searcher->setAPIUser($settings['youtube']['user']);

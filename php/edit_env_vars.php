@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../includes/bootstrap.php';
 
 $action=$_GET['action'];
 if(!isset($_GET['key'])) return;
-$key=html_entity_decode($_GET['key']);
+$key=Functions::getInstance()->prepareNeedle($_GET['key']);
 
 if(isset($_GET['value'])) $value=html_entity_decode($_GET['value']);
 

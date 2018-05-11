@@ -14,10 +14,11 @@ $trackno = (($page-1)*$pagecnt)+1;
 
 for($i=0;$i<sizeof($tracklist);$i++)
 {
-    $track = $tracklist[$i];
-    $needle = $track->artist.' '.$track->title;    
-    $needle = addslashes(html_entity_decode($needle));
-    $video_id=DB::getInstance()->getEnvVar($needle);
+    	$track 		= $tracklist[$i];	
+	$track->title 	= Functions::getInstance()->prepareNeedle($track->title);
+	$track->artist	= Functions::getInstance()->prepareNeedle($track->artist);
+	$track->album	= Functions::getInstance()->prepareNeedle($track->album);	
+	$video_id=DB::getInstance()->getEnvVar(Functions::getInstance()->prepareNeedle($track->artist.' '.$track->title));    
     
     if($video_id!=''&&$video_id!='undefined') {
         if(!isset($startvideo)) {

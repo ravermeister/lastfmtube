@@ -289,9 +289,11 @@ class track
         $myArtist = $trackxml->children(0)->innertext;
         $myTitle  = $trackxml->children(1)->innertext;
         $myAlbum  = $trackxml->children(4)->innertext;
-        $this->artist       = ((array_key_exists($myArtist,$invalidNames))?$invalidNames[$myArtist]:$myArtist);
-        $this->title        = ((array_key_exists($myTitle,$invalidNames))?$invalidNames[$myTitle]:$myTitle);
-        $this->album        = ((array_key_exists($myAlbum,$invalidNames))?$invalidNames[$myAlbum]:$myAlbum);
+	
+        $this->artist       = html_entity_decode(((array_key_exists($myArtist,$invalidNames))?$invalidNames[$myArtist]:$myArtist), ENT_QUOTES | ENT_HTML5);
+        $this->title        = html_entity_decode(((array_key_exists($myTitle,$invalidNames))?$invalidNames[$myTitle]:$myTitle), ENT_QUOTES | ENT_HTML5);
+        $this->album        = html_entity_decode(((array_key_exists($myAlbum,$invalidNames))?$invalidNames[$myAlbum]:$myAlbum), ENT_QUOTES | ENT_HTML5);
+	
         //$this->dateofplay   = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
         $play_timestamp     = 0;	
 	if($trackxml->children(10)!==null){

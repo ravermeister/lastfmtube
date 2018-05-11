@@ -62,8 +62,22 @@ encoding: UTF-8
 		<script type="text/javascript" src="{$BASE_PATH}/js/charts.js"></script>     
 		<script type="text/javascript" src="{$BASE_PATH}/js/user_playlist.js"></script>                                                                
 		<script type="text/javascript" src="{$BASE_PATH}/js/topusers.js"></script>
+
 	</head>
 	<body>
+{literal}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="async" src="//www.googletagmanager.com/gtag/js?id=UA-26904270-14"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-26904270-14');
+</script>
+{/literal}
+
+<!--// fork me on github logo // -->
 <a href="https://github.com/ravermeister/lastfmtube" target="_blank">
 <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" />
 </a>
