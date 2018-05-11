@@ -82,7 +82,7 @@ class Functions {
 	
 	public function prepareNeedle($needle) {
 		Functions::getInstance()->initReplacements();
-		$needle = html_entity_decode(trim ( $needle ), ENT_QUOTES | ENT_HTML5);	
+		$needle = html_entity_decode(strip_tags(trim ( $needle )), ENT_QUOTES | ENT_HTML5);	
 		if(is_array($this->replacements)) {
 		        foreach ( $this->replacements as $key => $value ) {
 			    $needle = str_replace ( $key, $value, $needle );
