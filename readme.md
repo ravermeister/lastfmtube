@@ -21,9 +21,9 @@ Demo: http://lastfm.rimkus.it
 
 requirements:
 
-PHP >= 5.6
-PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
-Composer
+* PHP >= 5.6
+* PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
+* Composer
 
 Installation:
 
