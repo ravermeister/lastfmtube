@@ -23,7 +23,7 @@ requirements:
 
 PHP >= 5.6
 PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
-
+Composer
 
 Installation:
 
@@ -33,14 +33,8 @@ Installation:
 4. create a youtube user with a Developer API Key
 5. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin 
    (default password is lfmtube) and adjust other settings as needed
-6. open http://example.com/lfmtube and enjoy
-
-Update: I have removed the googe php api from this repo and linked against the git repository.
-to use it you have to download the google api release zip and extract it to includes/googleapi
-cd /path/to/lfmtube
-wget https://github.com/google/google-api-php-client/releases/download/v2.2.1/google-api-php-client-2.2.1.zip
-unzip google-api-php-client-2.2.1.zip
-mv google-api-php-client-2.2.1 includes/googleapi
+6. run composer install
+7. open http://example.com/lfmtube and enjoy
 
 
 
