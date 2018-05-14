@@ -1,8 +1,10 @@
 <?php
-require_once dirname(__FILE__).'/simplehtmldom/simple_html_dom.php';
 
-class lastfm
-{
+use Sunra\PhpSimple\HtmlDomParser;
+
+class lastfm {
+
+
     var $base_url       = 'http://ws.audioscrobbler.com/2.0';
     var $request_url    = '';
     var $apikey         = ''; 
@@ -204,14 +206,14 @@ class lastfm
     
     function getDOM()
     {
-        $url = $this->base_url.'?method='.$this->method.'&api_key='.$this->apikey;        
-        
+        $url = $this->base_url.'?method='.$this->method.'&api_key='.$this->apikey;
+
         if(isset($this->user))
             $url.='&user='.$this->user;
-        
+
         if(strcmp($this->request_url,'')==0)
             $this->setURL($url);
-        $html = file_get_html($this->request_url);
+        $html = HtmlDomParser::file_get_html($this->request_url);
         return $html;
     }
     

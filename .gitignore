@@ -1,3 +1,4 @@
+vendor
 conf/settings.ini
 conf/lasttube.db.prod
 conf/lasttube.db.dev

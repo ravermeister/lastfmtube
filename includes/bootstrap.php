@@ -1,5 +1,7 @@
 <?php
-        require_once dirname(__FILE__).'/smarty/libs/Smarty.class.php';
+
+	//require_once dirname(__FILE__).'/smarty/libs/Smarty.class.php';
+	require_once dirname(__FILE__).'/../vendor/autoload.php';
 	require_once dirname(__FILE__).'/db.class.php';
         require_once dirname(__FILE__).'/functions.php';
         require_once dirname(__FILE__).'/lastfm_api.php';
@@ -16,7 +18,7 @@
 	$smarty->setCacheDir(dirname(__FILE__).'/../tmp/smarty/cache');
 	$smarty->setCompileDir(dirname(__FILE__).'/../tmp/smarty/compile');
 	$smarty->caching = false;
-	
+
 	Functions::getInstance()->startSession();
 
 	if(isset($_GET['lastfm_user'])) {
@@ -30,14 +32,14 @@
 	$lastfm = new lastfm();
 	$lastfm->setApiKey($settings['lastfm']['apikey']);
 	$lastfm->setUser($_SESSION['music']['lastfm_user']);
-	
-	$searcher = new youtubeSearch();	
+
+	$searcher = new youtubeSearch();
 	if(isset($settings['youtube']['email'])) $searcher->setAPIEmail($settings['youtube']['email']);
 	if(isset($settings['youtube']['keyfile'])) $searcher->setAPIPK12($settings['youtube']['keyfile']);
         if(isset($settings['youtube']['user'])) $searcher->setAPIUser($settings['youtube']['user']);
         $searcher->setAPIKey($settings['youtube']['apikey']);
-	
-	
+
+
 	$smarty->assign('BASE_PATH',$settings['general']['baseurl']);
 	$smarty->assign('LOCALE', $settings['general']['lang']);
 	$smarty->assign('LANG', Functions::getInstance()->loadLangFile());

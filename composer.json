@@ -1,0 +1,8 @@
+{
+    "name": "ravermeister/lfmtube",
+    "require": {
+        "google/apiclient": "^2.0",
+	"smarty/smarty": "^3.1",
+	"sunra/php-simple-html-dom-parser": "^1.5.2"
+    }
+}
