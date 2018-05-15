@@ -1,13 +1,10 @@
 //copyright 2013 by Jonny Rimkus a.k.a Ravermeister 
 
-var charts_selected_row = false;
-var charts_video_active = false;
-var charts_video_default_textval = messageResource.get('charts.contextmenu.ytvideotext','locale',locale);  
 if(typeof cmenutheme === 'undefined') {
 	cmenutheme = 'default';
 }
 
-var cmenu_charts_base_options =
+var cmenu_user_base_options =
 {  
   // true|false to turn the menu shadow on or off  
   shadow:false,  
@@ -77,25 +74,70 @@ var cmenu_charts_base_options =
     
   // Theme name. Included themes are: 'default','xp','vista','osx','human','gloss'  
   // Multiple themes may be applied with a comma-separated list.  
-  theme:cmenutheme,
+  theme:cmenutheme, 
   
+    beforeShow : function() {
+		resetVars();
+		loadDynamicMenu($(this.menu));
+	}  
 }  
- 
 
-
-var cmenu_charts_base_menu = 
+var cmenu_user_base_menu = 
 [
     {'close Menu' : 
         {
             onclick: function(menuItemClicked,menuObject){return true},
             icon: './images/Xion_24.png'
         }
+    }, 
+	
+	$.contextMenu.separator, 
+	
+    {'reset Youtube Video ID' : 
+        {
+            className: 'delete_alternative',
+            onclick: function(menuItemClicked,menuObject){deleteAlternative(); return false;},
+            icon: './images/Recycle_24.png'                    
+        }
     },
     
-    {'add to Playlist' :
+    {'enter Youtube Video ID' :
         {
-            onclick: function(menuItemClicked,menuObject){charts_addToPlaylist();return true;},
-            icon: './images/Music_24.png'
+            onclick: function(menuItemClicked,menuObject){
+                if(custom_video_active)
+                    return false;
+                
+                custom_video_active = true;
+                enterVideoID(menuObject, custom_video_default_textval);
+                return false;
+            },
+            
+            icon: './images/Paint_24.png',
+            className: 'custom_video_menu'          
+        }       
+    },
+	
+	$.contextMenu.separator,  
+	
+    {'remove from Playlist' :
+        {
+            onclick: function(menuItemClicked,menuObject){userlist_removeFromPlaylist($(this));return true;},
+            icon: './images/Xion_24.png'
         }
-    }
+    },  
+    
+    {'clear Playlist' :
+        {
+            onclick: function(menuItemClicked,menuObject){userlist_clearPlaylist($(this));return true;},
+            icon: './images/Recycle_24.png'
+        }
+	},
+    
+	$.contextMenu.separator,  
+	
+	{'&nbsp;' :
+        {
+            className: 'dynamic_menu_loader'
+        } 
+    },  
 ];

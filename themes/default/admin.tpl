@@ -31,7 +31,7 @@ created by Jonny Rimkus <jonny@rimkus.it> www.rimkus.it
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/mode/properties/properties.min.js"></script>
 		
-		<script type="text/javascript" src="{$BASE_PATH}/js/admin-pagefunctions.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/page_functions_admin.js"></script>
 
 	</head>
 	

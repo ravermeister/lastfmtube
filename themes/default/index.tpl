@@ -1,11 +1,9 @@
 <!--//
 encoding: UTF-8
 //-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <!--// created by Jonny Rimkus <jonny@rimkus.it> //-->
-<html
-    xmlns="http://www.w3.org/1999/xhtml"   
->
+<html lang="{$LANG['lang.code']}">
 	<head>
 		<title>{$LANG['site.title']}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -46,23 +44,23 @@ encoding: UTF-8
 
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>		
 		<script type="text/javascript" src="{$BASE_PATH}/js/jquery/jquery.cookie.js"></script>
 		<script type="text/javascript" src="{$BASE_PATH}/js/jquery/jquery.contextmenu.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hazzik-jquery.livequery/1.3.6/jquery.livequery.min.js"></script>   
 		<script type="text/javascript" src="{$BASE_PATH}/js/messageResource.min.js"></script>
-
-		<script type="text/javascript" src="{$BASE_PATH}/js/pagefunctions.js"></script> 
+		
+		<script type="text/javascript" src="{$BASE_PATH}/js/page_functions.js"></script> 
 		<script type="text/javascript" src="{$BASE_PATH}/js/player.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/playercontrol.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/default_contextmenu.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/user_contextmenu.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/charts_contextmenu.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/player_control.js"></script>		
+		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_default.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_user.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_charts.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_functions.js"></script>
 		<script type="text/javascript" src="{$BASE_PATH}/js/hotkeys.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/charts.js"></script>     
-		<script type="text/javascript" src="{$BASE_PATH}/js/user_playlist.js"></script>                                                                
-		<script type="text/javascript" src="{$BASE_PATH}/js/topusers.js"></script>
-
+		<script type="text/javascript" src="{$BASE_PATH}/js/playlist_title.js"></script>     
+		<script type="text/javascript" src="{$BASE_PATH}/js/playlist_user.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/playlist_topuser.js"></script>
 	</head>
 	<body>
 {literal}

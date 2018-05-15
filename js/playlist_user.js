@@ -7,6 +7,7 @@ var userlist_cookie_loaded = false;
 
 function userlist_setActiveRow(row) {
     userlist_selected_row = row;
+	active_row = row;
 }
 
 function userlist_clearPlaylist()

@@ -1,12 +1,9 @@
 //copyright 2013 by Jonny Rimkus a.k.a Ravermeister 
 
-var selected_row = false;
-var custom_video_active = false;
-var custom_video_default_textval = 'youtube video id...';
 if(typeof cmenutheme === 'undefined') {
 	cmenutheme = 'default';
 }
-var cmenu_user_base_options =
+var cmenu_default_base_options =
 {  
   // true|false to turn the menu shadow on or off  
   shadow:false,  
@@ -78,12 +75,15 @@ var cmenu_user_base_options =
   // Multiple themes may be applied with a comma-separated list.  
   theme:cmenutheme,
   
-  beforeShow : function(){loadDynamicMenu($(this.menu))}  
+  beforeShow : function() {
+		resetVars();
+		loadDynamicMenu($(this.menu));
+	}  
 }  
  
 
 
-var cmenu_user_base_menu = 
+var cmenu_default_base_menu = 
 [
     {'close Menu' : 
         {
@@ -92,17 +92,55 @@ var cmenu_user_base_menu =
         }
     },
     
-    {'remove from Playlist' :
+	$.contextMenu.separator,  
+	
+    {'reset Youtube Video ID' : 
         {
-            onclick: function(menuItemClicked,menuObject){userlist_removeFromPlaylist($(this));return true;},
-            icon: './images/Xion_24.png'
-        }
-    },  
-    
-    {'clear Playlist' :
-        {
-            onclick: function(menuItemClicked,menuObject){userlist_clearPlaylist($(this));return true;},
-            icon: './images/Recycle_24.png'
+            className: 'delete_alternative',
+            onclick: function(menuItemClicked,menuObject){deleteAlternative(); return false;},
+            icon: './images/Recycle_24.png'                    
         }
     },
+    
+    {'enter Youtube Video ID' :
+        {
+            onclick: function(menuItemClicked,menuObject){
+                if(custom_video_active)
+                    return false;
+                
+                custom_video_active = true;
+                enterVideoID(menuObject, custom_video_default_textval);
+                return false;
+            },
+            
+            icon: './images/Paint_24.png',
+            className: 'custom_video_menu'          
+        }       
+    },
+    
+	$.contextMenu.separator,  
+	
+    {'add to Playlist' :
+        {
+            onclick: 
+            function(menuItemClicked,menuObject){
+                cells = selected_row.children('td');
+                trackinfo           = new Object();
+                trackinfo.artist    = $(cells.get(2)).text();
+                trackinfo.title     = $(cells.get(3)).text(); 		
+                userlist_addToPlaylist(trackinfo);
+                return true;
+            },
+            icon: './images/Music_24.png'
+        }
+    },
+    
+    $.contextMenu.separator,   
+	
+    {'&nbsp;' :
+        {
+            className: 'dynamic_menu_loader'
+        } 
+    },    
+    
 ];

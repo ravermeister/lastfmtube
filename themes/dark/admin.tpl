@@ -1,13 +1,11 @@
 <!--//
 encoding: UTF-8
 //-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <!--// 
 created by Jonny Rimkus <jonny@rimkus.it> www.rimkus.it
 //-->
-<html
-    xmlns="http://www.w3.org/1999/xhtml"   
->
+<html lang="{$LANG['lang.code']}">
 	<head>
 		<title>Last.fm YouTube Radio - Admin</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -31,7 +29,7 @@ created by Jonny Rimkus <jonny@rimkus.it> www.rimkus.it
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.js"></script>
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/mode/properties/properties.min.js"></script>
 		
-		<script type="text/javascript" src="{$BASE_PATH}/js/admin-pagefunctions.js"></script>
+		<script type="text/javascript" src="{$BASE_PATH}/js/page_functions_admin.js"></script>
 
 	</head>
 	

@@ -231,6 +231,7 @@ function charts_load() {
 
 function charts_setActiveRow(row) {
     charts_selected_row = row;
+	active_row = row;
 }
 
 function charts_addToPlaylist() {

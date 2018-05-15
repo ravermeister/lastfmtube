@@ -246,12 +246,18 @@ function outHover(){
 
 
 function initHotkeys(){
-	hotkeys = $("#hotkeys_title");
-	hotkeys.prop('title', messageResource.get('hotkeys.tooltip','locale',locale));
-	hotkeys.hover(inHover,outHover);
-	hotkeys.click(function(){
-	doClick('hotkeys');
+	hotkeys = $("#hotkeys_title");	
+	hotkeys.ready(function(){
+		setTimeout(function(){
+			hotkeys.prop('title', messageResource.get('site.tooltip.hideshow','locale',locale));
+		}, 50);
 	});
+	//hotkeys.prop('title', 'Show/Hide');
+	hotkeys.hover(inHover,outHover);
+	hotkeys.click(function(){		
+		doClick('hotkeys');
+	});
+	
 
 	$('#pagefield').keyup(function(e){
 		if(e.keyCode==13) loadPage('pagefield','playlistdata',totalpages);
@@ -294,14 +300,5 @@ function pageInit(){
 	$('#user_list').ready(function (){
 		setTimeout(userlist_loadPlaylist, 50);
 		//userlist_loadPlaylist();
-	});
-
-
-	//context menu init
-	$(function() {
-	      $(".cmenu_user").contextMenu( cmenu_user_base_menu , cmenu_user_base_options );
-	});
-	$(function() {
-		$(".cmenu_charts").contextMenu( cmenu_charts_base_menu , cmenu_charts_base_options );
-	});
+	});	
 }
