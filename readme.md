@@ -28,12 +28,12 @@ requirements:
 Installation:
 
 1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
-2. copy the file conf/example.settings to conf/settings.ini
-3. create a last.fm user with a Developer API key
-4. create a youtube user with a Developer API Key
-5. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin 
+2. run composer install
+3. copy the file conf/example.settings to conf/settings.ini
+4. create a last.fm user with a Developer API key
+5. create a youtube user with a Developer API Key
+6. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin 
    (default password is lfmtube) and adjust other settings as needed
-6. run composer install
 7. open http://example.com/lfmtube and enjoy
 
 
