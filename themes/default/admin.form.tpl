@@ -1,40 +1,40 @@
 <h1>Last.fm Youtube Radio</h1>
 {include file='admin.about.tpl'}
 
-<hr noshade="noshade" />
+<hr style="border-style: solid;" />
 		<div>
 			<h2>Configuration:</h2>
 
 			<h3>conf/settings.ini</h3>
 			<p>
-				* alternatively you can adjust these values manually in the <font style="font-weight:bold;font-style:italic;">settings.ini</font> 
-				file in the <font style="font-weight:bold;font-style:italic;">conf</font> directory
+				* alternatively you can adjust these values manually in the <span style="font-weight:bold;font-style:italic;">settings.ini</span> 
+				file in the <span style="font-weight:bold;font-style:italic;">conf</span> directory
 			</p>
 			<form action="admin.php" method="post">			
 			<table>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Base URL
-						</font><br />
+						</span><br />
 						the Base url from your Webserver url where lastfm Youtube Radio is saved. <br />
-						e.g <font style="font-weight:bold;font-style:italic;">/</font> 
+						e.g <span style="font-weight:bold;font-style:italic;">/</span> 
 						if it is directly under the document root
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['general']['baseurl']}" name="general_baseurl" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Language
-						</font><br />
+						</span><br />
 						the Display Language.
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<select name="general_lang" size="1">
 							{foreach from=$SUPPORTED_LOCALES item=LANG}	
@@ -48,43 +48,43 @@
 						</select>
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Logging Path
-						</font><br />
+						</span><br />
 						Absolute Path to a logging file (for future use, debug output etc.)
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['general']['logpath']}" name="general_logpath" /> 
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Youtube Player Size
-						</font><br />
+						</span><br />
 						The Youtube Player Window Width/Height in Pixel or Percent of page
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						Width: <input type="text" value="{$SETTINGS['general']['playerwidth']}" name="general_playerwidth" size="4" /> 
 						&nbsp;&nbsp;
 						Height: <input type="text" value="{$SETTINGS['general']['playerheight']}" name="general_playerheight" size="4" /> 
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Theme
-						</font><br />
+						</span><br />
 						The Theme for the Last.fm YouTube Player
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<select name="general_theme" size="1">
 							{foreach from=$SUPPORTED_THEMES item=THEME}	
@@ -98,15 +98,15 @@
 						</select>
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Context Menu Theme
-						</font><br />
+						</span><br />
 						The Theme for the Context menu						
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<select name="general_cmenutheme" size="1">
 							{foreach from=$SUPPORTED_CMENUTHEMES item=CMENUTHEME}	
@@ -120,152 +120,152 @@
 						</select>
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Last.fm default User
-						</font><br />
+						</span><br />
 						The playlist of this Last.fm user will be loaded as default
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['general']['lastfm_defaultuser']}" name="general_lastfm_defaultuser" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="60">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:60px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Database Connection url
-						</font><br />
+						</span><br />
 						The <a href="http://php.net/manual/de/pdo.construct.php" target="_blank">Database DSN</a> 
 						Connection String
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['database']['dsn']}" name="database_dsn" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Database Table prefix
-						</font><br />
+						</span><br />
 						this prefix is applied to all table names
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['database']['table_prefix']}" name="database_table_prefix" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						DB Username
-						</font><br />
+						</span><br />
 						The Database user for this Connection
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['database']['username']}" name="database_username" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						DB User password
-						</font><br />
+						</span><br />
 						The Database user password for this Connection
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="password" name="database_password" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="60">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:60px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Last.fm Username
-						</font><br />
+						</span><br />
 						The Last.fm User with the API Key for retrieving Song informations and doing search queries
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['lastfm']['user']}" name="lastfm_user" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Last.fm API Key
-						</font><br />
+						</span><br />
 						The Last.fm API Key for retrieving Song informations and doing search queries at last.fm
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['lastfm']['apikey']}" name="lastfm_apikey" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="60">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:60px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Youtube API Key
-						</font><br />
+						</span><br />
 						The Youtube API Key for doing search queries at youtube
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" value="{$SETTINGS['youtube']['apikey']}" name="youtube_apikey" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Youtube User (for 
 							<a href="https://developers.google.com/youtube/v3/guides/authentication" target="_blank">OAuth</a> 
 						login)
-						</font><br />
+						</span><br />
 						The Youtube User
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" name="youtube_user" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Youtube email (for 
 							<a href="https://developers.google.com/youtube/v3/guides/authentication" target="_blank">OAuth</a> 
 						login)
-						</font><br />
+						</span><br />
 						The Youtube Email
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" name="youtube_email" />
 					</td>
 				</tr>
-				<tr><td colspan="3" height="20">&nbsp;</td></tr>
+				<tr><td colspan="3" style="height:20px">&nbsp;</td></tr>
 				<tr>
 					<td>
-						<font style="font-weight:bold;font-style:italic;">
+						<span style="font-weight:bold;font-style:italic;">
 						Youtube Key file (for 
 							<a href="https://developers.google.com/youtube/v3/guides/authentication" target="_blank">OAuth</a> 
 						login)
-						</font><br />
+						</span><br />
 						The Youtube P12 Key File
 					</td>
-					<td width="20">&nbsp;</td>
+					<td style="width:20px;">&nbsp;</td>
 					<td style="vertical-align: top;">
 						<input type="text" name="youtube_keyfile" />
 					</td>

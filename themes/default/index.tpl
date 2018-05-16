@@ -23,8 +23,17 @@ encoding: UTF-8
 		<link rel="stylesheet" href="{$BASE_PATH}/themes/default/css/jquery.contextmenu.css" type="text/css" />
 		<link rel="stylesheet" href="{$BASE_PATH}/themes/default/css/styles.css" type="text/css" />		
 		
-		<script type="text/javascript">
-			
+		<script src="{$BASE_PATH}/js/messageResource.min.js"></script>		
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async="async" src="//www.googletagmanager.com/gtag/js?id=UA-26904270-14"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>		
+		<script src="{$BASE_PATH}/js/jquery/jquery.cookie.js"></script>
+		<script src="{$BASE_PATH}/js/jquery/jquery.contextmenu.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/hazzik-jquery.livequery/1.3.6/jquery.livequery.min.js"></script>   
+		<script>
+				
 			var startvideo = '{$startvideo['videoId']}';
 			var ytplayerwidth = '{$ytplayerwidth}';	
 			var ytplayerheight = '{$ytplayerheight}';	
@@ -35,79 +44,65 @@ encoding: UTF-8
 			var active_page = '{$current_page}';
 			var lastfm_user = '{$lastfm_user}';
 			var lastfm_user_visit = '{$lastfm_user_visit}';
+			var localeFilePath = '{$BASE_PATH}/locale/';
 			
 			start_track = new Object();
 			start_track.artist      = '{$startvideo['artist']|escape:"html"}';
 			start_track.title       = '{$startvideo['title']|escape:"html"}';
 			start_track.videoId     = '{$startvideo['videoId']}';
-		</script>				
 
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>		
-		<script type="text/javascript" src="{$BASE_PATH}/js/jquery/jquery.cookie.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/jquery/jquery.contextmenu.js"></script>
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hazzik-jquery.livequery/1.3.6/jquery.livequery.min.js"></script>   
-		<script type="text/javascript" src="{$BASE_PATH}/js/messageResource.min.js"></script>
+			{literal}
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
+				gtag('config', 'UA-26904270-14');
+
+				//load locale file
+				// initialize messageResource.js with settings
+				messageResource.init({
+				  // path to directory containing message resource files(.properties files),
+				  // give empty string or discard this configuration if files are in the
+				  // same directory as that of html file.
+				  filePath : localeFilePath
+				});
+				// will load the file moduleName_fr_FR.properties.
+				messageResource.load('locale', null, locale);		
+
+				$(document).ready(function(){
+					pageInit();
+				}); 
+			{/literal}
+		</script>				
 		
-		<script type="text/javascript" src="{$BASE_PATH}/js/page_functions.js"></script> 
-		<script type="text/javascript" src="{$BASE_PATH}/js/player.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/player_control.js"></script>		
-		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_default.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_user.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_charts.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/cmenu_functions.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/hotkeys.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/playlist_title.js"></script>     
-		<script type="text/javascript" src="{$BASE_PATH}/js/playlist_user.js"></script>
-		<script type="text/javascript" src="{$BASE_PATH}/js/playlist_topuser.js"></script>
+		<script src="{$BASE_PATH}/js/page_functions.js"></script> 
+		<script src="{$BASE_PATH}/js/player.js"></script>
+		<script src="{$BASE_PATH}/js/player_control.js"></script>		
+		<script src="{$BASE_PATH}/js/cmenu_default.js"></script>
+		<script src="{$BASE_PATH}/js/cmenu_user.js"></script>
+		<script src="{$BASE_PATH}/js/cmenu_charts.js"></script>
+		<script src="{$BASE_PATH}/js/cmenu_functions.js"></script>
+		<script src="{$BASE_PATH}/js/hotkeys.js"></script>
+		<script src="{$BASE_PATH}/js/playlist_title.js"></script>     
+		<script src="{$BASE_PATH}/js/playlist_user.js"></script>
+		<script src="{$BASE_PATH}/js/playlist_topuser.js"></script>
 	</head>
 	<body>
-{literal}
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async="async" src="//www.googletagmanager.com/gtag/js?id=UA-26904270-14"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-26904270-14');
-</script>
-{/literal}
 
 <!--// fork me on github logo // -->
 <a href="https://github.com/ravermeister/lastfmtube" target="_blank">
 <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" />
 </a>
 
-                            <h2 align="center"><a href="//www.last.fm/user/{$lastfm_user}" id="lastfm_user_title_url" target="_blank">
+				<h2 style="text-align:center;"><a href="//www.last.fm/user/{$lastfm_user}" id="lastfm_user_title_url" target="_blank">
 				<span id="lastfm_user_title">{$lastfm_user}</span></a>'s {$LANG['site.header.lastfmuser.suffix']}
 			   </h2>                                                        
                                 
                                 
 				{* youtube embed: html5 method *}
-				<div  style="text-align:center;align:center;">
+				<div  style="text-align:center;margin-left:auto;margin-right:auto;">
 				    <div id="player"></div>  
 				</div>	
-		
-                                <script type="text/javascript">
-			
-			
-			// initialize messageResource.js with settings
-			messageResource.init({
-			  // path to directory containing message resource files(.properties files),
-			  // give empty string or discard this configuration if files are in the
-			  // same directory as that of html file.
-			  filePath : '{$BASE_PATH}/locale/'
-			});
-			// will load the file moduleName_fr_FR.properties.
-			messageResource.load('locale', null, locale);		
-			
-			$(document).ready(function(){
-				pageInit();
-			}); 
-                                </script>  
-		
+				
                                 <br />
                                 <div>                                    
                                     <span id="hotkeys_title">+ {$LANG['hotkeys.title']}</span>
@@ -170,7 +165,7 @@ encoding: UTF-8
 			</div>
 
         <div class="footer">
-                <a href="//validator.w3.org/check?uri=referer" target="_blank"><img src="//www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+                <a href="//validator.w3.org/check?uri=referer" target="_blank"><img src="https://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png" width="110" height="43" alt="HTML5 Powered with CSS3 / Styling, and Semantics" title="HTML5 Powered with CSS3 / Styling, and Semantics"></a>
                 &nbsp;
                 <a href="http://www.wtfpl.net/" target="_blank"><img src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/></a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;

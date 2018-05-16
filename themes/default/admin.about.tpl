@@ -23,14 +23,14 @@ You can use the hotkeys to control the player.
 	<table class="requirements">
 		<tr>
 			<td>PHP >= 5.6</td>
-			<td width="20">&nbsp;</td>					
+			<td style="width:20px;">&nbsp;</td>					
 			<td id="req_php_version">
 				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>
 		<tr>
 			<td>PHP PDO SQLite or Mysql (any PDO DB should work, but untested)</td>		
-			<td width="20">&nbsp;</td>
+			<td style="width:20px;">&nbsp;</td>
 			<td id="req_db_pdo">
 				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
@@ -41,24 +41,24 @@ You can use the hotkeys to control the player.
 			YouTube (Google) developer Account</a>, <br/>
 			you need the API Key for doing automated search queries on youtube,<br/>and embed the player to your site
 			</td>
-			<td width="20">&nbsp;</td>
+			<td style="width:20px;">&nbsp;</td>
 			<td id="req_yt_api">
 				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>				
 		<tr>
 			<td>
-			last.fm API  <a href="https://www.last.fm/api/account/create"target="_blank">User</a>  
+			last.fm API  <a href="https://www.last.fm/api/account/create" target="_blank">User</a>  
 			with <a href="https://www.last.fm/api" target="_blank">API Key</a>
 			</td>
-			<td width="20">&nbsp;</td>
+			<td style="width:20px;">&nbsp;</td>
 			<td id="req_lfm_api">
 				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>
 		<tr>
 			<td>Database Connection</td>		
-			<td width="20">&nbsp;</td>
+			<td style="width:20px;">&nbsp;</td>
 			<td id="req_db_con">
 				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>

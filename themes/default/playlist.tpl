@@ -2,23 +2,14 @@
 encoding: UTF-8
 //-->
 <div class="playlistcontainer">
-<script type="text/javascript">
-<!--//
-$(function() {
-      $(".cmenu_default").contextMenu( cmenu_default_base_menu , cmenu_default_base_options );
-});
-initPlaylistDnD();
-//-->
-</script>
-
 <table class="pure-table pure-table-horizontal" id="playlistdata">
 <thead>
 	<tr>
-		<th align="left">&nbsp;</th>
-		<th align="left">{$LANG['playlist.header.nr']}</th>
-		<th align="left">{$LANG['playlist.header.artist']}</th>
-		<th align="left">{$LANG['playlist.header.title']}</th>
-		<th align="left">{$LANG['playlist.header.lastplay']}</th>
+		<th style="text-align:left;">&nbsp;</th>
+		<th style="text-align:left;">{$LANG['playlist.header.nr']}</th>
+		<th style="text-align:left;">{$LANG['playlist.header.artist']}</th>
+		<th style="text-align:left;">{$LANG['playlist.header.title']}</th>
+		<th style="text-align:left;">{$LANG['playlist.header.lastplay']}</th>
 	</tr>
 </thead>
 <tbody class="cmenu_default">
@@ -61,7 +52,7 @@ initPlaylistDnD();
 </div> <!--// playlistcontainer //-->
 
 {if $current_play!='none'}
-<script type="text/javascript">
+<script>
 setCurrentPlay(document.getElementById('{$current_play}'));    
 </script>
 {/if}

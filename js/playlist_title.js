@@ -9,7 +9,7 @@ function charts_setActive(state) {
     chartcounter_active = state;
 }
 
-function charts_setCurrentTrack(trackdata) {
+function charts_setCurrentTrack(trackdata) {	
     if(current_track==null||current_track.title!=trackdata.title||current_track.artist!=trackdata.artist) {
         current_track           = trackdata;
         current_track.timer     = null;    

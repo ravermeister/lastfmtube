@@ -287,11 +287,11 @@ function pageInit(){
 	setPageCount(totalpages);
 	initPlaylistDnD();
 
-	$('#charts_list').ready(function(){
-		setTimeout(charts_load(), 50);
+	$('#charts_list').ready(function(){		
 		//charts_load();
-		charts_setActive(chartcounter);
 		charts_setCurrentTrack(start_track);
+		charts_setActive(chartcounter);				
+		setTimeout(charts_load(), 50);
 	});
 	$('#topuser_list').ready(function(){
 		setTimeout(topusers_load, 50);
