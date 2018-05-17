@@ -89,7 +89,7 @@ encoding: UTF-8
 	<body>
 
 <!--// fork me on github logo // -->
-<a href="https://github.com/ravermeister/lastfmtube" target="_blank">
+<a href="//github.com/ravermeister/lastfmtube" target="_blank">
 <img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" />
 </a>
 
@@ -167,7 +167,7 @@ encoding: UTF-8
         <div class="footer">
                 <a href="//validator.w3.org/check?uri=referer" target="_blank"><img src="https://www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png" width="110" height="43" alt="HTML5 Powered with CSS3 / Styling, and Semantics" title="HTML5 Powered with CSS3 / Styling, and Semantics"></a>
                 &nbsp;
-                <a href="http://www.wtfpl.net/" target="_blank"><img src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/></a>
+                <a href="//www.wtfpl.net/" target="_blank"><img src="//www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/></a>
                 &nbsp;&nbsp;|&nbsp;&nbsp;
                 <span style="vertical-align:middle;text-align:center;">
                 &copy;2017 <a href="https://www.rimkus.it" target="_blank">Jonny Rimkus</a> &lt;<a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>&gt;

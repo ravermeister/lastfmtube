@@ -41,6 +41,7 @@ table thead{
 .playlist-menu {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	overflow-x: auto;
 }
 
 /** playlists **/
@@ -68,10 +69,12 @@ table thead{
 .playlist-container table thead tr {
         background-color: lightblue;
 }
+.userlist tbody td:nth-child(2),
 .userlist tbody td:nth-child(3),
+.playlist tbody td:nth-child(3),
 .playlist tbody td:nth-child(4),
-.charts tbody td:nth-child(3)
- {
+.charts tbody td:nth-child(2),
+.charts tbody td:nth-child(3) {
 	word-break:break-all;
 }
 /** end playlists **/
