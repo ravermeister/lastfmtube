@@ -3,11 +3,14 @@ var custom_video_active = false;
 var custom_video_default_textval = 'video id...';
 
 //init contextmenu	
-$(function(){	
-	$(".cmenu_default").contextMenu( cmenu_default_base_menu , cmenu_default_base_options );
-	$(".cmenu_charts").contextMenu( cmenu_charts_base_menu , cmenu_charts_base_options );	
-	$(".cmenu_user").contextMenu( cmenu_user_base_menu , cmenu_user_base_options );	
-});	
+function initContextMenu(){
+	$(function(){	
+		$(".cmenu_default").contextMenu( cmenu_default_base_menu , cmenu_default_base_options );
+		$(".cmenu_charts").contextMenu( cmenu_charts_base_menu , cmenu_charts_base_options );	
+		$(".cmenu_user").contextMenu( cmenu_user_base_menu , cmenu_user_base_options );	
+	});	
+}
+
 
 function resetVars(){
 	

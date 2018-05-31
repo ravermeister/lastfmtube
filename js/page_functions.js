@@ -38,7 +38,7 @@ function initPlaylistDnD(){
 }
 
 function initToggle(){
-
+	
 	charts_title = $("#charts_title");
 	charts_title.unbind('hover');
 	charts_title.unbind('click');
@@ -283,6 +283,7 @@ function initHotkeys(){
 
 function pageInit(){
 	initToggle();
+	initContextMenu();
 	initHotkeys();
 	setPageCount(totalpages);
 	initPlaylistDnD();

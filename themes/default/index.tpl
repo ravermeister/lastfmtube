@@ -29,9 +29,9 @@ encoding: UTF-8
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/hazzik-jquery.livequery/1.3.6/jquery.livequery.min.js"></script>   
 		<script src="{$BASE_PATH}/js/jquery/jquery.cookie.js"></script>
 		<script src="{$BASE_PATH}/js/jquery/jquery.contextmenu.js"></script>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/hazzik-jquery.livequery/1.3.6/jquery.livequery.min.js"></script>   
 		<script>
 				
 			var startvideo = '{$startvideo['videoId']}';

@@ -326,6 +326,7 @@ function loadPlaylist(page,elem_id,autoplay) {
             }   
         }
 	initToggle();
+	initContextMenu();
         if(autoplay) loadNextSong();
 	loadPlaylistTimer = false;
     });
