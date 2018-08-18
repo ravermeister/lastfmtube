@@ -24,7 +24,7 @@ encoding: UTF-8
 		<link rel="stylesheet" href="{$BASE_PATH}/themes/dark/css/styles.css" type="text/css" />		
 		
 		
-		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.contentWindow.min.js"></script>		
 		
 		<script src="{$BASE_PATH}/js/messageResource.min.js"></script>		
 		<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -174,7 +174,7 @@ encoding: UTF-8
 	<div class="footer">
 		<a href="//validator.w3.org/check?uri=referer" target="_blank"><img src="//www.w3.org/html/logo/badge/html5-badge-h-css3-semantics.png" width="110" height="43" alt="HTML5 Powered with CSS3 / Styling, and Semantics" title="HTML5 Powered with CSS3 / Styling, and Semantics"></a>
 		&nbsp;
-		<a href="//www.wtfpl.net/" target="_blank"><img src="//www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/></a>
+		<a href="http://www.wtfpl.net/" target="_blank"><img src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/></a>
 		&nbsp;&nbsp;|&nbsp;&nbsp;
 		<span style="vertical-align:middle;text-align:center;">
 		&copy;2017 <a href="//www.rimkus.it" target="_blank">Jonny Rimkus</a> &lt;<a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>&gt;

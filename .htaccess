@@ -1,0 +1,2 @@
+Header set X-Frame-Options: "ALLOW-FROM https://www.rimkus.it/www_rimkus/index.php?action=act_music"
+#Header always set Content-Security-Policy "frame-ancestors 'self' lastfm.rimkus.it ;"
