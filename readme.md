@@ -32,7 +32,7 @@ Installation:
 3. copy the file conf/example.settings to conf/settings.ini
 4. create a last.fm user with a Developer API key
 5. create a youtube user with a Developer API Key
-6. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin 
+6. enter the API keys in the settings.ini or under http://example.com/lfmtube/admin.php
    (default password is lfmtube) and adjust other settings as needed
 7. open http://example.com/lfmtube and enjoy
 
