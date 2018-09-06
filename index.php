@@ -1,8 +1,12 @@
 <?php
 # encoding: UTF-8
 
-require_once 'includes/bootstrap.php';
-$lastvisit = DB::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
+require_once 'php/util/bootstrap.php';
+
+use LastFmTube\Util\Db;
+use LastFmTube\Util\Functions;
+
+$lastvisit = Db::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
 
 
 $page=1;
@@ -14,29 +18,36 @@ $playlist       = $lastfm->getRecentlyPlayed($page,$pagecnt);
 $tracklist      = $playlist->getTracks();
 
 $final_tracklist = array();
+$startvideo = array();
 
 for($i=0;$i<sizeof($tracklist);$i++) {
+    /**
+     * @var \lfmtube\util\lfmapi\Track $track
+     */
 	$track 		= $tracklist[$i];	
 	$track->title 	= Functions::getInstance()->prepareNeedle($track->title);
 	$track->artist	= Functions::getInstance()->prepareNeedle($track->artist);
 	$track->album	= Functions::getInstance()->prepareNeedle($track->album);	
 	$needle         = Functions::getInstance()->prepareNeedle($track->artist.' '.$track->title);
 	$video_id=DB::getInstance()->getEnvVar($needle);    
-	
+
     if($video_id!=''&&$video_id!='undefined') {    
-        if(!isset($startvideo)) {
+        if(sizeof($startvideo)==0) {
             $startvideo['videoId']      = $video_id;
             $startvideo['videoIndex']   = $i;
             $startvideo['artist']       = $track->artist;
             $startvideo['title']        = $track->title;
         }
         $final_tracklist[] = array('artist'=>$track->artist,'title'=>$track->title,'dateofplay'=>$track->dateofplay,'isplaying'=>(($track->isPlaying())?true:false),'video_id'=>$video_id);
-    } else if(!isset($startvideo)) {
+    } else if(sizeof($startvideo)==0)  {
         $searcher->setNeedle($needle);
         $searcher->search();
         $search_result = $searcher->getVideoList();
 
         if(sizeof($search_result)>0) {
+            /**
+             * @var YoutubeVideo $video
+             */
             $video                          = $search_result[0];
             $startvideo['videoId']          = $video->getVideoID();
             $startvideo['videoIndex']       = $i;
@@ -66,6 +77,3 @@ $smarty->assign('startvideo',$startvideo);
 $smarty->assign('autostart',true);
 $smarty->assign('tracklist',$final_tracklist);
 $smarty->display('index.tpl');
-
-
-?>

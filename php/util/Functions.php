@@ -1,7 +1,13 @@
 <?php
+
+namespace LastFmTube\Util;
+
+use Exception;
+
 class Functions {
 
-	private static $instance;	
+	private static $instance;
+	private $basedir = false;
 	private $settings = false;
 	private $settingsFile = false;
 	private $replacements = false;
@@ -9,6 +15,7 @@ class Functions {
 	
 	private function __construct($file=false){
 		$this->settingsFile = $file;
+		$this->basedir = dirname(__FILE__).'/../..';
 		$this->initSettings();
 		$this->initReplacements();
 	}
@@ -16,7 +23,7 @@ class Functions {
 	private function initSettings($force=false){
 		if(!$force && is_array($this->settings)) return;
 		
-		if($this->settingsFile===false) $this->settingsFile=dirname(__FILE__).'/../conf/settings.ini';
+		if($this->settingsFile===false) $this->settingsFile=$this->basedir.'/conf/settings.ini';
 		if (!$this->settings = parse_ini_file($this->settingsFile, TRUE)) throw new exception('Unable to open ' . $this->settingsFile . '.');
 	}
 
@@ -24,9 +31,9 @@ class Functions {
 	private function initReplacements($force=false) {
 		if(!$force && is_array($this->replacements)) return;
 		
-		if($this->replacementFile===false) $this->replacementFile=dirname(__FILE__).'/../conf/replace_strings.txt';		
+		if($this->replacementFile===false) $this->replacementFile=$this->basedir.'/conf/replace_strings.txt';
 		$lines = file ( $this->replacementFile );
-		if($lines === false) throw new exception('Unable to open ' . $this-replacementFile . '.');	
+		if($lines === false) throw new exception('Unable to open ' . $this->replacementFile . '.');
 		
 		foreach ( $lines  as $line ) {
 		    if (substr ( trim($line), 0, 1 ) === "#") continue;
@@ -39,7 +46,7 @@ class Functions {
 	
 	public static function getInstance() {
 		if ( is_null( self::$instance ) ) {
-			self::$instance = new Functions();
+			self::$instance = new static();
 		}
 		return self::$instance;
 	}	
@@ -61,18 +68,17 @@ class Functions {
 			if ( version_compare(phpversion(), '5.4.0', '>=') ) $started = session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;			
 			else  $started = session_id() === '' ? FALSE : TRUE;		
 		}
-		$started = FALSE;
 		if($started) return;
 		session_start();
 	}
 
 
 	public function logMessage($msg) {
-		Functions::getInstance()->initSettings();
-		$logfile = fopen(Functions::getInstance()->settings['general']['logpath'],'a+');
+		self::getInstance()->initSettings();
+		$logfile = fopen(self::getInstance()->settings['general']['logpath'],'a+');
 
 		$prefix = date('d.m.Y H:i:s');
-		$msgArr = explode("\n",Functions::br2nl($msg));
+		$msgArr = explode("\n",self::br2nl($msg));
 		for($i=0;$i<sizeof($msgArr);$i++) {
 			if(strlen($msgArr[$i]) > 0)
 				fwrite($logfile,$prefix."\t".$msgArr[$i]."\r\n");
@@ -81,7 +87,7 @@ class Functions {
 	}
 	
 	public function prepareNeedle($needle) {
-		Functions::getInstance()->initReplacements();
+        self::getInstance()->initReplacements();
 		$needle = html_entity_decode(strip_tags(trim ( $needle )), ENT_QUOTES | ENT_HTML5);	
 		if(is_array($this->replacements)) {
 		        foreach ( $this->replacements as $key => $value ) {
@@ -93,8 +99,8 @@ class Functions {
  	
 	public function loadLangFile() {
 		return parse_ini_file(
-			dirname(__FILE__).'/../locale/locale_'.
-			Functions::getInstance()->settings['general']['lang'].'.properties'
+			$this->basedir.'/locale/locale_'.
+			self::getInstance()->settings['general']['lang'].'.properties'
 		);
 	}
 	
@@ -148,8 +154,7 @@ class Functions {
 			";user = info@rimkus.it\n"
 		);
 		fclose($fh);
-		Functions::getInstance()->initSettings(true);
+        self::getInstance()->initSettings(true);
 	}
 
 }
-?>
