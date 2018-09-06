@@ -9,7 +9,7 @@ use Exception;
 use Smarty;
 use LastFmTube\Util\lfmapi\LastFm;
 use LastFmTube\Util\ytapi\YoutubeSearch;
-use LastFmTube\Util\Functions;
+
 
 $file = $basedir.'/conf/settings.ini';
 if (! $settings = parse_ini_file ( $file, TRUE ))
