@@ -47,4 +47,3 @@ function onYouTubeIframeAPIReady() {
     });
 
 }
-<!--// End of youtube embed: html5 method //-->

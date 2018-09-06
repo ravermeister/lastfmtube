@@ -1,8 +1,26 @@
 {
-    "name": "ravermeister/lfmtube",
-    "require": {
-        "google/apiclient": "^2.0",
-	"smarty/smarty": "^3.1",
-	"sunra/php-simple-html-dom-parser": "dev-master"
-    }
+	"name" : "LastfmTube",
+	"require" : {
+        "php": ">=5.6",
+		"google/apiclient" : ">=2.0",
+		"smarty/smarty" : ">=3.1",
+		"sunra/php-simple-html-dom-parser" : "dev-master",
+        "ext-pdo": "*",
+        "ext-json":"*"
+	},
+	"support" : {
+		"email" : "jonny@rimkus.it",
+		"forum" : "http://www.rimkus.it"
+	},
+
+    "autoload": {
+
+      "psr-4": {
+        "LastFmTube\\": "php/"
+      }
+    },
+
+	"description" : "Lastfm YouTube Radio",
+	"homepage" : "http://lastfm.rimkus.it",
+	"license" : "http://www.wtfpl.net"
 }
