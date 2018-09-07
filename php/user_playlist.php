@@ -3,6 +3,10 @@ if (! isset ( $_GET ['action'] ))
     return;
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
+use LastFmTube\Util\Functions;
+
+Functions::getInstance()->startSession();
+
 switch ($_GET ['action']) {
     case 'list' :
         {

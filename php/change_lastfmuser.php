@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../vendor/autoload.php';
 use LastFmTube\Util\lfmapi\RecentlyPlayed;
 use LastFmTube\Util\lfmapi\Track;
 use LastFmTube\Util\Functions;
-
+use LastFmTube\Util\Db;
 $page = 1;
 $pagecnt = 25;
 
@@ -29,6 +29,7 @@ if (isset ( $_POST ['lastfm_user'] )) {
 $lastfm = Functions::getInstance()->getLfmApi();
 $smarty = Functions::getInstance()->getSmarty();
 $searcher = Functions::getInstance()->getYtApi();
+$settings = Functions::getInstance()->getSettings();
 
 /**
  * @var  LastFm $lastfm

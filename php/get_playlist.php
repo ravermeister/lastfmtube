@@ -1,7 +1,7 @@
 <?php
 // encoding: UTF-8
 
-namespace LastFmTube\Util;
+use LastFmTube\Util\Functions;
 
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
