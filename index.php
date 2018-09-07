@@ -4,6 +4,7 @@ require_once 'vendor/autoload.php';
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
+die(print_r($_SESSION));
 $lastvisit      = Db::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
 $control        = Functions::getInstance();
 $lastfm         = $control->getLfmApi();
