@@ -15,15 +15,9 @@ class Functions {
     private        $settingsFile    = false;
     private        $replacements    = false;
     private        $replacementFile = false;
-
-    /**
-     * @var LastFm $lfmapi
-     */
-    private $lfmapi = null;
-    /**
-     * @var YoutubeSearch $ytapi
-     */
-    private $ytapi = null;
+    private        $smarty          = null;
+    private        $lfmapi          = null;
+    private        $ytapi           = null;
 
 
     private function __construct($file = false) {
@@ -32,6 +26,37 @@ class Functions {
         $this->initSettings();
         $this->initReplacements();
         $this->initInstances();
+    }
+
+    private function initSettings($force = false) {
+        if (!$force && is_array($this->settings)) return;
+
+        if ($this->settingsFile === false) $this->settingsFile = $this->basedir . '/conf/settings.ini';
+        if (!$this->settings = parse_ini_file($this->settingsFile, true)) throw new exception('Unable to open ' .
+                                                                                              $this->settingsFile . '.'
+        );
+
+        if (strncmp($this->settings ['general'] ['baseurl'], '/', strlen($this->settings ['general'] ['baseurl'])) ===
+            0) {
+            $this->settings ['general'] ['baseurl'] = substr($this->settings ['general'] ['baseurl'], 1);
+        }
+    }
+
+
+    private function initReplacements($force = false) {
+        if (!$force && is_array($this->replacements)) return;
+
+        if ($this->replacementFile === false) $this->replacementFile = $this->basedir . '/conf/replace_strings.txt';
+        $lines = file($this->replacementFile);
+        if ($lines === false) throw new exception('Unable to open ' . $this->replacementFile . '.');
+
+        foreach ($lines as $line) {
+            if (substr(trim($line), 0, 1) === "#") continue;
+            $line  = str_replace(array("\r", "\n", "\r\n"), "", $line);
+            $entry = explode("=", $line, 2);
+            if (sizeof($entry) < 2) $entry[1] = '';
+            $this->replacements [$entry [0]] = $entry [1];
+        }
     }
 
     private function initInstances() {
@@ -43,7 +68,6 @@ class Functions {
 
         $this->smarty->assign('BASE_PATH', $this->settings ['general'] ['baseurl']);
         $this->smarty->assign('LOCALE', $this->settings ['general'] ['lang']);
-        $this->smarty->assign('LANG', $this->loadLangFile());
         $this->smarty->assign('ytplayerwidth', $this->settings ['general'] ['playerwidth']);
         $this->smarty->assign('ytplayerheight', $this->settings ['general'] ['playerheight']);
         $this->smarty->assign('cmenutheme', $this->settings ['general'] ['cmenutheme']);
@@ -76,61 +100,17 @@ class Functions {
     }
 
     /**
+     * @return Smarty
+     */
+    public function getSmarty(){
+        return $this->smarty;
+    }
+
+    /**
      * @return mixed
      */
     public function getSettings() {
         return $this->settings;
-    }
-
-    private function initSettings($force = false) {
-        if (!$force && is_array($this->settings)) return;
-
-        if ($this->settingsFile === false) $this->settingsFile = $this->basedir . '/conf/settings.ini';
-        if (!$this->settings = parse_ini_file($this->settingsFile, true)) throw new exception('Unable to open ' .
-                                                                                              $this->settingsFile . '.'
-        );
-
-        if (strncmp($this->settings ['general'] ['baseurl'], '/', strlen($this->settings ['general'] ['baseurl'])) ===
-            0) {
-            $this->settings ['general'] ['baseurl'] = substr($this->settings ['general'] ['baseurl'], 1);
-        }
-
-        $this->loadLangFile();
-    }
-
-
-    private function initReplacements($force = false) {
-        if (!$force && is_array($this->replacements)) return;
-
-        if ($this->replacementFile === false) $this->replacementFile = $this->basedir . '/conf/replace_strings.txt';
-        $lines = file($this->replacementFile);
-        if ($lines === false) throw new exception('Unable to open ' . $this->replacementFile . '.');
-
-        foreach ($lines as $line) {
-            if (substr(trim($line), 0, 1) === "#") continue;
-            $line  = str_replace(array("\r", "\n", "\r\n"), "", $line);
-            $entry = explode("=", $line, 2);
-            if (sizeof($entry) < 2) $entry[1] = '';
-            $this->replacements [$entry [0]] = $entry [1];
-        }
-    }
-
-    public static function getInstance() {
-        if (is_null(self::$instance)) {
-            self::$instance = new Functions();
-        }
-        return self::$instance;
-    }
-
-    public static function br2nl($text, $tags = "br") {
-        $tags = explode(" ", $tags);
-
-        foreach ($tags as $tag) {
-            $text = preg_replace("/<" . $tag . "[^>]*>/i", "\n", $text);
-            $text = preg_replace("/<\/" . $tag . "[^>]*>/i", "\n", $text);
-        }
-
-        return ($text);
     }
 
     public function startSession() {
@@ -155,7 +135,6 @@ class Functions {
         self::$instance->lfmapi->setUser($_SESSION ['music'] ['lastfm_user']);
     }
 
-
     public function logMessage($msg) {
         self::$instance->initSettings();
         $logfile = fopen(self::getInstance()->settings['general']['logpath'], 'a+');
@@ -168,6 +147,24 @@ class Functions {
         fclose($logfile);
     }
 
+    public static function getInstance() {
+        if (is_null(self::$instance)) {
+            self::$instance = new Functions();
+        }
+        return self::$instance;
+    }
+
+    public static function br2nl($text, $tags = "br") {
+        $tags = explode(" ", $tags);
+
+        foreach ($tags as $tag) {
+            $text = preg_replace("/<" . $tag . "[^>]*>/i", "\n", $text);
+            $text = preg_replace("/<\/" . $tag . "[^>]*>/i", "\n", $text);
+        }
+
+        return ($text);
+    }
+
     public function prepareNeedle($needle) {
         self::getInstance()->initReplacements();
         $needle = html_entity_decode(strip_tags(trim($needle)), ENT_QUOTES | ENT_HTML5);
@@ -177,11 +174,6 @@ class Functions {
             }
         }
         return $needle;
-    }
-
-    private function loadLangFile() {
-        return parse_ini_file($this->basedir . '/locale/locale_' . $this->settings['general']['lang'] . '.properties'
-        );
     }
 
     public function saveConfig($config = false) {
