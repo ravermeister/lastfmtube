@@ -9,26 +9,26 @@ class RecentlyPlayed {
     var $page;
     var $totalpages;
     var $itemcount;
-    var $items = array ();
+    var $items = array();
 
     /**
      * RecentlyPlayed constructor.
      * @param simple_html_dom $html
-     * @param $invalidStrings
+     * @param                 $invalidStrings
      */
     function __construct($html, $invalidStrings) {
         /**
          * @var simple_html_dom $elem
          */
-        $elem = $html->find ( 'recenttracks ', 0 );
+        $elem = $html->find('recenttracks ', 0);
 
-        $this->page = $elem->page;
+        $this->page       = $elem->page;
         $this->totalpages = $elem->totalpages;
-        $this->itemcount = $elem->perPage;
+        $this->itemcount  = $elem->perPage;
 
-        $tracks = $html->find ( 'track' );
-        foreach ( $tracks as $track ) {
-            $trackobj = new Track ( $track, $invalidStrings );
+        $tracks = $html->find('track');
+        foreach ($tracks as $track) {
+            $trackobj       = new Track ($track, $invalidStrings);
             $this->items [] = $trackobj;
         }
     }
@@ -39,9 +39,9 @@ class RecentlyPlayed {
 
     function getPlayingTrack() {
         $playing = '';
-        for($i = 0; $i < sizeof ( $this->items ); $i ++) {
+        for ($i = 0; $i < sizeof($this->items); $i++) {
             $track = $this->items [$i];
-            if ($track->isPlaying ()) {
+            if ($track->isPlaying()) {
                 $playing = $track;
                 break;
             }

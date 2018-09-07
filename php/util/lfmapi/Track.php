@@ -30,24 +30,29 @@ class Track {
     /**
      * Track constructor.
      * @param simple_html_dom_node $trackxml
-     * @param $invalidNames
+     * @param                      $invalidNames
      */
     function __construct($trackxml, $invalidNames) {
-        $myArtist = $trackxml->children ( 0 )->innertext;
-        $myTitle = $trackxml->children ( 1 )->innertext;
-        $myAlbum = $trackxml->children ( 4 )->innertext;
+        $myArtist = $trackxml->children(0)->innertext;
+        $myTitle  = $trackxml->children(1)->innertext;
+        $myAlbum  = $trackxml->children(4)->innertext;
 
-        $this->artist = html_entity_decode ( ((array_key_exists ( $myArtist, $invalidNames )) ? $invalidNames [$myArtist] : $myArtist), ENT_QUOTES | ENT_HTML5 );
-        $this->title = html_entity_decode ( ((array_key_exists ( $myTitle, $invalidNames )) ? $invalidNames [$myTitle] : $myTitle), ENT_QUOTES | ENT_HTML5 );
-        $this->album = html_entity_decode ( ((array_key_exists ( $myAlbum, $invalidNames )) ? $invalidNames [$myAlbum] : $myAlbum), ENT_QUOTES | ENT_HTML5 );
+        $this->artist = html_entity_decode(((array_key_exists($myArtist, $invalidNames
+        )) ? $invalidNames [$myArtist] : $myArtist), ENT_QUOTES | ENT_HTML5
+        );
+        $this->title  = html_entity_decode(((array_key_exists($myTitle, $invalidNames
+        )) ? $invalidNames [$myTitle] : $myTitle), ENT_QUOTES | ENT_HTML5
+        );
+        $this->album  = html_entity_decode(((array_key_exists($myAlbum, $invalidNames
+        )) ? $invalidNames [$myAlbum] : $myAlbum), ENT_QUOTES | ENT_HTML5
+        );
 
         // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
         $play_timestamp = 0;
-        if ($trackxml->children ( 10 ) !== null) {
-            $play_timestamp = $trackxml->children ( 10 )->uts;
+        if ($trackxml->children(10) !== null) {
+            $play_timestamp = $trackxml->children(10)->uts;
         }
-        if ($play_timestamp > 0)
-            $this->dateofplay = date ( 'd.m.Y H:i:s', $play_timestamp );
+        if ($play_timestamp > 0) $this->dateofplay = date('d.m.Y H:i:s', $play_timestamp);
         else
             $this->dateofplay = "Jetzt!"; // timestamp 0 means currently playing!
         $this->isplaying = $trackxml->nowplaying;

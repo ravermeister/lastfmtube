@@ -9,7 +9,6 @@
 namespace LastFmTube\json;
 
 use LastFmTube\Util\Functions;
-use LastFmTube\Util\lfmapi\LastFm;
 
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
@@ -30,13 +29,13 @@ switch ($_GET['api']) {
         $json = new LastFmJson();
         break;
     default:
-        DefaultJson::baseError('unbekannter Api Endpunkt: '.$_GET['api']);
+        DefaultJson::baseError('unbekannter Api Endpunkt: ' . $_GET['api']);
         break;
 
 }
 
 $getvars = Functions::getInstance()->requestVars('GET');
-$output = '';
+$output  = '';
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         $json->setMethod('GET');
@@ -46,13 +45,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         $json->setMethod('PUT');
         $postvars = Functions::getInstance()->requestVars('POST');
-        $output = $json->post($getvars, $postvars);
+        $output   = $json->post($getvars, $postvars);
         break;
 
     case 'PUT':
         $json->setMethod('PUT');
         $postvars = Functions::getInstance()->requestVars('PUT');
-        $output = $json->put($getvars, $postvars);
+        $output   = $json->put($getvars, $postvars);
         break;
 
     case 'DELETE':
@@ -61,7 +60,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     default:
-        $output = $json->jsonError('unbekannte Action:'.$_SERVER['REQUEST_METHOD']);
+        $output = $json->jsonError('unbekannte Action:' . $_SERVER['REQUEST_METHOD']);
         break;
 }
 

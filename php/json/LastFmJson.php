@@ -28,7 +28,7 @@ class LastFmJson extends DefaultJson {
 
         $_SESSION ['music'] ['lastfm_user'] = $newUser;
         Functions::getInstance()->getLfmApi()->setUser($newUser);
-        $data['user'] = $newUser;
+        $data['user']   = $newUser;
         $data['status'] = 'changed';
         return $this->jsonData($data);
     }

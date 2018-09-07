@@ -2,103 +2,106 @@
 encoding: UTF-8
 */
 body {
-	margin: 10px;
+    margin: 10px;
 }
 
 /** table config **/
 table thead {
-	font-weight: bold;
+    font-weight: bold;
 }
+
 /**** end table config ***/
 .dragelem {
-	color: white;
-	background-color: lightblue;
+    color: white;
+    background-color: lightblue;
 }
 
 #hotkeys_view {
-	text-align: left;
-	border: 1px solid #686868;
-	padding: 10px;
-	margin-top: 10px;
-	display: none;
+    text-align: left;
+    border: 1px solid #686868;
+    padding: 10px;
+    margin-top: 10px;
+    display: none;
 }
 
 .playercontrol {
-	border: 1px solid #686868;
-	padding: 15px;
+    border: 1px solid #686868;
+    padding: 15px;
 }
 
 .lastfmuser {
-	float: left;
+    float: left;
 }
 
 .pages {
-	display: inline-block;
-	position: relative;
-	left: 15px;
+    display: inline-block;
+    position: relative;
+    left: 15px;
 }
 
 .playlist-menu {
-	margin-top: 10px;
-	margin-bottom: 10px;
-	overflow-x: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow-x: auto;
 }
 
 /** playlists **/
 .playlist-container {
-	width: 100%;
-	padding: 10px;
+    width: 100%;
+    padding: 10px;
 }
 
 .playlist-container .playlist-main {
-	float: left;
-	margin-right: 10px;
-	width: 100%;
+    float: left;
+    margin-right: 10px;
+    width: 100%;
 }
 
 .playlist-container .playlist-sidebar {
-	float: left;
-	width: 0%;
+    float: left;
+    width: 0%;
 }
 
 .playlist-container table {
-	width: 100%;
+    width: 100%;
 }
 
 .playlist-container table tbody tr:hover {
-	cursor: pointer;
-	background-color: lightblue;
-	color: white;
+    cursor: pointer;
+    background-color: lightblue;
+    color: white;
 }
 
 .playlist-container table thead tr {
-	background-color: lightblue;
+    background-color: lightblue;
 }
 
 .userlist tbody td:nth-child(2), .userlist tbody td:nth-child(3),
-	.playlist tbody td:nth-child(3), .playlist tbody td:nth-child(4),
-	.charts tbody td:nth-child(2), .charts tbody td:nth-child(3) {
-	word-break: break-all;
+.playlist tbody td:nth-child(3), .playlist tbody td:nth-child(4),
+.charts tbody td:nth-child(2), .charts tbody td:nth-child(3) {
+    word-break: break-all;
 }
+
 /** end playlists **/
 
 /** hide topusers, charts, userlist at beginning **/
 #charts_list, #user_list, #topuser_list {
-	display: none;
+    display: none;
 }
+
 /**  end hide topusers, charts, userlist at beginning **/
 .footer {
-	text-align: center;
-	display: table;
-	margin: 0 auto;
+    text-align: center;
+    display: table;
+    margin: 0 auto;
 }
 
 .footer span {
-	display: table-cell;
-	text-align: center;
-	vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .footer img {
-	vertical-align: middle;
+    vertical-align: middle;
 }

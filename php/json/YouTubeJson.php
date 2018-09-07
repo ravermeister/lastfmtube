@@ -12,6 +12,11 @@ use LastFmTube\Util\Functions;
 
 class YouTubeJson extends DefaultJson {
 
+    public function __construct() {
+        parent::__construct('youtube');
+    }
+
+
     public function get($getvars) {
         if (!isset($getvars['ytaction'])) {
             return $this->jsonError("Falsche Parameter für aktion");
