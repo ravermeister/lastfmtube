@@ -25,14 +25,14 @@ You can use the hotkeys to control the player.
 			<td>PHP >= 5.6</td>
 			<td style="width:20px;">&nbsp;</td>					
 			<td id="req_php_version">
-				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
+				<img src="{$SETTINGS['general']['baseurl']}/images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>
 		<tr>
 			<td>PHP PDO SQLite or Mysql (any PDO DB should work, but untested)</td>		
 			<td style="width:20px;">&nbsp;</td>
 			<td id="req_db_pdo">
-				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
+				<img src="{$SETTINGS['general']['baseurl']}/images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>
 		<tr>
@@ -43,7 +43,7 @@ You can use the hotkeys to control the player.
 			</td>
 			<td style="width:20px;">&nbsp;</td>
 			<td id="req_yt_api">
-				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
+				<img src="{$SETTINGS['general']['baseurl']}/images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>				
 		<tr>
@@ -53,14 +53,14 @@ You can use the hotkeys to control the player.
 			</td>
 			<td style="width:20px;">&nbsp;</td>
 			<td id="req_lfm_api">
-				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
+				<img src="{$SETTINGS['general']['baseurl']}/images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>
 		<tr>
 			<td>Database Connection</td>		
 			<td style="width:20px;">&nbsp;</td>
 			<td id="req_db_con">
-				<img src="../images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
+				<img src="{$SETTINGS['general']['baseurl']}/images/icon-cross-128.png" width="32" height="32" alt="error Icon" />
 			</td>
 		</tr>
 		<tr>

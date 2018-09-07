@@ -1,7 +1,7 @@
 <?php
 if (! isset ( $_GET ['action'] ))
     return;
-require_once dirname(__FILE__) . '/../util/bootstrap.php';
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
 switch ($_GET ['action']) {
     case 'list' :

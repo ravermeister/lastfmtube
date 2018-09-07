@@ -57,7 +57,7 @@ encoding: UTF-8
 			var active_page = '{$current_page}';
 			var lastfm_user = '{$lastfm_user}';
 			var lastfm_user_visit = '{$lastfm_user_visit}';
-			var localeFilePath = '{$BASE_PATH}/locale/';
+			var baseUrl = '{$BASE_PATH}';
 			
 			start_track = new Object();
 			start_track.artist      = '{$startvideo['artist']|escape:"html"}';
@@ -76,7 +76,7 @@ encoding: UTF-8
 				  // path to directory containing message resource files(.properties files),
 				  // give empty string or discard this configuration if files are in the
 				  // same directory as that of html file.
-				  filePath : localeFilePath
+				  filePath : baseUrl+'/locale/'
 				});
 				// will load the file moduleName_fr_FR.properties.
 				messageResource.load('locale', null, locale);		

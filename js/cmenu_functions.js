@@ -34,7 +34,8 @@ function resetVars(){
 }
     
 function loadDynamicMenu(cmenu) {
-
+    console.log('hey hier');
+    console.log('baseurl: '+baseUrl);
     if(selected_row==null) return;
 
     selected_row.parent().children('td').css('cursor','wait');
@@ -43,8 +44,7 @@ function loadDynamicMenu(cmenu) {
 	if(selected_row.is(charts_selected_row)) needle = $(cells.get(1)).text()+' '+$(cells.get(2)).text();		
 	else needle = $(cells.get(2)).text()+' '+$(cells.get(3)).text();
     //console.log(needle);
-    
-	request_url='./php/do_search.php?needle='+encodeURIComponent(needle)+'&listsize='+25;
+	request_url=baseUrl+'/php/do_search.php?needle='+encodeURIComponent(needle)+'&listsize='+25;
     
     
     item_loader = cmenu.find('.dynamic_menu_loader');

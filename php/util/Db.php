@@ -31,7 +31,7 @@ class Db {
         if ($this->statements !== false)
             return;
         $this->statements = array (
-                'SELECT_ALL_LASTFM_USER' => '
+            'SELECT_ALL_LASTFM_USER' => '
 				SELECT lastfm_user, last_played,
 				CASE 
 					WHEN lastfm_user = ? OR
@@ -49,13 +49,13 @@ class Db {
                 // add limit to sql to limit the result for the top xx users
                 // LIMIT 0,5;
 
-                'SELECT_LASTFM_USER_VISIT' => '
+            'SELECT_LASTFM_USER_VISIT' => '
 				SELECT * 
 				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"
 				WHERE lastfm_user = ?;
 			',
 
-                'UPDATE_LASTFM_USER_VISIT' => '
+            'UPDATE_LASTFM_USER_VISIT' => '
 				UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" 
 				SET
 				"playcount"="playcount"+1,
@@ -63,11 +63,11 @@ class Db {
 				WHERE "lastfm_user"= ?;
 			',
 
-                'INSERT_LASTFM_USER_VISIT' => '
+            'INSERT_LASTFM_USER_VISIT' => '
 				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" VALUES(?, ?, 1);
 			',
 
-                'UPDATE_CHARTS' => '
+            'UPDATE_CHARTS' => '
 			    UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts"
 			    SET
 				"playcount"="playcount"+1,
@@ -80,12 +80,12 @@ class Db {
 				"title"= ?;
 			',
 
-                'INSERT_CHARTS' => '
+            'INSERT_CHARTS' => '
 			    INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts"
 			    VALUES(?, ?, 1, ?, ?, ?);
 			',
 
-                'SELECT_CHARTS' => '
+            'SELECT_CHARTS' => '
 				SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
 			     ORDER BY `playcount` DESC, `lastplay_time` DESC;
 			',
@@ -105,19 +105,25 @@ class Db {
                 // ORDER BY `playcount` DESC, `lastplay_time` DESC;
                 // ',
 
-                'GET_ENVVAR' => '
+            'GET_ENVVAR' => '
 				SELECT "value" FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
 				WHERE "key"= ?
 			',
 
-                'DEL_ENVVAR' => '
+            'DEL_ENVVAR' => '
 				DELETE FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
 				WHERE "key"= ?
 			',
 
-                'SET_ENVVAR' => '
+            'SET_ENVVAR' => '
 				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'envvars"  VALUES (?, ?);
-			'
+			',
+
+            'SEARCH_CHARTS_TRACK' =>  '
+                SELECT * FROM "'. $this->settings['database']['table_prefix'] . 'charts_track_alias" 
+                WHERE "artist" LIKE ? OR "title" LIKE ?
+            '
+
         );
 
         foreach ( $this->statements as $prefix => $query ) {
@@ -177,8 +183,8 @@ class Db {
 				"lastplay_ip" 	VARCHAR(50) 	NOT NULL
 			)' );
 
-        $this->pdo->exec ( 'DROP TABLE IF EXISTS "' . $prefix . 'track_alias"' );
-        $this->pdo->exec ( 'CREATE TABLE "' . $prefix . 'track_merge" (
+        $this->pdo->exec ( 'DROP TABLE IF EXISTS "' . $prefix . 'charts_track_alias"' );
+        $this->pdo->exec ( 'CREATE TABLE "' . $prefix . 'charts_track_alias" (
 				"interpret" 	    VARCHAR(500) 	NOT NULL,
 				"title" 	        VARCHAR(500) 	NOT NULL,				
                 "interpret_alias" 	VARCHAR(500) 	NOT NULL,

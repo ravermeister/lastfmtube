@@ -14,10 +14,13 @@
 	},
 
     "autoload": {
-
+      "files": [
+          "php/util/bootstrap.php"
+      ],
       "psr-4": {
         "LastFmTube\\": "php/",
-        "LastFmTube\\Util\\": "php/util/"
+        "LastFmTube\\Util\\": "php/util/",
+		"LastFmTube\\Json\\": "php/json/"
       }
     },
 

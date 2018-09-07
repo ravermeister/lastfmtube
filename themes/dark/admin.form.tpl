@@ -283,6 +283,57 @@
 			<textarea class="texteditor" name="replace_strings" rows="20" cols="100" >{$REPLACE_STRINGS_FILE}</textarea>
 			
 			<br />
-			<input type="submit" name="submit" value="Save" class="pure-button" />			
+			<input type="submit" name="submit" value="Save" class="pure-button" />
+
+
+
+            <br />
+            <br />
+            <h3>Merge Charts</h3>
+            <p>
+                you can define (SQL Like) patterns to map the playcount of this songs together<br/>
+                and display a unique Song Artist/Title for this mapping.
+            </p>
+            <p>
+                <table border="1" cellpadding="5" cellspacing="5">
+                    <thead>
+                    <tr>
+                        <th>Display Artist</th>
+                        <th>Display Track</th>
+                        <th>Merge Artist</th>
+                        <th>Merge Track</th>
+                        <th>Merge playcount</th>
+                        <th>Display playount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach from=$MERGE_TRACKS item=$mtrack}
+                        <tr>
+                            <td>{$mtrack['display_artist']}</td>
+                            <td>{$mtrack['display_track']}</td>
+                            <td>{$mtrack['merge_artist']}</td>
+                            <td>{$mtrack['merge_track']}</td>
+                            <td>{$mtrack['display_amount']}</td>
+                            <td>{$mtrack['merge_amount']}</td>
+                        </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+            </p>
+            <div style="height: 20px">&nbsp;</div>
+            <p>
+                Merge Needle:
+                <input type="text" name="merge_needle" />
+                Type:
+                <select name="merge_needle_type">
+                    <option>Artist</option>
+                    <option>Track</option>
+                </select>
+                <input type="button" class="pure-button" name="search" value="search" />
+
+                <div style="float: left;">
+                    here will be the search result displayed
+                </div>
+            </p>
 			</form>
 		</div>

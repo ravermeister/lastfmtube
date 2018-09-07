@@ -14,9 +14,9 @@ function toggleAboutContent(content) {
 }
 
 function checkRequirements(){
-	loader = '<img src="../images/progress.gif" width="32" height="32"/>';
-	cross = '<img src="../images/icon-cross-128.png" width="32" height="32"/>';
-	check = '<img src="../images/icon-check-128.png" width="32" height="32"/>';
+	loader = '<img src="'+baseUrl+'/images/progress.gif" width="32" height="32"/>';
+	cross = '<img src="'+baseUrl+'/images/icon-cross-128.png" width="32" height="32"/>';
+	check = '<img src="'+baseUrl+'/images/icon-check-128.png" width="32" height="32"/>';
 	
 	php_version = $('#req_php_version');	
 	db_pdo = $('#req_db_pdo');
@@ -32,7 +32,7 @@ function checkRequirements(){
 	
 	
 	$.ajax(
-		'admin.php?check_requirements=true', {
+		'php/admin/check_requirements.php?check=true', {
 			dataType: 'json',
 			method: 'GET',
 			success: function(responseData) {

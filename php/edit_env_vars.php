@@ -1,9 +1,8 @@
 <?php
 
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
-
-require_once dirname(__FILE__) . '/../util/bootstrap.php';
 
 $action = $_GET ['action'];
 if (! isset ( $_GET ['key'] ))
@@ -15,14 +14,14 @@ if (isset ( $_GET ['value'] ))
 
 if ($action == 'del') {
     $deleted = '0';
-    $deleted = DB::getInstance ()->delEnvVar ( $key );
+    $deleted = Db::getInstance ()->delEnvVar ( $key );
     die ( $deleted . '' );
 } else if ($action == 'add') {
-    DB::getInstance ()->setEnvVar ( $key, $value );
-    $value = DB::getInstance ()->getEnvVar ( $key );
+    Db::getInstance ()->setEnvVar ( $key, $value );
+    $value = Db::getInstance ()->getEnvVar ( $key );
     die ( $value );
 } else if ($action == 'get') {
     $value = 'undefined';
-    $value = DB::getInstance ()->getEnvVar ( $key );
+    $value = Db::getInstance ()->getEnvVar ( $key );
     die ( $value );
 }

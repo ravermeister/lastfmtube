@@ -13,8 +13,8 @@ encoding: UTF-8
 			</tr>
 		</thead>
 		<tbody class="cmenu_default">
-			{counter name="track_counter" start=$track_no skip=1
-			assign="track_count"} {assign var="current_play" value="none"}
+			{counter name="track_counter" start=$track_no skip=1 assign="track_count"}
+			{assign var="current_play" value="none"}
 			{foreach from=$tracklist item=track}
 			<tr onclick="setPlaylist(PLAYLIST.DEFAULT);loadSong($(this));"
 				id="track_{$track_count}" class="track_row"
@@ -35,7 +35,8 @@ encoding: UTF-8
 				<td>{$track['title']}</td>
 				<td>{$track['dateofplay']}</td> {/if}
 			</tr>
-			{counter name=track_counter} {/foreach}
+			{counter name=track_counter}
+			{/foreach}
 		</tbody>
 	</table>
 </div>

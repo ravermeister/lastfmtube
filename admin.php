@@ -3,13 +3,16 @@
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
-require_once 'util/bootstrap.php';
+require_once 'vendor/autoload.php';
+
+$control        = Functions::getInstance();
+$smarty         = $control->getSmarty();
+$settings       = $control->getSettings();
 
 /**
  * @var mixed|string $settings
  */
 $sha1_password = $settings ['general'] ['adminpw'];
-
 /**
  * @var Smarty $smarty
  */
@@ -38,8 +41,8 @@ if (! isset ( $_SESSION ['admin'] ['password'] ) || strcmp ( $sha1_password, $_S
     }
 } // login
 
-if (isset ( $_POST ['submit'] )) {
-    // die(print_r($_POST));
+if (isset ( $_POST ['submit'] ) && strcmp($_POST['submit'], 'Save') == 0) {
+
     $replace_strings = $_POST ['replace_strings'];
     // $replace_strings = Functions::br2nl($replace_strings);
     $replace_strings = strip_tags ( $replace_strings );
@@ -131,18 +134,6 @@ foreach ( glob ( $themedir, GLOB_ONLYDIR ) as $name ) {
 }
 // supported themes
 
-if (isset ( $_GET ['check_requirements'] )) {
-
-    $data ['req_php_version'] = version_compare ( phpversion (), '5.6.0' );
-    $data ['req_db_pdo'] = extension_loaded ( 'pdo_sqlite' ) || extension_loaded ( 'pdo_mysql' );
-
-    $data ['req_yt_api'] = strlen ( trim ( $settings ['youtube'] ['apikey'] ) ) > 0;
-    $data ['req_lfm_api'] = (strlen ( trim ( $settings ['lastfm'] ['apikey'] ) ) > 0) && (strlen ( trim ( $settings ['lastfm'] ['user'] ) ) > 0);
-    $data ['req_db_con'] = DB::getInstance ()->isConnected ();
-
-    die ( json_encode ( $data ) );
-}
-
 $smarty->assign ( 'ADMIN_AUTHORIZED', true );
 $smarty->assign ( 'REPLACE_STRINGS_FILE', $replace_strings );
 $smarty->assign ( 'SUPPORTED_LOCALES', $supported_locales );
@@ -156,6 +147,16 @@ $smarty->assign ( 'SUPPORTED_CMENUTHEMES', array (
         'human',
         'gloss'
 ) );
+
+$mergeTracks[] = array(
+    'display_artist' => 'dummy disp artist',
+    'display_track' => 'dummy disp track',
+    'merge_artist' => 'dummy merge artist',
+    'merge_track' => 'dummy merge track',
+    'display_amount' => 'display amount',
+    'merge_amount' => 'merge amount',
+);
+$smarty->assign('MERGE_TRACKS', $mergeTracks);
 
 try {
     $smarty->display('admin.tpl');

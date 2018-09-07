@@ -1,11 +1,16 @@
 <?php
 
+header ( 'Content-Type: text/plain; charset=utf-8' );
+
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
+
 use LastFmTube\Util\Functions;
 
-header ( 'Content-Type: text/plain; charset=utf-8' );
-require_once dirname(__FILE__) . '/../util/bootstrap.php';
+
+
 
 $needle = Functions::getInstance ()->prepareNeedle ( $_GET ['needle'] );
+$searcher = Functions::getInstance()->getYtApi();
 $searcher->setNeedle ( $needle );
 
 if (isset ( $_GET ['listsize'] ))

@@ -28,7 +28,12 @@ created by Jonny Rimkus <jonny@rimkus.it> www.rimkus.it
 		<!--//<script src="//cloud.tinymce.com/stable/tinymce.min.js?apiKey=nt568kvsk9su00se2kh0c4bnywlkobst8kdf18oq0hxdb7ab"></script>//-->
 		<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/mode/properties/properties.min.js"></script>
-		
+
+
+		<script type="text/javascript">
+            var baseUrl = '{$BASE_PATH}';
+		</script>
+
 		<script src="{$BASE_PATH}/js/page_functions_admin.js"></script>
 
 	</head>

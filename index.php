@@ -1,13 +1,14 @@
 <?php
 # encoding: UTF-8
-
-require_once 'php/util/bootstrap.php';
-
+require_once 'vendor/autoload.php';
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
-$lastvisit = Db::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
-
+$lastvisit      = Db::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
+$control        = Functions::getInstance();
+$lastfm         = $control->getLfmApi();
+$searcher       = $control->getYtApi();
+$smarty         = $control->getSmarty();
 
 $page=1;
 $pagecnt=25;
@@ -25,11 +26,11 @@ for($i=0;$i<sizeof($tracklist);$i++) {
      * @var \lfmtube\util\lfmapi\Track $track
      */
 	$track 		= $tracklist[$i];	
-	$track->title 	= Functions::getInstance()->prepareNeedle($track->title);
-	$track->artist	= Functions::getInstance()->prepareNeedle($track->artist);
-	$track->album	= Functions::getInstance()->prepareNeedle($track->album);	
-	$needle         = Functions::getInstance()->prepareNeedle($track->artist.' '.$track->title);
-	$video_id=DB::getInstance()->getEnvVar($needle);    
+	$track->title 	= $control->prepareNeedle($track->title);
+	$track->artist	= $control->prepareNeedle($track->artist);
+	$track->album	= $control->prepareNeedle($track->album);
+	$needle         = $control->prepareNeedle($track->artist.' '.$track->title);
+	$video_id=Db::getInstance()->getEnvVar($needle);
 
     if($video_id!=''&&$video_id!='undefined') {    
         if(sizeof($startvideo)==0) {

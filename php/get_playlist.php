@@ -3,7 +3,7 @@
 
 namespace LastFmTube\Util;
 
-require_once dirname(__FILE__) . '/../util/bootstrap.php';
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
 $page = 1;
 $pagecnt = 25;
@@ -13,11 +13,13 @@ if (isset ( $_GET ['page'] ))
 /**
  * @var  LastFm $lastfm
  */
-$playlist = $lastfm->getRecentlyPlayed ( $page, $pagecnt );
+$playlist = Functions::getInstance()->getLfmApi()->getRecentlyPlayed ( $page, $pagecnt );
 $tracklist = $playlist->getTracks ();
 $startvideo = array();
 $final_tracklist = array();
 
+$searcher = Functions::getInstance()->getYtApi();
+$smarty = Functions::getInstance()->getSmarty();
 for($i = 0; $i < sizeof ( $tracklist ); $i ++) {
 
     /**
@@ -28,7 +30,7 @@ for($i = 0; $i < sizeof ( $tracklist ); $i ++) {
     $track->artist = Functions::getInstance ()->prepareNeedle ( $track->artist );
     $track->album = Functions::getInstance ()->prepareNeedle ( $track->album );
     $needle = Functions::getInstance ()->prepareNeedle ( $track->artist . ' ' . $track->title );
-    $video_id = DB::getInstance ()->getEnvVar ( $needle );
+    $video_id = Db::getInstance ()->getEnvVar ( $needle );
 
     if (strlen($video_id ) == 0 || strcmp($video_id, 'undefined') == 0) {
 

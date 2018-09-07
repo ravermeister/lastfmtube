@@ -1,12 +1,11 @@
 <?php
 // encoding: UTF-8
 
-namespace LastFmTube\Util;
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
 use LastFmTube\Util\lfmapi\RecentlyPlayed;
 use LastFmTube\Util\lfmapi\Track;
-
-require_once dirname(__FILE__) . '/../util/bootstrap.php';
+use LastFmTube\Util\Functions;
 
 $page = 1;
 $pagecnt = 25;
@@ -26,6 +25,10 @@ if (isset ( $_POST ['lastfm_user'] )) {
     else
         $_SESSION ['music'] ['lastfm_user'] = $_POST ['lastfm_user'];
 }
+
+$lastfm = Functions::getInstance()->getLfmApi();
+$smarty = Functions::getInstance()->getSmarty();
+$searcher = Functions::getInstance()->getYtApi();
 
 /**
  * @var  LastFm $lastfm
@@ -57,7 +60,7 @@ for($i = 0; $i < $trackcnt; $i ++) {
     $track->artist = Functions::getInstance ()->prepareNeedle ( $track->artist );
     $track->album = Functions::getInstance ()->prepareNeedle ( $track->album );
     $needle = Functions::getInstance ()->prepareNeedle ( $track->artist . ' ' . $track->title );
-    $video_id = DB::getInstance ()->getEnvVar ( $needle );
+    $video_id = Db::getInstance ()->getEnvVar ( $needle );
 
     if (strlen($video_id ) == 0 || strcmp($video_id, 'undefined') == 0) {
 
@@ -95,7 +98,7 @@ for($i = 0; $i < $trackcnt; $i ++) {
     );
 }
 
-DB::getInstance ()->updateLastFMUserVisit ( $_SESSION ['music'] ['lastfm_user'] );
+Db::getInstance ()->updateLastFMUserVisit ( $_SESSION ['music'] ['lastfm_user'] );
 
 $trackno = (($page - 1) * $pagecnt) + 1;
 
