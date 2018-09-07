@@ -7,6 +7,7 @@ use LastFmTube\Util\Functions;
 $control        = Functions::getInstance();
 $control->startSession();
 
+die(print_r($_SESSION));
 $lastvisit      = Db::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
 
 $lastfm         = $control->getLfmApi();
