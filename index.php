@@ -4,8 +4,11 @@ require_once 'vendor/autoload.php';
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
-$lastvisit      = Db::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
 $control        = Functions::getInstance();
+$control->startSession();
+
+$lastvisit      = Db::getInstance()->updateLastFMUserVisit($_SESSION['music']['lastfm_user']);
+
 $lastfm         = $control->getLfmApi();
 $searcher       = $control->getYtApi();
 $smarty         = $control->getSmarty();
