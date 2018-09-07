@@ -246,4 +246,27 @@ class Functions {
         self::getInstance()->initSettings(true);
 	}
 
+	public function requestVars($type='GET') {
+        switch ($type) {
+            case 'GET':
+                $getvars = array();
+                foreach($_GET as $key => $value) {
+                    $getvars[$key] = strip_tags($value);
+                }
+                return $getvars;
+
+            case 'POST':
+                $postvars = array();
+                foreach($_POST as $key => $value) {
+                    $postvars[$key] = strip_tags($value);
+                }
+                return $postvars;
+
+            case 'PUT':
+                $rawData = file_get_contents('php://input');
+                return json_decode($rawData, true);
+                break;
+
+        }
+    }
 }

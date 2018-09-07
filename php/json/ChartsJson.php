@@ -17,15 +17,15 @@ class ChartsJson extends DefaultJson {
         parent::__construct('charts');
     }
 
-    public function getAll($getvars, $postvars) {
+    public function get($getvars) {
         $charts = Db::getInstance()->query('SELECT_CHARTS');
-        return sizeof($charts) == 0 ? self::jsonMsg('Keine daten vorhanden') : self::jsonData($charts, 'chartlist');
+        return sizeof($charts) == 0 ? $this->jsonMsg('Keine daten vorhanden') : $this->jsonData($charts, 'chartlist');
     }
 
-    public function put($getvars, $postvars) {
-        if (!isset($postvars['track']) || strlen($postvars['track']) == 0) return self::jsonError('Falsche parameter');
+    public function put($getvars, $jsonvars) {
+        if (!isset($jsonvars['track']) || strlen($jsonvars['track']) == 0) return $this->jsonError('Falsche parameter');
 
-        Db::getInstance()->updateCharts($postvars['track']);
-        return self::jsonMsg('Track erfolgreich gespeichert');
+        Db::getInstance()->updateCharts($jsonvars['track']);
+        return $this->jsonMsg('Track erfolgreich gespeichert');
     }
 }

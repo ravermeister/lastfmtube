@@ -8,16 +8,35 @@
 namespace LastFmTube\Json;
 
 
-class LastfmJson extends DefaultJson {
+use LastFmTube\Util\Functions;
+
+class LastFmJson extends DefaultJson {
+
+    public function __construct() {
+        parent::__construct('lastfm');
+    }
+
+    private function changeUser($newUser) {
+        $data['user'] = $_SESSION['music']['lastfm_user'];
 
 
-    public function update($getvars, $postvars) {
-        $getvars = $data['getvars'];
-        $postvars = $data['postvars'];
-        if(isset($data['user'])) {
-
+        /* lastfm user is not case sensitive */
+        if (strcasecmp($newUser, $_SESSION ['music'] ['lastfm_user']) == 0) {
+            $data['status'] = 'unchanged';
+            return $this->jsonData($data);
         }
 
-        return $this->jsonError('unbekannte parameter für Update');
+        $_SESSION ['music'] ['lastfm_user'] = $newUser;
+        Functions::getInstance()->getLfmApi()->setUser($newUser);
+        $data['user'] = $newUser;
+        $data['status'] = 'changed';
+        return $this->jsonData($data);
+    }
+
+    public function put($getvars, $jsonvars) {
+        if (!isset($getvars['user']) || !isset($jsonvars['lastfm_user']) || strlen($jsonvars['lastfm_user']) == 0) {
+            return $this->jsonError('unbekannte parameter für Update');
+        }
+        return $this->changeUser(trim($jsonvars['lastfm_user']));
     }
 }

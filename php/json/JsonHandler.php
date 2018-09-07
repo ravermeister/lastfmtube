@@ -8,14 +8,15 @@
 
 namespace LastFmTube\json;
 
+use LastFmTube\Util\Functions;
+use LastFmTube\Util\lfmapi\LastFm;
+
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
-static $METHODS = array('get', 'getAll', 'put', 'putAll', 'update', 'updateAll', 'delete', 'deleteAll');
-static $RESERVED_ARGS = array('method', 'api');
+static $RESERVED_ARGS = array('api');
 
 
-if (!isset($_GET['method']) || strlen($_GET['method']) == 0 || !isset($_GET['api']) || strlen($_GET['api']) == 0 ||
-    !in_array($_GET['method'], $METHODS)) {
+if (!isset($_GET['api']) || strlen($_GET['api']) == 0) {
     DefaultJson::baseError('Falsche Parameter angabe!');
     return;
 }
@@ -25,67 +26,42 @@ switch ($_GET['api']) {
     case 'charts' :
         $json = new ChartsJson();
         break;
+    case 'lastfm':
+        $json = new LastFmJson();
+        break;
     default:
-        DefaultJson::baseError('unbekannter Api Endpunkt');
+        DefaultJson::baseError('unbekannter Api Endpunkt: '.$_GET['api']);
         break;
 
 }
 
-$getvars = array();
-$postvars = array();
-
-foreach ($_GET as $key => $value) {
-    if (in_array($key, $RESERVED_ARGS)) continue;
-    $getvars[$key] = strip_tags($value);
-}
-foreach ($_POST as $key => $value) {
-    $postvars[$key] = strip_tags($value);
-}
-
+$getvars = Functions::getInstance()->requestVars('GET');
 $output = '';
-switch ($_GET['method']) {
-    case 'get':
-        $json->setMethod('get');
-        $output = $json->get($getvars, $postvars);
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        $json->setMethod('GET');
+        $output = $json->get($getvars);
         break;
 
-    case 'getAll':
-        $json->setMethod('getAll');
-        $output = $json->getAll($getvars, $postvars);
+    case 'POST':
+        $json->setMethod('PUT');
+        $postvars = Functions::getInstance()->requestVars('POST');
+        $output = $json->post($getvars, $postvars);
         break;
 
-    case 'put':
-        $json->setMethod('put');
+    case 'PUT':
+        $json->setMethod('PUT');
+        $postvars = Functions::getInstance()->requestVars('PUT');
         $output = $json->put($getvars, $postvars);
         break;
 
-    case 'putAll':
-        $json->setMethod('putAll');
-        $output = $json->putAll($getvars, $postvars);
-        break;
-
-    case 'update':
-        $json->setMethod('update');
-        $output = $json->update($getvars, $postvars);
-        break;
-
-    case 'updateAll':
-        $json->setMethod('updateAll');
-        $output = $json->updateAll($getvars, $postvars);
-        break;
-
-    case 'delete':
-        $json->setMethod('delete');
-        $output = $json->deleteAll($getvars, $postvars);
-        break;
-
-    case 'deleteAll':
-        $json->setMethod('deleteAll');
-        $output = $json->deleteAll($getvars, $postvars);
+    case 'DELETE':
+        $json->setMethod('DELETE');
+        $output = $json->delete($getvars);
         break;
 
     default:
-        $output = $json->jsonError('unbekannte Action');
+        $output = $json->jsonError('unbekannte Action:'.$_SERVER['REQUEST_METHOD']);
         break;
 }
 
