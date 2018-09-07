@@ -2,6 +2,7 @@
 // encoding: UTF-8
 
 use LastFmTube\Util\Functions;
+use LastFmTube\Util\Db;
 
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
@@ -13,6 +14,7 @@ if (isset ( $_GET ['page'] ))
 /**
  * @var  LastFm $lastfm
  */
+Functions::getInstance()->startSession();
 $playlist = Functions::getInstance()->getLfmApi()->getRecentlyPlayed ( $page, $pagecnt );
 $tracklist = $playlist->getTracks ();
 $startvideo = array();
