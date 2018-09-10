@@ -13,7 +13,7 @@ class PageController {
 
         ).done(function (json) {
 
-            //console.log(json.data.value);
+            console.log(json.data.value);
 
             for(var dcnt=0;dcnt<json.data.value.length; dcnt++) {
                 new vue(json.data.value[dcnt]);

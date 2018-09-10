@@ -14,6 +14,8 @@ requirejs.config({
         // Vue RequireJS loader
         vue: 'lib/vue/vue.requirejs',
 
+        jQuery: 'lib/jquery/jquery.js',
+
         theme_editorial: '../themes/editorial/assets/js',
         theme_dimension: '../themes/dimension/assets/js'
     },

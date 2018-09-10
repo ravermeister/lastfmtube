@@ -25,7 +25,7 @@ class Track {
     /**
      * @var string
      */
-    var $dateofplay;
+    var $dateofPlay;
 
     /**
      * Track constructor.
@@ -52,9 +52,9 @@ class Track {
         if ($trackxml->children(10) !== null) {
             $play_timestamp = $trackxml->children(10)->uts;
         }
-        if ($play_timestamp > 0) $this->dateofplay = date('d.m.Y H:i:s', $play_timestamp);
+        if ($play_timestamp > 0) $this->dateofPlay = date('d.m.Y H:i:s', $play_timestamp);
         else
-            $this->dateofplay = "Jetzt!"; // timestamp 0 means currently playing!
+            $this->dateofPlay = "Jetzt!"; // timestamp 0 means currently playing!
         $this->isplaying = $trackxml->nowplaying;
     }
 
@@ -65,4 +65,31 @@ class Track {
         return $this->isplaying;
     }
 
+    /**
+     * @return string
+     */
+    public function getAlbum() {
+        return $this->album;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArtist() {
+        return $this->artist;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateofPlay() {
+        return $this->dateofPlay;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle() {
+        return $this->title;
+    }
 }

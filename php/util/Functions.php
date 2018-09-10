@@ -38,6 +38,7 @@ class Functions {
         } else {
             $this->locale = parse_ini_file($defLangFile);
         }
+
     }
 
     private function initSettings($force = false) {

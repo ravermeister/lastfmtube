@@ -81,6 +81,10 @@ class LastFm {
         $this->user = $user;
     }
 
+    function getUser(){
+        return $this->user;
+    }
+
     function setMethod($meth) {
         $set = false;
         for ($i = 0; $i < sizeof($this->methods); $i++) {
