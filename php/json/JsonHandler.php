@@ -28,6 +28,9 @@ switch ($_GET['api']) {
     case 'lastfm':
         $json = new LastFmJson();
         break;
+    case 'page':
+        $json = new PageJson();
+        break;
     default:
         DefaultJson::baseError('unbekannter Api Endpunkt: ' . $_GET['api']);
         break;

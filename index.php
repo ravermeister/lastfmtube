@@ -1,28 +1,19 @@
 <?php
 /**
  * User: ravermeister
- * Date: 07.09.2018
- * Time: 12:13
+ * Date: 10.09.2018
+ * Time: 01:19
  */
 
 require_once 'vendor/autoload.php';
-
 use LastFmTube\Util\Functions;
 
-$functions = Functions::getInstance();
-$functions->startSession();
-$settings = $functions->getSettings();
-$smarty   = $functions->getSmarty();
+$settings = Functions::getInstance()->getSettings();
 
-$active_chartcounter = !isset($_GET['disable_charts']);
+$themeFile = $settings['general']['theme'];
+$baseURL   = $settings['general']['baseurl'];
 
+$themeData = file_get_contents('themes/'.$themeFile.'/'.$themeFile.'.html');
+$themeData = str_replace('{{LANG}}', $settings['general']['lang'], $themeData);
 
-$smarty->assign('charts_counter', $active_chartcounter);
-$smarty->assign('autostart', true);
-$smarty->assign('music', 1);
-$smarty->assign('lastfm_user', $_SESSION['music']['lastfm_user']);
-
-$smarty->assign('current_page', 1);
-$smarty->assign('total_pages', 10);
-
-$smarty->display('index.tpl');
+die($themeData);

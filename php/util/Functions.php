@@ -5,7 +5,6 @@ namespace LastFmTube\Util;
 use Exception;
 use LastFmTube\Util\lfmapi\LastFm;
 use LastFmTube\Util\ytapi\YoutubeSearch;
-use Smarty;
 
 class Functions {
 
@@ -15,17 +14,30 @@ class Functions {
     private        $settingsFile    = false;
     private        $replacements    = false;
     private        $replacementFile = false;
-    private        $smarty          = null;
     private        $lfmapi          = null;
     private        $ytapi           = null;
+    private        $locale          = null;
 
 
     private function __construct($file = false) {
         $this->settingsFile = $file;
         $this->basedir      = dirname(__FILE__) . '/../..';
         $this->initSettings();
+        $this->initLocale();
         $this->initReplacements();
         $this->initInstances();
+    }
+
+    private function initLocale(){
+
+        $defLangFile = $this->basedir.'/locale/locale.properties';
+        $lang = $this->settings['general']['lang'];
+        $langFile = $this->basedir.'/locale/locale_'.$lang.'.properties';
+        if(file_exists($langFile)) {
+            $this->locale = parse_ini_file($langFile);
+        } else {
+            $this->locale = parse_ini_file($defLangFile);
+        }
     }
 
     private function initSettings($force = false) {
@@ -60,17 +72,6 @@ class Functions {
     }
 
     private function initInstances() {
-        $this->smarty = new Smarty ();
-        $this->smarty->setTemplateDir($this->basedir . '/themes/' . $this->settings ['general'] ['theme']);
-        $this->smarty->setCacheDir($this->basedir . '/tmp/smarty/cache');
-        $this->smarty->setCompileDir($this->basedir . '/tmp/smarty/compile');
-        $this->smarty->caching = false;
-
-        $this->smarty->assign('BASE_PATH', $this->settings ['general'] ['baseurl']);
-        $this->smarty->assign('LOCALE', $this->settings ['general'] ['lang']);
-        $this->smarty->assign('ytplayerwidth', $this->settings ['general'] ['playerwidth']);
-        $this->smarty->assign('ytplayerheight', $this->settings ['general'] ['playerheight']);
-        $this->smarty->assign('cmenutheme', $this->settings ['general'] ['cmenutheme']);
 
         $this->lfmapi = new LastFm ();
         $this->lfmapi->setApiKey($this->settings ['lastfm'] ['apikey']);
@@ -100,17 +101,14 @@ class Functions {
     }
 
     /**
-     * @return Smarty
-     */
-    public function getSmarty(){
-        return $this->smarty;
-    }
-
-    /**
      * @return mixed
      */
     public function getSettings() {
         return $this->settings;
+    }
+
+    public function getLocale(){
+        return $this->locale;
     }
 
     public function startSession() {
