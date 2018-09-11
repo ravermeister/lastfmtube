@@ -41,51 +41,89 @@ encoding: UTF-8
     <!-- Main -->
     <div id="main">
 
-
         <!-- Player -->
-        <article id="page-ytplayer">
-            <h2 class="major">Youtube Player</h2>
-            <span class="image main"><img src="images/pic01.jpg" alt=""/></span>
-
+        <article id="page-ytplayer" style="width: 100% !important; height: 100% !important; ">
             <!-- youtube embed: html5 method -->
             <div id="player"></div>
         </article>
 
         <!-- Playlist -->
         <article id="page-playlist">
-            <h2 class="major"><a v-bind:href="LASTFM_USER_URL" target="_blank">{{LASTFM_USER_NAME}}</a>'s Playlist</a>
-            </h2>
-            <span class="image main"><img src="images/pic01.jpg" alt=""/></span>
+            <h2 class="major"><a v-bind:href="LASTFM_USER_URL" target="_blank">{{LASTFM_USER_NAME}}</a>'s list</a></h2>
 
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>{{TRACK_NR}}</th>
-                        <th>{{TRACK_ARTIST}}</th>
-                        <th>{{TRACK_TITLE}}</th>
-                        <th>{{TRACK_LASTPLAY}}</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="TRACK in TRACKS">
-                        <td onclick="" style="cursor: pointer">{{TRACK.NR}}</td>
-                        <td onclick="" style="cursor: pointer">{{TRACK.ARTIST}}</td>
-                        <td onclick="" style="cursor: pointer">{{TRACK.TITLE}}</td>
-                        <td onclick="" style="cursor: pointer">{{TRACK.LASTPLAY}}</td>
-                        <td style="white-space: nowrap">
-                            <a href="#" onclick="" class="icon fa-plus-square" v-bind:title="ADD_TO_PLAYLIST_TITLE"><span class="label">Add</span></a>
-                            &nbsp;
-                            <a href="#" onclick="" class="icon fa-search"><span class="label">Search</span></a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <section class="playlist-nav">
+                <form onsubmit="return false">
+                    <div class="fields">
+
+                        <div class="field third">
+                            <label for="playlist_lastfmuser">
+                                <a href="//last.fm" target="_blank">Last.fm</a> {{LASTFM_USER_NAME_LABEL}}
+                            </label>
+                            <input type="text" name="playlist_page" id="playlist_lastfmuser"
+                                   v-bind:value="LASTFM_USER_NAME" onfocus="javascript:this.select();"/>
+                        </div>
+                        <div class="field third">
+                            <label for="playlist_page">
+                                {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
+                            </label>
+                            <input type="text" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"
+                                    onfocus="javascript:this.select();" />
+                        </div>
+                        <div class="field third">
+                            <label>
+                                <a click="javascript:page.loadPlayListPage('default', -1);"
+                                   class="icon fa-step-backward"
+                                   title="Previous Page"
+                                   style="cursor: pointer">
+                                    <span class="label">Previous Page</span>
+                                </a>
+                                &nbsp;
+                                <a click="javascript:page.loadPlayListPage('default', 1);"
+                                   class="icon fa-step-forward"
+                                   title="Next Page"
+                                   style="cursor: pointer">
+                                    <span class="label">Next Page</span>
+                                </a>
+                            </label>
+                            <input type="submit" name="playlist_load" id="playlist_load" v-bind:value="PLAYLIST_LOAD"
+                                   click="javascript:page.loadPlayListPage('default');"/>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <section class="playlist-content">
+                <div class="table-wrapper">
+                    <table class="alt">
+                        <thead>
+                        <tr>
+                            <th>{{TRACK_NR}}</th>
+                            <th>{{TRACK_ARTIST}}</th>
+                            <th>{{TRACK_TITLE}}</th>
+                            <th>{{TRACK_LASTPLAY}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr onclick="javascript:page.showPlayListControl(this);" style="cursor: pointer;">
+                            <td>&nbsp;</td>
+                            <td colspan="3" style="vertical-align: middle; ">
+                                <ul class="icons" style="display: inline">
+                                    <li><a href="#" class="icon fa-play"><span class="label">Twitter</span></a></li>
+                                    <li><a href="#" class="icon fa-plus"><span class="label">Facebook</span></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr v-for="TRACK in TRACKS" onclick="javascript:page.showPlayListControl(this);" style="cursor: pointer;">
+                            <td>{{TRACK.NR}}</td>
+                            <td>{{TRACK.ARTIST}}</td>
+                            <td>{{TRACK.TITLE}}</td>
+                            <td>{{TRACK.LASTPLAY}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </article>
-
-
     </div>
 
     <!-- Footer -->

@@ -13,7 +13,7 @@ function onYouTubeIframeAPIReady() {
         startvideo = start_track.videoId;
     }
     if (typeof ytplayerwidth === 'undefined') {
-        ytplayerwidth = '100%';
+        ytplayerwidth = '800px';
     }
     if (typeof ytplayerheight === 'undefined') {
         ytplayerheight = '600px';
