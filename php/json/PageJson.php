@@ -102,7 +102,7 @@ class PageJson extends DefaultJson {
     private function getPlaylistData($user = false, $pageNum = false) {
         if ($user !== false) {
             Functions::getInstance()->startSession();
-            if(strcmp($_SESSION ['music'] ['lastfm_user'], $user)!=0) {
+            if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
                 $_SESSION ['music'] ['lastfm_user'] = $user;
                 $this->lfmapi->setUser($user);
                 $pageNum = false;
@@ -135,7 +135,7 @@ class PageJson extends DefaultJson {
 
 
         $data                           = new VuePageData();
-        $data->el                       = '#page-playlist>.playlist-content>.table-wrapper>table>thead';
+        $data->el                       = '#playlist-content>table>thead';
         $data->data['TRACK_NR']         = $this->locale['playlist.header.nr'];
         $data->data['TRACK_ARTIST']     = $this->locale['playlist.header.artist'];
         $data->data['TRACK_TITLE']      = $this->locale['playlist.header.title'];
@@ -145,7 +145,7 @@ class PageJson extends DefaultJson {
 
         $tracks    = $playlist->getTracks();
         $data      = new VuePageData();
-        $data->el  = '#page-playlist>.playlist-content>.table-wrapper>table>tbody';
+        $data->el  = '#playlist-content';
         $pageStart = (($pageNum - 1) * $maxpages);
         for ($cnt = 0; $cnt < sizeof($tracks); $cnt++) {
             /**
@@ -154,11 +154,16 @@ class PageJson extends DefaultJson {
             $track                               = $tracks[$cnt];
             $data->data['ADD_TO_PLAYLIST_TITLE'] = $this->locale['playlist.addtrack'];
 
-            $data->data['TRACKS'][] = array('NR'       => ($pageStart + $cnt + 1),
-                                            'ARTIST'   => $track->getArtist(),
-                                            'TITLE'    => $track->getTitle(),
-                                            'LASTPLAY' => $track->isPlaying() ?
-                                                $this->locale['playlist.lastplay.now'] : $track->getDateofPlay());
+            $data->data['TRACKS'][] = array('NR'           => ($pageStart + $cnt + 1),
+                                            'ARTIST'       => $track->getArtist(),
+                                            'TITLE'        => $track->getTitle(),
+                                            'LASTPLAY'     => $track->isPlaying() ?
+                                                $this->locale['playlist.lastplay.now'] :
+                                                $track->getDateofPlay(),
+                                            'PLAY_CONTROL' => false
+            );
+
+
         }
         $page['PLAYLIST_TRACKS'] = $data;
         //playlist content

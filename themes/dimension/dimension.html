@@ -17,6 +17,7 @@ encoding: UTF-8
     <script data-main="js/main" src="js/lib/requirejs/require.js"></script>
 </head>
 <body class="is-preload">
+
 <!-- Wrapper -->
 <div id="wrapper">
 
@@ -42,7 +43,7 @@ encoding: UTF-8
     <div id="main">
 
         <!-- Player -->
-        <article id="page-ytplayer" style="width: 100% !important; height: 100% !important; ">
+        <article id="page-ytplayer">
             <!-- youtube embed: html5 method -->
             <div id="player"></div>
         </article>
@@ -67,59 +68,66 @@ encoding: UTF-8
                                 {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
                             </label>
                             <input type="text" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"
-                                    onfocus="javascript:this.select();" />
+                                   onfocus="javascript:this.select();"/>
                         </div>
-                        <div class="field third">
-                            <label>
-                                <a click="javascript:page.loadPlayListPage('default', -1);"
-                                   class="icon fa-step-backward"
-                                   title="Previous Page"
-                                   style="cursor: pointer">
-                                    <span class="label">Previous Page</span>
-                                </a>
-                                &nbsp;
-                                <a click="javascript:page.loadPlayListPage('default', 1);"
-                                   class="icon fa-step-forward"
-                                   title="Next Page"
-                                   style="cursor: pointer">
-                                    <span class="label">Next Page</span>
-                                </a>
-                            </label>
+                        <div class="field third" align="center" style="vertical-align: center">
+                            <label>&nbsp;</label>
+                            <a onclick="javascript:page.loadPlayListPage('default', -1);"
+                               class="icon fa-step-backward"
+                               title="Previous Page"
+                               style="cursor: pointer; font-size: 24pt; float: left;">&nbsp;</a>
+
                             <input type="submit" name="playlist_load" id="playlist_load" v-bind:value="PLAYLIST_LOAD"
-                                   click="javascript:page.loadPlayListPage('default');"/>
+                                   onclick="javascript:page.loadPlayListPage('default');"/>
+
+                            <a onclick="javascript:page.loadPlayListPage('default', 1);"
+                               class="icon fa-step-forward"
+                               title="Next Page"
+                               style="cursor: pointer; font-size: 24pt; float: right;">&nbsp;</a>
                         </div>
                     </div>
                 </form>
             </section>
 
-            <section class="playlist-content">
-                <div class="table-wrapper">
+            <section>
+                <div class="table-wrapper" id="playlist-content">
                     <table class="alt">
                         <thead>
                         <tr>
-                            <th>{{TRACK_NR}}</th>
-                            <th>{{TRACK_ARTIST}}</th>
-                            <th>{{TRACK_TITLE}}</th>
-                            <th>{{TRACK_LASTPLAY}}</th>
+                            <td>{{TRACK_NR}}</td>
+                            <td>{{TRACK_ARTIST}}</td>
+                            <td>{{TRACK_TITLE}}</td>
+                            <td>{{TRACK_LASTPLAY}}</td>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr onclick="javascript:page.showPlayListControl(this);" style="cursor: pointer;">
-                            <td>&nbsp;</td>
-                            <td colspan="3" style="vertical-align: middle; ">
-                                <ul class="icons" style="display: inline">
-                                    <li><a href="#" class="icon fa-play"><span class="label">Twitter</span></a></li>
-                                    <li><a href="#" class="icon fa-plus"><span class="label">Facebook</span></a></li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr v-for="TRACK in TRACKS" onclick="javascript:page.showPlayListControl(this);" style="cursor: pointer;">
-                            <td>{{TRACK.NR}}</td>
-                            <td>{{TRACK.ARTIST}}</td>
-                            <td>{{TRACK.TITLE}}</td>
-                            <td>{{TRACK.LASTPLAY}}</td>
-                        </tr>
-                        </tbody>
+                        <template v-for="TRACK in TRACKS">
+                            <tbody>
+                            <tr @click="page.showPlayerControl(TRACK, true)" style="cursor: pointer">
+                                <td>{{TRACK.NR}}</td>
+                                <td>{{TRACK.ARTIST}}</td>
+                                <td>{{TRACK.TITLE}}</td>
+                                <td>{{TRACK.LASTPLAY}}</td>
+                            </tr>
+                            </tbody>
+
+                            <tbody name="fade" is="transition-group">
+                            <tr key="true" v-if="TRACK.PLAY_CONTROL">
+                                <td style="border: 0px">&nbsp;</td>
+                                <td colspan="3" style="vertical-align: middle; border: 0px">
+                                    <ul class="icons" style="display: inline">
+                                        <li><a href="#" class="icon fa-play" title="Play"><span
+                                                class="label">Play</span></a></li>
+                                        <li><a href="#" class="icon fa-heart" title="Rate this Song"><span
+                                                class="label">Rate this Song</span></a></li>
+                                        <li><a href="#" class="icon fa-plus" title="add to Playlist"><span
+                                                class="label">Add to Playlist</span></a></li>
+                                        <li><a href="#" class="icon fa-search" title="search alternative Video"><span
+                                                class="label">search alternative Video</span></a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </template>
                     </table>
                 </div>
             </section>

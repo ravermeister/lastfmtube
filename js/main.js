@@ -10,6 +10,7 @@ requirejs.config({
     paths: {
 
         jquery: 'jquery/jquery',
+        jQuery: 'jquery/jquery',
 
         // the Vue lib
         Vue: 'vue/vue.min',
@@ -24,9 +25,13 @@ requirejs.config({
 // Start the main app logic.
 requirejs([
     'requirejs/require_extra',
+    'jquery',
+    'Vue',
+    'vue',
     'player',
-    'page_control'
-
+    'page_control',
+    'theme/breakpoints.min',
+    'theme/browser.min'
 ], function () {
 
     //jQuery, canvas and the app/sub module are all
@@ -43,18 +48,13 @@ requirejs([
 
 });
 
-define(['jquery'], function () {
-
-    require([
-        'Vue',
-        'vue',
-        'theme/breakpoints.min',
-        'theme/browser.min',
-        'theme/util',
-        'theme/main'], function (vue) {
-
+require([
+    'Vue',
+    'vue',
+    'jquery',
+    'theme/util',
+    'theme/main'
+], function (vue) {
         page = new PageController(vue);
         page.init();
-    });
-
 });

@@ -5,7 +5,7 @@ var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-var startvideo = '9RMHHwJ9Eqk';
+var startvideo = ''; //'9RMHHwJ9Eqk';
 
 function onYouTubeIframeAPIReady() {
 
@@ -13,10 +13,10 @@ function onYouTubeIframeAPIReady() {
         startvideo = start_track.videoId;
     }
     if (typeof ytplayerwidth === 'undefined') {
-        ytplayerwidth = '800px';
+        ytplayerwidth = '100%';
     }
     if (typeof ytplayerheight === 'undefined') {
-        ytplayerheight = '600px';
+        ytplayerheight = ($(document).height() - 325)+'px';
     }
 
     player = new YT.Player('player', {

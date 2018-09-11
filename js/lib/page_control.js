@@ -13,7 +13,7 @@ class PageController {
         $.getJSON(
             'php/json/JsonHandler.php?api=page&data=page'
         ).done(function (json) {
-
+            //console.log(JSON.stringify(json.data.value));
             for (var key in json.data.value) {
                 vueMap[key] = new vue(json.data.value[key]);
             }
@@ -39,27 +39,18 @@ class PageController {
         });
     }
 
-    showPlayListControl(track){
-        console.log(track);
-        /**
-        // Define a new component called button-counter
-        Vue.component('playlist-control', {
-            data: function () {
-                return {
-                    count: 0
-                }
-            },
-            template: '                        <tr>\n' +
-                '                            <td>&nbsp;</td>\n' +
-                '                            <td colspan="3" style="vertical-align: middle; ">\n' +
-                '                                <ul class="icons" style="display: inline">\n' +
-                '                                    <li><a href="#" class="icon fa-play"><span class="label">Twitter</span></a></li>\n' +
-                '                                    <li><a href="#" class="icon fa-plus"><span class="label">Facebook</span></a></li>\n' +
-                '                                </ul>\n' +
-                '                            </td>\n' +
-                '                        </tr>'
+    showPlayerControl(track, clear) {
+        var vueMap = this.vueMap;
 
-        })
-         **/
+        track.PLAY_CONTROL = !track.PLAY_CONTROL;
+        if(clear) {
+            for(var cnt = 0; cnt<vueMap['PLAYLIST_TRACKS'].TRACKS.length; cnt++) {
+                if(track.NR==vueMap['PLAYLIST_TRACKS'].TRACKS[cnt].NR)
+                    continue;
+                vueMap['PLAYLIST_TRACKS'].TRACKS[cnt].PLAY_CONTROL = false;
+            }
+        }
+
+
     }
 }
