@@ -28,8 +28,8 @@ requirejs([
     'jquery',
     'Vue',
     'vue',
-    'player',
     'page_control',
+    'player_control',
     'theme/breakpoints.min',
     'theme/browser.min'
 ], function () {
@@ -55,6 +55,12 @@ require([
     'theme/util',
     'theme/main'
 ], function (vue) {
+
+        player = new PlayerController();
         page = new PageController(vue);
+
+
+
         page.init();
+        player.initPlayer();
 });

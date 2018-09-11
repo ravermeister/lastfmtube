@@ -28,19 +28,6 @@ class Functions {
         $this->initInstances();
     }
 
-    private function initLocale(){
-
-        $defLangFile = $this->basedir.'/locale/locale.properties';
-        $lang = $this->settings['general']['lang'];
-        $langFile = $this->basedir.'/locale/locale_'.$lang.'.properties';
-        if(file_exists($langFile)) {
-            $this->locale = parse_ini_file($langFile);
-        } else {
-            $this->locale = parse_ini_file($defLangFile);
-        }
-
-    }
-
     private function initSettings($force = false) {
         if (!$force && is_array($this->settings)) return;
 
@@ -55,6 +42,19 @@ class Functions {
         }
     }
 
+    private function initLocale() {
+
+        $defLangFile = $this->basedir . '/locale/locale.properties';
+        $lang        = $this->settings['general']['lang'];
+        $langFile    = $this->basedir . '/locale/locale_' . $lang . '.properties';
+        if (file_exists($langFile)) {
+            $this->locale = parse_ini_file($langFile);
+        }
+        else {
+            $this->locale = parse_ini_file($defLangFile);
+        }
+
+    }
 
     private function initReplacements($force = false) {
         if (!$force && is_array($this->replacements)) return;
@@ -76,14 +76,14 @@ class Functions {
 
         $this->lfmapi = new LastFm ();
         $this->lfmapi->setApiKey($this->settings ['lastfm'] ['apikey']);
-
+        $this->lfmapi->loadInvalidNames($this->basedir . '/conf/replace_strings.txt');
         $this->ytapi = new YoutubeSearch ();
-        if (isset ($this->settings ['youtube'] ['email'])) $this->ytapi->setAPIEmail($this->settings ['youtube'] ['email']
-        );
-        if (isset ($this->settings ['youtube'] ['jsonfile'])) $this->ytapi->setAPIJson($this->settings ['youtube'] ['jsonfile']
-        );
-        if (isset ($this->settings ['youtube'] ['user'])) $this->ytapi->setAPIUser($this->settings ['youtube'] ['user']
-        );
+        if (isset ($this->settings ['youtube'] ['email']))
+            $this->ytapi->setAPIEmail($this->settings ['youtube'] ['email']);
+        if (isset ($this->settings ['youtube'] ['jsonfile']))
+            $this->ytapi->setAPIJson($this->settings ['youtube'] ['jsonfile']);
+        if (isset ($this->settings ['youtube'] ['user']))
+            $this->ytapi->setAPIUser($this->settings ['youtube'] ['user']);
         $this->ytapi->setAPIKey($this->settings ['youtube'] ['apikey']);
     }
 
@@ -108,7 +108,7 @@ class Functions {
         return $this->settings;
     }
 
-    public function getLocale(){
+    public function getLocale() {
         return $this->locale;
     }
 

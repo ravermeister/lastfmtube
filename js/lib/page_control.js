@@ -50,7 +50,5 @@ class PageController {
                 vueMap['PLAYLIST_TRACKS'].TRACKS[cnt].PLAY_CONTROL = false;
             }
         }
-
-
     }
 }

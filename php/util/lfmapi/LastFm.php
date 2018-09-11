@@ -2,6 +2,7 @@
 
 namespace LastFmTube\Util\lfmapi;
 
+use LastFmTube\Util\Strings;
 use simplehtmldom_1_5\simple_html_dom;
 use Sunra\PhpSimple\HtmlDomParser;
 
@@ -68,7 +69,12 @@ class LastFm {
 
     function loadInvalidNames($filename) {
         foreach (file($filename) as $line) {
-            $entry                           = explode("=", $line, 2);
+            if (Strings::startsWith($line, '#')) continue;
+
+            $line = Strings::trimEOL($line);
+            if(strlen(trim($line)) == 0) continue;
+
+            $entry = explode("=", $line, 2);
             $this->invalidNames [$entry [0]] = $entry [1];
         }
     }
@@ -77,12 +83,12 @@ class LastFm {
         $this->apikey = $key;
     }
 
-    function setUser($user) {
-        $this->user = $user;
+    function getUser() {
+        return $this->user;
     }
 
-    function getUser(){
-        return $this->user;
+    function setUser($user) {
+        $this->user = $user;
     }
 
     function setMethod($meth) {
@@ -98,8 +104,14 @@ class LastFm {
         if (!$set) die ('unknown API method ' . $meth);
     }
 
-    function setURL($url) {
-        $this->request_url = $url;
+    /**
+     * @return simple_html_dom
+     */
+    function getData() {
+
+        $html = $this->getDOM();
+        if (empty($html)) return null;
+        return $html->outertext;
     }
 
     /**
@@ -115,14 +127,8 @@ class LastFm {
         return $html;
     }
 
-    /**
-     * @return simple_html_dom
-     */
-    function getData() {
-
-        $html = $this->getDOM();
-        if (empty($html)) return null;
-        return $html->outertext;
+    function setURL($url) {
+        $this->request_url = $url;
     }
 
     function getRecentlyPlayed($page = 1, $limit = 25) {
@@ -130,7 +136,7 @@ class LastFm {
                '&page=' . $page . '&limit=' . $limit;
         $this->setURL($url);
         $html = $this->getDOM();
+
         return new RecentlyPlayed ($html, $this->invalidNames);
     }
-
 }

@@ -11,11 +11,6 @@ use Exception;
 use LastFmTube\Util\Functions;
 use LastFmTube\Util\lfmapi\Track;
 
-class VuePageData {
-    public $el;
-    public $data;
-}
-
 class PageJson extends DefaultJson {
     private $settings;
     private $locale;

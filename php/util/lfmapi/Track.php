@@ -2,6 +2,7 @@
 
 namespace LastFmTube\Util\lfmapi;
 
+use LastFmTube\Util\Strings;
 use simplehtmldom_1_5\simple_html_dom_node;
 
 class Track {
@@ -37,15 +38,15 @@ class Track {
         $myTitle  = $trackxml->children(1)->innertext;
         $myAlbum  = $trackxml->children(4)->innertext;
 
-        $this->artist = html_entity_decode(((array_key_exists($myArtist, $invalidNames
-        )) ? $invalidNames [$myArtist] : $myArtist), ENT_QUOTES | ENT_HTML5
-        );
-        $this->title  = html_entity_decode(((array_key_exists($myTitle, $invalidNames
-        )) ? $invalidNames [$myTitle] : $myTitle), ENT_QUOTES | ENT_HTML5
-        );
-        $this->album  = html_entity_decode(((array_key_exists($myAlbum, $invalidNames
-        )) ? $invalidNames [$myAlbum] : $myAlbum), ENT_QUOTES | ENT_HTML5
-        );
+        $this->artist = html_entity_decode($myArtist, ENT_QUOTES | ENT_HTML5);
+        $this->title  = html_entity_decode($myTitle, ENT_QUOTES | ENT_HTML5);
+        $this->album  = html_entity_decode($myAlbum, ENT_QUOTES | ENT_HTML5);
+
+        $occ = 0;
+        foreach ($invalidNames as $key => $value) {
+            $this->title  = str_replace($key, $value, $this->title);
+            $this->artist = str_replace($key, $value, $this->artist);
+        }
 
         // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
         $play_timestamp = 0;

@@ -112,16 +112,19 @@ encoding: UTF-8
 
                             <tbody name="fade" is="transition-group">
                             <tr key="true" v-if="TRACK.PLAY_CONTROL">
-                                <td style="border: 0px">&nbsp;</td>
+                                <td style="border: 0px">
+                                    <span style="display: none" id="TRACK_ARTIST">{{TRACK.ARTIST}}</span>
+                                    <span style="display: none" id="TRACK_TITLE">{{TRACK.TITLE}}</span>
+                                </td>
                                 <td colspan="3" style="vertical-align: middle; border: 0px">
                                     <ul class="icons" style="display: inline">
-                                        <li><a href="#" class="icon fa-play" title="Play"><span
+                                        <li><a onclick="javascript:player.loadSong($('#TRACK_ARTIST').text(), $('#TRACK_TITLE').text());" class="icon fa-play" title="Play"><span
                                                 class="label">Play</span></a></li>
-                                        <li><a href="#" class="icon fa-heart" title="Rate this Song"><span
+                                        <li><a class="icon fa-heart" title="Rate this Song"><span
                                                 class="label">Rate this Song</span></a></li>
-                                        <li><a href="#" class="icon fa-plus" title="add to Playlist"><span
+                                        <li><a  class="icon fa-plus" title="add to Playlist"><span
                                                 class="label">Add to Playlist</span></a></li>
-                                        <li><a href="#" class="icon fa-search" title="search alternative Video"><span
+                                        <li><a class="icon fa-search" title="search alternative Video"><span
                                                 class="label">search alternative Video</span></a></li>
                                     </ul>
                                 </td>
