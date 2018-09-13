@@ -30,6 +30,12 @@ switch ($_GET['api']) {
     case 'page':
         $json = new PageJson();
         break;
+    case 'vars':
+        $json = new EnvVarsJson();
+        break;
+    case 'videos':
+        $json = new YouTubeJson();
+        break;
     default:
         DefaultJson::baseError('unbekannter Api Endpunkt: ' . $_GET['api']);
         break;

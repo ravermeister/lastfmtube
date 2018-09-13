@@ -18,27 +18,43 @@ class YouTubeJson extends DefaultJson {
 
 
     public function get($getvars) {
-        if (!isset($getvars['ytaction'])) {
+
+        if (!isset($getvars['data'])) {
             return $this->jsonError("Falsche Parameter für aktion");
         }
-
-        switch ($getvars['ytaction']) {
-            case 'search':
-                return search($getvars['listsize']);
+        try {
+            $data = false;
+            $type = false;
+            switch (strtolower($getvars['data'])) {
+                case 'search':
+                    $data = $this->search($getvars);
+                    $type = 'videosearch';
+                    break;
+                default:
+                    return $this->jsonError('Falsche Parameterangabe');
+            }
+            return $this->jsonData($data, $type);
+        } catch (Exception $err) {
+            return $this->jsonError('unbekannter Fehler: ' . $err->getMessage());
         }
     }
 
-    private function search($size = 1) {
-        if (is_nan($size)) $size = 1;
+    private function search($getvars) {
+        $size = isset($getvars['size']) ? $getvars['size'] : '';
+        $needle = isset($getvars['needle']) ? $getvars['needle'] : '';
+        if(strlen(trim($needle)) == 0) {
+            return $this->jsonError('Kein suchkriterium angegeben!');
+        }
+        if (!is_integer($size) || $size<0) $size = 1;
 
-        $needle   = Functions::getInstance()->prepareNeedle($_GET ['needle']);
+        $needle   = Functions::getInstance()->prepareNeedle($needle);
         $searcher = Functions::getInstance()->getYtApi();
         $searcher->setNeedle($needle);
 
         $searcher->search($size);
         $videos = $searcher->getVideoList();
 
-        return $this->jsonData($videos);
+        return $videos;
 
     }
 }

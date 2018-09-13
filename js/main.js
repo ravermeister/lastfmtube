@@ -10,7 +10,6 @@ requirejs.config({
     paths: {
 
         jquery: 'jquery/jquery',
-        jQuery: 'jquery/jquery',
 
         // the Vue lib
         Vue: 'vue/vue.min',
@@ -18,21 +17,38 @@ requirejs.config({
         vue: 'vue/vue.requirejs',
 
         theme: '../../themes/dimension/assets/js'
+    },
+
+    shim: {
+        'theme/breakpoints.min': {
+            deps: ['jquery']
+        },
+        'theme/browser.min': {
+            deps: ['jquery']
+        },
+        'theme/util': {
+            deps: ['jquery']
+        },
+        'theme/main': {
+            deps: [
+                'jquery',
+                'theme/browser.min',
+                'theme/breakpoints.min',
+                'theme/util']
+        },
+        'player': {
+            deps: ['jquery', 'theme/main', 'Vue', 'vue']
+        },
+        'page': {
+            deps: ['theme/main', 'Vue', 'vue', 'player']
+        }
     }
+
 
 });
 
 // Start the main app logic.
-requirejs([
-    'requirejs/require_extra',
-    'jquery',
-    'Vue',
-    'vue',
-    'page_control',
-    'player_control',
-    'theme/breakpoints.min',
-    'theme/browser.min'
-], function () {
+requirejs(['page', 'player'], function () {
 
     //jQuery, canvas and the app/sub module are all
     //loaded and can be used here now.
@@ -46,21 +62,10 @@ requirejs([
     gtag('js', new Date());
     gtag('config', 'UA-26904270-14');
 
-});
-
-require([
-    'Vue',
-    'vue',
-    'jquery',
-    'theme/util',
-    'theme/main'
-], function (vue) {
-
+    require(['Vue', 'vue'], function (vue) {
         player = new PlayerController();
         page = new PageController(vue);
-
-
-
         page.init();
         player.initPlayer();
+    });
 });

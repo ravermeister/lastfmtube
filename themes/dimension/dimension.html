@@ -91,46 +91,84 @@ encoding: UTF-8
 
             <section>
                 <div class="table-wrapper" id="playlist-content">
-                    <table class="alt">
-                        <thead>
-                        <tr>
-                            <td>{{TRACK_NR}}</td>
-                            <td>{{TRACK_ARTIST}}</td>
-                            <td>{{TRACK_TITLE}}</td>
-                            <td>{{TRACK_LASTPLAY}}</td>
-                        </tr>
-                        </thead>
-                        <template v-for="TRACK in TRACKS">
-                            <tbody>
-                            <tr @click="page.showPlayerControl(TRACK, true)" style="cursor: pointer">
-                                <td>{{TRACK.NR}}</td>
-                                <td>{{TRACK.ARTIST}}</td>
-                                <td>{{TRACK.TITLE}}</td>
-                                <td>{{TRACK.LASTPLAY}}</td>
-                            </tr>
-                            </tbody>
 
-                            <tbody name="fade" is="transition-group">
-                            <tr key="true" v-if="TRACK.PLAY_CONTROL">
-                                <td style="border: 0px">
-                                    <span style="display: none" id="TRACK_ARTIST">{{TRACK.ARTIST}}</span>
-                                    <span style="display: none" id="TRACK_TITLE">{{TRACK.TITLE}}</span>
+                    <script type="text/javascript">
+                        let theme_dimension = new Object();
+                        theme_dimension.play = function (elem) {
+                            player.setLoader($(this));
+                            let artist = '';
+                            let title = '';
+
+                            if (!artistClassName.startsWith('.')) artistClassName = '.' + artistClassName;
+                            if (!titleClassName.startsWith('.')) titleClassName = '.' + titleClassName;
+
+                            artistClassName += ':first';
+                            titleClassName += ':first';
+
+                            artist = $(elem).find(artistClassName);
+                            title = $(elem).find(titleClassName);
+
+                            if (artist.length > 0) artist = $(artist[0]).text();
+                            else artist = '';
+                            if (title.length > 0) title = $(title[0]).text();
+                            else title = '';
+
+                            player.loadSongByElem($(this).closest('td'), 'TRACK_ARTIST', 'TRACK_TITLE');
+                        };
+                    </script>
+                    <table >
+                        <thead>
+                            <tr>
+                                <th>{{TRACK_NR}}</th>
+                                <th>{{TRACK_ARTIST}}</th>
+                                <th>{{TRACK_TITLE}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <template v-for="TRACK in TRACKS">
+                            <tr
+                                    @mouseover="page.showQuickPlay(TRACK, $($event.target).closest('tr').find('.TRACK_NR'), true);"
+                                    @mouseleave="page.showQuickPlay(TRACK, $($event.target).closest('tr').find('.TRACK_NR'), false);"
+                            >
+                                <td class="TRACK_NR">{{TRACK.NR}}</td>
+                                <td class="TRACK_ARTIST"
+                                    @click="page.togglePlayerControl(TRACK, true)"
+                                    style="cursor: pointer">{{TRACK.ARTIST}}
                                 </td>
-                                <td colspan="3" style="vertical-align: middle; border: 0px">
-                                    <ul class="icons" style="display: inline">
-                                        <li><a onclick="javascript:player.loadSong($('#TRACK_ARTIST').text(), $('#TRACK_TITLE').text());" class="icon fa-play" title="Play"><span
-                                                class="label">Play</span></a></li>
-                                        <li><a class="icon fa-heart" title="Rate this Song"><span
-                                                class="label">Rate this Song</span></a></li>
-                                        <li><a  class="icon fa-plus" title="add to Playlist"><span
-                                                class="label">Add to Playlist</span></a></li>
-                                        <li><a class="icon fa-search" title="search alternative Video"><span
-                                                class="label">search alternative Video</span></a></li>
-                                    </ul>
+                                <td class="TRACK_TITLE"
+                                    @click="page.togglePlayerControl(TRACK, true)"
+                                    style="cursor: pointer">{{TRACK.TITLE}}
                                 </td>
                             </tr>
-                            </tbody>
+
+                            <transition name="fade" is="transition-group">
+                                <tr key="true" v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
+                                    <td colspan="3" style="vertical-align: middle; border: 0px">
+                                        <ul class="icons" style="display: inline">
+                                            <li @click="player.loadSong(TRACK, $refs);">
+                                                <a class="icon fa-play" title="Play">
+                                                    <span class="label">Play</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="icon fa-list-ul" title="Queue Video">
+                                                    <span class="label">Queue Video</span>
+                                                </a>
+                                            </li>
+
+                                            <li><a class="icon fa-heart" title="Rate this Song"><span
+                                                    class="label">Rate this Song</span></a></li>
+                                            <li><a class="icon fa-plus" title="add to Playlist"><span
+                                                    class="label">Add to Playlist</span></a></li>
+                                            <li><a class="icon fa-search" title="search alternative Video"><span
+                                                    class="label">search alternative Video</span></a></li>
+                                        </ul>
+                                        <span style="float: right">{{TRACK.LASTPLAY}}</span>
+                                    </td>
+                                </tr>
+                            </transition>
                         </template>
+                        </tbody>
                     </table>
                 </div>
             </section>

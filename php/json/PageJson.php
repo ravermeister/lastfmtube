@@ -115,7 +115,6 @@ class PageJson extends DefaultJson {
         $data->data['LASTFM_USER_URL']  = '//last.fm/user/' . $this->lfmapi->getUser();
         $page['PLAYLIST_HEADER']        = $data;
 
-
         $data                                 = new VuePageData();
         $data->el                             = '#page-playlist>.playlist-nav';
         $data->data['LASTFM_USER_NAME_LABEL'] = $this->locale['site.playercontrol.user.label'];

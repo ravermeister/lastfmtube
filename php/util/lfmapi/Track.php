@@ -2,7 +2,6 @@
 
 namespace LastFmTube\Util\lfmapi;
 
-use LastFmTube\Util\Strings;
 use simplehtmldom_1_5\simple_html_dom_node;
 
 class Track {

@@ -72,9 +72,9 @@ class LastFm {
             if (Strings::startsWith($line, '#')) continue;
 
             $line = Strings::trimEOL($line);
-            if(strlen(trim($line)) == 0) continue;
+            if (strlen(trim($line)) == 0) continue;
 
-            $entry = explode("=", $line, 2);
+            $entry                           = explode("=", $line, 2);
             $this->invalidNames [$entry [0]] = $entry [1];
         }
     }

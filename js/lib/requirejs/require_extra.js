@@ -26094,6 +26094,7 @@ var requirejs, require, define, xpcUtil;
                                 node.id && node.id.name === 'define' &&
                                 node.id.type === 'Identifier') {
                                 init = node.init;
+                                // noinspection JSAnnotator
                                 if (init && init.callee &&
                                     init.callee.type === 'CallExpression' &&
                                     init.callee.callee &&
