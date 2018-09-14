@@ -154,7 +154,9 @@ class PageJson extends DefaultJson {
                                             'LASTPLAY'     => $track->isPlaying() ?
                                                 $this->locale['playlist.lastplay.now'] :
                                                 $track->getDateofPlay(),
-                                            'PLAY_CONTROL' => false
+                                            'PLAY_CONTROL' => false,
+                                            'PLAYLIST' => 'default'
+
             );
 
 

@@ -53,7 +53,7 @@ encoding: UTF-8
             <h2 class="major"><a v-bind:href="LASTFM_USER_URL" target="_blank">{{LASTFM_USER_NAME}}</a>'s list</a></h2>
 
             <section class="playlist-nav">
-                <form onsubmit="return false">
+                <form v-on:submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
                     <div class="fields">
 
                         <div class="field third">
@@ -72,15 +72,16 @@ encoding: UTF-8
                         </div>
                         <div class="field third" align="center" style="vertical-align: center">
                             <label>&nbsp;</label>
-                            <a onclick="javascript:page.loadPlayListPage('default', -1);"
+                            <a
+                               v-on:click="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                class="icon fa-step-backward"
                                title="Previous Page"
                                style="cursor: pointer; font-size: 24pt; float: left;">&nbsp;</a>
 
-                            <input type="submit" name="playlist_load" id="playlist_load" v-bind:value="PLAYLIST_LOAD"
-                                   onclick="javascript:page.loadPlayListPage('default');"/>
+                            <input type="submit" name="playlist_load" id="playlist_load" v-bind:value="PLAYLIST_LOAD" />
 
-                            <a onclick="javascript:page.loadPlayListPage('default', 1);"
+                            <a
+                                v-on:click="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                class="icon fa-step-forward"
                                title="Next Page"
                                style="cursor: pointer; font-size: 24pt; float: right;">&nbsp;</a>
@@ -91,31 +92,6 @@ encoding: UTF-8
 
             <section>
                 <div class="table-wrapper" id="playlist-content">
-
-                    <script type="text/javascript">
-                        let theme_dimension = new Object();
-                        theme_dimension.play = function (elem) {
-                            player.setLoader($(this));
-                            let artist = '';
-                            let title = '';
-
-                            if (!artistClassName.startsWith('.')) artistClassName = '.' + artistClassName;
-                            if (!titleClassName.startsWith('.')) titleClassName = '.' + titleClassName;
-
-                            artistClassName += ':first';
-                            titleClassName += ':first';
-
-                            artist = $(elem).find(artistClassName);
-                            title = $(elem).find(titleClassName);
-
-                            if (artist.length > 0) artist = $(artist[0]).text();
-                            else artist = '';
-                            if (title.length > 0) title = $(title[0]).text();
-                            else title = '';
-
-                            player.loadSongByElem($(this).closest('td'), 'TRACK_ARTIST', 'TRACK_TITLE');
-                        };
-                    </script>
                     <table >
                         <thead>
                             <tr>
@@ -126,17 +102,16 @@ encoding: UTF-8
                         </thead>
                         <tbody>
                         <template v-for="TRACK in TRACKS">
-                            <tr
-                                    @mouseover="page.showQuickPlay(TRACK, $($event.target).closest('tr').find('.TRACK_NR'), true);"
-                                    @mouseleave="page.showQuickPlay(TRACK, $($event.target).closest('tr').find('.TRACK_NR'), false);"
-                            >
-                                <td class="TRACK_NR">{{TRACK.NR}}</td>
+                            <tr v-on:mouseover="showPlay(TRACK, true);" v-on:mouseout="showPlay(TRACK, false);">
+                                <td class="TRACK_NR" v-on:click="togglePlay(TRACK);" v-html="TRACK.NR">
+                                    {{TRACK.NR}}
+                                </td>
                                 <td class="TRACK_ARTIST"
-                                    @click="page.togglePlayerControl(TRACK, true)"
+                                    v-on:click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">{{TRACK.ARTIST}}
                                 </td>
                                 <td class="TRACK_TITLE"
-                                    @click="page.togglePlayerControl(TRACK, true)"
+                                    v-on:click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">{{TRACK.TITLE}}
                                 </td>
                             </tr>
@@ -145,22 +120,22 @@ encoding: UTF-8
                                 <tr key="true" v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
                                     <td colspan="3" style="vertical-align: middle; border: 0px">
                                         <ul class="icons" style="display: inline">
-                                            <li @click="player.loadSong(TRACK, $refs);">
-                                                <a class="icon fa-play" title="Play">
+                                            <li>
+                                                <a class="icon fa-play" style="cursor: pointer" title="Play" v-on:click="playTrack(TRACK);">
                                                     <span class="label">Play</span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="icon fa-list-ul" title="Queue Video">
+                                                <a class="icon fa-list-ul" style="cursor: pointer" title="Queue Video">
                                                     <span class="label">Queue Video</span>
                                                 </a>
                                             </li>
 
-                                            <li><a class="icon fa-heart" title="Rate this Song"><span
+                                            <li><a class="icon fa-heart" style="cursor: pointer" title="Rate this Song"><span
                                                     class="label">Rate this Song</span></a></li>
-                                            <li><a class="icon fa-plus" title="add to Playlist"><span
+                                            <li><a class="icon fa-plus" style="cursor: pointer" title="add to Playlist"><span
                                                     class="label">Add to Playlist</span></a></li>
-                                            <li><a class="icon fa-search" title="search alternative Video"><span
+                                            <li><a class="icon fa-search" style="cursor: pointer" title="search alternative Video"><span
                                                     class="label">search alternative Video</span></a></li>
                                         </ul>
                                         <span style="float: right">{{TRACK.LASTPLAY}}</span>
