@@ -12,7 +12,7 @@ use LastFmTube\Util\Functions;
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
 static $RESERVED_ARGS = array('api');
-
+header("Content-Type: application/json;charset=utf-8");
 
 if (!isset($_GET['api']) || strlen($_GET['api']) == 0) {
     DefaultJson::baseError('Falsche Parameter angabe!');
@@ -72,5 +72,5 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 }
 
-header('Content-Type: application/json');
+
 die($output);

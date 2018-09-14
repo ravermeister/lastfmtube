@@ -20,6 +20,7 @@ requirejs.config({
     },
 
     shim: {
+
         'theme/breakpoints.min': {
             deps: ['jquery']
         },
@@ -62,10 +63,14 @@ requirejs(['page', 'player'], function () {
     gtag('js', new Date());
     gtag('config', 'UA-26904270-14');
 
-    require(['Vue', 'vue'], function (vue) {
+    require([
+        'Vue',
+        'vue'], function (Vue, vue) {
+
         player = new PlayerController();
-        page = new PageController(vue);
-        page.init();
+        page = new PageController(Vue);
+
         player.initPlayer();
+        page.init();
     });
 });

@@ -2,6 +2,7 @@
 
 namespace LastFmTube\Util\lfmapi;
 
+use LastFmTube\Util\Functions;
 use LastFmTube\Util\Strings;
 use simplehtmldom_1_5\simple_html_dom;
 use Sunra\PhpSimple\HtmlDomParser;
@@ -123,7 +124,9 @@ class LastFm {
         if (isset ($this->user)) $url .= '&user=' . $this->user;
 
         if (strcmp($this->request_url, '') == 0) $this->setURL($url);
-        $html = HtmlDomParser::file_get_html($this->request_url);
+
+        $html = HtmlDomParser::str_get_html(Functions::getRemoteFile($this->request_url));
+        //$html = HtmlDomParser::file_get_html($this->request_url);
         return $html;
     }
 

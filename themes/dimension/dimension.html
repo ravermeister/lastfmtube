@@ -7,16 +7,20 @@ encoding: UTF-8
     <title>{{TITLE}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+
+    <!-- data-main attribute tells require.js to load
+    scripts/main.js after require.js loads. -->
+    <script data-main="js/main" src="js/lib/requirejs/require.js"></script>
+
+
     <link rel="stylesheet" href="themes/dimension/assets/css/main.css"/>
     <noscript>
         <link rel="stylesheet" href="themes/dimension/assets/css/noscript.css"/>
     </noscript>
 
-    <!-- data-main attribute tells require.js to load
-     scripts/main.js after require.js loads. -->
-    <script data-main="js/main" src="js/lib/requirejs/require.js"></script>
 </head>
 <body class="is-preload">
+
 
 <!-- Wrapper -->
 <div id="wrapper">

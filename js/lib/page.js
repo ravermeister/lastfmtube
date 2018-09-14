@@ -12,10 +12,10 @@ class PageController {
     init() {
 
         let vueMap = this.vueMap;
-        let request = 'php/json/JsonHandler.php?api=page&data=page';
+        let request = '/dev/lastfmtube/php/json/JsonHandler.php?api=page&data=page';
         let page = this;
 
-        $.getJSON(request).done(function (json) {
+        $.getJSON(request, function (json) {
             //console.log(JSON.stringify(json.data.value));
             for (let key in json.data.value) {
                 switch (key) {
@@ -29,10 +29,11 @@ class PageController {
                         vueMap[key] = page.initDefaultVue(json.data.value[key]);
                         break;
                 }
-
-                //console.log('vue: ' + key);
             }
-
+            console.log('init page success');
+        }).fail(function (xhr, status, error) {
+            //var err = eval("(" + xhr.responseText + ")");
+            console.log(xhr.responseText);
         });
     }
 
@@ -134,7 +135,7 @@ class PageController {
         });
     }
 
-    loadPage(user, pageNum, list = 'default') {
+    loadPage(user, pageNum, list = 'default', callBack = null) {
         let vueMap = page.vueMap;
 
 
@@ -144,9 +145,7 @@ class PageController {
             '&page=' + pageNum
         ;
 
-        $.getJSON(request, {
-            dataType: 'json'
-        }).done(function (json) {
+        $.getJSON(request, function (json) {
 
             vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = json.data.value['PLAYLIST_HEADER'].data.LASTFM_USER_NAME;
             vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = json.data.value['PLAYLIST_HEADER'].data.LASTFM_USER_URL;
@@ -171,6 +170,13 @@ class PageController {
             }
 
             vueMap['PLAYLIST_TRACKS'].$data.TRACKS = json.data.value['PLAYLIST_TRACKS'].data.TRACKS;
+
+            if(callBack!=null) {
+                callBack();
+            }
+        }).fail(function () {
+            console.error('error loading page');
         });
     }
+
 }
