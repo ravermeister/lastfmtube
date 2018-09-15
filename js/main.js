@@ -10,7 +10,9 @@ requirejs.config({
     paths: {
 
         jquery: 'jquery/jquery',
-
+        
+        youtube:'https://www.youtube.com/iframe_api',
+        
         // the Vue lib
         Vue: 'vue/vue.min',
         // Vue RequireJS loader
