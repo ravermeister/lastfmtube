@@ -83,15 +83,15 @@ class PageController {
             data: json.data,
 
             methods: {
-                togglePlayControl: function (track) {                    
+                togglePlayControl: function (track) {
                     if (page.PLAY_CONTROL != null && page.PLAY_CONTROL != track) {
                         page.PLAY_CONTROL.PLAY_CONTROL = false;
                     }
-                    
-                    if(page.PLAYLIST!= null && page.PLAYLIST=='search') {
+
+                    if (page.PLAYLIST != null && page.PLAYLIST == 'search') {
                         page.vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
                     }
-                    
+
                     track.PLAY_CONTROL = !track.PLAY_CONTROL;
                     page.PLAY_CONTROL = track;
                 },
@@ -126,11 +126,11 @@ class PageController {
                 },
 
                 showPlay: function (track, show) {
-                    
+
                     if (player.isCurrentTrack(track)) {
                         return;
                     }
-                    
+
                     if (show) {
                         page.QUICKPLAY_TRACK = track;
                         page.QUICKPLAY_TRACK_NR = track.NR;
@@ -149,7 +149,7 @@ class PageController {
 
                     track.PLAY_CONTROL = false;
                     track.PLAYLIST = 'userlist';
-                    track.NR = tracks.length+1;
+                    track.NR = tracks.length + 1;
                     tracks.push(track);
                     page.setUserTracks(tracks);
                 },
@@ -159,22 +159,22 @@ class PageController {
                     let storage = page.storage;
                     if (!storage.isSet('userlist.tracks')) return;
 
-                    let removeTrack = function(tracks, track) {
+                    let removeTrack = function (tracks, track) {
                         let trackIndex = tracks.indexOf(track);
-                        if(trackIndex<0) {
-                            for(let cnt=0;cnt<tracks.length;cnt++) {
+                        if (trackIndex < 0) {
+                            for (let cnt = 0; cnt < tracks.length; cnt++) {
                                 let curTrack = tracks[cnt];
-                                if(parseInt(curTrack.NR) == parseInt(track.NR)) {
+                                if (parseInt(curTrack.NR) == parseInt(track.NR)) {
                                     trackIndex = cnt;
                                     break;
                                 }
                             }
-                            if(trackIndex<0) return;
+                            if (trackIndex < 0) return;
                         }
 
                         tracks.splice(trackIndex, 1);
-                        for(let cnt=trackIndex;cnt<tracks.length;cnt++) {
-                            tracks[cnt].NR = cnt+1;
+                        for (let cnt = trackIndex; cnt < tracks.length; cnt++) {
+                            tracks[cnt].NR = cnt + 1;
                         }
                     };
 
@@ -185,22 +185,22 @@ class PageController {
 
                     let curPage = page.vueMap['PLAYLIST_NAV'].$data.CUR_PAGE;
                     page.loadPlaylistPage(curPage);
-                }, 
-                
-                searchVideos(event, track) {                    
+                },
+
+                searchVideos(event, track) {
                     let icon_html = $(event.target).html();
                     let needle = page.createNeedle(track);
-                    let request = 'php/json/JsonHandler.php?api=videos&data=search&size=25&needle='+needle.asVar();
-                    let setLoading = function(isLoading) {
-                        if(isLoading) {
+                    let request = 'php/json/JsonHandler.php?api=videos&data=search&size=25&needle=' + needle.asVar();
+                    let setLoading = function (isLoading) {
+                        if (isLoading) {
                             $(event.target).html('');
-                            $(event.target).attr('class', $(player.icon_loading).attr('class'));                            
+                            $(event.target).attr('class', $(player.icon_loading).attr('class'));
                         } else {
                             $(event.target).html(icon_html);
-                            $(event.target).attr('class', $(player.icon_search).attr('class'));                            
+                            $(event.target).attr('class', $(player.icon_search).attr('class'));
                         }
                     };
-                    let cleanTitle = function(str, needle) {
+                    let cleanTitle = function (str, needle) {
                         let pattern = new RegExp(needle, 'gi');
                         return str.replace(pattern, '');
                     };
@@ -209,19 +209,19 @@ class PageController {
                     $.getJSON(request, function (json) {
                         setLoading(false);
                         let tracks = Array();
-                        
-                        for(let cnt=0;cnt<json.data.value.length;cnt++) {
+
+                        for (let cnt = 0; cnt < json.data.value.length; cnt++) {
                             let video = json.data.value[cnt];
-                            
+
                             tracks[cnt] = {
-                                NR: (cnt+1),
+                                NR: (cnt + 1),
                                 ARTIST: track.ARTIST,
                                 TITLE: video['title'], //cleanTitle(video['title'], track.ARTIST),
                                 VIDEO_ID: video['video_id'],
                                 LASTPLAY: '',
                                 PLAY_CONTROL: false,
                                 PLAYLIST: 'search'
-                            }                            
+                            };
                         }
                         page.loadSearchResult(track, tracks, 1, function () {
                             page.PLAYLIST = 'search';
@@ -234,73 +234,73 @@ class PageController {
                     });
 
                 },
-                
+
                 saveAlternative(track, video = null) {
                     let needle = page.createNeedle(page.vueMap['PLAYLIST_TRACKS'].$data.SEARCH_TRACK);
-                    needle.videoId = video!= null ? video : track.VIDEO_ID;
+                    needle.videoId = video != null ? video : track.VIDEO_ID;
                     let request = 'php/json/JsonHandler.php?api=vars';
 
-                    $.post(request,{
-                        name:   needle.asVar(true),
+                    $.post(request, {
+                        name: needle.asVar(true),
                         value: needle.videoId
-                    }, function(json) {
+                    }, function (json) {
                         //console.log('successful saved alternative video');                        
                     }, 'json').fail(function (xhr) {
                         console.error('error saving youtube alternative video');
                         console.error(xhr.responseText);
                     });
-                }, 
-                
+                },
+
                 deleteAlternative(event, track, tracks) {
-                    
+
                     let needle = page.createNeedle(track);
-                    let request = 'php/json/JsonHandler.php?api=vars&name='+needle.asVar();
-                    let cleanTracks = function(cleanTrack, trackList) {
+                    let request = 'php/json/JsonHandler.php?api=vars&name=' + needle.asVar();
+                    let cleanTracks = function (cleanTrack, trackList) {
                         let videoId = cleanTrack.VIDEO_ID;
-                        for(let cnt=0;cnt<trackList.length;cnt++) {                            
+                        for (let cnt = 0; cnt < trackList.length; cnt++) {
                             let curTr = trackList[cnt];
 
-                            if(curTr.TITLE == cleanTrack.TITLE && curTr.ARTIST == cleanTrack.ARTIST && curTr.VIDEO_ID==videoId) {
+                            if (curTr.TITLE == cleanTrack.TITLE && curTr.ARTIST == cleanTrack.ARTIST && curTr.VIDEO_ID == videoId) {
                                 curTr.VIDEO_ID = '';
                             }
                         }
                     };
-                    
+
                     $.ajax({
                         url: request,
                         type: 'DELETE',
                         dataType: 'json',
                         success: function (json) {
                             cleanTracks(track, tracks);
-                        }, 
+                        },
                         fail: function (xhr) {
                             console.error('error deleting youtube alternative');
                             console.error(xhr.responseText);
                         }
                     });
-                }                
+                }
             }
         });
     }
 
-    createNeedle(track){
+    createNeedle(track) {
         let needle = new Object();
         needle.artist = track.ARTIST;
         needle.title = track.TITLE;
         needle.videoId = track.videoId;
         needle.asVar = function (raw = false) {
-            if(!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
-            else return this.artist+' '+this.title;
+            if (!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
+            else return this.artist + ' ' + this.title;
         };
-        
+
         return needle;
     }
-    
+
     clone(src) {
         return Object.assign({}, src);
     }
 
-    getUserTracks(){
+    getUserTracks() {
         let storage = this.storage;
         if (!storage.isSet('userlist.tracks')) storage.set('userlist.tracks', new Array());
         return storage.get('userlist.tracks');
@@ -311,19 +311,19 @@ class PageController {
         storage.set('userlist.tracks', tracks);
     }
 
-    updateUserListPages(pageNum = null){
+    updateUserListPages(pageNum = null) {
         let tracksPerPage = this.TRACKS_PER_PAGE;
         let tracks = this.getUserTracks();
-        let pageCount =  parseInt(tracks.length/tracksPerPage);
-        if((tracks.length%tracksPerPage) > 0) pageCount++;
+        let pageCount = parseInt(tracks.length / tracksPerPage);
+        if ((tracks.length % tracksPerPage) > 0) pageCount++;
 
         let vueMap = this.vueMap;
         vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'My Playlist';
         vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
 
-        if(pageNum!=null) {
-            if(pageNum>pageCount) pageNum = pageCount;
-            else if(pageNum<1) pageNum = 1;
+        if (pageNum != null) {
+            if (pageNum > pageCount) pageNum = pageCount;
+            else if (pageNum < 1) pageNum = 1;
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;
         } else pageNum = parseInt(vueMap['PLAYLIST_NAV'].$data.CUR_PAGE);
 
@@ -335,33 +335,33 @@ class PageController {
     }
 
     load(menu) {
-        if(!player.isReady) return;
+        if (!player.isReady) return;
 
         let playlist = 'default';
         if (typeof menu.ARGS !== 'undefined' && ('PLAYLIST' in menu.ARGS)) {
             playlist = menu.ARGS['PLAYLIST'];
         }
-        
+
 
         let menuloader = $('#page-menuloader');
-        let showPage = function (success) {            
-            menuloader.attr('class',page.MENULOADER_CLASS);
-            if(!success) return;
-            location.href=menu.URL;
+        let showPage = function (success) {
+            menuloader.attr('class', page.MENULOADER_CLASS);
+            if (!success) return;
+            location.href = menu.URL;
         };
-        
-        menuloader.attr('class',$(player.icon_loading).attr('class'));
+
+        menuloader.attr('class', $(player.icon_loading).attr('class'));
         if (playlist != null && playlist == this.PLAYLIST) {
-            showPage(true);   
-        }  else {
+            showPage(true);
+        } else {
             this.PLAYLIST = playlist;
-            this.loadPlaylistPage(1,null,showPage);            
+            this.loadPlaylistPage(1, null, showPage);
         }
     }
 
     loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
-        if(playlist == null) playlist = this.PLAYLIST;
-        
+        if (playlist == null) playlist = this.PLAYLIST;
+
         switch (playlist) {
             case 'userlist':
                 this.loadUserPlayListPage(pageNum, callBack);
@@ -373,13 +373,13 @@ class PageController {
                 this.loadDefaultPlayListPage(pageNum, user, callBack);
         }
     }
-    
+
     loadSearchResult(track, result, pageNum = 1, callBack = null) {
         let vueMap = this.vueMap;
-        
-        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Search Result for<br />'+track.ARTIST+'<br />'+track.TITLE;
+
+        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Search Result for<br />' + track.ARTIST + '<br />' + track.TITLE;
         vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
-        vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;       
+        vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;
         vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = 1;
         vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
         vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'search';
@@ -433,11 +433,11 @@ class PageController {
             if (callBack != null) {
                 callBack(true);
             }
-        }).fail(function (xhr) {            
+        }).fail(function (xhr) {
             console.error('error loading topsongs');
             console.log(request);
             console.log(xhr.responseText);
-            
+
             if (callBack != null) {
                 callBack(false);
             }
@@ -449,13 +449,13 @@ class PageController {
         let tracks = this.getUserTracks();
         let tracksPerPage = this.TRACKS_PER_PAGE;
         pageNum = this.updateUserListPages(pageNum);
-        let endIndex = pageNum*tracksPerPage;
-        let startIndex = endIndex-tracksPerPage;
+        let endIndex = pageNum * tracksPerPage;
+        let startIndex = endIndex - tracksPerPage;
 
-        if(endIndex>=tracks.length) {
+        if (endIndex >= tracks.length) {
             tracks = tracks.slice(startIndex);
         } else {
-            tracks = tracks.slice(startIndex,endIndex);
+            tracks = tracks.slice(startIndex, endIndex);
         }
 
         if (player.CURRENT_TRACK != null) {
@@ -474,7 +474,7 @@ class PageController {
                 newCurTrack.NR = player.icon_playing;
             }
         }
-        
+
         vueMap['PLAYLIST_TRACKS'].$data.TRACKS = tracks;
 
         if (callBack != null) {
@@ -506,14 +506,15 @@ class PageController {
             vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = json.data.value['PLAYLIST_HEADER'].data.LASTFM_USER_URL;
 
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
+            vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = json.data.value['PLAYLIST_NAV'].data.MAX_PAGES;
             vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = json.data.value['PLAYLIST_NAV'].data.LASTFM_USER_NAME;
             vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'default';
-            
+
             if (player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value['PLAYLIST_TRACKS'].data.TRACKS.length; cnt++) {
                     let track = json.data.value['PLAYLIST_TRACKS'].data.TRACKS[cnt];
-                    
+
                     if (player.isCurrentTrack(track)) {
                         newCurTrack = track;
                         break;
@@ -525,7 +526,7 @@ class PageController {
                     newCurTrack.NR = player.icon_playing;
                 }
             }
-            
+
             vueMap['PLAYLIST_TRACKS'].$data.TRACKS = json.data.value['PLAYLIST_TRACKS'].data.TRACKS;
 
             if (callBack != null) {
