@@ -19,7 +19,7 @@ class PageController {
     init() {
 
         let vueMap = this.vueMap;
-        let request = '/dev/lastfmtube/php/json/JsonHandler.php?api=page&data=page';
+        let request = 'php/json/JsonHandler.php?api=page&data=page';
         let page = this;
 
         $.getJSON(request, function (json) {
