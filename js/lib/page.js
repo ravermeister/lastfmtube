@@ -377,7 +377,7 @@ class PageController {
     loadSearchResult(track, result, pageNum = 1, callBack = null) {
         let vueMap = this.vueMap;
 
-        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Search Result for<br />' + track.ARTIST + '<br />' + track.TITLE;
+        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
         vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
         vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;
         vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = 1;
