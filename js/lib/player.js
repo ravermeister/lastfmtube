@@ -56,6 +56,10 @@ class PlayerController {
         let player = this;
 
         window.onYouTubeIframeAPIReady = function () {
+            
+            let nowPlaying = function(track) {
+                page.vueMap['YTPLAYER_HEADER'].$data.NOW_PLAYING = player.ytPlayer.getVideoData().title;
+            };
 
             let onReady = function (event) {
                 player.isReady = true;
@@ -75,6 +79,7 @@ class PlayerController {
                         if (player.CURRENT_TRACK != null) {
                             player.CURRENT_TRACK.NR = player.icon_playing;
                         }
+                        nowPlaying(player.CURRENT_TRACK);
                         break;
 
                     case player.ytStatus.PAUSED.ID:

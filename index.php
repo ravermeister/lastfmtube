@@ -13,7 +13,8 @@ $settings = Functions::getInstance()->getSettings();
 $themeFile = $settings['general']['theme'];
 $baseURL   = $settings['general']['baseurl'];
 
+
 $themeData = file_get_contents('themes/'.$themeFile.'/'.$themeFile.'.html');
 $themeData = str_replace('{{LANG}}', $settings['general']['lang'], $themeData);
-
+$themeData = str_replace('{{TITLE}}', 'Last.fm Youtube Radio', $themeData);
 die($themeData);

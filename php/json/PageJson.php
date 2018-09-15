@@ -130,6 +130,18 @@ class PageJson extends DefaultJson {
         $page['HEADER_CONTENT']     = $data;
         //header content
 
+        $data                      = new VuePageData();
+        $data->el                  = '#page-ytplayer>h2>.marquee';
+        $data->data['NOW_PLAYING'] = '';
+        $page['YTPLAYER_HEADER']   = $data;
+
+        $data                      = new VuePageData();
+        $data->el                  = '#page-ytplayer>.ytplayer-control';
+        $data->data['NOW_PLAYING'] = 'Not loaded';
+        $page['YTPLAYER_CONTROL']   = $data;
+        //Youtube Player content
+        
+        
         return $page;
     }
 
@@ -168,11 +180,13 @@ class PageJson extends DefaultJson {
         //lastfm navigation (pages/username)
 
 
-        $data                           = new VuePageData();
-        $data->el                       = '#playlist-content>table>thead';
-        $data->data['TRACK_NR']         = $this->locale['playlist.header.nr'];
-        $data->data['TRACK_ARTIST']     = $this->locale['playlist.header.artist'];
-        {}      $data->data['TRACK_TITLE']      = $this->locale['playlist.header.title'];
+        $data                       = new VuePageData();
+        $data->el                   = '#playlist-content>table>thead';
+        $data->data['TRACK_NR']     = $this->locale['playlist.header.nr'];
+        $data->data['TRACK_ARTIST'] = $this->locale['playlist.header.artist'];
+        {
+        }
+        $data->data['TRACK_TITLE']      = $this->locale['playlist.header.title'];
         $data->data['TRACK_LASTPLAY']   = $this->locale['playlist.header.lastplay'];
         $page['PLAYLIST_TRACKS_HEADER'] = $data;
 

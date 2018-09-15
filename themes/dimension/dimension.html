@@ -4,7 +4,8 @@ encoding: UTF-8
 <!DOCTYPE html>
 <html lang="{{LANG}}">
 <head>
-    <title>{{TITLE}}</title>
+    <!--// <title>{TITLE}}</title> //-->
+    <title>Last.fm Youtube Radio</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
@@ -50,8 +51,23 @@ encoding: UTF-8
 
         <!-- Player -->
         <article id="page-ytplayer">
+            <h2 class="major">
+                <span style="display: block; float: left;">Now Playing </span>
+                <div class="marquee">
+                    <span>{{NOW_PLAYING}}</span>
+                </div>                 
+            </h2>
+            
             <!-- youtube embed: html5 method -->
             <div id="player"></div>
+            
+            <div class="ytplayer-control">
+                <ul class="icons" style="display: inline">
+                    <a class="icon fa-play">
+                        <span class="label">Play</span>
+                    </a>    
+                </ul>
+            </div>
         </article>
 
         <!-- Playlist -->
@@ -232,9 +248,9 @@ encoding: UTF-8
                 &lt;<a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>&gt;
             </span>
             &nbsp;&nbsp;
-            <a href="http://www.wtfpl.net/" target="_blank" style="border: 0px; text-decoration: none;">
+            <a href="//www.wtfpl.net/" target="_blank" style="border: 0px; text-decoration: none;">
                 <img
-                        src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png"
+                        src="//www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png"
                         width="80" height="15" alt="WTFPL"/>
             </a>
 
