@@ -405,6 +405,7 @@ class PageController {
 
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
             vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = json.data.value['PLAYLIST_NAV'].data.MAX_PAGES;
+            vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'topsongs';
 
 
             let tracks = json.data.value['PLAYLIST_TRACKS'].data.TRACKS;
@@ -434,6 +435,7 @@ class PageController {
             }
         }).fail(function (xhr) {            
             console.error('error loading topsongs');
+            console.log(request);
             console.log(xhr.responseText);
             
             if (callBack != null) {
@@ -472,7 +474,7 @@ class PageController {
                 newCurTrack.NR = player.icon_playing;
             }
         }
-
+        
         vueMap['PLAYLIST_TRACKS'].$data.TRACKS = tracks;
 
         if (callBack != null) {
@@ -505,7 +507,8 @@ class PageController {
 
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
             vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = json.data.value['PLAYLIST_NAV'].data.LASTFM_USER_NAME;
-
+            vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'default';
+            
             if (player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value['PLAYLIST_TRACKS'].data.TRACKS.length; cnt++) {
