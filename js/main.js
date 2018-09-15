@@ -9,52 +9,72 @@ requirejs.config({
     //the paths config could be for a directory.
     paths: {
 
-        jquery: 'jquery/jquery',
-        
-        youtube:'https://www.youtube.com/iframe_api',
-        
+        jquery: [
+            '//unpkg.com/jquery@3.3.1/dist/jquery.min',
+            'jquery/jquery'
+        ],
+
+        youtube: [
+            '//www.youtube.com/iframe_api?noext=',
+            'ytapi/iframe-api'
+        ],
+
+        theme: '../../themes/dimension/assets/js',
+
         // the Vue lib
-        Vue: 'vue/vue.min',
+        Vue: [
+            '//unpkg.com/vue@2.5.17/dist/vue.min',
+            'vue/vue.min'
+        ],
         // Vue RequireJS loader
-        vue: 'vue/vue.requirejs',
+        vue: [            
+            '//rawgit.com/edgardleal/require-vue/master/dist/require-vuejs',
+            '//unpkg.com/requirejs-vue@1.1.5/requirejs-vue',
+            'vue/vue.requirejs'
+        ],
 
         //Storage js
-        Storages: 'jstorage/js.storage.min',
+        storage: [
+            '//unpkg.com/js-storage@1.0.4/js.storage',
+            'jstorage/js.storage.min'
+        ]
+    },
 
-        theme: '../../themes/dimension/assets/js'
+    config: {
+        'vue': {
+            'pug': 'browser-pug',
+            'css': 'inject',
+            'templateVar': 'template'
+        }
     },
 
     shim: {
+        'Vue': {
+            exports: ['Vue']
+        },
+        
+        'player': {
+            depds: ['youtube']
+        },       
 
-        'theme/breakpoints.min': {
-            deps: ['jquery']
-        },
-        'theme/browser.min': {
-            deps: ['jquery']
-        },
-        'theme/util': {
-            deps: ['jquery']
-        },
         'theme/main': {
             deps: [
                 'jquery',
+                'theme/util',
                 'theme/browser.min',
-                'theme/breakpoints.min',
-                'theme/util']
+                'theme/breakpoints.min'                
+            ]
         },
-        'player': {
-            deps: ['jquery', 'theme/main', 'Storages', 'Vue', 'vue']
-        },
-        'page': {
-            deps: ['jquery', 'theme/main', 'Storages','Vue', 'vue', 'player']
-        }
     }
-
-
 });
 
 // Start the main app logic.
-requirejs(['page', 'player'], function () {
+requirejs([    
+    'jquery',
+    'youtube',
+    'player', 
+    'page'
+], function () {
 
     //jQuery, canvas and the app/sub module are all
     //loaded and can be used here now.
@@ -67,16 +87,14 @@ requirejs(['page', 'player'], function () {
 
     gtag('js', new Date());
     gtag('config', 'UA-26904270-14');
-
-    require([
-        'Storages',
-        'Vue',
-        'vue'], function (Storages, Vue, vue) {
+    
+    require(['storage', 'Vue', 'theme/main'], function (storage, vue) {
 
         player = new PlayerController();
-        page = new PageController(Storages, Vue);
+        page = new PageController(storage, vue);
 
         player.initPlayer();
         page.init();
     });
+
 });

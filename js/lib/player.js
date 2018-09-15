@@ -115,7 +115,7 @@ class PlayerController {
                     'html5': 1,
                     'enablejsapi': 1,
                     'fs': 1,
-                    'playerapiid': 'lastfmtube'
+                    'playerapiid': 'AIzaSyACJ-cfvehDBHy_ybi396nrlVk59bPntLM'
                 },
 
                 events: {
