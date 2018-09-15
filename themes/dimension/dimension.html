@@ -86,7 +86,7 @@ encoding: UTF-8
                             <label for="playlist_page">
                                 {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
                             </label>
-                            <input type="text" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"
+                            <input type="number"  name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"
                                    onfocus="javascript:this.select();"/>
                         </div>
                         <div class="field third" align="center" style="vertical-align: center">

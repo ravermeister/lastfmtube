@@ -74,7 +74,6 @@ input, select, textarea {
     -ms-appearance: none;
     appearance: none;
 }
-
 /* Basic */
 
 @-ms-viewport {
@@ -389,6 +388,7 @@ label {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="password"],
 input[type="email"],
 input[type="tel"],
@@ -414,6 +414,7 @@ textarea {
 }
 
 input[type="text"]:invalid,
+input[type="number"]:invalid,
 input[type="password"]:invalid,
 input[type="email"]:invalid,
 input[type="tel"]:invalid,
@@ -423,6 +424,7 @@ textarea:invalid {
 }
 
 input[type="text"]:focus,
+input[type="number"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
@@ -457,6 +459,7 @@ select::-ms-expand {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="password"],
 input[type="email"],
 select {
@@ -1066,11 +1069,9 @@ button.primary,
     font-weight: 600;
 }
 
-input[type="submit"].disabled, input[type="submit"]:disabled,
+input[type="submit"].disabled,
 input[type="reset"].disabled,
-input[type="reset"]:disabled,
 input[type="button"].disabled,
-input[type="button"]:disabled,
 button.disabled,
 button:disabled,
 .button.disabled,
