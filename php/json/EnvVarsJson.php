@@ -35,9 +35,9 @@ class EnvVarsJson extends DefaultJson {
     }
 
     public function post($getvars, $postvars) {
-        if (!isset ($getvars ['name'])) return;
-        $key   = Functions::getInstance()->prepareNeedle($getvars['name']);
-        $value = html_entity_decode($getvars['value']);
+        if (!isset ($postvars ['name'])) $this->jsonError('ungültige Parameter');
+        $key   = Functions::getInstance()->prepareNeedle($postvars['name']);
+        $value = html_entity_decode($postvars['value']);
 
         Db::getInstance()->setEnvVar($key, $value);
         $value = Db::getInstance()->getEnvVar($key);

@@ -172,7 +172,7 @@ class PageJson extends DefaultJson {
         $data->el                       = '#playlist-content>table>thead';
         $data->data['TRACK_NR']         = $this->locale['playlist.header.nr'];
         $data->data['TRACK_ARTIST']     = $this->locale['playlist.header.artist'];
-        $data->data['TRACK_TITLE']      = $this->locale['playlist.header.title'];
+        {}      $data->data['TRACK_TITLE']      = $this->locale['playlist.header.title'];
         $data->data['TRACK_LASTPLAY']   = $this->locale['playlist.header.lastplay'];
         $page['PLAYLIST_TRACKS_HEADER'] = $data;
 
@@ -181,22 +181,24 @@ class PageJson extends DefaultJson {
         $data      = new VuePageData();
         $data->el  = '#playlist-content';
         $pageStart = (($pageNum - 1) * $maxpages);
+        $db        = DB::getInstance();
         for ($cnt = 0; $cnt < sizeof($tracks); $cnt++) {
             /**
              * @var Track
              */
             $track                               = $tracks[$cnt];
             $data->data['ADD_TO_PLAYLIST_TITLE'] = $this->locale['playlist.addtrack'];
-
-            $data->data['TRACKS'][] = array('NR'           => ($pageStart + $cnt + 1),
-                                            'ARTIST'       => $track->getArtist(),
-                                            'TITLE'        => $track->getTitle(),
-                                            'LASTPLAY'     => $track->isPlaying() ?
-                                                $this->locale['playlist.lastplay.now'] :
-                                                $track->getDateofPlay(),
-                                            'PLAY_CONTROL' => false,
-                                            'PLAYLIST'     => 'default'
-
+            $videoId                             = $db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
+            $data->data['TRACKS'][]              = array(
+                'NR'           => ($pageStart + $cnt + 1),
+                'ARTIST'       => $track->getArtist(),
+                'TITLE'        => $track->getTitle(),
+                'LASTPLAY'     => $track->isPlaying() ?
+                    $this->locale['playlist.lastplay.now'] :
+                    $track->getDateofPlay(),
+                'VIDEO_ID'     => $videoId,
+                'PLAY_CONTROL' => false,
+                'PLAYLIST'     => 'default'
             );
 
 
@@ -213,8 +215,8 @@ class PageJson extends DefaultJson {
         $offset   = ($pageNum - 1) * $limit;
         $topsongs = Db::getInstance()->query('SELECT_CHARTS', $limit, $offset);
         $maxpages = Db::getInstance()->query('SELECT_CHARTS_NUM_ROWS');
-        $maxpages = ((int) ($maxpages/$limit));
-        if(($maxpages%$limit)>0)$maxpages++;
+        $maxpages = ((int)($maxpages / $limit));
+        if (($maxpages % $limit) > 0) $maxpages++;
         $page = array();
 
         $data                    = new VuePageData();
@@ -237,20 +239,23 @@ class PageJson extends DefaultJson {
         $data     = new VuePageData();
         $data->el = '#playlist-content';
 
+        $db = DB::getInstance();
         for ($cnt = 0; $cnt < sizeof($topsongs); $cnt++) {
             $track                               = $topsongs[$cnt];
             $data->data['ADD_TO_PLAYLIST_TITLE'] = $this->locale['playlist.addtrack'];
-            $track['interpret'] = Functions::getInstance()->prepareNeedle($track['interpret']);
-            $track['title'] = Functions::getInstance()->prepareNeedle($track['title']);
+            $track['interpret']                  = Functions::getInstance()->prepareNeedle($track['interpret']);
+            $track['title']                      = Functions::getInstance()->prepareNeedle($track['title']);
+            $videoId                             = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
 
-            $data->data['TRACKS'][]              = array('NR'           => ($offset + $cnt + 1),
-                                                         'ARTIST'       => $track['interpret'],
-                                                         'TITLE'        => $track['title'],
-                                                         'LASTPLAY'     => $track['lastplay_time'],
-                                                         'LASTPLAY_IP'  => $track['lastplay_ip'],
-                                                         'PLAYCOUNT'    => $track['playcount'],
-                                                         'PLAY_CONTROL' => false,
-                                                         'PLAYLIST'     => 'topsongs'
+            $data->data['TRACKS'][] = array('NR'           => ($offset + $cnt + 1),
+                                            'ARTIST'       => $track['interpret'],
+                                            'TITLE'        => $track['title'],
+                                            'LASTPLAY'     => $track['lastplay_time'],
+                                            'LASTPLAY_IP'  => $track['lastplay_ip'],
+                                            'PLAYCOUNT'    => $track['playcount'],
+                                            'VIDEO_ID'     => $videoId,
+                                            'PLAY_CONTROL' => false,
+                                            'PLAYLIST'     => 'topsongs'
             );
         }
         $page['PLAYLIST_TRACKS'] = $data;

@@ -40,12 +40,11 @@ class YouTubeJson extends DefaultJson {
     }
 
     private function search($getvars) {
-        $size = isset($getvars['size']) ? $getvars['size'] : '';
+        $size = isset($getvars['size']) ? $getvars['size'] : 1;
         $needle = isset($getvars['needle']) ? $getvars['needle'] : '';
         if(strlen(trim($needle)) == 0) {
             return $this->jsonError('Kein suchkriterium angegeben!');
         }
-        if (!is_integer($size) || $size<0) $size = 1;
 
         $needle   = Functions::getInstance()->prepareNeedle($needle);
         $searcher = Functions::getInstance()->getYtApi();

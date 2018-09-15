@@ -1,6 +1,7 @@
 class ChartTimer {
 
 }
+
 class PlayerController {
 
     constructor() {
@@ -39,6 +40,7 @@ class PlayerController {
         this.icon_playing = '<i class="fa fa-play faa-flash animated" style="cursor: pointer"></i>';
         this.icon_pause = '<i class="fa fa-pause" style="cursor: pointer"></i>';
         this.icon_play = '<i class="fa fa-play" style="cursor: pointer"></i>';
+        this.icon_search = '<i class="icon fa-search"></i>';
     }
 
     initPlayer() {
@@ -125,27 +127,28 @@ class PlayerController {
     }
 
 
-
     loadNextSong() {
-        if(this.CURRENT_TRACK==null) return;
+        if (this.CURRENT_TRACK == null) return;
         let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
         let index = tracks.indexOf(this.CURRENT_TRACK);
 
-        if((index+1)>=tracks.length) {
+        if ((index + 1) >= tracks.length) {
             let playlist = page.vueMap['PLAYLIST_NAV'];
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
-            if((curPage+1)>maxPages) curPage = 1;
+            if ((curPage + 1) > maxPages) curPage = 1;
             else curPage++;
 
-            page.loadPlaylistPage(user, curPage,'default', function () {
+            page.loadPlaylistPage(user, curPage, 'default', function (success) {
+                if (!success) return;
+
                 let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
                 player.loadSong(tracks[0]);
             });
 
             return;
-        } else if(index<0) {
+        } else if (index < 0) {
             index = 0;
         } else {
             index++;
@@ -155,26 +158,28 @@ class PlayerController {
     }
 
     loadPreviousSong() {
-        if(this.CURRENT_TRACK==null) return;
+        if (this.CURRENT_TRACK == null) return;
         let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
         let index = tracks.indexOf(this.CURRENT_TRACK);
 
-        if((index-1)<0) {
+        if ((index - 1) < 0) {
             let playlist = page.vueMap['PLAYLIST_NAV'];
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
-            if((curPage-1)>maxPages) curPage = maxPages;
+            if ((curPage - 1) > maxPages) curPage = maxPages;
             else curPage--;
 
-            page.loadPlaylistPage(user, curPage,'default', function () {
+            page.loadPlaylistPage(user, curPage, 'default', function (success) {
+                if (!success) return;
+
                 let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
-                player.loadSong(tracks[tracks.length-1]);
+                player.loadSong(tracks[tracks.length - 1]);
             });
 
 
-            index = tracks.length-1;
-        } else if(index<0) {
+            index = tracks.length - 1;
+        } else if (index < 0) {
             index = 0;
         } else {
             index--;
@@ -202,14 +207,12 @@ class PlayerController {
         track.NR = this.icon_loading;
 
 
-        let needle = new Object();
-        needle.artist = track.ARTIST;
-        needle.title = track.TITLE;
-        needle.videoId = null;
-        needle.asVar = function () {
-            return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
-        };
-
+        let needle = page.createNeedle(track);
+        if(needle.videoId!=null && needle.videoId.length>0) {
+            needle.videoId = vars.data.value.VALUE;
+            player.loadVideoByNeedle(needle);
+            return;
+        }
 
         let request = './php/json/JsonHandler.php?api=vars&data=search&name=' + needle.asVar();
         let player = this;
@@ -252,9 +255,9 @@ class PlayerController {
     }
 
 
-    isCurrentTrack(track) {
-        return  this.CURRENT_TRACK!=null &&
-                this.CURRENT_TRACK.NR == track.NR &&
-                this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST;
+    isCurrentTrack(track) {        
+        return this.CURRENT_TRACK != null &&
+            this.CURRENT_TRACK_NR == track.NR &&
+            this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST;
     }
 }

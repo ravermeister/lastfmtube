@@ -39,7 +39,7 @@ encoding: UTF-8
         <nav>
             <ul>
                 <li v-for="MENU in MENUS" id="site-menu">
-                    <a href="#none" v-on:click="page.load(MENU);">{{MENU.NAME}}</a>
+                    <a href="#none" @click="page.load(MENU);">{{MENU.NAME}}</a>
                 </li>
             </ul>
         </nav>
@@ -61,13 +61,13 @@ encoding: UTF-8
                     <a v-bind:href="LASTFM_USER_URL" target="_blank">{{LASTFM_USER_NAME}}</a>'s list
                 </template>
                 <template v-else="v-else">
-                    {{LASTFM_USER_NAME}}
+                    <span v-html="LASTFM_USER_NAME"></span>
                 </template>
             </h2>
 
             <section class="playlist-nav">
 
-                <form v-on:submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
+                <form @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
                     <div class="fields">
 
                         <div class="field third" v-if="PLAYLIST === 'default'">
@@ -77,6 +77,11 @@ encoding: UTF-8
                             <input type="text" name="playlist_page" id="playlist_lastfmuser"
                                    v-bind:value="LASTFM_USER_NAME" onfocus="javascript:this.select();"/>
                         </div>
+                        <div class="field third" v-if="PLAYLIST === 'search'">
+                            <label for="playlist_lastfmuser">Youtube Video</label>                            
+                            <input type="text" name="playlist_page" id="playlist_videourl"
+                                   v-bind:value="LASTFM_USER_NAME" onfocus="javascript:this.select();"/>
+                        </div>                        
                         <div class="field third">
                             <label for="playlist_page">
                                 {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
@@ -87,7 +92,7 @@ encoding: UTF-8
                         <div class="field third" align="center" style="vertical-align: center">
                             <label>&nbsp;</label>
                             <a
-                               v-on:click="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+                               @click="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                class="icon fa-step-backward"
                                title="Previous Page"
                                style="cursor: pointer; font-size: 24pt; float: left;">&nbsp;</a>
@@ -95,7 +100,7 @@ encoding: UTF-8
                             <input type="submit" name="playlist_load" id="playlist_load" v-bind:value="PLAYLIST_LOAD" />
 
                             <a
-                                v-on:click="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+                                @click="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                class="icon fa-step-forward"
                                title="Next Page"
                                style="cursor: pointer; font-size: 24pt; float: right;">&nbsp;</a>
@@ -116,17 +121,23 @@ encoding: UTF-8
                         </thead>
                         <tbody>
                         <template v-for="TRACK in TRACKS">
-                            <tr v-on:mouseover="showPlay(TRACK, true);" v-on:mouseout="showPlay(TRACK, false);">
-                                <td class="TRACK_NR" v-on:click="togglePlay(TRACK);" v-html="TRACK.NR">
-                                    {{TRACK.NR}}
+                            <tr  @mouseover="showPlay(TRACK, true);" @mouseout="showPlay(TRACK, false);">
+                                <td class="TRACK_NR" @click="togglePlay(TRACK);" v-html="TRACK.NR">
                                 </td>
                                 <td class="TRACK_ARTIST"
-                                    v-on:click="togglePlayControl(TRACK);"
-                                    style="cursor: pointer">{{TRACK.ARTIST}}
+                                    @click="togglePlayControl(TRACK);"
+                                    style="cursor: pointer">
+                                    <i v-if="TRACK.VIDEO_ID != ''" 
+                                       v-bind:title="'Video: ' + TRACK.VIDEO_ID">* {{TRACK.ARTIST}}</i>
+                                    <span v-else="v-else">{{TRACK.ARTIST}}</span>
+                                                                        
                                 </td>
                                 <td class="TRACK_TITLE"
-                                    v-on:click="togglePlayControl(TRACK);"
-                                    style="cursor: pointer">{{TRACK.TITLE}}
+                                    @click="togglePlayControl(TRACK);"
+                                    style="cursor: pointer">
+                                    <i v-if="TRACK.VIDEO_ID != ''"
+                                       v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i>
+                                    <span v-else="v-else">{{TRACK.TITLE}}</span>
                                 </td>
                             </tr>
 
@@ -138,7 +149,7 @@ encoding: UTF-8
                                                 <a class="icon fa-play"
                                                    style="cursor: pointer"
                                                    title="Play"
-                                                   v-on:click="playTrack(TRACK);">
+                                                   @click="playTrack(TRACK);">
                                                     <span class="label">Play</span>
                                                 </a>
                                             </li>
@@ -150,24 +161,33 @@ encoding: UTF-8
                                                     <span class="label">Queue Video</span>
                                                 </a>
                                             </li>
-                                            -->
+                                            
                                             <li><a class="icon fa-heart"
                                                    style="cursor: pointer"
-                                                   title="Rate this Song"><span
-                                                    class="label">Rate this Song</span></a></li>
+                                                   title="Rate this Song">
+                                                    <span class="label">Rate this Song</span>
+                                                </a>
+                                            </li>
+                                            -->
                                             <li>
-
+                                                <a class="icon fa-plus"
+                                                   style="cursor: pointer"
+                                                   title="set as Video for the Song"
+                                                   @click="saveAlternative(TRACK);"
+                                                   v-if="TRACK.PLAYLIST === 'search'">
+                                                    <span class="label">set as Video</span>
+                                                </a>                                                
                                                 <a class="icon fa-plus"
                                                    style="cursor: pointer"
                                                    title="add to Playlist"
-                                                   v-on:click="addToUserList(TRACK);"
-                                                   v-if="TRACK.PLAYLIST !== 'userlist'">
+                                                   @click="addToUserList(TRACK);"
+                                                   v-else-if="TRACK.PLAYLIST !== 'userlist'">
                                                     <span class="label">Add to Playlist</span>
                                                 </a>
                                                 <a class="icon fa-minus"
                                                    style="cursor: pointer"
                                                    title="remove from Playlist"
-                                                   v-on:click="removeFromUserList(TRACKS, TRACK);"
+                                                   @click="removeFromUserList(TRACKS, TRACK);"
                                                    v-else="v-else">
                                                     <span class="label">Remove from Playlist</span>
                                                 </a>
@@ -175,15 +195,23 @@ encoding: UTF-8
                                             <li>
                                                 <a class="icon fa-search"
                                                    style="cursor: pointer"
-                                                   title="search alternative Video">
+                                                   title="search alternative Video"
+                                                   v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
+                                                    @click="searchVideos($event, TRACK);">
                                                     <span class="label">search alternative Video</span>
+                                                </a>
+                                                <a class="icon fa-minus"
+                                                   style="cursor: pointer"
+                                                   title="delete alternative Video"
+                                                   @click="deleteAlternative(TRACK);"
+                                                   v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''">
+                                                    <span class="label">delete alternative Video</span>
                                                 </a>
                                             </li>
                                         </ul>
-                                        <div style="float: right">
-                                            
-                                            <span v-if="typeof TRACK.PLAYCOUNT !== 'undefined'">Plays: <b>{{TRACK.PLAYCOUNT}}</b></span>
-                                             | {{TRACK.LASTPLAY}}                                                                                        
+                                        <div style="float: right">                                            
+                                            <span v-if="typeof TRACK.PLAYCOUNT !== 'undefined'">Plays: <b>{{TRACK.PLAYCOUNT}} | </b></span>
+                                             {{TRACK.LASTPLAY}}                                                                                        
                                         </div>
                                     </td>
                                 </tr>

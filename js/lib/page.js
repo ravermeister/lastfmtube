@@ -83,11 +83,15 @@ class PageController {
             data: json.data,
 
             methods: {
-                togglePlayControl: function (track) {
+                togglePlayControl: function (track) {                    
                     if (page.PLAY_CONTROL != null && page.PLAY_CONTROL != track) {
                         page.PLAY_CONTROL.PLAY_CONTROL = false;
                     }
-
+                    
+                    if(page.PLAYLIST!= null && page.PLAYLIST=='search') {
+                        page.vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
+                    }
+                    
                     track.PLAY_CONTROL = !track.PLAY_CONTROL;
                     page.PLAY_CONTROL = track;
                 },
@@ -122,10 +126,11 @@ class PageController {
                 },
 
                 showPlay: function (track, show) {
-                    if (track == player.CURRENT_TRACK) {
+                    
+                    if (player.isCurrentTrack(track)) {
                         return;
                     }
-
+                    
                     if (show) {
                         page.QUICKPLAY_TRACK = track;
                         page.QUICKPLAY_TRACK_NR = track.NR;
@@ -180,11 +185,95 @@ class PageController {
 
                     let curPage = page.vueMap['PLAYLIST_NAV'].$data.CUR_PAGE;
                     page.loadPlaylistPage(curPage);
+                }, 
+                
+                searchVideos(event, track) {                    
+                    let icon_html = $(event.target).html();
+                    let needle = page.createNeedle(track);
+                    let request = 'php/json/JsonHandler.php?api=videos&data=search&size=25&needle='+needle.asVar();
+                    let setLoading = function(isLoading) {
+                        if(isLoading) {
+                            $(event.target).html('');
+                            $(event.target).attr('class', $(player.icon_loading).attr('class'));                            
+                        } else {
+                            $(event.target).html(icon_html);
+                            $(event.target).attr('class', $(player.icon_search).attr('class'));                            
+                        }
+                    };
+                    let cleanTitle = function(str, needle) {
+                        let pattern = new RegExp(needle, 'gi');
+                        return str.replace(pattern, '');
+                    };
+
+                    setLoading(true);
+                    $.getJSON(request, function (json) {
+                        setLoading(false);
+                        let tracks = Array();
+                        
+                        for(let cnt=0;cnt<json.data.value.length;cnt++) {
+                            let video = json.data.value[cnt];
+                            
+                            tracks[cnt] = {
+                                NR: (cnt+1),
+                                ARTIST: track.ARTIST,
+                                TITLE: video['title'], //cleanTitle(video['title'], track.ARTIST),
+                                VIDEO_ID: video['video_id'],
+                                LASTPLAY: '',
+                                PLAY_CONTROL: false,
+                                PLAYLIST: 'search'
+                            }                            
+                        }
+                        page.loadSearchResult(track, tracks, 1, function () {
+                            page.PLAYLIST = 'search';
+                        });
+                    }).fail(function (xhr) {
+                        setLoading(false);
+                        console.error('failed to search videos for track');
+                        console.error(track);
+                        console.error(xhr.responseText);
+                    });
+
+                },
+                
+                saveAlternative(track) {
+                    let needle = page.createNeedle(page.vueMap['PLAYLIST_TRACKS'].$data.SEARCH_TRACK);
+                    needle.videoId = track.VIDEO_ID;
+                    let request = 'php/json/JsonHandler.php?api=vars';
+
+                    $.post(request,{
+                        name:   needle.asVar(true),
+                        value: needle.videoId
+                    },function(json) {
+                        console.log('successful saved alternative video');
+                        console.log(json);
+                    }, 'json').fail(function (xhr) {
+                        console.error('error saving youtube alternative video');
+                        console.error(xhr.responseText);
+                    });
+                }, 
+                
+                deleteAlternative(track) {
+                    console.log('delete alternative for');
+                    console.log(track);
                 }
+                
             }
         });
     }
 
+    createNeedle(track){
+        let needle = new Object();
+        needle.artist = track.ARTIST;
+        needle.title = track.TITLE;
+        needle.videoId = track.videoId;
+        needle.asVar = function (raw = false) {
+            if(!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
+            else return this.artist+' '+this.title;
+        };
+        
+        return needle;
+    }
+    
     clone(src) {
         return Object.assign({}, src);
     }
@@ -230,21 +319,28 @@ class PageController {
         if (typeof menu.ARGS !== 'undefined' && ('PLAYLIST' in menu.ARGS)) {
             playlist = menu.ARGS['PLAYLIST'];
         }
-        if (playlist != null && playlist == this.PLAYLIST) return;
+        
 
         let menuloader = $('#page-menuloader');
-        menuloader.attr('class',$(player.icon_loading).attr('class'));
-
-        this.PLAYLIST = playlist;
-        this.loadPlaylistPage(1,null,function () {
+        let showPage = function (success) {            
             menuloader.attr('class',page.MENULOADER_CLASS);
+            if(!success) return;
             location.href=menu.URL;
-        });
+        };
+        
+        menuloader.attr('class',$(player.icon_loading).attr('class'));
+        if (playlist != null && playlist == this.PLAYLIST) {
+            showPage(true);   
+        }  else {
+            this.PLAYLIST = playlist;
+            this.loadPlaylistPage(1,null,showPage);            
+        }
     }
 
-    loadPlaylistPage(pageNum = 1, user = null, callBack = null) {
-
-        switch (this.PLAYLIST) {
+    loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
+        if(playlist == null) playlist = this.PLAYLIST;
+        
+        switch (playlist) {
             case 'userlist':
                 this.loadUserPlayListPage(pageNum, callBack);
                 break;
@@ -253,6 +349,24 @@ class PageController {
                 break;
             default:
                 this.loadDefaultPlayListPage(pageNum, user, callBack);
+        }
+    }
+    
+    loadSearchResult(track, result, pageNum = 1, callBack = null) {
+        let vueMap = this.vueMap;
+        
+        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Search Result for<br />'+track.ARTIST+'<br />'+track.TITLE;
+        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
+        vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;       
+        vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = 1;
+        vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
+        vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'search';
+
+        vueMap['PLAYLIST_TRACKS'].$data.SEARCH_TRACK = track;
+        vueMap['PLAYLIST_TRACKS'].$data.TRACKS = result;
+
+        if (callBack != null) {
+            callBack(true);
         }
     }
 
@@ -264,8 +378,7 @@ class PageController {
         ;
 
         $.getJSON(request, function (json) {
-
-            vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Top Songs'
+            vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Top Songs';
             vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
 
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
@@ -295,11 +408,15 @@ class PageController {
             vueMap['PLAYLIST_TRACKS'].$data.TRACKS = tracks;
 
             if (callBack != null) {
-                callBack();
+                callBack(true);
             }
-        }).fail(function (xhr) {
+        }).fail(function (xhr) {            
             console.error('error loading topsongs');
             console.log(xhr.responseText);
+            
+            if (callBack != null) {
+                callBack(false);
+            }
         });
     }
 
@@ -337,7 +454,7 @@ class PageController {
         vueMap['PLAYLIST_TRACKS'].$data.TRACKS = tracks;
 
         if (callBack != null) {
-            callBack();
+            callBack(true);
         }
     }
 
@@ -367,12 +484,11 @@ class PageController {
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
             vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = json.data.value['PLAYLIST_NAV'].data.LASTFM_USER_NAME;
 
-
             if (player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value['PLAYLIST_TRACKS'].data.TRACKS.length; cnt++) {
                     let track = json.data.value['PLAYLIST_TRACKS'].data.TRACKS[cnt];
-
+                    
                     if (player.isCurrentTrack(track)) {
                         newCurTrack = track;
                         break;
@@ -384,15 +500,19 @@ class PageController {
                     newCurTrack.NR = player.icon_playing;
                 }
             }
-
+            
             vueMap['PLAYLIST_TRACKS'].$data.TRACKS = json.data.value['PLAYLIST_TRACKS'].data.TRACKS;
 
             if (callBack != null) {
-                callBack();
+                callBack(true);
             }
         }).fail(function (xhr) {
             console.error('error loading page');
             console.log(xhr.responseText);
+
+            if (callBack != null) {
+                callBack(false);
+            }
         });
     }
 

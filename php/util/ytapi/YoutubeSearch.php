@@ -78,8 +78,7 @@ class YoutubeSearch {
                                                            array('q'    => $this->needle, 'maxResults' => $resultcount,
                                                                  'type' => 'video')
             );
-
-
+            
             // $channels = '';
             // $playlists = '';
 

@@ -11,6 +11,31 @@ namespace LastFmTube\Json;
 
 abstract class DefaultJson implements JsonInterface {
 
+    private $apiName;
+    private $currentMethod = 'unknown';
+
+    protected function __construct($api) {
+        $this->apiName = $api;
+    }
+
+    public static function baseError($msg) {
+        $json['handler']       = 'default';
+        $json['method']        = 'unknown';
+        $json['data']['type']  = 'error';
+        $json['data']['value'] = $msg;
+
+        die('handler: default, method: unknown, error: ' . $msg);
+        //die(json_encode($json));
+    }
+
+    public static function baseMsg($msg) {
+        $json['handler']       = 'default';
+        $json['method']        = 'unknown';
+        $json['data']['type']  = 'msg';
+        $json['data']['value'] = $msg;
+        return json_encode($json);
+    }
+
     public function get($getvars) {
     }
 
@@ -23,23 +48,8 @@ abstract class DefaultJson implements JsonInterface {
     public function put($getvars, $jsonvars) {
     }
 
-    private $apiName;
-    private $currentMethod = 'unknown';
-
-    protected function __construct($api) {
-        $this->apiName = $api;
-    }
-
     public final function setMethod($method = 'unknown') {
         $this->currentMethod = $method;
-    }
-
-    public static function baseError($msg) {
-        $json['handler']       = 'default';
-        $json['method']        = 'unknown';
-        $json['data']['type']  = 'error';
-        $json['data']['value'] = $msg;
-        die(json_encode($json));
     }
 
     public function jsonError($msg) {
@@ -47,15 +57,8 @@ abstract class DefaultJson implements JsonInterface {
         $json['method']        = $this->currentMethod;
         $json['data']['type']  = 'error';
         $json['data']['value'] = $msg;
-        return json_encode($json);
-    }
-
-    public static function baseMsg($msg) {
-        $json['handler']       = 'default';
-        $json['method']        = 'unknown';
-        $json['data']['type']  = 'msg';
-        $json['data']['value'] = $msg;
-        return json_encode($json);
+        return die(('handler: ' . $this->apiName . ', method: ' . $this->currentMethod . ', error: ' . $msg));
+        //return json_encode($json);
     }
 
     public function jsonMsg($msg) {
