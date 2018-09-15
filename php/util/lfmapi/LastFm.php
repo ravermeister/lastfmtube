@@ -13,7 +13,6 @@ class LastFm {
     var $apikey       = '';
     var $user         = '';
     var $method       = '';
-    var $invalidNames = array();
     var $methods      = array('album.addTags', 'album.getBuylinks', 'album.getInfo', 'album.getShouts', 'album.getTags',
                               'album.getTopTags', 'album.removeTag', 'album.search', 'album.share',
 
@@ -67,18 +66,6 @@ class LastFm {
                               'user.shout',
 
                               'venue.getEvents', 'venue.getPastEvents', 'venue.search');
-
-    function loadInvalidNames($filename) {
-        foreach (file($filename) as $line) {
-            if (Strings::startsWith($line, '#')) continue;
-
-            $line = Strings::trimEOL($line);
-            if (strlen(trim($line)) == 0) continue;
-
-            $entry                           = explode("=", $line, 2);
-            $this->invalidNames [$entry [0]] = $entry [1];
-        }
-    }
 
     function setApiKey($key) {
         $this->apikey = $key;
@@ -140,6 +127,6 @@ class LastFm {
         $this->setURL($url);
         $html = $this->getDOM();
 
-        return new RecentlyPlayed ($html, $this->invalidNames);
+        return new RecentlyPlayed ($html);
     }
 }

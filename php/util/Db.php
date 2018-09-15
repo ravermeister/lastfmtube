@@ -84,23 +84,27 @@ class Db {
 
                                   'SELECT_CHARTS' => '
 				SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-			     ORDER BY `playcount` DESC, `lastplay_time` DESC;
+			     ORDER BY `playcount` DESC, `lastplay_time` DESC LIMIT ? OFFSET ?;
 			',
+                                  'SELECT_CHARTS_NUM_ROWS' => '
+                SELECT COUNT(*) AS "CNT" FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts";
+                                  ',
 
-                                  // SELECT ONLY the last heared song with playcount 1
-                                  // 'SELECT_CHARTS' =>
-                                  // '
-                                  // SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts"
-                                  // WHERE ("playcount" > 1) OR (
-                                  // "playcount" = 1 AND
-                                  // "lastplay_time" IN (
-                                  // SELECT MAX("lastplay_time")
-                                  // FROM "'.$this->settings['database']['table_prefix'].'charts"
-                                  // WHERE "playcount"=1
-                                  // )
-                                  // )
-                                  // ORDER BY `playcount` DESC, `lastplay_time` DESC;
-                                  // ',
+          // SELECT ONLY the last heared song with playcount 1
+          // 'SELECT_CHARTS' =>
+          // '
+          // SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts"
+          // WHERE ("playcount" > 1) OR (
+          // "playcount" = 1 AND
+          // "lastplay_time" IN (
+          // SELECT MAX("lastplay_time")
+          // FROM "'.$this->settings['database']['table_prefix'].'charts"
+          // WHERE "playcount"=1
+          // )
+          // )
+          // ORDER BY `playcount` DESC, `lastplay_time` DESC;
+          // ',
+
 
                                   'GET_ENVVAR' => '
 				SELECT "value" FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
@@ -297,7 +301,12 @@ class Db {
         if (!isset ($this->statements [$queryName])) return false;
         $result = $this->statements [$queryName]->execute($vars);
         if ($result === false) return false;
+
         $data = $this->statements [$queryName]->fetchAll(PDO::FETCH_ASSOC);
+        if(Functions::endsWith($queryName, '_NUM_ROWS')) {
+            $data = $data[0]['CNT'];
+        }
+
         return $data;
     }
 

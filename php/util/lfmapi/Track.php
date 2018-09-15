@@ -2,6 +2,7 @@
 
 namespace LastFmTube\Util\lfmapi;
 
+use LastFmTube\Util\Functions;
 use simplehtmldom_1_5\simple_html_dom_node;
 
 class Track {
@@ -32,7 +33,7 @@ class Track {
      * @param simple_html_dom_node $trackxml
      * @param                      $invalidNames
      */
-    function __construct($trackxml, $invalidNames) {
+    function __construct($trackxml) {
         $myArtist = $trackxml->children(0)->innertext;
         $myTitle  = $trackxml->children(1)->innertext;
         $myAlbum  = $trackxml->children(4)->innertext;
@@ -41,11 +42,8 @@ class Track {
         $this->title  = html_entity_decode($myTitle, ENT_QUOTES | ENT_HTML5);
         $this->album  = html_entity_decode($myAlbum, ENT_QUOTES | ENT_HTML5);
 
-        $occ = 0;
-        foreach ($invalidNames as $key => $value) {
-            $this->title  = str_replace($key, $value, $this->title);
-            $this->artist = str_replace($key, $value, $this->artist);
-        }
+        $this->title  = Functions::getInstance()->prepareNeedle($this->title);
+        $this->artist = Functions::getInstance()->prepareNeedle($this->artist);
 
         // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
         $play_timestamp = 0;

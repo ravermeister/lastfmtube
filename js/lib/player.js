@@ -1,7 +1,11 @@
+class ChartTimer {
+
+}
 class PlayerController {
 
     constructor() {
         this.ytPlayer = null;
+        this.isReady = false;
         this.CURRENT_TRACK = null;
         this.CURRENT_TRACK_NR = null;
         this.ytStatus = new Object();
@@ -30,7 +34,8 @@ class PlayerController {
         this.ytStatus.CUED.ID = 5;
         this.ytStatus.CUED.NAME = 'vide cued';
 
-        this.icon_loading = '<li class="fa fa-spinner faa-spin animated"></li>';
+
+        this.icon_loading = '<i class="fa fa-spinner faa-spin animated"></i>';
         this.icon_playing = '<i class="fa fa-play faa-flash animated" style="cursor: pointer"></i>';
         this.icon_pause = '<i class="fa fa-pause" style="cursor: pointer"></i>';
         this.icon_play = '<i class="fa fa-play" style="cursor: pointer"></i>';
@@ -51,7 +56,7 @@ class PlayerController {
         window.onYouTubeIframeAPIReady = function () {
 
             let onReady = function (event) {
-
+                player.isReady = true;
                 console.log('youtube player ready');
             };
 
@@ -71,9 +76,15 @@ class PlayerController {
                         break;
 
                     case player.ytStatus.PAUSED.ID:
+                        if (player.CURRENT_TRACK != null) {
+                            player.CURRENT_TRACK.NR = player.icon_pause;
+                        }
                         break;
 
                     case player.ytStatus.BUFFERING.ID:
+                        if (player.CURRENT_TRACK != null) {
+                            player.CURRENT_TRACK.NR = player.icon_loading;
+                        }
                         break;
 
                     case player.ytStatus.CUED.ID:
@@ -128,7 +139,7 @@ class PlayerController {
             if((curPage+1)>maxPages) curPage = 1;
             else curPage++;
 
-            page.loadPage(user, curPage,'default', function () {
+            page.loadPlaylistPage(user, curPage,'default', function () {
                 let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
                 player.loadSong(tracks[0]);
             });
@@ -156,7 +167,7 @@ class PlayerController {
             if((curPage-1)>maxPages) curPage = maxPages;
             else curPage--;
 
-            page.loadPage(user, curPage,'default', function () {
+            page.loadPlaylistPage(user, curPage,'default', function () {
                 let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
                 player.loadSong(tracks[tracks.length-1]);
             });
@@ -240,4 +251,10 @@ class PlayerController {
         }
     }
 
+
+    isCurrentTrack(track) {
+        return  this.CURRENT_TRACK!=null &&
+                this.CURRENT_TRACK.NR == track.NR &&
+                this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST;
+    }
 }

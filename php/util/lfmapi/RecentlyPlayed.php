@@ -16,7 +16,7 @@ class RecentlyPlayed {
      * @param simple_html_dom $html
      * @param                 $invalidStrings
      */
-    function __construct($html, $invalidStrings) {
+    function __construct($html) {
         /**
          * @var simple_html_dom $elem
          */
@@ -28,7 +28,7 @@ class RecentlyPlayed {
 
         $tracks = $html->find('track');
         foreach ($tracks as $track) {
-            $trackobj       = new Track ($track, $invalidStrings);
+            $trackobj       = new Track ($track);
             $this->items [] = $trackobj;
         }
     }

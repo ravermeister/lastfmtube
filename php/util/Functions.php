@@ -76,7 +76,6 @@ class Functions {
 
         $this->lfmapi = new LastFm ();
         $this->lfmapi->setApiKey($this->settings ['lastfm'] ['apikey']);
-        $this->lfmapi->loadInvalidNames($this->basedir . '/conf/replace_strings.txt');
         $this->ytapi = new YoutubeSearch ();
         if (isset ($this->settings ['youtube'] ['email']))
             $this->ytapi->setAPIEmail($this->settings ['youtube'] ['email']);
@@ -85,6 +84,34 @@ class Functions {
         if (isset ($this->settings ['youtube'] ['user']))
             $this->ytapi->setAPIUser($this->settings ['youtube'] ['user']);
         $this->ytapi->setAPIKey($this->settings ['youtube'] ['apikey']);
+    }
+
+    public static function startsWith($haystack, $needle) {
+        $length = strlen($needle);
+        return (substr($haystack, 0, $length) === $needle);
+    }
+
+    public static function getRemoteFile($url) {
+        $ch      = curl_init();
+        $timeout = 5;
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //curl_setopt($ch, CURLOPT_HTTPGET, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        //curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+        //curl_setopt($ch, CURLOPT_PIPEWAIT, true);
+        curl_setopt($ch, CURLOPT_USERAGENT,
+                    'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+        );
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
     }
 
     /**
@@ -139,6 +166,7 @@ class Functions {
         $logfile = fopen(self::getInstance()->settings['general']['logpath'], 'a+');
 
         $prefix = date('d.m.Y H:i:s');
+
         $msgArr = explode("\n", self::br2nl($msg));
         for ($i = 0; $i < sizeof($msgArr); $i++) {
             if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
@@ -162,6 +190,14 @@ class Functions {
         }
 
         return ($text);
+    }
+
+    public static function endsWith($haystack, $needle) {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
+        return (substr($haystack, -$length) === $needle);
     }
 
     public function prepareNeedle($needle) {
@@ -231,27 +267,5 @@ class Functions {
                 break;
 
         }
-    }
-
-    public static function getRemoteFile($url) {
-        $ch = curl_init();
-        $timeout = 5;
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        //curl_setopt($ch, CURLOPT_HTTPGET, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        //curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-        //curl_setopt($ch, CURLOPT_PIPEWAIT, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-
-
-        $data = curl_exec($ch);
-        curl_close($ch);
-        return $data;
     }
 }

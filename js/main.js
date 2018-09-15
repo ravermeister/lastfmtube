@@ -16,6 +16,9 @@ requirejs.config({
         // Vue RequireJS loader
         vue: 'vue/vue.requirejs',
 
+        //Storage js
+        Storages: 'jstorage/js.storage.min',
+
         theme: '../../themes/dimension/assets/js'
     },
 
@@ -38,10 +41,10 @@ requirejs.config({
                 'theme/util']
         },
         'player': {
-            deps: ['jquery', 'theme/main', 'Vue', 'vue']
+            deps: ['jquery', 'theme/main', 'Storages', 'Vue', 'vue']
         },
         'page': {
-            deps: ['theme/main', 'Vue', 'vue', 'player']
+            deps: ['jquery', 'theme/main', 'Storages','Vue', 'vue', 'player']
         }
     }
 
@@ -64,11 +67,12 @@ requirejs(['page', 'player'], function () {
     gtag('config', 'UA-26904270-14');
 
     require([
+        'Storages',
         'Vue',
-        'vue'], function (Vue, vue) {
+        'vue'], function (Storages, Vue, vue) {
 
         player = new PlayerController();
-        page = new PageController(Vue);
+        page = new PageController(Storages, Vue);
 
         player.initPlayer();
         page.init();
