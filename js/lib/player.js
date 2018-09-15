@@ -257,7 +257,9 @@ class PlayerController {
 
     isCurrentTrack(track) {        
         return this.CURRENT_TRACK != null &&
-            this.CURRENT_TRACK_NR == track.NR &&
-            this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST;
+            this.CURRENT_TRACK == track || (
+                this.CURRENT_TRACK_NR == track.NR &&
+                this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST
+            );
     }
 }

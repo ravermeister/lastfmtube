@@ -127,7 +127,7 @@ encoding: UTF-8
                                 <td class="TRACK_ARTIST"
                                     @click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">
-                                    <i v-if="TRACK.VIDEO_ID != ''" 
+                                    <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID != ''" 
                                        v-bind:title="'Video: ' + TRACK.VIDEO_ID">* {{TRACK.ARTIST}}</i>
                                     <span v-else="v-else">{{TRACK.ARTIST}}</span>
                                                                         
@@ -135,7 +135,7 @@ encoding: UTF-8
                                 <td class="TRACK_TITLE"
                                     @click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">
-                                    <i v-if="TRACK.VIDEO_ID != ''"
+                                    <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID != ''"
                                        v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i>
                                     <span v-else="v-else">{{TRACK.TITLE}}</span>
                                 </td>
@@ -173,7 +173,7 @@ encoding: UTF-8
                                                 <a class="icon fa-plus"
                                                    style="cursor: pointer"
                                                    title="set as Video for the Song"
-                                                   @click="saveAlternative(TRACK);"
+                                                   @click="saveAlternative(TRACK, $('#playlist_videourl').val());"
                                                    v-if="TRACK.PLAYLIST === 'search'">
                                                     <span class="label">set as Video</span>
                                                 </a>                                                
@@ -203,7 +203,7 @@ encoding: UTF-8
                                                 <a class="icon fa-minus"
                                                    style="cursor: pointer"
                                                    title="delete alternative Video"
-                                                   @click="deleteAlternative(TRACK);"
+                                                   @click="deleteAlternative($event, TRACK, TRACKS);"
                                                    v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''">
                                                     <span class="label">delete alternative Video</span>
                                                 </a>

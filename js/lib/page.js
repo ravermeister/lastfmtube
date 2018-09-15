@@ -235,28 +235,50 @@ class PageController {
 
                 },
                 
-                saveAlternative(track) {
+                saveAlternative(track, video = null) {
                     let needle = page.createNeedle(page.vueMap['PLAYLIST_TRACKS'].$data.SEARCH_TRACK);
-                    needle.videoId = track.VIDEO_ID;
+                    needle.videoId = video!= null ? video : track.VIDEO_ID;
                     let request = 'php/json/JsonHandler.php?api=vars';
 
                     $.post(request,{
                         name:   needle.asVar(true),
                         value: needle.videoId
-                    },function(json) {
-                        console.log('successful saved alternative video');
-                        console.log(json);
+                    }, function(json) {
+                        //console.log('successful saved alternative video');                        
                     }, 'json').fail(function (xhr) {
                         console.error('error saving youtube alternative video');
                         console.error(xhr.responseText);
                     });
                 }, 
                 
-                deleteAlternative(track) {
-                    console.log('delete alternative for');
-                    console.log(track);
-                }
-                
+                deleteAlternative(event, track, tracks) {
+                    
+                    let needle = page.createNeedle(track);
+                    let request = 'php/json/JsonHandler.php?api=vars&name='+needle.asVar();
+                    let cleanTracks = function(cleanTrack, trackList) {
+                        let videoId = cleanTrack.VIDEO_ID;
+                        for(let cnt=0;cnt<trackList.length;cnt++) {                            
+                            let curTr = trackList[cnt];
+
+                            if(curTr.TITLE == cleanTrack.TITLE && curTr.ARTIST == cleanTrack.ARTIST && curTr.VIDEO_ID==videoId) {
+                                curTr.VIDEO_ID = '';
+                            }
+                        }
+                    };
+                    
+                    $.ajax({
+                        url: request,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        success: function (json) {
+                            cleanTracks(track, tracks);
+                        }, 
+                        fail: function (xhr) {
+                            console.error('error deleting youtube alternative');
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }                
             }
         });
     }
