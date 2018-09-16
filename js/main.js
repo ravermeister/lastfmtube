@@ -28,7 +28,7 @@ requirejs.config({
         ],
 
         //Storage js
-        storage: [
+        Storages: [
             '//unpkg.com/js-storage@1.0.4/js.storage.min',
             'jstorage/js.storage.min'
         ],
@@ -45,30 +45,6 @@ requirejs.config({
         },
         'jquery': {
             exports: ['jQuery']
-        },
-        'theme/browser.min': {
-            deps: ['jquery']
-        },
-        'theme/breakpoints.min': {
-            deps: [
-                'jquery',
-                'theme/browser.min'
-            ]
-        },
-        'theme/util': {
-            deps: [
-                'jquery',
-                'theme/browser.min',
-                'theme/breakpoints.min'
-            ]
-        },
-        'theme/main': {
-            deps: [
-                'jquery',
-                'theme/browser.min',
-                'theme/breakpoints.min',
-                'theme/util'
-            ]
         }
     }
 });
@@ -92,11 +68,20 @@ requirejs([
     gtag('js', new Date());
     gtag('config', 'UA-26904270-14');
 
-    
 
-    require(['storage', 'Vue', 'theme/main'], function (storage, vue) {
+    require([
+        'theme/browser.min', 
+        'theme/breakpoints.min', 
+        'theme/util', 
+        'theme/main'
+    ]);
+
+    require([
+        'Storages', 
+        'Vue'
+    ], function (Storages, Vue) {
         player = new PlayerController();
-        page = new PageController(storage, vue);
+        page = new PageController(Storages, Vue);
         
         require(['domReady'], function (dom) {
             player.initPlayer();
