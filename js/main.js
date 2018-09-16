@@ -13,7 +13,7 @@ requirejs.config({
             '//unpkg.com/jquery@3.3.1/dist/jquery.min',
             'jquery/jquery'
         ],
-
+        
         theme: '../../themes/dimension/assets/js',
 
         // the Vue lib
@@ -92,6 +92,7 @@ requirejs([
     gtag('js', new Date());
     gtag('config', 'UA-26904270-14');
 
+    
 
     require(['storage', 'Vue', 'theme/main'], function (storage, vue) {
         player = new PlayerController();

@@ -36,7 +36,7 @@ class PageController {
                         vueMap[key] = page.initDefaultVue(json.data.value[key]);
                         break;
                 }
-            }            
+            }          
             if(vueMap['PLAYLIST_TRACKS'].$data.TRACKS.length > 0) {
                 player.loadSong(vueMap['PLAYLIST_TRACKS'].$data.TRACKS[0]);
             }

@@ -45,10 +45,7 @@ class PlayerController {
 
     initPlayer() {
 
-        let tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        let firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        $.getScript('//www.youtube.com/iframe_api');
         let startvideo = '';//'9RMHHwJ9Eqk';
         let ytplayerwidth = '100%';
         let ytplayerheight = ($(document).height() - 325) + 'px';
