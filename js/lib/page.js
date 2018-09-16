@@ -11,9 +11,6 @@ class PageController {
         this.TRACKS_PER_PAGE = 25; //in settings.ini
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
-        this.QUICKPLAY_TRACK_NR = null;
-        this.MENULOADER_CLASS = $('#page-menuloader').attr('class');
-
     }
 
     init() {
@@ -29,6 +26,9 @@ class PageController {
                     case 'PLAYLIST_NAV':
                         vueMap[key] = page.initPlayListNav(json.data.value[key]);
                         break;
+                    case 'PLAYLIST_HEADER':
+                        vueMap[key] = page.initPlayListHeader(json.data.value[key]);
+                        break;
                     case 'PLAYLIST_TRACKS':
                         vueMap[key] = page.initPlayListTracks(json.data.value[key]);
                         break;
@@ -36,16 +36,43 @@ class PageController {
                         vueMap[key] = page.initDefaultVue(json.data.value[key]);
                         break;
                 }
-            }          
-            if(vueMap['PLAYLIST_TRACKS'].$data.TRACKS.length > 0) {
+            }
+
+            page.updatePlayerListPage();
+
+            if (vueMap['PLAYLIST_TRACKS'].$data.TRACKS.length > 0) {
                 player.loadSong(vueMap['PLAYLIST_TRACKS'].$data.TRACKS[0]);
             }
-            
+
+            vueMap['HEADER_LOGO'].$data.PAGE_LOADING = false;
+            let loaderElem = vueMap['HEADER_LOGO'].$refs.PAGE_LOADER;
+            $(loaderElem)
+                .removeClass('fa-spinner fa-spin animated')
+                .addClass('fa-diamond');
+
+
             console.log('init page success');
         }).fail(function (xhr, status, error) {
             //var err = eval("(" + xhr.responseText + ")");
             console.log(xhr.responseText);
         });
+    }
+
+    updatePlayerListPage(playlist) {
+        let name = 'Default Playlist';
+        if (playlist != null) {
+            switch (playlist) {
+                case 'userlist':
+                    name = 'My Playlist';
+                    break;
+                case 'topsongs':
+                    name = 'Top Songs';
+                    break;
+            }
+        }
+
+        this.vueMap['YTPLAYER_HEADER'].$data.PLAYLIST_NAME = name;
+        this.vueMap['YTPLAYER_HEADER'].$data.PLAYLIST_URL = '#page-playlist';
     }
 
 
@@ -54,6 +81,28 @@ class PageController {
             el: json.el,
             data: json.data
         });
+    }
+    
+    initPlayListHeader(json){
+        return new this.vue({
+            el: json.el,
+            data: json.data,
+
+            methods: {
+                loadPage: function (url) {                        
+                    page.loadPlaylistPage(1,null,function () {
+                        if(page.PLAYLIST != null && page.PLAYLIST == 'search') {
+                            page.loadPlaylistPage(1, null, function () {
+                                location.href = '#page-playlist';    
+                            }, url);
+                        } else {
+                            location.href = '#page-playlist';    
+                        }
+                           
+                    });
+                }
+            }
+        });        
     }
 
     initPlayListNav(json) {
@@ -107,19 +156,15 @@ class PageController {
                 togglePlay: function (track) {
 
                     if (player.CURRENT_TRACK == track) {
-
-                        let track_icon = $(track.NR).prop('outerHTML');
-
-                        if (track_icon === player.icon_playing) {
+                        if (player.isPlaying()) {
                             player.ytPlayer.pauseVideo();
-                        } else if (track_icon === player.icon_pause) {
+                        } else if (player.isPaused()) {
                             player.ytPlayer.playVideo();
                         } else {
                             console.log('unbekannter zustand für play/pause');
                             console.log(track_icon);
                         }
-                    } else if (page.QUICKPLAY_TRACK == track) {
-                        page.QUICKPLAY_TRACK.NR = page.QUICKPLAY_TRACK_NR;
+                    } else if (page.QUICKPLAY_TRACK == track) {                        
                         player.loadSong(track);
                     } else {
                         console.log('unbekannter track');
@@ -130,32 +175,35 @@ class PageController {
                 },
 
                 showPlay: function (track, show) {
-
                     if (player.isCurrentTrack(track)) {
                         return;
                     }
-
-                    if (show) {
-                        page.QUICKPLAY_TRACK = track;
-                        page.QUICKPLAY_TRACK_NR = track.NR;
-                        track.NR = player.icon_play;
-                    } else {
-                        track.NR = page.QUICKPLAY_TRACK_NR;
-                        page.QUICKPLAY_TRACK = null;
-                        page.QUICKPLAY_TRACK_NR = null;
-                    }
+                    track.PLAYSTATE = show ? 'stop' : '';
+                    page.QUICKPLAY_TRACK = show ? track : null;
                 },
 
-                addToUserList: function (track) {
+                addToUserList: function (event, track) {
+
+                    $(event.target).removeClass('fas fa-headphones')
+                        .addClass('fa-spinner faa-spin animated');
+                    
                     track = page.clone(track);
-
+                    page.resetTrack(track);
+                    
                     let tracks = page.getUserTracks();
-
-                    track.PLAY_CONTROL = false;
                     track.PLAYLIST = 'userlist';
                     track.NR = tracks.length + 1;
                     tracks.push(track);
                     page.setUserTracks(tracks);
+                    
+                    
+                    $(event.target).removeClass('fa-spinner faa-spin animated')
+                        .addClass('fas fa-check');                    
+                    setTimeout(function () {
+                        $(event.target).removeClass('fas fa-check')
+                            .addClass('fas fa-headphones');
+                    }, 500);
+                    
                 },
 
                 removeFromUserList: function (trackList, track) {
@@ -192,16 +240,18 @@ class PageController {
                 },
 
                 searchVideos(event, track) {
-                    let icon_html = $(event.target).html();
+
                     let needle = page.createNeedle(track);
                     let request = 'php/json/JsonHandler.php?api=videos&data=search&size=25&needle=' + needle.asVar();
                     let setLoading = function (isLoading) {
                         if (isLoading) {
-                            $(event.target).html('');
-                            $(event.target).attr('class', $(player.icon_loading).attr('class'));
+                            $(event.target)
+                                .removeClass('fa-search')
+                                .addClass('fa-spinner faa-spin animated');                            
                         } else {
-                            $(event.target).html(icon_html);
-                            $(event.target).attr('class', $(player.icon_search).attr('class'));
+                            $(event.target)
+                                .removeClass('fa-spinner faa-spin animated')
+                                .addClass('fa-search');
                         }
                     };
                     let cleanTitle = function (str, needle) {
@@ -228,6 +278,7 @@ class PageController {
                             };
                         }
                         page.loadSearchResult(track, tracks, 1, function () {
+                            page.vueMap['PLAYLIST_HEADER'].$data.URL = page.PLAYLIST; 
                             page.PLAYLIST = 'search';
                         });
                     }).fail(function (xhr) {
@@ -285,7 +336,7 @@ class PageController {
                 }
             }
         });
-        
+
         console.log('init playlist');
     }
 
@@ -306,6 +357,13 @@ class PageController {
         return Object.assign({}, src);
     }
 
+    resetTrack(track) {        
+        track.PLAY_CONTROL = false;
+        track.SHOWPLAY = false;
+        track.NOWPLAYING = false;
+        track.LOADING = false;
+    }
+
     getUserTracks() {
         let storage = this.storage;
         if (!storage.isSet('userlist.tracks')) storage.set('userlist.tracks', new Array());
@@ -324,8 +382,8 @@ class PageController {
         if ((tracks.length % tracksPerPage) > 0) pageCount++;
 
         let vueMap = this.vueMap;
-        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'My Playlist';
-        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
+        vueMap['PLAYLIST_HEADER'].$data.TEXT = 'My Playlist';
+        vueMap['PLAYLIST_HEADER'].$data.URL = '';
 
         if (pageNum != null) {
             if (pageNum > pageCount) pageNum = pageCount;
@@ -349,18 +407,24 @@ class PageController {
         }
 
 
-        let menuloader = $('#page-menuloader');
+        this.vueMap['HEADER_LOGO'].$data.PAGE_LOADING = true;
+        let loaderElem = this.vueMap['HEADER_LOGO'].$refs.PAGE_LOADER;
+        $(loaderElem).removeClass('fa-diamond').addClass('fa-spinner fa-spin animated');
+
         let showPage = function (success) {
-            menuloader.attr('class', page.MENULOADER_CLASS);
+            $(loaderElem).removeClass('fa-spinner fa-spin animated').addClass('fa-diamond');
+
             if (!success) return;
-            location.href = menu.URL;
+            window.location.href = menu.URL;
         };
 
-        menuloader.attr('class', $(player.icon_loading).attr('class'));
+
         if (playlist != null && playlist == this.PLAYLIST) {
             showPage(true);
         } else {
-            this.PLAYLIST = playlist;
+            if (playlist != null) {
+                this.PLAYLIST = playlist;
+            }
             this.loadPlaylistPage(1, null, showPage);
         }
     }
@@ -368,6 +432,7 @@ class PageController {
     loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist == null) playlist = this.PLAYLIST;
 
+        this.updatePlayerListPage(playlist);
         switch (playlist) {
             case 'userlist':
                 this.loadUserPlayListPage(pageNum, callBack);
@@ -377,14 +442,16 @@ class PageController {
                 break;
             default:
                 this.loadDefaultPlayListPage(pageNum, user, callBack);
+                break;
         }
     }
 
     loadSearchResult(track, result, pageNum = 1, callBack = null) {
         let vueMap = this.vueMap;
 
-        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
-        vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
+        vueMap['PLAYLIST_HEADER'].$data.TEXT = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
+        vueMap['PLAYLIST_HEADER'].$data.URL = '#page-playlist';
+        vueMap['PLAYLIST_HEADER'].$data.URL_TARGET = '_self';
         vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;
         vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = 1;
         vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
@@ -406,8 +473,8 @@ class PageController {
         ;
 
         $.getJSON(request, function (json) {
-            vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = 'Top Songs';
-            vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = '';
+            vueMap['PLAYLIST_HEADER'].$data.TEXT = 'Top Songs';
+            vueMap['PLAYLIST_HEADER'].$data.URL = '';
 
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
             vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = json.data.value['PLAYLIST_NAV'].data.MAX_PAGES;
@@ -430,7 +497,6 @@ class PageController {
 
                 if (newCurTrack != null) {
                     player.setCurrentTrack(newCurTrack);
-                    newCurTrack.NR = player.icon_playing;
                 }
             }
 
@@ -451,6 +517,7 @@ class PageController {
     }
 
     loadUserPlayListPage(pageNum = 1, callBack = null) {
+
         let vueMap = this.vueMap;
         let tracks = this.getUserTracks();
         let tracksPerPage = this.TRACKS_PER_PAGE;
@@ -477,7 +544,6 @@ class PageController {
 
             if (newCurTrack != null) {
                 player.setCurrentTrack(newCurTrack);
-                newCurTrack.NR = player.icon_playing;
             }
         }
 
@@ -508,8 +574,8 @@ class PageController {
 
         $.getJSON(request, function (json) {
 
-            vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_NAME = json.data.value['PLAYLIST_HEADER'].data.LASTFM_USER_NAME;
-            vueMap['PLAYLIST_HEADER'].$data.LASTFM_USER_URL = json.data.value['PLAYLIST_HEADER'].data.LASTFM_USER_URL;
+            vueMap['PLAYLIST_HEADER'].$data.TEXT = json.data.value['PLAYLIST_HEADER'].data.TEXT;
+            vueMap['PLAYLIST_HEADER'].$data.URL = json.data.value['PLAYLIST_HEADER'].data.URL;
 
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
             vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = json.data.value['PLAYLIST_NAV'].data.MAX_PAGES;
@@ -529,7 +595,6 @@ class PageController {
 
                 if (newCurTrack != null) {
                     player.setCurrentTrack(newCurTrack);
-                    newCurTrack.NR = player.icon_playing;
                 }
             }
 

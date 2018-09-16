@@ -123,6 +123,12 @@ class PageJson extends DefaultJson {
         $page['NAV']           = $data;
         //nav
 
+
+        $data                       = new VuePageData();
+        $data->el                   = 'header>.logo';
+        $data->data['PAGE_LOADING'] = true;
+        $page['HEADER_LOGO']        = $data;
+
         $data                       = new VuePageData();
         $data->el                   = 'header>.content';
         $data->data['PAGE_HEADER']  = $this->locale['site.title'];
@@ -130,18 +136,19 @@ class PageJson extends DefaultJson {
         $page['HEADER_CONTENT']     = $data;
         //header content
 
-        $data                      = new VuePageData();
-        $data->el                  = '#page-ytplayer>h2>.marquee';
-        $data->data['NOW_PLAYING'] = '';
-        $page['YTPLAYER_HEADER']   = $data;
+        $data                        = new VuePageData();
+        $data->el                    = '#page-ytplayer>h2>a';
+        $data->data['PLAYLIST_NAME'] = '';
+        $data->data['PLAYLIST_URL']  = '';
+        $page['YTPLAYER_HEADER']     = $data;
 
         $data                      = new VuePageData();
         $data->el                  = '#page-ytplayer>.ytplayer-control';
         $data->data['NOW_PLAYING'] = 'Not loaded';
-        $page['YTPLAYER_CONTROL']   = $data;
+        $page['YTPLAYER_CONTROL']  = $data;
         //Youtube Player content
-        
-        
+
+
         return $page;
     }
 
@@ -160,11 +167,17 @@ class PageJson extends DefaultJson {
         $playlist = $this->lfmapi->getRecentlyPlayed($pageNum, $maxpages);
 
 
-        $data                           = new VuePageData();
-        $data->el                       = '#page-playlist>h2';
-        $data->data['LASTFM_USER_NAME'] = $this->lfmapi->getUser();
-        $data->data['LASTFM_USER_URL']  = '//last.fm/user/' . $this->lfmapi->getUser();
-        $page['PLAYLIST_HEADER']        = $data;
+        $data                     = new VuePageData();
+        $data->el                 = '#page-playlist>h2';
+        $data->data['TEXT']       = $this->lfmapi->getUser() . '\'s list';
+        $data->data['URL']        = '//last.fm/user/' . $this->lfmapi->getUser();
+        $data->data['URL_TARGET'] = '_blank';
+        $page['PLAYLIST_HEADER']  = $data;
+
+        $data                        = new VuePageData();
+        $data->el                    = '#page-playlist>.playlist-header-nav';
+        $data->data['PLAYLIST']      = 'default';
+        $page['PLAYLIST_HEADER_NAV'] = $data;
 
         $data                                 = new VuePageData();
         $data->el                             = '#page-playlist>.playlist-nav';
@@ -212,7 +225,8 @@ class PageJson extends DefaultJson {
                     $track->getDateofPlay(),
                 'VIDEO_ID'     => $videoId,
                 'PLAY_CONTROL' => false,
-                'PLAYLIST'     => 'default'
+                'PLAYLIST'     => 'default',
+                'PLAYSTATE'    => ''
             );
 
 

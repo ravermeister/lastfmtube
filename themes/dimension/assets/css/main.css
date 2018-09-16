@@ -1,6 +1,6 @@
-@import url(font-awesome.min.css);
-@import url(font-awesome-animation.min.css);
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300italic,600italic,300,600");
+@import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url("//cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.2.1/font-awesome-animation.min.css");
+@import url("//fonts.googleapis.com/css?family=Source+Sans+Pro:300italic,600italic,300,600");
 
 /*
 	Dimension by HTML5 UP
@@ -74,6 +74,7 @@ input, select, textarea {
     -ms-appearance: none;
     appearance: none;
 }
+
 /* Basic */
 
 @-ms-viewport {
@@ -896,14 +897,21 @@ ul.icons li:last-child {
     padding-right: 0;
 }
 
-ul.icons li a {
+ul.icons li a,
+ul.icons li a.fa-2x {
     border-radius: 100%;
     box-shadow: inset 0 0 0 1px #ffffff;
     display: inline-block;
+    text-align: center;
     height: 2.25rem;
     line-height: 2.25rem;
-    text-align: center;
     width: 2.25rem;
+}
+
+ul.icons li a.fa-2x {
+    height: 3.25rem;
+    line-height: 3.25rem;
+    width: 3.25rem;
 }
 
 ul.icons li a:hover {
@@ -1553,6 +1561,13 @@ body.is-preload #header .content .inner {
     white-space: nowrap;
 }
 
+#main article .btn-page-ytplayer {
+    position: relative;
+    bottom: 3.25rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
 #main article .close:before {
     -moz-transition: background-color 0.2s ease-in-out;
     -webkit-transition: background-color 0.2s ease-in-out;
@@ -1593,7 +1608,6 @@ body.is-preload #header .content .inner {
         height: 2.25rem;
         background-size: 14px 14px;
     }
-
 }
 
 @media screen and (max-width: 480px) {
@@ -1641,27 +1655,7 @@ body.is-preload #footer {
     opacity: 0;
 }
 
-
-.marquee {
-    width: 450px;
-    margin: 0 auto;
-    white-space: nowrap;
-    overflow: hidden;
-    box-sizing: border-box;
+body {
+    font-family: Arial, sans-serif;
 }
 
-.marquee span {
-    display: inline-block;
-    padding-left: 100%;  /* show the marquee just outside the paragraph */
-    animation: marquee 15s linear infinite;
-}
-
-.marquee span:hover {
-    animation-play-state: paused
-}
-
-/* Make it move */
-@keyframes marquee {
-    0%   { transform: translate(0, 0); }
-    100% { transform: translate(-100%, 0); }
-}

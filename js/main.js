@@ -13,8 +13,6 @@ requirejs.config({
             '//unpkg.com/jquery@3.3.1/dist/jquery.min',
             'jquery/jquery'
         ],
-        
-        theme: '../../themes/dimension/assets/js',
 
         // the Vue lib
         Vue: [
@@ -42,40 +40,24 @@ requirejs.config({
     shim: {
         'Vue': {
             exports: ['Vue']
-        },
-        'jquery': {
-            exports: ['jQuery']
         }
     }
 });
 
 // Start the main app logic.
-requirejs([
-    'jquery',
-    'player',
-    'page'
-], function () {
+requirejs(['jquery'], function () {
 
-    require([
-        'theme/browser.min', 
-        'theme/breakpoints.min', 
-        'theme/util', 
-        'theme/main'
-    ]);
+    //jQuery, canvas and the app/sub module are all
+    //loaded and can be used here now.
+    window.dataLayer = window.dataLayer || [];
 
-    require([
-        'Storages', 
-        'Vue'
-    ], function (Storages, Vue) {
-                
-        player = new PlayerController();
-        page = new PageController(Storages, Vue);
-        
-        require(['domReady'], function (dom) {
-
-            //jQuery, canvas and the app/sub module are all
-            //loaded and can be used here now.
-            window.dataLayer = window.dataLayer || [];
+    require(['domReady'], function (dom) {
+        require([
+            'Storages',
+            'Vue',
+            'player',
+            'page'
+        ], function (Storages, Vue) {
 
             //google analytics
             function gtag() {
@@ -84,9 +66,13 @@ requirejs([
 
             gtag('js', new Date());
             gtag('config', 'UA-26904270-14');
-            
-            //player.initPlayer();
-            //page.init();
+
+            player = new PlayerController();
+            page = new PageController(Storages, Vue);
+
+            player.initPlayer();
+            page.init();            
         });
     });
+
 });

@@ -8,7 +8,6 @@ class PlayerController {
         this.ytPlayer = null;
         this.isReady = false;
         this.CURRENT_TRACK = null;
-        this.CURRENT_TRACK_NR = null;
         this.ytStatus = new Object();
 
         this.ytStatus.UNSTARTED = new Object();
@@ -35,17 +34,16 @@ class PlayerController {
         this.ytStatus.CUED.ID = 5;
         this.ytStatus.CUED.NAME = 'vide cued';
 
-
-        this.icon_loading = '<i class="fa fa-spinner faa-spin animated"></i>';
-        this.icon_playing = '<i class="fa fa-play faa-flash animated" style="cursor: pointer"></i>';
-        this.icon_pause = '<i class="fa fa-pause" style="cursor: pointer"></i>';
-        this.icon_play = '<i class="fa fa-play" style="cursor: pointer"></i>';
-        this.icon_search = '<i class="icon fa-search"></i>';
     }
 
     initPlayer() {
 
-        $.getScript('//www.youtube.com/iframe_api');
+        //$.getScript('//www.youtube.com/iframe_api');
+        let tag = document.createElement('script');
+        tag.src = '//www.youtube.com/iframe_api';
+        let firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
         let startvideo = '';//'9RMHHwJ9Eqk';
         let ytplayerwidth = '100%';
         let ytplayerheight = ($(document).height() - 325) + 'px';
@@ -53,10 +51,7 @@ class PlayerController {
         let player = this;
 
         window.onYouTubeIframeAPIReady = function () {
-            
-            let nowPlaying = function(track) {
-                page.vueMap['YTPLAYER_HEADER'].$data.NOW_PLAYING = player.ytPlayer.getVideoData().title;
-            };
+
 
             let onReady = function (event) {
                 player.isReady = true;
@@ -69,26 +64,21 @@ class PlayerController {
                     case player.ytStatus.UNSTARTED.ID:
                         break;
                     case player.ytStatus.ENDED.ID:
+                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = '';
                         player.loadNextSong();
                         break;
 
                     case player.ytStatus.PLAYING.ID:
-                        if (player.CURRENT_TRACK != null) {
-                            player.CURRENT_TRACK.NR = player.icon_playing;
-                        }
-                        nowPlaying(player.CURRENT_TRACK);
+                        page.vueMap['YTPLAYER_HEADER'].$data.NOW_PLAYING = player.ytPlayer.getVideoData().title;
+                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = 'play';
                         break;
 
                     case player.ytStatus.PAUSED.ID:
-                        if (player.CURRENT_TRACK != null) {
-                            player.CURRENT_TRACK.NR = player.icon_pause;
-                        }
+                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = 'pause';
                         break;
 
                     case player.ytStatus.BUFFERING.ID:
-                        if (player.CURRENT_TRACK != null) {
-                            player.CURRENT_TRACK.NR = player.icon_loading;
-                        }
+                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = 'load';
                         break;
 
                     case player.ytStatus.CUED.ID:
@@ -192,10 +182,10 @@ class PlayerController {
 
     setCurrentTrack(track) {
         if (this.CURRENT_TRACK != null) {
-            this.CURRENT_TRACK.NR = this.CURRENT_TRACK_NR;
-            this.CURRENT_TRACK_NR = null;
+            this.CURRENT_TRACK.PLAYSTATE = '';
+            this.CURRENT_TRACK = null;
         }
-        this.CURRENT_TRACK_NR = track.NR;
+        track.PLAYSTATE = 'load';
         this.CURRENT_TRACK = track;
     }
 
@@ -206,11 +196,10 @@ class PlayerController {
         if (this.ytPlayer == null) return;
 
         this.setCurrentTrack(track);
-        track.NR = this.icon_loading;
 
 
         let needle = page.createNeedle(track);
-        if(needle.videoId!=null && needle.videoId.length>0) {
+        if (needle.videoId != null && needle.videoId.length > 0) {
             needle.videoId = vars.data.value.VALUE;
             player.loadVideoByNeedle(needle);
             return;
@@ -257,11 +246,19 @@ class PlayerController {
     }
 
 
-    isCurrentTrack(track) {        
+    isCurrentTrack(track) {
         return this.CURRENT_TRACK != null &&
             this.CURRENT_TRACK == track || (
                 this.CURRENT_TRACK_NR == track.NR &&
                 this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST
             );
+    }
+
+    isPlaying() {
+        return this.ytPlayer.getPlayerState() == this.ytStatus.PLAYING.ID;
+    }
+
+    isPaused() {
+        return this.ytPlayer.getPlayerState() == this.ytStatus.PAUSED.ID;
     }
 }
