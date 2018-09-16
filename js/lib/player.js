@@ -44,7 +44,11 @@ class PlayerController {
     }
 
     initPlayer() {
-        
+
+        let tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        let firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         let startvideo = '';//'9RMHHwJ9Eqk';
         let ytplayerwidth = '100%';
         let ytplayerheight = ($(document).height() - 325) + 'px';
@@ -114,7 +118,8 @@ class PlayerController {
                     'autoplay': 1,
                     'html5': 1,
                     'enablejsapi': 1,
-                    'fs': 1
+                    'fs': 1,
+                    'playerapiid': 'lastfmtube'
                 },
 
                 events: {
