@@ -36,13 +36,10 @@ class PageController {
                         vueMap[key] = page.initDefaultVue(json.data.value[key]);
                         break;
                 }
-                console.log(key);
             }            
             if(vueMap['PLAYLIST_TRACKS'].$data.TRACKS.length > 0) {
                 player.loadSong(vueMap['PLAYLIST_TRACKS'].$data.TRACKS[0]);
             }
-            
-            
             
             console.log('init page success');
         }).fail(function (xhr, status, error) {
@@ -288,6 +285,8 @@ class PageController {
                 }
             }
         });
+        
+        console.log('init playlist');
     }
 
     createNeedle(track) {

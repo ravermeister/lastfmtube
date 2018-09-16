@@ -114,8 +114,7 @@ class PlayerController {
                     'autoplay': 1,
                     'html5': 1,
                     'enablejsapi': 1,
-                    'fs': 1,
-                    'playerapiid': 'AIzaSyACJ-cfvehDBHy_ybi396nrlVk59bPntLM'
+                    'fs': 1
                 },
 
                 events: {
