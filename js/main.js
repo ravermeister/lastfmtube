@@ -56,19 +56,6 @@ requirejs([
     'page'
 ], function () {
 
-    //jQuery, canvas and the app/sub module are all
-    //loaded and can be used here now.
-    window.dataLayer = window.dataLayer || [];
-
-    //google analytics
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-    gtag('config', 'UA-26904270-14');
-
-
     require([
         'theme/browser.min', 
         'theme/breakpoints.min', 
@@ -80,12 +67,26 @@ requirejs([
         'Storages', 
         'Vue'
     ], function (Storages, Vue) {
+                
         player = new PlayerController();
         page = new PageController(Storages, Vue);
         
         require(['domReady'], function (dom) {
-            player.initPlayer();
-            page.init();
+
+            //jQuery, canvas and the app/sub module are all
+            //loaded and can be used here now.
+            window.dataLayer = window.dataLayer || [];
+
+            //google analytics
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+            gtag('config', 'UA-26904270-14');
+            
+            //player.initPlayer();
+            //page.init();
         });
     });
 });
