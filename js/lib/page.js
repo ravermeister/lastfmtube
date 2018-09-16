@@ -29,6 +29,7 @@ class PageController {
                     case 'PLAYLIST_HEADER':
                         vueMap[key] = page.initPlayListHeader(json.data.value[key]);
                         break;
+                        break;
                     case 'PLAYLIST_TRACKS':
                         vueMap[key] = page.initPlayListTracks(json.data.value[key]);
                         break;
@@ -38,13 +39,15 @@ class PageController {
                 }
             }
 
-            page.updatePlayerListPage();
+            page.setCurrentPlayList();
 
             if (vueMap['PLAYLIST_TRACKS'].$data.TRACKS.length > 0) {
                 player.loadSong(vueMap['PLAYLIST_TRACKS'].$data.TRACKS[0]);
             }
 
             vueMap['HEADER_LOGO'].$data.PAGE_LOADING = false;
+
+
             let loaderElem = vueMap['HEADER_LOGO'].$refs.PAGE_LOADER;
             $(loaderElem)
                 .removeClass('fa-spinner fa-spin animated')
@@ -58,21 +61,25 @@ class PageController {
         });
     }
 
-    updatePlayerListPage(playlist) {
+    setCurrentPlayList(playlist) {
         let name = 'Default Playlist';
-        if (playlist != null) {
-            switch (playlist) {
-                case 'userlist':
-                    name = 'My Playlist';
-                    break;
-                case 'topsongs':
-                    name = 'Top Songs';
-                    break;
-            }
+        if (playlist == null) playlist = 'default';
+
+        switch (playlist) {
+            case 'userlist':
+                name = 'My Playlist';
+                break;
+            case 'topsongs':
+                name = 'Top Songs';
+                break;
         }
+
 
         this.vueMap['YTPLAYER_HEADER'].$data.PLAYLIST_NAME = name;
         this.vueMap['YTPLAYER_HEADER'].$data.PLAYLIST_URL = '#page-playlist';
+        this.vueMap['PLAYLIST_HEADER'].$data.PLAYLIST = playlist;
+
+        page.PLAYLIST = playlist;
     }
 
 
@@ -82,27 +89,31 @@ class PageController {
             data: json.data
         });
     }
-    
-    initPlayListHeader(json){
+
+    initPlayListHeader(json) {
         return new this.vue({
             el: json.el,
             data: json.data,
 
             methods: {
-                loadPage: function (url) {                        
-                    page.loadPlaylistPage(1,null,function () {
-                        if(page.PLAYLIST != null && page.PLAYLIST == 'search') {
+                loadPage: function (url) {
+                    page.loadPlaylistPage(1, null, function () {
+                        if (page.PLAYLIST != null && page.PLAYLIST == 'search') {
                             page.loadPlaylistPage(1, null, function () {
-                                location.href = '#page-playlist';    
+                                location.href = '#page-playlist';
                             }, url);
                         } else {
-                            location.href = '#page-playlist';    
+                            location.href = '#page-playlist';
                         }
-                           
+
                     });
+                },
+
+                loadPlayList: function (list) {
+                    page.loadPlaylistPage(1, null, null, list);
                 }
             }
-        });        
+        });
     }
 
     initPlayListNav(json) {
@@ -164,7 +175,7 @@ class PageController {
                             console.log('unbekannter zustand für play/pause');
                             console.log(track_icon);
                         }
-                    } else if (page.QUICKPLAY_TRACK == track) {                        
+                    } else if (page.QUICKPLAY_TRACK == track) {
                         player.loadSong(track);
                     } else {
                         console.log('unbekannter track');
@@ -186,24 +197,24 @@ class PageController {
 
                     $(event.target).removeClass('fas fa-headphones')
                         .addClass('fa-spinner faa-spin animated');
-                    
+
                     track = page.clone(track);
                     page.resetTrack(track);
-                    
+
                     let tracks = page.getUserTracks();
                     track.PLAYLIST = 'userlist';
                     track.NR = tracks.length + 1;
                     tracks.push(track);
                     page.setUserTracks(tracks);
-                    
-                    
+
+
                     $(event.target).removeClass('fa-spinner faa-spin animated')
-                        .addClass('fas fa-check');                    
+                        .addClass('fas fa-check');
                     setTimeout(function () {
                         $(event.target).removeClass('fas fa-check')
                             .addClass('fas fa-headphones');
                     }, 500);
-                    
+
                 },
 
                 removeFromUserList: function (trackList, track) {
@@ -211,7 +222,7 @@ class PageController {
                     let storage = page.storage;
                     if (!storage.isSet('userlist.tracks')) return;
 
-                    let removeTrack = function (tracks, track) {
+                    let removeTrack = function (tracks, track, callBack) {
                         let trackIndex = tracks.indexOf(track);
                         if (trackIndex < 0) {
                             for (let cnt = 0; cnt < tracks.length; cnt++) {
@@ -228,15 +239,28 @@ class PageController {
                         for (let cnt = trackIndex; cnt < tracks.length; cnt++) {
                             tracks[cnt].NR = cnt + 1;
                         }
+
+                        if (callBack != null) {
+                            callBack(trackIndex);
+                        }
                     };
 
                     let storedTracks = page.getUserTracks();
                     removeTrack(storedTracks, track);
                     storage.set('userlist.tracks', storedTracks);
-                    removeTrack(trackList, track);
 
-                    let curPage = page.vueMap['PLAYLIST_NAV'].$data.CUR_PAGE;
-                    page.loadPlaylistPage(curPage);
+                    removeTrack(trackList, track, function (trackIndex) {
+
+                        if (trackList.length > trackIndex) {
+                            trackList[trackIndex].PLAY_CONTROL = true;
+                        } else if (trackList.length > 0) {
+                            trackList[trackList.length - 1].PLAY_CONTROL = true;
+                        } else {
+                            let curPage = page.vueMap['PLAYLIST_NAV'].$data.CUR_PAGE;
+                            page.loadPlaylistPage(curPage);
+                        }
+
+                    });
                 },
 
                 searchVideos(event, track) {
@@ -247,7 +271,7 @@ class PageController {
                         if (isLoading) {
                             $(event.target)
                                 .removeClass('fa-search')
-                                .addClass('fa-spinner faa-spin animated');                            
+                                .addClass('fa-spinner faa-spin animated');
                         } else {
                             $(event.target)
                                 .removeClass('fa-spinner faa-spin animated')
@@ -278,7 +302,7 @@ class PageController {
                             };
                         }
                         page.loadSearchResult(track, tracks, 1, function () {
-                            page.vueMap['PLAYLIST_HEADER'].$data.URL = page.PLAYLIST; 
+                            page.vueMap['PLAYLIST_HEADER'].$data.URL = page.PLAYLIST;
                             page.PLAYLIST = 'search';
                         });
                     }).fail(function (xhr) {
@@ -357,7 +381,7 @@ class PageController {
         return Object.assign({}, src);
     }
 
-    resetTrack(track) {        
+    resetTrack(track) {
         track.PLAY_CONTROL = false;
         track.SHOWPLAY = false;
         track.NOWPLAYING = false;
@@ -432,7 +456,7 @@ class PageController {
     loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist == null) playlist = this.PLAYLIST;
 
-        this.updatePlayerListPage(playlist);
+        this.setCurrentPlayList(playlist);
         switch (playlist) {
             case 'userlist':
                 this.loadUserPlayListPage(pageNum, callBack);

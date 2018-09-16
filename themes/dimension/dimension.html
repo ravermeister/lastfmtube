@@ -63,7 +63,7 @@
 
             <ul class="icons ytplayer-header-nav">
                 <li>
-                    <a class="icon btn-page-ytplayer faa-vertical fa fa-youtube fa-2x"
+                    <a class="icon btn-playlist-header-nav faa-vertical fa fa-youtube fa-2x"
                        style="cursor: pointer"
                        title="Youtube Player"
                        href="#page-ytplayer">
@@ -128,54 +128,64 @@
         </article>
 
         <!-- Playlist -->
-        <article id="page-playlist">
-            
-            <ul class="icons playlist-header-nav" key="PLAYLIST">
-                <li>
-                    <a class="icon btn-page-ytplayer fa fa-youtube fa-2x"
-                       style="cursor: pointer"
-                       title="Youtube Player"
-                       href="#page-ytplayer">
-                        <span class="label">Youtube Player</span>
-                    </a>
-                </li>
+        <article id="page-playlist">            
+           <span class="playlist-header-container" key="PLAYLIST">
+               
+                <div class=" playlist-header-nav" >
+                    <div class="btn-playlist-header-nav">
+                        <a href="#page-ytplayer">
+                            <span class="fa fa-youtube fa-2x"></span>
+                            <span class="btn-text">Player</span>
+                        </a>
+                    </div>
                 
-                <li  v-if="PLAYLIST !=='userlist'">
-                    <a class="icon btn-page-ytplayer fas fa-user fa-2x"
-                       style="cursor: pointer"
-                       title="User Playlist"
-                       href="#page-ytplayer">
-                        <span class="label">User Playlist</span>
-                    </a>
-                </li>
+                    <div v-if="PLAYLIST !=='default'" class="btn-playlist-header-nav">
+                        <a href="#page-playlist" @click.prevent="loadPlayList('default')">
+                            <span class="fas fa-headphones fa-2x"></span>
+                            <span class="btn-text">Last.fm</span>
+                        </a>
+                    </div>
                 
-                <li v-if="PLAYLIST !== 'topsongs'">
-                    <a class="icon btn-page-ytplayer fas fa-star fa-2x"
-                       style="cursor: pointer"
-                       title="Top Songs"
-                       href="#page-ytplayer">
-                        <span class="label">Top Songs</span>
-                    </a>
-                </li>
-
-                <li v-if="PLAYLIST !== 'topuser'">
-                    <a class="icon btn-page-ytplayer fas fa-trophy fa-2x"
-                       style="cursor: pointer"
-                       title="Top User"
-                       href="#page-ytplayer">
-                        <span class="label">Top User</span>
-                    </a>
-                </li>                
-            </ul>
-
-            <h2 class="major">
-                <template v-if="URL != ''">
-                    <a v-bind:href="URL" v-bind:target="URL_TARGET" @click.prevent="loadPage(URL)">{{TEXT}}</a>
-                </template>
-                <template v-else="v-else">
-                    <span>{{TEXT}}</span>
-                </template>
-            </h2>
+                    <div v-if="PLAYLIST !=='userlist'" class="btn-playlist-header-nav">
+                        <a href="#page-playlist" @click.prevent="loadPlayList('userlist')">
+                            <span class="fas fa-user fa-2x"></span>
+                            <span class="btn-text">Userlist</span>
+                        </a>
+                    </div>
+                
+                    <div v-if="PLAYLIST !== 'topsongs'" class="btn-playlist-header-nav">
+                        <a href="#page-playlist" @click.prevent="loadPlayList('topsongs')">
+                            <span class="fas fa-star fa-2x"></span>
+                            <span class="btn-text">Top Songs</span>
+                        </a>
+                    </div>
+                
+                    <div v-if="PLAYLIST !== 'topuser'" class="btn-playlist-header-nav">
+                        <a href="#page-playlist" @click.prevent="loadPlayList('topuser')">
+                            <span class="fas fa-trophy fa-2x"></span>
+                            <span class="btn-text">Top User</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <h2 class="major" style="vertical-align: middle;">
+                    <span class="playlist-header-ico fas fa-headphones fa-2x"
+                          v-if="PLAYLIST ==='default'"></span>
+                    <span class="playlist-header-ico fas fa-user fa-2x"
+                          v-if="PLAYLIST ==='userlist'"></span>
+                    <span class="playlist-header-ico fas fa-star fa-2x"
+                          v-if="PLAYLIST ==='topsongs'"></span>
+                    <span class="playlist-header-ico fas fa-trophy fa-2x"
+                          v-if="PLAYLIST ==='topuser'"></span>
+                    
+                    <template v-if="URL != ''">
+                        <a v-bind:href="URL" v-bind:target="URL_TARGET" @click.prevent="loadPage(URL)">{{TEXT}}</a>
+                    </template>
+                    <template v-else="v-else">
+                        <span>{{TEXT}}</span>
+                    </template>
+                </h2>
+            </span>
 
             <section class="playlist-nav">
                 <form @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
@@ -259,83 +269,52 @@
                                 </td>
                             </tr>
 
-                            <transition name="fade" is="transition-group">
-                                <tr key="true" v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
-                                    <td colspan="3" style="vertical-align: middle; border: 0px">
-                                        <ul class="icons" style="display: inline">
-                                            <li>
-                                                <a class="icon fa-play fa-2x"
-                                                   style="cursor: pointer"
-                                                   title="Play"
-                                                   @click="playTrack(TRACK);">
-                                                    <span class="label">Play</span>
-                                                </a>
-                                            </li>
-                                            <!--
-                                            <li>
-                                                <a class="icon fa-list-ul"
-                                                   style="cursor: pointer"
-                                                   title="Queue Video">
-                                                    <span class="label">Queue Video</span>
-                                                </a>
-                                            </li>
-                                            
-                                            <li><a class="icon fa-heart"
-                                                   style="cursor: pointer"
-                                                   title="Rate this Song">
-                                                    <span class="label">Rate this Song</span>
-                                                </a>
-                                            </li>
-                                            -->
+                            <tr key="true" v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
+                                <td colspan="3" style="vertical-align: middle; border: 0px">
 
-                                            <li>
-                                                <a class="icon fa-plus fa-2x"
-                                                   style="cursor: pointer"
-                                                   title="set as Video for the Song"
-                                                   @click="saveAlternative(TRACK, $('#playlist_videourl').val());"
-                                                   v-if="TRACK.PLAYLIST === 'search'">
-                                                    <span class="label">set as Video</span>
-                                                </a>
+                                    <div class="btn-playlist-nav">
+                                        <a @click="playTrack(TRACK);">
+                                            <span class="fa fa-play fa-2x"></span>
+                                            <span class="btn-text">Play</span>
+                                        </a>
+                                    </div>
+                                    <div class="btn-playlist-nav" v-if="TRACK.PLAYLIST === 'search'">
+                                        <a @click="saveAlternative(TRACK, $('#playlist_videourl').val());">
+                                            <span class="fa fa-plus fa-2x"></span>
+                                            <span class="btn-text">set as Video</span>
+                                        </a>
+                                    </div>
+                                    <div class="btn-playlist-nav" v-else-if="TRACK.PLAYLIST !== 'userlist'">
+                                        <a @click="addToUserList($event, TRACK);">
+                                            <span class="fas fa-user-plus fa-2x"></span>
+                                            <span class="btn-text">Add to Playlist</span>
+                                        </a>
+                                    </div>
+                                    <div class="btn-playlist-nav" v-else="v-else">
+                                        <a @click="removeFromUserList(TRACKS, TRACK);">
+                                            <span class="fas fa-user-times fa-2x"></span>
+                                            <span class="btn-text">Remove</span>
+                                        </a>
+                                    </div>
+                                    <div class="btn-playlist-nav">
+                                        <a v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
+                                           @click="searchVideos($event, TRACK);">
+                                            <span class="fa fa-search fa-2x"></span>
+                                            <span class="btn-text">search</span>
+                                        </a>
+                                        <a @click="deleteAlternative($event, TRACK, TRACKS);"
+                                           v-else="v-else">
+                                            <span class="fa fa-minus fa-2x"></span>
+                                            <span class="btn-text">delete search</span>
+                                        </a>
+                                    </div>
 
-                                                <a class="icon fas fa-user-plus fa-2x"
-                                                   style="cursor: pointer"
-                                                   title="add to Playlist"
-                                                   @click="addToUserList($event, TRACK);"
-                                                   v-else-if="TRACK.PLAYLIST !== 'userlist'">
-                                                    <span class="label">Add to Playlist</span>
-                                                </a>
-                                                <a class="icon fas fa-user-times fa-2x"
-                                                   style="cursor: pointer"
-                                                   title="remove from Playlist"
-                                                   @click="removeFromUserList(TRACKS, TRACK);"
-                                                   v-else="v-else">
-                                                    <span class="label">Remove from Playlist</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="icon fa-search fa-2x"
-                                                   style="cursor: pointer"
-                                                   title="search alternative Video"
-                                                   v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
-                                                   @click="searchVideos($event, TRACK);">
-                                                    <span class="label">search alternative Video</span>
-                                                </a>
-                                                <a class="icon fa-minus fa-2x"
-                                                   style="cursor: pointer"
-                                                   title="delete alternative Video"
-                                                   @click="deleteAlternative($event, TRACK, TRACKS);"
-                                                   v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''">
-                                                    <span class="label">delete alternative Video</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div style="float: right">
-                                            <span v-if="typeof TRACK.PLAYCOUNT !== 'undefined'">Plays: <b>{{TRACK.PLAYCOUNT}} | </b></span>
-                                            {{TRACK.LASTPLAY}}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </transition>
+                                    <div style="float: right">
+                                        <span v-if="typeof TRACK.PLAYCOUNT !== 'undefined'">Plays: <b>{{TRACK.PLAYCOUNT}} | </b></span>
+                                        {{TRACK.LASTPLAY}}
+                                    </div>
+                                </td>
+                            </tr>
                         </template>
                         </tbody>
                     </table>

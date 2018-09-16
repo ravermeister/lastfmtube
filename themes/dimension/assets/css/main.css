@@ -1561,11 +1561,45 @@ body.is-preload #header .content .inner {
     white-space: nowrap;
 }
 
-#main article .btn-page-ytplayer {
+#main article .playlist-header-ico {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#main article .btn-playlist-header-nav {
+    padding: 5px;
     position: relative;
     bottom: 3.25rem;
     right: 1rem;
+}
+
+#main article .btn-playlist-nav {
+    pading-left: 5px;
+    padding-right: 5px;
+}
+
+#main article .btn-playlist-nav,
+#main article .btn-playlist-header-nav {
+    /**
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    **/
+    display: inline-block;
+    margin: 0px;
+    text-align: center;
     cursor: pointer;
+}
+
+#main article .btn-playlist-nav a,
+#main article .btn-playlist-header-nav a {
+    -webkit-transition: none;
+    transition: none;
+    border-bottom: 0px;
+}
+
+#main article .btn-playlist-nav .btn-text,
+#main article .btn-playlist-header-nav .btn-text {
+    display: block;
 }
 
 #main article .close:before {
@@ -1658,4 +1692,3 @@ body.is-preload #footer {
 body {
     font-family: Arial, sans-serif;
 }
-
