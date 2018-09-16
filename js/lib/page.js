@@ -62,7 +62,7 @@ class PageController {
     }
 
     setCurrentPlayList(playlist) {
-        let name = 'Default Playlist';
+        let name = 'Last.fm Playlist';
         if (playlist == null) playlist = 'default';
 
         switch (playlist) {
@@ -110,7 +110,30 @@ class PageController {
                 },
 
                 loadPlayList: function (list) {
-                    page.loadPlaylistPage(1, null, null, list);
+                    let oldList = 'default';
+                    if(page.PLAYLIST!=null) oldList = page.PLAYLIST;
+                    let iconClasses = '';
+                    switch(oldList) {
+                        case 'userlist' :
+                            iconClasses = '';
+                            break;
+                        case 'topuser':
+                            break;
+                        case 'topsongs':
+                            break;
+                        case 'search':
+                            break;
+                            default:
+                            break;
+                    }                    
+                    let icon = $('#page-playlist>.playlist-header-container>h2>.playlist-header-ico')
+                                    .removeClass('').addClass();
+
+                    
+                    
+                    page.loadPlaylistPage(1, null, null, list, function () {
+
+                    });
                 }
             }
         });
@@ -600,6 +623,8 @@ class PageController {
 
             vueMap['PLAYLIST_HEADER'].$data.TEXT = json.data.value['PLAYLIST_HEADER'].data.TEXT;
             vueMap['PLAYLIST_HEADER'].$data.URL = json.data.value['PLAYLIST_HEADER'].data.URL;
+            vueMap['PLAYLIST_HEADER'].$data.PLAYLIST = json.data.value['PLAYLIST_HEADER'].data.PLAYLIST;
+            vueMap['PLAYLIST_HEADER'].$data.URL_TARGET = json.data.value['PLAYLIST_HEADER'].data.URL_TARGET;
 
             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
             vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = json.data.value['PLAYLIST_NAV'].data.MAX_PAGES;

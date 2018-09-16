@@ -1566,17 +1566,22 @@ body.is-preload #header .content .inner {
     vertical-align: middle;
 }
 
-#main article .btn-playlist-header-nav {
-    padding: 5px;
+#main article .playlist-header-container .playlist-header-nav {    
     position: relative;
-    bottom: 3.25rem;
-    right: 1rem;
+    top: -2rem;
+    left: -0.5rem;
+}
+#main article .playlist-header-container .playlist-header-nav .btn-playlist-header-nav{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+#main article .playlist-header-container .btn-playlist-header-nav {}
+#main article .btn-playlist-nav {
+    pading-left:  7px;
+    padding-right: 7px;
+    margin: 0px;
 }
 
-#main article .btn-playlist-nav {
-    pading-left: 5px;
-    padding-right: 5px;
-}
 
 #main article .btn-playlist-nav,
 #main article .btn-playlist-header-nav {
@@ -1584,8 +1589,7 @@ body.is-preload #header .content .inner {
     border: 1px solid #ccc;
     border-radius: 6px;
     **/
-    display: inline-block;
-    margin: 0px;
+    display: inline-block;    
     text-align: center;
     cursor: pointer;
 }
@@ -1601,6 +1605,7 @@ body.is-preload #header .content .inner {
 #main article .btn-playlist-header-nav .btn-text {
     display: block;
 }
+
 
 #main article .close:before {
     -moz-transition: background-color 0.2s ease-in-out;

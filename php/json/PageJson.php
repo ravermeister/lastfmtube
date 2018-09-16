@@ -169,7 +169,7 @@ class PageJson extends DefaultJson {
 
         $data                     = new VuePageData();
         $data->el                 = '#page-playlist>.playlist-header-container';
-        $data->data['TEXT']       = $this->lfmapi->getUser() . '\'s list';
+        $data->data['TEXT']       = 'Last.fm List';
         $data->data['URL']        = '//last.fm/user/' . $this->lfmapi->getUser();
         $data->data['PLAYLIST']   = 'default';
         $data->data['URL_TARGET'] = '_blank';

@@ -131,7 +131,7 @@
         <article id="page-playlist">            
            <span class="playlist-header-container" key="PLAYLIST">
                
-                <div class=" playlist-header-nav" >
+                <div class=" playlist-header-nav">
                     <div class="btn-playlist-header-nav">
                         <a href="#page-ytplayer">
                             <span class="fa fa-youtube fa-2x"></span>
@@ -167,27 +167,25 @@
                         </a>
                     </div>
                 </div>
-                
-                <h2 class="major" style="vertical-align: middle;">
-                    <span class="playlist-header-ico fas fa-headphones fa-2x"
-                          v-if="PLAYLIST ==='default'"></span>
+               
+                <div style="margin-top: 2rem;">
+                    <h2 class="major" style="vertical-align: middle;">
+                        <span class="playlist-header-ico fas fa-headphones fa-2x"
+                              v-if="PLAYLIST ==='default'"></span>
                     <span class="playlist-header-ico fas fa-user fa-2x"
                           v-if="PLAYLIST ==='userlist'"></span>
                     <span class="playlist-header-ico fas fa-star fa-2x"
                           v-if="PLAYLIST ==='topsongs'"></span>
                     <span class="playlist-header-ico fas fa-trophy fa-2x"
                           v-if="PLAYLIST ==='topuser'"></span>
-                    
-                    <template v-if="URL != ''">
-                        <a v-bind:href="URL" v-bind:target="URL_TARGET" @click.prevent="loadPage(URL)">{{TEXT}}</a>
-                    </template>
-                    <template v-else="v-else">
-                        <span>{{TEXT}}</span>
-                    </template>
+                    <span>{{TEXT}}</span>
                 </h2>
+                </div>
             </span>
 
             <section class="playlist-nav">
+
+
                 <form @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
                     <div class="fields">
 
