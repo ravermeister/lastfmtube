@@ -14,11 +14,6 @@ requirejs.config({
             'jquery/jquery'
         ],
 
-        youtube: [
-            '//www.youtube.com/iframe_api?noext=',
-            'ytapi/iframe-api'
-        ],
-
         theme: '../../themes/dimension/assets/js',
 
         // the Vue lib
@@ -27,52 +22,61 @@ requirejs.config({
             'vue/vue.min'
         ],
         // Vue RequireJS loader
-        vue: [            
-            '//rawgit.com/edgardleal/require-vue/master/dist/require-vuejs',
-            '//unpkg.com/requirejs-vue@1.1.5/requirejs-vue',
+        vue: [
+            '//cdn.rawgit.com/edgardleal/require-vuejs/aeaff6db/dist/require-vuejs.min',
             'vue/vue.requirejs'
         ],
 
         //Storage js
         storage: [
-            '//unpkg.com/js-storage@1.0.4/js.storage',
+            '//unpkg.com/js-storage@1.0.4/js.storage.min',
             'jstorage/js.storage.min'
-        ]
-    },
+        ],
 
-    config: {
-        'vue': {
-            'pug': 'browser-pug',
-            'css': 'inject',
-            'templateVar': 'template'
-        }
+        domReady: [
+            '//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
+            'requirejs/domReady'
+        ]
     },
 
     shim: {
         'Vue': {
             exports: ['Vue']
         },
-        
-        'player': {
-            depds: ['youtube']
-        },       
-
+        'jquery': {
+            exports: ['jQuery']
+        },
+        'theme/browser.min': {
+            deps: ['jquery']
+        },
+        'theme/breakpoints.min': {
+            deps: [
+                'jquery',
+                'theme/browser.min'
+            ]
+        },
+        'theme/util': {
+            deps: [
+                'jquery',
+                'theme/browser.min',
+                'theme/breakpoints.min'
+            ]
+        },
         'theme/main': {
             deps: [
                 'jquery',
-                'theme/util',
                 'theme/browser.min',
-                'theme/breakpoints.min'                
+                'theme/breakpoints.min',
+                'theme/util'
             ]
-        },
+        }
     }
 });
 
 // Start the main app logic.
-requirejs([    
+requirejs([
     'jquery',
-    'youtube',
-    'player', 
+    'player',
     'page'
 ], function () {
 
@@ -87,14 +91,15 @@ requirejs([
 
     gtag('js', new Date());
     gtag('config', 'UA-26904270-14');
-    
-    require(['storage', 'Vue', 'theme/main'], function (storage, vue) {
 
+
+    require(['storage', 'Vue', 'theme/main'], function (storage, vue) {
         player = new PlayerController();
         page = new PageController(storage, vue);
-
-        player.initPlayer();
-        page.init();
+        
+        require(['domReady'], function (dom) {
+            player.initPlayer();
+            page.init();
+        });
     });
-
 });
