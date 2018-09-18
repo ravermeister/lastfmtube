@@ -130,7 +130,7 @@ class VuePlaylist extends DefaultLibVue {
                     VIDEO_ID: '',
                     PLAY_CONTROL: '',
                     PLAYLIST: '',
-                    PLAYSTATE: ''
+                    PLAYSTATE: ''                    
                 }]
             },
 
@@ -142,6 +142,38 @@ class VuePlaylist extends DefaultLibVue {
                     }
                     track.PLAYSTATE = show ? 'stop' : '';
                     page.QUICKPLAY_TRACK = show ? track : null;
+                },
+
+                togglePlay: function (track) {
+
+                    if (player.CURRENT_TRACK == track) {
+                        if (player.isPlaying()) {
+                            player.ytPlayer.pauseVideo();
+                        } else if (player.isPaused()) {
+                            player.ytPlayer.playVideo();
+                        } else {
+                            console.log('unbekannter zustand für play/pause');
+                            console.log(track_icon);
+                        }
+                    } else if (page.QUICKPLAY_TRACK == track) {
+                        player.loadSong(track);
+                    } else {
+                        console.log('unbekannter track');
+                        console.log(track);
+                    }
+                },
+
+                togglePlayControl: function (track) {
+                    if (page.PLAY_CONTROL != null && page.PLAY_CONTROL != track) {
+                        page.PLAY_CONTROL.PLAY_CONTROL = false;
+                    }
+
+                    if (page.PLAYLIST != null && page.PLAYLIST == 'search') {
+                        page.vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
+                    }
+
+                    track.PLAY_CONTROL = !track.PLAY_CONTROL;
+                    page.PLAY_CONTROL = track;
                 },
 
                 update: control.updateData

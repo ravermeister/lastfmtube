@@ -10,7 +10,8 @@ class VueYoutube extends DefaultLibVue {
             data: {
                 PLAYLIST_NAME: 'Playlist',
                 PLAYLIST_URL: '#page-playlist',
-                PLAYLIST_ID: 'default'
+                PLAYLIST_ID: 'default',
+                NOW_PLAYING: '', 
             },
             
             methods: {
@@ -18,9 +19,7 @@ class VueYoutube extends DefaultLibVue {
 
                 loadPlaylist: function (playlist) {
                     
-                    console.log(playlist);
-                    page.setCurrentPlayList(playlist);            
-                    console.log('after set: '+page.PLAYLIST)
+                    page.setCurrentPlayList(playlist);
                     page.myVues.playlist.update({});
                     location.href = '#page-playlist';
                 }                

@@ -215,37 +215,37 @@
 
                                     <div class="btn-playlist-nav">
                                         <a @click="playTrack(TRACK);">
-                                            <span class="fa fa-play fa-2x"></span>
+                                            <span class="fa fa-play"></span>
                                             <span class="btn-text">Play</span>
                                         </a>
                                     </div>
                                     <div class="btn-playlist-nav" v-if="TRACK.PLAYLIST === 'search'">
                                         <a @click="saveAlternative(TRACK, $('#playlist_videourl').val());">
-                                            <span class="fa fa-plus fa-2x"></span>
+                                            <span class="fa fa-plus"></span>
                                             <span class="btn-text">set as Video</span>
                                         </a>
                                     </div>
                                     <div class="btn-playlist-nav" v-else-if="TRACK.PLAYLIST !== 'userlist'">
                                         <a @click="addToUserList($event, TRACK);">
-                                            <span class="fas fa-user-plus fa-2x"></span>
+                                            <span class="fas fa-user-plus"></span>
                                             <span class="btn-text">Add to Playlist</span>
                                         </a>
                                     </div>
                                     <div class="btn-playlist-nav" v-else="v-else">
                                         <a @click="removeFromUserList(TRACKS, TRACK);">
-                                            <span class="fas fa-user-times fa-2x"></span>
+                                            <span class="fas fa-user-times"></span>
                                             <span class="btn-text">Remove</span>
                                         </a>
                                     </div>
                                     <div class="btn-playlist-nav">
                                         <a v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
                                            @click="searchVideos($event, TRACK);">
-                                            <span class="fa fa-search fa-2x"></span>
+                                            <span class="fa fa-search"></span>
                                             <span class="btn-text">search</span>
                                         </a>
                                         <a @click="deleteAlternative($event, TRACK, TRACKS);"
                                            v-else="v-else">
-                                            <span class="fa fa-minus fa-2x"></span>
+                                            <span class="fa fa-minus"></span>
                                             <span class="btn-text">delete search</span>
                                         </a>
                                     </div>

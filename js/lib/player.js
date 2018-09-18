@@ -56,8 +56,8 @@ class PlayerController {
 
             let onReady = function (event) {
                 player.isReady = true;
-                if(player.autoPlay) {
-                   player.loadNextSong(); 
+                if (player.autoPlay) {
+                    player.loadNextSong();
                 }
                 console.log('youtube player ready');
             };
@@ -73,7 +73,7 @@ class PlayerController {
                         break;
 
                     case player.ytStatus.PLAYING.ID:
-                        page.vueMap['YTPLAYER_HEADER'].$data.NOW_PLAYING = player.ytPlayer.getVideoData().title;
+                        page.myVues.youtube.header.$data.NOW_PLAYING = player.ytPlayer.getVideoData().title;                        
                         if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = 'play';
                         break;
 
@@ -124,12 +124,12 @@ class PlayerController {
 
 
     loadNextSong() {
-        if (this.CURRENT_TRACK == null) return;
-        let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
-        let index = tracks.indexOf(this.CURRENT_TRACK);
 
-        if ((index + 1) >= tracks.length) {
-            let playlist = page.vueMap['PLAYLIST_NAV'];
+        let tracks = page.myVues.playlist.content.$data.TRACKS;
+        let nextIndex = this.CURRENT_TRACK != null ? tracks.indexOf(this.CURRENT_TRACK) + 1 : 0;
+
+        if ((nextIndex) >= tracks.length) {
+            let playlist = page.myVues.playlist.menu;
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
@@ -139,18 +139,16 @@ class PlayerController {
             page.loadPlaylistPage(user, curPage, 'default', function (success) {
                 if (!success) return;
 
-                let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
+                let tracks = page.myVues.playlist.content.$data.TRACKS;
                 player.loadSong(tracks[0]);
             });
 
             return;
-        } else if (index < 0) {
-            index = 0;
-        } else {
-            index++;
+        } else if (nextIndex < 0) {
+            nextIndex = 0;
         }
 
-        this.loadSong(tracks[index]);
+        this.loadSong(tracks[nextIndex]);
     }
 
     loadPreviousSong() {
@@ -185,6 +183,7 @@ class PlayerController {
     }
 
     setCurrentTrack(track) {
+        
         if (this.CURRENT_TRACK != null) {
             this.CURRENT_TRACK.PLAYSTATE = '';
             this.CURRENT_TRACK = null;
@@ -198,7 +197,7 @@ class PlayerController {
         //console.log(title);
         //console.log(this.ytPlayer);
         if (this.ytPlayer == null) return;
-
+        
         this.setCurrentTrack(track);
 
 
