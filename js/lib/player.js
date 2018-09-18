@@ -7,6 +7,7 @@ class PlayerController {
     constructor() {
         this.ytPlayer = null;
         this.isReady = false;
+        this.autoPlay = false;
         this.CURRENT_TRACK = null;
         this.ytStatus = new Object();
 
@@ -55,6 +56,9 @@ class PlayerController {
 
             let onReady = function (event) {
                 player.isReady = true;
+                if(player.autoPlay) {
+                   player.loadNextSong(); 
+                }
                 console.log('youtube player ready');
             };
 

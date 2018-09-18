@@ -96,7 +96,7 @@ requirejs([
     
     page = new PageController(Vue, Storages);
     player = new PlayerController();
-    
+    player.autoPlay = true;
     player.initPlayer();
     page.init();
 

@@ -1,20 +1,21 @@
 class DefaultLibVue {
-    constructor(Vue) {
-        this.Vue = Vue;
-        this.isReady = false;
+
+    constructor(page) {
+        this.page = page;
+        this.Vue = page.Vue;
     }
 
-    update(json) {
-        if(!this.isReady) {
-            this.isReady = this.doInit(json);
-            return;
-        }
-        
-        this.doUpdate(json)
+
+    isUndefined(val) {
+        return (typeof val === 'undefined') ? true : false;
     }
-    
-    
-    
-    doInit() {}
-    doUpdate(json) {}
+
+    updateData(json) {
+        for (let key in this.$data) {            
+            if (json.hasOwnProperty(key)) {                
+                this.$data[key] = json[key];
+            }
+        }
+    }
+
 }

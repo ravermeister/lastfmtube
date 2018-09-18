@@ -113,7 +113,7 @@ class PageJson extends DefaultJson {
                 ),
                 array(
                     'URL'  => '#page-playlist',
-                    'NAME' => $this->locale['menu.charts'],
+                    'NAME' => $this->locale['menu.topsongs'],
                     'ARGS' => array(
                         'PLAYLIST' => 'topsongs'
                     )
@@ -126,8 +126,9 @@ class PageJson extends DefaultJson {
 
     private function getYoutube() {
         return array(
-            'PLAYLIST_NAME' => 'default',
-            'PLAYLIST_URL'  => '#page-playlist'
+            'PLAYLIST_NAME' => 'Last.fm',
+            'PLAYLIST_URL'  => '#page-playlist',
+            'PLAYLIST_ID'   => 'default'
         );
     }
 
@@ -164,7 +165,7 @@ class PageJson extends DefaultJson {
                     'TEXT' => $this->locale['menu.topuser'],
                 ),
                 'TOPSONGS' => array(
-                    'TEXT' => $this->locale['menu.charts'],
+                    'TEXT' => $this->locale['menu.topsongs'],
                 ),
                 'DEFAULT'  => array(
                     'TEXT' => $this->locale['menu.lastfm'],
@@ -172,9 +173,9 @@ class PageJson extends DefaultJson {
                 'SEARCH'   => array(
                     'TEXT' => $this->locale['menu.search'],
                 ),
-                'USERLIST'   => array(
+                'USERLIST' => array(
                     'TEXT' => $this->locale['menu.userlist'],
-                ),                
+                ),
                 'YTPLAYER' => array(
                     'TEXT' => $this->locale['menu.youtube'],
                 )
@@ -192,13 +193,11 @@ class PageJson extends DefaultJson {
             ),
             //lastfm navigation (pages/username)
 
-            'LIST' => array(
-                'HEADER'                => array(
-                    'TRACK_NR'       => $this->locale['playlist.header.nr'],
-                    'TRACK_ARTIST'   => $this->locale['playlist.header.artist'],
-                    'TRACK_TITLE'    => $this->locale['playlist.header.title'],
-                    'TRACK_LASTPLAY' => $this->locale['playlist.header.lastplay']
-                )
+            'LIST_HEADER' => array(
+                'TRACK_NR'       => $this->locale['playlist.header.nr'],
+                'TRACK_ARTIST'   => $this->locale['playlist.header.artist'],
+                'TRACK_TITLE'    => $this->locale['playlist.header.title'],
+                'TRACK_LASTPLAY' => $this->locale['playlist.header.lastplay']
             )
         );
 
@@ -209,7 +208,7 @@ class PageJson extends DefaultJson {
             $track   = $tracks[$cnt];
             $videoId = $db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
 
-            $page['LIST']['CONTENT'][] = array(
+            $page['TRACKS'][] = array(
                 'NR'           => ($pageStart + $cnt + 1),
                 'ARTIST'       => $track->getArtist(),
                 'TITLE'        => $track->getTitle(),
@@ -238,29 +237,33 @@ class PageJson extends DefaultJson {
         if (($maxpages % $limit) > 0) $maxpages++;
 
         $page = array(
-            'TEXT'        => $this->locale['playlist.title'],
-            'URL'         => '//last.fm/user/' . $this->lfmapi->getUser(),
-            'URL_TARGET'  => '_blank',
+
+            'HEADER' => array(
+                'TEXT'       => $this->locale['menu.topsongs'],
+                'URL'        => '#page-playlist',
+                'URL_TARGET' => '_self',
+                'PLAYLIST'   => 'topsongs',
+            ),
+
+
             'HEADER_MENU' => array(
-                array(
-                    'TITLE' => $this->locale['menu.topuser'],
-                    'ID'    => 'topuser'
+                'TOPUSER'  => array(
+                    'TEXT' => $this->locale['menu.topuser'],
                 ),
-                array(
-                    'TITLE' => $this->locale['menu.charts'],
-                    'ID'    => 'topsongs'
+                'TOPSONGS' => array(
+                    'TEXT' => $this->locale['menu.topsongs'],
                 ),
-                array(
-                    'TITLE' => $this->locale['menu.lastfm'],
-                    'ID'    => 'default'
+                'DEFAULT'  => array(
+                    'TEXT' => $this->locale['menu.lastfm'],
                 ),
-                array(
-                    'TITLE' => $this->locale['menu.search'],
-                    'ID'    => 'search'
+                'SEARCH'   => array(
+                    'TEXT' => $this->locale['menu.search'],
                 ),
-                array(
-                    'TITLE' => $this->locale['menu.youtube'],
-                    'ID'    => 'ytplayer'
+                'USERLIST' => array(
+                    'TEXT' => $this->locale['menu.userlist'],
+                ),
+                'YTPLAYER' => array(
+                    'TEXT' => $this->locale['menu.youtube'],
                 )
             ),
 
@@ -271,15 +274,12 @@ class PageJson extends DefaultJson {
             ),
             //lastfm navigation (pages/username)
 
-            'LIST' => array(
-                'ADD_TO_PLAYLIST_TITLE' => $this->locale['playlist.control.addtrack'],
-                'HEADER'                => array(
-                    'TRACK_NR'        => $this->locale['playlist.header.nr'],
-                    'TRACK_ARTIST'    => $this->locale['playlist.header.artist'],
-                    'TRACK_TITLE'     => $this->locale['playlist.header.title'],
-                    'TRACK_LASTPLAY'  => $this->locale['playlist.header.lastplay'],
-                    'TRACK_PLAYCOUNT' => $this->locale['playlist.header.playcount'],
-                )
+            'LIST_HEADER' => array(
+                'TRACK_NR'        => $this->locale['playlist.header.nr'],
+                'TRACK_ARTIST'    => $this->locale['playlist.header.artist'],
+                'TRACK_TITLE'     => $this->locale['playlist.header.title'],
+                'TRACK_LASTPLAY'  => $this->locale['playlist.header.lastplay'],
+                'TRACK_PLAYCOUNT' => $this->locale['playlist.header.playcount'],
             )
         );
 
@@ -289,13 +289,12 @@ class PageJson extends DefaultJson {
             $track['title']     = Functions::getInstance()->prepareNeedle($track['title']);
             $videoId            = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
 
-            $page['LIST']['CONTENT'][] = array(
+            $page['TRACKS'][] = array(
                 'NR'           => ($offset + $cnt + 1),
-                'ARTIST'       => $track->getArtist(),
-                'TITLE'        => $track->getTitle(),
-                'LASTPLAY'     => $track->isPlaying() ?
-                    $this->locale['playlist.lastplay.now'] :
-                    $track->getDateofPlay(),
+                'ARTIST'       => $track['interpret'],
+                'TITLE'        => $track['title'],
+                'LASTPLAY'     => $track['lastplay_time'],
+                'PLAYCOUNT'    => $track['playcount'],
                 'VIDEO_ID'     => $videoId,
                 'PLAY_CONTROL' => false,
                 'PLAYLIST'     => 'topsongs'

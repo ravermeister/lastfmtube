@@ -27,7 +27,7 @@
     <!-- Header -->
     <header id="header">
         <div class="logo">
-            <span ref="pageLoader" style="vertical-align: middle" class="fa fa-spinner faa-spin animated fa-3x"></span>
+            <span style="vertical-align: middle" v-bind:class="PAGE_LOADER"></span>
         </div>
 
         <div class="content">
@@ -53,7 +53,7 @@
         <article id="page-ytplayer">
 
             <h2 class="major">
-                <a v-bind:href="PLAYLIST_URL">{{PLAYLIST_NAME}}</a>
+                <a href="#page-playlist" v-bind:href="PLAYLIST_ID" @click.prevent="loadPlaylist($(this).attr('href'))">{{PLAYLIST_NAME}}</a>
             </h2>
 
             <!-- youtube embed: html5 method -->
@@ -111,9 +111,9 @@
         <article id="page-playlist">
 
             <div class="playlist-header-nav">
-                <template v-for="MENU in MENUS">
-                    <div class="btn-playlist-header-nav">
-                        <a v-bind:href="MENU.URL">
+                <template v-for="MENU in MENUS">                    
+                    <div class="btn-playlist-header-nav">                        
+                        <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU)">
                             <span v-bind:class="MENU.LOGO"></span>
                             <span class="btn-text">{{MENU.TEXT}}</span>
                         </a>                    
@@ -123,7 +123,7 @@
 
             <div class="playlist-header-title" style="margin-top: 2rem;">
                 <h2 class="major" style="vertical-align: middle;">
-                    <span ref="playListLoader" v-bind:class="LOGO"></span>
+                    <span v-bind:class="LOGO"></span>
                     <span>{{TEXT}}</span>
                 </h2>
             </div>
@@ -138,19 +138,18 @@
                                 <a href="//last.fm" target="_blank">Last.fm</a> {{LASTFM_USER_NAME_LABEL}}
                             </label>
                             <input type="text" name="playlist_page" id="playlist_lastfmuser"
-                                   v-bind:value="LASTFM_USER_NAME" onfocus="javascript:this.select();"/>
+                                   v-bind:value="LASTFM_USER_NAME" />
                         </div>
                         <div class="field third" v-if="PLAYLIST === 'search'">
                             <label for="playlist_lastfmuser">Youtube Video</label>
                             <input type="text" name="playlist_page" id="playlist_videourl"
-                                   v-bind:value="LASTFM_USER_NAME" onfocus="javascript:this.select();"/>
+                                   v-bind:value="LASTFM_USER_NAME" />
                         </div>
                         <div class="field third">
                             <label for="playlist_page">
                                 {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
                             </label>
-                            <input type="number" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"
-                                   onfocus="javascript:this.select();"/>
+                            <input type="number" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE" />
                         </div>
                         <div class="field third" align="center" style="vertical-align: center">
                             <label>&nbsp;</label>

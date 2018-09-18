@@ -3,6 +3,11 @@ class Icon {
         this.name = name;
         this.big = this.name + ' fa-2x';
         this.bigger = this.name + ' fa-3x';
+
+        this.animated = this.name + ' faa-flash animated';
+        this.animatedBig = this.animated + ' fa-2x';
+        this.animatedBigger = this.animated + ' fa-3x';
+
     }
 
     isIcon(elem, big = false) {
@@ -17,27 +22,26 @@ class PageController {
     constructor(Vue, Storages) {
 
         this.storage = Storages.localStorage;
+        this.Vue = Vue;
         this.PLAYLIST = null;
         this.TRACKS_PER_PAGE = 25; //in settings.ini
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
-        this.pageLoader = this.pageLoader = $('#page-loader');
         this.icons = this.initIcons();
-        this.vue = this.initVue(Vue);
+        this.myVues = this.initVue();
     }
 
-    initVue(Vue) {
-        
+    initVue() {
 
         return {
-            base: new VueBase(Vue),
-            playlist: new VuePlaylist(Vue),
-            youtube: new VueYoutube(Vue),
+            base: new VueBase(this),
+            playlist: new VuePlaylist(this),
+            youtube: new VueYoutube(this),            
 
-            updateAll: function (Vue) {
-                this.base.update(Vue);
-                this.playlist.update(Vue);
-                this.youtube.update(Vue);
+            updateAll: function (json) {
+                this.base.update(json.base);
+                this.playlist.update(json.playlist);
+                this.youtube.update(json.youtube);
             }
         };
     }
@@ -85,19 +89,18 @@ class PageController {
             return null;
         };
         icons.getPlaylistIcon = function (playlist = null) {
-            if (playlist == null) return this.headphones.big;
+            if (playlist == null) return this.diamond.big;
             switch (playlist) {
-
                 case 'topsongs':
-                    return this.star.big;
+                    return this.star;
                 case 'topuser':
-                    return this.trophy.big;
+                    return this.trophy;
                 case 'userlist':
-                    return this.user.big;
-                case 'ytplayer':
-                    return this.youtube.big;
+                    return this.user;
+                case 'youtube':
+                    return this.youtube;
                 case 'default':
-                    return this.headphones.big;
+                    return this.headphones;
             }
 
         };
@@ -110,14 +113,16 @@ class PageController {
         let request = 'php/json/JsonHandler.php?api=page&data=page';
         let page = this;
 
+
         $.getJSON(request, function (json) {
             //console.log(JSON.stringify(json.data.value));
-            page.vue.updateAll(json.data.value);
 
-            page.pageLoader = page.vue.base.logo.$refs.pageLoader;
+
+            page.setPageLoading(true);
+            page.myVues.updateAll(json.data.value);
             page.setCurrentPlayList();
             page.setPageLoading();
-
+            
             console.log('init page success');
         }).fail(function (xhr, status, error) {
             //var err = eval("(" + xhr.responseText + ")");
@@ -136,18 +141,26 @@ class PageController {
             case 'topsongs':
                 name = 'Top Songs';
                 break;
+            case 'topuser':
+                name = 'Top User';
+                break;            
         }
 
-        this.vue.youtube.header.$data.PLAYLIST_NAME = name;
+        this.myVues.youtube.header.$data.PLAYLIST_NAME = name;
+        if(playlist !== 'youtube') {            
+            this.myVues.youtube.header.$data.PLAYLIST_ID = playlist;
+        }
 
-
-        page.PLAYLIST = playlist;
+        this.PLAYLIST = playlist;
     }
 
     setPageLoading(active = false) {
-        $(this.pageLoader)
-            .removeClass(active ? this.icons.diamond.bigger : this.icons.loader.bigger)
-            .addClass(active ? this.icons.loader.bigger : this.icons.diamond.bigger);
+        this.myVues.base.logo.$data.PAGE_LOADER = active ? this.icons.loader.bigger : this.icons.diamond.bigger;
+    }
+
+    setPlaylistLoading(active = false) {        
+        let curIcon = this.icons.getPlaylistIcon(this.PLAYLIST == null ? 'default' : this.PLAYLIST);
+        this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }
 
     initDefaultVue(json) {
@@ -166,8 +179,8 @@ class PageController {
             methods: {
 
                 getLogo: function () {
-                    if (page.PLAYLIST == null) return page.icons.headphones.big;
-                    switch (page.PLAYLIST) {
+                    if (this.PLAYLIST == null) return this.icons.headphones.big;
+                    switch (this.PLAYLIST) {
                         case 'topsongs':
 
                             break;
@@ -177,7 +190,7 @@ class PageController {
 
                 loadPlayList: function (list) {
                     let oldList = 'default';
-                    if (page.PLAYLIST != null) oldList = page.PLAYLIST;
+                    if (this.PLAYLIST != null) oldList = this.PLAYLIST;
 
                     let iconClasses = '';
                     let iconElem = $('#page-playlist>.playlist-header-container>h2>.playlist-header-ico');
@@ -199,7 +212,7 @@ class PageController {
                     };
 
                     setLoading(true);
-                    page.loadPlaylistPage(1, null, null, list, function () {
+                    this.loadPlaylistPage(1, null, null, list, function () {
                         setLoading(false);
                     });
                 }
@@ -244,23 +257,16 @@ class PageController {
 
     updateUserListPages(pageNum = null) {
         let tracksPerPage = this.TRACKS_PER_PAGE;
+        let vueMap = this.vueMap;
         let tracks = this.getUserTracks();
         let pageCount = parseInt(tracks.length / tracksPerPage);
         if ((tracks.length % tracksPerPage) > 0) pageCount++;
 
-        let vueMap = this.vueMap;
-        vueMap['PLAYLIST_HEADER'].$data.TEXT = 'My Playlist';
-        vueMap['PLAYLIST_HEADER'].$data.URL = '';
-
         if (pageNum != null) {
             if (pageNum > pageCount) pageNum = pageCount;
             else if (pageNum < 1) pageNum = 1;
-            vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;
-        } else pageNum = parseInt(vueMap['PLAYLIST_NAV'].$data.CUR_PAGE);
+        } else pageNum = parseInt(this.myVues.playlist.menu.$data.CUR_PAGE);
 
-        vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = pageCount;
-        vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = '';
-        vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'userlist';
 
         return pageNum;
     }
@@ -268,8 +274,9 @@ class PageController {
 
     loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist == null) playlist = this.PLAYLIST;
-
+        
         this.setCurrentPlayList(playlist);
+        
         switch (playlist) {
             case 'userlist':
                 this.loadUserPlayListPage(pageNum, callBack);
@@ -280,7 +287,7 @@ class PageController {
             default:
                 this.loadDefaultPlayListPage(pageNum, user, callBack);
                 break;
-        }
+        }        
     }
 
     loadSearchResult(track, result, pageNum = 1, callBack = null) {
@@ -303,28 +310,19 @@ class PageController {
     }
 
     loadTopSongsPlayListPage(pageNum = 1, callBack = null) {
-        let vueMap = this.vueMap;
+        
+        let control = this;
         let request = 'php/json/JsonHandler.php?api=page&data=playlist' +
             '&type=topsongs' +
             '&page=' + pageNum
         ;
 
         $.getJSON(request, function (json) {
-            vueMap['PLAYLIST_HEADER'].$data.TEXT = 'Top Songs';
-            vueMap['PLAYLIST_HEADER'].$data.URL = '';
-
-            vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
-            vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = json.data.value['PLAYLIST_NAV'].data.MAX_PAGES;
-            vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'topsongs';
-
-
-            let tracks = json.data.value['PLAYLIST_TRACKS'].data.TRACKS;
-            let tracksPerPage = this.TRACKS_PER_PAGE;
 
             if (player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
-                for (let cnt = 0; cnt < tracks.length; cnt++) {
-                    let track = tracks[cnt];
+                for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
+                    let track = json.data.value.TRACKS[cnt];
 
                     if (player.isCurrentTrack(track)) {
                         newCurTrack = track;
@@ -336,9 +334,9 @@ class PageController {
                     player.setCurrentTrack(newCurTrack);
                 }
             }
-
-            vueMap['PLAYLIST_TRACKS'].$data.TRACKS = tracks;
-
+            
+            control.myVues.playlist.update(json.data.value);
+            
             if (callBack != null) {
                 callBack(true);
             }
@@ -350,15 +348,15 @@ class PageController {
             if (callBack != null) {
                 callBack(false);
             }
-        });
+        })
     }
 
     loadUserPlayListPage(pageNum = 1, callBack = null) {
-
-        let vueMap = this.vueMap;
+        
         let tracks = this.getUserTracks();
         let tracksPerPage = this.TRACKS_PER_PAGE;
         pageNum = this.updateUserListPages(pageNum);
+        let pageCount = parseInt(tracks.length / tracksPerPage);
         let endIndex = pageNum * tracksPerPage;
         let startIndex = endIndex - tracksPerPage;
 
@@ -384,17 +382,33 @@ class PageController {
             }
         }
 
-        vueMap['PLAYLIST_TRACKS'].$data.TRACKS = tracks;
+        this.myVues.playlist.update({
+            HEADER: {
+                PLAYLIST:  'userlist',
+                TEXT: 'My Playlist',
+                URL: ''
+            },
 
+            LIST_MENU: {
+                CUR_PAGE: pageNum,
+                MAX_PAGES: pageCount,
+                LASTFM_USER_NAME :'',
+                PLAYLIST: 'userlist'
+            },
+
+            TRACKS: tracks
+        })
+        
         if (callBack != null) {
             callBack(true);
         }
     }
 
     loadDefaultPlayListPage(pageNum = 1, user = null, callBack = null) {
-
+        
         let request = null;
-
+        let control = this;
+        
         if (user != null) {
             request = 'php/json/JsonHandler.php?api=page&data=playlist' +
                 '&type=default' +
@@ -410,23 +424,15 @@ class PageController {
 
 
         $.getJSON(request, function (json) {
-            console.log('>>>>');
-            console.log(json);
-            /**
-             this.vue.playlist.header.menu.$data.TEXT = json.data.value['PLAYLIST_HEADER'].data.TEXT;
-             vueMap['PLAYLIST_HEADER'].$data.URL = json.data.value['PLAYLIST_HEADER'].data.URL;
-             vueMap['PLAYLIST_HEADER'].$data.PLAYLIST = json.data.value['PLAYLIST_HEADER'].data.PLAYLIST;
-             vueMap['PLAYLIST_HEADER'].$data.URL_TARGET = json.data.value['PLAYLIST_HEADER'].data.URL_TARGET;
 
-             vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = json.data.value['PLAYLIST_NAV'].data.CUR_PAGE;
-             vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = json.data.value['PLAYLIST_NAV'].data.MAX_PAGES;
-             vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = json.data.value['PLAYLIST_NAV'].data.LASTFM_USER_NAME;
-             vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'default';
 
-             if (player.CURRENT_TRACK != null) {
+            //this.myVues.playlist.header.title.update(json.data.value.HEADER);
+
+
+            if (player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
-                for (let cnt = 0; cnt < json.data.value['PLAYLIST_TRACKS'].data.TRACKS.length; cnt++) {
-                    let track = json.data.value['PLAYLIST_TRACKS'].data.TRACKS[cnt];
+                for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
+                    let track = json.data.value.TRACKS[cnt];
 
                     if (player.isCurrentTrack(track)) {
                         newCurTrack = track;
@@ -439,12 +445,13 @@ class PageController {
                 }
             }
 
-             vueMap['PLAYLIST_TRACKS'].$data.TRACKS = json.data.value['PLAYLIST_TRACKS'].data.TRACKS;
+            control.myVues.playlist.update(json.data.value);
+            //control.myVues.playlist.content.update(json.data.value);
 
-             if (callBack != null) {
+            if (callBack != null) {
                 callBack(true);
             }
-             **/
+
         }).fail(function (xhr) {
             console.error('error loading page');
             console.log(xhr.responseText);
