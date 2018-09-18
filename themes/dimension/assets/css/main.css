@@ -1566,16 +1566,16 @@ body.is-preload #header .content .inner {
     vertical-align: middle;
 }
 
-#main article .playlist-header-container .playlist-header-nav {    
+#main article .playlist-header-nav {    
     position: relative;
     top: -2rem;
     left: -0.5rem;
 }
-#main article .playlist-header-container .playlist-header-nav .btn-playlist-header-nav{
+#main article .playlist-header-nav .btn-playlist-header-nav{
     padding-left: 8px;
     padding-right: 8px;
 }
-#main article .playlist-header-container .btn-playlist-header-nav {}
+#main article .btn-playlist-header-nav {}
 #main article .btn-playlist-nav {
     pading-left:  7px;
     padding-right: 7px;

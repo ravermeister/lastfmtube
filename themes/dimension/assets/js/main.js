@@ -3,7 +3,6 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
-
 (function($) {
 
 	var	$window = $(window),
@@ -13,7 +12,7 @@
 		$footer = $('#footer'),
 		$main = $('#main'),
 		$main_articles = $main.children('article');
-
+    
 	// Breakpoints.
 		breakpoints({
 			xlarge:   [ '1281px',  '1680px' ],
@@ -24,7 +23,7 @@
 			xxsmall:  [ null,      '360px'  ]
 		});
 
-	// Play initial animations on page load.
+	// Play initial animations on page load.    
 		$window.on('load', function() {
 			window.setTimeout(function() {
 				$body.removeClass('is-preload');

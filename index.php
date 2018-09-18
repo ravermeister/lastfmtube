@@ -9,14 +9,14 @@ require_once 'vendor/autoload.php';
 use LastFmTube\Util\Functions;
 
 $settings = Functions::getInstance()->getSettings();
-
+$locale = Functions::getInstance()->getLocale();
 $themeFile = $settings['general']['theme'];
 $baseURL   = $settings['general']['baseurl'];
 
 
 $themeData = file_get_contents('themes/'.$themeFile.'/'.$themeFile.'.html');
-$themeData = str_replace('{{LANG}}', $settings['general']['lang'], $themeData);
-$themeData = str_replace('{{TITLE}}', 'Last.fm Youtube Radio', $themeData);
+$themeData = str_replace('{{PHP_LANG}}', $settings['general']['lang'], $themeData);
+$themeData = str_replace('{{PHP_TITLE}}', $locale['site.title'], $themeData);
 
 
 //header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.

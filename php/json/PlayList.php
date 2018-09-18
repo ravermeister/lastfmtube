@@ -70,7 +70,7 @@ class PlayList extends DefaultJson {
         $trackno = (($page - 1) * $pagecnt) + 1;
 
         $list['current_page'] = $page;
-        $list['total_pages']  = $playlist->totalpages;
+        $list['total_pages']  = $playlist->totalPages;
         $list['track_no']     = $trackno;
         $list['startvideo']   = $startvideo;
         $list['autostart']    = false;

@@ -7,8 +7,8 @@ use simplehtmldom_1_5\simple_html_dom;
 
 class RecentlyPlayed {
     var $page;
-    var $totalpages;
-    var $itemcount;
+    var $totalPages;
+    var $itemsPerPage;
     var $items = array();
 
     /**
@@ -22,9 +22,10 @@ class RecentlyPlayed {
          */
         $elem = $html->find('recenttracks ', 0);
 
-        $this->page       = $elem->page;
-        $this->totalpages = $elem->totalpages;
-        $this->itemcount  = $elem->perPage;
+        $this->page         = $elem->page;
+        $this->totalPages   = $elem->totalpages;
+        $this->itemsPerPage = $elem->perPage;
+                   
 
         $tracks = $html->find('track');
         foreach ($tracks as $track) {

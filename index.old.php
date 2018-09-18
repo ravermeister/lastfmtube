@@ -80,7 +80,7 @@ $smarty->assign('music', 1);
 $smarty->assign('lastfm_user', $_SESSION['music']['lastfm_user']);
 $smarty->assign('lastfm_user_visit', $lastvisit);
 $smarty->assign('current_page', $page);
-$smarty->assign('total_pages', $playlist->totalpages);
+$smarty->assign('total_pages', $playlist->totalPages);
 $smarty->assign('track_no', $trackno);
 $smarty->assign('startvideo', $startvideo);
 $smarty->assign('autostart', true);

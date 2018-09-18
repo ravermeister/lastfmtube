@@ -1,26 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{PHP_LANG}}">
 <!--//<html lang="{{LANG}}">//-->
 <head>
-    <!--// <title>{TITLE}}</title> //-->
-    <title>Last.fm Youtube Radio</title>
+    <title>{{PHP_TITLE}}</title>
+    <!--// <title>Last.fm Youtube Radio</title>//-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
 
-    <!--// somehow requirejs doesnt like these... //-->
-    <script src="//unpkg.com/jquery/dist/jquery.min"></script>
-    <script src="themes/dimension/assets/js/browser.min.js"></script>
-    <script src="themes/dimension/assets/js/breakpoints.min.js"></script>
-
-    <!-- 
-        data-main attribute tells require.js to load
-        scripts/main.js after require.js loads. 
-    -->
-    <script data-main="js/main" src="js/lib/requirejs/require.js" type="text/javascript"></script>
-
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    <script src="js/lib/requirejs/require.js" type="text/javascript"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+    
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <link rel="stylesheet" href="themes/dimension/assets/css/main.css"/>
@@ -31,13 +22,12 @@
 </head>
 <body class="is-preload">
 
-
 <!-- Wrapper -->
 <div id="wrapper">
     <!-- Header -->
     <header id="header">
         <div class="logo">
-            <span ref="PAGE_LOADER" style="vertical-align: middle" class="fa fa-spinner fa-3x faa-spin animated"></span>
+            <span ref="pageLoader" style="vertical-align: middle" class="fa fa-spinner faa-spin animated fa-3x"></span>
         </div>
 
         <div class="content">
@@ -46,10 +36,11 @@
                 <p>{{PAGE_WELCOME}}</p>
             </div>
         </div>
+        
         <nav>
             <ul>
-                <li v-for="MENU in MENUS" id="site-menu">
-                    <a v-bind:href="MENU.URL" @click.prevent="page.load(MENU);">{{MENU.NAME}}</a>
+                <li v-for="MENU in MENUS">
+                    <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU);">{{MENU.NAME}}</a>
                 </li>
             </ul>
         </nav>
@@ -60,17 +51,6 @@
 
         <!-- Player -->
         <article id="page-ytplayer">
-
-            <ul class="icons ytplayer-header-nav">
-                <li>
-                    <a class="icon btn-playlist-header-nav faa-vertical fa fa-youtube fa-2x"
-                       style="cursor: pointer"
-                       title="Youtube Player"
-                       href="#page-ytplayer">
-                        <span class="label">Play</span>
-                    </a>
-                </li>
-            </ul>
 
             <h2 class="major">
                 <a v-bind:href="PLAYLIST_URL">{{PLAYLIST_NAME}}</a>
@@ -128,64 +108,28 @@
         </article>
 
         <!-- Playlist -->
-        <article id="page-playlist">            
-           <span class="playlist-header-container" key="PLAYLIST">
-               
-                <div class=" playlist-header-nav">
+        <article id="page-playlist">
+
+            <div class="playlist-header-nav">
+                <template v-for="MENU in MENUS">
                     <div class="btn-playlist-header-nav">
-                        <a href="#page-ytplayer">
-                            <span class="fa fa-youtube fa-2x"></span>
-                            <span class="btn-text">Player</span>
-                        </a>
-                    </div>
-                
-                    <div v-if="PLAYLIST !=='default'" class="btn-playlist-header-nav">
-                        <a href="#page-playlist" @click.prevent="loadPlayList('default')">
-                            <span class="fas fa-headphones fa-2x"></span>
-                            <span class="btn-text">Last.fm</span>
-                        </a>
-                    </div>
-                
-                    <div v-if="PLAYLIST !=='userlist'" class="btn-playlist-header-nav">
-                        <a href="#page-playlist" @click.prevent="loadPlayList('userlist')">
-                            <span class="fas fa-user fa-2x"></span>
-                            <span class="btn-text">Userlist</span>
-                        </a>
-                    </div>
-                
-                    <div v-if="PLAYLIST !== 'topsongs'" class="btn-playlist-header-nav">
-                        <a href="#page-playlist" @click.prevent="loadPlayList('topsongs')">
-                            <span class="fas fa-star fa-2x"></span>
-                            <span class="btn-text">Top Songs</span>
-                        </a>
-                    </div>
-                
-                    <div v-if="PLAYLIST !== 'topuser'" class="btn-playlist-header-nav">
-                        <a href="#page-playlist" @click.prevent="loadPlayList('topuser')">
-                            <span class="fas fa-trophy fa-2x"></span>
-                            <span class="btn-text">Top User</span>
-                        </a>
-                    </div>
-                </div>
-               
-                <div style="margin-top: 2rem;">
-                    <h2 class="major" style="vertical-align: middle;">
-                        <span class="playlist-header-ico fas fa-headphones fa-2x"
-                              v-if="PLAYLIST ==='default'"></span>
-                    <span class="playlist-header-ico fas fa-user fa-2x"
-                          v-if="PLAYLIST ==='userlist'"></span>
-                    <span class="playlist-header-ico fas fa-star fa-2x"
-                          v-if="PLAYLIST ==='topsongs'"></span>
-                    <span class="playlist-header-ico fas fa-trophy fa-2x"
-                          v-if="PLAYLIST ==='topuser'"></span>
+                        <a v-bind:href="MENU.URL">
+                            <span v-bind:class="MENU.LOGO"></span>
+                            <span class="btn-text">{{MENU.TEXT}}</span>
+                        </a>                    
+                    </div>                
+                </template>
+            </div>
+
+            <div class="playlist-header-title" style="margin-top: 2rem;">
+                <h2 class="major" style="vertical-align: middle;">
+                    <span ref="playListLoader" v-bind:class="LOGO"></span>
                     <span>{{TEXT}}</span>
                 </h2>
-                </div>
-            </span>
+            </div>
+
 
             <section class="playlist-nav">
-
-
                 <form @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
                     <div class="fields">
 
@@ -228,8 +172,8 @@
                 </form>
             </section>
 
-            <section>
-                <div class="table-wrapper" id="playlist-content">
+            <section class="playlist-content">
+                <div class="table-wrapper">
                     <table>
                         <thead>
                         <tr>
@@ -341,10 +285,6 @@
 
 <!-- BG -->
 <div id="bg"></div>
-
-
-<script src="themes/dimension/assets/js/util.js"></script>
-<script src="themes/dimension/assets/js/main.js"></script>
 
 
 </body>

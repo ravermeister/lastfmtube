@@ -9,6 +9,13 @@ requirejs.config({
     //the paths config could be for a directory.
     paths: {
 
+        //requirejs addon
+        domReady: [
+            '//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
+            'requirejs/domReady'
+        ],
+
+        //jquery
         jquery: [
             '//unpkg.com/jquery@3.3.1/dist/jquery.min',
             'jquery/jquery'
@@ -20,9 +27,10 @@ requirejs.config({
             'vue/vue.min'
         ],
         // Vue RequireJS loader
+        // required for using vue components
         vue: [
             '//cdn.rawgit.com/edgardleal/require-vuejs/aeaff6db/dist/require-vuejs.min',
-            'vue/vue.requirejs'
+            'vue/vue-requirejs.min'
         ],
 
         //Storage js
@@ -31,48 +39,65 @@ requirejs.config({
             'jstorage/js.storage.min'
         ],
 
-        domReady: [
-            '//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
-            'requirejs/domReady'
+        themes: [
+            '../../themes/dimension/assets/js'
         ]
     },
 
     shim: {
+        
         'Vue': {
-            exports: ['Vue']
+            exports: 'Vue'
+        },
+        
+        'themes/util': {
+            deps: ['jquery']
+        },
+        'themes/main': {
+            deps: [
+                'jquery',
+                'themes/util',
+                'themes/browser.min',
+                'themes/breakpoints.min'
+            ]
+        },
+        'libvue/base': {
+            deps: ['libvue/abstractvue']
+        }, 
+        'libvue/playlist': {
+            deps: ['libvue/abstractvue']
+        },
+        'libvue/youtube': {
+            deps: ['libvue/abstractvue']
         }
     }
 });
+define('theme', ['themes/util', 'themes/main']);
+define('libvue', ['libvue/base', 'libvue/playlist', 'libvue/youtube']);
 
-// Start the main app logic.
-requirejs(['jquery'], function () {
+requirejs([
+    'Vue',
+    'Storages', 
+    'theme', 
+    'player', 
+    'page', 
+    'libvue'
+], function (Vue, Storages) {
 
-    //jQuery, canvas and the app/sub module are all
-    //loaded and can be used here now.
     window.dataLayer = window.dataLayer || [];
+    //google analytics
+    function gtag() {
+        dataLayer.push(arguments);
+    }
 
-    require(['domReady'], function (dom) {
-        require([
-            'Storages',
-            'Vue',
-            'player',
-            'page'
-        ], function (Storages, Vue) {
-
-            //google analytics
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-
-            gtag('js', new Date());
-            gtag('config', 'UA-26904270-14');
-
-            player = new PlayerController();
-            page = new PageController(Storages, Vue);
-
-            player.initPlayer();
-            page.init();            
-        });
-    });
+    gtag('js', new Date());
+    gtag('config', 'UA-26904270-14');
+    
+    
+    page = new PageController(Vue, Storages);
+    player = new PlayerController();
+    
+    player.initPlayer();
+    page.init();
 
 });

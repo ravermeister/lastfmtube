@@ -35,7 +35,7 @@ class PageJson extends DefaultJson {
             $type = false;
             switch (strtolower($getvars['data'])) {
                 case 'page':
-                    $data = $this->getPageData();
+                    $data = $this->getPage();
                     $type = 'pagedata';
                     break;
                 case 'playlist':
@@ -44,12 +44,12 @@ class PageJson extends DefaultJson {
                     $playlist = isset($getvars['type']) ? $getvars['type'] : 'default';
                     switch ($playlist) {
                         case 'topsongs':
-                            $data = $this->getTopSongsData($page);
+                            $data = $this->getTopSongs($page);
                             break;
 
                         case 'default:':
                         default:
-                            $data = $this->getPlaylistData($user, $page);
+                            $data = $this->getPlaylist($user, $page);
                             break;
                     }
 
@@ -69,90 +69,70 @@ class PageJson extends DefaultJson {
     /**
      * @return false|string
      */
-    private function getPageData() {
-        $page     = $this->getBasePageData();
-        $playlist = $this->getPlaylistData();
-        $page     = array_merge($page, $playlist);
+    private function getPage() {
+
+        $page['base']     = $this->getBase();
+        $page['youtube']  = $this->getYoutube();
+        $page['playlist'] = $this->getPlaylist();
         return $page;
     }
 
-    public function getBasePageData() {
-        $data                = new VuePageData();
-        $data->el            = 'head>title';
-        $data->data['TITLE'] = $this->locale['site.title'];
-        $page['HEAD_TITLE']  = $data;
-        //title
+    public function getBase() {
 
-        $data                  = new VuePageData();
-        $data->el              = 'header>nav';
-        $data->data['MENUS'][] = array(
-            'URL'  => '#page-ytplayer',
-            'NAME' => 'Player',
-            'ARGS' => array(
-                'PLAYLIST' => null
+        return array(
+            'TITLE' => $this->locale['site.title'],
+            'TEXT'  => $this->locale['site.header.text'],
+            'MENU'  => array(
+                array(
+                    'URL'  => '#page-ytplayer',
+                    'NAME' => 'Player',
+                    'ARGS' => array(
+                        'PLAYLIST' => null
+                    ),
+                ),
+                array(
+                    'URL'  => '#page-playlist',
+                    'NAME' => $this->locale['menu.lastfm'],
+                    'ARGS' => array(
+                        'PLAYLIST' => 'default'
+                    ),
+                ),
+                array(
+                    'URL'  => '#page-playlist',
+                    'NAME' => $this->locale['menu.userlist'],
+                    'ARGS' => array(
+                        'PLAYLIST' => 'userlist'
+                    )
+                ),
+                array(
+                    'URL'  => '#page-playlist',
+                    'NAME' => $this->locale['menu.topuser'],
+                    'ARGS' => array(
+                        'PLAYLIST' => 'topuser',
+                    )
+                ),
+                array(
+                    'URL'  => '#page-playlist',
+                    'NAME' => $this->locale['menu.charts'],
+                    'ARGS' => array(
+                        'PLAYLIST' => 'topsongs'
+                    )
+                ),
             )
         );
-        $data->data['MENUS'][] = array(
-            'URL'  => '#page-playlist',
-            'NAME' => $this->locale['playlist.title'],
-            'ARGS' => array(
-                'PLAYLIST' => 'default'
-            )
-        );
-        $data->data['MENUS'][] = array(
-            'URL'  => '#page-playlist',
-            'NAME' => $this->locale['userplaylist.title'],
-            'ARGS' => array(
-                'PLAYLIST' => 'userlist'
-            )
-        );
-        $data->data['MENUS'][] = array(
-            'URL'  => '#page-playlist',
-            'NAME' => $this->locale['topuser.title'],
-            'ARGS' => array(
-                'PLAYLIST' => null
-            )
-        );
-        $data->data['MENUS'][] = array(
-            'URL'  => '#page-playlist',
-            'NAME' => $this->locale['charts.title'],
-            'ARGS' => array(
-                'PLAYLIST' => 'topsongs'
-            )
-        );
-        $page['NAV']           = $data;
-        //nav
-
-
-        $data                       = new VuePageData();
-        $data->el                   = 'header>.logo';
-        $data->data['PAGE_LOADING'] = true;
-        $page['HEADER_LOGO']        = $data;
-
-        $data                       = new VuePageData();
-        $data->el                   = 'header>.content';
-        $data->data['PAGE_HEADER']  = $this->locale['site.title'];
-        $data->data['PAGE_WELCOME'] = $this->locale['site.header.text'];
-        $page['HEADER_CONTENT']     = $data;
         //header content
-
-        $data                        = new VuePageData();
-        $data->el                    = '#page-ytplayer>h2>a';
-        $data->data['PLAYLIST_NAME'] = '';
-        $data->data['PLAYLIST_URL']  = '';
-        $page['YTPLAYER_HEADER']     = $data;
-
-        $data                      = new VuePageData();
-        $data->el                  = '#page-ytplayer>.ytplayer-control';
-        $data->data['NOW_PLAYING'] = 'Not loaded';
-        $page['YTPLAYER_CONTROL']  = $data;
-        //Youtube Player content
-
-
-        return $page;
     }
 
-    private function getPlaylistData($user = false, $pageNum = 1) {
+
+    private function getYoutube() {
+        return array(
+            'PLAYLIST_NAME' => 'default',
+            'PLAYLIST_URL'  => '#page-playlist'
+        );
+    }
+
+    private function getPlaylist($user = false, $pageNum = 1) {
+
         if ($user !== false) {
             Functions::getInstance()->startSession();
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
@@ -163,56 +143,73 @@ class PageJson extends DefaultJson {
         }
         if ($pageNum === false || $pageNum < 1) $pageNum = 1;
 
-        $maxpages = $this->settings['general']['tracks_perpage'];
-        $playlist = $this->lfmapi->getRecentlyPlayed($pageNum, $maxpages);
 
-
-        $data                     = new VuePageData();
-        $data->el                 = '#page-playlist>.playlist-header-container';
-        $data->data['TEXT']       = 'Last.fm List';
-        $data->data['URL']        = '//last.fm/user/' . $this->lfmapi->getUser();
-        $data->data['PLAYLIST']   = 'default';
-        $data->data['URL_TARGET'] = '_blank';
-        $page['PLAYLIST_HEADER']  = $data;
-
-        $data                                 = new VuePageData();
-        $data->el                             = '#page-playlist>.playlist-nav';
-        $data->data['LASTFM_USER_NAME_LABEL'] = $this->locale['site.playercontrol.user.label'];
-        $data->data['LASTFM_USER_NAME']       = $this->lfmapi->getUser();
-        $data->data['CUR_PAGE_LABEL']         = $this->locale['site.pagecontrol.page'];
-        $data->data['PAGES_OF_LABEL']         = $this->locale['site.pagecontrol.page.of'];
-        $data->data['MAX_PAGES']              = $playlist->totalpages;
-        $data->data['CUR_PAGE']               = $pageNum;
-        $data->data['PLAYLIST_LOAD']          = $this->locale['site.pagecontrol.load'];
-        $data->data['PLAYLIST']               = 'default';
-        $page['PLAYLIST_NAV']                 = $data;
-        //lastfm navigation (pages/username)
-
-
-        $data                       = new VuePageData();
-        $data->el                   = '#playlist-content>table>thead';
-        $data->data['TRACK_NR']     = $this->locale['playlist.header.nr'];
-        $data->data['TRACK_ARTIST'] = $this->locale['playlist.header.artist'];
-        {
-        }
-        $data->data['TRACK_TITLE']      = $this->locale['playlist.header.title'];
-        $data->data['TRACK_LASTPLAY']   = $this->locale['playlist.header.lastplay'];
-        $page['PLAYLIST_TRACKS_HEADER'] = $data;
-
-
+        $maxpages  = $this->settings['general']['tracks_perpage'];
+        $playlist  = $this->lfmapi->getRecentlyPlayed($pageNum, $maxpages);
         $tracks    = $playlist->getTracks();
-        $data      = new VuePageData();
-        $data->el  = '#playlist-content';
         $pageStart = (($pageNum - 1) * $maxpages);
         $db        = DB::getInstance();
+
+        $page = array(
+
+            'HEADER' => array(
+                'TEXT'       => $this->locale['playlist.title'],
+                'URL'        => '//last.fm/user/' . $this->lfmapi->getUser(),
+                'URL_TARGET' => '_blank',
+                'PLAYLIST'   => 'default'
+            ),
+
+            'HEADER_MENU' => array(
+                'TOPUSER'  => array(
+                    'TEXT' => $this->locale['menu.topuser'],
+                ),
+                'TOPSONGS' => array(
+                    'TEXT' => $this->locale['menu.charts'],
+                ),
+                'DEFAULT'  => array(
+                    'TEXT' => $this->locale['menu.lastfm'],
+                ),
+                'SEARCH'   => array(
+                    'TEXT' => $this->locale['menu.search'],
+                ),
+                'USERLIST'   => array(
+                    'TEXT' => $this->locale['menu.userlist'],
+                ),                
+                'YTPLAYER' => array(
+                    'TEXT' => $this->locale['menu.youtube'],
+                )
+            ),
+
+            'LIST_MENU' => array(
+                'LASTFM_USER_NAME_LABEL' => $this->locale['playlist.control.user'],
+                'LASTFM_USER_NAME'       => $this->lfmapi->getUser(),
+                'CUR_PAGE_LABEL'         => $this->locale['playlist.control.page'],
+                'PAGES_OF_LABEL'         => $this->locale['playlist.control.pageof'],
+                'MAX_PAGES'              => $playlist->totalPages,
+                'CUR_PAGE'               => $pageNum,
+                'PLAYLIST_LOAD'          => $this->locale['playlist.control.load'],
+                'PLAYLIST'               => 'default'
+            ),
+            //lastfm navigation (pages/username)
+
+            'LIST' => array(
+                'HEADER'                => array(
+                    'TRACK_NR'       => $this->locale['playlist.header.nr'],
+                    'TRACK_ARTIST'   => $this->locale['playlist.header.artist'],
+                    'TRACK_TITLE'    => $this->locale['playlist.header.title'],
+                    'TRACK_LASTPLAY' => $this->locale['playlist.header.lastplay']
+                )
+            )
+        );
+
         for ($cnt = 0; $cnt < sizeof($tracks); $cnt++) {
             /**
              * @var Track
              */
-            $track                               = $tracks[$cnt];
-            $data->data['ADD_TO_PLAYLIST_TITLE'] = $this->locale['playlist.addtrack'];
-            $videoId                             = $db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
-            $data->data['TRACKS'][]              = array(
+            $track   = $tracks[$cnt];
+            $videoId = $db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
+
+            $page['LIST']['CONTENT'][] = array(
                 'NR'           => ($pageStart + $cnt + 1),
                 'ARTIST'       => $track->getArtist(),
                 'TITLE'        => $track->getTitle(),
@@ -224,67 +221,89 @@ class PageJson extends DefaultJson {
                 'PLAYLIST'     => 'default',
                 'PLAYSTATE'    => ''
             );
-
-
         }
-        $page['PLAYLIST_TRACKS'] = $data;
         //playlist content
 
         return $page;
     }
 
+    private function getTopSongs($pageNum = 1) {
 
-    private function getTopSongsData($pageNum = 1) {
+        $db       = DB::getInstance();
         $limit    = $this->settings['general']['tracks_perpage'];
         $offset   = ($pageNum - 1) * $limit;
         $topsongs = Db::getInstance()->query('SELECT_CHARTS', $limit, $offset);
         $maxpages = Db::getInstance()->query('SELECT_CHARTS_NUM_ROWS');
         $maxpages = ((int)($maxpages / $limit));
         if (($maxpages % $limit) > 0) $maxpages++;
-        $page = array();
 
-        $data                    = new VuePageData();
-        $data->el                = '#page-playlist>h2';
-        $data->data['MAX_PAGES'] = $maxpages;
-        $data->data['CUR_PAGE']  = $pageNum;
-        $data->data['PLAYLIST']  = 'topsongs';
-        $page['PLAYLIST_NAV']    = $data;
-        //lastfm navigation (pages/username)
+        $page = array(
+            'TEXT'        => $this->locale['playlist.title'],
+            'URL'         => '//last.fm/user/' . $this->lfmapi->getUser(),
+            'URL_TARGET'  => '_blank',
+            'HEADER_MENU' => array(
+                array(
+                    'TITLE' => $this->locale['menu.topuser'],
+                    'ID'    => 'topuser'
+                ),
+                array(
+                    'TITLE' => $this->locale['menu.charts'],
+                    'ID'    => 'topsongs'
+                ),
+                array(
+                    'TITLE' => $this->locale['menu.lastfm'],
+                    'ID'    => 'default'
+                ),
+                array(
+                    'TITLE' => $this->locale['menu.search'],
+                    'ID'    => 'search'
+                ),
+                array(
+                    'TITLE' => $this->locale['menu.youtube'],
+                    'ID'    => 'ytplayer'
+                )
+            ),
 
+            'LIST_MENU' => array(
+                'MAX_PAGES' => $maxpages,
+                'CUR_PAGE'  => $pageNum,
+                'PLAYLIST'  => 'topsongs'
+            ),
+            //lastfm navigation (pages/username)
 
-        $data                           = new VuePageData();
-        $data->el                       = '#playlist-content>table>thead';
-        $data->data['TRACK_NR']         = $this->locale['playlist.header.nr'];
-        $data->data['TRACK_ARTIST']     = $this->locale['playlist.header.artist'];
-        $data->data['TRACK_TITLE']      = $this->locale['playlist.header.title'];
-        $data->data['TRACK_LASTPLAY']   = $this->locale['playlist.header.lastplay'];
-        $page['PLAYLIST_TRACKS_HEADER'] = $data;
+            'LIST' => array(
+                'ADD_TO_PLAYLIST_TITLE' => $this->locale['playlist.control.addtrack'],
+                'HEADER'                => array(
+                    'TRACK_NR'        => $this->locale['playlist.header.nr'],
+                    'TRACK_ARTIST'    => $this->locale['playlist.header.artist'],
+                    'TRACK_TITLE'     => $this->locale['playlist.header.title'],
+                    'TRACK_LASTPLAY'  => $this->locale['playlist.header.lastplay'],
+                    'TRACK_PLAYCOUNT' => $this->locale['playlist.header.playcount'],
+                )
+            )
+        );
 
-        $data     = new VuePageData();
-        $data->el = '#playlist-content';
-
-        $db = DB::getInstance();
         for ($cnt = 0; $cnt < sizeof($topsongs); $cnt++) {
-            $track                               = $topsongs[$cnt];
-            $data->data['ADD_TO_PLAYLIST_TITLE'] = $this->locale['playlist.addtrack'];
-            $track['interpret']                  = Functions::getInstance()->prepareNeedle($track['interpret']);
-            $track['title']                      = Functions::getInstance()->prepareNeedle($track['title']);
-            $videoId                             = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
+            $track              = $topsongs[$cnt];
+            $track['interpret'] = Functions::getInstance()->prepareNeedle($track['interpret']);
+            $track['title']     = Functions::getInstance()->prepareNeedle($track['title']);
+            $videoId            = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
 
-            $data->data['TRACKS'][] = array('NR'           => ($offset + $cnt + 1),
-                                            'ARTIST'       => $track['interpret'],
-                                            'TITLE'        => $track['title'],
-                                            'LASTPLAY'     => $track['lastplay_time'],
-                                            'LASTPLAY_IP'  => $track['lastplay_ip'],
-                                            'PLAYCOUNT'    => $track['playcount'],
-                                            'VIDEO_ID'     => $videoId,
-                                            'PLAY_CONTROL' => false,
-                                            'PLAYLIST'     => 'topsongs'
+            $page['LIST']['CONTENT'][] = array(
+                'NR'           => ($offset + $cnt + 1),
+                'ARTIST'       => $track->getArtist(),
+                'TITLE'        => $track->getTitle(),
+                'LASTPLAY'     => $track->isPlaying() ?
+                    $this->locale['playlist.lastplay.now'] :
+                    $track->getDateofPlay(),
+                'VIDEO_ID'     => $videoId,
+                'PLAY_CONTROL' => false,
+                'PLAYLIST'     => 'topsongs'
             );
         }
-        $page['PLAYLIST_TRACKS'] = $data;
 
         return $page;
     }
+
 
 }
