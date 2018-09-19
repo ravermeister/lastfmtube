@@ -66,7 +66,6 @@ class PlaylistController {
                 this.loadTopUserPlayListPage(pageNum, loadComplete);
                 break;
             case 'youtube':
-                console.error('inside youtube ', callBack);
                 if (typeof callBack === 'function') {
                     callBack(true);
                 } else {
@@ -200,7 +199,7 @@ class PlaylistController {
 
 
         $.getJSON(request, function (json) {
-
+            
             if ($player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {

@@ -1,8 +1,7 @@
-class LibvueMainpage extends LibvueDefault {
+class LibvueMainpage {
 
     constructor(){
-        super();
-        
+
         this.logo = new Vue({
             el: 'header>.logo',
             data: {
@@ -63,12 +62,12 @@ class LibvueMainpage extends LibvueDefault {
     
     update(json) {
         
-        if(!LibvueDefault.isUndefined(json)) {
+        if(!Vue.prototype.$isUndefined(json)) {
             this.content.$data.PAGE_HEADER = json.TITLE;
             this.content.$data.PAGE_WELCOME = json.TEXT;            
         }        
 
-        if(!LibvueDefault.isUndefined(json.MENU)) {
+        if(!Vue.prototype.$isUndefined(json.MENU)) {
             this.menu.$data.MENUS = json.MENU;    
         }        
     }

@@ -1,9 +1,8 @@
-class LibvuePlaylist extends LibvueDefault {
+class LibvuePlaylist {
 
     constructor() {
-        super();
         let control = this;
-        
+
         this.header = {
             title: new Vue({
                 el: '#page-playlist>.playlist-header-title',
@@ -18,7 +17,7 @@ class LibvuePlaylist extends LibvueDefault {
 
                 methods: {
                     update: function (json) {
-                        if (!LibvueDefault.isUndefined(json.HEADER)) {
+                        if (!this.$isUndefined(json.HEADER)) {
                             json.HEADER.LOGO = $page.icons.getPlaylistIcon(json.HEADER.PLAYLIST);
                             json.HEADER.LOGO = json.HEADER.LOGO.big;
                             this.$applyData(json.HEADER);
@@ -130,9 +129,12 @@ class LibvuePlaylist extends LibvueDefault {
                 },
 
                 update: function (json) {
-                    if (!LibvueDefault.isUndefined(json.LIST_MENU)) {
+
+                    if (!this.$isUndefined(json.LIST_MENU)) {
                         this.$applyData(json.LIST_MENU);
                     }
+
+
                 }
             },
 
@@ -209,10 +211,10 @@ class LibvuePlaylist extends LibvueDefault {
                 },
 
                 update: function (json) {
-                    if (!LibvueDefault.isUndefined(json.LIST_HEADER)) {
+                    if (!this.$isUndefined(json.LIST_HEADER)) {
                         this.$applyData(json.LIST_HEADER);
                     }
-                    if (!LibvueDefault.isUndefined(json.TRACKS)) {
+                    if (!this.$isUndefined(json.TRACKS)) {
                         this.$applyData(json);
                     }
                 }
@@ -224,9 +226,9 @@ class LibvuePlaylist extends LibvueDefault {
 
     getTracks(json) {
         let pdata = null;
-        if (!LibvueDefault.isUndefined(json.playlist.LIST.HEADER))
+        if (!this.$isUndefined(json.playlist.LIST.HEADER))
             pdata = json.playlist.LIST.HEADER;
-        if (!LibvueDefault.isUndefined(json.playlist.LIST.CONTENT))
+        if (!this.$isUndefined(json.playlist.LIST.CONTENT))
             pdata.TRACKS = json.playlist.LIST.CONTENT;
         return pdata == null ? {} : pdata;
     }
@@ -234,7 +236,7 @@ class LibvuePlaylist extends LibvueDefault {
 
     getListMenu(json, list = null) {
 
-        if (list == null) list = $page.PLAYLIST;
+        if (list == null) list = $page.PLAYLIST;        
         
         switch (list) {
 

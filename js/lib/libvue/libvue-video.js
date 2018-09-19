@@ -1,10 +1,9 @@
-class LibvueVideo extends LibvueDefault {
+class LibvueVideo {
 
 
     
     constructor() {
-        super();
-        
+
         this.header = new Vue({
             el: '#page-ytplayer>h2',
             data: {

@@ -52,6 +52,11 @@ class PageController {
                 }
             }
         };
+
+        Vue.prototype.$isUndefined = function (val) {
+            return (typeof val === 'undefined') ? true : false;
+        };
+
     }
 
     initIcons() {

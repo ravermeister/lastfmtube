@@ -51,21 +51,6 @@ requirejs.config({
             exports: ['Vue']
         },
         
-        'libvue/libvue-default': {
-            deps: ['Vue']
-        },        
-        'libvue/libvue-mainpage': {
-          deps:['libvue/libvue-default']  
-        },
-        'libvue/libvue-playlist': {
-            deps:['libvue/libvue-default']
-        },
-        'libvue/libvue-video': {
-            deps:['libvue/libvue-default']
-        },
-        //vue dependecies
-         
-        
         'themes/main': {
             deps: ['jquery']
         },
@@ -88,7 +73,6 @@ define('theme', [
 ]);
 define('libvue', [
     'Vue',
-    'libvue/libvue-default',
     'libvue/libvue-mainpage',
     'libvue/libvue-playlist',
     'libvue/libvue-video'
