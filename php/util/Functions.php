@@ -166,11 +166,20 @@ class Functions {
         $logfile = fopen(self::getInstance()->settings['general']['logpath'], 'a+');
 
         $prefix = date('d.m.Y H:i:s');
-
-        $msgArr = explode("\n", self::br2nl($msg));
-        for ($i = 0; $i < sizeof($msgArr); $i++) {
-            if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
+        if(is_array($msg)) {
+            foreach($msg as $item) {
+                $msgArr = explode("\n", self::br2nl($item));
+                for ($i = 0; $i < sizeof($msgArr); $i++) {
+                    if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
+                }   
+            }
+        } else {
+            $msgArr = explode("\n", self::br2nl($msg));
+            for ($i = 0; $i < sizeof($msgArr); $i++) {
+                if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
+            }            
         }
+
         fclose($logfile);
     }
 
@@ -226,7 +235,7 @@ class Functions {
                     ";Multiple themes may be applied with a comma-separated list.\n" . "cmenutheme = " .
                     $config['general']['cmenutheme'] . "\n" .
                     "; the default last.fm user when initally loading the playlist\n" . "lastfm_defaultuser = " .
-                    $config['general']['lastfm_defaultuser'] . "\n" .
+                    $config['general']['defaultlfmuser'] . "\n" .
                     "; the Admin Password as sha1_value (default is lfmtube)\n" . "adminpw = " .
                     $config['general']['adminpw'] . "\n" . ";[database]\n" .
                     ";dsn = mysql:host=127.0.0.1;port=3306;dbname=lasttube;charset=UTF8;\n" .

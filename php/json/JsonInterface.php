@@ -18,5 +18,4 @@ interface JsonInterface {
     public function post($getvars, $postvars);
 
     public function put($getvrs, $jsonvars);
-
 }

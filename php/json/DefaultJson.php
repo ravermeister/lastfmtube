@@ -8,7 +8,6 @@
 
 namespace LastFmTube\Json;
 
-
 abstract class DefaultJson implements JsonInterface {
 
     private $apiName;
@@ -18,13 +17,21 @@ abstract class DefaultJson implements JsonInterface {
         $this->apiName = $api;
     }
 
+    public static function setResponseHeader($status, $msg = false) {        
+        if($msg === false) http_response_code($status);
+        else header($_SERVER['SERVER_PROTOCOL'].$status.' '.$msg);
+    }
+    
+    
     public static function baseError($msg) {
         $json['handler']       = 'default';
         $json['method']        = 'unknown';
         $json['data']['type']  = 'error';
         $json['data']['value'] = $msg;
 
-        die('handler: default, method: unknown, error: ' . $msg);
+        
+        DefaultJson::setResponseHeader(500);
+        die('handler: default, method: '.$_SERVER['REQUEST_METHOD'].', error: ' . $msg);
         //die(json_encode($json));
     }
 
@@ -57,7 +64,9 @@ abstract class DefaultJson implements JsonInterface {
         $json['method']        = $this->currentMethod;
         $json['data']['type']  = 'error';
         $json['data']['value'] = $msg;
-        return die(('handler: ' . $this->apiName . ', method: ' . $this->currentMethod . ', error: ' . $msg));
+
+        DefaultJson::setResponseHeader(500);
+        die(('handler: ' . $this->apiName . ', method: ' . $this->currentMethod . ', error: ' . $msg));
         //return json_encode($json);
     }
 

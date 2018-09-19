@@ -1,10 +1,8 @@
-class VueBase extends DefaultLibVue {
+class LibvueMainpage extends LibvueDefault {
 
-    constructor(page) {
-        super(page);
-
-        let Vue = this.Vue;
-
+    constructor(){
+        super();
+        
         this.logo = new Vue({
             el: 'header>.logo',
             data: {
@@ -34,45 +32,45 @@ class VueBase extends DefaultLibVue {
             },
             methods: {
                 loadMenu(menu) {
-                    if (!player.isReady) return;
-                    page.setPageLoading(true);
+                    if (!$player.isReady) return;
+                    $page.setPageLoading(true);
                     let playlist = 'default';
 
-                    
+
                     if (typeof menu.ARGS !== 'undefined' && ('PLAYLIST' in menu.ARGS)) {
                         playlist = menu.ARGS['PLAYLIST'];
                     }
 
                     let showPage = function (success) {
-                        page.setPageLoading();
+                        $page.setPageLoading();
                         if (!success) return;
                         window.location.href = menu.URL;
                     };
 
-                    if (playlist != null && playlist == page.PLAYLIST) {
+                    if (playlist != null && playlist == $page.PLAYLIST) {
                         showPage(true);
                     } else {
                         if (playlist != null) {
-                            page.setCurrentPlayList(playlist);    
-                            page.loadPlaylistPage(1, null, showPage);
+                            $page.setCurrentPlayList(playlist);
+                            $playlist.loadPlaylistPage(1, null, showPage);
                             return;
                         }
                         showPage(true);
                     }
                 }
             }
-        });
+        });        
     }
-
-
+    
+    
     update(json) {
         
-        if(!this.isUndefined(json)) {
+        if(!LibvueDefault.isUndefined(json)) {
             this.content.$data.PAGE_HEADER = json.TITLE;
             this.content.$data.PAGE_WELCOME = json.TEXT;            
         }        
 
-        if(!this.isUndefined(json.MENU)) {
+        if(!LibvueDefault.isUndefined(json.MENU)) {
             this.menu.$data.MENUS = json.MENU;    
         }        
     }

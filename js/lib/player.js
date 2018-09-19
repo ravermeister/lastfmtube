@@ -49,15 +49,13 @@ class PlayerController {
         let ytplayerwidth = '100%';
         let ytplayerheight = ($(document).height() - 325) + 'px';
 
-        let player = this;
-
         window.onYouTubeIframeAPIReady = function () {
 
 
             let onReady = function (event) {
-                player.isReady = true;
-                if (player.autoPlay) {
-                    player.loadNextSong();
+                $player.isReady = true;
+                if ($player.autoPlay) {
+                    $player.loadNextSong();
                 }
                 console.log('youtube player ready');
             };
@@ -65,27 +63,27 @@ class PlayerController {
             let onStateChange = function (event) {
 
                 switch (event.data) {
-                    case player.ytStatus.UNSTARTED.ID:
+                    case $player.ytStatus.UNSTARTED.ID:
                         break;
-                    case player.ytStatus.ENDED.ID:
-                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = '';
-                        player.loadNextSong();
-                        break;
-
-                    case player.ytStatus.PLAYING.ID:
-                        page.myVues.youtube.header.$data.NOW_PLAYING = player.ytPlayer.getVideoData().title;                        
-                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = 'play';
+                    case $player.ytStatus.ENDED.ID:
+                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = '';
+                        $player.loadNextSong();
                         break;
 
-                    case player.ytStatus.PAUSED.ID:
-                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = 'pause';
+                    case $player.ytStatus.PLAYING.ID:
+                        $page.myVues.youtube.header.$data.NOW_PLAYING = $player.ytPlayer.getVideoData().title;                        
+                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = 'play';
                         break;
 
-                    case player.ytStatus.BUFFERING.ID:
-                        if (player.CURRENT_TRACK != null) player.CURRENT_TRACK.PLAYSTATE = 'load';
+                    case $player.ytStatus.PAUSED.ID:
+                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = 'pause';
                         break;
 
-                    case player.ytStatus.CUED.ID:
+                    case $player.ytStatus.BUFFERING.ID:
+                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = 'load';
+                        break;
+
+                    case $player.ytStatus.CUED.ID:
                         break;
                 }
             };
@@ -94,7 +92,7 @@ class PlayerController {
             };
 
 
-            player.ytPlayer = new YT.Player('player', {
+            $player.ytPlayer = new YT.Player('player', {
 
                 height: ytplayerheight,
                 width: ytplayerwidth,
@@ -125,22 +123,22 @@ class PlayerController {
 
     loadNextSong() {
 
-        let tracks = page.myVues.playlist.content.$data.TRACKS;
+        let tracks = $page.myVues.playlist.content.$data.TRACKS;
         let nextIndex = this.CURRENT_TRACK != null ? tracks.indexOf(this.CURRENT_TRACK) + 1 : 0;
 
         if ((nextIndex) >= tracks.length) {
-            let playlist = page.myVues.playlist.menu;
+            let playlist = $page.myVues.playlist.menu;
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPage + 1) > maxPages) curPage = 1;
             else curPage++;
 
-            page.loadPlaylistPage(user, curPage, 'default', function (success) {
+            $player.loadPlaylistPage(user, curPage, 'default', function (success) {
                 if (!success) return;
 
-                let tracks = page.myVues.playlist.content.$data.TRACKS;
-                player.loadSong(tracks[0]);
+                let tracks = $page.myVues.playlist.content.$data.TRACKS;
+                $player.loadSong(tracks[0]);
             });
 
             return;
@@ -153,22 +151,22 @@ class PlayerController {
 
     loadPreviousSong() {
         if (this.CURRENT_TRACK == null) return;
-        let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
+        let tracks = $page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
         let index = tracks.indexOf(this.CURRENT_TRACK);
 
         if ((index - 1) < 0) {
-            let playlist = page.vueMap['PLAYLIST_NAV'];
+            let playlist = $page.vueMap['PLAYLIST_NAV'];
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPage - 1) > maxPages) curPage = maxPages;
             else curPage--;
 
-            page.loadPlaylistPage(user, curPage, 'default', function (success) {
+            $player.loadPlaylistPage(user, curPage, 'default', function (success) {
                 if (!success) return;
 
-                let tracks = page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
-                player.loadSong(tracks[tracks.length - 1]);
+                let tracks = $page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
+                $player.loadSong(tracks[tracks.length - 1]);
             });
 
 
@@ -201,15 +199,15 @@ class PlayerController {
         this.setCurrentTrack(track);
 
 
-        let needle = page.createNeedle(track);
+        let needle = $page.createNeedle(track);
         if (needle.videoId != null && needle.videoId.length > 0) {
             needle.videoId = vars.data.value.VALUE;
-            player.loadVideoByNeedle(needle);
+            $player.loadVideoByNeedle(needle);
             return;
         }
 
         let request = './php/json/JsonHandler.php?api=vars&data=search&name=' + needle.asVar();
-        let player = this;
+        
 
         $.ajax(request, {
             dataType: 'json'
@@ -229,11 +227,11 @@ class PlayerController {
                         return;
                     }
 
-                    player.loadVideoByNeedle(needle);
+                    $player.loadVideoByNeedle(needle);
                 });
             } else {
                 needle.videoId = vars.data.value.VALUE;
-                player.loadVideoByNeedle(needle);
+                $player.loadVideoByNeedle(needle);
             }
         });
     }
@@ -241,7 +239,7 @@ class PlayerController {
     loadVideoByNeedle(needle) {
         if (typeof needle !== 'undefined' && typeof needle.videoId !== 'undefined' && needle.videoId.length > 0) {
 
-            player.ytPlayer.loadVideoById(needle.videoId);
+            $player.ytPlayer.loadVideoById(needle.videoId);
         } else {
             console.error('invalid parameter for loadVideoByNeedle');
             console.error(needle);

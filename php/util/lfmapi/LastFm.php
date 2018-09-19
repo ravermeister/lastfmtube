@@ -124,7 +124,7 @@ class LastFm {
     function getRecentlyPlayed($page = 1, $limit = 25) {
         $url = $this->base_url . '?method=user.getRecentTracks&user=' . $this->user . '&api_key=' . $this->apikey .
                '&page=' . $page . '&limit=' . $limit;
-        $this->setURL($url);
+        $this->setURL($url);        
         $html = $this->getDOM();
 
         return new RecentlyPlayed ($html);

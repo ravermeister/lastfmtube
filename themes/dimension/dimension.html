@@ -8,9 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
 
-    <script src="js/lib/requirejs/require.js" type="text/javascript"></script>
-    <script src="js/main.js" type="text/javascript"></script>
+    <script src="js/lib/requirejs/require.js"  type="text/javascript"></script>
+    <!--// these dependencies must be loaded sync! //-->
+    <script src="js/lib/dependencies.js" type="text/javascript"></script>    
+    <!--// the main app can start async -->
+    <script src="js/main.js" type="text/javascript" async="async"></script>
     
+
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
@@ -36,7 +40,7 @@
                 <p>{{PAGE_WELCOME}}</p>
             </div>
         </div>
-        
+
         <nav>
             <ul>
                 <li v-for="MENU in MENUS">
@@ -52,72 +56,39 @@
         <!-- Player -->
         <article id="page-ytplayer">
 
+            <div class="playlist-header-nav">
+                <template v-for="MENU in MENUS">
+                    <div class="btn-playlist-header-nav">
+                        <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU)">
+                            <span v-bind:class="MENU.LOGO"></span>
+                            <span class="btn-text">{{MENU.TEXT}}</span>
+                        </a>
+                    </div>
+                </template>
+            </div>
+            
             <h2 class="major">
                 <a href="#page-playlist" v-bind:href="PLAYLIST_ID" @click.prevent="loadPlaylist($(this).attr('href'))">{{PLAYLIST_NAME}}</a>
             </h2>
 
             <!-- youtube embed: html5 method -->
             <div id="player"></div>
-
-            <div class="ytplayer-control">
-                <ul class="icons" style="text-align: center; margin: 10px;">
-                    <li>
-                        <a class="icon fa-play fa-2x"
-                           style="cursor: pointer"
-                           title="Play"
-                           @click="playTrack(TRACK);">
-                            <span class="label">Play</span>
-                        </a>
-                    </li>
-                    <li>
-
-                        <a class="icon fa-backward fa-2x"
-                           style="cursor: pointer"
-                           title="Play"
-                           @click="playTrack(TRACK);">
-                            <span class="label">Previus Track</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="icon fa-forward fa-2x"
-                           style="cursor: pointer"
-                           title="Play"
-                           @click="playTrack(TRACK);">
-                            <span class="label">Next Track</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="icon fas fa-headphones fa-2x"
-                           style="cursor: pointer"
-                           title="Play"
-                           @click="playTrack(TRACK);">
-                            <span class="label">add to Playlist</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="icon fa fa-search fa-2x"
-                           style="cursor: pointer"
-                           title="Play"
-                           @click="playTrack(TRACK);">
-                            <span class="label">add to Playlist</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
+            
         </article>
 
         <!-- Playlist -->
         <article id="page-playlist">
 
             <div class="playlist-header-nav">
-                <template v-for="MENU in MENUS">                    
-                    <div class="btn-playlist-header-nav">                        
+                <template v-for="MENU in MENUS">
+                    <div class="btn-playlist-header-nav">
                         <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU)">
-                            <span v-bind:class="MENU.LOGO"></span>
-                            <span class="btn-text">{{MENU.TEXT}}</span>
-                        </a>                    
-                    </div>                
+                            <div>
+                                <span v-bind:class="MENU.LOGO"></span>
+                                <span class="btn-text">{{MENU.TEXT}}</span>                                
+                            </div>
+                        </a>
+                    </div>
                 </template>
             </div>
 
@@ -138,18 +109,18 @@
                                 <a href="//last.fm" target="_blank">Last.fm</a> {{LASTFM_USER_NAME_LABEL}}
                             </label>
                             <input type="text" name="playlist_page" id="playlist_lastfmuser"
-                                   v-bind:value="LASTFM_USER_NAME" />
+                                   v-bind:value="LASTFM_USER_NAME"/>
                         </div>
                         <div class="field third" v-if="PLAYLIST === 'search'">
                             <label for="playlist_lastfmuser">Youtube Video</label>
                             <input type="text" name="playlist_page" id="playlist_videourl"
-                                   v-bind:value="LASTFM_USER_NAME" />
+                                   v-bind:value="LASTFM_USER_NAME"/>
                         </div>
                         <div class="field third">
                             <label for="playlist_page">
                                 {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
                             </label>
-                            <input type="number" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE" />
+                            <input type="number" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"/>
                         </div>
                         <div class="field third" align="center" style="vertical-align: center">
                             <label>&nbsp;</label>
@@ -181,8 +152,9 @@
                             <th>{{TRACK_TITLE}}</th>
                         </tr>
                         </thead>
+                        
                         <tbody>
-                        <template v-for="TRACK in TRACKS">
+                        <template inline-template="inline-template" v-for="TRACK in TRACKS">
                             <tr @mouseover="showPlay(TRACK, true);"
                                 @mouseout="showPlay(TRACK, false);">
                                 <td class="TRACK_NR" @click="togglePlay(TRACK);" style="cursor: pointer">
@@ -209,7 +181,8 @@
                                     <span v-else="v-else">{{TRACK.TITLE}}</span>
                                 </td>
                             </tr>
-
+                            
+                            <transition name="fade">
                             <tr key="true" v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
                                 <td colspan="3" style="vertical-align: middle; border: 0px">
 
@@ -256,6 +229,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            </transition>
                         </template>
                         </tbody>
                     </table>

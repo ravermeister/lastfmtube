@@ -26,7 +26,7 @@ class Db {
      * @var array|\PDOStatement
      */
     private $statements = false;
-
+    
     private function prepareQueries() {
         if ($this->statements !== false) return;
         $this->statements = array('SELECT_ALL_LASTFM_USER' => '
@@ -300,7 +300,16 @@ class Db {
     public function query($queryName, ...$vars) {
         if (!isset ($this->statements [$queryName])) return false;
         $result = $this->statements [$queryName]->execute($vars);
-        if ($result === false) return false;
+        if ($result === false) {
+            $error = $this->statements[$queryName]->errorInfo();
+            if($error != null && $error !== false) {
+                Functions::getInstance()->logMessage('DB Error occured:');              
+                Functions::getInstance()->logMessage(print_r($error, true));
+            }
+            
+            Functions::getInstance()->logMessage($this->statements[$queryName]->errorInfo());
+            return false;
+        }
 
         $data = $this->statements [$queryName]->fetchAll(PDO::FETCH_ASSOC);
         if(Functions::endsWith($queryName, '_NUM_ROWS')) {

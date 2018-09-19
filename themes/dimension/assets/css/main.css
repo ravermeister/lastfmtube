@@ -1561,51 +1561,6 @@ body.is-preload #header .content .inner {
     white-space: nowrap;
 }
 
-#main article .playlist-header-ico {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-#main article .playlist-header-nav {    
-    position: relative;
-    top: -2rem;
-    left: -0.5rem;
-}
-#main article .playlist-header-nav .btn-playlist-header-nav{
-    padding-left: 8px;
-    padding-right: 8px;
-}
-#main article .btn-playlist-header-nav {}
-#main article .btn-playlist-nav {
-    pading-left:  7px;
-    padding-right: 7px;
-    margin: 0px;
-}
-
-
-#main article .btn-playlist-nav,
-#main article .btn-playlist-header-nav {
-    /**
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    **/
-    display: inline-block;    
-    text-align: center;
-    cursor: pointer;
-}
-
-#main article .btn-playlist-nav a,
-#main article .btn-playlist-header-nav a {
-    -webkit-transition: none;
-    transition: none;
-    border-bottom: 0px;
-}
-
-#main article .btn-playlist-nav .btn-text,
-#main article .btn-playlist-header-nav .btn-text {
-    display: block;
-}
-
 
 #main article .close:before {
     -moz-transition: background-color 0.2s ease-in-out;
@@ -1696,4 +1651,52 @@ body.is-preload #footer {
 
 body {
     font-family: Arial, sans-serif;
+}
+
+/************************************************************/
+
+
+#main article .playlist-header-ico {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#main article .playlist-header-nav {
+    position: relative;
+    top: -2rem;
+    left: -0.5rem;
+}
+#main article .playlist-header-nav .btn-playlist-header-nav{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+#main article .btn-playlist-header-nav {}
+#main article .btn-playlist-nav {
+    pading-left:  7px;
+    padding-right: 7px;
+    margin: 0px;
+}
+
+
+#main article .btn-playlist-nav,
+#main article .btn-playlist-header-nav {
+    /**
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    **/
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+#main article .btn-playlist-nav a,
+#main article .btn-playlist-header-nav a {
+    -webkit-transition: none;
+    transition: none;
+    border-bottom: 0px;
+}
+
+#main article .btn-playlist-nav .btn-text,
+#main article .btn-playlist-header-nav .btn-text {
+    display: block;
 }

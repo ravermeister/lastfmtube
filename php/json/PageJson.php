@@ -70,14 +70,14 @@ class PageJson extends DefaultJson {
      * @return false|string
      */
     private function getPage() {
-
+        
         $page['base']     = $this->getBase();
         $page['youtube']  = $this->getYoutube();
         $page['playlist'] = $this->getPlaylist();
         return $page;
     }
 
-    public function getBase() {
+    private function getBase() {
 
         return array(
             'TITLE' => $this->locale['site.title'],
@@ -124,24 +124,23 @@ class PageJson extends DefaultJson {
     }
 
 
-    private function getYoutube() {
-        return array(
-            'PLAYLIST_NAME' => 'Last.fm',
-            'PLAYLIST_URL'  => '#page-playlist',
-            'PLAYLIST_ID'   => 'default'
-        );
-    }
+
 
     private function getPlaylist($user = false, $pageNum = 1) {
-
+        Functions::getInstance()->startSession();
+        
         if ($user !== false) {
-            Functions::getInstance()->startSession();
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
-                $_SESSION ['music'] ['lastfm_user'] = $user;
-                $this->lfmapi->setUser($user);
+                $_SESSION ['music'] ['lastfm_user'] = $user;                
                 $pageNum = false;
-            }
+            } 
+        } 
+        
+        if(!isset($_SESSION['music']['lastfm_user']) || strlen(trim($_SESSION ['music'] ['lastfm_user'])) == 0) {
+            $_SESSION ['music'] ['lastfm_user'] = $this->settings['general']['defaultlfmuser'];            
         }
+                
+        $this->lfmapi->setUser($_SESSION['music']['lastfm_user']);
         if ($pageNum === false || $pageNum < 1) $pageNum = 1;
 
 
@@ -304,5 +303,12 @@ class PageJson extends DefaultJson {
         return $page;
     }
 
+    private function getYoutube() {
+        return array(
+            'PLAYLIST_NAME' => 'Last.fm',
+            'PLAYLIST_URL'  => '#page-playlist',
+            'PLAYLIST_ID'   => 'default'
+        );
+    }
 
 }
