@@ -13,12 +13,14 @@ use LastFmTube\Util\Functions;
 use LastFmTube\Util\lfmapi\Track;
 
 class PageJson extends DefaultJson {
+
     private $settings;
     private $locale;
     private $lfmapi;
 
-    public function __construct() {
-        parent::__construct('page');
+    public function __construct($api = 'page') {
+        parent::__construct($api);
+
         $funcs = Functions::getInstance();
         $funcs->startSession();
 
@@ -28,12 +30,12 @@ class PageJson extends DefaultJson {
     }
 
     public function get($getvars) {
-
-        if (!isset($getvars['data'])) $getvars['data'] = 'page';
         try {
-            $data = false;
-            $type = false;
-            switch (strtolower($getvars['data'])) {
+            $data     = false;
+            $type     = false;
+            $parmData = isset($getvars['data']) ? strtolower($getvars['data']) : strtolower($this->apiName);
+
+            switch ($parmData) {
                 case 'page':
                     $data = $this->getPage();
                     $type = 'pagedata';
@@ -41,22 +43,23 @@ class PageJson extends DefaultJson {
                 case 'playlist':
                     $user     = isset($getvars['user']) ? $getvars['user'] : false;
                     $page     = isset($getvars['page']) ? $getvars['page'] : false;
-                    $playlist = isset($getvars['type']) ? $getvars['type'] : 'default';
+                    $playlist = isset($getvars['type']) ? $getvars['type'] : $this->apiName;
                     switch ($playlist) {
                         case 'topsongs':
                             $data = $this->getTopSongs($page);
                             break;
-
+                        case 'topuser':
+                            $data = $this->getTopUser($page);
+                            break;
                         case 'default:':
                         default:
                             $data = $this->getPlaylist($user, $page);
                             break;
                     }
-
-                    $type = 'playlist';
+                    $type = $playlist;
                     break;
                 default:
-                    return $this->jsonError('Falsche Parameterangabe');
+                    return $this->jsonError('Falsche parameter Angabe');
             }
             return $this->jsonData($data, $type);
         } catch (Exception $err) {
@@ -70,7 +73,7 @@ class PageJson extends DefaultJson {
      * @return false|string
      */
     private function getPage() {
-        
+
         $page['base']     = $this->getBase();
         $page['youtube']  = $this->getYoutube();
         $page['playlist'] = $this->getPlaylist();
@@ -123,23 +126,28 @@ class PageJson extends DefaultJson {
         //header content
     }
 
-
-
+    private function getYoutube() {
+        return array(
+            'PLAYLIST_NAME' => 'Last.fm',
+            'PLAYLIST_URL'  => '#page-playlist',
+            'PLAYLIST_ID'   => 'default'
+        );
+    }
 
     private function getPlaylist($user = false, $pageNum = 1) {
         Functions::getInstance()->startSession();
-        
+
         if ($user !== false) {
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
-                $_SESSION ['music'] ['lastfm_user'] = $user;                
-                $pageNum = false;
-            } 
-        } 
-        
-        if(!isset($_SESSION['music']['lastfm_user']) || strlen(trim($_SESSION ['music'] ['lastfm_user'])) == 0) {
-            $_SESSION ['music'] ['lastfm_user'] = $this->settings['general']['defaultlfmuser'];            
+                $_SESSION ['music'] ['lastfm_user'] = $user;
+                $pageNum                            = false;
+            }
         }
-                
+
+        if (!isset($_SESSION['music']['lastfm_user']) || strlen(trim($_SESSION ['music'] ['lastfm_user'])) == 0) {
+            $_SESSION ['music'] ['lastfm_user'] = $this->settings['general']['defaultlfmuser'];
+        }
+
         $this->lfmapi->setUser($_SESSION['music']['lastfm_user']);
         if ($pageNum === false || $pageNum < 1) $pageNum = 1;
 
@@ -205,7 +213,9 @@ class PageJson extends DefaultJson {
              * @var Track
              */
             $track   = $tracks[$cnt];
-            $videoId = $db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
+            $artist  = Functions::getInstance()->prepareNeedle($track->getArtist());
+            $title   = Functions::getInstance()->prepareNeedle($track->getTitle());
+            $videoId = $db->getEnvVar($artist . ' ' . $title);
 
             $page['TRACKS'][] = array(
                 'NR'           => ($pageStart + $cnt + 1),
@@ -303,12 +313,100 @@ class PageJson extends DefaultJson {
         return $page;
     }
 
-    private function getYoutube() {
-        return array(
-            'PLAYLIST_NAME' => 'Last.fm',
-            'PLAYLIST_URL'  => '#page-playlist',
-            'PLAYLIST_ID'   => 'default'
+    private function getTopUser($pageNum = 1, $user = false, $lastplay = '1970-01-01 00:00:00') {
+        Functions::getInstance()->startSession();
+
+        if ($user !== false) {
+            if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
+                $_SESSION ['music'] ['lastfm_user'] = $user;
+                $pageNum                            = false;
+            }
+        }
+
+        $user   = $_SESSION ['music'] ['lastfm_user'];
+        $db     = DB::getInstance();
+        $limit  = $this->settings['general']['tracks_perpage'];
+        $offset = ($pageNum - 1) * $limit;
+
+        Functions::getInstance()->logMessage("execute topuser query with $user, $lastplay, $offset, $limit");
+        $topuser  = Db::getInstance()->query('SELECT_ALL_LASTFM_USER', $user, $lastplay, $offset, $limit);
+        $maxpages = Db::getInstance()->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
+        $maxpages = ((int)($maxpages / $limit));
+
+        if (($maxpages % $limit) > 0) $maxpages++;
+        if ($maxpages <= 0) $maxpages = 1;
+
+        $page = array(
+
+            'HEADER' => array(
+                'TEXT'       => $this->locale['menu.topuser'],
+                'URL'        => '#page-playlist',
+                'URL_TARGET' => '_self',
+                'PLAYLIST'   => 'topuser',
+            ),
+
+
+            'HEADER_MENU' => array(
+                'TOPUSER'  => array(
+                    'TEXT' => $this->locale['menu.topuser'],
+                ),
+                'TOPSONGS' => array(
+                    'TEXT' => $this->locale['menu.topsongs'],
+                ),
+                'DEFAULT'  => array(
+                    'TEXT' => $this->locale['menu.lastfm'],
+                ),
+                'SEARCH'   => array(
+                    'TEXT' => $this->locale['menu.search'],
+                ),
+                'USERLIST' => array(
+                    'TEXT' => $this->locale['menu.userlist'],
+                ),
+                'YTPLAYER' => array(
+                    'TEXT' => $this->locale['menu.youtube'],
+                )
+            ),
+
+            'LIST_MENU' => array(
+                'MAX_PAGES' => $maxpages,
+                'CUR_PAGE'  => $pageNum,
+                'PLAYLIST'  => 'topuser'
+            ),
+            //lastfm navigation (pages/username)
+
+            'LIST_HEADER' => array(
+                'TRACK_NR'        => $this->locale['playlist.header.nr'],
+                'TRACK_ARTIST'    => $this->locale['playlist.header.artist'],
+                'TRACK_TITLE'     => $this->locale['playlist.header.title'],
+                'TRACK_LASTPLAY'  => $this->locale['playlist.header.lastplay'],
+                'TRACK_PLAYCOUNT' => $this->locale['playlist.header.playcount'],
+            )
         );
+
+        for ($cnt = 0; $cnt < sizeof($topuser); $cnt++) {
+            $track              = $topuser[$cnt];
+            $track['interpret'] = Functions::getInstance()->prepareNeedle($track['interpret']);
+            $track['title']     = Functions::getInstance()->prepareNeedle($track['title']);
+            $videoId            = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
+
+            $page['TRACKS'][] = array(
+                'NR'           => ($offset + $cnt + 1),
+                'ARTIST'       => $track['interpret'],
+                'TITLE'        => $track['title'],
+                'LASTPLAY'     => $track['lastplay_time'],
+                'PLAYCOUNT'    => $track['playcount'],
+                'VIDEO_ID'     => $videoId,
+                'PLAY_CONTROL' => false,
+                'PLAYLIST'     => 'topsongs'
+            );
+        }
+
+        return $page;
+    }
+
+    private function getDataType($getvars) {
+        if (isset($getvars['data']) && trim(strlen($getvars['data'])) > 0) return $getvars['data'];
+        return $this->apiName;
     }
 
 }

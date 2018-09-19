@@ -10,7 +10,7 @@ namespace LastFmTube\Json;
 
 abstract class DefaultJson implements JsonInterface {
 
-    private $apiName;
+    protected $apiName;
     private $currentMethod = 'unknown';
 
     protected function __construct($api) {

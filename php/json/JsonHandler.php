@@ -30,7 +30,7 @@ class JsonHandler {
             case 'topuser':
             case 'topsongs':
             case 'lastfm':
-            case 'page': return new PageJson();
+            case 'page': return new PageJson($api);
 
             case 'vars': return new EnvVarsJson();
 

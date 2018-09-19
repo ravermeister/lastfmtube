@@ -47,16 +47,14 @@ class LibvueMainpage extends LibvueDefault {
                         window.location.href = menu.URL;
                     };
 
-                    if (playlist != null && playlist == $page.PLAYLIST) {
-                        showPage(true);
-                    } else {
-                        if (playlist != null) {
-                            $page.setCurrentPlayList(playlist);
-                            $playlist.loadPlaylistPage(1, null, showPage);
-                            return;
-                        }
-                        showPage(true);
+
+                    console.error('main menu load playlist: ', playlist, $page.PLAYLIST);
+                    if (playlist != null) {
+                        $page.setCurrentPlayList(playlist);
+                        $playlist.loadPlaylistPage(1, null, showPage, playlist);
+                        return;
                     }
+                    showPage(true);
                 }
             }
         });        

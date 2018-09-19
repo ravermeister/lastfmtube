@@ -151,27 +151,16 @@ class PageController {
     }
 
     setCurrentPlayList(playlist = null) {        
-        let name = 'Last.fm Playlist';
-        if (playlist == null) playlist = 'default';
         
-        switch (playlist) {
-            case 'userlist':
-                name = 'My Playlist';
-                break;
-            case 'topsongs':
-                name = 'Top Songs';
-                break;
-            case 'topuser':
-                name = 'Top User';
-                break;
-        }
-
-        this.myVues.youtube.header.$data.PLAYLIST_NAME = name;
+        if(playlist == null) playlist = 'default';
+        if(playlist == $page.PLAYLIST) return;
+                
         if (playlist !== 'youtube') {
             this.myVues.youtube.header.$data.PLAYLIST_ID = playlist;
         }
-
+        
         this.PLAYLIST = playlist;
+        $page.myVues.playlist.header.menu.refreshMenu();
     }
 
     setPageLoading(active = false) {
@@ -242,16 +231,18 @@ class PageController {
     }
 
     createNeedle(track) {
-        let needle = new Object();
-        needle.artist = track.ARTIST;
-        needle.title = track.TITLE;
-        needle.videoId = track.videoId;
-        needle.asVar = function (raw = false) {
-            if (!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
-            else return this.artist + ' ' + this.title;
+        return {            
+            artist: track.ARTIST,            
+            title: track.TITLE,
+            videoId: track.videoId,          
+            asVar: function(raw = false) {
+                if (!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
+                else return this.artist + ' ' + this.title;
+            },
+            isValid: function() {
+                return this.asVar().trim().length>0;
+            }
         };
-
-        return needle;
     }
 
     clone(src) {

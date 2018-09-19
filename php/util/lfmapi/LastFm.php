@@ -66,7 +66,7 @@ class LastFm {
                               'user.shout',
 
                               'venue.getEvents', 'venue.getPastEvents', 'venue.search');
-
+    
     function setApiKey($key) {
         $this->apikey = $key;
     }

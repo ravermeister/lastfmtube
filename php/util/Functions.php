@@ -154,7 +154,7 @@ class Functions {
             unset ($_GET ['lastfm_user']);
         }
         else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
-            $_SESSION ['music'] ['lastfm_user'] = self::$instance->settings ['general'] ['lastfm_defaultuser'];
+            $_SESSION ['music'] ['lastfm_user'] = self::$instance->settings ['general'] ['defaultlfmuser'];
         }
         $_SESSION ['music'] ['lastfm_user'] = trim($_SESSION ['music'] ['lastfm_user']);
 

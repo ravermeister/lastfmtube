@@ -20,7 +20,6 @@ class LibvueVideo extends LibvueDefault {
                 },
 
                 loadPlaylist: function (playlist) {
-
                     $page.setCurrentPlayList(playlist);
                     $page.myVues.playlist.update({});
                     location.href = '#page-playlist';

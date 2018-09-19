@@ -26,128 +26,17 @@ class Db {
      * @var array|\PDOStatement
      */
     private $statements = false;
-    
-    private function prepareQueries() {
-        if ($this->statements !== false) return;
-        $this->statements = array('SELECT_ALL_LASTFM_USER' => '
-				SELECT lastfm_user, last_played,
-				CASE 
-					WHEN lastfm_user = ? OR
-					last_played = ? THEN		
-						playcount-1
-					ELSE 
-						playcount
-				END AS playcount
-						
-				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"	
-				ORDER BY 
-					playcount DESC,
-					last_played DESC;
-			', // add limit to sql to limit the result for the top xx users
-                                  // LIMIT 0,5;
 
-                                  'SELECT_LASTFM_USER_VISIT' => '
-				SELECT * 
-				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"
-				WHERE lastfm_user = ?;
-			',
-
-                                  'UPDATE_LASTFM_USER_VISIT' => '
-				UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" 
-				SET
-				"playcount"="playcount"+1,
-				"last_played"= ?
-				WHERE "lastfm_user"= ?;
-			',
-
-                                  'INSERT_LASTFM_USER_VISIT' => '
-				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" VALUES(?, ?, 1);
-			',
-
-                                  'UPDATE_CHARTS' => '
-			    UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-			    SET
-				"playcount"="playcount"+1,
-				"lastplay_time"= ?,
-				"lastplay_user"= ?,
-				"lastplay_ip"= ?
-
-			    WHERE
-				"interpret"= ? AND
-				"title"= ?;
-			',
-
-                                  'INSERT_CHARTS' => '
-			    INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-			    VALUES(?, ?, 1, ?, ?, ?);
-			',
-
-                                  'SELECT_CHARTS' => '
-				SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-			     ORDER BY `playcount` DESC, `lastplay_time` DESC LIMIT ? OFFSET ?;
-			',
-                                  'SELECT_CHARTS_NUM_ROWS' => '
-                SELECT COUNT(*) AS "CNT" FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts";
-                                  ',
-
-          // SELECT ONLY the last heared song with playcount 1
-          // 'SELECT_CHARTS' =>
-          // '
-          // SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts"
-          // WHERE ("playcount" > 1) OR (
-          // "playcount" = 1 AND
-          // "lastplay_time" IN (
-          // SELECT MAX("lastplay_time")
-          // FROM "'.$this->settings['database']['table_prefix'].'charts"
-          // WHERE "playcount"=1
-          // )
-          // )
-          // ORDER BY `playcount` DESC, `lastplay_time` DESC;
-          // ',
-
-
-                                  'GET_ENVVAR' => '
-				SELECT "value" FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
-				WHERE "key"= ?
-			',
-
-                                  'DEL_ENVVAR' => '
-				DELETE FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
-				WHERE "key"= ?
-			',
-
-                                  'SET_ENVVAR' => '
-				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'envvars"  VALUES (?, ?);
-			',
-
-                                  'SEARCH_CHARTS_TRACK' => '
-                SELECT * FROM "' . $this->settings['database']['table_prefix'] . 'charts_track_alias" 
-                WHERE "artist" LIKE ? OR "title" LIKE ?
-            '
-
-        );
-
-        foreach ($this->statements as $prefix => $query) {
-            $this->statements [$prefix] = $this->pdo->prepare($query);
-        }
-    }
-
+    /**
+     * Db constructor.
+     * @param bool $file
+     * @throws Exception
+     */
     private function __construct($file = false) {
         if ($file === false) $file = dirname(__FILE__) . '/../../conf/settings.ini';
         if (!$this->settings = parse_ini_file($file, true)) throw new exception ('Unable to open ' . $file . '.');
         $this->connect();
         $this->prepareQueries();
-    }
-
-    public static function getInstance() {
-        if (is_null(self::$instance)) {
-            self::$instance = new static ();
-        }
-        return self::$instance;
-    }
-
-    public function isConnected() {
-        return $this->pdo !== false;
     }
 
     public function connect() {
@@ -159,13 +48,8 @@ class Db {
         $this->createdb();
     }
 
-    private function validate() {
-        $this->connect();
-        $prefix = $this->settings ['database'] ['table_prefix'];
-        $valid  = $this->tableExists($prefix . 'charts') && $this->tableExists($prefix . 'charts_lastfm_user') &&
-                  $this->tableExists($prefix . 'playlists') && $this->tableExists($prefix . 'envvars');
-
-        return $valid;
+    public function isConnected() {
+        return $this->pdo !== false;
     }
 
     public function createdb() {
@@ -220,6 +104,15 @@ class Db {
         );
     }
 
+    private function validate() {
+        $this->connect();
+        $prefix = $this->settings ['database'] ['table_prefix'];
+        $valid  = $this->tableExists($prefix . 'charts') && $this->tableExists($prefix . 'charts_lastfm_user') &&
+                  $this->tableExists($prefix . 'playlists') && $this->tableExists($prefix . 'envvars');
+
+        return $valid;
+    }
+
     /**
      * Check if a table exists in the current database.
      *
@@ -240,6 +133,127 @@ class Db {
 
         // Result is either boolean FALSE (no table found) or PDOStatement Object (table found)
         return $result !== false;
+    }
+
+    private function prepareQueries() {
+        if ($this->statements !== false) return;
+        $this->statements = array(
+            'SELECT_ALL_LASTFM_USER' => '
+				SELECT lastfm_user, last_played,
+				CASE 
+					WHEN lastfm_user = ? OR
+					last_played = ? THEN		
+						playcount-1
+					ELSE 
+						playcount
+				END AS playcount
+						
+				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"	
+				ORDER BY 
+					playcount DESC,
+					last_played DESC
+				LIMIT ? OFFSET ?;
+			', // add limit to sql to limit the result for the top xx users
+
+            'SELECT_ALL_LASTFM_USER_NUM_ROWS' => '
+				SELECT COUNT(*)	AS CNT					
+				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user";
+			',
+
+            'SELECT_LASTFM_USER_VISIT' => '
+				SELECT * 
+				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"
+				WHERE lastfm_user = ?;
+			',
+
+            'UPDATE_LASTFM_USER_VISIT' => '
+				UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" 
+				SET
+				"playcount"="playcount"+1,
+				"last_played"= ?
+				WHERE "lastfm_user"= ?;
+			',
+
+            'INSERT_LASTFM_USER_VISIT' => '
+				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" VALUES(?, ?, 1);
+			',
+
+            'UPDATE_CHARTS' => '
+			    UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts"
+			    SET
+				"playcount"="playcount"+1,
+				"lastplay_time"= ?,
+				"lastplay_user"= ?,
+				"lastplay_ip"= ?
+
+			    WHERE
+				"interpret"= ? AND
+				"title"= ?;
+			',
+
+            'INSERT_CHARTS' => '
+			    INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts"
+			    VALUES(?, ?, 1, ?, ?, ?);
+			',
+
+            'SELECT_CHARTS'          => '
+				SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
+			     ORDER BY `playcount` DESC, `lastplay_time` DESC LIMIT ? OFFSET ?;
+			',
+            'SELECT_CHARTS_NUM_ROWS' => '
+                SELECT COUNT(*) AS "CNT" FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts";
+                                  ',
+
+            // SELECT ONLY the last heared song with playcount 1
+            // 'SELECT_CHARTS' =>
+            // '
+            // SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts"
+            // WHERE ("playcount" > 1) OR (
+            // "playcount" = 1 AND
+            // "lastplay_time" IN (
+            // SELECT MAX("lastplay_time")
+            // FROM "'.$this->settings['database']['table_prefix'].'charts"
+            // WHERE "playcount"=1
+            // )
+            // )
+            // ORDER BY `playcount` DESC, `lastplay_time` DESC;
+            // ',
+
+
+            'GET_ENVVAR' => '
+				SELECT "value" FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
+				WHERE "key"= ?;
+			',
+
+            'DEL_ENVVAR' => '
+				DELETE FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
+				WHERE "key"= ?;
+			',
+
+            'SET_ENVVAR' => '
+				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'envvars"  VALUES (?, ?);
+			',
+
+            'SEARCH_CHARTS_TRACK' => '
+                SELECT * FROM "' . $this->settings['database']['table_prefix'] . 'charts_track_alias" 
+                WHERE "artist" LIKE ? OR "title" LIKE ?;
+            '
+        );
+
+        foreach ($this->statements as $prefix => $query) {
+            $this->statements [$prefix] = $this->pdo->prepare($query);
+        }
+    }
+
+    /**
+     * @return Db
+     * @throws Exception
+     */
+    public static function getInstance() {
+        if (is_null(self::$instance)) {
+            self::$instance = new static ();
+        }
+        return self::$instance;
     }
 
     public function updateLastFMUserVisit($user, $ignoreCase = true) {
@@ -302,17 +316,17 @@ class Db {
         $result = $this->statements [$queryName]->execute($vars);
         if ($result === false) {
             $error = $this->statements[$queryName]->errorInfo();
-            if($error != null && $error !== false) {
-                Functions::getInstance()->logMessage('DB Error occured:');              
+            if ($error != null && $error !== false) {
+                Functions::getInstance()->logMessage('DB Error occured:');
                 Functions::getInstance()->logMessage(print_r($error, true));
             }
-            
+
             Functions::getInstance()->logMessage($this->statements[$queryName]->errorInfo());
             return false;
         }
 
         $data = $this->statements [$queryName]->fetchAll(PDO::FETCH_ASSOC);
-        if(Functions::endsWith($queryName, '_NUM_ROWS')) {
+        if (Functions::endsWith($queryName, '_NUM_ROWS')) {
             $data = $data[0]['CNT'];
         }
 

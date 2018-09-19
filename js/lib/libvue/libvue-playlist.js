@@ -1,8 +1,8 @@
 class LibvuePlaylist extends LibvueDefault {
 
     constructor() {
-        super();        
-        this.staticMenus = null;
+        super();
+        let control = this;
         
         this.header = {
             title: new Vue({
@@ -23,7 +23,7 @@ class LibvuePlaylist extends LibvueDefault {
                             json.HEADER.LOGO = json.HEADER.LOGO.big;
                             this.$applyData(json.HEADER);
                         }
-                    },
+                    }
                 }
             }),
 
@@ -39,18 +39,28 @@ class LibvuePlaylist extends LibvueDefault {
                 },
 
                 methods: {
-                    update: function (json) {
-
+                    update: function (json) { 
+                        
                         if (this.staticMenus != null) {
                             this.$applyData({
-                                MENUS: this.getListMenu(this.staticMenus)
+                                MENUS: control.getListMenu(this.staticMenus)
                             });
                         } else if (!LibvueDefault.isUndefined(json.HEADER_MENU)) {
                             this.staticMenus = json.HEADER_MENU;
+                            
                             this.$applyData({
-                                MENUS: this.getListMenu(json.HEADER_MENU)
+                                MENUS: control.getListMenu(json.HEADER_MENU)
                             });
                         }
+
+                    },
+                    
+                    refreshMenu: function() {
+                        if(this.staticMenus == null) return;
+                        
+                        this.$applyData({
+                            MENUS: control.getListMenu(this.staticMenus, $page.PLAYLIST)
+                        });
                     },
 
                     isPlaylistMenu: function (menu) {
@@ -58,49 +68,37 @@ class LibvuePlaylist extends LibvueDefault {
                     },
 
                     loadMenu: function (menu) {
-                        
+    
                         if (this.isPlaylistMenu(menu) && !$player.isReady) return;
-                        let oldlist = $page.PLAYLIST;
-                        let vue = this;
-                        let showPage = function (success) {
-                            if (vue.isPlaylistMenu(menu)) {
-                                $page.setPlaylistLoading();
-                            } else {
-                                $page.setPlaylistLoading(false, oldlist);
-                            }
+                        else if (menu.PLAYLIST == $player.PLAYLIST) return;
 
-                            if (!success) return;
-                            window.location.href = menu.URL;
+                        let oldlist = $page.PLAYLIST;
+                        let newlist = menu.PLAYLIST;
+                        let vue = this;
+                        
+                        let showPage = function (success) {
+                            if(!vue.isPlaylistMenu(menu)) {
+                                $page.setPlaylistLoading();                                
+                            } else {
+                                location.href = menu.URL+'-'+Date.now();
+                                $page.setCurrentPlayList(success ? newlist : oldlist);
+                                $page.setPlaylistLoading(false, success ? newlist : oldlist);                                
+                            }
+                            return false;
                         };
 
                         try {
                             $page.setPlaylistLoading(true);
-                            let playlist = menu.PLAYLIST;
-                            if (playlist != null && playlist == $page.PLAYLIST) {
-                                showPage(true);
-                            } else {
-                                if (playlist != null) {
-                                    console.log('set new playlist to ', playlist);
-                                    $page.setCurrentPlayList(playlist);
-                                    if (this.isPlaylistMenu(menu)) {
-                                        $playlist.loadPlaylistPage(1, null, showPage, playlist);
-                                    } else showPage(true);
-                                    return;
-                                }
-                                showPage(true);
-                            }
+                            $playlist.loadPlaylistPage(1, null, showPage, newlist);
                         } catch (e) {
                             console.error(e);
                             showPage(false);
                         }
-
                     },
-
-                    getListMenu: this.getListMenu,
                 }
             })
-        }
-        
+        };
+
         this.menu = new Vue({
             el: '#page-playlist>.playlist-nav',
             data: {
@@ -139,16 +137,16 @@ class LibvuePlaylist extends LibvueDefault {
             },
 
             mounted: function () {
-                $(this.$el).find('#playlist_page, #playlist_lastfmuser', 'playlist_videourl')
+                $(this.$el).find('#playlist_page, #playlist_lastfmuser', '#playlist_videourl')
                     .unbind('mouseup')
                     .bind('mouseup', function () {
                         var $this = $(this);
                         $this.select();
                     });
-            },
+            }
         });
-        
-        
+
+
         this.content = new Vue({
             el: '#page-playlist>.playlist-content',
             data: {
@@ -217,10 +215,10 @@ class LibvuePlaylist extends LibvueDefault {
                     if (!LibvueDefault.isUndefined(json.TRACKS)) {
                         this.$applyData(json);
                     }
-                },
+                }
             }
         });
-        
+
     }
 
 
@@ -234,11 +232,38 @@ class LibvuePlaylist extends LibvueDefault {
     }
 
 
-    getListMenu(json) {
+    getListMenu(json, list = null) {
 
-        let curPlaylist = $page.PLAYLIST == null || $page.PLAYLIST.length <= 0 ? 'default' : $page.PLAYLIST;
+        if (list == null) list = $page.PLAYLIST;
         
-        switch (curPlaylist) {
+        switch (list) {
+
+            default:
+                return [];
+
+            case 'topuser':
+                return [{
+                    LOGO: $page.icons.youtube.big,
+                    TEXT: json.YTPLAYER.TEXT,
+                    URL: '#page-ytplayer',
+                    PLAYLIST: 'youtube'
+                }, {
+                    LOGO: $page.icons.headphones.big,
+                    TEXT: json.DEFAULT.TEXT,
+                    URL: '#page-playlist',
+                    PLAYLIST: 'default'
+                }, {
+                    LOGO: $page.icons.user.big,
+                    TEXT: json.USERLIST.TEXT,
+                    URL: '#page-playlist',
+                    PLAYLIST: 'userlist'
+                }, {
+                    LOGO: $page.icons.star.big,
+                    TEXT: json.TOPSONGS.TEXT,
+                    URL: '#page-playlist',
+                    PLAYLIST: 'topsongs'
+                }];
+                
             case 'default':
                 return [{
                     LOGO: $page.icons.youtube.big,
@@ -269,21 +294,22 @@ class LibvuePlaylist extends LibvueDefault {
                     URL: '#page-ytplayer',
                     PLAYLIST: 'youtube'
                 }, {
-                    LOGO: $page.icons.user.big,
-                    TEXT: json.USERLIST.TEXT,
-                    URL: '#page-playlist',
-                    PLAYLIST: 'userlist'
-                }, {
                     LOGO: $page.icons.headphones.big,
                     TEXT: json.DEFAULT.TEXT,
                     URL: '#page-playlist',
                     PLAYLIST: 'default'
+                }, {
+                    LOGO: $page.icons.user.big,
+                    TEXT: json.USERLIST.TEXT,
+                    URL: '#page-playlist',
+                    PLAYLIST: 'userlist'
                 }, {
                     LOGO: $page.icons.trophy.big,
                     TEXT: json.TOPUSER.TEXT,
                     URL: '#page-playlist',
                     PLAYLIST: 'topuser'
                 }];
+
 
             case 'userlist':
                 return [{
@@ -292,15 +318,15 @@ class LibvuePlaylist extends LibvueDefault {
                     URL: '#page-ytplayer',
                     PLAYLIST: 'youtube'
                 }, {
-                    LOGO: $page.icons.user.big,
-                    TEXT: json.TOPSONGS.TEXT,
-                    URL: '#page-playlist',
-                    PLAYLIST: 'topsongs'
-                }, {
                     LOGO: $page.icons.headphones.big,
                     TEXT: json.DEFAULT.TEXT,
                     URL: '#page-playlist',
                     PLAYLIST: 'default'
+                }, {
+                    LOGO: $page.icons.star.big,
+                    TEXT: json.TOPSONGS.TEXT,
+                    URL: '#page-playlist',
+                    PLAYLIST: 'topsongs'
                 }, {
                     LOGO: $page.icons.trophy.big,
                     TEXT: json.TOPUSER.TEXT,
@@ -311,7 +337,7 @@ class LibvuePlaylist extends LibvueDefault {
     }
 
 
-    update(json) {        
+    update(json) {
         this.content.update(json);
         this.menu.update(json);
         this.header.title.update(json);

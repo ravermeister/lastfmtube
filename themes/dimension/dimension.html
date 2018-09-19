@@ -76,13 +76,16 @@
             
         </article>
 
+
+        
+        
         <!-- Playlist -->
         <article id="page-playlist">
 
             <div class="playlist-header-nav">
                 <template v-for="MENU in MENUS">
                     <div class="btn-playlist-header-nav">
-                        <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU)">
+                        <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU, $event);">
                             <div>
                                 <span v-bind:class="MENU.LOGO"></span>
                                 <span class="btn-text">{{MENU.TEXT}}</span>                                

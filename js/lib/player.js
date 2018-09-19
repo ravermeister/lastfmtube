@@ -88,7 +88,7 @@ class PlayerController {
                 }
             };
             let onError = function (event) {
-                console.log('youtube player error');
+                console.error('youtube player error', event);
             };
 
 
@@ -134,12 +134,15 @@ class PlayerController {
             if ((curPage + 1) > maxPages) curPage = 1;
             else curPage++;
 
-            $player.loadPlaylistPage(user, curPage, 'default', function (success) {
-                if (!success) return;
-
-                let tracks = $page.myVues.playlist.content.$data.TRACKS;
-                $player.loadSong(tracks[0]);
-            });
+            $playlist.loadPlaylistPage(curPage, user, function (success) {
+                try {
+                    if (!success) return;
+                    let tracks = $page.myVues.playlist.content.$data.TRACKS;
+                    $player.loadSong(tracks[0]);                    
+                }catch (e) {
+                    console.error('inside callback', e, ' curpage: ',curPage, 'maxpage: ', maxPages);
+                }
+            }, 'default');
 
             return;
         } else if (nextIndex < 0) {
@@ -162,7 +165,7 @@ class PlayerController {
             if ((curPage - 1) > maxPages) curPage = maxPages;
             else curPage--;
 
-            $player.loadPlaylistPage(user, curPage, 'default', function (success) {
+            $playlist.loadPlaylistPage(user, curPage, 'default', function (success) {
                 if (!success) return;
 
                 let tracks = $page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
@@ -205,34 +208,28 @@ class PlayerController {
             $player.loadVideoByNeedle(needle);
             return;
         }
-
-        let request = './php/json/JsonHandler.php?api=vars&data=search&name=' + needle.asVar();
         
-
+        if(!needle.isValid()) {
+            this.loadNextSong();
+            return;
+        }
+        
+        let request = './php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
         $.ajax(request, {
             dataType: 'json'
-        }).done(function (vars) {
+        }).done(function (search) {
 
-            if (!vars.data.value.EXISTS) {
-                request = './php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
-                $.ajax(request, {
-                    dataType: 'json'
-                }).done(function (search) {
+            needle.videoId = (search.data.value.length > 0 && search.data.value[0].video_id !== 'undefined') ?
+                search.data.value[0].video_id : '';
 
-                    needle.videoId = (search.data.value.length > 0 && search.data.value[0].video_id !== 'undefined') ?
-                        search.data.value[0].video_id : '';
-
-                    if (needle.videoId != null && needle.videoId.length == 0) {
-                        console.log('load next song no video was found');
-                        return;
-                    }
-
-                    $player.loadVideoByNeedle(needle);
-                });
-            } else {
-                needle.videoId = vars.data.value.VALUE;
-                $player.loadVideoByNeedle(needle);
+            if (needle.videoId != null && needle.videoId.length == 0) {
+                console.log('load next song no video was found');
+                return;
             }
+
+            $player.loadVideoByNeedle(needle);
+        }).fail(function (xhr) {
+            console.error('error: ', xhr.responseText);
         });
     }
 
