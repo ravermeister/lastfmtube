@@ -66,12 +66,10 @@ class PlaylistController {
                 this.loadTopUserPlayListPage(pageNum, loadComplete);
                 break;
             case 'youtube':
-                console.error('inside youtube ', callBack);
                 if (typeof callBack === 'function') {
                     callBack(true);
                 } else {
                     $playlist.setPlaylistLoading();
-                    location.href = '#page-ytplayer';
                 }                 
                 break;
                 
@@ -84,18 +82,16 @@ class PlaylistController {
     }
 
     loadSearchResult(track, result, pageNum = 1, callBack = null) {
-        let vueMap = this.vueMap;
-
-        vueMap['PLAYLIST_HEADER'].$data.TEXT = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
-        vueMap['PLAYLIST_HEADER'].$data.URL = '#page-playlist';
-        vueMap['PLAYLIST_HEADER'].$data.URL_TARGET = '_self';
-        vueMap['PLAYLIST_NAV'].$data.CUR_PAGE = pageNum;
-        vueMap['PLAYLIST_NAV'].$data.MAX_PAGES = 1;
-        vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
-        vueMap['PLAYLIST_NAV'].$data.PLAYLIST = 'search';
-
-        vueMap['PLAYLIST_TRACKS'].$data.SEARCH_TRACK = track;
-        vueMap['PLAYLIST_TRACKS'].$data.TRACKS = result;
+        
+        $page.myVues.playlist.header.$data.TEXT = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
+        $page.myVues.playlist.header.$data.URL = '#page-playlist';
+        $page.myVues.playlist.header.$data.URL_TARGET = '_self';
+        $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
+        $page.myVues.playlist.menu.$data.MAX_PAGES = 1;
+        $page.myVues.playlist.menu.$data.LASTFM_USER_NAME = track.VIDEO_ID;
+        $page.myVues.playlist.menu.$data.PLAYLIST = 'search';
+        $page.myVues.playlist.content.$data.SEARCH_TRACK = track;
+        $page.myVues.playlist.content.$data.TRACKS = result;
 
         if (callBack != null) {
             callBack(true);
@@ -216,7 +212,8 @@ class PlaylistController {
                     $player.setCurrentTrack(newCurTrack);
                 }
             }
-
+            
+            
             $page.myVues.playlist.update(json.data.value);
 
             try {

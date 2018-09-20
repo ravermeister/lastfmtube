@@ -87,39 +87,25 @@ class PageJson extends DefaultJson {
             'TEXT'  => $this->locale['site.header.text'],
             'MENU'  => array(
                 array(
-                    'URL'  => '#page-ytplayer',
-                    'NAME' => 'Player',
-                    'ARGS' => array(
-                        'PLAYLIST' => null
-                    ),
+                    'NAME'     => 'Player',
+                    'PLAYLIST' => 'youtube',
+                    'PAGE'     => 'video'
                 ),
                 array(
-                    'URL'  => '#page-playlist',
-                    'NAME' => $this->locale['menu.lastfm'],
-                    'ARGS' => array(
-                        'PLAYLIST' => 'default'
-                    ),
+                    'NAME'     => $this->locale['menu.lastfm'],
+                    'PLAYLIST' => 'default'
                 ),
                 array(
-                    'URL'  => '#page-playlist',
-                    'NAME' => $this->locale['menu.userlist'],
-                    'ARGS' => array(
-                        'PLAYLIST' => 'userlist'
-                    )
+                    'NAME'     => $this->locale['menu.userlist'],
+                    'PLAYLIST' => 'userlist'
                 ),
                 array(
-                    'URL'  => '#page-playlist',
-                    'NAME' => $this->locale['menu.topuser'],
-                    'ARGS' => array(
-                        'PLAYLIST' => 'topuser',
-                    )
+                    'NAME'     => $this->locale['menu.topuser'],
+                    'PLAYLIST' => 'topuser',
                 ),
                 array(
-                    'URL'  => '#page-playlist',
-                    'NAME' => $this->locale['menu.topsongs'],
-                    'ARGS' => array(
-                        'PLAYLIST' => 'topsongs'
-                    )
+                    'NAME'     => $this->locale['menu.topsongs'],
+                    'PLAYLIST' => 'topsongs'
                 ),
             )
         );
@@ -185,6 +171,7 @@ class PageJson extends DefaultJson {
                 ),
                 'YTPLAYER' => array(
                     'TEXT' => $this->locale['menu.youtube'],
+                    'PAGE' => 'video'
                 )
             ),
 
@@ -340,7 +327,6 @@ class PageJson extends DefaultJson {
 
             'HEADER' => array(
                 'TEXT'       => $this->locale['menu.topuser'],
-                'URL'        => '#page-playlist',
                 'URL_TARGET' => '_self',
                 'PLAYLIST'   => 'topuser',
             ),

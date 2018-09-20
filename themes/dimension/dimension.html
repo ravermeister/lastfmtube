@@ -44,7 +44,7 @@
         <nav>
             <ul>
                 <li v-for="MENU in MENUS">
-                    <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU);">{{MENU.NAME}}</a>
+                    <a v-bind:href="$openPage(MENU.PAGE)" @click.prevent="loadMenu(MENU, $event);">{{MENU.NAME}}</a>
                 </li>
             </ul>
         </nav>
@@ -54,12 +54,12 @@
     <div id="main">
 
         <!-- Player -->
-        <article id="page-ytplayer">
+        <article id="video">
 
             <div class="playlist-header-nav">
                 <template v-for="MENU in MENUS">
                     <div class="btn-playlist-header-nav">
-                        <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU)">
+                        <a v-bind:href="MENU.PAGE" @click.prevent="loadMenu(MENU, event)">
                             <span v-bind:class="MENU.LOGO"></span>
                             <span class="btn-text">{{MENU.TEXT}}</span>
                         </a>
@@ -68,7 +68,7 @@
             </div>
             
             <h2 class="major">
-                <a href="#page-playlist" v-bind:href="PLAYLIST_ID" @click.prevent="loadPlaylist($(this).attr('href'))">{{PLAYLIST_NAME}}</a>
+                <a  v-bind:href="URL" @click="loadPlaylist(PLAYLIST_ID)">{{PLAYLIST_NAME}}</a>
             </h2>
 
             <!-- youtube embed: html5 method -->
@@ -80,21 +80,21 @@
         
         
         <!-- Playlist -->
-        <article id="page-playlist">
+        <article id="default">
 
             <div class="playlist-header-nav">
-                <template v-for="MENU in MENUS">
+                <template v-for="MENU in MENUS">    
                     <div class="btn-playlist-header-nav">
-                        <a v-bind:href="MENU.URL" @click.prevent="loadMenu(MENU, $event);">
+                        <a v-bind:href="MENU.PAGE;" v-on:click="loadMenu(MENU, $event);">
                             <div>
                                 <span v-bind:class="MENU.LOGO"></span>
                                 <span class="btn-text">{{MENU.TEXT}}</span>                                
                             </div>
                         </a>
                     </div>
-                </template>
+                </template>                
             </div>
-
+            
             <div class="playlist-header-title" style="margin-top: 2rem;">
                 <h2 class="major" style="vertical-align: middle;">
                     <span v-bind:class="LOGO"></span>

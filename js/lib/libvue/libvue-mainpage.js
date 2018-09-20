@@ -1,8 +1,7 @@
-class LibvueMainpage extends LibvueDefault {
+class LibvueMainpage {
 
-    constructor(){
-        super();
-        
+    constructor() {
+
         this.logo = new Vue({
             el: 'header>.logo',
             data: {
@@ -24,52 +23,50 @@ class LibvueMainpage extends LibvueDefault {
                 TITLE: '',
                 TEXT: '',
                 MENUS: [{
-                    URL: '',
                     NAME: '',
                     ARGS: '',
                     PLAYLIST: ''
                 }]
             },
             methods: {
-                loadMenu(menu) {
+                loadMenu(menu, event) {                        
                     if (!$player.isReady) return;
                     $page.setPageLoading(true);
-                    let playlist = 'default';
-
-
-                    if (typeof menu.ARGS !== 'undefined' && ('PLAYLIST' in menu.ARGS)) {
-                        playlist = menu.ARGS['PLAYLIST'];
-                    }
-
+                    let url = ($(event.target).attr('href'));
+                    
                     let showPage = function (success) {
-                        $page.setPageLoading();
-                        if (!success) return;
-                        window.location.href = menu.URL;
+                        // usage as a promise (2.1.0+, see note below)
+                        Vue.nextTick()
+                            .then(function () {
+                                $page.setPageLoading();
+                                if (!success) return;
+                                location.href = url;
+                                // DOM updated
+                            })
                     };
-
-
-                    console.error('main menu load playlist: ', playlist, $page.PLAYLIST);
-                    if (playlist != null) {
-                        $page.setCurrentPlayList(playlist);
-                        $playlist.loadPlaylistPage(1, null, showPage, playlist);
+                    
+                    
+                    if (menu.PLAYLIST != null) {
+                        $page.setCurrentPlayList(menu.PLAYLIST);
+                        $playlist.loadPlaylistPage(1, null, showPage, menu.PLAYLIST);
                         return;
                     }
                     showPage(true);
-                }
+                },
             }
-        });        
+        });
     }
-    
-    
-    update(json) {
-        
-        if(!LibvueDefault.isUndefined(json)) {
-            this.content.$data.PAGE_HEADER = json.TITLE;
-            this.content.$data.PAGE_WELCOME = json.TEXT;            
-        }        
 
-        if(!LibvueDefault.isUndefined(json.MENU)) {
-            this.menu.$data.MENUS = json.MENU;    
-        }        
+
+    update(json) {
+
+        if (!Vue.prototype.$isUndefined(json)) {
+            this.content.$data.PAGE_HEADER = json.TITLE;
+            this.content.$data.PAGE_WELCOME = json.TEXT;
+        }
+
+        if (!Vue.prototype.$isUndefined(json.MENU)) {
+            this.menu.$data.MENUS = json.MENU;
+        }
     }
 }
