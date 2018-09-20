@@ -186,6 +186,11 @@ class PageController {
             let menu = $page.menu.getMenu(playlist);
             return menu;
         };
+
+        Vue.prototype.$isUndefined = function (val) {
+            return (typeof val === 'undefined') ? true : false;
+        };
+
     }
 
     initIcons() {

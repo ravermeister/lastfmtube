@@ -196,7 +196,7 @@ class PlaylistController {
 
 
         $.getJSON(request, function (json) {
-
+            
             if ($player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {

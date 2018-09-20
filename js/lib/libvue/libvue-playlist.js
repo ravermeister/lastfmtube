@@ -3,7 +3,7 @@ class LibvuePlaylist  {
     constructor() {
 
         let control = this;
-        
+
         this.header = {
             title: new Vue({
                 el: '#default>.playlist-header-title>h2',
@@ -139,6 +139,8 @@ class LibvuePlaylist  {
                     if (!this.$isUndefined(json.LIST_MENU)) {
                         this.$applyData(json.LIST_MENU);
                     }
+
+
                 }
             },
 
