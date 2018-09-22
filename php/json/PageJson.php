@@ -121,7 +121,7 @@ class PageJson extends DefaultJson {
     private function getPlaylist($user = false, $pageNum = 1) {
         Functions::getInstance()->startSession();
 
-        if ($user !== false) {
+        if ($user !== false && $user != null && strlen(filter_var($user,FILTER_SANITIZE_STRING)) > 0) {
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
                 $_SESSION ['music'] ['lastfm_user'] = $user;
                 $pageNum                            = false;
