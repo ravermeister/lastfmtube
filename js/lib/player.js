@@ -45,10 +45,6 @@ class PlayerController {
         let firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        let startvideo = '';//'9RMHHwJ9Eqk';
-        let ytplayerwidth = '100%';
-        let ytplayerheight = ($(document).height() - 325) + 'px';
-
         window.onYouTubeIframeAPIReady = function () {
 
 
@@ -91,32 +87,42 @@ class PlayerController {
                 console.error('youtube player error', event);
             };
 
+            $(document).ready(function () {
 
-            $player.ytPlayer = new YT.Player('player', {
+                let percentHeight = function(abs, val) {
+                       return parseInt((abs/100)*val);
+                };
+                
+                let startvideo = '';//'9RMHHwJ9Eqk';
+                let ytplayerwidth = '100%';                
+                let ytplayerheight = percentHeight($(document).height(), 55)+'px';
+                
+                $player.ytPlayer = new YT.Player('player', {
 
-                height: ytplayerheight,
-                width: ytplayerwidth,
-                videoId: startvideo,
-                crossDomain: true,
+                    height: ytplayerheight,
+                    width: ytplayerwidth,
+                    videoId: startvideo,
+                    crossDomain: true,
 
-                playerVars: {
-                    'allowfullscreen': 1,
-                    'allowscriptaccess': 'always',
-                    'webkitallowfullscreen': 1,
-                    'mozallowfullscreen': 1,
-                    'autoplay': 1,
-                    'html5': 1,
-                    'enablejsapi': 1,
-                    'fs': 1,
-                    'playerapiid': 'lastfmtube'
-                },
+                    playerVars: {
+                        'allowfullscreen': 1,
+                        'allowscriptaccess': 'always',
+                        'webkitallowfullscreen': 1,
+                        'mozallowfullscreen': 1,
+                        'autoplay': 1,
+                        'html5': 1,
+                        'enablejsapi': 1,
+                        'fs': 1,
+                        'playerapiid': 'lastfmtube'
+                    },
 
-                events: {
-                    'onReady': onReady,
-                    'onStateChange': onStateChange,
-                    'onError': onError
-                }
-            });
+                    events: {
+                        'onReady': onReady,
+                        'onStateChange': onStateChange,
+                        'onError': onError
+                    }
+                });
+            })
         };
     }
 

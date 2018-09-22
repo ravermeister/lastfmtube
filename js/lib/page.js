@@ -1,6 +1,6 @@
 class Icon {
     constructor(name) {
-                
+
         this.name = name;
         this.big = this.name + ' fa-2x';
         this.bigger = this.name + ' fa-3x';
@@ -17,39 +17,37 @@ class Icon {
 }
 
 class Menu {
-    
-    
-    
+
     constructor(icons) {
-        
+
         this.youtube = {
             LOGO: icons.youtube.big,
-            TEXT: 'youtube',
-            PLAYLIST: 'youtube'
+            TEXT: 'YouTube',
+            PAGE: 'video'
         };
 
         this.lastfm = {
             LOGO: icons.headphones.big,
-            TEXT: 'lastfm',
-            PLAYLIST: 'default'
+            TEXT: 'Last.fm',
+            PAGE: 'playlist'
         };
 
         this.userlist = {
             LOGO: icons.user.big,
-            TEXT: 'My list',
-            PLAYLIST: 'userlist'
+            TEXT: 'My Songs',
+            PAGE: 'playlist'
         };
 
         this.topsongs = {
             LOGO: icons.star.big,
             TEXT: 'Top Songs',
-            PLAYLIST: 'topsongs'
+            PAGE: 'playlist'
         };
 
         this.topuser = {
             LOGO: icons.trophy.big,
-            TEXT: 'topuser',
-            PLAYLIST: 'topuser'
+            TEXT: 'Top User',
+            PAGE: 'playlist'
         };
 
         this.defaultMenu = [
@@ -63,26 +61,37 @@ class Menu {
     }
 
     updateData(json) {
+        
         if (typeof json.HEADER_MENU !== 'undefined') json = json.HEADER_MENU;
-        
-        this.youtube.TEXT = json.YTPLAYER.TEXT;
-        this.youtube.PAGE = (typeof json.YTPLAYER.PAGE !== 'undefined') ? json.YTPLAYER.PAGE : 'default';
-        this.lastfm.TEXT = json.DEFAULT.TEXT;
-        this.lastfm.PAGE = (typeof json.DEFAULT.PAGE !== 'undefined') ? json.DEFAULT.PAGE : 'default';
-        this.userlist.TEXT = json.USERLIST.TEXT;
-        this.userlist.PAGE = (typeof json.USERLIST.PAGE !== 'undefined') ? json.USERLIST.PAGE : 'default';
-        this.topsongs.TEXT = json.TOPSONGS.TEXT;
-        this.topsongs.PAGE = (typeof json.TOPSONGS.PAGE !== 'undefined') ? json.TOPSONGS.PAGE : 'default';
-        this.topuser.TEXT = json.TOPUSER.TEXT;
-        this.topuser.PAGE = (typeof json.TOPUSER.PAGE !== 'undefined') ? json.TOPUSER.PAGE : 'default';
-        
+
+        if (typeof json.YTPLAYER.TEXT !== 'undefined') this.youtube.TEXT = json.YTPLAYER.TEXT;
+        if (typeof json.YTPLAYER.PAGE !== 'undefined') this.youtube.PAGE = json.YTPLAYER.PAGE;
+        if (typeof json.YTPLAYER.PLAYLIST !== 'undefined') this.youtube.PLAYLIST = json.YTPLAYER.PLAYLIST;
+
+        if (typeof json.LASTFM.TEXT !== 'undefined') this.lastfm.TEXT = json.LASTFM.TEXT;
+        if (typeof json.LASTFM.PAGE !== 'undefined') this.lastfm.PAGE = json.LASTFM.PAGE;
+        if (typeof json.LASTFM.PLAYLIST !== 'undefined') this.lastfm.PLAYLIST = json.LASTFM.PLAYLIST;
+
+        if (typeof json.USERLIST.TEXT !== 'undefined') this.userlist.TEXT = json.USERLIST.TEXT;
+        if (typeof json.USERLIST.PAGE !== 'undefined') this.userlist.PAGE = json.USERLIST.PAGE;
+        if (typeof json.USERLIST.PLAYLIST !== 'undefined') this.userlist.PLAYLIST = json.USERLIST.PLAYLIST;
+
+        if (typeof json.TOPSONGS.TEXT !== 'undefined') this.topsongs.TEXT = json.TOPSONGS.TEXT;
+        if (typeof json.TOPSONGS.PAGE !== 'undefined') this.topsongs.PAGE = json.TOPSONGS.PAGE;
+        if (typeof json.TOPSONGS.PLAYLIST !== 'undefined') this.topsongs.PLAYLIST = json.TOPSONGS.PLAYLIST;
+
+        if (typeof json.TOPUSER.TEXT !== 'undefined') this.topuser.TEXT = json.TOPUSER.TEXT;
+        if (typeof json.TOPUSER.PAGE !== 'undefined') this.topuser.PAGE = json.TOPUSER.PAGE;
+        if (typeof json.TOPUSER.PLAYLIST !== 'undefined') this.topuser.PLAYLIST = json.TOPUSER.PLAYLIST;
+
     }
 
     getMenu(playlist) {
-        let list = [];
-
+        let list = [];        
         switch (playlist) {
             case 'youtube':
+            case 'video':
+            case 'page-video':
                 list = [
                     this.lastfm,
                     this.userlist,
@@ -90,7 +99,9 @@ class Menu {
                     this.topuser
                 ];
                 break;
+            case 'lastfm':
             case 'default':
+            case 'page-playlist':
                 list = [
                     this.youtube,
                     this.userlist,
@@ -102,8 +113,8 @@ class Menu {
                 list = [
                     this.youtube,
                     this.lastfm,
-                    this.userlist,
-                    this.topsongs
+                    this.topsongs,
+                    this.userlist                    
                 ];
                 break;
             case 'topsongs':
@@ -118,8 +129,8 @@ class Menu {
                 list = [
                     this.youtube,
                     this.lastfm,
-                    this.userlist,
-                    this.topsongs
+                    this.topsongs,
+                    this.topuser                    
                 ];
                 break;
             default:
@@ -137,12 +148,15 @@ class PageController {
 
     constructor() {
 
-        
+
         this.PLAYLIST = null;
+        this.PAGE_PLAYLIST = 'page-playlist';
+        this.PAGE_VIDEO = 'page-video';
+        this.PAGE_USER = 'page-user';
         this.TRACKS_PER_PAGE = 25; //in settings.ini
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
-        this.icons = this.initIcons();        
+        this.icons = this.initIcons();
         this.menu = new Menu(this.icons);
         this.myVues = {};
         this.menuData = [];
@@ -157,11 +171,11 @@ class PageController {
                 console.error('Error, vue instance not found. Json: ', json, ', Vue: ', this);
                 return;
             }
-
+            
             if (log) {
                 console.log('updateData', 'vue: ', this.$data, ' json: ', json);
-             }
-
+            }
+            
             for (let key in this.$data) {
                 if (log) console.log((key, ' exists ', json.hasOwnProperty(key)));
                 if (json.hasOwnProperty(key)) {
@@ -173,9 +187,10 @@ class PageController {
             if (log) console.log('after update: ', this.$data);
         };
 
-        Vue.prototype.$openPage = function (page) {
-            let url = typeof page === 'undefined' ? 'default' : page;
-            return '#' + url;
+        Vue.prototype.$url = function (menu) {
+            if (typeof menu.PLAYLIST !== 'undefined') return '#' + menu.PLAYLIST;
+            else if (typeof menu.PAGE !== 'undefined') return '#' + menu.PAGE;
+            return '#' + menu;
         };
 
         Vue.prototype.$isUndefined = function (val) {
@@ -246,7 +261,7 @@ class PageController {
                     return this.user;
                 case 'youtube':
                     return this.youtube;
-                case 'default':
+                default:
                     return this.headphones;
             }
 
@@ -260,27 +275,30 @@ class PageController {
             base: new LibvueMainpage(),
             playlist: new LibvuePlaylist(),
             youtube: new LibvueVideo(),
+            userlist: new LibvueUser(),
 
             updateAll: function (json) {
                 this.base.update(json.base);
                 this.playlist.update(json.playlist);
                 this.youtube.update(json.youtube);
+                this.userlist.update(json.userlist);
             }
         };
     }
 
     init() {
+        
         this.initMyVues();
+        history.pushState("", document.title, window.location.pathname);
+
         let request = 'php/json/JsonHandler.php?api=page&data=page';
-
-
         $.getJSON(request, function (json) {
             //console.log(JSON.stringify(json.data.value));
 
             $page.setPageLoading(true);
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value.playlist);
-            $page.setCurrentPlayList();
+            $page.setCurrentPage();
             $page.setPageLoading();
 
             console.log('init page success');
@@ -290,17 +308,13 @@ class PageController {
         });
     }
 
-    setCurrentPlayList(playlist = null) {
+    setCurrentPage(playlist = null) {
 
-        if (playlist == null) playlist = 'default';
         if (playlist == $page.PLAYLIST) return;
-
-        if (playlist !== 'youtube') {
-            this.myVues.youtube.header.$data.PLAYLIST_ID = playlist;
-        }
-
         this.PLAYLIST = playlist;
-        $page.myVues.playlist.header.menu.refreshMenu();
+        
+        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST == null ? 'playlist' : this.PLAYLIST; 
+        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST == null ? 'playlist' : this.PLAYLIST;
     }
 
     setPageLoading(active = false) {
@@ -308,7 +322,7 @@ class PageController {
     }
 
     setPlaylistLoading(active = false, playlist = null) {
-        if (playlist == null) playlist = this.PLAYLIST == null ? 'default' : this.PLAYLIST;
+        if (playlist == null) playlist = this.PLAYLIST == null ? 'playlist' : this.PLAYLIST;
         let curIcon = this.icons.getPlaylistIcon(playlist);
         this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }

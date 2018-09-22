@@ -3,6 +3,11 @@
     Header always set Content-Security-Policy "frame-ancestors 'self' localhost ;"    
 </IfModule>
 
+<IfModule mod_rewrite>
+    RewriteCond %{QUERY_STRING} .+
+    RewriteRule ^(.*)$ /$1? [R=301,L]
+</IfModule>
+
 <IfModule mod_deflate.c>
     SetOutputFilter DEFLATE
     SetEnvIfNoCase Request_URI \

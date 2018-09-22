@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{PHP_LANG}}">
+<html lang="{{PHP_LANG}}" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <!--//<html lang="{{LANG}}">//-->
 <head>
     <title>{{PHP_TITLE}}</title>
@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 
 
-    <script src="js/lib/requirejs/require.js"  type="text/javascript"></script>
+    <script src="js/lib/requirejs/require.js" type="text/javascript"></script>
     <!--// these dependencies must be loaded sync! //-->
-    <script src="js/lib/dependencies.js" type="text/javascript"></script>    
+    <script src="js/lib/dependencies.js" type="text/javascript"></script>
     <!--// the main app can start async -->
     <script src="js/main.js" type="text/javascript" async="async"></script>
-    
+
 
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -44,7 +44,7 @@
         <nav>
             <ul>
                 <li v-for="MENU in MENUS">
-                    <a v-bind:href="$openPage(MENU.PAGE)" @click.prevent="loadMenu(MENU, $event);">{{MENU.NAME}}</a>
+                    <a v-bind:href="$url(MENU)" @click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a>
                 </li>
             </ul>
         </nav>
@@ -54,48 +54,33 @@
     <div id="main">
 
         <!-- Player -->
-        <article id="video">
-
-            <div class="playlist-header-nav">
-                <template v-for="MENU in MENUS">
-                    <div class="btn-playlist-header-nav">
-                        <a v-bind:href="MENU.PAGE" @click.prevent="loadMenu(MENU, event)">
-                            <span v-bind:class="MENU.LOGO"></span>
-                            <span class="btn-text">{{MENU.TEXT}}</span>
-                        </a>
-                    </div>
-                </template>
-            </div>
+        <article id="page-video">
             
             <h2 class="major">
-                <a  v-bind:href="URL" @click="loadPlaylist(PLAYLIST_ID)">{{PLAYLIST_NAME}}</a>
+                <a v-bind:href="'#' + PAGE">{{PLAYLIST_NAME}}</a>
             </h2>
 
             <!-- youtube embed: html5 method -->
             <div id="player"></div>
-            
+
         </article>
 
 
-        
-        
         <!-- Playlist -->
-        <article id="default">
+        <article id="page-playlist" class="playlist-container">
 
-            <div class="playlist-header-nav">
-                <template v-for="MENU in MENUS">    
-                    <div class="btn-playlist-header-nav">
-                        <a v-bind:href="MENU.PAGE;" v-on:click="loadMenu(MENU, $event);">
-                            <div>
-                                <span v-bind:class="MENU.LOGO"></span>
-                                <span class="btn-text">{{MENU.TEXT}}</span>                                
-                            </div>
+            <div class="page-header-nav">
+                <template v-for="MENU in MENUS">
+                    <div class="btn-header-nav">
+                        <a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
+                           @click.prevent="loadMenu(MENU, $event);">
+                            <div v-bind:class="MENU.LOGO"></div>
                         </a>
                     </div>
-                </template>                
+                </template>
             </div>
-            
-            <div class="playlist-header-title" style="margin-top: 2rem;">
+
+            <div class="page-header-title">
                 <h2 class="major" style="vertical-align: middle;">
                     <span v-bind:class="LOGO"></span>
                     <span>{{TEXT}}</span>
@@ -103,21 +88,21 @@
             </div>
 
 
-            <section class="playlist-nav">
+            <section class="page-nav">
                 <form @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
                     <div class="fields">
 
-                        <div class="field third" v-if="PLAYLIST === 'default'">
+                        <div class="field third" v-if="PLAYLIST === 'lastfm'">
                             <label for="playlist_lastfmuser">
                                 <a href="//last.fm" target="_blank">Last.fm</a> {{LASTFM_USER_NAME_LABEL}}
                             </label>
-                            <input type="text" name="playlist_page" id="playlist_lastfmuser"
+                            <input type="text" name="playlist_lastfmuser" id="playlist_lastfmuser"
                                    v-bind:value="LASTFM_USER_NAME"/>
                         </div>
                         <div class="field third" v-if="PLAYLIST === 'search'">
-                            <label for="playlist_lastfmuser">Youtube Video</label>
-                            <input type="text" name="playlist_page" id="playlist_videourl"
-                                   v-bind:value="LASTFM_USER_NAME"/>
+                            <label for="playlist_videourl">Youtube Video</label>
+                            <input type="text" name="playlist_video" v-on:paste="checkYoutubeUrl($event)" id="playlist_videourl"
+                                   v-bind:value="LASTFM_USER_NAME" />
                         </div>
                         <div class="field third">
                             <label for="playlist_page">
@@ -145,7 +130,7 @@
                 </form>
             </section>
 
-            <section class="playlist-content">
+            <section class="page-content">
                 <div class="table-wrapper">
                     <table>
                         <thead>
@@ -155,7 +140,7 @@
                             <th>{{TRACK_TITLE}}</th>
                         </tr>
                         </thead>
-                        
+
                         <tbody>
                         <template inline-template="inline-template" v-for="TRACK in TRACKS">
                             <tr @mouseover="showPlay(TRACK, true);"
@@ -184,54 +169,54 @@
                                     <span v-else="v-else">{{TRACK.TITLE}}</span>
                                 </td>
                             </tr>
-                            
+
                             <transition name="fade">
-                            <tr key="true" v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
-                                <td colspan="3" style="vertical-align: middle; border: 0px">
+                                <tr v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
+                                    <td colspan="3" style="vertical-align: middle; border: 0">
 
-                                    <div class="btn-playlist-nav">
-                                        <a @click="playTrack(TRACK);">
-                                            <span class="fa fa-play"></span>
-                                            <span class="btn-text">Play</span>
-                                        </a>
-                                    </div>
-                                    <div class="btn-playlist-nav" v-if="TRACK.PLAYLIST === 'search'">
-                                        <a @click="saveAlternative(TRACK, $('#playlist_videourl').val());">
-                                            <span class="fa fa-plus"></span>
-                                            <span class="btn-text">set as Video</span>
-                                        </a>
-                                    </div>
-                                    <div class="btn-playlist-nav" v-else-if="TRACK.PLAYLIST !== 'userlist'">
-                                        <a @click="addToUserList($event, TRACK);">
-                                            <span class="fas fa-user-plus"></span>
-                                            <span class="btn-text">Add to Playlist</span>
-                                        </a>
-                                    </div>
-                                    <div class="btn-playlist-nav" v-else="v-else">
-                                        <a @click="removeFromUserList(TRACKS, TRACK);">
-                                            <span class="fas fa-user-times"></span>
-                                            <span class="btn-text">Remove</span>
-                                        </a>
-                                    </div>
-                                    <div class="btn-playlist-nav">
-                                        <a v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
-                                           @click="searchVideos($event, TRACK);">
-                                            <span class="fa fa-search"></span>
-                                            <span class="btn-text">search</span>
-                                        </a>
-                                        <a @click="deleteAlternative($event, TRACK, TRACKS);"
-                                           v-else="v-else">
-                                            <span class="fa fa-minus"></span>
-                                            <span class="btn-text">delete search</span>
-                                        </a>
-                                    </div>
+                                        <div class="btn-playlist-nav">
+                                            <a @click="playTrack(TRACK);">
+                                                <span class="fa fa-play"></span>
+                                                <span class="btn-text">Play</span>
+                                            </a>
+                                        </div>
+                                        <div class="btn-playlist-nav" v-if="TRACK.PLAYLIST === 'search'">
+                                            <a @click="saveAlternative(TRACK, $('#playlist_videourl').val());">
+                                                <span class="fa fa-plus"></span>
+                                                <span class="btn-text">set as Video</span>
+                                            </a>
+                                        </div>
+                                        <div class="btn-playlist-nav" v-else-if="TRACK.PLAYLIST !== 'userlist'">
+                                            <a @click="addToUserList($event, TRACK);">
+                                                <span class="fas fa-user-plus"></span>
+                                                <span class="btn-text">Add to Playlist</span>
+                                            </a>
+                                        </div>
+                                        <div class="btn-playlist-nav" v-else="v-else">
+                                            <a @click="removeFromUserList(TRACKS, TRACK);">
+                                                <span class="fas fa-user-times"></span>
+                                                <span class="btn-text">Remove</span>
+                                            </a>
+                                        </div>
+                                        <div class="btn-playlist-nav">
+                                            <a v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
+                                               @click="searchVideos($event, TRACK);">
+                                                <span class="fa fa-search"></span>
+                                                <span class="btn-text">search</span>
+                                            </a>
+                                            <a @click="deleteAlternative($event, TRACK, TRACKS);"
+                                               v-else="v-else">
+                                                <span class="fa fa-minus"></span>
+                                                <span class="btn-text">delete search</span>
+                                            </a>
+                                        </div>
 
-                                    <div style="float: right">
-                                        <span v-if="typeof TRACK.PLAYCOUNT !== 'undefined'">Plays: <b>{{TRACK.PLAYCOUNT}} | </b></span>
-                                        {{TRACK.LASTPLAY}}
-                                    </div>
-                                </td>
-                            </tr>
+                                        <div style="float: right">
+                                            <span v-if="typeof TRACK.PLAYCOUNT !== 'undefined'">Plays: <b>{{TRACK.PLAYCOUNT}} | </b></span>
+                                            {{TRACK.LASTPLAY}}
+                                        </div>
+                                    </td>
+                                </tr>
                             </transition>
                         </template>
                         </tbody>
@@ -239,8 +224,54 @@
                 </div>
             </section>
         </article>
-    </div>
 
+        <article id="page-user">
+
+            <div class="page-header-nav">
+                <template v-for="MENU in MENUS">
+                    <div class="btn-header-nav">
+                        <a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
+                           @click.prevent="loadMenu(MENU, $event);">
+                            <div v-bind:class="MENU.LOGO"></div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+
+            <div class="page-header-title">
+                <h2 class="major" style="vertical-align: middle;">
+                    <span v-bind:class="LOGO"></span>
+                    <span>{{TEXT}}</span>
+                </h2>
+            </div>
+
+            <section class="page-content">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>{{USER_NR}}</th>
+                            <th>{{USER_NAME}}</th>
+                            <th>{{USER_LASTPLAY}}</th>
+                            <th>{{USER_PLAYCOUNT}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <template v-for="USER IN TOPUSER">
+                                <td>{{USER.NR}}</td>
+                                <td>{{USER.NAME}}</td>
+                                <td>{{USER.LASTPLAY}}</td>
+                                <td>{{USER.PLAYCOUNT}}</td>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </section>            
+        </article>
+    
+    </div>
+             
+    
     <!-- Footer -->
     <footer id="footer">
         <p class="copyright">
@@ -249,7 +280,7 @@
                 &lt;<a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>&gt;
             </span>
             &nbsp;&nbsp;
-            <a href="//www.wtfpl.net/" target="_blank" style="border: 0px; text-decoration: none;">
+            <a href="//www.wtfpl.net/" target="_blank" style="border: 0; text-decoration: none;">
                 <img src="images/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/>
             </a>
 

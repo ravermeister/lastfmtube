@@ -72,10 +72,12 @@ define('theme', [
     'themes/main'
 ]);
 define('libvue', [
+    'jquery',
     'Vue', 
     'libvue/libvue-mainpage',
     'libvue/libvue-playlist',
-    'libvue/libvue-video'
+    'libvue/libvue-video',
+    'libvue/libvue-userlist'
 ]);
 
 require(['theme']);

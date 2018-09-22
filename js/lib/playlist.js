@@ -9,6 +9,7 @@ class PlaylistController {
         let request = 'php/json/JsonHandler.php?api=topuser&data=playlist&page=' + pageNum;
 
         $.getJSON(request, function (json) {
+            
             if ($player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value.length; cnt++) {
@@ -24,8 +25,8 @@ class PlaylistController {
                     $player.setCurrentTrack(newCurTrack);
                 }
             }
-
-            $page.myVues.playlist.update({TRACKS: json.data.value});
+            
+            $page.myVues.playlist.update(json.data.value);
 
             try {
                 if (callBack != null) {
@@ -49,7 +50,7 @@ class PlaylistController {
             let parentCallBack = callBack;
 
             if (typeof parentCallBack !== 'function') {
-                $page.setCurrentPlayList(playlist);
+                $page.setCurrentPage(playlist);
             } else {
                 parentCallBack(success);
             }
@@ -65,14 +66,14 @@ class PlaylistController {
             case 'topuser':
                 this.loadTopUserPlayListPage(pageNum, loadComplete);
                 break;
-            case 'youtube':
+            case 'video':
                 if (typeof callBack === 'function') {
                     callBack(true);
                 } else {
                     $playlist.setPlaylistLoading();
-                }                 
+                }
                 break;
-                
+
             default:
                 this.loadDefaultPlayListPage(pageNum, user, loadComplete);
                 break;
@@ -82,7 +83,7 @@ class PlaylistController {
     }
 
     loadSearchResult(track, result, pageNum = 1, callBack = null) {
-        
+
         $page.myVues.playlist.header.$data.TEXT = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
         $page.myVues.playlist.header.$data.URL = '#page-playlist';
         $page.myVues.playlist.header.$data.URL_TARGET = '_self';
@@ -102,19 +103,45 @@ class PlaylistController {
 
         $.getJSON('php/json/JsonHandler.php?api=topsongs&data=playlist&page=' + pageNum, function (json) {
 
-                $page.myVues.playlist.update(json.data.value);
+            if ($player.CURRENT_TRACK != null) {
+                let newCurTrack = null;
+                for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
+                    let track = json.data.value.TRACKS[cnt];
 
+                    if ($player.isCurrentTrack(track)) {
+                        newCurTrack = track;
+                        break;
+                    }
+                }
+
+                if (newCurTrack != null) {
+                    $player.setCurrentTrack(newCurTrack);
+                }
+            }
+
+            $page.myVues.playlist.update(json.data.value);
+
+            try {
                 if (callBack != null) {
                     callBack(true);
                 }
-
+            } catch (e) {
+                console.error('error in load topsongs list callback function', e);
+                console.error('Callback: ', callBack);
+                console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
-        ).fail(function (xhr) {
+        }).fail(function (xhr) {
             console.error('error loading topsongs');
             console.log(xhr.responseText);
 
-            if (callBack != null) {
-                callBack(false);
+            try {
+                if (callBack != null) {
+                    callBack(false);
+                }
+            } catch (e) {
+                console.error('error in load topsongs list callback function', e);
+                console.error('Callback: ', callBack);
+                console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
         });
     }
@@ -196,7 +223,7 @@ class PlaylistController {
 
 
         $.getJSON(request, function (json) {
-            
+
             if ($player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
@@ -212,9 +239,12 @@ class PlaylistController {
                     $player.setCurrentTrack(newCurTrack);
                 }
             }
-            
-            
-            $page.myVues.playlist.update(json.data.value);
+
+            Vue.nextTick()
+                .then(function () {
+                    // DOM updated
+                    $page.myVues.playlist.update(json.data.value);
+                });
 
             try {
                 if (callBack != null) {

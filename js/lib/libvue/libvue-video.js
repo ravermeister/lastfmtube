@@ -1,28 +1,20 @@
-class LibvueVideo  {
+class LibvueVideo {
 
 
-    
     constructor() {
 
         this.header = new Vue({
-            el: '#video>h2',
+            el: '#page-video>h2',
             data: {
-                PLAYLIST_NAME: 'Playlist',
-                PLAYLIST_URL: '#page-playlist',
-                PLAYLIST_ID: 'default',
                 NOW_PLAYING: '',
+                PLAYLIST_NAME: 'noname',
+                PAGE: $page.PAGE_PLAYLIST,
             },
-
+            
             methods: {
                 update: function (json) {
                     this.$applyData(json);
                 },
-
-                loadPlaylist: function (playlist) {
-                    $page.setCurrentPlayList(playlist);
-                    $page.myVues.playlist.update({});
-                    location.href = '#page-playlist';
-                }
             }
         });
     }
@@ -32,3 +24,4 @@ class LibvueVideo  {
         this.header.update(json);
     }
 }
+
