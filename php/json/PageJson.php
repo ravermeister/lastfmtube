@@ -127,7 +127,7 @@ class PageJson extends DefaultJson {
                 $pageNum                            = false;
             }
         }
-
+        
         if (!isset($_SESSION['music']['lastfm_user']) || strlen(trim($_SESSION ['music'] ['lastfm_user'])) == 0) {
             $_SESSION ['music'] ['lastfm_user'] = $this->settings['general']['defaultlfmuser'];
         }

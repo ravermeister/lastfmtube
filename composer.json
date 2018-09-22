@@ -5,7 +5,8 @@
     "google/apiclient": ">=2.0",
     "sunra/php-simple-html-dom-parser": "dev-master",
     "ext-pdo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-curl": "*",
   },
   "support": {
     "email": "jonny@rimkus.it",

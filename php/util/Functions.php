@@ -147,13 +147,12 @@ class Functions {
             else  $started = session_id() === '' ? false : true;
         }
         if (!$started) session_start();
-
-
-        if (isset ($_GET ['lastfm_user'])) {
-            $_SESSION ['music'] ['lastfm_user'] = $_GET ['lastfm_user'];
+        $getuser=isset($_GET['lastfm_user']) ? 
+            filter_var($_GET['lastfm_user'], FILTER_SANITIZE_STRING) : null;
+        if($getuser!=null&&strlen(trim($getuser))>0) {
+            $_SESSION ['music'] ['lastfm_user'] = $getuser;
             unset ($_GET ['lastfm_user']);
-        }
-        else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
+        } else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
             $_SESSION ['music'] ['lastfm_user'] = self::$instance->settings ['general'] ['defaultlfmuser'];
         }
         $_SESSION ['music'] ['lastfm_user'] = trim($_SESSION ['music'] ['lastfm_user']);

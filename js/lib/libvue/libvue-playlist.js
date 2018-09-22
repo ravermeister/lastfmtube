@@ -84,6 +84,7 @@ class LibvuePlaylist {
                     if (typeof $page.myVues.youtube.header !== 'undefined') {
                         $page.myVues.youtube.header.$data.PLAYLIST_ID = this.$data.PLAYLIST;
                     }
+                    
                 },               
                 
                 normalizeYouTubeUrl(event) {
