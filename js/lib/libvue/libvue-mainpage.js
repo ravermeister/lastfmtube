@@ -51,7 +51,9 @@ class LibvueMainpage {
                     if(typeof menu.PLAYLIST !== 'undefined') {
                         let article = $('.playlist-container');
                         $(article).attr('id', menu.PLAYLIST);
-                        $playlist.loadPlaylistPage(1, $(article).find('#playlist_lastfmuser').val(), playlistLoaded, menu.PLAYLIST);                        
+                        let lfmzuser = $(article).find('#playlist_lastfmuser').val();
+                        console.log('load playlist with lfmuser', lfmzuser);
+                        $playlist.loadPlaylistPage(1, lfmzuser, playlistLoaded, menu.PLAYLIST);                        
                     } else {                                         
                         playlistLoaded(true);
                     }                    
