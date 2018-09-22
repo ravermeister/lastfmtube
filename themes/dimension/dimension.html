@@ -55,7 +55,7 @@
 
         <!-- Player -->
         <article id="page-video">
-            
+
             <h2 class="major">
                 <a v-bind:href="'#' + PAGE">{{PLAYLIST_NAME}}</a>
             </h2>
@@ -73,7 +73,7 @@
                 <template v-for="MENU in MENUS">
                     <div class="btn-header-nav">
                         <a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
-                           @click.prevent="loadMenu(MENU, $event);">
+                           @click.prevent="$loadListMenu(MENU, $event);">
                             <div v-bind:class="MENU.LOGO"></div>
                         </a>
                     </div>
@@ -101,8 +101,9 @@
                         </div>
                         <div class="field third" v-if="PLAYLIST === 'search'">
                             <label for="playlist_videourl">Youtube Video</label>
-                            <input type="text" name="playlist_video" v-on:paste="checkYoutubeUrl($event)" id="playlist_videourl"
-                                   v-bind:value="LASTFM_USER_NAME" />
+                            <input type="text" name="playlist_video" v-on:paste="checkYoutubeUrl($event)"
+                                   id="playlist_videourl"
+                                   v-bind:value="LASTFM_USER_NAME"/>
                         </div>
                         <div class="field third">
                             <label for="playlist_page">
@@ -225,13 +226,13 @@
             </section>
         </article>
 
-        <article id="page-user">
+        <article id="page-user" class="user-container">
 
             <div class="page-header-nav">
                 <template v-for="MENU in MENUS">
                     <div class="btn-header-nav">
                         <a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
-                           @click.prevent="loadMenu(MENU, $event);">
+                           @click.prevent="$loadListMenu(MENU, $event);">
                             <div v-bind:class="MENU.LOGO"></div>
                         </a>
                     </div>
@@ -257,21 +258,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <template v-for="USER IN TOPUSER">
-                                <td>{{USER.NR}}</td>
-                                <td>{{USER.NAME}}</td>
-                                <td>{{USER.LASTPLAY}}</td>
-                                <td>{{USER.PLAYCOUNT}}</td>
-                            </template>
+                        <template inline-template="inline-template" v-for="USR in USER">
+                            <tr>
+                                <td>{{USR.NR}}</td>
+                                <td>{{USR.NAME}}</td>
+                                <td>{{USR.LASTPLAY}}</td>
+                                <td>{{USR.PLAYCOUNT}}</td>
+                            </tr>
+                        </template>
                         </tbody>
                     </table>
                 </div>
-            </section>            
+            </section>
         </article>
-    
+
     </div>
-             
-    
+
+
     <!-- Footer -->
     <footer id="footer">
         <p class="copyright">

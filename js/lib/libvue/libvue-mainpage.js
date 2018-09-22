@@ -36,10 +36,11 @@ class LibvueMainpage {
 
                     let playlistLoaded = function (success) {
                         if(typeof menu.PLAYLIST !== 'undefined') {
-                            $page.setCurrentPage(menu.PLAYLIST);
+                            $page.setCurrentPlaylist(menu.PLAYLIST);
                             $page.setPageLoading();
                             location.href='#' + menu.PLAYLIST;                            
                         } else {
+                            $page.setCurrentPage(menu.PAGE);
                             $page.setPageLoading();
                             location.href='#' + menu.PAGE;
                         }                         

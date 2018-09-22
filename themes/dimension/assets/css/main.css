@@ -1655,7 +1655,9 @@ body {
 
 /************************************************************/
 
-
+#main article .page-header-title {
+    clear: both;
+}
 #main article .page-header-nav {
     position: relative;
     top: -2rem;

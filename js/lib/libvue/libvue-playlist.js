@@ -40,47 +40,7 @@ class LibvuePlaylist {
                 },
 
                 methods: {
-
-                    loadMenu: function (menu, event) {
-
-                        if (!$player.isReady) return;
-                        let page = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : menu.PAGE;
-                        if (page == $player.PLAYLIST) return;
-                        
-                        let oldlist = $page.PLAYLIST;
-                        let newlist = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : oldlist;
-
-                        let showPage = function (success) {
-                            // DOM updated
-                            $page.setCurrentPage(success ? newlist : oldlist);
-                            $page.setPlaylistLoading(false, success ? newlist : oldlist);                            
-                        };
-
-                        try {
-                            $page.setPlaylistLoading(true);
-                            
-                            if (typeof menu.PLAYLIST !== 'undefined') {
-                                let article = $(event.target).closest('article');
-                                $(article).attr('id', menu.PLAYLIST);
-                            } else {                                
-                                location.href = '#' + menu.PAGE;
-                            }
-
-                            $playlist.loadPlaylistPage(1, null, showPage, newlist);
-
-                            // usage as a promise (2.1.0+, see note below)
-                            /**
-                             Vue.nextTick()
-                             .then(function () {
-                                    // DOM updated
-                                    
-                                });
-                             **/
-                        } catch (e) {
-                            console.error(e);
-                            //showPage(false);
-                        }
-                    }
+                    
                 }
             })
         };
@@ -207,9 +167,11 @@ class LibvuePlaylist {
                     if (!this.$isUndefined(json.LIST_HEADER)) {
                         this.$applyData(json.LIST_HEADER);
                     }
+                    
                     if (!this.$isUndefined(json.TRACKS)) {
                         this.$applyData(json);
                     }
+                    
                 }
             }
         });

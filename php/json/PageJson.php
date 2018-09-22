@@ -344,7 +344,7 @@ class PageJson extends DefaultJson {
         for ($cnt = 0; $cnt < sizeof($topuser); $cnt++) {
             $track = $topuser[$cnt];
 
-            $page['TOPUSER'][] = array(
+            $page['USER'][] = array(
                 'NR'        => ($offset + $cnt + 1),
                 'NAME'      => $track['lastfm_user'],
                 'LASTPLAY'  => $track['last_played'],

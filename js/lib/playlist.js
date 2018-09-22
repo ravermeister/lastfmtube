@@ -50,7 +50,7 @@ class PlaylistController {
             let parentCallBack = callBack;
 
             if (typeof parentCallBack !== 'function') {
-                $page.setCurrentPage(playlist);
+                $page.setCurrentPlaylist(playlist);
             } else {
                 parentCallBack(success);
             }

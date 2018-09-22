@@ -61,7 +61,7 @@ class Menu {
     }
 
     updateData(json) {
-        
+
         if (typeof json.HEADER_MENU !== 'undefined') json = json.HEADER_MENU;
 
         if (typeof json.YTPLAYER.TEXT !== 'undefined') this.youtube.TEXT = json.YTPLAYER.TEXT;
@@ -87,7 +87,7 @@ class Menu {
     }
 
     getMenu(playlist) {
-        let list = [];        
+        let list = [];
         switch (playlist) {
             case 'youtube':
             case 'video':
@@ -114,7 +114,7 @@ class Menu {
                     this.youtube,
                     this.lastfm,
                     this.topsongs,
-                    this.userlist                    
+                    this.userlist
                 ];
                 break;
             case 'topsongs':
@@ -130,7 +130,7 @@ class Menu {
                     this.youtube,
                     this.lastfm,
                     this.topsongs,
-                    this.topuser                    
+                    this.topuser
                 ];
                 break;
             default:
@@ -171,11 +171,11 @@ class PageController {
                 console.error('Error, vue instance not found. Json: ', json, ', Vue: ', this);
                 return;
             }
-            
+
             if (log) {
                 console.log('updateData', 'vue: ', this.$data, ' json: ', json);
             }
-            
+
             for (let key in this.$data) {
                 if (log) console.log((key, ' exists ', json.hasOwnProperty(key)));
                 if (json.hasOwnProperty(key)) {
@@ -186,11 +186,20 @@ class PageController {
 
             if (log) console.log('after update: ', this.$data);
         };
+        Vue.prototype.$url2 = function(page, playlist, log) {
+            let url = '';
 
-        Vue.prototype.$url = function (menu) {
-            if (typeof menu.PLAYLIST !== 'undefined') return '#' + menu.PLAYLIST;
-            else if (typeof menu.PAGE !== 'undefined') return '#' + menu.PAGE;
-            return '#' + menu;
+            if (typeof page !== 'undefined') url = '#' + page;
+            else if (typeof playlist !== 'undefined') url = '#' + playlist;
+            else url = '';
+
+            if(log) console.log('url', url, 'page', page, 'playlist', playlist);
+            return url;
+        };
+        Vue.prototype.$url = function (menu, log = false) {
+            let url = this.$url2(menu.PAGE, menu.PLAYLIST, log);
+            //console.log('for menu', menu);
+            return url;
         };
 
         Vue.prototype.$isUndefined = function (val) {
@@ -205,6 +214,53 @@ class PageController {
         Vue.prototype.$isUndefined = function (val) {
             return (typeof val === 'undefined') ? true : false;
         };
+
+        Vue.prototype.$loadListMenu = function (menu, event) {
+
+            if (!$player.isReady) return;
+            let page = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : menu.PAGE;
+            if (page == $player.PLAYLIST) return;
+
+            let oldlist = $page.PLAYLIST;
+            let newlist = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : oldlist;
+
+            let showPage = function (success) {
+                // DOM updated
+                $page.setCurrentPlaylist(success ? newlist : oldlist);
+                $page.setPlaylistLoading(false, success ? newlist : oldlist);
+            };
+
+            try {
+                $page.setPlaylistLoading(true);
+
+                if (typeof menu.PLAYLIST !== 'undefined') {
+                    let curArticle = $(event.target).closest('article');
+                    let playlistArticle = $('.playlist-container');
+                    
+                    $(playlistArticle).attr('id', menu.PLAYLIST);
+                    if(!$(playlistArticle).is(curArticle)) {
+                        location.href = '#' + menu.PLAYLIST;
+                    }
+                } else {
+                    location.href = '#' + menu.PAGE;
+                }
+
+                $playlist.loadPlaylistPage(1, null, showPage, newlist);
+
+                // usage as a promise (2.1.0+, see note below)
+                /**
+                 Vue.nextTick()
+                 .then(function () {
+                                    // DOM updated
+                                    
+                                });
+                 **/
+            } catch (e) {
+                console.error(e);
+                //showPage(false);
+            }
+        };
+
 
     }
 
@@ -287,9 +343,9 @@ class PageController {
     }
 
     init() {
-        
+
         this.initMyVues();
-        history.pushState("", document.title, window.location.pathname);
+        history.pushState('', document.title, window.location.pathname);
 
         let request = 'php/json/JsonHandler.php?api=page&data=page';
         $.getJSON(request, function (json) {
@@ -298,7 +354,7 @@ class PageController {
             $page.setPageLoading(true);
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value.playlist);
-            $page.setCurrentPage();
+            $page.setCurrentPlaylist();
             $page.setPageLoading();
 
             console.log('init page success');
@@ -307,14 +363,22 @@ class PageController {
             console.log(xhr.responseText);
         });
     }
+    
+    setCurrentPage(page = null) {
+        if(page==null) return;
+        
+        $page.myVues.userlist.header.menu.$forceUpdate();
+    }
 
-    setCurrentPage(playlist = null) {
+    setCurrentPlaylist(playlist = null) {
 
         if (playlist == $page.PLAYLIST) return;
         this.PLAYLIST = playlist;
+
+        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST == null ? this.PAGE_PLAYLIST : this.PLAYLIST;
+        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST == null ? this.PAGE_PLAYLIST : this.PLAYLIST;
+        this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST == null ? this.PAGE_PLAYLIST : this.PLAYLIST;
         
-        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST == null ? 'playlist' : this.PLAYLIST; 
-        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST == null ? 'playlist' : this.PLAYLIST;
     }
 
     setPageLoading(active = false) {

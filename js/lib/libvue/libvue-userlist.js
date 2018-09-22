@@ -1,45 +1,77 @@
 class LibvueUser {
 
     constructor() {
+        this.header = {
+            title: new Vue({
+                el: '#page-user>.page-header-title>h2',
+                data: {
+                    HEADER: '',
+                    TEXT: '',
+                    LOGO: ''
+                },
 
-        this.title = new Vue({
-            el: '#page-user>.page-header-title>h2',
+                methods: {
+                    update: function (json) {
+                        if(typeof json.HEADER !== 'undefined') {
+                            this.$applyData(json.HEADER);
+                        }
+                    }
+                }
+            }),
+
+            menu: new Vue({
+                el: '#page-user>.page-header-nav',
+                data: {
+                    PLAYLIST: 'page-playlist'
+                },
+                computed: {
+                    MENUS: function () {
+                        return this.$getMenuForPlaylist(this.PLAYLIST);
+                    }
+                },
+
+                methods: {
+                    update: function (json) {
+                        this.$applyData(json);
+                    }
+                }
+            })
+        };
+
+        
+        this.content = new Vue({
+            el: '#page-user>.page-content',
             data: {
-                HEADER: '',
-                TEXT: '',
-                LOGO: ''
+                USER_NR: 'Nr',
+                USER_NAME: 'Name',
+                USER_PLAYCOUNT: 'Played',
+                USER_LASTPLAY: 'Last Played',
+                USER: [{
+                    NR: '1',
+                    NAME: 'Ravermeister',
+                    LASTPLAY: '',
+                    PLAYCOUNT: '1'
+                }]
             },
 
             methods: {
                 update: function (json) {
-                    this.$applyData(json);
-                },
+                    if (!this.$isUndefined(json.LIST_HEADER)) {
+                        this.$applyData(json.LIST_HEADER);
+                    }
+                    
+                    if (typeof json.USER !== 'undefined') {
+                        this.$applyData(json);
+                    }
+                    
+                }
             }
         });
-        
-        this.menu = new Vue({
-            el: '#page-user>.page-header-nav',
-            data: {
-                PLAYLIST: 'page-playlist'
-            },
-            computed: {
-                MENUS: function () {
-                    return this.$getMenuForPlaylist(this.PLAYLIST);
-                }
-            },
-            
-            methods: {
-                update: function (json) {
-                    this.$applyData(json);
-                },
-            }
-        }); 
     }
 
 
     update(json) {
-        console.log('update userlist with json ', json);
-        this.title.update(json.HEADER);
-        this.menu.update(json.HEADER_MENU);
+        this.content.update(json);
+        this.header.title.update(json);
     }
 }
