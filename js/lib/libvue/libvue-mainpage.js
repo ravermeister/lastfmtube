@@ -55,7 +55,7 @@ class LibvueMainpage {
                         console.error('lfmuser before dom: ', lfmuser);
                         if(typeof lfmuser === 'undefined' || lfmuser === null) {
                             try {
-                                lfmuser = $(article).find('#playlist_lastfmuser');    
+                                lfmuser = $(article).find('#playlist_lastfmuser').val();    
                             }catch (e) {}
                         }
                         console.error('load playlist ', menu.PLAYLIST, ' for user', lfmuser);

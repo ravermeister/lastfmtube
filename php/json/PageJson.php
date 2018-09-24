@@ -31,18 +31,18 @@ class PageJson extends DefaultJson {
 
     public function get($getvars) {
         try {
-            $data     = false;
-            $type     = false;
+            $data     = null;
+            $type     = null;
             $parmData = isset($getvars['data']) ? strtolower($getvars['data']) : strtolower($this->apiName);
-
+                        
             switch ($parmData) {
                 case 'page':
                     $data = $this->getPage();
                     $type = 'pagedata';
                     break;
                 case 'playlist':
-                    $user     = isset($getvars['user']) ? $getvars['user'] : false;
-                    $page     = isset($getvars['page']) ? $getvars['page'] : false;
+                    $user     = isset($getvars['user']) ? $getvars['user'] : null;
+                    $page     = isset($getvars['page']) ? $getvars['page'] : null;
                     $playlist = isset($getvars['type']) ? $getvars['type'] : $this->apiName;
                     switch ($playlist) {
                         case 'topsongs':
@@ -52,7 +52,7 @@ class PageJson extends DefaultJson {
                             $data = $this->getTopUser($page);
                             break;
                         case 'default:':
-                        default:
+                        default:                            
                             $data = $this->getPlaylist($user, $page);
                             break;
                     }
@@ -117,21 +117,28 @@ class PageJson extends DefaultJson {
             'PLAYLIST_ID'   => 'lastfm'
         );
     }
+    
+    private function isValidUser($user) {
+        return (isset($user) && 
+                $user !== false && 
+                $user != null && 
+                strlen(filter_var($user,FILTER_SANITIZE_STRING)) > 0
+        );
+    }
 
     private function getPlaylist($user = false, $pageNum = 1) {
         Functions::getInstance()->startSession();
 
-        if ($user !== false && $user != null && strlen(filter_var($user,FILTER_SANITIZE_STRING)) > 0) {
+        if ($this->isValidUser($user)) {
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
                 $_SESSION ['music'] ['lastfm_user'] = $user;
                 $pageNum                            = false;
             }
-        }
-        
-        if (!isset($_SESSION['music']['lastfm_user']) || strlen(trim($_SESSION ['music'] ['lastfm_user'])) == 0) {
+        } else if (!$this->isValidUser($_SESSION ['music'] ['lastfm_user'])) {
             $_SESSION ['music'] ['lastfm_user'] = $this->settings['general']['defaultlfmuser'];
         }
 
+        
         $this->lfmapi->setUser($_SESSION['music']['lastfm_user']);
         if ($pageNum === false || $pageNum < 1) $pageNum = 1;
 
