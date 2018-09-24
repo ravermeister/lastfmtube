@@ -6,10 +6,11 @@
  */
 
 namespace LastFmTube\json;
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
 use LastFmTube\Util\Functions;
 
-require_once dirname(__FILE__) . '/../../vendor/autoload.php';
+
 
 class JsonHandler {
     private static $RESERVED_ARGS = array('api');
