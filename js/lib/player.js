@@ -1,5 +1,35 @@
 class ChartTimer {
+    constructor() {
+        this.track = {
+            ARTIST: null,
+            TITLE: null,
+            isValid: function() {
+                return this.ARTIST != null && this.TITLE != null;
+            }
+        };
+    }
 
+    start(artist = null, title = null) {
+
+        //check old timer
+
+        this.track.ARTIST = artist;
+        this.track.TITLE = title;
+
+        if(!this.track.isValid()) {
+            console.error('invalid data for creating Chart Timer, not starting! ');
+            return;
+        }
+        console.log('start chart timer');
+    }
+
+    pause(halt = true) {
+        console.log((halt ? 'Stop' : 'resume')+' chart timer');
+    }
+
+    timerFinished() {
+        console.log('timr finished');
+    }
 }
 
 class PlayerController {
@@ -35,6 +65,7 @@ class PlayerController {
         this.ytStatus.CUED.ID = 5;
         this.ytStatus.CUED.NAME = 'vide cued';
 
+        this.chartTimer = new ChartTimer();
     }
 
     initPlayer() {

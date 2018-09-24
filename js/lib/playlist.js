@@ -221,6 +221,7 @@ class PlaylistController {
             ;
         }
 
+        console.log('load default playlist: ', arguments);
 
         $.getJSON(request, function (json) {
 
