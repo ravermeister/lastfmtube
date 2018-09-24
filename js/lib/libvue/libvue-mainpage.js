@@ -57,7 +57,7 @@ class LibvueMainpage {
                                 lfmuser = $(article).find('#playlist_lastfmuser');    
                             }catch (e) {}
                         }
-
+                        console.error('load playlist ', menu.PLAYLIST, ' for user', lfmuser);
                         $playlist.loadPlaylistPage(1, lfmuser, playlistLoaded, menu.PLAYLIST);                        
                     } else {                                         
                         playlistLoaded(true);

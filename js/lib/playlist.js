@@ -201,13 +201,14 @@ class PlaylistController {
         }
     }
 
-    isValidUser(user) {
+    isValidUser(user=null) {
         return user !== null && (user + '').trim().length > 0;
     }
 
     loadDefaultPlayListPage(pageNum = 1, user = null, callBack = null) {
 
         let request = null;
+        
         if (this.isValidUser()) {
             request = 'php/json/JsonHandler.php?api=page&data=playlist' +
                 '&type=default' +
@@ -220,8 +221,6 @@ class PlaylistController {
                 '&page=' + pageNum
             ;
         }
-
-        console.log('load default playlist: ', arguments);
 
         $.getJSON(request, function (json) {
 
