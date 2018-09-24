@@ -4,12 +4,12 @@ class PlaylistController {
         this.userStore = Storages.localStorage;
     }
 
-    loadTopUserPlayListPage(pageNum = 1, callBack = null) {
+    loadTopUserPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
 
         let request = 'php/json/JsonHandler.php?api=topuser&data=playlist&page=' + pageNum;
 
         $.getJSON(request, function (json) {
-            
+
             if ($player.CURRENT_TRACK != null) {
                 let newCurTrack = null;
                 for (let cnt = 0; cnt < json.data.value.length; cnt++) {
@@ -25,8 +25,8 @@ class PlaylistController {
                     $player.setCurrentTrack(newCurTrack);
                 }
             }
-            
-            $page.myVues.playlist.update(json.data.value);
+
+            $page.myVues.playlist.update(json.data.value, ignoreTitle);
 
             try {
                 if (callBack != null) {
@@ -44,27 +44,33 @@ class PlaylistController {
 
     loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
 
-        if (playlist == null) playlist = this.PLAYLIST;
+        if (playlist == null) playlist = $page.PLAYLIST;
 
-        function loadComplete(success) {
+        let ignoreTitle = playlist == $page.PLAYLIST;
+        let loadComplete = function (success) {
             let parentCallBack = callBack;
 
-            if (typeof parentCallBack !== 'function') {
+            if (typeof parentCallBack !== 'function') {                
                 $page.setCurrentPlaylist(playlist);
             } else {
                 parentCallBack(success);
             }
-        }
+
+            $page.setPlaylistLoading();
+        };
+
+
+        $page.setPlaylistLoading(true);
 
         switch (playlist) {
             case 'userlist':
-                this.loadUserPlayListPage(pageNum, loadComplete);
+                this.loadUserPlayListPage(pageNum, loadComplete, ignoreTitle);
                 break;
             case 'topsongs':
-                this.loadTopSongsPlayListPage(pageNum, loadComplete);
+                this.loadTopSongsPlayListPage(pageNum, loadComplete, ignoreTitle);
                 break;
             case 'topuser':
-                this.loadTopUserPlayListPage(pageNum, loadComplete);
+                this.loadTopUserPlayListPage(pageNum, loadComplete, ignoreTitle);
                 break;
             case 'video':
                 if (typeof callBack === 'function') {
@@ -75,11 +81,9 @@ class PlaylistController {
                 break;
 
             default:
-                this.loadDefaultPlayListPage(pageNum, user, loadComplete);
+                this.loadDefaultPlayListPage(pageNum, user, loadComplete, ignoreTitle);
                 break;
         }
-
-
     }
 
     loadSearchResult(track, result, pageNum = 1, callBack = null) {
@@ -99,7 +103,7 @@ class PlaylistController {
         }
     }
 
-    loadTopSongsPlayListPage(pageNum = 1, callBack = null) {
+    loadTopSongsPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
 
         $.getJSON('php/json/JsonHandler.php?api=topsongs&data=playlist&page=' + pageNum, function (json) {
 
@@ -119,7 +123,7 @@ class PlaylistController {
                 }
             }
 
-            $page.myVues.playlist.update(json.data.value);
+            $page.myVues.playlist.update(json.data.value, ignoreTitle);
 
             try {
                 if (callBack != null) {
@@ -146,7 +150,7 @@ class PlaylistController {
         });
     }
 
-    loadUserPlayListPage(pageNum = 1, callBack = null) {
+    loadUserPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
 
         let tracks = this.getUserTracks();
         let tracksPerPage = this.TRACKS_PER_PAGE;
@@ -176,7 +180,7 @@ class PlaylistController {
                 $player.setCurrentTrack(newCurTrack);
             }
         }
-
+        
         $page.myVues.playlist.update({
             HEADER: {
                 PLAYLIST: 'userlist',
@@ -193,7 +197,7 @@ class PlaylistController {
             },
 
             TRACKS: tracks
-        });
+        }, ignoreTitle);
 
 
         if (callBack != null) {
@@ -201,14 +205,14 @@ class PlaylistController {
         }
     }
 
-    isValidUser(user=null) {
+    isValidUser(user = null) {
         return user !== null && (user + '').trim().length > 0;
     }
 
-    loadDefaultPlayListPage(pageNum = 1, user = null, callBack = null) {
+    loadDefaultPlayListPage(pageNum = 1, user = null, callBack = null, ignoreTitle = false) {
 
         let request = null;
-        
+
         if (this.isValidUser()) {
             request = 'php/json/JsonHandler.php?api=page&data=playlist' +
                 '&type=default' +
@@ -224,29 +228,34 @@ class PlaylistController {
 
         $.getJSON(request, function (json) {
 
-            if ($player.CURRENT_TRACK != null) {
-                let newCurTrack = null;
-                for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
-                    let track = json.data.value.TRACKS[cnt];
+            try {
 
-                    if ($player.isCurrentTrack(track)) {
-                        newCurTrack = track;
-                        break;
+                if ($player.CURRENT_TRACK != null) {
+                    let newCurTrack = null;
+                    for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
+                        let track = json.data.value.TRACKS[cnt];
+
+                        if ($player.isCurrentTrack(track)) {
+                            newCurTrack = track;
+                            break;
+                        }
+                    }
+
+                    if (newCurTrack != null) {
+                        $player.setCurrentTrack(newCurTrack);
                     }
                 }
 
-                if (newCurTrack != null) {
-                    $player.setCurrentTrack(newCurTrack);
-                }
-            }
 
-            Vue.nextTick()
-                .then(function () {
-                    // DOM updated
-                    $page.myVues.playlist.update(json.data.value);
-                });
-
-            try {
+                $page.myVues.playlist.update(json.data.value, ignoreTitle);
+                /**
+                Vue.nextTick()
+                    .then(function () {
+                        // DOM updated
+                        $page.myVues.playlist.update(json.data.value, ignoreTitle);
+                    });
+                **/
+                
                 if (callBack != null) {
                     callBack(true);
                 }

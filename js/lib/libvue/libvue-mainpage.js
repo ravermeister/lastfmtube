@@ -32,10 +32,10 @@ class LibvueMainpage {
             methods: {
                 
                 loadMenu(menu, event) {                        
-                    if (!$player.isReady) return;
-
+                    if (!$player.isReady) return;   
+                    let isPlayList = typeof menu.PLAYLIST !== 'undefined';
                     let playlistLoaded = function (success) {
-                        if(typeof menu.PLAYLIST !== 'undefined') {
+                        if(isPlayList) {
                             $page.setCurrentPlaylist(menu.PLAYLIST);
                             $page.setPageLoading();
                             location.href='#' + menu.PLAYLIST;                            
@@ -46,24 +46,25 @@ class LibvueMainpage {
                         }                         
                     };
                     
-                    $page.setPageLoading(true);
-                    
-                    if(typeof menu.PLAYLIST !== 'undefined') {
-                        let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+                    $page.setPageLoading(true);                    
+                    if(isPlayList) {
                         let article = $('.playlist-container');
                         $(article).attr('id', menu.PLAYLIST);
                         
-                        if(typeof lfmuser === 'undefined' || lfmuser === null) {
-                            try {
-                                lfmuser = $(article).find('#playlist_lastfmuser').val();    
-                            }catch (e) {}
-                        }
-                        
-                        $playlist.loadPlaylistPage(1, lfmuser, playlistLoaded, menu.PLAYLIST);                        
-                    } else {                                         
-                        playlistLoaded(true);
-                    }                    
-                    
+                        if(!$page.isCurrentPlaylist()) {
+                            let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+                            if(typeof lfmuser === 'undefined' || lfmuser === null) {
+                                try {
+                                    lfmuser = $(article).find('#playlist_lastfmuser').val();
+                                }catch (e) {}
+                            }
+
+                            $playlist.loadPlaylistPage(1, lfmuser, playlistLoaded, menu.PLAYLIST);
+                            return;
+                        }                        
+                    }
+
+                    playlistLoaded(true);                    
                 },
             }
         });

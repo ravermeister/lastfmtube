@@ -7,7 +7,7 @@ class LibvueUser {
                 data: {
                     HEADER: '',
                     TEXT: '',
-                    LOGO: ''
+                    LOGO: '',
                 },
 
                 methods: {
@@ -22,17 +22,19 @@ class LibvueUser {
             menu: new Vue({
                 el: '#page-user>.page-header-nav',
                 data: {
-                    PLAYLIST: 'page-playlist'
-                },
+                    TYPE: '',
+                },                
                 computed: {
                     MENUS: function () {
-                        return this.$getMenuForPlaylist(this.PLAYLIST);
+                        return this.$getMenuForPlaylist(this.TYPE);
                     }
                 },
 
                 methods: {
                     update: function (json) {
-                        this.$applyData(json);
+                        if(typeof json.HEADER !== 'undefined') {
+                            this.TYPE = json.HEADER.TYPE;   
+                        }                        
                     }
                 }
             })
@@ -73,5 +75,6 @@ class LibvueUser {
     update(json) {
         this.content.update(json);
         this.header.title.update(json);
+        this.header.menu.update(json);
     }
 }

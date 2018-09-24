@@ -26,7 +26,9 @@ require([
 
     
     $player.autoPlay = true;
-    $player.initPlayer();
+    
     $page.init();
+    $player.initPlayer();
+    
 
 });

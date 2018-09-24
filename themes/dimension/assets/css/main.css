@@ -1067,6 +1067,19 @@ button.small,
     line-height: 2.0625rem;
 }
 
+input[type="submit"].smaller,
+input[type="reset"].smaller,
+input[type="button"].smaller,
+button.smaller,
+.button.smaller {
+    font-size: 0.6rem;
+    height: 1.5625rem;
+    line-height: 1.5625rem;
+    padding-left:13px;
+    padding-right:13px;
+    
+}
+
 input[type="submit"].primary,
 input[type="reset"].primary,
 input[type="button"].primary,
@@ -1677,4 +1690,8 @@ body {
 }
 #main article .btn-header-nav a span {
     display: inline-block;
+}
+
+#main article .btn-playlist-nav {
+    
 }

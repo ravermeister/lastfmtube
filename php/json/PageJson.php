@@ -327,7 +327,7 @@ class PageJson extends DefaultJson {
             'HEADER' => array(
                 'TEXT'       => $this->locale['menu.topuser'],
                 'URL_TARGET' => '_self',
-                'PLAYLIST'   => 'topuser',
+                'TYPE'   => 'topuser',
             ),
 
 
@@ -335,8 +335,7 @@ class PageJson extends DefaultJson {
 
             'LIST_MENU' => array(
                 'MAX_PAGES' => $maxpages,
-                'CUR_PAGE'  => $pageNum,
-                'PLAYLIST'  => 'topuser'
+                'CUR_PAGE'  => $pageNum
             ),
             //lastfm navigation (pages/username)
 

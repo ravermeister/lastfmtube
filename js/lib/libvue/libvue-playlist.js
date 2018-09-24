@@ -59,8 +59,8 @@ class LibvuePlaylist {
             },
 
             methods: {
-                loadPage: function (user, pageNum) {
-                    $playlist.loadPlaylistPage(pageNum, user);
+                loadPage: function (user, pageNum) {                    
+                    $playlist.loadPlaylistPage(pageNum, user);                    
                 },
 
                 loadNextPage: function (user, pageNum, maxPages) {
@@ -109,7 +109,7 @@ class LibvuePlaylist {
                 TRACK_NR: 'Nr',
                 TRACK_ARTIST: 'Artist',
                 TRACK_TITLE: 'Title',
-                TRACK_LASTPLAY: 'Lastplay',
+                TRACK_LASTPLAY: 'Lastplay',                
                 TRACKS: [{
                     NR: '',
                     ARTIST: '',
@@ -169,8 +169,21 @@ class LibvuePlaylist {
                         this.$applyData(json.LIST_HEADER);
                     }
                     
-                    if (!this.$isUndefined(json.TRACKS)) {
-                        this.$applyData(json);
+                    if (!this.$isUndefined(json.TRACKS)) {                        
+                        if($player.CURRENT_TRACK!=null) {
+                            
+                            let newTracks = [];
+                            for(let cnt= 0; cnt<json.TRACKS.length; cnt++) {
+                                let track = json.TRACKS[cnt];
+                                if($player.isCurrentTrack(track)) {
+                                    track = $player.CURRENT_TRACK;
+                                } 
+                                newTracks[cnt] = track;
+                            }
+                            this.$data.TRACKS = newTracks;
+                        } else {
+                            this.$applyData(json);
+                        }
                     }
                     
                 }
@@ -190,9 +203,11 @@ class LibvuePlaylist {
     }
 
 
-    update(json) {
+    update(json, ignoreTitle = false) {
         this.content.update(json);
         this.menu.update(json);
+        
+        if(ignoreTitle) return;        
         this.header.title.update(json);
     }
 

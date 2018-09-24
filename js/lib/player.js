@@ -98,8 +98,9 @@ class PlayerController {
                         break;
 
                     case $player.ytStatus.PLAYING.ID:
-                        $page.myVues.youtube.header.$data.NOW_PLAYING = $player.ytPlayer.getVideoData().title;                        
+                        $page.myVues.youtube.header.$data.NOW_PLAYING = $player.ytPlayer.getVideoData().title;
                         if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = 'play';
+                        
                         break;
 
                     case $player.ytStatus.PAUSED.ID:
@@ -179,13 +180,13 @@ class PlayerController {
                 }catch (e) {
                     console.error('inside callback', e, ' curpage: ',curPage, 'maxpage: ', maxPages);
                 }
-            }, 'default');
+            });
 
             return;
         } else if (nextIndex < 0) {
             nextIndex = 0;
         }
-
+        
         this.loadSong(tracks[nextIndex]);
     }
 
@@ -221,12 +222,13 @@ class PlayerController {
     }
 
     setCurrentTrack(track) {
+        if(this.isCurrentTrack(track)) return;
         
         if (this.CURRENT_TRACK != null) {
             this.CURRENT_TRACK.PLAYSTATE = '';
             this.CURRENT_TRACK = null;
         }
-        track.PLAYSTATE = 'load';
+        
         this.CURRENT_TRACK = track;
     }
 
@@ -234,14 +236,11 @@ class PlayerController {
         //console.log(artist);
         //console.log(title);
         //console.log(this.ytPlayer);
-        if (this.ytPlayer == null) return;
-        
-        this.setCurrentTrack(track);
-
+        if (this.ytPlayer == null) return;        
+        this.setCurrentTrack(track);   
 
         let needle = $page.createNeedle(track);
-        if (needle.videoId != null && needle.videoId.length > 0) {
-            needle.videoId = vars.data.value.VALUE;
+        if (needle.videoId != null && needle.videoId.length > 0) {            
             $player.loadVideoByNeedle(needle);
             return;
         }
@@ -252,27 +251,26 @@ class PlayerController {
         }
         
         let request = './php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
+        
         $.ajax(request, {
             dataType: 'json'
         }).done(function (search) {
 
-            needle.videoId = (search.data.value.length > 0 && search.data.value[0].video_id !== 'undefined') ?
-                search.data.value[0].video_id : '';
+            needle.applyData(search);
 
-            if (needle.videoId != null && needle.videoId.length == 0) {
+            if (!needle.isValid(true)) {
                 console.log('load next song no video was found');
                 return;
             }
 
             $player.loadVideoByNeedle(needle);
         }).fail(function (xhr) {
-            console.error('error: ', xhr.responseText);
+            console.error('error: ', xhr);
         });
     }
 
     loadVideoByNeedle(needle) {
-        if (typeof needle !== 'undefined' && typeof needle.videoId !== 'undefined' && needle.videoId.length > 0) {
-
+        if (typeof needle !== 'undefined' && needle.isValid(true)) {
             $player.ytPlayer.loadVideoById(needle.videoId);
         } else {
             console.error('invalid parameter for loadVideoByNeedle');
@@ -282,9 +280,11 @@ class PlayerController {
 
 
     isCurrentTrack(track) {
+        
         return this.CURRENT_TRACK != null &&
             this.CURRENT_TRACK == track || (
-                this.CURRENT_TRACK_NR == track.NR &&
+                this.CURRENT_TRACK != null &&
+                this.CURRENT_TRACK.NR == track.NR &&
                 this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST
             );
     }
