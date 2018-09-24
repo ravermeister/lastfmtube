@@ -49,12 +49,16 @@ class LibvueMainpage {
                     $page.setPageLoading(true);
                     
                     if(typeof menu.PLAYLIST !== 'undefined') {
+                        let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
                         let article = $('.playlist-container');
                         $(article).attr('id', menu.PLAYLIST);
-                        let lfmfield = $(article).find('#playlist_lastfmuser');
-                        let lfmzuser = $(lfmfield).val();
-                        console.log('load playlist with lfmuser', lfmzuser, 'article ', article, 'lfmfield', lfmfield);
-                        $playlist.loadPlaylistPage(1, lfmzuser, playlistLoaded, menu.PLAYLIST);                        
+                        if(typeof lfmuser === 'undefined' || lfmuser === null) {
+                            try {
+                                lfmuser = $(article).find('#playlist_lastfmuser');    
+                            }catch (e) {}
+                        }
+
+                        $playlist.loadPlaylistPage(1, lfmuser, playlistLoaded, menu.PLAYLIST);                        
                     } else {                                         
                         playlistLoaded(true);
                     }                    
