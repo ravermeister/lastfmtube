@@ -6,7 +6,7 @@
     "sunra/php-simple-html-dom-parser": "dev-master",
     "ext-pdo": "*",
     "ext-json": "*",
-    "ext-curl": "*",
+    "ext-curl": "*"
   },
   "support": {
     "email": "jonny@rimkus.it",
