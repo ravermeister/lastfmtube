@@ -153,7 +153,7 @@ class Functions {
             $_SESSION ['music'] ['lastfm_user'] = $getuser;
             unset ($_GET ['lastfm_user']);
         } else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
-            $_SESSION ['music'] ['lastfm_user'] = self::$instance->settings ['general'] ['defaultlfmuser'];
+            $_SESSION ['music'] ['lastfm_user'] = self::$instance->settings ['general'] ['lastfm_defaultuser'];
         }
         $_SESSION ['music'] ['lastfm_user'] = trim($_SESSION ['music'] ['lastfm_user']);
 
@@ -234,7 +234,7 @@ class Functions {
                     ";Multiple themes may be applied with a comma-separated list.\n" . "cmenutheme = " .
                     $config['general']['cmenutheme'] . "\n" .
                     "; the default last.fm user when initally loading the playlist\n" . "lastfm_defaultuser = " .
-                    $config['general']['defaultlfmuser'] . "\n" .
+                    $config['general']['lastfm_defaultuser'] . "\n" .
                     "; the Admin Password as sha1_value (default is lfmtube)\n" . "adminpw = " .
                     $config['general']['adminpw'] . "\n" . ";[database]\n" .
                     ";dsn = mysql:host=127.0.0.1;port=3306;dbname=lasttube;charset=UTF8;\n" .

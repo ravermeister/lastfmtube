@@ -135,7 +135,7 @@ class PageJson extends DefaultJson {
                 $pageNum                            = false;
             }
         } else if (!$this->isValidUser($_SESSION ['music'] ['lastfm_user'])) {
-            $_SESSION ['music'] ['lastfm_user'] = $this->settings['general']['defaultlfmuser'];
+            $_SESSION ['music'] ['lastfm_user'] = $this->settings['general']['lastfm_defaultuser'];
         }
 
         
