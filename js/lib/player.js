@@ -237,7 +237,6 @@ class PlayerController {
     setCurrentState(newState = '') {
         if(this.CURRENT_TRACK==null || this.CURRENT_TRACK.PLAYSTATE === newState) return;
         this.CURRENT_TRACK.PLAYSTATE = newState;
-        $page.myVues.playlist.content.$forceUpdate();
     }
 
     loadSong(track) {

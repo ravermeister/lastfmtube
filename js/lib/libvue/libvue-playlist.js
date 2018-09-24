@@ -127,10 +127,10 @@ class LibvuePlaylist {
                 showPlay: function (track, show) {                    
                     if ($player.isCurrentTrack(track)) {
                         return;
-                    }
+                    }                    
                     track.PLAYSTATE = show ? 'stop' : '';
                     $page.QUICKPLAY_TRACK = show ? track : null;
-                    this.$forceUpdate();
+                    
                 },
 
                 togglePlay: function (track) {
@@ -178,8 +178,9 @@ class LibvuePlaylist {
                                 newTracks[cnt] = track;
                             }
                             this.$data.TRACKS = newTracks;
+                            
                         } else {
-                            this.$applyData(json);
+                            
                         }
                     }
                     

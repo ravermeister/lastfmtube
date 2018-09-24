@@ -292,7 +292,8 @@ class PageJson extends DefaultJson {
                 'PLAYCOUNT'    => $track['playcount'],
                 'VIDEO_ID'     => $videoId,
                 'PLAY_CONTROL' => false,
-                'PLAYLIST'     => 'topsongs'
+                'PLAYLIST'     => 'playlist',
+                'PLAYSTATE'    => ''
             );
         }
 
