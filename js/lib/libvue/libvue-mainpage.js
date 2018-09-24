@@ -52,6 +52,7 @@ class LibvueMainpage {
                         let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
                         let article = $('.playlist-container');
                         $(article).attr('id', menu.PLAYLIST);
+                        console.error('lfmuser before dom: ', lfmuser);
                         if(typeof lfmuser === 'undefined' || lfmuser === null) {
                             try {
                                 lfmuser = $(article).find('#playlist_lastfmuser');    
