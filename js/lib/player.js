@@ -89,29 +89,31 @@ class PlayerController {
 
             let onStateChange = function (event) {
 
+                
+                
                 switch (event.data) {
                     case $player.ytStatus.UNSTARTED.ID:
                         break;
                     case $player.ytStatus.ENDED.ID:
-                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = '';
+                        $player.setCurrentState('stop');
                         $player.loadNextSong();
                         break;
 
                     case $player.ytStatus.PLAYING.ID:
                         $page.myVues.youtube.header.$data.NOW_PLAYING = $player.ytPlayer.getVideoData().title;
-                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = 'play';
-                        
+                        $player.setCurrentState('play');                        
                         break;
 
                     case $player.ytStatus.PAUSED.ID:
-                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = 'pause';
+                        $player.setCurrentState('pause');
                         break;
 
                     case $player.ytStatus.BUFFERING.ID:
-                        if ($player.CURRENT_TRACK != null) $player.CURRENT_TRACK.PLAYSTATE = 'load';
+                        $player.setCurrentState('load');
                         break;
 
                     case $player.ytStatus.CUED.ID:
+                        console.log('track cued');
                         break;
                 }
             };
@@ -157,7 +159,6 @@ class PlayerController {
             })
         };
     }
-
 
     loadNextSong() {
 
@@ -225,11 +226,18 @@ class PlayerController {
         if(this.isCurrentTrack(track)) return;
         
         if (this.CURRENT_TRACK != null) {
-            this.CURRENT_TRACK.PLAYSTATE = '';
+            this.setCurrentState();
             this.CURRENT_TRACK = null;
         }
         
         this.CURRENT_TRACK = track;
+        this.setCurrentState('load');
+    }
+    
+    setCurrentState(newState = '') {
+        if(this.CURRENT_TRACK==null || this.CURRENT_TRACK.PLAYSTATE === newState) return;
+        this.CURRENT_TRACK.PLAYSTATE = newState;
+        $page.myVues.playlist.content.$forceUpdate();
     }
 
     loadSong(track) {
@@ -281,12 +289,15 @@ class PlayerController {
 
     isCurrentTrack(track) {
         
-        return this.CURRENT_TRACK != null &&
+        let isEqual =  this.CURRENT_TRACK != null && (
             this.CURRENT_TRACK == track || (
-                this.CURRENT_TRACK != null &&
                 this.CURRENT_TRACK.NR == track.NR &&
-                this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST
-            );
+                this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST &&
+                this.CURRENT_TRACK.ARTIST == track.ARTIST &&
+                this.CURRENT_TRACK.TITLE == track.TITLE
+            ));
+
+        return isEqual;
     }
 
     isPlaying() {

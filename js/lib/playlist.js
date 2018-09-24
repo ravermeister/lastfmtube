@@ -10,22 +10,6 @@ class PlaylistController {
 
         $.getJSON(request, function (json) {
 
-            if ($player.CURRENT_TRACK != null) {
-                let newCurTrack = null;
-                for (let cnt = 0; cnt < json.data.value.length; cnt++) {
-                    let track = json.data.value[cnt];
-
-                    if ($player.isCurrentTrack(track)) {
-                        newCurTrack = track;
-                        break;
-                    }
-                }
-
-                if (newCurTrack != null) {
-                    $player.setCurrentTrack(newCurTrack);
-                }
-            }
-
             $page.myVues.playlist.update(json.data.value, ignoreTitle);
 
             try {
@@ -107,28 +91,13 @@ class PlaylistController {
 
         $.getJSON('php/json/JsonHandler.php?api=topsongs&data=playlist&page=' + pageNum, function (json) {
 
-            if ($player.CURRENT_TRACK != null) {
-                let newCurTrack = null;
-                for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
-                    let track = json.data.value.TRACKS[cnt];
-
-                    if ($player.isCurrentTrack(track)) {
-                        newCurTrack = track;
-                        break;
-                    }
-                }
-
-                if (newCurTrack != null) {
-                    $player.setCurrentTrack(newCurTrack);
-                }
-            }
-
             $page.myVues.playlist.update(json.data.value, ignoreTitle);
-
+            
             try {
                 if (callBack != null) {
                     callBack(true);
                 }
+                
             } catch (e) {
                 console.error('error in load topsongs list callback function', e);
                 console.error('Callback: ', callBack);
@@ -164,22 +133,6 @@ class PlaylistController {
         } else {
             tracks = tracks.slice(startIndex, endIndex);
         }
-
-        if ($player.CURRENT_TRACK != null) {
-            let newCurTrack = null;
-            for (let cnt = 0; cnt < tracks.length; cnt++) {
-                let track = tracks[cnt];
-
-                if ($player.isCurrentTrack(track)) {
-                    newCurTrack = track;
-                    break;
-                }
-            }
-
-            if (newCurTrack != null) {
-                $player.setCurrentTrack(newCurTrack);
-            }
-        }
         
         $page.myVues.playlist.update({
             HEADER: {
@@ -213,7 +166,7 @@ class PlaylistController {
 
         let request = null;
 
-        if (this.isValidUser()) {
+        if (this.isValidUser(user)) {
             request = 'php/json/JsonHandler.php?api=page&data=playlist' +
                 '&type=default' +
                 '&user=' + user +
@@ -229,23 +182,6 @@ class PlaylistController {
         $.getJSON(request, function (json) {
 
             try {
-
-                if ($player.CURRENT_TRACK != null) {
-                    let newCurTrack = null;
-                    for (let cnt = 0; cnt < json.data.value.TRACKS.length; cnt++) {
-                        let track = json.data.value.TRACKS[cnt];
-
-                        if ($player.isCurrentTrack(track)) {
-                            newCurTrack = track;
-                            break;
-                        }
-                    }
-
-                    if (newCurTrack != null) {
-                        $player.setCurrentTrack(newCurTrack);
-                    }
-                }
-
 
                 $page.myVues.playlist.update(json.data.value, ignoreTitle);
                 /**

@@ -124,17 +124,18 @@ class LibvuePlaylist {
 
             methods: {
 
-                showPlay: function (track, show) {
+                showPlay: function (track, show) {                    
                     if ($player.isCurrentTrack(track)) {
                         return;
                     }
                     track.PLAYSTATE = show ? 'stop' : '';
                     $page.QUICKPLAY_TRACK = show ? track : null;
+                    this.$forceUpdate();
                 },
 
                 togglePlay: function (track) {
 
-                    if ($player.CURRENT_TRACK == track) {
+                    if ($player.isCurrentTrack(track)) {
                         if ($player.isPlaying()) {
                             $player.ytPlayer.pauseVideo();
                         } else if ($player.isPaused()) {
@@ -143,21 +144,17 @@ class LibvuePlaylist {
                             console.log('unbekannter zustand für play/pause');
                             console.log(track_icon);
                         }
-                    } else if ($page.QUICKPLAY_TRACK == track) {
+                    } else if ($page.QUICKPLAY_TRACK == track) {                        
                         $player.loadSong(track);
                     } else {
                         console.log('unbekannter track');
                         console.log(track);
-                    }
+                    }                    
                 },
 
                 togglePlayControl: function (track) {
                     if ($page.PLAY_CONTROL != null && $page.PLAY_CONTROL != track) {
                         $page.PLAY_CONTROL.PLAY_CONTROL = false;
-                    }
-
-                    if ($page.PLAYLIST != null && $page.PLAYLIST == 'search') {
-                        $page.vueMap['PLAYLIST_NAV'].$data.LASTFM_USER_NAME = track.VIDEO_ID;
                     }
 
                     track.PLAY_CONTROL = !track.PLAY_CONTROL;
@@ -186,6 +183,18 @@ class LibvuePlaylist {
                         }
                     }
                     
+                }, 
+                
+                trackInfo: function(track) {
+                    let title = 'last Played: '+track.LASTPLAY;
+                    if(typeof track.PLAYCOUNT !== 'undefined') {
+                        title = 'Playcount: ' + track.PLAYCOUNT + ' | ' + title;
+                    }
+                    return title;
+                },
+                
+                playTrack: function (track) {
+                    $player.loadSong(track);                    
                 }
             }
         });
