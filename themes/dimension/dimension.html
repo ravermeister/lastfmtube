@@ -148,14 +148,14 @@
                                 @mouseout="showPlay(TRACK, false);"
                                 v-bind:title="trackInfo(TRACK)">
                                 <td class="TRACK_NR" style="cursor: pointer;" @click="togglePlay(TRACK)">
-                                    <span v-if="TRACK.PLAYSTATE === 'stop'" class="fa fa-play"></span>
-                                    <span v-else-if="TRACK.PLAYSTATE === 'pause'" class="fa fa-pause"></span>
-                                    <span v-else-if="TRACK.PLAYSTATE === 'play'" class="fa fa-play faa-flash animated"></span>
-                                    <span v-else-if="TRACK.PLAYSTATE === 'load'" class="fa fa-spinner faa-spin animated"></span>
-                                    <span v-else-if="typeof TRACK.PLAYCOUNT !== 'undefined'">
+                                    <span v-show="TRACK.PLAYSTATE === 'stop'" class="fa fa-play"></span>
+                                    <span v-show="TRACK.PLAYSTATE === 'pause'" class="fa fa-pause"></span>
+                                    <span v-show="TRACK.PLAYSTATE === 'play'" class="fa fa-play faa-flash animated"></span>
+                                    <span v-show="TRACK.PLAYSTATE === 'load'" class="fa fa-spinner faa-spin animated"></span>
+                                    <span v-show="TRACK.PLAYSTATE === '' && typeof TRACK.PLAYCOUNT !== 'undefined'">
                                         {{TRACK.NR}}&nbsp;({{TRACK.PLAYCOUNT}})
                                     </span>
-                                    <span v-else="v-else">{{TRACK.NR}}</span>
+                                    <span v-show="TRACK.PLAYSTATE === '' && typeof TRACK.PLAYCOUNT === 'undefined'">{{TRACK.NR}}</span>
                                 </td>
                                 <td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">
@@ -236,6 +236,7 @@
             </section>
         </article>
 
+        <!-- Userlist (Topuser) -->
         <article id="page-user" class="user-container">
 
             <div class="page-header-nav">
@@ -269,8 +270,15 @@
                         </thead>
                         <tbody>
                         <template inline-template="inline-template" v-for="USR in USER">
-                            <tr>
-                                <td>{{USR.NR}}</td>
+                            <tr @mouseover="USR.PLAY_CONTROL = USR.PLAY_CONTROL === '' ? 'play' : USR.PLAY_CONTROL" 
+                                @mouseout="USR.PLAY_CONTROL = USR.PLAY_CONTROL === 'play' ? '' : USR.PLAY_CONTROL"                                
+                                style="cursor: pointer"                                
+                            >
+                                <td @click.prevent="loadUser(USR)">
+                                    <span v-show="USR.PLAY_CONTROL === 'play'" class="fa fa-play"></span>
+                                    <span v-show="USR.PLAY_CONTROL === 'loading'" class="fa fa-spinner faa-spin animated"></span>
+                                    <span v-show="USR.PLAY_CONTROL === ''">{{USR.NR}}</span>
+                                </td>
                                 <td>{{USR.NAME}}</td>
                                 <td>{{USR.LASTPLAY}}</td>
                                 <td>{{USR.PLAYCOUNT}}</td>

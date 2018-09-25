@@ -32,7 +32,8 @@ class LibvueMainpage {
             methods: {
                 
                 loadMenu(menu, event) {                        
-                    if (!$player.isReady) return;   
+                    //if (!$player.isReady) return;
+                    
                     let isPlayList = typeof menu.PLAYLIST !== 'undefined';
                     let playlistLoaded = function (success) {
                         if(isPlayList) {

@@ -7,15 +7,15 @@ class LibvueUser {
                 data: {
                     HEADER: '',
                     TEXT: '',
-                    TYPE : '',    
+                    TYPE: '',
                     LOGO: ''
                 },
-                
+
                 methods: {
                     update: function (json) {
-                        if(typeof json.HEADER !== 'undefined') {
+                        if (typeof json.HEADER !== 'undefined') {
                             this.$applyData(json.HEADER);
-                            
+
                             let icon = $page.icons.getPlaylistIcon(this.$data.TYPE);
                             this.$data.LOGO = icon.big;
                         }
@@ -26,8 +26,8 @@ class LibvueUser {
             menu: new Vue({
                 el: '#page-user>.page-header-nav',
                 data: {
-                    TYPE: '',
-                },                
+                    TYPE: ''
+                },
                 computed: {
                     MENUS: function () {
                         return this.$getMenuForPlaylist(this.TYPE);
@@ -36,15 +36,15 @@ class LibvueUser {
 
                 methods: {
                     update: function (json) {
-                        if(typeof json.HEADER !== 'undefined') {
-                            this.TYPE = json.HEADER.TYPE;   
-                        }                        
+                        if (typeof json.HEADER !== 'undefined') {
+                            this.TYPE = json.HEADER.TYPE;
+                        }
                     }
                 }
             })
         };
 
-        
+
         this.content = new Vue({
             el: '#page-user>.page-content',
             data: {
@@ -52,11 +52,13 @@ class LibvueUser {
                 USER_NAME: 'Name',
                 USER_PLAYCOUNT: 'Played',
                 USER_LASTPLAY: 'Last Played',
+
                 USER: [{
                     NR: '1',
                     NAME: 'Ravermeister',
                     LASTPLAY: '',
-                    PLAYCOUNT: '1'
+                    PLAYCOUNT: '1',
+                    PLAY_CONTROL: ''
                 }]
             },
 
@@ -65,11 +67,29 @@ class LibvueUser {
                     if (!this.$isUndefined(json.LIST_HEADER)) {
                         this.$applyData(json.LIST_HEADER);
                     }
-                    
+
                     if (typeof json.USER !== 'undefined') {
                         this.$applyData(json);
                     }
-                    
+                },
+
+                loadUser: function (user) {
+                    if (user.PLAY_CONTROL !== 'play' ||
+                        $page.myVues.playlist.menu.$data.LASTFM_USER_NAME === user.NAME
+                    ) return;
+
+                    let openurl = function (success) {
+                        if (success) {
+                            let article = $('.playlist-container');
+                            user.PLAY_CONTROL = '';
+                            location.href = '#' + $(article).attr('id');
+                            return;
+                        }
+                        user.PLAY_CONTROL = '';
+                    };
+
+                    user.PLAY_CONTROL = 'loading';
+                    $playlist.loadPlaylistPage(1, user.NAME, openurl);
                 }
             }
         });

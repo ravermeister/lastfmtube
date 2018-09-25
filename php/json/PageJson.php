@@ -293,10 +293,11 @@ class PageJson extends DefaultJson {
             $track = $topuser[$cnt];
 
             $page['USER'][] = array(
-                'NR'        => ($offset + $cnt + 1),
-                'NAME'      => $track['lastfm_user'],
-                'LASTPLAY'  => $track['last_played'],
-                'PLAYCOUNT' => $track['playcount']
+                'NR'          => ($offset + $cnt + 1),
+                'NAME'        => $track['lastfm_user'],
+                'LASTPLAY'    => $track['last_played'],
+                'PLAYCOUNT'   => $track['playcount'],
+                'PLAY_CONTROL' => '',
             );
         }
 
