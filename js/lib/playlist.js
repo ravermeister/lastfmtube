@@ -5,7 +5,7 @@ class PlaylistController {
     }
 
     loadTopUserPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
-        
+
         let request = 'php/json/JsonHandler.php?api=topuser&data=playlist&page=' + pageNum;
 
         $.getJSON(request, function (json) {
@@ -34,7 +34,7 @@ class PlaylistController {
         let loadComplete = function (success) {
             let parentCallBack = callBack;
 
-            if (typeof parentCallBack !== 'function') {                
+            if (typeof parentCallBack !== 'function') {
                 $page.setCurrentPlaylist(playlist);
             } else {
                 parentCallBack(success);
@@ -45,7 +45,7 @@ class PlaylistController {
 
 
         $page.setPlaylistLoading(true);
-        
+
         switch (playlist) {
             case 'userlist':
                 this.loadUserPlayListPage(pageNum, loadComplete, ignoreTitle);
@@ -92,12 +92,12 @@ class PlaylistController {
         $.getJSON('php/json/JsonHandler.php?api=topsongs&data=playlist&page=' + pageNum, function (json) {
 
             $page.myVues.playlist.update(json.data.value, ignoreTitle);
-            
+
             try {
                 if (callBack != null) {
                     callBack(true);
                 }
-                
+
             } catch (e) {
                 console.error('error in load topsongs list callback function', e);
                 console.error('Callback: ', callBack);
@@ -122,16 +122,21 @@ class PlaylistController {
     loadUserPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
 
         let tracks = this.getUserTracks();
-        let tracksPerPage = this.TRACKS_PER_PAGE;
-        pageNum = this.updateUserListPages(pageNum);
-        let pageCount = tracks.length <= 0 ? 0 : parseInt(tracks.length / tracksPerPage);
+
+        let tracksPerPage = $page.TRACKS_PER_PAGE;
+        pageNum = this.updateUserListPages(pageNum, tracks);
         let endIndex = pageNum * tracksPerPage;
         let startIndex = endIndex - tracksPerPage;
 
-        if (endIndex >= tracks.length) {
-            tracks = tracks.slice(startIndex);
-        } else {
+        if (endIndex < tracks.length) {
             tracks = tracks.slice(startIndex, endIndex);
+        } else {
+            tracks = tracks.slice(startIndex);
+        }
+
+        for (let cnt = 0; cnt < tracks.length; cnt++) {
+            let track = tracks[cnt];
+            track.NR = ((pageNum - 1) * tracksPerPage) + (cnt + 1);
         }
         
         $page.myVues.playlist.update({
@@ -139,14 +144,6 @@ class PlaylistController {
                 PLAYLIST: 'userlist',
                 TEXT: 'My Songs',
                 URL: ''
-            },
-
-            LIST_MENU: {
-                CUR_PAGE: pageNum,
-                MAX_PAGES: pageCount,
-                LASTFM_USER_NAME: '',
-                PLAYLIST: 'userlist'
-
             },
 
             TRACKS: tracks
@@ -185,13 +182,13 @@ class PlaylistController {
 
                 $page.myVues.playlist.update(json.data.value, ignoreTitle);
                 /**
-                Vue.nextTick()
-                    .then(function () {
+                 Vue.nextTick()
+                 .then(function () {
                         // DOM updated
                         $page.myVues.playlist.update(json.data.value, ignoreTitle);
                     });
-                **/
-                
+                 **/
+
                 if (callBack != null) {
                     callBack(true);
                 }
@@ -215,25 +212,68 @@ class PlaylistController {
         return userStore.get('userlist.tracks');
     }
 
-    setUserTracks(tracks) {
+    setUserTracks(tracks = []) {
         this.userStore.set('userlist.tracks', tracks);
     }
 
-    updateUserListPages(pageNum = null) {
+    addUserTrack(track) {
         let tracks = this.getUserTracks();
-        if (tracks.length <= 0) return 0;
+        let newTrack = {
+            NR: (tracks.length + 1),
+            ARTIST: track.ARTIST,
+            TITLE: track.TITLE,
+            LASTPLAY: track.LASTPLAY,
+            VIDEO_ID: track.VIDEO_ID,
+            PLAY_CONTROL: '',
+            PLAYLIST: 'userlist',
+            PLAYSTATE: ''
+        };
 
-        let tracksPerPage = this.TRACKS_PER_PAGE;
-        let vueMap = this.vueMap;
+
+        tracks.push(newTrack);
+        this.setUserTracks(tracks);
+    }
+
+    removeUserTrack(index = -1) {
+        if (index < 0) return;
+        let tracks = this.getUserTracks();
+        if (index > tracks.length || index <= tracks.length) return;
+
+        let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
+        let maxPages = $page.myVues.playlist.menu.$data.MAX_PAGES;
+        let offset = ((pageNum - 1) * $page.TRACKS_PER_PAGE);
+        
+        tracks.splice(offset+index, 1);
+        this.setUserTracks(tracks);
+    }
+
+    updateUserListPages(pageNum = null, tracks = null) {
+        
+        $page.myVues.playlist.menu.$data.LASTFM_USER_NAME = '';
+        $page.myVues.playlist.menu.$data.PLAYLIST = 'userlist';
+        
+        if (tracks === null) tracks = this.getUserTracks();
+        if (tracks.length <= 0) {
+            $page.myVues.playlist.menu.$data.CUR_PAGE = 1;
+            $page.myVues.playlist.menu.$data.MAX_PAGES = 1;
+            return 1;
+        }
+
+        let tracksPerPage = $page.TRACKS_PER_PAGE;
+
         let pageCount = parseInt(tracks.length / tracksPerPage);
         if ((tracks.length % tracksPerPage) > 0) pageCount++;
+        $page.myVues.playlist.menu.$data.MAX_PAGES = pageCount;
 
-        if (pageNum != null) {
-            if (pageNum > pageCount) pageNum = pageCount;
-            else if (pageNum < 1) pageNum = 1;
-        } else pageNum = parseInt(this.myVues.playlist.menu.$data.CUR_PAGE);
+        if (pageNum == null) {
+            pageNum = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
+        }
 
+        if (pageNum > pageCount) pageNum = pageCount;
+        else if (pageNum < 1) pageNum = 1;
 
+        $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
+        
         return pageNum;
     }
 }

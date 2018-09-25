@@ -39,9 +39,7 @@ class LibvuePlaylist {
                     }
                 },
 
-                methods: {
-                    
-                }
+                methods: {}
             })
         };
 
@@ -59,8 +57,8 @@ class LibvuePlaylist {
             },
 
             methods: {
-                loadPage: function (user, pageNum) {                    
-                    $playlist.loadPlaylistPage(pageNum, user);                    
+                loadPage: function (user, pageNum) {
+                    $playlist.loadPlaylistPage(pageNum, user);
                 },
 
                 loadNextPage: function (user, pageNum, maxPages) {
@@ -84,11 +82,11 @@ class LibvuePlaylist {
                     if (typeof $page.myVues.youtube.header !== 'undefined') {
                         $page.myVues.youtube.header.$data.PLAYLIST_ID = this.$data.PLAYLIST;
                     }
-                    
-                },               
-                
+
+                },
+
                 normalizeYouTubeUrl(event) {
-                    console.log('normalize url for ',$(event.target).val());
+                    console.log('normalize url for ', $(event.target).val());
                 }
             },
 
@@ -109,7 +107,7 @@ class LibvuePlaylist {
                 TRACK_NR: 'Nr',
                 TRACK_ARTIST: 'Artist',
                 TRACK_TITLE: 'Title',
-                TRACK_LASTPLAY: 'Lastplay',                
+                TRACK_LASTPLAY: 'Lastplay',
                 TRACKS: [{
                     NR: '',
                     ARTIST: '',
@@ -124,13 +122,40 @@ class LibvuePlaylist {
 
             methods: {
 
-                showPlay: function (track, show) {                    
+                showPlay: function (track, show) {
                     if ($player.isCurrentTrack(track)) {
                         return;
-                    }                    
+                    }
                     track.PLAYSTATE = show ? 'stop' : '';
                     $page.QUICKPLAY_TRACK = show ? track : null;
+
+                },
+
+                addToUserList: function (event, track) {
+                    $playlist.addUserTrack(track);
+                },
+
+                removeFromUserList: function (tracks, track) {
+                    let isLast = tracks.length == 1;
+                    let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
+                    let curIndex = tracks.indexOf(track);
+
+                    $playlist.removeUserTrack(track);
+                    $playlist.loadUserPlayListPage(curPage);
                     
+                    tracks = $page.myVues.playlist.content.$data.TRACKS;
+                    if(tracks.length > 0) {
+                        if(tracks.length > curIndex) {
+                            this.togglePlayControl(tracks[curIndex]);
+                        } else {
+                            this.togglePlayControl(tracks[tracks.length - 1]);
+                        }
+                    }
+                },
+                
+                clearUserList: function() {
+                    $playlist.setUserTracks();
+                    $playlist.loadUserPlayListPage();
                 },
 
                 togglePlay: function (track) {
@@ -144,12 +169,12 @@ class LibvuePlaylist {
                             console.log('unbekannter zustand für play/pause');
                             console.log(track_icon);
                         }
-                    } else if ($page.QUICKPLAY_TRACK === track) {                        
+                    } else if ($page.QUICKPLAY_TRACK === track) {
                         $player.loadSong(track);
                     } else {
                         console.log('unbekannter track');
                         console.log(track);
-                    }                    
+                    }
                 },
 
                 togglePlayControl: function (track) {
@@ -165,14 +190,14 @@ class LibvuePlaylist {
                     if (!this.$isUndefined(json.LIST_HEADER)) {
                         this.$applyData(json.LIST_HEADER);
                     }
-                    
+
                     if (!this.$isUndefined(json.TRACKS)) {
                         let newTracks = [];
-                        if($player.CURRENT_TRACK!=null) {
+                        if ($player.CURRENT_TRACK != null) {
 
-                            for(let cnt= 0; cnt<json.TRACKS.length; cnt++) {
+                            for (let cnt = 0; cnt < json.TRACKS.length; cnt++) {
                                 let track = json.TRACKS[cnt];
-                                if($player.isCurrentTrack(track)) {
+                                if ($player.isCurrentTrack(track)) {
                                     track = $player.CURRENT_TRACK;
                                 }
                                 newTracks[cnt] = track;
@@ -181,19 +206,19 @@ class LibvuePlaylist {
 
                         this.$data.TRACKS = newTracks;
                     }
-                    
-                }, 
-                
-                trackInfo: function(track) {
-                    let title = 'last Played: '+track.LASTPLAY;
-                    if(typeof track.PLAYCOUNT !== 'undefined') {
+
+                },
+
+                trackInfo: function (track) {
+                    let title = 'last Played: ' + track.LASTPLAY;
+                    if (typeof track.PLAYCOUNT !== 'undefined') {
                         title = 'Playcount: ' + track.PLAYCOUNT + ' | ' + title;
                     }
                     return title;
                 },
-                
+
                 playTrack: function (track) {
-                    $player.loadSong(track);                    
+                    $player.loadSong(track);
                 }
             }
         });
@@ -214,8 +239,8 @@ class LibvuePlaylist {
     update(json, ignoreTitle = false) {
         this.content.update(json);
         this.menu.update(json);
-        
-        if(ignoreTitle) return;        
+
+        if (ignoreTitle) return;
         this.header.title.update(json);
     }
 

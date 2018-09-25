@@ -285,7 +285,8 @@ class PageController {
         icons.star = new Icon('fas fa-star');
         icons.trophy = new Icon('fas fa-trophy');
         icons.user = new Icon('fas fa-user');
-
+        icons.trash = new Icon('fas fa-trash-alt');    
+        
         icons.list = [
             icons.play,
             icons.pause,

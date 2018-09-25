@@ -202,6 +202,13 @@
                                             <span class="fas fa-user-times"></span>
                                         </a>
 
+                                        <a @click="clearUserList();"
+                                           title="remove from Playlist"
+                                           v-if="TRACK.PLAYLIST === 'userlist'"
+                                           class="button smaller">
+                                            <span class="fas fa-trash-alt"></span>
+                                        </a>
+
                                         <a @click="searchVideos($event, TRACK);"
                                            v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
                                            title="search alternative Video"
