@@ -187,14 +187,14 @@ class PageController {
 
             if (log) console.log('after update: ', this.$data);
         };
-        Vue.prototype.$url2 = function(page, playlist, log) {
+        Vue.prototype.$url2 = function (page, playlist, log) {
             let url = '';
 
             if (typeof page !== 'undefined') url = '#' + page;
             else if (typeof playlist !== 'undefined') url = '#' + playlist;
             else url = '';
 
-            if(log) console.log('url', url, 'page', page, 'playlist', playlist);
+            if (log) console.log('url', url, 'page', page, 'playlist', playlist);
             return url;
         };
         Vue.prototype.$url = function (menu, log = false) {
@@ -218,35 +218,39 @@ class PageController {
 
         Vue.prototype.$loadListMenu = function (menu, event) {
 
-            if (!$player.isReady) return;
-            let page = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : menu.PAGE;
-            if (page === $player.PLAYLIST) return;
-
-            let oldlist = $page.PLAYLIST;
-            let newlist = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : oldlist;
+            if (!$player.isReady ||
+                typeof menu.PLAYLIST !== 'undefined' && 
+                $page.PAGE === null &&
+                menu.PLAYLIST === $page.PLAYLIST
+            )
+                return;
 
             let showPage = function (success) {
                 // DOM updated
-                $page.setCurrentPlaylist(success ? newlist : oldlist);
-                $page.setPlaylistLoading(false, success ? newlist : oldlist);
-            };
-
-            try {
-                $page.setPlaylistLoading(true);
-
+                $page.setLoading();
                 if (typeof menu.PLAYLIST !== 'undefined') {
+                    if (success) $page.setCurrentPlaylist(menu.PLAYLIST);
+
                     let curArticle = $(event.target).closest('article');
                     let playlistArticle = $('.playlist-container');
-                    
                     $(playlistArticle).attr('id', menu.PLAYLIST);
-                    if(!$(playlistArticle).is(curArticle)) {
+
+                    if (!$(playlistArticle).is(curArticle)) {
                         location.href = '#' + menu.PLAYLIST;
                     }
                 } else {
+                    $page.setCurrentPage(menu.PAGE);
                     location.href = '#' + menu.PAGE;
                 }
+            };
 
-                $playlist.loadPlaylistPage(1, null, showPage, newlist);
+            try {
+                $page.setLoading(true);
+                if(typeof menu.PLAYLIST !== 'undefined') {                   
+                    $playlist.loadPlaylistPage(1, null, showPage, menu.PLAYLIST);
+                } else {
+                    showPage(true);
+                }
 
                 // usage as a promise (2.1.0+, see note below)
                 /**
@@ -313,6 +317,7 @@ class PageController {
                 case 'topsongs':
                     return this.star;
                 case 'topuser':
+                case 'page-user':
                     return this.trophy;
                 case 'userlist':
                     return this.user;
@@ -352,11 +357,11 @@ class PageController {
         $.getJSON(request, function (json) {
             //console.log(JSON.stringify(json.data.value));
 
-            $page.setPageLoading(true);
+            $page.setMainPageLoading(true);
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value.playlist);
             $page.setCurrentPlaylist();
-            $page.setPageLoading();
+            $page.setMainPageLoading();
 
             console.log('init page success');
         }).fail(function (xhr, status, error) {
@@ -364,9 +369,9 @@ class PageController {
             console.log(xhr.responseText);
         });
     }
-    
+
     setCurrentPage(page = null) {
-        if(page==null) return;
+        if (page === null) return;
         this.PAGE = page;
     }
 
@@ -374,31 +379,43 @@ class PageController {
 
         if (playlist === this.PLAYLIST) return;
         this.PLAYLIST = playlist;
+        this.PAGE = null;
 
         this.myVues.youtube.header.$data.PAGE = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
         this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
         this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
-        
+
     }
-    
+
     isCurrentPlaylist(playlist) {
         return (
             typeof playlist !== 'undefined' &&
-            this.PLAYLIST === null && playlist === 'lastfm' || 
-            this.PLAYLIST === playlist 
+            this.PLAYLIST === null && playlist === 'lastfm' ||
+            this.PLAYLIST === playlist
         );
     }
 
-    setPageLoading(active = false) {
+    setLoading(active = false) {
+        if(this.PAGE !== null) this.setPageLoading(active);
+        else if(this.PLAYLIST !== null) this.setPlaylistLoading(active);
+    }
+    setMainPageLoading(active = false) {
         this.myVues.base.logo.$data.PAGE_LOADER = active ? this.icons.loader.bigger : this.icons.diamond.bigger;
     }
-
-    setPlaylistLoading(active = false, playlist = null) {
-        if (playlist === null) playlist = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
-        let curIcon = this.icons.getPlaylistIcon(playlist);
+    setPageLoading(active = false) {
+        if(this.PAGE === null) return;
+        
+        let curIcon = this.icons.getPlaylistIcon(this.PAGE);        
+        this.myVues.userlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
+        
+    }
+    setPlaylistLoading(active = false) {
+        if (this.PLAYLIST === null) return;
+                
+        let curIcon = this.icons.getPlaylistIcon(this.PLAYLIST);
         this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }
-
+    
     createNeedle(track) {
         return {
             artist: track.ARTIST,
@@ -409,26 +426,26 @@ class PageController {
                 else return this.artist + ' ' + this.title;
             },
             isValid: function (checkVideo = false) {
-                if(checkVideo) {
+                if (checkVideo) {
                     return (
-                        typeof this.videoId !== 'undefined' && 
-                        this.videoId !== null && 
+                        typeof this.videoId !== 'undefined' &&
+                        this.videoId !== null &&
                         this.videoId.trim().length > 0
-                    );    
+                    );
                 }
-                
+
                 return this.asVar().trim().length > 0;
-            },            
-            applyData: function(json) {
-                if(
+            },
+            applyData: function (json) {
+                if (
                     typeof json.data !== 'undefined' &&
                     typeof json.data.value !== 'undefined' &&
                     json.data.value.length > 0 &&
                     typeof json.data.value[0].video_id !== 'undefined' &&
-                    json.data.value[0].video_id.trim().length > 0                    
+                    json.data.value[0].video_id.trim().length > 0
                 ) {
-                    this.videoId = json.data.value[0].video_id;    
-                }                
+                    this.videoId = json.data.value[0].video_id;
+                }
             }
         };
     }

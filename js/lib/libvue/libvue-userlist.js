@@ -7,13 +7,17 @@ class LibvueUser {
                 data: {
                     HEADER: '',
                     TEXT: '',
-                    LOGO: '',
+                    TYPE : '',    
+                    LOGO: ''
                 },
-
+                
                 methods: {
                     update: function (json) {
                         if(typeof json.HEADER !== 'undefined') {
                             this.$applyData(json.HEADER);
+                            
+                            let icon = $page.icons.getPlaylistIcon(this.$data.TYPE);
+                            this.$data.LOGO = icon.big;
                         }
                     }
                 }

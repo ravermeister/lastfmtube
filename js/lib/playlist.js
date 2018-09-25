@@ -5,12 +5,12 @@ class PlaylistController {
     }
 
     loadTopUserPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
-
+        
         let request = 'php/json/JsonHandler.php?api=topuser&data=playlist&page=' + pageNum;
 
         $.getJSON(request, function (json) {
 
-            $page.myVues.playlist.update(json.data.value, ignoreTitle);
+            $page.myVues.userlist.update(json.data.value, ignoreTitle);
 
             try {
                 if (callBack != null) {
@@ -45,7 +45,7 @@ class PlaylistController {
 
 
         $page.setPlaylistLoading(true);
-
+        
         switch (playlist) {
             case 'userlist':
                 this.loadUserPlayListPage(pageNum, loadComplete, ignoreTitle);

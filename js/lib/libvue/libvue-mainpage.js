@@ -37,16 +37,16 @@ class LibvueMainpage {
                     let playlistLoaded = function (success) {
                         if(isPlayList) {
                             $page.setCurrentPlaylist(menu.PLAYLIST);
-                            $page.setPageLoading();
+                            $page.setMainPageLoading();
                             location.href='#' + menu.PLAYLIST;                            
                         } else {
                             $page.setCurrentPage(menu.PAGE);
-                            $page.setPageLoading();
+                            $page.setMainPageLoading();
                             location.href='#' + menu.PAGE;
                         }                         
                     };
                     
-                    $page.setPageLoading(true);                    
+                    $page.setMainPageLoading(true);                    
                     if(isPlayList) {
                         let article = $('.playlist-container');
                         $(article).attr('id', menu.PLAYLIST);
