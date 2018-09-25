@@ -163,6 +163,8 @@ class PlayerController {
     loadNextSong() {
 
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
+        if(tracks.length === 0) return;
+        
         let nextIndex = this.CURRENT_TRACK !== null ? tracks.indexOf(this.CURRENT_TRACK) + 1 : 0;
 
         if ((nextIndex) >= tracks.length) {
@@ -193,11 +195,13 @@ class PlayerController {
 
     loadPreviousSong() {
         if (this.CURRENT_TRACK == null) return;
-        let tracks = $page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
+        let tracks = $page.myVues.playlist.content.$data.TRACKS;
+        if(tracks.length === 0) return;
+        
         let index = tracks.indexOf(this.CURRENT_TRACK);
 
         if ((index - 1) < 0) {
-            let playlist = $page.vueMap['PLAYLIST_NAV'];
+            let playlist = $page.myVues.playlist.header.menu;
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
@@ -237,6 +241,7 @@ class PlayerController {
     setCurrentState(newState = '') {
         if(this.CURRENT_TRACK==null || this.CURRENT_TRACK.PLAYSTATE === newState) return;
         this.CURRENT_TRACK.PLAYSTATE = newState;
+        $page.myVues.youtube.menu.$data.PLAYSTATE = newState; 
     }
 
     loadSong(track) {

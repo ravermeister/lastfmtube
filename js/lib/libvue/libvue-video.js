@@ -17,6 +17,39 @@ class LibvueVideo {
                 },
             }
         });
+
+        this.menu = new Vue({
+            el: '#page-video>#player-menu',
+            data: {
+                PLAYSTATE: '',  
+            },
+            methods: {
+                togglePlay(play = null) {
+                    if(play === true && !$player.isPlaying()) {                        
+                        $player.ytPlayer.playVideo();                        
+                    } else if(play === false && !$player.isPaused()) {
+                        $player.ytPlayer.pauseVideo();
+                    } else if($player.isPlaying()) {
+                        $player.ytPlayer.pauseVideo();
+                    } else {
+                        $player.ytPlayer.playVideo();
+                    }
+                }, 
+                
+                prev: function() {
+                    $player.loadPreviousSong();
+                },
+                next: function () {
+                    $player.loadNextSong();
+                },
+                addToUserList: function() {
+                    $playlist.addUserTrack($player.CURRENT_TRACK);                    
+                },
+                search: function () {
+                    console.log('open search for current song');
+                }
+            },
+        });
     }
     
     

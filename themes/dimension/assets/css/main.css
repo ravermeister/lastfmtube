@@ -1692,6 +1692,23 @@ body {
     display: inline-block;
 }
 
-#main article .btn-playlist-nav {
+#main article .btn-video-nav {
+    margin-right: 0.75rem;
+}
+
+#main article .btn-page-nav button {
+    line-height:  0;   
+    padding: 0;
+    
+    padding-left: 0.3rem;
+    padding-right: 0.3rem;
+    float: left;
+}
+
+#main article .btn-page-nav input[type=submit] {
+    
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    float: left;    
     
 }
