@@ -314,11 +314,11 @@ class PageController {
         };
         icons.getPlaylistIcon = function (playlist = null) {
             if (playlist === null) return this.diamond.big;
+            
             switch (playlist) {
                 case 'topsongs':
                     return this.star;
                 case 'topuser':
-                case 'page-user':
                     return this.trophy;
                 case 'userlist':
                     return this.user;
@@ -374,6 +374,10 @@ class PageController {
     setCurrentPage(page = null) {
         if (page === null) return;
         this.PAGE = page;
+        if(this.PAGE_USER===this.PAGE) {
+            $page.myVues.userlist.header.title.$forceUpdate();
+            $page.myVues.userlist.header.menu.$forceUpdate();    
+        }        
     }
 
     setCurrentPlaylist(playlist = null) {
@@ -385,7 +389,6 @@ class PageController {
         this.myVues.youtube.header.$data.PAGE = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
         this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
         this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
-
     }
 
     isCurrentPlaylist(playlist) {

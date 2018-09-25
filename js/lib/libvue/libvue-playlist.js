@@ -145,7 +145,7 @@ class LibvuePlaylist {
                     
                     tracks = $page.myVues.playlist.content.$data.TRACKS;
                     if(tracks.length > 0) {
-                        if(tracks.length > curIndex) {
+                        if(tracks.length > curIndex) {                            
                             this.togglePlayControl(tracks[curIndex]);
                         } else {
                             this.togglePlayControl(tracks[tracks.length - 1]);

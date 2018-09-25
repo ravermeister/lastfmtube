@@ -65,45 +65,54 @@
 
 
             <div id="player-menu" style="margin-top: 1.5rem;margin-bottom: 0.5rem;">
-                
-                <a @click.prevent="togglePlay()"
-                   class="button btn-video-nav"
-                    v-show="PLAYSTATE === ''">
-                    <div class="fas fa-pause"></div>
-                </a>
-                
-                <a @click.prevent="togglePlay()"
-                   class="button btn-video-nav"
-                   v-show="PLAYSTATE === 'play' || PLAYSTATE === 'load'">
-                    <div class="fas fa-pause faa-flash animated"></div>
-                </a>
-                
-                <a @click.prevent="togglePlay()"
-                   class="button btn-video-nav"
-                   v-show="PLAYSTATE === 'pause'">
-                    <div class="fas fa-play"></div>
-                </a>
 
+                <div class="btn-nav">
+                    <a @click.prevent="togglePlay()"
+                       class="button"
+                       v-show="PLAYSTATE === ''">
+                        <span class="fas fa-pause fa-2x"></span>
+                    </a>
+                </div>
+                <div class="btn-nav">
+                    <a @click.prevent="togglePlay()"
+                       class="button"
+                       v-show="PLAYSTATE === 'play' || PLAYSTATE === 'load'">
+                        <span class="fas fa-pause faa-flash animated  fa-2x"></span>
+                    </a>
+                </div>
+                <div class="btn-nav">
+                    <a @click.prevent="togglePlay()"
+                       class="button"
+                       v-show="PLAYSTATE === 'pause'">
+                        <span class="fas fa-play  fa-2x"></span>
+                    </a>
+                </div>
+                <div class="btn-nav">
+                    <a @click.prevent="prev()"
+                       class="button">
+                        <span class="fas fa-backward  fa-2x"></span>
+                    </a>
+                </div>
+                <div class="btn-nav">
+                    <a @click.prevent="next()"
+                       class="button">
+                        <span class="fas fa-forward  fa-2x"></span>
+                    </a>
+                </div>
 
-                <a @click.prevent="prev()"
-                   class="button btn-video-nav">
-                    <div class="fas fa-backward"></div>
-                </a>
+                <div class="btn-nav">
+                    <a @click.prevent="addToUserList()"
+                       class="button">
+                        <span class="fas fa-user-plus  fa-2x"></span>
+                    </a>
+                </div>
 
-                <a @click.prevent="next()"
-                   class="button btn-video-nav">
-                    <div class="fas fa-forward"></div>
-                </a>
-
-                <a @click.prevent="addToUserList()"
-                   class="button btn-video-nav">
-                    <div class="fas fa-user-times"></div>
-                </a>
-                
-                <a @click.prevent="search()"
-                   class="button btn-video-nav">
-                    <div class="fas fa-search"></div>
-                </a>
+                <div class="btn-nav">
+                    <a @click.prevent="search()"
+                       class="button">
+                        <span class="fas fa-search  fa-2x"></span>
+                    </a>
+                </div>
             </div>
 
         </article>
@@ -114,7 +123,7 @@
 
             <div class="page-header-nav">
                 <template v-for="MENU in MENUS">
-                    <div class="btn-header-nav">
+                    <div class="btn-nav">
                         <a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
                            @click.prevent="$loadListMenu(MENU, $event);">
                             <div v-bind:class="MENU.LOGO"></div>
@@ -156,20 +165,20 @@
                             <input type="number" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"/>
                         </div>
                         <div class="field third btn-page-nav">
-                            
+
                             <label>&nbsp;</label>
                             <button @click="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                     title="Previous Page">
                                 <span class="fas fa-step-backward fa-2x"></span>
                             </button>
-                            
+
                             <input type="submit" name="playlist_load" id="playlist_load" v-bind:value="PLAYLIST_LOAD"/>
-                            
+
                             <button @click="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
-                               title="Next Page">
+                                    title="Next Page">
                                 <span class="fas fa-step-forward fa-2x"></span>
                             </button>
-                            
+
                         </div>
                     </div>
                 </form>
@@ -287,7 +296,7 @@
 
             <div class="page-header-nav">
                 <template v-for="MENU in MENUS">
-                    <div class="btn-header-nav">
+                    <div class="btn-nav">
                         <a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
                            @click.prevent="$loadListMenu(MENU, $event);">
                             <div v-bind:class="MENU.LOGO"></div>
