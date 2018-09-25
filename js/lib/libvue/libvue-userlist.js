@@ -74,9 +74,7 @@ class LibvueUser {
                 },
 
                 loadUser: function (user) {
-                    if (user.PLAY_CONTROL !== 'play' ||
-                        $page.myVues.playlist.menu.$data.LASTFM_USER_NAME === user.NAME
-                    ) return;
+                    if (user.PLAY_CONTROL !== 'play') return;
 
                     let openurl = function (success) {
                         if (success) {
@@ -87,7 +85,11 @@ class LibvueUser {
                         }
                         user.PLAY_CONTROL = '';
                     };
-
+                    if($page.myVues.playlist.menu.$data.LASTFM_USER_NAME === user.NAME) {
+                        openurl(true);
+                        return;
+                    }
+                    
                     user.PLAY_CONTROL = 'loading';
                     $playlist.loadPlaylistPage(1, user.NAME, openurl);
                 }
