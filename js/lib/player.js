@@ -4,7 +4,7 @@ class ChartTimer {
             ARTIST: null,
             TITLE: null,
             isValid: function() {
-                return this.ARTIST != null && this.TITLE != null;
+                return this.ARTIST !== null && this.TITLE !== null;
             }
         };
     }
@@ -163,7 +163,7 @@ class PlayerController {
     loadNextSong() {
 
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
-        let nextIndex = this.CURRENT_TRACK != null ? tracks.indexOf(this.CURRENT_TRACK) + 1 : 0;
+        let nextIndex = this.CURRENT_TRACK !== null ? tracks.indexOf(this.CURRENT_TRACK) + 1 : 0;
 
         if ((nextIndex) >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
@@ -225,7 +225,7 @@ class PlayerController {
     setCurrentTrack(track) {
         if(this.isCurrentTrack(track)) return;
         
-        if (this.CURRENT_TRACK != null) {
+        if (this.CURRENT_TRACK !== null) {
             this.setCurrentState();
             this.CURRENT_TRACK = null;
         }
@@ -247,7 +247,7 @@ class PlayerController {
         this.setCurrentTrack(track);   
 
         let needle = $page.createNeedle(track);
-        if (needle.videoId != null && needle.videoId.length > 0) {            
+        if (needle.videoId !== null && needle.videoId.length > 0) {            
             $player.loadVideoByNeedle(needle);
             return;
         }
@@ -288,7 +288,7 @@ class PlayerController {
 
     isCurrentTrack(track) {
         
-        let isEqual =  this.CURRENT_TRACK != null && (
+        let isEqual =  this.CURRENT_TRACK !== null && (
             this.CURRENT_TRACK == track || (
                 this.CURRENT_TRACK.NR == track.NR &&
                 this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST &&

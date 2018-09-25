@@ -28,9 +28,9 @@ class PlaylistController {
 
     loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
 
-        if (playlist == null) playlist = $page.PLAYLIST;
+        if (playlist === null) playlist = $page.PLAYLIST;
 
-        let ignoreTitle = playlist == $page.PLAYLIST;
+        let ignoreTitle = playlist === $page.PLAYLIST;
         let loadComplete = function (success) {
             let parentCallBack = callBack;
 

@@ -144,7 +144,7 @@ class LibvuePlaylist {
                             console.log('unbekannter zustand für play/pause');
                             console.log(track_icon);
                         }
-                    } else if ($page.QUICKPLAY_TRACK == track) {                        
+                    } else if ($page.QUICKPLAY_TRACK === track) {                        
                         $player.loadSong(track);
                     } else {
                         console.log('unbekannter track');
@@ -153,7 +153,7 @@ class LibvuePlaylist {
                 },
 
                 togglePlayControl: function (track) {
-                    if ($page.PLAY_CONTROL != null && $page.PLAY_CONTROL != track) {
+                    if ($page.PLAY_CONTROL !== null && $page.PLAY_CONTROL !== track) {
                         $page.PLAY_CONTROL.PLAY_CONTROL = false;
                     }
 
@@ -166,22 +166,20 @@ class LibvuePlaylist {
                         this.$applyData(json.LIST_HEADER);
                     }
                     
-                    if (!this.$isUndefined(json.TRACKS)) {                        
+                    if (!this.$isUndefined(json.TRACKS)) {
+                        let newTracks = [];
                         if($player.CURRENT_TRACK!=null) {
-                            
-                            let newTracks = [];
+
                             for(let cnt= 0; cnt<json.TRACKS.length; cnt++) {
                                 let track = json.TRACKS[cnt];
                                 if($player.isCurrentTrack(track)) {
                                     track = $player.CURRENT_TRACK;
-                                } 
+                                }
                                 newTracks[cnt] = track;
                             }
-                            this.$data.TRACKS = newTracks;
-                            
-                        } else {
-                            
-                        }
+                        } else newTracks = json.TRACKS;
+
+                        this.$data.TRACKS = newTracks;
                     }
                     
                 }, 
@@ -209,7 +207,7 @@ class LibvuePlaylist {
             pdata = json.playlist.LIST.HEADER;
         if (!this.$isUndefined(json.playlist.LIST.CONTENT))
             pdata.TRACKS = json.playlist.LIST.CONTENT;
-        return pdata == null ? {} : pdata;
+        return pdata === null ? {} : pdata;
     }
 
 

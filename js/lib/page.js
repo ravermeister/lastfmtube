@@ -168,7 +168,7 @@ class PageController {
 
         Vue.prototype.$applyData = function (json, log = false) {
 
-            if (typeof this === 'undefined' || this == null) {
+            if (typeof this === 'undefined' || this === null) {
                 console.error('Error, vue instance not found. Json: ', json, ', Vue: ', this);
                 return;
             }
@@ -220,7 +220,7 @@ class PageController {
 
             if (!$player.isReady) return;
             let page = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : menu.PAGE;
-            if (page == $player.PLAYLIST) return;
+            if (page === $player.PLAYLIST) return;
 
             let oldlist = $page.PLAYLIST;
             let newlist = (typeof menu.PLAYLIST !== 'undefined') ? menu.PLAYLIST : oldlist;
@@ -308,7 +308,7 @@ class PageController {
             return null;
         };
         icons.getPlaylistIcon = function (playlist = null) {
-            if (playlist == null) return this.diamond.big;
+            if (playlist === null) return this.diamond.big;
             switch (playlist) {
                 case 'topsongs':
                     return this.star;
@@ -372,19 +372,19 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
-        if (playlist == this.PLAYLIST) return;
+        if (playlist === this.PLAYLIST) return;
         this.PLAYLIST = playlist;
 
-        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST == null ? this.PAGE_PLAYLIST : this.PLAYLIST;
-        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST == null ? this.PAGE_PLAYLIST : this.PLAYLIST;
-        this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST == null ? this.PAGE_PLAYLIST : this.PLAYLIST;
+        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
+        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
+        this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
         
     }
     
     isCurrentPlaylist(playlist) {
         return (
             typeof playlist !== 'undefined' &&
-            this.PLAYLIST == null && playlist == 'lastfm' || 
+            this.PLAYLIST === null && playlist === 'lastfm' || 
             this.PLAYLIST === playlist 
         );
     }
@@ -394,7 +394,7 @@ class PageController {
     }
 
     setPlaylistLoading(active = false, playlist = null) {
-        if (playlist == null) playlist = this.PLAYLIST == null ? this.PAGE_PLAYLIST : this.PLAYLIST;
+        if (playlist === null) playlist = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
         let curIcon = this.icons.getPlaylistIcon(playlist);
         this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }
