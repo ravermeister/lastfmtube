@@ -68,48 +68,48 @@
 
                 <div class="btn-nav">
                     <a @click.prevent="togglePlay()"
-                       class="button"
+                       class="button medium"
                        v-show="PLAYSTATE === ''">
                         <span class="fas fa-pause fa-2x"></span>
                     </a>
                 </div>
                 <div class="btn-nav">
                     <a @click.prevent="togglePlay()"
-                       class="button"
+                       class="button medium"
                        v-show="PLAYSTATE === 'play' || PLAYSTATE === 'load'">
                         <span class="fas fa-pause faa-flash animated  fa-2x"></span>
                     </a>
                 </div>
                 <div class="btn-nav">
                     <a @click.prevent="togglePlay()"
-                       class="button"
+                       class="button medium"
                        v-show="PLAYSTATE === 'pause'">
                         <span class="fas fa-play  fa-2x"></span>
                     </a>
                 </div>
                 <div class="btn-nav">
                     <a @click.prevent="prev()"
-                       class="button">
+                       class="button medium">
                         <span class="fas fa-backward  fa-2x"></span>
                     </a>
                 </div>
                 <div class="btn-nav">
                     <a @click.prevent="next()"
-                       class="button">
+                       class="button medium">
                         <span class="fas fa-forward  fa-2x"></span>
                     </a>
                 </div>
 
                 <div class="btn-nav">
                     <a @click.prevent="addToUserList()"
-                       class="button">
+                       class="button medium">
                         <span class="fas fa-user-plus  fa-2x"></span>
                     </a>
                 </div>
 
                 <div class="btn-nav">
                     <a @click.prevent="search()"
-                       class="button">
+                       class="button medium">
                         <span class="fas fa-search  fa-2x"></span>
                     </a>
                 </div>
@@ -352,16 +352,13 @@
     <!-- Footer -->
     <footer id="footer">
         <p class="copyright">
-            <span style="vertical-align: top">
-                &copy;2018 <a href="//www.rimkus.it" target="_blank">Jonny Rimkus</a>
+                &copy;2018 
+                <a href="//www.rimkus.it" target="_blank">Jonny Rimkus</a>
                 &lt;<a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>&gt;
-            </span>
-            &nbsp;&nbsp;
-            <a href="//www.wtfpl.net/" target="_blank" style="border: 0; text-decoration: none;">
-                <img src="images/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL"/>
-            </a>
-
-
+                
+                <a href="//www.wtfpl.net/" target="_blank" style="border: 0; text-decoration: none;">
+                    <img src="images/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL" style="vertical-align: middle;"/>
+                </a>            
         </p>
     </footer>
 

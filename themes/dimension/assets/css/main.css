@@ -1057,6 +1057,19 @@ button.fit,
     width: 100%;
 }
 
+input[type="submit"].medium,
+input[type="reset"].medium,
+input[type="button"].medium,
+button.medium,
+.button.medium {
+    font-size: 0.7rem;
+    height: 2rem;
+    line-height: 2rem;
+    padding-left:10px;
+    padding-right:10px;
+
+}
+
 input[type="submit"].small,
 input[type="reset"].small,
 input[type="button"].small,
@@ -1072,11 +1085,11 @@ input[type="reset"].smaller,
 input[type="button"].smaller,
 button.smaller,
 .button.smaller {
-    font-size: 0.6rem;
-    height: 1.5625rem;
-    line-height: 1.5625rem;
-    padding-left:13px;
-    padding-right:13px;
+    font-size: 0.85rem;
+    height: 1.85rem;
+    line-height: 1.85rem;
+    padding-left:10px;
+    padding-right:10px;
     
 }
 
