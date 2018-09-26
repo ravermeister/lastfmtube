@@ -308,8 +308,7 @@ class PlayerController {
             'php/json/JsonHandler.php?api=videos&data=search' +
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
-            
-            $playlist.loadSearchResult(needle, json, callBack);
+            $playlist.loadSearchResult(needle, json, 1, callBack);
             
         }).fail(function (xhr) {            
             if(typeof xhr === 'object' && xhr !== null) {
