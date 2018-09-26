@@ -191,7 +191,7 @@ class PageJson extends DefaultJson {
                 'LASTFM_USER_NAME'       => $this->lfmapi->getUser(),
                 'CUR_PAGE_LABEL'         => $this->locale['playlist.control.page'],
                 'PAGES_OF_LABEL'         => $this->locale['playlist.control.pageof'],
-                'MAX_PAGES'              => $playlist->totalPages,
+                'MAX_PAGES'              => $playlist->getTotalPages(),
                 'CUR_PAGE'               => $pageNum,
                 'PLAYLIST_LOAD'          => $this->locale['playlist.control.load'],
                 'PLAYLIST'               => 'lastfm'
@@ -211,9 +211,7 @@ class PageJson extends DefaultJson {
              * @var Track
              */
             $track   = $tracks[$cnt];
-            $artist  = Functions::getInstance()->prepareNeedle($track->getArtist());
-            $title   = Functions::getInstance()->prepareNeedle($track->getTitle());
-            $videoId = $db->getEnvVar($artist . ' ' . $title);
+            $videoId = $db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
 
             $page['TRACKS'][] = array(
                 'NR'           => ($pageStart + $cnt + 1),
@@ -256,7 +254,6 @@ class PageJson extends DefaultJson {
         $limit  = $this->settings['general']['tracks_perpage'];
         $offset = ($pageNum - 1) * $limit;
 
-        Functions::getInstance()->logMessage("execute topuser query with $user, $lastplay, $offset, $limit");
         $topuser  = Db::getInstance()->query('SELECT_ALL_LASTFM_USER', $user, $lastplay, $limit, $offset);
         $maxpages = Db::getInstance()->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
         $maxpages = ((int)($maxpages / $limit));
@@ -290,13 +287,13 @@ class PageJson extends DefaultJson {
         );
 
         for ($cnt = 0; $cnt < sizeof($topuser); $cnt++) {
-            $track = $topuser[$cnt];
-
+            $user = $topuser[$cnt];
+            
             $page['USER'][] = array(
                 'NR'          => ($offset + $cnt + 1),
-                'NAME'        => $track['lastfm_user'],
-                'LASTPLAY'    => $track['last_played'],
-                'PLAYCOUNT'   => $track['playcount'],
+                'NAME'        => $user['lastfm_user'],
+                'LASTPLAY'    => $user['last_played'],
+                'PLAYCOUNT'   => $user['playcount'],
                 'PLAY_CONTROL' => '',
             );
         }

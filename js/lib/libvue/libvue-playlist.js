@@ -170,6 +170,7 @@ class LibvuePlaylist {
                             console.log(track_icon);
                         }
                     } else if ($page.QUICKPLAY_TRACK === track) {
+                        $player.errorLoopCount = 0;                        
                         $player.loadSong(track);
                     } else {
                         console.log('unbekannter track');
@@ -218,7 +219,16 @@ class LibvuePlaylist {
                 },
 
                 playTrack: function (track) {
+                    $player.errorLoopCount = 0;
                     $player.loadSong(track);
+                },
+                
+                searchVideos: function (event, track) {
+                    $page.setPlaylistLoading(true);                    
+                    let callBack = function(success) {
+                        $page.setPlaylistLoading();
+                    };
+                    $player.searchSong(track, callBack);                    
                 }
             }
         });
@@ -228,9 +238,9 @@ class LibvuePlaylist {
 
     getTracks(json) {
         let pdata = null;
-        if (!this.$isUndefined(json.playlist.LIST.HEADER))
+        if (!$page.$isUndefined(json.playlist.LIST.HEADER))
             pdata = json.playlist.LIST.HEADER;
-        if (!this.$isUndefined(json.playlist.LIST.CONTENT))
+        if (!$page.$isUndefined(json.playlist.LIST.CONTENT))
             pdata.TRACKS = json.playlist.LIST.CONTENT;
         return pdata === null ? {} : pdata;
     }

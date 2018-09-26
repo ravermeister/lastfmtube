@@ -39,6 +39,9 @@ class PlayerController {
         this.isReady = false;
         this.autoPlay = false;
         this.CURRENT_TRACK = null;
+        this.maxErrorLoop = 5;
+        this.errorLoopCount = 0;
+        
         this.ytStatus = new Object();
 
         this.ytStatus.UNSTARTED = new Object();
@@ -81,7 +84,7 @@ class PlayerController {
 
             let onReady = function (event) {
                 $player.isReady = true;
-                if ($player.autoPlay) {
+                if ($player.autoPlay && $page.isReady) {
                     $player.loadNextSong();
                 }
                 console.log('youtube player ready');
@@ -100,6 +103,7 @@ class PlayerController {
                         break;
 
                     case $player.ytStatus.PLAYING.ID:
+                        $player.errorLoopCount = 0;
                         $page.myVues.youtube.header.$data.NOW_PLAYING = $player.ytPlayer.getVideoData().title;
                         $player.setCurrentState('play');                        
                         break;
@@ -114,6 +118,10 @@ class PlayerController {
 
                     case $player.ytStatus.CUED.ID:
                         console.log('track cued');
+                        break;
+                    default:
+                        console.error('unknown player event: ', event.data);
+                        console.error(event);
                         break;
                 }
             };
@@ -245,8 +253,7 @@ class PlayerController {
     }
 
     loadSong(track) {
-        //console.log(artist);
-        //console.log(title);
+                
         //console.log(this.ytPlayer);
         if (this.ytPlayer == null) return;        
         this.setCurrentTrack(track);   
@@ -258,11 +265,11 @@ class PlayerController {
         }
         
         if(!needle.isValid()) {
-            this.loadNextSong();
+            this.loadNextOnError();
             return;
         }
-        
-        let request = './php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
+
+        let request = 'php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
         
         $.ajax(request, {
             dataType: 'json'
@@ -271,14 +278,69 @@ class PlayerController {
             needle.applyData(search);
 
             if (!needle.isValid(true)) {
-                console.log('load next song no video was found');
+                $player.loadNextOnError();                
                 return;
             }
 
             $player.loadVideoByNeedle(needle);
         }).fail(function (xhr) {
-            console.error('error: ', xhr);
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ' , request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
         });
+    }
+    
+    searchSong(track, callBack = null) {
+        let needle = $page.createNeedle(track);
+        if(!needle.isValid()) {
+            console.error('needle is invalid exit search');
+            return;
+        }
+
+        let request =
+            'php/json/JsonHandler.php?api=videos&data=search' +
+            '&size=50&needle=' + needle.asVar();
+        $.getJSON(request, function (json) {
+            
+            $playlist.loadSearchResult(needle, json, callBack);
+            
+        }).fail(function (xhr) {            
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ' , request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );    
+            } else {
+                console.log('request: ', request, 'error');
+            }
+            
+
+            if(typeof callBack === 'function') {
+                callBack(false);
+            }
+        });                
+    }
+    
+    loadNextOnError() {
+        
+        if(this.errorLoopCount>=this.maxErrorLoop) {
+            console.error('max error loop reached, stop autoloading next song!');
+            this.setCurrentState();
+            return;
+        }
+        
+        this.errorLoopCount++;            
+        console.log('load next song no video was found');
+        this.loadNextSong();
     }
 
     loadVideoByNeedle(needle) {

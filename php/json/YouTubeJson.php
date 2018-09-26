@@ -9,8 +9,12 @@ namespace LastFmTube\Json;
 
 
 use LastFmTube\Util\Functions;
+use LastFmTube\Util\lfmapi\Track;
 
 class YouTubeJson extends DefaultJson {
+
+    //as stated in exception message from youtube
+    const MAX_YT_SEARCH_SIZE = 50;
 
     public function __construct() {
         parent::__construct('youtube');
@@ -33,6 +37,7 @@ class YouTubeJson extends DefaultJson {
                 default:
                     return $this->jsonError('Falsche Parameterangabe');
             }
+            
             return $this->jsonData($data, $type);
         } catch (Exception $err) {
             return $this->jsonError('unbekannter Fehler: ' . $err->getMessage());
@@ -40,10 +45,15 @@ class YouTubeJson extends DefaultJson {
     }
 
     private function search($getvars) {
-        $size   = isset($getvars['size']) ? $getvars['size'] : 1;
         $needle = isset($getvars['needle']) ? $getvars['needle'] : '';
         if (strlen(trim($needle)) == 0) {
             return $this->jsonError('Kein suchkriterium angegeben!');
+        }
+
+        $size = isset($getvars['size']) ? $getvars['size'] : 1;
+        $size = filter_var($size, FILTER_SANITIZE_NUMBER_INT);
+        if ($size > YouTubeJson::MAX_YT_SEARCH_SIZE) {
+            $size = YouTubeJson::MAX_YT_SEARCH_SIZE;
         }
 
         $needle   = Functions::getInstance()->prepareNeedle($needle);
@@ -53,7 +63,32 @@ class YouTubeJson extends DefaultJson {
         $searcher->search($size);
         $videos = $searcher->getVideoList();
 
-        return $videos;
+                
+        $asTracks = isset($_GET['tracklist']) ? 
+            filter_var($_GET['tracklist'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : 
+            false;
 
+        if ($asTracks !== true) {            
+            return $videos;
+        }
+
+        
+        
+        $tracks = array();
+        for ($cnt=0;$cnt<sizeof($videos);$cnt++) {
+            $video = $videos[$cnt];
+            $tracks[] = array(
+                'NR' => ($cnt + 1),
+                'ARTIST' => '',
+                'TITLE' => $video->getTitle(),
+                'LASTPLAY' => '',
+                'VIDEO_ID' => $video->getVideoID(),
+                'PLAY_CONTROL' => false,
+                'PLAYLIST' => 'search',
+                'PLAYSTATE' => ''
+            );
+        }
+        
+        return $tracks;
     }
 }

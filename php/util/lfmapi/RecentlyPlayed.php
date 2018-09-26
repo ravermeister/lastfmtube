@@ -6,10 +6,10 @@ namespace LastFmTube\Util\lfmapi;
 use simplehtmldom_1_5\simple_html_dom;
 
 class RecentlyPlayed {
-    var $page;
-    var $totalPages;
-    var $itemsPerPage;
-    var $items = array();
+    private $page;
+    private $totalPages;
+    private $itemsPerPage;
+    private $items = array();
 
     /**
      * RecentlyPlayed constructor.
@@ -28,9 +28,8 @@ class RecentlyPlayed {
                    
 
         $tracks = $html->find('track');
-        foreach ($tracks as $track) {
-            $trackobj       = new Track ($track);
-            $this->items [] = $trackobj;
+        foreach ($tracks as $track) { 
+            $this->items [] = Track::fromXML($track);
         }
     }
 
@@ -51,4 +50,7 @@ class RecentlyPlayed {
         return $playing;
     }
 
+    function getTotalPages() {
+        return $this->totalPages;
+    }
 }

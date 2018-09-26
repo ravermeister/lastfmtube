@@ -3,63 +3,88 @@
 namespace LastFmTube\Util\lfmapi;
 
 use LastFmTube\Util\Functions;
+use LastFmTube\Util\ytapi\YoutubeSearch;
 use simplehtmldom_1_5\simple_html_dom_node;
 
 class Track {
     /**
      * @var string
      */
-    var $artist;
+    private $artist;
     /**
      * @var string
      */
-    var $title;
+    private $title;
     /**
      * @var string
      */
-    var $album;
+    private $album;
     /**
      * @var bool
      */
-    var $isplaying;
+    private $isplaying;
 
     /**
      * @var string
      */
-    var $dateofPlay;
+    private $dateofPlay;
 
     /**
      * Track constructor.
-     * @param simple_html_dom_node $trackxml
-     * @param                      $invalidNames
+     * @param        $artist
+     * @param        $title
+     * @param        $album
+     * @param string $lastplay
+     * @param bool   $isPlaying
      */
-    function __construct($trackxml) {
-        $myArtist = $trackxml->children(0)->innertext;
-        $myTitle  = $trackxml->children(1)->innertext;
-        $myAlbum  = $trackxml->children(4)->innertext;
+    public function __construct($artist, $title, $album = '', $lastplay = '', $isPlaying = false) {
+        $this->artist     = Functions::getInstance()->prepareNeedle($artist);
+        $this->title      = Functions::getInstance()->prepareNeedle($title);
+        $this->album      = Functions::getInstance()->decodeHTML($album);
+        $this->dateofPlay = $lastplay;
+        $this->isPlaying  = $isPlaying;
+    }
 
-        $this->artist = html_entity_decode($myArtist, ENT_QUOTES | ENT_HTML5);
-        $this->title  = html_entity_decode($myTitle, ENT_QUOTES | ENT_HTML5);
-        $this->album  = html_entity_decode($myAlbum, ENT_QUOTES | ENT_HTML5);
-
-        $this->title  = Functions::getInstance()->prepareNeedle($this->title);
-        $this->artist = Functions::getInstance()->prepareNeedle($this->artist);
+    
+    public static function fromXML($trackxml) {
 
         // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
-        $play_timestamp = 0;
+
         if ($trackxml->children(10) !== null) {
-            $play_timestamp = $trackxml->children(10)->uts;
+            $timestamp = $trackxml->children(10)->uts;                               
+            
+            if ($timestamp <= 0) {
+                // timestamp 0 means currently playing!
+                $lastplay = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
+                $isPlaying = true;
+            }
+            else {
+                $lastplay = date(
+                    'd.m.Y H:i:s',
+                    $trackxml->children(10)->uts
+                );
+                $isPlaying = false;
+            }
+
+            return new Track(
+                Functions::getInstance()->prepareNeedle($trackxml->children(0)->innertext),
+                Functions::getInstance()->prepareNeedle($trackxml->children(1)->innertext),
+                Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext),
+                $lastplay, $isPlaying
+            );
         }
-        if ($play_timestamp > 0) $this->dateofPlay = date('d.m.Y H:i:s', $play_timestamp);
-        else
-            $this->dateofPlay = "Jetzt!"; // timestamp 0 means currently playing!
-        $this->isplaying = $trackxml->nowplaying;
+
+        return new Track(
+            Functions::getInstance()->prepareNeedle($trackxml->children(0)->innertext),
+            Functions::getInstance()->prepareNeedle($trackxml->children(1)->innertext),
+            Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext)
+        );
     }
 
     /**
      * @return bool
      */
-    function isPlaying() {
+    public function isPlaying() {
         return $this->isplaying;
     }
 

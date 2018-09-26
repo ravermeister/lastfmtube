@@ -114,6 +114,14 @@ class Functions {
         return $data;
     }
 
+    public static function endsWith($haystack, $needle) {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return true;
+        }
+        return (substr($haystack, -$length) === $needle);
+    }
+
     /**
      * @return LastFm
      */
@@ -147,12 +155,13 @@ class Functions {
             else  $started = session_id() === '' ? false : true;
         }
         if (!$started) session_start();
-        $getuser=isset($_GET['lastfm_user']) ? 
+        $getuser = isset($_GET['lastfm_user']) ?
             filter_var($_GET['lastfm_user'], FILTER_SANITIZE_STRING) : null;
-        if($getuser!=null&&strlen(trim($getuser))>0) {
+        if ($getuser != null && strlen(trim($getuser)) > 0) {
             $_SESSION ['music'] ['lastfm_user'] = $getuser;
             unset ($_GET ['lastfm_user']);
-        } else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
+        }
+        else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
             $_SESSION ['music'] ['lastfm_user'] = self::$instance->settings ['general'] ['lastfm_defaultuser'];
         }
         $_SESSION ['music'] ['lastfm_user'] = trim($_SESSION ['music'] ['lastfm_user']);
@@ -165,18 +174,19 @@ class Functions {
         $logfile = fopen(self::getInstance()->settings['general']['logpath'], 'a+');
 
         $prefix = date('d.m.Y H:i:s');
-        if(is_array($msg)) {
-            foreach($msg as $item) {
+        if (is_array($msg)) {
+            foreach ($msg as $item) {
                 $msgArr = explode("\n", self::br2nl($item));
                 for ($i = 0; $i < sizeof($msgArr); $i++) {
                     if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
-                }   
+                }
             }
-        } else {
+        }
+        else {
             $msgArr = explode("\n", self::br2nl($msg));
             for ($i = 0; $i < sizeof($msgArr); $i++) {
                 if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
-            }            
+            }
         }
 
         fclose($logfile);
@@ -200,23 +210,23 @@ class Functions {
         return ($text);
     }
 
-    public static function endsWith($haystack, $needle) {
-        $length = strlen($needle);
-        if ($length == 0) {
-            return true;
-        }
-        return (substr($haystack, -$length) === $needle);
-    }
-
     public function prepareNeedle($needle) {
         self::getInstance()->initReplacements();
-        $needle = html_entity_decode(strip_tags(trim($needle)), ENT_QUOTES | ENT_HTML5);
+        $needle = $this->decodeHTML($needle);
         if (is_array($this->replacements)) {
             foreach ($this->replacements as $key => $value) {
                 $needle = str_replace($key, $value, $needle);
             }
         }
         return $needle;
+    }
+
+    public function decodeHTML($val) {
+        return html_entity_decode(strip_tags($val), ENT_QUOTES | ENT_HTML5);
+    }
+
+    public function encodeHTML($val) {
+        return filter_var($val, FILTER_SANITIZE_FULL_SPECIAL_CHARS, ENT_QUOTES | ENT_HTML5);
     }
 
     public function saveConfig($config = false) {

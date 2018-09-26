@@ -5,6 +5,7 @@ namespace LastFmTube\Util\ytapi;
 use Google_Client;
 use Google_Service_YouTube;
 use LastFmTube\Util\Functions;
+use LastFmTube\Util\lfmapi\Track;
 
 class YoutubeSearch {
 
@@ -25,6 +26,25 @@ class YoutubeSearch {
 
     function __construct() {
         $this->client = new Google_Client ();
+    }
+
+    /**
+     *
+     * Convert an object to an array
+     *
+     * @param object $object
+     *            The object to convert
+     * @return      mixed|array|object
+     *
+     */
+    private static function objectToArray($object) {
+        if (!is_object($object) && !is_array($object)) {
+            return $object;
+        }
+        if (is_object($object)) {
+            $object = get_object_vars($object);
+        }
+        return array_map('objectToArray', $object);
     }
 
     function ignoreVideo($video_id) {
@@ -74,11 +94,14 @@ class YoutubeSearch {
             // Call the search.list method to retrieve results matching the specified
             // query term.
 
-            $searchResponse = $youtube->search->listSearch('id,snippet',
-                                                           array('q'    => $this->needle, 'maxResults' => $resultcount,
-                                                                 'type' => 'video')
+            $searchResponse = $youtube->search->listSearch(
+                'id,snippet',
+                array('q'          => $this->needle,
+                      'maxResults' => $resultcount,
+                      'type'       => 'video'
+                )
             );
-            
+
             // $channels = '';
             // $playlists = '';
 
@@ -88,12 +111,16 @@ class YoutubeSearch {
                 switch ($searchResult ['id'] ['kind']) {
                     case 'youtube#video' :
                         $video = new YoutubeVideo ();
+                        $title = Functions::getInstance()->decodeHTML($searchResult ['snippet'] ['title']);
+                        $vid   = $searchResult ['id'] ['videoId'];
 
-                        $video->setTitle($searchResult ['snippet'] ['title']);
-                        $video->setVideoID($searchResult ['id'] ['videoId']);
-                        if (!in_array($searchResult ['id'] ['videoId'], $this->ignoreVids)) {
-                            $this->video_list [] = $video;
+                        $video->setTitle($title);
+                        $video->setVideoID($vid);
+                        
+                        if (in_array($vid, $this->ignoreVids)) {
+                            continue; //skip ignored video
                         }
+                        $this->video_list [] = $video;
                         break;
                     // case 'youtube#channel' :
                     // $channels .= sprintf ( '<li>%s (%s)</li>', $searchResult ['snippet'] ['title'], $searchResult ['id'] ['channelId'] );
@@ -109,25 +136,8 @@ class YoutubeSearch {
     }
 
     function getVideoList() {
-        return $this->video_list;
+        return $this->video_list;        
     }
-
-    /**
-     *
-     * Convert an object to an array
-     *
-     * @param object $object
-     *            The object to convert
-     * @return      mixed|array|object
-     *
-     */
-    private static function objectToArray($object) {
-        if (!is_object($object) && !is_array($object)) {
-            return $object;
-        }
-        if (is_object($object)) {
-            $object = get_object_vars($object);
-        }
-        return array_map('objectToArray', $object);
-    }
+    
+    
 }

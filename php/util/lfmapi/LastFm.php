@@ -8,12 +8,12 @@ use simplehtmldom_1_5\simple_html_dom;
 use Sunra\PhpSimple\HtmlDomParser;
 
 class LastFm {
-    var $base_url     = 'http://ws.audioscrobbler.com/2.0';
-    var $request_url  = '';
-    var $apikey       = '';
-    var $user         = '';
-    var $method       = '';
-    var $methods      = array('album.addTags', 'album.getBuylinks', 'album.getInfo', 'album.getShouts', 'album.getTags',
+    private $base_url     = 'http://ws.audioscrobbler.com/2.0';
+    private $request_url  = '';
+    private $apikey       = '';
+    private $user         = '';
+    private $method       = '';
+    private $methods      = array('album.addTags', 'album.getBuylinks', 'album.getInfo', 'album.getShouts', 'album.getTags',
                               'album.getTopTags', 'album.removeTag', 'album.search', 'album.share',
 
                               'artist.addTags', 'artist.getCorrection', 'artist.getEvents', 'artist.getImages',

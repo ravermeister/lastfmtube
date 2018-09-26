@@ -13,7 +13,7 @@ class PlaylistController {
             $page.myVues.userlist.update(json.data.value, ignoreTitle);
 
             try {
-                if (callBack != null) {
+                if (typeof callBack === 'function') {
                     callBack(true);
                 }
             } catch (e) {
@@ -21,8 +21,17 @@ class PlaylistController {
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
-        }).fail(function (xhr) {
-            console.error(xhr.responseText);
+        }).fail(function (xhr, status, error) {
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ' , request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
         });
     }
 
@@ -70,19 +79,21 @@ class PlaylistController {
         }
     }
 
-    loadSearchResult(track, result, pageNum = 1, callBack = null) {
+    loadSearchResult(needle, result, pageNum = 1, callBack = null) {
 
-        $page.myVues.playlist.header.$data.TEXT = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
-        $page.myVues.playlist.header.$data.URL = '#page-playlist';
-        $page.myVues.playlist.header.$data.URL_TARGET = '_self';
-        $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
-        $page.myVues.playlist.menu.$data.MAX_PAGES = 1;
-        $page.myVues.playlist.menu.$data.LASTFM_USER_NAME = track.VIDEO_ID;
-        $page.myVues.playlist.menu.$data.PLAYLIST = 'search';
-        $page.myVues.playlist.content.$data.SEARCH_TRACK = track;
-        $page.myVues.playlist.content.$data.TRACKS = result;
-
-        if (callBack != null) {
+        /**
+         $page.myVues.playlist.header.$data.TEXT = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
+         $page.myVues.playlist.header.$data.URL = '#page-playlist';
+         $page.myVues.playlist.header.$data.URL_TARGET = '_self';
+         $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
+         $page.myVues.playlist.menu.$data.MAX_PAGES = 1;
+         $page.myVues.playlist.menu.$data.LASTFM_USER_NAME = needle.asVar(true);
+         $page.myVues.playlist.menu.$data.PLAYLIST = 'search';
+         $page.myVues.playlist.content.$data.SEARCH_NEEDLE = needle;
+         $page.myVues.playlist.content.$data.TRACKS = result;
+         **/
+        console.log('TODO: show search result (update from json data)');
+        if (typeof callBack === 'function') {
             callBack(true);
         }
     }
@@ -94,7 +105,7 @@ class PlaylistController {
             $page.myVues.playlist.update(json.data.value, ignoreTitle);
 
             try {
-                if (callBack != null) {
+                if (typeof callBack === 'function') {
                     callBack(true);
                 }
 
@@ -103,19 +114,27 @@ class PlaylistController {
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
-        }).fail(function (xhr) {
-            console.error('error loading topsongs');
-            console.log(xhr.responseText);
+        }).fail(function (xhr, status, error) {
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ' , request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
 
             try {
-                if (callBack != null) {
+                if (typeof callBack === 'function') {
                     callBack(false);
                 }
             } catch (e) {
                 console.error('error in load topsongs list callback function', e);
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
-            }
+            } 
         });
     }
 
@@ -150,7 +169,7 @@ class PlaylistController {
         }, ignoreTitle);
 
 
-        if (callBack != null) {
+        if (typeof callBack === 'function') {
             callBack(true);
         }
     }
@@ -188,8 +207,8 @@ class PlaylistController {
                         $page.myVues.playlist.update(json.data.value, ignoreTitle);
                     });
                  **/
-               
-                if (callBack != null) {
+
+                if (typeof callBack === 'function') {
                     callBack(true);
                 }
             } catch (e) {
@@ -197,10 +216,19 @@ class PlaylistController {
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
-        }).fail(function (xhr) {
-            console.error('error loading page');
-            console.log(xhr.responseText);
-            if (callBack != null) {
+        }).fail(function (xhr, status, error) {
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ' , request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
+
+            if (typeof callBack === 'function') {
                 callBack(false);
             }
         });

@@ -148,7 +148,7 @@ class PageController {
 
     constructor() {
 
-
+        this.isReady = false;
         this.PLAYLIST = null;
         this.PAGE = null;
         this.PAGE_PLAYLIST = 'page-playlist';
@@ -364,10 +364,24 @@ class PageController {
             $page.setCurrentPlaylist();
             $page.setMainPageLoading();
 
+            $page.isReady = true;
+            if ($player.autoPlay && $player.isReady &&   
+                !$player.isPlaying() && !$player.isPaused()) {
+                $player.loadNextSong();
+            }
             console.log('init page success');
         }).fail(function (xhr, status, error) {
-            //var err = eval("(" + xhr.responseText + ")");
-            console.log(xhr.responseText);
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ' , request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
+            
         });
     }
 
@@ -426,6 +440,14 @@ class PageController {
             title: track.TITLE,
             videoId: track.VIDEO_ID,
             asVar: function (raw = false) {
+                if(
+                    typeof this.artist === 'undefined' ||                    
+                    typeof this.title === 'undefined' ||
+                    this.artist == null ||
+                    this.title == null
+                ) return '';
+                
+                
                 if (!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
                 else return this.artist + ' ' + this.title;
             },
@@ -437,8 +459,14 @@ class PageController {
                         this.videoId.trim().length > 0
                     );
                 }
-
-                return this.asVar().trim().length > 0;
+                
+                let needleVar = this.asVar();
+                
+                return (
+                    typeof needleVar !== 'undefined' &&
+                    needleVar !== null &&     
+                    needleVar.trim().length > 0
+                );
             },
             applyData: function (json) {
                 if (
