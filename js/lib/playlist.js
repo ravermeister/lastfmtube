@@ -175,7 +175,7 @@ class PlaylistController {
                 '&page=' + pageNum
             ;
         }
-
+        
         $.getJSON(request, function (json) {
 
             try {
@@ -188,7 +188,7 @@ class PlaylistController {
                         $page.myVues.playlist.update(json.data.value, ignoreTitle);
                     });
                  **/
-
+               
                 if (callBack != null) {
                     callBack(true);
                 }
