@@ -694,13 +694,13 @@
 
 				// Clear visible, loaded.
 					$modal
-						.removeClass('loaded')
+						.removeClass('loaded');
 
 				// Delay.
 					setTimeout(function() {
 
 						$modal
-							.removeClass('visible')
+							.removeClass('visible');
 
 						// Pause scroll zone.
 							$wrapper.triggerHandler('---pauseScrollZone');
