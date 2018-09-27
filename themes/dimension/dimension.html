@@ -141,9 +141,11 @@
 
 
             <section class="page-nav">
-                <form @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
-                    <div class="fields">
 
+
+                <form v-if="PLAYLIST !== 'search'"
+                      @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
+                    <div class="fields">
                         <div class="field third" v-if="PLAYLIST === 'lastfm'">
                             <label for="playlist_lastfmuser">
                                 <a v-bind:href="'//last.fm/user/' + LASTFM_USER_NAME" target="_blank">Last.fm</a>
@@ -152,21 +154,18 @@
                             <input type="text" name="playlist_lastfmuser" id="playlist_lastfmuser"
                                    v-bind:value="LASTFM_USER_NAME"/>
                         </div>
-                        <div class="field third" v-if="PLAYLIST === 'search'">
-                            <label for="playlist_videourl">Youtube Video</label>
-                            <input type="text" name="playlist_video" v-on:paste="checkYoutubeUrl($event)"
-                                   id="playlist_videourl"
-                                   v-bind:value="LASTFM_USER_NAME"/>
-                        </div>
+                        
                         <div class="field third">
                             <label for="playlist_page">
-                                {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
+                                {{CUR_PAGE_LABEL}}
                             </label>
                             <input type="number" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"/>
                         </div>
-                        <div class="field third btn-page-nav">
 
-                            <label>&nbsp;</label>
+                        <div class="field third btn-page-nav">
+                            <label>
+                                {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
+                            </label>
                             <button @click.prevent="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                     title="Previous Page">
                                 <span class="fas fa-step-backward fa-2x"></span>
@@ -178,8 +177,50 @@
                                     title="Next Page">
                                 <span class="fas fa-step-forward fa-2x"></span>
                             </button>
-
                         </div>
+                    </div>
+
+                </form>
+
+                <!--// search navi //-->
+                <form v-else="v-else"
+                        @submit.prevent="loadPage(null, $('#search_page').val())">
+                    <div class="fields">
+                        
+                        <div class="field third">
+                            <label for="search_videourl">Youtube Video</label>
+                            <input type="text" name="playlist_video" v-on:input="normalizeYouTubeUrl($event)"
+                                   id="search_videourl"
+                                   v-bind:value="SEARCH_VIDEO_ID"/>
+                        </div>
+
+                        <div class="field third">
+                            <label for="saveYouTuveSearch" v-html="SAVED_TITLE"></label>
+                            <button @click.prevent="setVideo($('#playlist_videourl'));"
+                                    id="saveYouTuveSearch"
+                                    title="Save Video for Song"
+                                    style="padding-top: 5px;">
+                                <span class="fas fa-save fa-2x"></span>
+                            </button>
+                        </div>
+                        
+                        <div class="field third">
+                            <label>
+                                {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
+                            </label>
+                            <button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
+                                    title="Previous Page"
+                                    style="padding-top: 5px;float:left;">
+                                <span class="fas fa-step-backward fa-2x"></span>
+                            </button>
+
+                            <button @click.prevent="loadNextPage(null, CUR_PAGE, MAX_PAGES)"
+                                    title="Next Page"
+                                    style="padding-top: 5px;float: right;">
+                                <span class="fas fa-step-forward fa-2x"></span>
+                            </button>
+                        </div>
+                        
                     </div>
                 </form>
             </section>
@@ -207,10 +248,10 @@
                                           class="fa fa-play faa-flash animated"></span>
                                     <span v-show="TRACK.PLAYSTATE === 'load'"
                                           class="fa fa-spinner faa-spin animated"></span>
-                                    <span v-show="TRACK.PLAYSTATE === '' && typeof TRACK.PLAYCOUNT !== 'undefined'">
+                                    <span v-show="TRACK.PLAYSTATE === '' && typeof TRACK.PLAYCOUNT !== 'undefined' && TRACK.PLAYCOUNT !== null">
                                         {{TRACK.NR}}&nbsp;({{TRACK.PLAYCOUNT}})
                                     </span>
-                                    <span v-show="TRACK.PLAYSTATE === '' && typeof TRACK.PLAYCOUNT === 'undefined'">{{TRACK.NR}}</span>
+                                    <span v-show="TRACK.PLAYSTATE === '' && (typeof TRACK.PLAYCOUNT === 'undefined' || TRACK.PLAYCOUNT === null)">{{TRACK.NR}}</span>
                                 </td>
                                 <td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">
@@ -236,11 +277,11 @@
                                             <span class="fa fa-play"></span>
                                         </a>
 
-                                        <a @click="saveAlternative(TRACK, $('#playlist_videourl').val());"
+                                        <a @click="setVideo($('#playlist_videourl').val());"
                                            v-if="TRACK.PLAYLIST === 'search'"
                                            title="set as Video"
                                            class="button smaller">
-                                            <span class="fa fa-plus"></span>
+                                            <span class="fas fa-save"></span>
                                         </a>
 
                                         <a @click="addToUserList($event, TRACK);"
@@ -275,12 +316,14 @@
                                            v-else="v-else"
                                            title="delete alternative Video"
                                            class="button smaller">
-                                            <span class="fa fa-minus"></span>
+                                            <span class="fas fa-trash-alt"></span>
                                         </a>
 
                                         <div style="float: right">
-                                            {{TRACK.LASTPLAY}}
+                                            <span v-show="TRACK.PLAYLIST !== 'search'">{{TRACK.LASTPLAY}}</span>
+                                            <span v-show="TRACK.PLAYLIST === 'search'">Video: {{TRACK.VIDEO_ID}}</span>
                                         </div>
+
                                     </td>
                                 </tr>
                             </transition>
@@ -352,13 +395,13 @@
     <!-- Footer -->
     <footer id="footer">
         <p class="copyright">
-                &copy;2018 
-                <a href="//www.rimkus.it" target="_blank">Jonny Rimkus</a>
-                &lt;<a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>&gt;
-                
-                <a href="//www.wtfpl.net/" target="_blank" style="border: 0; text-decoration: none;">
-                    <img src="images/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL" style="vertical-align: middle;"/>
-                </a>            
+            &copy;2018
+            <a href="//www.rimkus.it" target="_blank">Jonny Rimkus</a>
+            &lt;<a href="mailto:jonny@rimkus.it">jonny@rimkus.it</a>&gt;
+
+            <a href="//www.wtfpl.net/" target="_blank" style="border: 0; text-decoration: none;">
+                <img src="images/wtfpl-badge-4.png" width="80" height="15" alt="WTFPL" style="vertical-align: middle;"/>
+            </a>
         </p>
     </footer>
 

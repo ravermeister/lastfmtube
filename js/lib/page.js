@@ -110,6 +110,7 @@ class Menu {
                 ];
                 break;
             case 'topuser':
+            case 'search':
                 list = [
                     this.youtube,
                     this.lastfm,
@@ -162,6 +163,15 @@ class PageController {
         this.myVues = {};
         this.menuData = [];
         this.applyVueMethods();
+        this.applyJQueryMethods();
+    }
+
+    applyJQueryMethods() {
+        $.urlParam = function (name, url=null) {
+            let theUrl = url !== null ? url : window.location.href;
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
+            return results === null ? null : results[1] || null;
+        };
     }
 
     applyVueMethods() {
@@ -219,7 +229,7 @@ class PageController {
         Vue.prototype.$loadListMenu = function (menu, event) {
 
             if (!$player.isReady ||
-                typeof menu.PLAYLIST !== 'undefined' && 
+                typeof menu.PLAYLIST !== 'undefined' &&
                 $page.PAGE === null &&
                 menu.PLAYLIST === $page.PLAYLIST
             )
@@ -246,7 +256,7 @@ class PageController {
 
             try {
                 $page.setLoading(true);
-                if(typeof menu.PLAYLIST !== 'undefined') {                   
+                if (typeof menu.PLAYLIST !== 'undefined') {
                     $playlist.loadPlaylistPage(1, null, showPage, menu.PLAYLIST);
                 } else {
                     showPage(true);
@@ -285,8 +295,10 @@ class PageController {
         icons.star = new Icon('fas fa-star');
         icons.trophy = new Icon('fas fa-trophy');
         icons.user = new Icon('fas fa-user');
-        icons.trash = new Icon('fas fa-trash-alt');    
-        
+        icons.trash = new Icon('fas fa-trash-alt');
+        icons.save = new Icon('fas fa-save');
+
+
         icons.list = [
             icons.play,
             icons.pause,
@@ -301,7 +313,9 @@ class PageController {
             icons.loader,
             icons.star,
             icons.trophy,
-            icons.user
+            icons.user,
+            icons.trash,
+            icons.save
         ];
 
         icons.getIcon = function (elem, big) {
@@ -314,16 +328,19 @@ class PageController {
         };
         icons.getPlaylistIcon = function (playlist = null) {
             if (playlist === null) return this.diamond.big;
-            
+
             switch (playlist) {
                 case 'topsongs':
                     return this.star;
                 case 'topuser':
+                case 'page-user':
                     return this.trophy;
                 case 'userlist':
                     return this.user;
                 case 'youtube':
                     return this.youtube;
+                case 'search':
+                    return this.search;
                 default:
                     return this.headphones;
             }
@@ -352,7 +369,7 @@ class PageController {
     init() {
 
         this.initMyVues();
-        history.pushState('', document.title, window.location.pathname);
+        location.hash = '';
 
         let request = 'php/json/JsonHandler.php?api=page&data=page';
         $.getJSON(request, function (json) {
@@ -365,33 +382,33 @@ class PageController {
             $page.setMainPageLoading();
 
             $page.isReady = true;
-            if ($player.autoPlay && $player.isReady &&   
+            if ($player.autoPlay && $player.isReady &&
                 !$player.isPlaying() && !$player.isPaused()) {
                 $player.loadNextSong();
             }
             console.log('init page success');
-        }).fail(function (xhr, status, error) {
-            if(typeof xhr === 'object' && xhr !== null) {
+        }).fail(function (xhr) {
+            if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
-                    'request: ' , request,
+                    'request: ', request,
                     '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
                 );
             } else {
                 console.log('request: ', request, 'error');
             }
-            
+
         });
     }
 
     setCurrentPage(page = null) {
         if (page === null) return;
         this.PAGE = page;
-        if(this.PAGE_USER===this.PAGE) {
+        if (this.PAGE_USER === this.PAGE) {
             $page.myVues.userlist.header.title.$forceUpdate();
-            $page.myVues.userlist.header.menu.$forceUpdate();    
-        }        
+            $page.myVues.userlist.header.menu.$forceUpdate();
+        }
     }
 
     setCurrentPlaylist(playlist = null) {
@@ -414,40 +431,43 @@ class PageController {
     }
 
     setLoading(active = false) {
-        if(this.PAGE !== null) this.setPageLoading(active);
-        else if(this.PLAYLIST !== null) this.setPlaylistLoading(active);
+        if (this.PAGE !== null) this.setPageLoading(active);
+        else if (this.PLAYLIST !== null) this.setPlaylistLoading(active);
     }
+
     setMainPageLoading(active = false) {
         this.myVues.base.logo.$data.PAGE_LOADER = active ? this.icons.loader.bigger : this.icons.diamond.bigger;
     }
+
     setPageLoading(active = false) {
-        if(this.PAGE === null) return;
-        
-        let curIcon = this.icons.getPlaylistIcon(this.PAGE);        
+        if (this.PAGE === null) return;
+
+        let curIcon = this.icons.getPlaylistIcon(this.PAGE);
         this.myVues.userlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
-        
+
     }
+
     setPlaylistLoading(active = false) {
         if (this.PLAYLIST === null) return;
-                
+
         let curIcon = this.icons.getPlaylistIcon(this.PLAYLIST);
         this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }
-    
+
     createNeedle(track) {
         return {
             artist: track.ARTIST,
             title: track.TITLE,
             videoId: track.VIDEO_ID,
             asVar: function (raw = false) {
-                if(
-                    typeof this.artist === 'undefined' ||                    
+                if (
+                    typeof this.artist === 'undefined' ||
                     typeof this.title === 'undefined' ||
                     this.artist == null ||
                     this.title == null
                 ) return '';
-                
-                
+
+
                 if (!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
                 else return this.artist + ' ' + this.title;
             },
@@ -459,12 +479,12 @@ class PageController {
                         this.videoId.trim().length > 0
                     );
                 }
-                
+
                 let needleVar = this.asVar();
-                
+
                 return (
                     typeof needleVar !== 'undefined' &&
-                    needleVar !== null &&     
+                    needleVar !== null &&
                     needleVar.trim().length > 0
                 );
             },
@@ -493,4 +513,30 @@ class PageController {
         track.LOADING = false;
     }
 
+    saveVideo(needle, callback = null) {
+        if(!needle.isValid(true)) {
+            if(callback !== null) {
+                callback(false);
+            }
+            return;
+        }
+        $.ajax('php/json/JsonHandler.php?api=vars&action=savealternative', {
+            dataType: 'json',
+            method: 'PUT',
+            data: needle
+        }).done(function (json) {
+            console.log('saved video response ', json);
+        }).fail(function (xhr) {
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ' , request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
+        });
+    } 
 }

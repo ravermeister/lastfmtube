@@ -7,18 +7,19 @@ class LibvueUser {
                 data: {
                     HEADER: '',
                     TEXT: '',
-                    TYPE: ''
+                    TYPE: '',
+                    LOGO: ''
                 },
                 computed: {
-                    LOGO: function () {                        
-                        let icon = $page.icons.getPlaylistIcon(this.$data.TYPE); 
-                        return icon.big;
-                    }  
                 },
                 methods: {
                     update: function (json) {
                         if (typeof json.HEADER !== 'undefined') {
                             this.$applyData(json.HEADER);
+                            if(this.$data.TYPE === '') return;
+                            
+                            let logo = $page.icons.getPlaylistIcon(this.$data.TYPE);
+                            this.$data.LOGO = logo.big;
                         }
                     }
                 }
@@ -92,7 +93,7 @@ class LibvueUser {
                     }
                     
                     user.PLAY_CONTROL = 'loading';
-                    $playlist.loadPlaylistPage(1, user.NAME, openurl);
+                    $playlist.loadPlaylistPage(1, user.NAME, openurl, 'lastfm');
                 }
             }
         });

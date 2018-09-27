@@ -21,7 +21,7 @@ class PlaylistController {
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
-        }).fail(function (xhr, status, error) {
+        }).fail(function (xhr) {
             if(typeof xhr === 'object' && xhr !== null) {
                 console.error(
                     'request: ' , request,
@@ -72,7 +72,6 @@ class PlaylistController {
                     $playlist.setPlaylistLoading();
                 }
                 break;
-
             default:
                 this.loadDefaultPlayListPage(pageNum, user, loadComplete, ignoreTitle);
                 break;
@@ -81,18 +80,52 @@ class PlaylistController {
 
     loadSearchResult(needle, result, pageNum = 1, callBack = null) {
 
-        /**
-         $page.myVues.playlist.header.$data.TEXT = 'Search Results';  //<br />' + track.ARTIST + '<br />' + track.TITLE;
-         $page.myVues.playlist.header.$data.URL = '#page-playlist';
-         $page.myVues.playlist.header.$data.URL_TARGET = '_self';
-         $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
-         $page.myVues.playlist.menu.$data.MAX_PAGES = 1;
-         $page.myVues.playlist.menu.$data.LASTFM_USER_NAME = needle.asVar(true);
-         $page.myVues.playlist.menu.$data.PLAYLIST = 'search';
-         $page.myVues.playlist.content.$data.SEARCH_NEEDLE = needle;
-         $page.myVues.playlist.content.$data.TRACKS = result;
-         **/
-        console.log('TODO: show search result (update from json data)');
+        let trackCnt = result.data.value.length;
+        let maxPages = 1;
+        let tracks = [];
+        let savedVid = needle.videoId;
+        if(trackCnt > 0) {
+            maxPages = trackCnt / $page.TRACKS_PER_PAGE;
+            if(trackCnt%$page.TRACKS_PER_PAGE > 1) maxPages++;
+            
+            for(let cnt=0;cnt<trackCnt;cnt++) {
+                let ytvid = result.data.value[cnt];
+                let track = {
+                    NR: (cnt + 1) + '',
+                    ARTIST: '',
+                    TITLE: ytvid.title,
+                    VIDEO_ID: ytvid.video_id,
+                    PLAYLIST: 'search',
+                    PLAYCOUNT: null,
+                    PLAYSTATE: '',
+                    PLAY_CONTROL: ''
+                };
+                
+                tracks[cnt] = track;
+            }
+        }
+
+        let playlistArticle = $('.playlist-container');
+        $(playlistArticle).attr('id', 'search');
+        $page.setCurrentPlaylist('search');
+        $page.myVues.playlist.update({
+            HEADER: {
+                LOGO: $page.icons.search.big,
+                TEXT: 'Search Results'
+            },
+
+            LIST_MENU: {
+                CUR_PAGE: pageNum,
+                MAX_PAGES: maxPages,
+                PLAYLIST: 'search',
+                SAVED_VIDEO_ID: savedVid,
+                SEARCH_NEEDLE: needle,
+                SEARCH_RESULT: tracks
+            },
+
+            TRACKS: tracks.slice(0, $page.TRACKS_PER_PAGE)
+        });
+        
         if (typeof callBack === 'function') {
             callBack(true);
         }
@@ -114,7 +147,7 @@ class PlaylistController {
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
-        }).fail(function (xhr, status, error) {
+        }).fail(function (xhr) {
             if(typeof xhr === 'object' && xhr !== null) {
                 console.error(
                     'request: ' , request,
@@ -216,7 +249,7 @@ class PlaylistController {
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
-        }).fail(function (xhr, status, error) {
+        }).fail(function (xhr) {
             if(typeof xhr === 'object' && xhr !== null) {
                 console.error(
                     'request: ' , request,

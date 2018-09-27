@@ -272,7 +272,8 @@ class PlayerController {
         let request = 'php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
         
         $.ajax(request, {
-            dataType: 'json'
+            dataType: 'json',
+            method: 'GET'
         }).done(function (search) {
 
             needle.applyData(search);
