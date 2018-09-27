@@ -195,9 +195,9 @@
                         </div>
 
                         <div class="field third">
-                            <label for="saveYouTuveSearch" v-html="SAVED_TITLE"></label>
-                            <button @click.prevent="setVideo($('#playlist_videourl'));"
-                                    id="saveYouTuveSearch"
+                            <label for="saveYouTubeSearch" v-html="SAVED_TITLE"></label>
+                            <button @click.prevent="setVideo($('#search_videourl').val());"
+                                    id="saveYouTubeSearch"
                                     title="Save Video for Song"
                                     style="padding-top: 5px;">
                                 <span class="fas fa-save fa-2x"></span>
@@ -277,7 +277,7 @@
                                             <span class="fa fa-play"></span>
                                         </a>
 
-                                        <a @click="setVideo($('#playlist_videourl').val());"
+                                        <a @click="setVideo($('#search_videourl').val());"
                                            v-if="TRACK.PLAYLIST === 'search'"
                                            title="set as Video"
                                            class="button smaller">
@@ -306,15 +306,15 @@
                                         </a>
 
                                         <a @click="searchVideos($event, TRACK);"
-                                           v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID === ''"
+                                           v-if="TRACK.PLAYLIST !== 'search'"
                                            title="search alternative Video"
                                            class="button smaller">
                                             <span class="fa fa-search"></span>
                                         </a>
 
-                                        <a @click="deleteAlternative($event, TRACK, TRACKS);"
-                                           v-else="v-else"
+                                        <a @click="unsetVideo(TRACK);"
                                            title="delete alternative Video"
+                                           v-if="TRACK.VIDEO_ID !== ''"
                                            class="button smaller">
                                             <span class="fas fa-trash-alt"></span>
                                         </a>

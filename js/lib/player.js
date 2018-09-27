@@ -3,7 +3,7 @@ class ChartTimer {
         this.track = {
             ARTIST: null,
             TITLE: null,
-            isValid: function() {
+            isValid: function () {
                 return this.ARTIST !== null && this.TITLE !== null;
             }
         };
@@ -16,7 +16,7 @@ class ChartTimer {
         this.track.ARTIST = artist;
         this.track.TITLE = title;
 
-        if(!this.track.isValid()) {
+        if (!this.track.isValid()) {
             console.error('invalid data for creating Chart Timer, not starting! ');
             return;
         }
@@ -24,7 +24,7 @@ class ChartTimer {
     }
 
     pause(halt = true) {
-        console.log((halt ? 'Stop' : 'resume')+' chart timer');
+        console.log((halt ? 'Stop' : 'resume') + ' chart timer');
     }
 
     timerFinished() {
@@ -38,10 +38,13 @@ class PlayerController {
         this.ytPlayer = null;
         this.isReady = false;
         this.autoPlay = false;
+        this.loadNextOnError = false;
         this.CURRENT_TRACK = null;
         this.maxErrorLoop = 5;
         this.errorLoopCount = 0;
-        
+        this.errorListeners = [];
+        this.stateChangeListeners = [];
+
         this.ytStatus = new Object();
 
         this.ytStatus.UNSTARTED = new Object();
@@ -69,6 +72,26 @@ class PlayerController {
         this.ytStatus.CUED.NAME = 'vide cued';
 
         this.chartTimer = new ChartTimer();
+        this.addStateChangeListener(function (event) {
+            switch (event.data) {
+                case $player.ytStatus.PLAYING.ID:
+                    $player.errorLoopCount = 0;
+                    $player.setCurrentState('play');
+                    break;
+                case $player.ytStatus.PAUSED.ID:
+                    $player.setCurrentState('pause');
+                    break;
+                case $player.ytStatus.BUFFERING.ID:
+                    $player.setCurrentState('load');
+                    break;
+                case $player.ytStatus.ENDED.ID:
+                    $player.setCurrentState('stop');
+                    break;
+            }
+        });
+        this.addErrorListener(function (event) {
+            $player.errorLoopCount++;
+        });
     }
 
     initPlayer() {
@@ -92,53 +115,31 @@ class PlayerController {
 
             let onStateChange = function (event) {
 
-                
-                
-                switch (event.data) {
-                    case $player.ytStatus.UNSTARTED.ID:
-                        break;
-                    case $player.ytStatus.ENDED.ID:
-                        $player.setCurrentState('stop');
-                        $player.loadNextSong();
-                        break;
-
-                    case $player.ytStatus.PLAYING.ID:
-                        $player.errorLoopCount = 0;
-                        $page.myVues.youtube.header.$data.NOW_PLAYING = $player.ytPlayer.getVideoData().title;
-                        $player.setCurrentState('play');                        
-                        break;
-
-                    case $player.ytStatus.PAUSED.ID:
-                        $player.setCurrentState('pause');
-                        break;
-
-                    case $player.ytStatus.BUFFERING.ID:
-                        $player.setCurrentState('load');
-                        break;
-
-                    case $player.ytStatus.CUED.ID:
-                        console.log('track cued');
-                        break;
-                    default:
-                        console.error('unknown player event: ', event.data);
-                        console.error(event);
-                        break;
+                for (let cnt in $player.stateChangeListeners) {
+                    let listener = $player.stateChangeListeners[cnt];
+                    if (typeof listener !== 'function') continue;
+                    listener(event);
                 }
             };
             let onError = function (event) {
                 console.error('youtube player error', event);
+                for (let cnt in $player.errorListeners) {
+                    let listener = $player.errorListeners[cnt];
+                    if (typeof listener !== 'function') continue;
+                    listener(event);
+                }
             };
 
             $(document).ready(function () {
 
-                let percentHeight = function(abs, val) {
-                       return parseInt((abs/100)*val);
+                let percentHeight = function (abs, val) {
+                    return parseInt((abs / 100) * val);
                 };
-                
+
                 let startvideo = '';//'9RMHHwJ9Eqk';
-                let ytplayerwidth = '100%';                
-                let ytplayerheight = percentHeight($(document).height(), 55)+'px';
-                
+                let ytplayerwidth = '100%';
+                let ytplayerheight = percentHeight($(document).height(), 55) + 'px';
+
                 $player.ytPlayer = new YT.Player('player', {
 
                     height: ytplayerheight,
@@ -164,15 +165,37 @@ class PlayerController {
                         'onError': onError
                     }
                 });
-            })
+            });
         };
+    }
+
+    addErrorListener(l = null) {
+        if (typeof l !== 'function' || this.errorListeners.indexOf(l) !== -1) return;
+        this.errorListeners.push(l);
+    }
+
+    removeErrorListener(l) {
+        let index = this.errorListeners.indexOf(l);
+        if (index < 0 || index >= this.errorListeners.length) return;
+        this.errorListeners.splice(index, 1);
+    }
+
+    addStateChangeListener(l) {
+        if (typeof l !== 'function' || this.stateChangeListeners.indexOf(l) !== -1) return;
+        this.stateChangeListeners.push(l);
+    }
+
+    removeStateChangeListeners() {
+        let index = this.stateChangeListeners.indexOf(l);
+        if (index < 0 || index >= this.stateChangeListeners.length) return;
+        this.stateChangeListeners.splice(index, 1);
     }
 
     loadNextSong() {
 
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
-        if(tracks.length === 0) return;
-        
+        if (tracks.length === 0) return;
+
         let nextIndex = this.CURRENT_TRACK !== null ? tracks.indexOf(this.CURRENT_TRACK) + 1 : 0;
 
         if ((nextIndex) >= tracks.length) {
@@ -187,9 +210,9 @@ class PlayerController {
                 try {
                     if (!success) return;
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
-                    $player.loadSong(tracks[0]);                    
-                }catch (e) {
-                    console.error('inside callback', e, ' curpage: ',curPage, 'maxpage: ', maxPages);
+                    $player.loadSong(tracks[0]);
+                } catch (e) {
+                    console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
                 }
             });
 
@@ -197,15 +220,15 @@ class PlayerController {
         } else if (nextIndex < 0) {
             nextIndex = 0;
         }
-        
+
         this.loadSong(tracks[nextIndex]);
     }
 
     loadPreviousSong() {
         if (this.CURRENT_TRACK == null) return;
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
-        if(tracks.length === 0) return;
-        
+        if (tracks.length === 0) return;
+
         let index = tracks.indexOf(this.CURRENT_TRACK);
 
         if ((index - 1) < 0) {
@@ -235,72 +258,71 @@ class PlayerController {
     }
 
     setCurrentTrack(track) {
-        if(this.isCurrentTrack(track)) return;
-        
+        if (this.isCurrentTrack(track)) return;
+
         if (this.CURRENT_TRACK !== null) {
             this.setCurrentState();
             this.CURRENT_TRACK = null;
         }
-        
+
         this.CURRENT_TRACK = track;
         this.setCurrentState('load');
     }
-    
+
     setCurrentState(newState = '') {
-        if(this.CURRENT_TRACK==null || this.CURRENT_TRACK.PLAYSTATE === newState) return;
+        if (this.CURRENT_TRACK == null || this.CURRENT_TRACK.PLAYSTATE === newState) return;
         this.CURRENT_TRACK.PLAYSTATE = newState;
-        $page.myVues.youtube.menu.$data.PLAYSTATE = newState; 
+        $page.myVues.youtube.menu.$data.PLAYSTATE = newState;
     }
 
     loadSong(track) {
-                
-        //console.log(this.ytPlayer);
-        if (this.ytPlayer == null) return;        
-        this.setCurrentTrack(track);   
 
-        let needle = $page.createNeedle(track);
-        if (needle.videoId !== null && needle.videoId.length > 0) {            
+        //console.log(this.ytPlayer);
+        if (this.ytPlayer == null) return;
+
+        this.setCurrentTrack(track);
+
+        let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+        if (needle.isValid(true)) {
             $player.loadVideoByNeedle(needle);
             return;
         }
-        
-        if(!needle.isValid()) {
-            this.loadNextOnError();
+
+        if (!needle.isValid()) {
+            if ($player.errorLoopCount > $player.maxErrorLoop) {
+                console.error('maximum error loop reached');
+                return;
+            }
+            $player.errorLoopCount++;
+            if ($player.loadNextOnError) $player.loadNextSong();
             return;
         }
 
         let request = 'php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
-        
+
         $.ajax(request, {
             dataType: 'json',
             method: 'GET'
         }).done(function (search) {
-
             needle.applyData(search);
-
-            if (!needle.isValid(true)) {
-                $player.loadNextOnError();                
-                return;
-            }
-
             $player.loadVideoByNeedle(needle);
         }).fail(function (xhr) {
-            if(typeof xhr === 'object' && xhr !== null) {
+            if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
-                    'request: ' , request,
+                    'request: ', request,
                     '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
                 );
             } else {
                 console.log('request: ', request, 'error');
             }
         });
     }
-    
+
     searchSong(track, callBack = null) {
-        let needle = $page.createNeedle(track);
-        if(!needle.isValid()) {
+        let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+        if (!needle.isValid()) {
             console.error('needle is invalid exit search');
             return;
         }
@@ -310,52 +332,44 @@ class PlayerController {
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
             $playlist.loadSearchResult(needle, json, 1, callBack);
-            
-        }).fail(function (xhr) {            
-            if(typeof xhr === 'object' && xhr !== null) {
+
+        }).fail(function (xhr) {
+            if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
-                    'request: ' , request,
+                    'request: ', request,
                     '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
-                );    
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
+                );
             } else {
                 console.log('request: ', request, 'error');
             }
-            
 
-            if(typeof callBack === 'function') {
+
+            if (typeof callBack === 'function') {
                 callBack(false);
             }
-        });                
-    }
-    
-    loadNextOnError() {
-        
-        if(this.errorLoopCount>=this.maxErrorLoop) {
-            console.error('max error loop reached, stop autoloading next song!');
-            this.setCurrentState();
-            return;
-        }
-        
-        this.errorLoopCount++;            
-        console.log('load next song no video was found');
-        this.loadNextSong();
+        });
     }
 
     loadVideoByNeedle(needle) {
         if (typeof needle !== 'undefined' && needle.isValid(true)) {
             $player.ytPlayer.loadVideoById(needle.videoId);
         } else {
-            console.error('invalid parameter for loadVideoByNeedle');
-            console.error(needle);
+            console.log('no video id in needle ', needle);
+            if ($player.errorLoopCount > $player.maxErrorLoop) {
+                console.error('maximum error loop reached');
+                return;
+            }
+            $player.errorLoopCount++;
+            if ($player.loadNextOnError) $player.loadNextSong();
         }
     }
 
 
     isCurrentTrack(track) {
-        
-        let isEqual =  this.CURRENT_TRACK !== null && (
+
+        let isEqual = this.CURRENT_TRACK !== null && (
             this.CURRENT_TRACK == track || (
                 this.CURRENT_TRACK.NR == track.NR &&
                 this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST &&

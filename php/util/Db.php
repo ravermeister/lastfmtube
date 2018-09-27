@@ -231,7 +231,7 @@ class Db {
 			',
 
             'SET_ENVVAR' => '
-				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'envvars"  VALUES (?, ?);
+				REPLACE INTO "' . $this->settings ['database'] ['table_prefix'] . 'envvars"  VALUES (?, ?);
 			',
 
             'SEARCH_CHARTS_TRACK' => '
@@ -301,7 +301,6 @@ class Db {
     }
 
     public function delEnvVar($key) {
-
         $res = $this->statements ['DEL_ENVVAR']->execute(array($key));
         return $res !== false && $res == 1;
     }

@@ -2,8 +2,45 @@ class LibvuePlaylist {
 
     constructor() {
 
-        let control = this;
+        this.methods = {
+            setVideo: function (videoId = '') {
+                let callback = function (success) {
+                    if (success) {
+                        $page.myVues.playlist.menu.$data.SAVED_VIDEO_ID = videoId;
+                        return;
+                    }
+                    console.log('error saving video id');
+                };
+                
+                let needle = $page.createNeedle(
+                    $page.myVues.playlist.menu.$data.SEARCH_NEEDLE.artist,
+                    $page.myVues.playlist.menu.$data.SEARCH_NEEDLE.title,
+                    videoId
+                );
+                
+                $page.saveVideo(needle, callback);
+            },
+            
+            unsetVideo: function (needle = null) {
+                let callback = function (success = false) {
+                    if (success) {
+                        if ($page.myVues.playlist.menu.PLAYLIST !== 'search') {
+                            for (let cnt in $page.myVues.playlist.content.$data.TRACKS) {
+                                let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
+                                if (track.VIDEO_ID === needle.videoId) {
+                                    track.VIDEO_ID = '';
+                                }
+                            }
+                        } else {
+                            $page.myVues.playlist.menu.SAVED_VIDEO_ID = '';
+                        }
+                    }
+                };
 
+                $page.deleteVideo(needle, callback);
+            }
+        };
+        
         this.header = {
             title: new Vue({
                 el: '#page-playlist>.page-header-title>h2',
@@ -62,7 +99,6 @@ class LibvuePlaylist {
 
             computed: {
 
-
                 /**
                  * @return {string}
                  */
@@ -72,6 +108,21 @@ class LibvuePlaylist {
                     this.SAVED_VIDEO_ID === this.SEARCH_VIDEO_ID ?
                         'Saved' : '&nbsp;';
                 }
+            },
+
+            mounted: function () {
+                $player.addErrorListener(function (event) {
+                    if ($page.myVues.playlist.menu.PLAYLIST === 'search') {
+                        $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = '';
+                    }
+
+                    if ($player.errorLoopCount >= $player.maxErrorLoop) {
+                        console.error('maximum error loop reached');
+                        return;
+                    }
+                    $player.loadNextSong();
+                });
+
             },
 
             methods: {
@@ -111,6 +162,7 @@ class LibvuePlaylist {
 
                     if (!this.$isUndefined(json.LIST_MENU)) {
                         this.$applyData(json.LIST_MENU);
+                        this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
                     }
 
                     if (typeof $page.myVues.youtube.header !== 'undefined') {
@@ -127,8 +179,30 @@ class LibvuePlaylist {
                 },
 
                 normalizeYouTubeUrl(event) {
+                    let validUrls = [
+                        'http://youtu.be',
+                        'http://www.youtu.be',
+                        'https://youtu.be',
+                        'https://www.youtu.be',
+                        'http://youtube.com',
+                        'http://www.youtube.com',
+                        'https://youtube.com',
+                        'https://www.youtube.com'
+                    ];
+                    let isValidUrl = function (url = '') {
+                        for (let cnt in validUrls) {
+                            if (url.startsWith(validUrls[cnt])) return true;
+                        }
+                        return false;
+                    };
+
                     let field = $(event.target);
                     let url = $(field).val();
+                    if (!isValidUrl(url)) {
+                        $(field).val('');
+                        return;
+                    }
+
                     let videoId = $.urlParam('v', url);
                     if (videoId === null) {
                         let vidsep = url.indexOf('/', (url.indexOf('//') + 2)) + 1;
@@ -138,21 +212,18 @@ class LibvuePlaylist {
                             videoId = url.substr(vidsep, (vidend - vidsep));
                         } else videoId = '';
                     }
-
-                    $(field).val(videoId);
+                    if(this.SEARCH_VIDEO_ID === videoId) this.$forceUpdate();
+                    else this.SEARCH_VIDEO_ID = videoId;
+                    
+                    $player.ytPlayer.loadVideoById(videoId);
                 },
-
-                setVideo(videoId) {
-                    let callback = function(success) {
-                        if(success) {
-                            this.$data.SAVED_VIDEO_ID = videoId;
-                            return;
-                        }
-                        console.log('error saving video id');
-                    };
-
-                    this.$data.SEARCH_NEEDLE.videoId = videoId;
-                    $page.saveVideo(this.$data.SEARCH_NEEDLE, callback);
+ 
+                setVideo(vid) {
+                    $page.myVues.playlist.methods.setVideo(vid);
+                },
+                unsetVideo(event, track) {
+                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+                    $page.myVues.playlist.methods.unsetVideo(needle);
                 }
             }
         });
@@ -258,8 +329,10 @@ class LibvuePlaylist {
 
                             for (let cnt = 0; cnt < json.TRACKS.length; cnt++) {
                                 let track = json.TRACKS[cnt];
-                                if ($player.isCurrentTrack(track)) {
-                                    track = $player.CURRENT_TRACK;
+                                if ($player.isCurrentTrack(track)) {                                    
+                                    track.PLAY_CONTROL = $player.CURRENT_TRACK.PLAY_CONTROL;
+                                    track.PLAYSTATE = $player.CURRENT_TRACK.PLAYSTATE;
+                                    $player.CURRENT_TRACK = track;
                                 }
                                 newTracks[cnt] = track;
                             }
@@ -285,10 +358,17 @@ class LibvuePlaylist {
 
                 searchVideos: function (event, track) {
                     $page.setPlaylistLoading(true);
-                    let callBack = function (success) {
+                    let callBack = function (success = false) {
                         $page.setPlaylistLoading();
                     };
                     $player.searchSong(track, callBack);
+                },
+                setVideo(vid) {
+                    $page.myVues.playlist.methods.setVideo(vid);
+                },
+                unsetVideo(track) {
+                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+                    $page.myVues.playlist.methods.unsetVideo(needle);
                 }
             }
         });

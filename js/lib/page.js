@@ -172,6 +172,15 @@ class PageController {
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
             return results === null ? null : results[1] || null;
         };
+        $.logXhr = function (xhr) {
+            if(typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ',xhr.status,
+                    '\n\nerror: ',xhr.statusText
+                );
+            }
+        }
     }
 
     applyVueMethods() {
@@ -454,11 +463,12 @@ class PageController {
         this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }
 
-    createNeedle(track) {
+    
+    createNeedle(artist = '', title = '', videoId = '') {
         return {
-            artist: track.ARTIST,
-            title: track.TITLE,
-            videoId: track.VIDEO_ID,
+            artist: artist,
+            title: title,
+            videoId: videoId,
             asVar: function (raw = false) {
                 if (
                     typeof this.artist === 'undefined' ||
@@ -514,29 +524,54 @@ class PageController {
     }
 
     saveVideo(needle, callback = null) {
+
         if(!needle.isValid(true)) {
             if(callback !== null) {
                 callback(false);
             }
             return;
         }
+        
         $.ajax('php/json/JsonHandler.php?api=vars&action=savealternative', {
             dataType: 'json',
-            method: 'PUT',
-            data: needle
+            method: 'POST',
+            data: {
+                artist: needle.artist,
+                title: needle.title,
+                videoId: needle.videoId
+            }
         }).done(function (json) {
-            console.log('saved video response ', json);
+            if(typeof callback === 'function') {
+                callback(true);
+            }
         }).fail(function (xhr) {
-            if(typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ' , request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
+            $.logXhr(xhr);
+            if(typeof callback === 'function') {
+                callback(false);
             }
         });
     } 
+    
+    deleteVideo(needle, callback = null) {
+        
+        if(!needle.isValid()) return;
+        
+        $.ajax('php/json/JsonHandler.php?api=vars&action=deletealternative', {
+            dataType: 'json',
+            method: 'POST',
+            data: {
+                artist: needle.artist,
+                title: needle.title
+            }
+        }).done(function (json) {
+            if(typeof callback === 'function') {
+                callback(true);
+            }         
+        }).fail(function (xhr) {
+            $.logXhr(xhr);
+            if(typeof callback === 'function') {
+                callback(true);
+            }
+        });
+    }
 }

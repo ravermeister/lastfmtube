@@ -22,16 +22,7 @@ class PlaylistController {
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
         }).fail(function (xhr) {
-            if(typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ' , request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
+            $.logXhr(xhr);
         });
     }
 
@@ -104,7 +95,7 @@ class PlaylistController {
                 tracks[cnt] = track;
             }
         }
-
+        
         let playlistArticle = $('.playlist-container');
         $(playlistArticle).attr('id', 'search');
         $page.setCurrentPlaylist('search');
@@ -148,16 +139,8 @@ class PlaylistController {
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
         }).fail(function (xhr) {
-            if(typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ' , request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
+            
+            $.logXhr(xhr);
 
             try {
                 if (typeof callBack === 'function') {
@@ -250,16 +233,8 @@ class PlaylistController {
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
             }
         }).fail(function (xhr) {
-            if(typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ' , request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
+
+            $.logXhr(xhr);
 
             if (typeof callBack === 'function') {
                 callBack(false);

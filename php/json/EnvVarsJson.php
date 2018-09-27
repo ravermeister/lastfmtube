@@ -8,7 +8,6 @@
 namespace LastFmTube\Json;
 
 
-use function GuzzleHttp\default_ca_bundle;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
@@ -16,6 +15,13 @@ class EnvVarsJson extends DefaultJson {
 
     public function __construct() {
         parent::__construct('envvars');
+    }
+
+    public function get($getvars) {
+        if (!isset ($getvars ['name'])) return;
+        $key   = Functions::getInstance()->prepareNeedle($getvars['name']);
+        $value = Db::getInstance()->getEnvVar($key);
+        return $this->jsonData($this->createJSONData($key, $value));
     }
 
     private function createJSONData($name, $value = '') {
@@ -27,41 +33,47 @@ class EnvVarsJson extends DefaultJson {
         }
         return $data;
     }
-    
-    private  function saveNeedle($postvars) {
 
-        Functions::getInstance()->logMessage('postvars: ');
-        Functions::getInstance()->logMessage(print_r($postvars, true));
-        
-        $key   = Functions::getInstance()->prepareNeedle($postvars['name']);
-        $value = html_entity_decode($postvars['value']);
-
-        Db::getInstance()->setEnvVar($key, $value);
-        $value = Db::getInstance()->getEnvVar($key);
-        return $this->jsonData($this->createJSONData($key, $value));
-    }
-
-    public function get($getvars) {
-        if (!isset ($getvars ['name'])) return;
-        $key   = Functions::getInstance()->prepareNeedle($getvars['name']);
-        $value = Db::getInstance()->getEnvVar($key);
-        return $this->jsonData($this->createJSONData($key, $value));
+    public function put($getvars, $postvars) {
+        return $this->post($getvars, $postvars);
     }
 
     public function post($getvars, $postvars) {
         if (!isset ($getvars ['action'])) $this->jsonError('ungültige Parameter');
         $action = filter_var($getvars['action'], FILTER_SANITIZE_STRING);
-        switch($action) {
+        switch ($action) {
             case 'savealternative':
-                return $this->saveNeedle($postvars);  
-                
+                return $this->saveNeedle($postvars);
+            case 'deletealternative':
+                return $this->deleteNeedle($postvars);
+                break;
             default:
-                $this->jsonError('unbekannte Action '.$action);
+                $this->jsonError('unbekannte Action ' . $action);
         }
     }
+
+    private function saveNeedle($postvars) {
+
+        $artist = $postvars['artist'];
+        $title  = $postvars['title'];
+        $video  = $postvars['videoId'];
+
+        $key   = Functions::getInstance()->prepareNeedle($artist . ' ' . $title);
+        $value = html_entity_decode($video);
+
+        Db::getInstance()->setEnvVar($key, $value);
+        $value = Db::getInstance()->getEnvVar($key);
+        return $this->jsonData($this->createJSONData($key, $value));
+    }
     
-    public function put($getvars, $postvars) {
-        return $this->post($getvars, $postvars);
+    private function deleteNeedle($postvars) {
+        $artist = $postvars['artist'];
+        $title = $postvars['title'];
+
+        $key   = Functions::getInstance()->prepareNeedle($artist . ' ' . $title);
+        Db::getInstance()->delEnvVar($key);
+        
+        return $this->jsonData($this->createJSONData($key));
     }
 
     public function delete($getvars) {
