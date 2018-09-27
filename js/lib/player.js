@@ -45,29 +45,29 @@ class PlayerController {
         this.errorListeners = [];
         this.stateChangeListeners = [];
 
-        this.ytStatus = new Object();
+        this.ytStatus = {};
 
-        this.ytStatus.UNSTARTED = new Object();
+        this.ytStatus.UNSTARTED = {};
         this.ytStatus.UNSTARTED.ID = -1;
         this.ytStatus.UNSTARTED.NAME = 'unstarted';
 
-        this.ytStatus.ENDED = new Object();
+        this.ytStatus.ENDED = {};
         this.ytStatus.ENDED.ID = 0;
         this.ytStatus.ENDED.NAME = 'ended';
 
-        this.ytStatus.PLAYING = new Object();
+        this.ytStatus.PLAYING = {};
         this.ytStatus.PLAYING.ID = 1;
         this.ytStatus.PLAYING.NAME = 'playing';
 
-        this.ytStatus.PAUSED = new Object();
+        this.ytStatus.PAUSED = {};
         this.ytStatus.PAUSED.ID = 2;
         this.ytStatus.PAUSED.NAME = 'paused';
 
-        this.ytStatus.BUFFERING = new Object();
+        this.ytStatus.BUFFERING = {};
         this.ytStatus.BUFFERING.ID = 3;
         this.ytStatus.BUFFERING.NAME = 'buffering';
 
-        this.ytStatus.CUED = new Object();
+        this.ytStatus.CUED = {};
         this.ytStatus.CUED.ID = 5;
         this.ytStatus.CUED.NAME = 'vide cued';
 
