@@ -254,7 +254,7 @@
                                     <span v-show="TRACK.PLAYSTATE === 'load'"
                                           class="fa fa-spinner faa-spin animated"></span>
                                     <span v-show="TRACK.PLAYSTATE === ''">
-                                        {{TRACK.NR}}<span v-show="typeof TRACK.PLAYCOUNT !== 'undefined'">&nbsp;({{TRACK.PLAYCOUNT}})</span>
+                                        {{TRACK.NR}}<span v-show="'undefined' !== typeof TRACK.PLAYCOUNT && TRACK.PLAYCOUNT !== null">&nbsp;({{TRACK.PLAYCOUNT}})</span>
                                     </span>
                                 </td>
                                 <td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"

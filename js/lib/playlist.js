@@ -76,7 +76,7 @@ class PlaylistController {
         let tracks = [];
         let savedVid = needle.videoId;
         if(trackCnt > 0) {
-            maxPages = trackCnt / $page.TRACKS_PER_PAGE;
+            maxPages = trackCnt / $page.TRACKS_PER_PAGE | 0;
             if(trackCnt%$page.TRACKS_PER_PAGE > 1) maxPages++;
             
             for(let cnt=0;cnt<trackCnt;cnt++) {
@@ -297,6 +297,7 @@ class PlaylistController {
         let tracksPerPage = $page.TRACKS_PER_PAGE;
 
         let pageCount = (tracks.length / tracksPerPage) | 0;
+
         if ((tracks.length % tracksPerPage) > 0) pageCount++;
         $page.myVues.playlist.menu.$data.MAX_PAGES = pageCount;
 
