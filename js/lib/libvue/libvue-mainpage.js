@@ -74,12 +74,12 @@ class LibvueMainpage {
 
     update(json) {
 
-        if (!Vue.prototype.$isUndefined(json)) {
+        if ('undefined' !== typeof json) {
             this.content.$data.PAGE_HEADER = json.TITLE;
             this.content.$data.PAGE_WELCOME = json.TEXT;
         }
 
-        if (!Vue.prototype.$isUndefined(json.MENU)) {
+        if ('undefined' !== typeof json.MENU) {
             this.menu.$data.MENUS = json.MENU;
         }
     }

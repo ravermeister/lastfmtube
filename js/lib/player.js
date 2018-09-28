@@ -59,7 +59,7 @@ class ChartTimer {
     }
 
     clearTimer() {
-        if (this.timer == null) return;
+        if (this.timer === null) return;
 
         clearTimeout(this.timer);
         this.timerStart = null;
@@ -383,7 +383,7 @@ class PlayerController {
     loadPreviousSong() {
 
         let curTrack = this.currentTrackData.track;
-        if (curTrack == null) return;
+        if (curTrack === null) return;
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
 
@@ -429,7 +429,7 @@ class PlayerController {
 
     setCurrentState(newState = '') {
         let curTrack = this.currentTrackData.track;
-        if (curTrack == null || curTrack === newState) return;
+        if (curTrack === null || curTrack === newState) return;
         curTrack.PLAYSTATE = newState;
         $page.myVues.youtube.menu.$data.PLAYSTATE = newState;
     }
@@ -437,7 +437,7 @@ class PlayerController {
     loadSong(track) {
 
         //console.log(this.ytPlayer);
-        if (this.ytPlayer == null) return;
+        if (this.ytPlayer === null) return;
 
         this.setCurrentTrack(track);
 
@@ -490,7 +490,7 @@ class PlayerController {
             'php/json/JsonHandler.php?api=videos&data=search' +
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
-            $playlist.loadSearchResult(needle, json, 1, callBack);
+            PlaylistController.loadSearchResult(needle, json, 1, callBack);
             if(loadPage) location.href = '#' + $page.PLAYLIST;
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
@@ -532,21 +532,21 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
 
         let isEqual = curTrack !== null && (
-            curTrack == track || (
-                curTrack.NR == track.NR &&
-                curTrack.PLAYLIST == track.PLAYLIST &&
-                curTrack.ARTIST == track.ARTIST &&
-                curTrack.TITLE == track.TITLE
+            curTrack === track || (
+                curTrack.NR === track.NR &&
+                curTrack.PLAYLIST === track.PLAYLIST &&
+                curTrack.ARTIST === track.ARTIST &&
+                curTrack.TITLE === track.TITLE
             ));
 
         return isEqual;
     }
 
     isPlaying() {
-        return this.ytPlayer.getPlayerState() == this.ytStatus.PLAYING.ID;
+        return this.ytPlayer.getPlayerState() === this.ytStatus.PLAYING.ID;
     }
 
     isPaused() {
-        return this.ytPlayer.getPlayerState() == this.ytStatus.PAUSED.ID;
+        return this.ytPlayer.getPlayerState() === this.ytStatus.PAUSED.ID;
     }
 }

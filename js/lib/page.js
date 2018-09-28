@@ -223,17 +223,9 @@ class PageController {
             return url;
         };
 
-        Vue.prototype.$isUndefined = function (val) {
-            return (typeof val === 'undefined') ? true : false;
-        };
-
         Vue.prototype.$getMenuForPlaylist = function (playlist, json = null) {
             let menu = $page.menu.getMenu(playlist);
             return menu;
-        };
-
-        Vue.prototype.$isUndefined = function (val) {
-            return (typeof val === 'undefined') ? true : false;
         };
 
         Vue.prototype.$loadListMenu = function (menu, event) {
@@ -474,8 +466,8 @@ class PageController {
                 if (
                     typeof this.artist === 'undefined' ||
                     typeof this.title === 'undefined' ||
-                    this.artist == null ||
-                    this.title == null
+                    this.artist === null ||
+                    this.title === null
                 ) return '';
 
 
@@ -513,11 +505,11 @@ class PageController {
         };
     }
 
-    clone(src) {
+    static clone(src) {
         return Object.assign({}, src);
     }
 
-    resetTrack(track) {
+    static resetTrack(track) {
         track.PLAY_CONTROL = false;
         track.SHOWPLAY = false;
         track.NOWPLAYING = false;
@@ -574,11 +566,11 @@ class PageController {
             }
         }).done(function (json) {
             if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
-                for (let cnt in $page.myVues.playlist.content.$data.TRACKS) {
+                for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.left; cnt++) {
                     let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
                     if (
-                        track.ARTIST == json.data.value.artist &&
-                        track.TITLE == json.data.value.title
+                        track.ARTIST === json.data.value.artist &&
+                        track.TITLE === json.data.value.title
                     ) {
                         track.PLAYCOUNT = json.data.value.playcount;
                         track.LASTPLAY = json.data.value.lastplay;

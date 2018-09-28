@@ -11,16 +11,16 @@ class LibvuePlaylist {
                     }
                     console.log('error saving video id');
                 };
-                
+
                 let needle = $page.createNeedle(
                     $page.myVues.playlist.menu.$data.SEARCH_NEEDLE.artist,
                     $page.myVues.playlist.menu.$data.SEARCH_NEEDLE.title,
                     videoId
                 );
-                
+
                 $page.saveVideo(needle, callback);
             },
-            
+
             unsetVideo: function (needle = null) {
                 let callback = function (success = false) {
                     if (success) {
@@ -40,7 +40,7 @@ class LibvuePlaylist {
                 $page.deleteVideo(needle, callback);
             }
         };
-        
+
         this.header = {
             title: new Vue({
                 el: '#page-playlist>.page-header-title>h2',
@@ -51,7 +51,7 @@ class LibvuePlaylist {
 
                 methods: {
                     update: function (json) {
-                        if (!this.$isUndefined(json.HEADER)) {
+                        if ('undefined' !== typeof json.HEADER) {
                             this.$applyData(json.HEADER);
                         }
 
@@ -79,6 +79,7 @@ class LibvuePlaylist {
             })
         };
 
+        // noinspection JSUnusedGlobalSymbols
         this.menu = new Vue({
             el: '#page-playlist>.page-nav',
             data: {
@@ -145,7 +146,7 @@ class LibvuePlaylist {
 
                 update: function (json) {
 
-                    if (!this.$isUndefined(json.LIST_MENU)) {
+                    if (typeofjson.LIST_MENU !== 'undefined') {
                         this.$applyData(json.LIST_MENU);
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
                     }
@@ -197,12 +198,12 @@ class LibvuePlaylist {
                             videoId = url.substr(vidsep, (vidend - vidsep));
                         } else videoId = '';
                     }
-                    if(this.SEARCH_VIDEO_ID === videoId) this.$forceUpdate();
+                    if (this.SEARCH_VIDEO_ID === videoId) this.$forceUpdate();
                     else this.SEARCH_VIDEO_ID = videoId;
-                    
+
                     $player.ytPlayer.loadVideoById(videoId);
                 },
- 
+
                 setVideo(vid) {
                     $page.myVues.playlist.methods.setVideo(vid);
                 },
@@ -214,6 +215,7 @@ class LibvuePlaylist {
         });
 
 
+        // noinspection JSUnusedGlobalSymbols
         this.content = new Vue({
             el: '#page-playlist>.page-content',
             data: {
@@ -229,7 +231,7 @@ class LibvuePlaylist {
                     VIDEO_ID: '',
                     PLAY_CONTROL: '',
                     PLAYLIST: '',
-                    PLAYSTATE: '',
+                    PLAYSTATE: ''
                 }]
             },
 
@@ -249,7 +251,6 @@ class LibvuePlaylist {
                 },
 
                 removeFromUserList: function (tracks, track) {
-                    let isLast = tracks.length === 1;
                     let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
                     let curIndex = tracks.indexOf(track);
 
@@ -304,20 +305,20 @@ class LibvuePlaylist {
                 },
 
                 update: function (json) {
-                    if (!this.$isUndefined(json.LIST_HEADER)) {
+                    if ('undefined' !== json.LIST_HEADER) {
                         this.$applyData(json.LIST_HEADER);
                     }
 
-                    if (!this.$isUndefined(json.TRACKS)) {
+                    if ('undefined' !== typeof json.TRACKS) {
                         let newTracks = [];
                         let curTrack = $player.currentTrackData.track;
-                        if (curTrack != null) {
+                        if (curTrack !== null) {
                             for (let cnt = 0; cnt < json.TRACKS.length; cnt++) {
                                 let track = json.TRACKS[cnt];
-                                if ($player.isCurrentTrack(track)) {                                      
+                                if ($player.isCurrentTrack(track)) {
                                     track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
                                     track.PLAYSTATE = curTrack.PLAYSTATE;
-                                    $player.currentTrackData.track  = track;
+                                    $player.currentTrackData.track = track;
                                 }
                                 newTracks[cnt] = track;
                             }
@@ -344,6 +345,9 @@ class LibvuePlaylist {
                 searchVideos: function (event, track) {
                     $page.setPlaylistLoading(true);
                     let callBack = function (success = false) {
+                        if(success){
+                            console.log('error for searching vidéos for song');
+                        }
                         $page.setPlaylistLoading();
                     };
                     $player.searchSong(track, callBack);
@@ -363,9 +367,9 @@ class LibvuePlaylist {
 
     getTracks(json) {
         let pdata = null;
-        if (!$page.$isUndefined(json.playlist.LIST.HEADER))
+        if ('undefined' !== typeof json.playlist.LIST.HEADER)
             pdata = json.playlist.LIST.HEADER;
-        if (!$page.$isUndefined(json.playlist.LIST.CONTENT))
+        if ('undefined' !== typeof json.playlist.LIST.CONTENT)
             pdata.TRACKS = json.playlist.LIST.CONTENT;
         return pdata === null ? {} : pdata;
     }

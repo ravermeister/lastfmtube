@@ -69,7 +69,7 @@ class PlaylistController {
         }
     }
 
-    loadSearchResult(needle, result, pageNum = 1, callBack = null) {
+    static loadSearchResult(needle, result, pageNum = 1, callBack = null) {
 
         let trackCnt = result.data.value.length;
         let maxPages = 1;
@@ -301,7 +301,7 @@ class PlaylistController {
         if ((tracks.length % tracksPerPage) > 0) pageCount++;
         $page.myVues.playlist.menu.$data.MAX_PAGES = pageCount;
 
-        if (pageNum == null) {
+        if (pageNum === null) {
             pageNum = ($page.myVues.playlist.menu.$data.CUR_PAGE) | 0;
         }
 

@@ -67,7 +67,7 @@ class LibvueUser {
 
             methods: {
                 update: function (json) {
-                    if (!this.$isUndefined(json.LIST_HEADER)) {
+                    if (typeof json.LIST_HEADER !== 'undefined') {
                         this.$applyData(json.LIST_HEADER);
                     }
 

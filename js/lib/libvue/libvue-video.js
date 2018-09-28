@@ -3,6 +3,7 @@ class LibvueVideo {
 
     constructor() {
 
+        // noinspection JSUnusedGlobalSymbols
         this.header = new Vue({
             el: '#page-video>h2',
             data: {
