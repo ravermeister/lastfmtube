@@ -139,21 +139,13 @@ class Db {
         if ($this->statements !== false) return;
         $this->statements = array(
             'SELECT_ALL_LASTFM_USER' => '
-				SELECT lastfm_user, last_played,
-				CASE 
-					WHEN lastfm_user = ? OR
-					last_played = ? THEN		
-						playcount-1
-					ELSE 
-						playcount
-				END AS playcount
-						
+				SELECT lastfm_user, last_played, playcount						
 				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"	
 				ORDER BY 
 					playcount DESC,
 					last_played DESC
 				LIMIT ? OFFSET ?;
-			', // add limit to sql to limit the result for the top xx users
+			', 
 
             'SELECT_ALL_LASTFM_USER_NUM_ROWS' => '
 				SELECT COUNT(*)	AS CNT					
@@ -275,7 +267,7 @@ class Db {
             );
         }
         
-        return $data;
+        return $data[0];
     }
 
     /**

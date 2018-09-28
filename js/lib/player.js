@@ -7,14 +7,14 @@ class ChartTimer {
         this.timer = null;
         this.log = false;
         this.lastChartLfmUser = null;
-        
+
         this.init(player);
     }
 
 
     init(player = null) {
         if (player === null) {
-            if(this.log) console.error('cannot initialize Timer, invalid player instance!');
+            if (this.log) console.error('cannot initialize Timer, invalid player instance!');
             return;
         }
 
@@ -33,15 +33,15 @@ class ChartTimer {
     }
 
     handleTimerEvent() {
-        
+
         let track = $player.chartTimer.timerTrack;
-        if(typeof track === 'undefined' || track === null) {
-            if($player.chartTimer.log) console.log('timer event invalid track', track);
+        if (typeof track === 'undefined' || track === null) {
+            if ($player.chartTimer.log) console.log('timer event invalid track', track);
             return;
         }
 
-        if($player.chartTimer.log) console.log('handle timer event create needle from track');
-        
+        if ($player.chartTimer.log) console.log('handle timer event create needle from track');
+
         let needle = $page.createNeedle(
             track.artist,
             track.title,
@@ -50,11 +50,12 @@ class ChartTimer {
 
         $player.chartTimer.clearTimer();
         $page.saveChartTrack(needle);
-        if(typeof track.lfmuser !== 'undefined' && 
-            $player.chartTimer.lastChartLfmUser!==track.lfmuser) {
+        if (typeof track.lfmuser !== 'undefined' &&
+            $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
             $page.saveChartUser(track.lfmuser);
+            $player.chartTimer.lastChartLfmUser = track.lfmuser;
         }
-        
+
     }
 
     clearTimer() {
@@ -97,10 +98,10 @@ class ChartTimer {
                     $player.chartTimer.handleTimerEvent,
                     (lfmScrobbleDuration * 1000)
                 );
-                if($player.chartTimer.log) 
+                if ($player.chartTimer.log)
                     console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
 
-                if($player.chartTimer.log) clearInterval(durationTimer);
+                if ($player.chartTimer.log) clearInterval(durationTimer);
             }
             delayCnt++;
         }, delay);
@@ -108,12 +109,12 @@ class ChartTimer {
 
     resume(track) {
         if (!this.timerTrack.equals(track)) {
-            if(this.log) console.log('timer track not current track, create new timer');
+            if (this.log) console.log('timer track not current track, create new timer');
             this.createTimer(track);
             return;
         }
 
-        if(this.log) console.log('resume timer with remaining time: ', this.timerRemaining);
+        if (this.log) console.log('resume timer with remaining time: ', this.timerRemaining);
 
         this.timerStart = new Date();
         this.timer = setTimeout(this.handleTimerEvent, (this.timerRemaining * 1000));
@@ -152,7 +153,7 @@ class ChartTimer {
         this.timerRemaining -= timeRun;
         clearTimeout(this.timer);
         this.timer = null;
-        if(this.log) console.log('timer stopped, timer run: ', timeRun, ' remaining: ', this.timerRemaining);
+        if (this.log) console.log('timer stopped, timer run: ', timeRun, ' remaining: ', this.timerRemaining);
     }
 
 }

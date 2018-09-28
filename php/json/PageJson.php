@@ -254,7 +254,7 @@ class PageJson extends DefaultJson {
         $limit  = $this->settings['general']['tracks_perpage'];
         $offset = ($pageNum - 1) * $limit;
 
-        $topuser  = Db::getInstance()->query('SELECT_ALL_LASTFM_USER', $user, $lastplay, $limit, $offset);
+        $topuser  = Db::getInstance()->query('SELECT_ALL_LASTFM_USER', $limit, $offset);
         $maxpages = Db::getInstance()->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
         $maxpages = ((int)($maxpages / $limit));
 

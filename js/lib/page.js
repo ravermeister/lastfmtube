@@ -148,7 +148,7 @@ class PageController {
 
 
     constructor() {
-        
+
         this.PLAYCOUNT_UP = '▴';
         this.isReady = false;
         this.PLAYLIST = null;
@@ -525,25 +525,24 @@ class PageController {
     }
 
     saveChartUser(lfmuser = null) {
-        if(typeof lfmuser === 'undefined' || lfmuser === null) return;
-        
+        if (typeof lfmuser === 'undefined' || lfmuser === null) return;
+
         $.ajax('php/json/JsonHandler.php?api=vars&action=saveuserchart', {
             dataType: 'json',
             method: 'POST',
             data: {
-                LASTFM_USER: lfmuser     
+                LASTFM_USER: lfmuser
             }
         }).done(function (json) {
-            console.log('update top user with data', json);
-            if($page.  playlist.menu.$data.PLAYLIST === 'topuser') {
-                for(let cnt in $page.myVues.playlist.content.$data.USER) {
-                    let user = $page.myVues.playlist.content.$data.USER[cnt];
-                    if(user.NAME === json.data.value.username) {
-                        user.PLAYCOUNT = json.data.value.playcount;
-                        user.PLACOUNT_CHANGE = $player.PLAYCOUNT_UP;
-                    }
+            for (let cnt in $page.myVues.userlist.content.$data.USER) {
+                let user = $page.myVues.userlist.content.$data.USER[cnt];
+                if (user.NAME === json.data.value.username) {                    
+                    user.PLAYCOUNT = json.data.value.playcount;
+                    user.LASTPLAY = json.data.value.lastplay;
+                    user.PLACOUNT_CHANGE = $page.PLAYCOUNT_UP;
                 }
             }
+            
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -557,7 +556,7 @@ class PageController {
 
         });
     }
-    
+
     saveChartTrack(needle, callback = null) {
         if (!needle.isValid()) {
             if (callback !== null) {
@@ -574,7 +573,6 @@ class PageController {
                 title: needle.title
             }
         }).done(function (json) {
-
             if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
                 for (let cnt in $page.myVues.playlist.content.$data.TRACKS) {
                     let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
@@ -584,7 +582,7 @@ class PageController {
                     ) {
                         track.PLAYCOUNT = json.data.value.playcount;
                         track.LASTPLAY = json.data.value.lastplay;
-                        track.PLAYCOUNT_CHANGE = $player.PLAYCOUNT_UP;
+                        track.PLAYCOUNT_CHANGE = $page.PLAYCOUNT_UP;
                     }
                 }
             }

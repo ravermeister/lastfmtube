@@ -69,7 +69,7 @@ class EnvVarsJson extends DefaultJson {
         
         $updata = Db::getInstance()->updateLastFMUserVisit($username);
         $data['playcount'] = $updata['playcount'];
-        $data['lastplay'] = $data['last_played'];
+        $data['lastplay'] = $updata['last_played'];
         
         return $this->jsonData($data);
     }
