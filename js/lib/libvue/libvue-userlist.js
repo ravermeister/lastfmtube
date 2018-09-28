@@ -60,7 +60,8 @@ class LibvueUser {
                     NAME: 'Ravermeister',
                     LASTPLAY: '',
                     PLAYCOUNT: '1',
-                    PLAY_CONTROL: ''
+                    PLAY_CONTROL: '',
+                    PLAYCOUNT_CHANGE: ''
                 }]
             },
 

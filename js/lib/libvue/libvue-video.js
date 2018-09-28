@@ -42,8 +42,8 @@ class LibvueVideo {
                 next: function () {
                     $player.loadNextSong();
                 },
-                addToUserList: function () {
-                    $playlist.addUserTrack($player.CURRENT_TRACK);
+                addToUserList: function () {                    
+                    $playlist.addUserTrack($player.currentTrackData.track);
                     if ($page.PLAYLIST === 'userlist') {
                         $playlist.loadUserPlayListPage($page.myVues.playlist.menu.$data.CUR_PAGE);
                     }

@@ -196,14 +196,18 @@ class Db {
 			    VALUES(?, ?, 1, ?, ?, ?);
 			',
 
-            'SELECT_CHARTS'          => '
+            'SELECT_CHARTS'            => '
 				SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
 			     ORDER BY `playcount` DESC, `lastplay_time` DESC LIMIT ? OFFSET ?;
 			',
-            'SELECT_CHARTS_NUM_ROWS' => '
+            'SELECT_CHARTS_NUM_ROWS'   => '
                 SELECT COUNT(*) AS "CNT" FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts";
-                                  ',
-
+            ',
+            'SELECT_CHART_COUNT_TRACK' => '
+                SELECT playcount, lastplay_time  FROM  "' . $this->settings ['database'] ['table_prefix'] . 'charts"
+                WHERE interpret = ? AND title = ?
+                ORDER BY `playcount` DESC LIMIT 1 OFFSET 0; 
+            ',
             // SELECT ONLY the last heared song with playcount 1
             // 'SELECT_CHARTS' =>
             // '
@@ -245,6 +249,35 @@ class Db {
         }
     }
 
+    public function updateLastFMUserVisit($user, $ignoreCase = true) {
+        $origUser = $user;
+        if ($ignoreCase) $user = strtolower($user);
+        $curvisit = date('Y-m-d H:i:s');
+
+        $upres = $this->statements ['UPDATE_LASTFM_USER_VISIT']->execute(array($curvisit, $user));
+        if ($upres !== false && $this->statements ['UPDATE_LASTFM_USER_VISIT']->rowCount() == 1) {
+            return $this->readLastFMUserVisitForUpdate($origUser);
+        }
+
+
+        $this->statements ['INSERT_LASTFM_USER_VISIT']->execute(array($user, $curvisit));
+        return $this->readLastFMUserVisitForUpdate($origUser);
+
+    }
+
+    private function readLastFMUserVisitForUpdate($user) {
+        Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->execute(array($user));
+        $data = Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->fetchAll(PDO::FETCH_ASSOC);
+        if(sizeof($data) < 1) {
+            return array(
+                'playcount' => -1,
+                'last_played' => ''
+            );
+        }
+        
+        return $data;
+    }
+
     /**
      * @return Db
      * @throws Exception
@@ -256,37 +289,33 @@ class Db {
         return self::$instance;
     }
 
-    public function updateLastFMUserVisit($user, $ignoreCase = true) {
-        $origUser = $user;
-        if ($ignoreCase) $user = strtolower($user);
-        $curvisit  = date('Y-m-d H:i:s');
-        $lastvisit = $curvisit;
-        $res       = $this->statements ['SELECT_LASTFM_USER_VISIT']->execute(array($origUser));
-        if ($res !== false) {
-            $data = $this->statements ['SELECT_LASTFM_USER_VISIT']->fetchAll(PDO::FETCH_ASSOC);
-            if (sizeof($data) > 0) $lastvisit = $data [0] ['last_played'];
-        }
-
-        $upres = $this->statements ['UPDATE_LASTFM_USER_VISIT']->execute(array($curvisit, $user));
-        if ($upres !== false && $this->statements ['UPDATE_LASTFM_USER_VISIT']->rowCount() == 1) return $lastvisit;
-        $this->statements ['INSERT_LASTFM_USER_VISIT']->execute(array($user, $curvisit));
-
-        return $lastvisit;
-    }
-
     public function updateCharts($track, $uid = 0) {
         $lastvisit = date('Y-m-d H:i:s');
 
-        $upres = $this->statements ['UPDATE_CHARTS']->execute(array($lastvisit, $uid, $_SERVER ['REMOTE_ADDR'],
-                                                                    $track ['artist'], $track ['title'])
+        $upres = $this->statements ['UPDATE_CHARTS']->execute(
+            array($lastvisit, $uid, $_SERVER ['REMOTE_ADDR'],
+                  $track ['artist'], $track ['title'])
         );
-        if ($upres !== false && $this->statements ['UPDATE_CHARTS']->rowCount() == 1) return $lastvisit;
+        if ($upres !== false && $this->statements ['UPDATE_CHARTS']->rowCount() == 1) {
+            return $this->readChartForUpdate($track);
+        }
 
 
-        $this->statements ['INSERT_CHARTS']->execute(array($track ['artist'], $track ['title'], $lastvisit, $uid,
-                                                           $_SERVER ['REMOTE_ADDR'])
+        $this->statements ['INSERT_CHARTS']->execute(
+            array($track ['artist'], $track ['title'], $lastvisit, $uid,
+                  $_SERVER ['REMOTE_ADDR'])
         );
-        return $lastvisit;
+
+        return $this->readChartForUpdate($track);
+    }
+
+    private function readChartForUpdate($track) {
+        $this->statements ['SELECT_CHART_COUNT_TRACK']->execute(
+            array($track['artist'], $track['title'])
+        );
+        $data = $this->statements['SELECT_CHART_COUNT_TRACK']->fetchAll(PDO::FETCH_ASSOC);
+        if (sizeof($data) < 1) return -1;
+        return $data[0];
     }
 
     public function getEnvVar($needle) {

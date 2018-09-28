@@ -47,9 +47,31 @@ class EnvVarsJson extends DefaultJson {
             case 'deletealternative':
                 return $this->deleteNeedle($postvars);
                 break;
+            case 'savetrackchart':
+                return $this->saveChartTrack($postvars);
+                break;
+            case 'saveuserchart':
+                return $this->saveUserChart($postvars);
+                break;
             default:
                 $this->jsonError('unbekannte Action ' . $action);
         }
+    }
+    
+    private function saveUserChart($postvars) {
+        $username = filter_var($postvars['LASTFM_USER'], FILTER_SANITIZE_STRING);
+        $data['username'] = $username;
+        if(strlen(trim($username)) <= 0) {
+            $data['playcount'] = -1;
+            $data['lastplay'] = '';
+            return $data;
+        }
+        
+        $updata = Db::getInstance()->updateLastFMUserVisit($username);
+        $data['playcount'] = $updata['playcount'];
+        $data['lastplay'] = $data['last_played'];
+        
+        return $this->jsonData($data);
     }
 
     private function saveNeedle($postvars) {
@@ -65,15 +87,26 @@ class EnvVarsJson extends DefaultJson {
         $value = Db::getInstance()->getEnvVar($key);
         return $this->jsonData($this->createJSONData($key, $value));
     }
-    
+
     private function deleteNeedle($postvars) {
         $artist = $postvars['artist'];
-        $title = $postvars['title'];
+        $title  = $postvars['title'];
 
-        $key   = Functions::getInstance()->prepareNeedle($artist . ' ' . $title);
+        $key = Functions::getInstance()->prepareNeedle($artist . ' ' . $title);
         Db::getInstance()->delEnvVar($key);
-        
+
         return $this->jsonData($this->createJSONData($key));
+    }
+
+    private function saveChartTrack($postvars) {
+        $track{'artist'} = $postvars['artist'];
+        $track['title']  = $postvars['title'];
+
+        $data               = Db::getInstance()->updateCharts($track);
+        $track['playcount'] = $data['playcount'];
+        $track['lastplay']  = $data['lastplay_time'];
+
+        return $this->jsonData($track);
     }
 
     public function delete($getvars) {

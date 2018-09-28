@@ -114,7 +114,10 @@
                     </a>
                 </div>
             </div>
-
+            
+            <br />
+            <br />
+            
         </article>
 
 
@@ -248,10 +251,9 @@
                                           class="fa fa-play faa-flash animated"></span>
                                     <span v-show="TRACK.PLAYSTATE === 'load'"
                                           class="fa fa-spinner faa-spin animated"></span>
-                                    <span v-show="TRACK.PLAYSTATE === '' && typeof TRACK.PLAYCOUNT !== 'undefined' && TRACK.PLAYCOUNT !== null">
-                                        {{TRACK.NR}}&nbsp;({{TRACK.PLAYCOUNT}})
+                                    <span v-show="TRACK.PLAYSTATE === ''">
+                                        {{TRACK.NR}}<span v-show="typeof TRACK.PLAYCOUNT !== 'undefined'">&nbsp;({{TRACK.PLAYCOUNT}})</span>
                                     </span>
-                                    <span v-show="TRACK.PLAYSTATE === '' && (typeof TRACK.PLAYCOUNT === 'undefined' || TRACK.PLAYCOUNT === null)">{{TRACK.NR}}</span>
                                 </td>
                                 <td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">
@@ -264,6 +266,7 @@
                                     <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID != ''"
                                        v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i>
                                     <span v-else="v-else">{{TRACK.TITLE}}</span>
+                                    <span style="float: right;">{{TRACK.PLAYCOUNT_CHANGE}}</span>
                                 </td>
                             </tr>
 
@@ -380,7 +383,7 @@
                                 </td>
                                 <td>{{USR.NAME}}</td>
                                 <td>{{USR.LASTPLAY}}</td>
-                                <td>{{USR.PLAYCOUNT}}</td>
+                                <td>{{USR.PLAYCOUNT}} {{USR.PLAYCOUNT_CHANGE}}</td>
                             </tr>
                         </template>
                         </tbody>

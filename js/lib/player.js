@@ -1,35 +1,160 @@
 class ChartTimer {
-    constructor() {
-        this.track = {
-            ARTIST: null,
-            TITLE: null,
-            isValid: function () {
-                return this.ARTIST !== null && this.TITLE !== null;
-            }
-        };
+    constructor(player) {
+
+        this.timerStart = null;
+        this.timerRemaining = null;
+        this.timerTrack = null;
+        this.timer = null;
+        this.log = false;
+        this.lastChartLfmUser = null;
+        
+        this.init(player);
     }
 
-    start(artist = null, title = null) {
 
-        //check old timer
-
-        this.track.ARTIST = artist;
-        this.track.TITLE = title;
-
-        if (!this.track.isValid()) {
-            console.error('invalid data for creating Chart Timer, not starting! ');
+    init(player = null) {
+        if (player === null) {
+            if(this.log) console.error('cannot initialize Timer, invalid player instance!');
             return;
         }
-        console.log('start chart timer');
+
+        let control = this;
+
+        player.addStateChangeListener(function (event) {
+            switch (event.data) {
+                case $player.ytStatus.PLAYING.ID:
+                    control.start();
+                    break;
+                default:
+                    control.stop();
+                    break;
+            }
+        });
     }
 
-    pause(halt = true) {
-        console.log((halt ? 'Stop' : 'resume') + ' chart timer');
+    handleTimerEvent() {
+        
+        let track = $player.chartTimer.timerTrack;
+        if(typeof track === 'undefined' || track === null) {
+            if($player.chartTimer.log) console.log('timer event invalid track', track);
+            return;
+        }
+
+        if($player.chartTimer.log) console.log('handle timer event create needle from track');
+        
+        let needle = $page.createNeedle(
+            track.artist,
+            track.title,
+            track.video
+        );
+
+        $player.chartTimer.clearTimer();
+        $page.saveChartTrack(needle);
+        if(typeof track.lfmuser !== 'undefined' && 
+            $player.chartTimer.lastChartLfmUser!==track.lfmuser) {
+            $page.saveChartUser(track.lfmuser);
+        }
+        
     }
 
-    timerFinished() {
-        console.log('timr finished');
+    clearTimer() {
+        if (this.timer == null) return;
+
+        clearTimeout(this.timer);
+        this.timerStart = null;
+        this.timerRemaining = null;
+        this.timerTrack = null;
+        this.timer = null;
     }
+
+
+    createTimer(track) {
+        //duration is send when metadata arrives from youtube,
+        // so delay max. 5 a second before checking duration
+        let delay = 500; //ms
+        let maxDelayCnt = 10; //10x500 ms
+        let delayCnt = 0;
+        let durationTimer = setInterval(function () {
+            if (delayCnt >= maxDelayCnt) {
+                clearInterval(durationTimer);
+                //console.error('can not start timer, no duration received from youtube');
+                return;
+            }
+
+            let vidDuration = $player.ytPlayer.getDuration();
+            if (vidDuration > 0) {
+                track.duration = vidDuration;
+
+                let lfmScrobbleDuration = (track.duration / 2) | 0;
+                if (lfmScrobbleDuration > 120) lfmScrobbleDuration = 120;
+                //last.fm scrobble rule: half length of song or 2 min. if greater
+
+                $player.chartTimer.clearTimer();
+                $player.chartTimer.timerStart = new Date();
+                $player.chartTimer.timerRemaining = lfmScrobbleDuration;
+                $player.chartTimer.timerTrack = track;
+                $player.chartTimer.timer = setTimeout(
+                    $player.chartTimer.handleTimerEvent,
+                    (lfmScrobbleDuration * 1000)
+                );
+                if($player.chartTimer.log) 
+                    console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
+
+                if($player.chartTimer.log) clearInterval(durationTimer);
+            }
+            delayCnt++;
+        }, delay);
+    }
+
+    resume(track) {
+        if (!this.timerTrack.equals(track)) {
+            if(this.log) console.log('timer track not current track, create new timer');
+            this.createTimer(track);
+            return;
+        }
+
+        if(this.log) console.log('resume timer with remaining time: ', this.timerRemaining);
+
+        this.timerStart = new Date();
+        this.timer = setTimeout(this.handleTimerEvent, (this.timerRemaining * 1000));
+    }
+
+    start() {
+        if (!$player.currentTrackData.validTrack() && $player.currentTrackData.validVideo()) return;
+        let curTrack = $player.currentTrackData.track;
+        let track = {
+            artist: curTrack.ARTIST,
+            title: curTrack.TITLE,
+            video: $player.currentTrackData.videoId,
+            lfmuser: $page.myVues.playlist.menu.$data.LASTFM_USER_NAME,
+            duration: 0,
+            equals: function (other) {
+                return (
+                    typeof other !== 'undefined' &&
+                    other !== null &&
+                    this.artist === other.artist &&
+                    this.title === other.title &&
+                    this.video === other.video
+                );
+            }
+        };
+
+        if (this.timerStart === null) {
+            this.createTimer(track);
+        } else {
+            this.resume(track);
+        }
+    }
+
+    stop() {
+        if (this.timer === null) return;
+        let timeRun = ((new Date() - this.timerStart) / 1000) | 0;
+        this.timerRemaining -= timeRun;
+        clearTimeout(this.timer);
+        this.timer = null;
+        if(this.log) console.log('timer stopped, timer run: ', timeRun, ' remaining: ', this.timerRemaining);
+    }
+
 }
 
 class PlayerController {
@@ -39,13 +164,32 @@ class PlayerController {
         this.isReady = false;
         this.autoPlay = false;
         this.loadNextOnError = false;
-        this.CURRENT_TRACK = null;
         this.maxErrorLoop = 5;
         this.errorLoopCount = 0;
         this.errorListeners = [];
         this.stateChangeListeners = [];
-
         this.ytStatus = {};
+        this.currentTrackData = {
+            track: null,
+            videoId: null,
+
+            validTrack: function () {
+                return (
+                    this.track !== null &&
+                    typeof this.track.TITLE !== 'undefined' &&
+                    this.track.TITLE !== null &&
+                    this.track.TITLE.length > 0 &&
+                    typeof this.track.ARTIST !== 'undefined' &&
+                    this.track.ARTIST !== null &&
+                    this.track.ARTIST.length > 0
+                );
+            },
+
+            validVideo: function () {
+                return videoId !== null && videoId.length > 0;
+            }
+        };
+
 
         this.ytStatus.UNSTARTED = {};
         this.ytStatus.UNSTARTED.ID = -1;
@@ -71,7 +215,7 @@ class PlayerController {
         this.ytStatus.CUED.ID = 5;
         this.ytStatus.CUED.NAME = 'vide cued';
 
-        this.chartTimer = new ChartTimer();
+        this.chartTimer = new ChartTimer(this);
         this.addStateChangeListener(function (event) {
             switch (event.data) {
                 case $player.ytStatus.PLAYING.ID:
@@ -86,11 +230,22 @@ class PlayerController {
                     break;
                 case $player.ytStatus.ENDED.ID:
                     $player.setCurrentState('stop');
+                    $player.loadNextSong();
                     break;
             }
         });
         this.addErrorListener(function (event) {
             $player.errorLoopCount++;
+
+            if ($page.myVues.playlist.menu.PLAYLIST === 'search') {
+                $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = '';
+            }
+
+            if ($player.errorLoopCount >= $player.maxErrorLoop) {
+                console.error('maximum error loop reached');
+                return;
+            }
+            $player.loadNextSong();
         });
     }
 
@@ -133,7 +288,7 @@ class PlayerController {
             $(document).ready(function () {
 
                 let percentHeight = function (abs, val) {
-                    return parseInt((abs / 100) * val);
+                    return ((abs / 100) * val) | 0;
                 };
 
                 let startvideo = '';//'9RMHHwJ9Eqk';
@@ -195,8 +350,8 @@ class PlayerController {
 
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
-
-        let nextIndex = this.CURRENT_TRACK !== null ? tracks.indexOf(this.CURRENT_TRACK) + 1 : 0;
+        let curTrack = this.currentTrackData.track;
+        let nextIndex = curTrack !== null ? tracks.indexOf(curTrack) + 1 : 0;
 
         if ((nextIndex) >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
@@ -225,11 +380,13 @@ class PlayerController {
     }
 
     loadPreviousSong() {
-        if (this.CURRENT_TRACK == null) return;
+
+        let curTrack = this.currentTrackData.track;
+        if (curTrack == null) return;
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
 
-        let index = tracks.indexOf(this.CURRENT_TRACK);
+        let index = tracks.indexOf(curTrack);
 
         if ((index - 1) < 0) {
             let playlist = $page.myVues.playlist.header.menu;
@@ -259,19 +416,20 @@ class PlayerController {
 
     setCurrentTrack(track) {
         if (this.isCurrentTrack(track)) return;
-
-        if (this.CURRENT_TRACK !== null) {
+        let curTrack = this.currentTrackData.track;
+        if (curTrack !== null) {
             this.setCurrentState();
-            this.CURRENT_TRACK = null;
+            this.currentTrackData.track = null;
         }
 
-        this.CURRENT_TRACK = track;
+        this.currentTrackData.track = track;
         this.setCurrentState('load');
     }
 
     setCurrentState(newState = '') {
-        if (this.CURRENT_TRACK == null || this.CURRENT_TRACK.PLAYSTATE === newState) return;
-        this.CURRENT_TRACK.PLAYSTATE = newState;
+        let curTrack = this.currentTrackData.track;
+        if (curTrack == null || curTrack === newState) return;
+        curTrack.PLAYSTATE = newState;
         $page.myVues.youtube.menu.$data.PLAYSTATE = newState;
     }
 
@@ -284,7 +442,7 @@ class PlayerController {
 
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         if (needle.isValid(true)) {
-            $player.loadVideoByNeedle(needle);
+            $player.loadVideo(needle.videoId);
             return;
         }
 
@@ -305,7 +463,7 @@ class PlayerController {
             method: 'GET'
         }).done(function (search) {
             needle.applyData(search);
-            $player.loadVideoByNeedle(needle);
+            $player.loadVideo(needle.videoId);
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -352,11 +510,12 @@ class PlayerController {
         });
     }
 
-    loadVideoByNeedle(needle) {
-        if (typeof needle !== 'undefined' && needle.isValid(true)) {
-            $player.ytPlayer.loadVideoById(needle.videoId);
+    loadVideo(videoId = '') {
+        if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
+            $player.ytPlayer.loadVideoById(videoId);
+            $player.currentTrackData.videoId = videoId;
         } else {
-            console.log('no video id in needle ', needle);
+            console.log('no video id ', videoId);
             if ($player.errorLoopCount > $player.maxErrorLoop) {
                 console.error('maximum error loop reached');
                 return;
@@ -368,13 +527,14 @@ class PlayerController {
 
 
     isCurrentTrack(track) {
+        let curTrack = this.currentTrackData.track;
 
-        let isEqual = this.CURRENT_TRACK !== null && (
-            this.CURRENT_TRACK == track || (
-                this.CURRENT_TRACK.NR == track.NR &&
-                this.CURRENT_TRACK.PLAYLIST == track.PLAYLIST &&
-                this.CURRENT_TRACK.ARTIST == track.ARTIST &&
-                this.CURRENT_TRACK.TITLE == track.TITLE
+        let isEqual = curTrack !== null && (
+            curTrack == track || (
+                curTrack.NR == track.NR &&
+                curTrack.PLAYLIST == track.PLAYLIST &&
+                curTrack.ARTIST == track.ARTIST &&
+                curTrack.TITLE == track.TITLE
             ));
 
         return isEqual;

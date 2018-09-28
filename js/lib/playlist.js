@@ -297,12 +297,12 @@ class PlaylistController {
 
         let tracksPerPage = $page.TRACKS_PER_PAGE;
 
-        let pageCount = parseInt(tracks.length / tracksPerPage);
+        let pageCount = (tracks.length / tracksPerPage) | 0;
         if ((tracks.length % tracksPerPage) > 0) pageCount++;
         $page.myVues.playlist.menu.$data.MAX_PAGES = pageCount;
 
         if (pageNum == null) {
-            pageNum = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
+            pageNum = ($page.myVues.playlist.menu.$data.CUR_PAGE) | 0;
         }
 
         if (pageNum > pageCount) pageNum = pageCount;

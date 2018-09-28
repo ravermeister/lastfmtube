@@ -110,21 +110,6 @@ class LibvuePlaylist {
                 }
             },
 
-            mounted: function () {
-                $player.addErrorListener(function (event) {
-                    if ($page.myVues.playlist.menu.PLAYLIST === 'search') {
-                        $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = '';
-                    }
-
-                    if ($player.errorLoopCount >= $player.maxErrorLoop) {
-                        console.error('maximum error loop reached');
-                        return;
-                    }
-                    $player.loadNextSong();
-                });
-
-            },
-
             methods: {
 
                 loadPage: function (user, pageNum) {
@@ -244,7 +229,7 @@ class LibvuePlaylist {
                     VIDEO_ID: '',
                     PLAY_CONTROL: '',
                     PLAYLIST: '',
-                    PLAYSTATE: ''
+                    PLAYSTATE: '',
                 }]
             },
 
@@ -325,14 +310,14 @@ class LibvuePlaylist {
 
                     if (!this.$isUndefined(json.TRACKS)) {
                         let newTracks = [];
-                        if ($player.CURRENT_TRACK != null) {
-
+                        let curTrack = $player.currentTrackData.track;
+                        if (curTrack != null) {
                             for (let cnt = 0; cnt < json.TRACKS.length; cnt++) {
                                 let track = json.TRACKS[cnt];
-                                if ($player.isCurrentTrack(track)) {                                    
-                                    track.PLAY_CONTROL = $player.CURRENT_TRACK.PLAY_CONTROL;
-                                    track.PLAYSTATE = $player.CURRENT_TRACK.PLAYSTATE;
-                                    $player.CURRENT_TRACK = track;
+                                if ($player.isCurrentTrack(track)) {                                      
+                                    track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
+                                    track.PLAYSTATE = curTrack.PLAYSTATE;
+                                    $player.currentTrackData.track  = track;
                                 }
                                 newTracks[cnt] = track;
                             }

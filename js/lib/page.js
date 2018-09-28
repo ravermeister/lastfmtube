@@ -148,7 +148,8 @@ class PageController {
 
 
     constructor() {
-
+        
+        this.PLAYCOUNT_UP = '▴';
         this.isReady = false;
         this.PLAYLIST = null;
         this.PAGE = null;
@@ -167,20 +168,20 @@ class PageController {
     }
 
     applyJQueryMethods() {
-        $.urlParam = function (name, url=null) {
+        $.urlParam = function (name, url = null) {
             let theUrl = url !== null ? url : window.location.href;
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
             return results === null ? null : results[1] || null;
         };
         $.logXhr = function (xhr) {
-            if(typeof xhr === 'object' && xhr !== null) {
+            if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
                     '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ',xhr.status,
-                    '\n\nerror: ',xhr.statusText
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
                 );
             }
-        }
+        };
     }
 
     applyVueMethods() {
@@ -463,7 +464,7 @@ class PageController {
         this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }
 
-    
+
     createNeedle(artist = '', title = '', videoId = '') {
         return {
             artist: artist,
@@ -523,15 +524,90 @@ class PageController {
         track.LOADING = false;
     }
 
-    saveVideo(needle, callback = null) {
+    saveChartUser(lfmuser = null) {
+        if(typeof lfmuser === 'undefined' || lfmuser === null) return;
+        
+        $.ajax('php/json/JsonHandler.php?api=vars&action=saveuserchart', {
+            dataType: 'json',
+            method: 'POST',
+            data: {
+                LASTFM_USER: lfmuser     
+            }
+        }).done(function (json) {
+            console.log('update top user with data', json);
+            if($page.  playlist.menu.$data.PLAYLIST === 'topuser') {
+                for(let cnt in $page.myVues.playlist.content.$data.USER) {
+                    let user = $page.myVues.playlist.content.$data.USER[cnt];
+                    if(user.NAME === json.data.value.username) {
+                        user.PLAYCOUNT = json.data.value.playcount;
+                        user.PLACOUNT_CHANGE = $player.PLAYCOUNT_UP;
+                    }
+                }
+            }
+        }).fail(function (xhr) {
+            if (typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
 
-        if(!needle.isValid(true)) {
-            if(callback !== null) {
+        });
+    }
+    
+    saveChartTrack(needle, callback = null) {
+        if (!needle.isValid()) {
+            if (callback !== null) {
                 callback(false);
             }
             return;
         }
-        
+
+        $.ajax('php/json/JsonHandler.php?api=vars&action=savetrackchart', {
+            dataType: 'json',
+            method: 'POST',
+            data: {
+                artist: needle.artist,
+                title: needle.title
+            }
+        }).done(function (json) {
+
+            if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
+                for (let cnt in $page.myVues.playlist.content.$data.TRACKS) {
+                    let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
+                    if (
+                        track.ARTIST == json.data.value.artist &&
+                        track.TITLE == json.data.value.title
+                    ) {
+                        track.PLAYCOUNT = json.data.value.playcount;
+                        track.LASTPLAY = json.data.value.lastplay;
+                        track.PLAYCOUNT_CHANGE = $player.PLAYCOUNT_UP;
+                    }
+                }
+            }
+        }).fail(function (xhr) {
+            if (typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
+                );
+            }
+        });
+    }
+
+    saveVideo(needle, callback = null) {
+
+        if (!needle.isValid(true)) {
+            if (callback !== null) {
+                callback(false);
+            }
+            return;
+        }
+
         $.ajax('php/json/JsonHandler.php?api=vars&action=savealternative', {
             dataType: 'json',
             method: 'POST',
@@ -541,21 +617,21 @@ class PageController {
                 videoId: needle.videoId
             }
         }).done(function (json) {
-            if(typeof callback === 'function') {
+            if (typeof callback === 'function') {
                 callback(true);
             }
         }).fail(function (xhr) {
             $.logXhr(xhr);
-            if(typeof callback === 'function') {
+            if (typeof callback === 'function') {
                 callback(false);
             }
         });
-    } 
-    
+    }
+
     deleteVideo(needle, callback = null) {
-        
-        if(!needle.isValid()) return;
-        
+
+        if (!needle.isValid()) return;
+
         $.ajax('php/json/JsonHandler.php?api=vars&action=deletealternative', {
             dataType: 'json',
             method: 'POST',
@@ -564,12 +640,12 @@ class PageController {
                 title: needle.title
             }
         }).done(function (json) {
-            if(typeof callback === 'function') {
+            if (typeof callback === 'function') {
                 callback(true);
-            }         
+            }
         }).fail(function (xhr) {
             $.logXhr(xhr);
-            if(typeof callback === 'function') {
+            if (typeof callback === 'function') {
                 callback(true);
             }
         });
