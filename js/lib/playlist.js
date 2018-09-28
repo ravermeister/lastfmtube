@@ -214,7 +214,6 @@ class PlaylistController {
         $.getJSON(request, function (json) {
 
             try {
-
                 $page.myVues.playlist.update(json.data.value, ignoreTitle);
                 /**
                  Vue.nextTick()

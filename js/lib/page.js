@@ -196,7 +196,7 @@ class PageController {
             if (log) {
                 console.log('updateData', 'vue: ', this.$data, ' json: ', json);
             }
-
+       
             for (let key in this.$data) {
                 if (log) console.log((key, ' exists ', json.hasOwnProperty(key)));
                 if (json.hasOwnProperty(key)) {

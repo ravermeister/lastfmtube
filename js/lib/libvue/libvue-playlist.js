@@ -305,7 +305,7 @@ class LibvuePlaylist {
                 },
 
                 update: function (json) {
-                    if ('undefined' !== json.LIST_HEADER) {
+                    if ('undefined' !== typeof json.LIST_HEADER) {
                         this.$applyData(json.LIST_HEADER);
                     }
 

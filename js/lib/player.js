@@ -35,7 +35,7 @@ class ChartTimer {
     handleTimerEvent() {
 
         let track = $player.chartTimer.timerTrack;
-        if (typeof track === 'undefined' || track === null) {
+        if ('undefined' === typeof track || track === null) {
             if ($player.chartTimer.log) console.log('timer event invalid track', track);
             return;
         }
@@ -50,8 +50,7 @@ class ChartTimer {
 
         $player.chartTimer.clearTimer();
         $page.saveChartTrack(needle);
-        if (typeof track.lfmuser !== 'undefined' &&
-            $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
+        if ('undefined' !== typeof track.lfmuser && $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
             $page.saveChartUser(track.lfmuser);
             $player.chartTimer.lastChartLfmUser = track.lfmuser;
         }
@@ -131,7 +130,7 @@ class ChartTimer {
             duration: 0,
             equals: function (other) {
                 return (
-                    typeof other !== 'undefined' &&
+                    'undefined' !== typeof other &&
                     other !== null &&
                     this.artist === other.artist &&
                     this.title === other.title &&
@@ -177,10 +176,10 @@ class PlayerController {
             validTrack: function () {
                 return (
                     this.track !== null &&
-                    typeof this.track.TITLE !== 'undefined' &&
+                    'undefined' !== typeof this.track.TITLE &&
                     this.track.TITLE !== null &&
                     this.track.TITLE.length > 0 &&
-                    typeof this.track.ARTIST !== 'undefined' &&
+                    'undefined' !== typeof this.track.ARTIST &&
                     this.track.ARTIST !== null &&
                     this.track.ARTIST.length > 0
                 );
@@ -273,7 +272,7 @@ class PlayerController {
 
                 for (let cnt in $player.stateChangeListeners) {
                     let listener = $player.stateChangeListeners[cnt];
-                    if (typeof listener !== 'function') continue;
+                    if ('function' !== typeof listener) continue;
                     listener(event);
                 }
             };
@@ -281,7 +280,7 @@ class PlayerController {
                 console.error('youtube player error', event);
                 for (let cnt in $player.errorListeners) {
                     let listener = $player.errorListeners[cnt];
-                    if (typeof listener !== 'function') continue;
+                    if ('function' !== typeof listener) continue;
                     listener(event);
                 }
             };
@@ -326,7 +325,7 @@ class PlayerController {
     }
 
     addErrorListener(l = null) {
-        if (typeof l !== 'function' || this.errorListeners.indexOf(l) !== -1) return;
+        if ('function' !== typeof l || this.errorListeners.indexOf(l) !== -1) return;
         this.errorListeners.push(l);
     }
 
@@ -491,7 +490,7 @@ class PlayerController {
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
             PlaylistController.loadSearchResult(needle, json, 1, callBack);
-            if(loadPage) location.href = '#' + $page.PLAYLIST;
+            if (loadPage) location.href = '#' + $page.PLAYLIST;
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -508,7 +507,7 @@ class PlayerController {
             if (typeof callBack === 'function') {
                 callBack(false);
             }
-            
+
         });
     }
 
