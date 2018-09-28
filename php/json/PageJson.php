@@ -7,6 +7,7 @@
 
 namespace LastFmTube\Json;
 
+use DateTime;
 use Exception;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
@@ -219,10 +220,10 @@ class PageJson extends DefaultJson {
                 'TITLE'        => $track->getTitle(),
                 'LASTPLAY'     => $track->isPlaying() ?
                     $this->locale['playlist.lastplay.now'] :
-                    $track->getDateofPlay(),
+                    Functions::getInstance()->formatDate($track->getDateofPlay()),
                 'VIDEO_ID'     => $videoId,
                 'PLAY_CONTROL' => false,
-                'PLAYLIST'     => 'playlist',
+                'PLAYLIST'     => 'lastfm',
                 'PLAYSTATE'    => ''
             );
         }
@@ -290,10 +291,10 @@ class PageJson extends DefaultJson {
             $user = $topuser[$cnt];
             
             $page['USER'][] = array(
-                'NR'          => ($offset + $cnt + 1),
-                'NAME'        => $user['lastfm_user'],
-                'LASTPLAY'    => $user['last_played'],
-                'PLAYCOUNT'   => $user['playcount'],
+                'NR'           => ($offset + $cnt + 1),
+                'NAME'         => $user['lastfm_user'],
+                'LASTPLAY'     => Functions::getInstance()->formatDate($user['last_played']),
+                'PLAYCOUNT'    => $user['playcount'],
                 'PLAY_CONTROL' => '',
             );
         }
@@ -344,16 +345,16 @@ class PageJson extends DefaultJson {
             $track['interpret'] = Functions::getInstance()->prepareNeedle($track['interpret']);
             $track['title']     = Functions::getInstance()->prepareNeedle($track['title']);
             $videoId            = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
-
-            $page['TRACKS'][] = array(
+            
+            $page['TRACKS'][]   = array(
                 'NR'           => ($offset + $cnt + 1),
                 'ARTIST'       => $track['interpret'],
                 'TITLE'        => $track['title'],
-                'LASTPLAY'     => $track['lastplay_time'],
+                'LASTPLAY'     => Functions::getInstance()->formatDate($track['lastplay_time']),
                 'PLAYCOUNT'    => $track['playcount'],
                 'VIDEO_ID'     => $videoId,
                 'PLAY_CONTROL' => false,
-                'PLAYLIST'     => 'playlist',
+                'PLAYLIST'     => 'topsongs',
                 'PLAYSTATE'    => ''
             );
         }

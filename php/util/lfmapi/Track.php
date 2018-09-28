@@ -60,7 +60,7 @@ class Track {
             }
             else {
                 $lastplay = date(
-                    'd.m.Y H:i:s',
+                    'Y-m-d H:i:s',
                     $trackxml->children(10)->uts
                 );
                 $isPlaying = false;

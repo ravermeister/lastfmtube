@@ -104,9 +104,9 @@ class ChartTimer {
                 $player.chartTimer.timerTrack = track;
                 $player.chartTimer.timer = setTimeout(
                     $player.chartTimer.handleTimerEvent,
-                    (lfmScrobbleDuration * 1000)
+                    /**(lfmScrobbleDuration * 1000)**/
                     /** debug **/
-                    /**10000**/
+                    10000
                 );
                 if ($player.chartTimer.log)
                     console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
@@ -556,7 +556,7 @@ class PlayerController {
                 curTrack.ARTIST === track.ARTIST &&
                 curTrack.TITLE === track.TITLE
             ));
-
+        
         return isEqual;
     }
 

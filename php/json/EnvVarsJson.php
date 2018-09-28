@@ -57,24 +57,6 @@ class EnvVarsJson extends DefaultJson {
                 $this->jsonError('unbekannte Action ' . $action);
         }
     }
-    
-    private function saveUserChart($postvars) {
-        $username = filter_var($postvars['LASTFM_USER'], FILTER_SANITIZE_STRING);
-        
-        $data['username'] = $username;
-        if(strlen(trim($username)) <= 0) {
-            $data['playcount'] = -1;
-            $data['lastplay'] = '';
-            
-            return $this->jsonData($data);
-        }
-        
-        $updata = Db::getInstance()->updateLastFMUserVisit($username);
-        $data['playcount'] = $updata['playcount'];
-        $data['lastplay'] = $updata['last_played'];
-            
-        return $this->jsonData($data);
-    }
 
     private function saveNeedle($postvars) {
 
@@ -106,13 +88,33 @@ class EnvVarsJson extends DefaultJson {
 
         $data               = Db::getInstance()->updateCharts($track);
         $track['playcount'] = $data['playcount'];
-        $track['lastplay']  = $data['lastplay_time'];
+        $track['lastplay']  = Functions::getInstance()->formatDate($data['lastplay_time']);
 
         return $this->jsonData($track);
     }
 
+    private function saveUserChart($postvars) {
+        $username = filter_var($postvars['LASTFM_USER'], FILTER_SANITIZE_STRING);
+
+        $data['username'] = $username;
+        if (strlen(trim($username)) <= 0) {
+            $data['playcount'] = -1;
+            $data['lastplay']  = '';
+
+            return $this->jsonData($data);
+        }
+
+        $updata            = Db::getInstance()->updateLastFMUserVisit($username);
+        $data['playcount'] = $updata['playcount'];
+        $data['lastplay']  = Functions::getInstance()->formatDate($updata['last_played']);
+
+        return $this->jsonData($data);
+    }
+
     public function delete($getvars) {
-        if (!isset ($getvars ['name'])) return;
+        if (!isset ($getvars ['name'])) {
+            return $this->jsonError('variable name for deletion');
+        }
         $key = Functions::getInstance()->prepareNeedle($getvars['name']);
 
         $deleted = '0';

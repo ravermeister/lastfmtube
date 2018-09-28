@@ -2,6 +2,7 @@
 
 namespace LastFmTube\Util;
 
+use DateTime;
 use Exception;
 use LastFmTube\Util\lfmapi\LastFm;
 use LastFmTube\Util\ytapi\YoutubeSearch;
@@ -120,6 +121,20 @@ class Functions {
             return true;
         }
         return (substr($haystack, -$length) === $needle);
+    }
+    
+    public function formatDate($date, $srcFormat = 'Y-m-d H:i:s') {
+        
+        if(strlen(trim($date)) <= 0) return $date;
+        
+        $newFormat = 'Y-m-d H:i:s';
+        $lang = $this->getSettings()['general']['lang'];
+        if(strcmp($lang,'de') == 0) {
+            $newFormat = 'd.m.Y H:i:s';
+        }
+        if(strcmp($srcFormat,$newFormat) == 0) return $date;
+        
+        return DateTime::createFromFormat($srcFormat, $date)->format($newFormat);
     }
 
     /**

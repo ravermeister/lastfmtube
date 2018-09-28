@@ -167,11 +167,15 @@ class LibvuePlaylist {
                 normalizeYouTubeUrl(event) {
                     let validUrls = [
                         'http://youtu.be',
+                        'http://m.youtu.be',
                         'http://www.youtu.be',
                         'https://youtu.be',
+                        'https://m.youtu.be',
                         'https://www.youtu.be',
                         'http://youtube.com',
+                        'http://m.youtube.com',
                         'http://www.youtube.com',
+                        'https://youtube.com',
                         'https://youtube.com',
                         'https://www.youtube.com'
                     ];

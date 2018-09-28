@@ -196,7 +196,7 @@ class PageController {
             if (log) {
                 console.log('updateData', 'vue: ', this.$data, ' json: ', json);
             }
-       
+
             for (let key in this.$data) {
                 if (log) console.log((key, ' exists ', json.hasOwnProperty(key)));
                 if (json.hasOwnProperty(key)) {
@@ -528,13 +528,13 @@ class PageController {
         }).done(function (json) {
             for (let cnt in $page.myVues.userlist.content.$data.USER) {
                 let user = $page.myVues.userlist.content.$data.USER[cnt];
-                if (user.NAME === json.data.value.username) {                    
+                if (user.NAME === json.data.value.username) {
                     user.PLAYCOUNT = json.data.value.playcount;
                     user.LASTPLAY = json.data.value.lastplay;
                     user.PLAYCOUNT_CHANGE = $page.PLAYCOUNT_UP;
                 }
             }
-            
+
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -565,19 +565,20 @@ class PageController {
                 title: needle.title
             }
         }).done(function (json) {
-            
-            if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
-                for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
-                    let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
-                    if (
-                        track.ARTIST === json.data.value.artist &&
-                        track.TITLE === json.data.value.title
-                    ) {
+
+            for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
+                let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
+                if (
+                    track.ARTIST === json.data.value.artist &&
+                    track.TITLE === json.data.value.title
+                ) {
+                    track.LASTPLAY = json.data.value.lastplay;
+                    if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
                         track.PLAYCOUNT = json.data.value.playcount;
-                        track.LASTPLAY = json.data.value.lastplay;
                         track.PLAYCOUNT_CHANGE = $page.PLAYCOUNT_UP;
                     }
                 }
+
             }
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
