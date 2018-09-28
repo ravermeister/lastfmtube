@@ -89,6 +89,7 @@ class LibvueUser {
                         user.PLAY_CONTROL = '';
                     };
                     if($page.myVues.playlist.menu.$data.LASTFM_USER_NAME === user.NAME) {
+                        $page.myVues.playlist.menu.$forceUpdate();
                         openurl(true);
                         return;
                     }

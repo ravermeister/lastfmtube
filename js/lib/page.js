@@ -380,7 +380,7 @@ class PageController {
             $page.setMainPageLoading(true);
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value.playlist);
-            $page.setCurrentPlaylist();
+            $page.setCurrentPlaylist('lastfm');
             $page.setMainPageLoading();
 
             $page.isReady = true;
@@ -531,7 +531,7 @@ class PageController {
                 if (user.NAME === json.data.value.username) {                    
                     user.PLAYCOUNT = json.data.value.playcount;
                     user.LASTPLAY = json.data.value.lastplay;
-                    user.PLACOUNT_CHANGE = $page.PLAYCOUNT_UP;
+                    user.PLAYCOUNT_CHANGE = $page.PLAYCOUNT_UP;
                 }
             }
             
@@ -565,8 +565,9 @@ class PageController {
                 title: needle.title
             }
         }).done(function (json) {
+            
             if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
-                for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.left; cnt++) {
+                for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
                     let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
                     if (
                         track.ARTIST === json.data.value.artist &&

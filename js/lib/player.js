@@ -50,9 +50,18 @@ class ChartTimer {
 
         $player.chartTimer.clearTimer();
         $page.saveChartTrack(needle);
-        if ('undefined' !== typeof track.lfmuser && $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
+
+        if ('undefined' !== typeof track.lfmuser &&
+            track.lfmuser !== '' &&
+            $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
+            if ($player.chartTimer.log) console.log('handle save user chart');
             $page.saveChartUser(track.lfmuser);
             $player.chartTimer.lastChartLfmUser = track.lfmuser;
+        } else if ($player.chartTimer.log) {
+            console.log(
+                'wont save user chart', track.lfmuser,
+                '<track timer>', $player.chartTimer.lastChartLfmUser
+            );
         }
 
     }
@@ -95,7 +104,8 @@ class ChartTimer {
                 $player.chartTimer.timerTrack = track;
                 $player.chartTimer.timer = setTimeout(
                     $player.chartTimer.handleTimerEvent,
-                    (lfmScrobbleDuration * 1000)
+                    /**(lfmScrobbleDuration * 1000)**/
+                    10000
                 );
                 if ($player.chartTimer.log)
                     console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
@@ -126,7 +136,7 @@ class ChartTimer {
             artist: curTrack.ARTIST,
             title: curTrack.TITLE,
             video: $player.currentTrackData.videoId,
-            lfmuser: $page.myVues.playlist.menu.$data.LASTFM_USER_NAME,
+            lfmuser: $player.currentTrackData.lfmUser,
             duration: 0,
             equals: function (other) {
                 return (
@@ -165,6 +175,7 @@ class PlayerController {
         this.autoPlay = false;
         this.loadNextOnError = false;
         this.maxErrorLoop = 5;
+        this.lfmUser = '';
         this.errorLoopCount = 0;
         this.errorListeners = [];
         this.stateChangeListeners = [];
@@ -186,7 +197,7 @@ class PlayerController {
             },
 
             validVideo: function () {
-                return videoId !== null && videoId.length > 0;
+                return this.videoId !== null && this.videoId.length > 0;
             }
         };
 
@@ -515,6 +526,13 @@ class PlayerController {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             $player.ytPlayer.loadVideoById(videoId);
             $player.currentTrackData.videoId = videoId;
+
+            if ($page.PLAYLIST !== 'lastfm') {
+                $player.currentTrackData.lfmUser = '';
+            } else {
+                $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            }
+
         } else {
             console.log('no video id ', videoId);
             if ($player.errorLoopCount > $player.maxErrorLoop) {

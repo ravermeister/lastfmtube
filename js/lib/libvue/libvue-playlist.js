@@ -146,22 +146,22 @@ class LibvuePlaylist {
 
                 update: function (json) {
 
-                    if (typeof json.LIST_MENU !== 'undefined') {
+                    if ('undefined' !== typeof json.LIST_MENU) {
                         this.$applyData(json.LIST_MENU);
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
                     }
 
-                    if (typeof $page.myVues.youtube.header !== 'undefined') {
+                    if ('undefined' !== typeof $page.myVues.youtube.header) {
                         $page.myVues.youtube.header.$data.PLAYLIST_ID = this.$data.PLAYLIST;
                     }
-
-                    $('#playlist_lastfmuser, #playlist_page, #search_videourl')
-                        .unbind('mouseup')
-                        .bind('mouseup',
-                            function () {
-                                var $this = $(this);
-                                $this.select();
-                            });
+                    if (typeof this.$data.LASTFM_USER_NAME)
+                        $('#playlist_lastfmuser, #playlist_page, #search_videourl')
+                            .unbind('mouseup')
+                            .bind('mouseup',
+                                function () {
+                                    var $this = $(this);
+                                    $this.select();
+                                });
                 },
 
                 normalizeYouTubeUrl(event) {
@@ -345,7 +345,7 @@ class LibvuePlaylist {
                 searchVideos: function (event, track) {
                     $page.setPlaylistLoading(true);
                     let callBack = function (success = false) {
-                        if(success){
+                        if (success) {
                             console.log('error for searching vidéos for song');
                         }
                         $page.setPlaylistLoading();

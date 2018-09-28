@@ -60,17 +60,19 @@ class EnvVarsJson extends DefaultJson {
     
     private function saveUserChart($postvars) {
         $username = filter_var($postvars['LASTFM_USER'], FILTER_SANITIZE_STRING);
+        
         $data['username'] = $username;
         if(strlen(trim($username)) <= 0) {
             $data['playcount'] = -1;
             $data['lastplay'] = '';
-            return $data;
+            
+            return $this->jsonData($data);
         }
         
         $updata = Db::getInstance()->updateLastFMUserVisit($username);
         $data['playcount'] = $updata['playcount'];
         $data['lastplay'] = $updata['last_played'];
-        
+            
         return $this->jsonData($data);
     }
 
