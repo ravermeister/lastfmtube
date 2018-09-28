@@ -146,7 +146,7 @@ class LibvuePlaylist {
 
                 update: function (json) {
 
-                    if (typeofjson.LIST_MENU !== 'undefined') {
+                    if (typeof json.LIST_MENU !== 'undefined') {
                         this.$applyData(json.LIST_MENU);
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
                     }
