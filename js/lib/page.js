@@ -381,6 +381,7 @@ class PageController {
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value.playlist);
             $page.setCurrentPlaylist('lastfm');
+            $('.playlist-container').attr('id', 'lastfm');
             $page.setMainPageLoading();
 
             $page.isReady = true;

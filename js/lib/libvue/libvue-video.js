@@ -12,6 +12,7 @@ class LibvueVideo {
                 PAGE: $page.PAGE_PLAYLIST
             },
             computed: {
+                
                 PLAYLIST_LOGO: function () {
                     let icon = $page.icons.getPlaylistIcon(this.$data.PAGE);
                     if (icon !== null) return icon.big;
