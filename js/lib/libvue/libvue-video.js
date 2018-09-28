@@ -10,6 +10,13 @@ class LibvueVideo {
                 PLAYLIST_NAME: 'noname',
                 PAGE: $page.PAGE_PLAYLIST
             },
+            computed: {
+                PLAYLIST_LOGO: function () {
+                    let icon = $page.icons.getPlaylistIcon(this.$data.PAGE);
+                    if (icon !== null) return icon.big;
+                    return $page.icons.diamond.big;
+                }
+            },
 
             methods: {
                 update: function (json) {
@@ -42,14 +49,26 @@ class LibvueVideo {
                 next: function () {
                     $player.loadNextSong();
                 },
-                addToUserList: function () {                    
+                addToUserList: function () {
                     $playlist.addUserTrack($player.currentTrackData.track);
                     if ($page.PLAYLIST === 'userlist') {
                         $playlist.loadUserPlayListPage($page.myVues.playlist.menu.$data.CUR_PAGE);
                     }
                 },
-                search: function () {
-                    console.log('open search for current song');
+                search: function (event) {
+                    if ($player.currentTrackData === null) return;
+                    let elem = null;
+                    if ($(event.target).prop('tagName').toUpperCase() === 'SPAN') {
+                        elem = event.target;
+                    } else {
+                        elem = $(event.target).find('span');
+                    }
+
+                    let oldIcon = $(elem).attr('class');
+                    $(elem).attr('class', $page.icons.search.animatedBig);
+                    $player.searchSong($player.currentTrackData.track, function () {
+                        $(elem).attr('class', oldIcon);
+                    }, true);
                 }
             }
         });

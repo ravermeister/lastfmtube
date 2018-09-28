@@ -427,9 +427,9 @@ class PageController {
         this.PLAYLIST = playlist;
         this.PAGE = null;
 
-        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
-        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
-        this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE_PLAYLIST : this.PLAYLIST;
+        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST === null ? this.PAGE : this.PLAYLIST;
+        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE : this.PLAYLIST;
+        this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE : this.PLAYLIST;
     }
 
     isCurrentPlaylist(playlist) {

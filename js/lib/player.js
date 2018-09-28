@@ -479,7 +479,7 @@ class PlayerController {
         });
     }
 
-    searchSong(track, callBack = null) {
+    searchSong(track, callBack = null, loadPage = false) {
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         if (!needle.isValid()) {
             console.error('needle is invalid exit search');
@@ -491,7 +491,7 @@ class PlayerController {
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
             $playlist.loadSearchResult(needle, json, 1, callBack);
-
+            if(loadPage) location.href = '#' + $page.PLAYLIST;
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -508,6 +508,7 @@ class PlayerController {
             if (typeof callBack === 'function') {
                 callBack(false);
             }
+            
         });
     }
 

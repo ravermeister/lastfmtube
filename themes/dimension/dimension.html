@@ -57,7 +57,9 @@
         <article id="page-video">
 
             <h2 class="major">
-                <a v-bind:href="'#' + PAGE">{{PLAYLIST_NAME}}</a>
+                <a v-bind:href="'#' + PAGE" style="border: 0">
+                    <i v-bind:class="PLAYLIST_LOGO"></i>&nbsp;{{PLAYLIST_NAME}}
+                </a>
             </h2>
 
             <!-- youtube embed: html5 method -->
@@ -108,16 +110,16 @@
                 </div>
 
                 <div class="btn-nav">
-                    <a @click.prevent="search()"
+                    <a @click.prevent="search($event)"
                        class="button medium">
                         <span class="fas fa-search  fa-2x"></span>
                     </a>
                 </div>
             </div>
-            
-            <br />
-            <br />
-            
+
+            <br/>
+            <br/>
+
         </article>
 
 
@@ -157,7 +159,7 @@
                             <input type="text" name="playlist_lastfmuser" id="playlist_lastfmuser"
                                    v-bind:value="LASTFM_USER_NAME"/>
                         </div>
-                        
+
                         <div class="field third">
                             <label for="playlist_page">
                                 {{CUR_PAGE_LABEL}}
@@ -187,9 +189,9 @@
 
                 <!--// search navi //-->
                 <form v-else="v-else"
-                        @submit.prevent="loadPage(null, $('#search_page').val())">
+                      @submit.prevent="loadPage(null, $('#search_page').val())">
                     <div class="fields">
-                        
+
                         <div class="field third">
                             <label for="search_videourl">Youtube Video</label>
                             <input type="text" name="playlist_video" v-on:input="normalizeYouTubeUrl($event)"
@@ -206,7 +208,7 @@
                                 <span class="fas fa-save fa-2x"></span>
                             </button>
                         </div>
-                        
+
                         <div class="field third">
                             <label>
                                 {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
@@ -223,7 +225,7 @@
                                 <span class="fas fa-step-forward fa-2x"></span>
                             </button>
                         </div>
-                        
+
                     </div>
                 </form>
             </section>
