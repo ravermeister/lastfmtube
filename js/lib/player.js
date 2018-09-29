@@ -173,7 +173,7 @@ class PlayerController {
         this.ytPlayer = null;
         this.isReady = false;
         this.autoPlay = false;
-        this.loadNextOnError = false;
+        this.loadNextOnError = true;
         this.maxErrorLoop = 5;
         this.lfmUser = '';
         this.errorLoopCount = 0;
@@ -184,7 +184,7 @@ class PlayerController {
             track: null,
             videoId: null,
             playlistTitle: null,
-            
+
             validTrack: function () {
                 return (
                     this.track !== null &&
@@ -434,7 +434,7 @@ class PlayerController {
             this.setCurrentState();
             this.currentTrackData.track = null;
         }
-        
+
         this.currentTrackData.track = track;
         $page.myVues.youtube.header.$data.CURRENT_TRACK = track;
         $page.myVues.youtube.header.$data.TEXT = $page.myVues.playlist.header.title.$data.TEXT;
@@ -538,13 +538,14 @@ class PlayerController {
             }
 
         } else {
-            console.log('no video id ', videoId);
             if ($player.errorLoopCount > $player.maxErrorLoop) {
                 console.error('maximum error loop reached');
                 return;
             }
             $player.errorLoopCount++;
-            if ($player.loadNextOnError) $player.loadNextSong();
+            if ($player.loadNextOnError) {
+                $player.loadNextSong();
+            } 
         }
     }
 
