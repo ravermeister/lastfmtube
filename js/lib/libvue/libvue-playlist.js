@@ -2,6 +2,9 @@ class LibvuePlaylist {
 
     constructor() {
 
+        LibvuePlaylist.YOUTUBE_URL_REGEX = /^http(s?):\/\/(www\.)?(m\.)?youtu(\.be|be\.com)\//g;
+        
+        
         this.methods = {
             setVideo: function (videoId = '') {
                 let callback = function (success) {
@@ -161,21 +164,9 @@ class LibvuePlaylist {
                 },
 
                 normalizeYouTubeUrl(event) {
-                    let validUrls = [
-                        'http://youtu.be',
-                        'http://m.youtu.be',
-                        'http://www.youtu.be',
-                        'https://youtu.be',
-                        'https://m.youtu.be',
-                        'https://www.youtu.be',
-                        'http://youtube.com',
-                        'http://m.youtube.com',
-                        'http://www.youtube.com',
-                        'https://youtube.com',
-                        'https://youtube.com',
-                        'https://www.youtube.com'
-                    ];
+                    
                     let isValidUrl = function (url = '') {
+                        let strippedUrl = url.replace('^http(s)?');
                         for (let cnt in validUrls) {
                             if (url.startsWith(validUrls[cnt])) return true;
                         }
@@ -184,11 +175,12 @@ class LibvuePlaylist {
 
                     let field = $(event.target);
                     let url = $(field).val();
-                    if (!isValidUrl(url)) {
+                    if (!LibvuePlaylist.YOUTUBE_URL_REGEX.test(url)) {
                         $(field).val('');
                         return;
                     }
-
+                    
+                    url = url.replace(LibvuePlaylist.YOUTUBE_URL_REGEX, '');
                     let videoId = $.urlParam('v', url);
                     if (videoId === null) {
                         let vidsep = url.indexOf('/', (url.indexOf('//') + 2)) + 1;

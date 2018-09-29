@@ -179,7 +179,7 @@ class PageController {
                 name: 'video-container'
             }
         };
-
+        
         PageController.TRACKS_PER_PAGE = 25; //in settings.ini
         PageController.PLAYCOUNT_UP = '▴';
         PageController.icons = PageController.initIcons();
