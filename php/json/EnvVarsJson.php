@@ -18,7 +18,9 @@ class EnvVarsJson extends DefaultJson {
     }
 
     public function get($getvars) {
-        if (!isset ($getvars ['name'])) return;
+        if (!isset ($getvars ['name'])) {
+            return $this->jsonError('missing required parameters');
+        }
         $key   = Functions::getInstance()->prepareNeedle($getvars['name']);
         $value = Db::getInstance()->getEnvVar($key);
         return $this->jsonData($this->createJSONData($key, $value));
@@ -83,9 +85,13 @@ class EnvVarsJson extends DefaultJson {
     }
 
     private function saveChartTrack($postvars) {
-        $track{'artist'} = $postvars['artist'];
-        $track['title']  = $postvars['title'];
-
+        $track{'artist'} = filter_var($postvars['artist'], FILTER_SANITIZE_STRING);
+        $track['title']  = filter_var($postvars['title'], FILTER_SANITIZE_STRING);
+        
+        if(strlen(trim($track['title'])) === 0 && strlen(trim($track['artist'])) === 0) {            
+            return $this->jsonData('missing required parameters'.print_r($postvars, true));
+        }
+        
         $data               = Db::getInstance()->updateCharts($track);
         $track['playcount'] = $data['playcount'];
         $track['nr']        = $data['pos'];
