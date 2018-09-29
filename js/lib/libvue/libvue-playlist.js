@@ -3,8 +3,8 @@ class LibvuePlaylist {
     constructor() {
 
         LibvuePlaylist.YOUTUBE_URL_REGEX = /^http(s?):\/\/(www\.)?(m\.)?youtu(\.be|be\.com)\//g;
-        
-        
+
+
         this.methods = {
             setVideo: function (videoId = '') {
                 let callback = function (success) {
@@ -72,6 +72,7 @@ class LibvuePlaylist {
                 data: {
                     PLAYLIST: null
                 },
+                
                 computed: {
                     MENUS: function () {
                         let playlist = this.$data.PLAYLIST === null ?
@@ -100,7 +101,7 @@ class LibvuePlaylist {
                 SEARCH_NEEDLE: null,
                 SEARCH_RESULT: []
             },
-
+            
             computed: {
 
                 /**
@@ -152,26 +153,18 @@ class LibvuePlaylist {
                     if ('undefined' !== typeof json.LIST_MENU) {
                         this.$applyData(json.LIST_MENU);
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
-                    }
-
-                    $('#playlist_lastfmuser, #playlist_page, #search_videourl')
-                        .unbind('mouseup')
-                        .bind('mouseup',
-                            function () {
-                                var $this = $(this);
-                                $this.select();
-                            });
+                    }                    
                 },
 
-                normalizeYouTubeUrl(event) {
-                    
-                    let isValidUrl = function (url = '') {
-                        let strippedUrl = url.replace('^http(s)?');
-                        for (let cnt in validUrls) {
-                            if (url.startsWith(validUrls[cnt])) return true;
-                        }
-                        return false;
-                    };
+                selectOnMouseUp: function(event) {
+
+                    let value = $(event.target).val().trim();
+                    if(value !== null && value !== '') {
+                        $(event.target).trigger('select');
+                    }
+                },
+
+                normalizeYouTubeUrl: function(event) {
 
                     let field = $(event.target);
                     let url = $(field).val();
@@ -179,7 +172,6 @@ class LibvuePlaylist {
                         $(field).val('');
                         return;
                     }
-                    
                     url = url.replace(LibvuePlaylist.YOUTUBE_URL_REGEX, '');
                     let videoId = $.urlParam('v', url);
                     if (videoId === null) {
@@ -192,14 +184,15 @@ class LibvuePlaylist {
                     }
                     if (this.SEARCH_VIDEO_ID === videoId) this.$forceUpdate();
                     else this.SEARCH_VIDEO_ID = videoId;
-
+                    $(field).trigger('blur');
                     $player.ytPlayer.loadVideoById(videoId);
                 },
 
-                setVideo(vid) {
+                setVideo: function(vid) {
                     $page.myVues.playlist.methods.setVideo(vid);
                 },
-                unsetVideo(event, track) {
+                
+                unsetVideo: function(event, track) {
                     let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
                     $page.myVues.playlist.methods.unsetVideo(needle);
                 }
@@ -367,11 +360,10 @@ class LibvuePlaylist {
         return pdata === null ? {} : pdata;
     }
 
-
     update(json, ignoreTitle = false) {
         this.content.update(json);
         this.menu.update(json);
-
+        
         if (ignoreTitle) return;
         this.header.title.update(json);
     }

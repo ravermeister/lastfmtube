@@ -151,20 +151,22 @@
                 <form v-if="PLAYLIST !== 'search'"
                       @submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
                     <div class="fields">
-                        <div class="field third" v-if="PLAYLIST === 'lastfm'">
+                        
+                        <div class="field third" v-if="PLAYLIST === 'lastfm' || PLAYLIST === ''">
                             <label for="playlist_lastfmuser">
                                 <a v-bind:href="'//last.fm/user/' + LASTFM_USER_NAME" target="_blank">Last.fm</a>
                                 {{LASTFM_USER_NAME_LABEL}}
                             </label>
-                            <input type="text" name="playlist_lastfmuser" id="playlist_lastfmuser"
-                                   v-bind:value="LASTFM_USER_NAME"/>
+                            <input type="text" name="playlist_lastfmuser" id="playlist_lastfmuser" 
+                                   v-bind:value="LASTFM_USER_NAME" @mouseup="selectOnMouseUp($event)" />
                         </div>
 
                         <div class="field third">
                             <label for="playlist_page">
                                 {{CUR_PAGE_LABEL}}
                             </label>
-                            <input type="number" name="playlist_page" id="playlist_page" v-bind:value="CUR_PAGE"/>
+                            <input type="number" name="playlist_page" id="playlist_page" 
+                                   v-bind:value="CUR_PAGE" @mouseup="selectOnMouseUp($event)" />
                         </div>
 
                         <div class="field third btn-page-nav">
@@ -194,8 +196,9 @@
 
                         <div class="field third">
                             <label for="search_videourl">Youtube Video</label>
-                            <input type="text" name="playlist_video" v-on:input="normalizeYouTubeUrl($event)"
-                                   id="search_videourl"
+                            <input type="text" name="playlist_video" id="search_videourl"
+                                   @mouseup="selectOnMouseUp($event)"
+                                   v-on:input="normalizeYouTubeUrl($event)"
                                    v-bind:value="SEARCH_VIDEO_ID"/>
                         </div>
 
