@@ -115,31 +115,31 @@ class PageJson extends DefaultJson {
         return array(
             'TOPUSER'  => array(
                 'TEXT' => $this->locale['menu.topuser'],
-                'PAGE' => 'page-user'
+                'PAGE' => 'user-container'
             ),
             'TOPSONGS' => array(
                 'TEXT'     => $this->locale['menu.topsongs'],
-                'PAGE'     => 'page-playlist',
+                'PAGE'     => 'playlist-container',
                 'PLAYLIST' => 'topsongs',
             ),
             'LASTFM'   => array(
                 'TEXT'     => $this->locale['menu.lastfm'],
-                'PAGE'     => 'page-playlist',
+                'PAGE'     => 'playlist-container',
                 'PLAYLIST' => 'lastfm',
             ),
             'SEARCH'   => array(
                 'TEXT'     => $this->locale['menu.search'],
-                'PAGE'     => 'page-playlist',
+                'PAGE'     => 'playlist-container',
                 'PLAYLIST' => 'search',
             ),
             'USERLIST' => array(
                 'TEXT'     => $this->locale['menu.userlist'],
-                'PAGE'     => 'page-playlist',
+                'PAGE'     => 'playlist-container',
                 'PLAYLIST' => 'userlist',
             ),
             'YTPLAYER' => array(
                 'TEXT' => $this->locale['menu.youtube'],
-                'PAGE' => 'page-video'
+                'PAGE' => 'video-container'
             )
         );
     }
@@ -191,7 +191,7 @@ class PageJson extends DefaultJson {
                 'MAX_PAGES'              => $playlist->getTotalPages(),
                 'CUR_PAGE'               => $pageNum,
                 'PLAYLIST_LOAD'          => $this->locale['playlist.control.load'],
-                'PLAYLIST'               => 'lastfm'
+                'playlist'               => 'lastfm'
             ),
             //lastfm navigation (pages/username)
 
@@ -312,7 +312,7 @@ class PageJson extends DefaultJson {
 
             'HEADER' => array(
                 'TEXT'       => $this->locale['menu.topsongs'],
-                'URL'        => '#page-playlist',
+                'URL'        => '#playlist-container',
                 'URL_TARGET' => '_self',
                 'PLAYLIST'   => 'topsongs',
             ),
@@ -323,7 +323,7 @@ class PageJson extends DefaultJson {
             'LIST_MENU' => array(
                 'MAX_PAGES' => $maxpages,
                 'CUR_PAGE'  => $pageNum,
-                'PLAYLIST'  => 'topsongs'
+                'playlist'  => 'topsongs'
             ),
             //lastfm navigation (pages/username)
 

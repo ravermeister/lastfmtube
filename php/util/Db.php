@@ -145,7 +145,7 @@ class Db {
 					playcount DESC,
 					last_played DESC
 				LIMIT ? OFFSET ?;
-			', 
+			',
 
             'SELECT_ALL_LASTFM_USER_NUM_ROWS' => '
 				SELECT COUNT(*)	AS CNT					
@@ -153,9 +153,21 @@ class Db {
 			',
 
             'SELECT_LASTFM_USER_VISIT' => '
-				SELECT * 
-				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"
-				WHERE lastfm_user = ?;
+                WITH chart_user AS (
+                    SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"
+                    WHERE lastfm_user = ?
+                ), chart_count AS (
+                    SELECT * 
+                    FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" mc, chart_user cu
+                        WHERE mc.`playcount` < cu.`playcount` OR (
+                        mc.`playcount` = cu.`playcount` AND 
+                        mc.`last_played` < cu.`last_played`
+                    )
+                )
+                SELECT ((SELECT COUNT(*) 
+                        FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user") - COUNT(*)
+                    ) AS pos, cu.*
+                FROM chart_count ck, chart_user cu
 			',
 
             'UPDATE_LASTFM_USER_VISIT' => '
@@ -196,9 +208,22 @@ class Db {
                 SELECT COUNT(*) AS "CNT" FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts";
             ',
             'SELECT_CHART_COUNT_TRACK' => '
-                SELECT playcount, lastplay_time  FROM  "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-                WHERE interpret = ? AND title = ?
-                ORDER BY `playcount` DESC LIMIT 1 OFFSET 0; 
+                WITH chart_track AS (
+                    SELECT *
+                    FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
+                    WHERE interpret= ? AND title= ?
+                ), chart_count AS (
+                    SELECT *
+                    FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts" mc, chart_track ct
+                    WHERE mc.`playcount` < ct.`playcount` OR (
+                        mc.`playcount` = ct.`playcount` AND 
+                        mc.`lastplay_time` < ct.`lastplay_time`
+                    )	
+                )
+                SELECT ((SELECT COUNT(*) 
+                        FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts") - COUNT(*)
+                    ) AS pos, ct.*
+                FROM chart_count ck, chart_track ct  
             ',
             // SELECT ONLY the last heared song with playcount 1
             // 'SELECT_CHARTS' =>
@@ -260,13 +285,13 @@ class Db {
     private function readLastFMUserVisitForUpdate($user) {
         Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->execute(array($user));
         $data = Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->fetchAll(PDO::FETCH_ASSOC);
-        if(sizeof($data) < 1) {
+        if (sizeof($data) < 1) {
             return array(
-                'playcount' => -1,
+                'playcount'   => -1,
                 'last_played' => ''
             );
         }
-        
+
         return $data[0];
     }
 

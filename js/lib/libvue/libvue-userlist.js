@@ -3,31 +3,32 @@ class LibvueUser {
     constructor() {
         this.header = {
             title: new Vue({
-                el: '#page-user>.page-header-title>h2',
+                el: '#user-container>.page-header-title>h2',
                 data: {
                     HEADER: '',
                     TEXT: '',
                     TYPE: '',
-                    LOGO: ''
+                    LOADING: false
+                },
+                
+                computed: {
+                    LOGO: function () {
+                        let icon = PageController.icons.getPlaylistIcon(this.$data.TYPE);
+                        return this.$data.LOADING ? icon.animatedBig : icon.big;
+                    }
                 },
                 
                 methods: {
                     update: function (json) {
                         if (typeof json.HEADER !== 'undefined') {
                             this.$applyData(json.HEADER);
-                            if(this.$data.TYPE === '') {
-                                return;
-                            }
-                            
-                            let logo = PageController.icons.getPlaylistIcon(this.$data.TYPE);
-                            this.$data.LOGO = logo.big;
                         }
                     }
                 }
             }),
 
             menu: new Vue({
-                el: '#page-user>.page-header-nav',
+                el: '#user-container>.page-header-nav',
                 data: {
                     TYPE: ''
                 },
@@ -49,7 +50,7 @@ class LibvueUser {
 
 
         this.content = new Vue({
-            el: '#page-user>.page-content',
+            el: '#user-container>.page-content',
             data: {
                 USER_NR: 'Nr',
                 USER_NAME: 'Name',
@@ -71,7 +72,6 @@ class LibvueUser {
                     if (typeof json.LIST_HEADER !== 'undefined') {
                         this.$applyData(json.LIST_HEADER);
                     }
-
                     if (typeof json.USER !== 'undefined') {
                         this.$applyData(json);
                     }
@@ -82,21 +82,20 @@ class LibvueUser {
 
                     let openurl = function (success) {
                         if (success) {
-                            let article = $('.playlist-container');
+                            let article = $('article[name=playlist-container]');
                             user.PLAY_CONTROL = '';
+                            $page.myVues.userlist.header.title.$data.LOADING = false;
                             location.href = '#' + $(article).attr('id');
                             return;
                         }
                         user.PLAY_CONTROL = '';
+                        $page.myVues.userlist.header.title.$data.LOADING = false;
+                        
                     };
-                    if($page.myVues.playlist.menu.$data.LASTFM_USER_NAME === user.NAME) {
-                        $page.myVues.playlist.menu.$forceUpdate();
-                        openurl(true);
-                        return;
-                    }
                     
                     user.PLAY_CONTROL = 'loading';
-                    $playlist.loadPlaylistPage(1, user.NAME, openurl, 'lastfm');
+                    $page.myVues.userlist.header.title.$data.LOADING = true;
+                    $playlist.loadDefaultPlayListPage(1, user.NAME, openurl, 'lastfm');
                 }
             }
         });

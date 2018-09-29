@@ -50,7 +50,6 @@ class ChartTimer {
 
         $player.chartTimer.clearTimer();
         $page.saveChartTrack(needle);
-
         if ('undefined' !== typeof track.lfmuser &&
             track.lfmuser !== '' &&
             $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
@@ -60,7 +59,7 @@ class ChartTimer {
         } else if ($player.chartTimer.log) {
             console.log(
                 'wont save user chart', track.lfmuser,
-                '<track timer>', $player.chartTimer.lastChartLfmUser
+                '<-track timer->', $player.chartTimer.lastChartLfmUser
             );
         }
 
@@ -104,9 +103,9 @@ class ChartTimer {
                 $player.chartTimer.timerTrack = track;
                 $player.chartTimer.timer = setTimeout(
                     $player.chartTimer.handleTimerEvent,
-                    (lfmScrobbleDuration * 1000)
+                    /**(lfmScrobbleDuration * 1000)**/
                     /** debug **/
-                    /**10000**/
+                    10000
                 );
                 if ($player.chartTimer.log)
                     console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
@@ -250,7 +249,7 @@ class PlayerController {
         this.addErrorListener(function (event) {
             $player.errorLoopCount++;
 
-            if ($page.myVues.playlist.menu.PLAYLIST === 'search') {
+            if ($page.myVues.playlist.menu.$data.PLAYLIST === 'search') {
                 $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = '';
             }
 
@@ -437,8 +436,8 @@ class PlayerController {
         }
         
         this.currentTrackData.track = track;
+        $page.myVues.youtube.header.$data.CURRENT_TRACK = track;
         $page.myVues.youtube.header.$data.TEXT = $page.myVues.playlist.header.title.$data.TEXT;
-        $page.myVues.youtube.header.$data.PLAYLIST = curTrack;
         this.setCurrentState('load');
     }
 
@@ -532,7 +531,7 @@ class PlayerController {
             $player.ytPlayer.loadVideoById(videoId);
             $player.currentTrackData.videoId = videoId;
 
-            if ($page.PLAYLIST !== 'lastfm') {
+            if ($page.PLAYLIST !== null && $page.PLAYLIST !== 'lastfm') {
                 $player.currentTrackData.lfmUser = '';
             } else {
                 $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
@@ -555,12 +554,12 @@ class PlayerController {
 
         let isEqual = curTrack !== null && (
             curTrack === track || (
-                curTrack.NR === track.NR &&
+                parseInt(curTrack.NR) === parseInt(track.NR) &&
                 curTrack.PLAYLIST === track.PLAYLIST &&
                 curTrack.ARTIST === track.ARTIST &&
                 curTrack.TITLE === track.TITLE
             ));
-        
+
         return isEqual;
     }
 

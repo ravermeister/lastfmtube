@@ -31,6 +31,7 @@ class PlaylistController {
         if (playlist === null) playlist = $page.PLAYLIST;
 
         let ignoreTitle = playlist === $page.PLAYLIST;
+        let curArticle = PageController.article.playlist.dom;
         let loadComplete = function (success) {
             let parentCallBack = callBack;
 
@@ -40,11 +41,10 @@ class PlaylistController {
                 parentCallBack(success);
             }
 
-            $page.setPlaylistLoading();
+            $page.setLoading(curArticle);
         };
-
-
-        $page.setPlaylistLoading(true);
+        
+        $page.setLoading(curArticle, true);
 
         switch (playlist) {
             case 'userlist':
@@ -60,7 +60,7 @@ class PlaylistController {
                 if (typeof callBack === 'function') {
                     callBack(true);
                 } else {
-                    $playlist.setPlaylistLoading();
+                    $playlist.setLoading(curArticle);
                 }
                 break;
             default:
@@ -96,7 +96,7 @@ class PlaylistController {
             }
         }
         
-        let playlistArticle = $('.playlist-container');
+        let playlistArticle = $('article[name=playlist-container]');
         $(playlistArticle).attr('id', 'search');
         $page.setCurrentPlaylist('search');
         $page.myVues.playlist.update({

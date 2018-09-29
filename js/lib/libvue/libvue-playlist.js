@@ -24,7 +24,7 @@ class LibvuePlaylist {
             unsetVideo: function (needle = null) {
                 let callback = function (success = false) {
                     if (success) {
-                        if ($page.myVues.playlist.menu.PLAYLIST !== 'search') {
+                        if ($page.myVues.playlist.menu.$data.PLAYLIST !== 'search') {
                             for (let cnt in $page.myVues.playlist.content.$data.TRACKS) {
                                 let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
                                 if (track.VIDEO_ID === needle.videoId) {
@@ -43,12 +43,18 @@ class LibvuePlaylist {
 
         this.header = {
             title: new Vue({
-                el: '#page-playlist>.page-header-title>h2',
+                el: '#playlist-container>.page-header-title>h2',
                 data: {
                     TEXT: '',
-                    LOGO: ''
+                    PLAYLIST: '',
+                    LOADING: false
                 },
-
+                computed: {
+                    LOGO: function () {
+                        let icon = PageController.icons.getPlaylistIcon(this.$data.PLAYLIST);
+                        return this.LOADING ? icon.animatedBig : icon.big;
+                    }
+                },
                 methods: {
                     update: function (json) {
                         if ('undefined' !== typeof json.HEADER) {
@@ -59,14 +65,14 @@ class LibvuePlaylist {
             }),
 
             menu: new Vue({
-                el: '#page-playlist>.page-header-nav',
+                el: '#playlist-container>.page-header-nav',
                 data: {
                     PLAYLIST: null
                 },
                 computed: {
                     MENUS: function () {
                         let playlist = this.$data.PLAYLIST === null ?
-                            PageController.PAGE_PLAYLIST : this.$data.PLAYLIST;
+                            PageController.PLAYLIST : this.$data.PLAYLIST;
                         return this.$getMenuForPlaylist(playlist);
                     }
                 }
@@ -75,7 +81,7 @@ class LibvuePlaylist {
 
         // noinspection JSUnusedGlobalSymbols
         this.menu = new Vue({
-            el: '#page-playlist>.page-nav',
+            el: '#playlist-container>.page-nav',
             data: {
                 LASTFM_USER_NAME_LABEL: 'User',
                 LASTFM_USER_NAME: '',
@@ -108,7 +114,7 @@ class LibvuePlaylist {
             methods: {
 
                 loadPage: function (user, pageNum) {
-                    if (this.PLAYLIST === 'search') {
+                    if (this.playlist === 'search') {
                         let start = (pageNum - 1) * PageController.TRACKS_PER_PAGE;
                         let end = pageNum * PageController.TRACKS_PER_PAGE;
                         let tracks = [];
@@ -211,7 +217,7 @@ class LibvuePlaylist {
 
         // noinspection JSUnusedGlobalSymbols
         this.content = new Vue({
-            el: '#page-playlist>.page-content',
+            el: '#playlist-container>.page-content',
             data: {
                 TRACK_NR: 'Nr',
                 TRACK_ARTIST: 'Artist',
@@ -337,12 +343,13 @@ class LibvuePlaylist {
                 },
 
                 searchVideos: function (event, track) {
-                    $page.setPlaylistLoading(true);
+                    let curArticle = $(event.target).closest('article');
+                    $page.setLoading(curArticle, true);
                     let callBack = function (success = false) {
                         if (success) {
                             console.log('error for searching vidéos for song');
                         }
-                        $page.setPlaylistLoading();
+                        $page.setLoading(curArticle);
                     };
                     $player.searchSong(track, callBack);
                 },

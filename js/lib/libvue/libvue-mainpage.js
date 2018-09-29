@@ -33,7 +33,7 @@ class LibvueMainpage {
                 
                 loadMenu(menu, event) {                        
                     //if (!$player.isReady) return;
-                    
+
                     let isPlayList = typeof menu.PLAYLIST !== 'undefined';
                     let playlistLoaded = function (success) {
                         if(isPlayList) {
@@ -48,7 +48,7 @@ class LibvueMainpage {
                     
                     $page.setMainPageLoading(true);                    
                     if(isPlayList) {
-                        let article = $('.playlist-container');
+                        let article = $('article[name=playlist-container]');
                         $(article).attr('id', menu.PLAYLIST);
                         
                         if(!$page.isCurrentPlaylist()) {

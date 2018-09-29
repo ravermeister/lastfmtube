@@ -5,46 +5,42 @@ class LibvueVideo {
 
         // noinspection JSUnusedGlobalSymbols
         this.header = new Vue({
-            el: '#page-video>h2',
+            el: '#video-container>h2',
             data: {
                 PLAYLIST: null,
-                TEXT: '',
+                CURRENT_TRACK: null,
+                LOADING: false,
+                TEXT: ''
             },
             computed: {
-
-                LOGO: function () {
-                    let playlist = this.$data.PLAYLIST;
-                    if (playlist === null) playlist = PageController.PAGE_PLAYLIST;
-                    if($player.currentTrackData.track !== null) {
-                        playlist = $player.currentTrackData.track.PLAYLIST;
-                    }
-                    let icon = PageController.icons.getPlaylistIcon(playlist);
-                    return icon.big;
-                },
-
                 MENU: function () {
-                    let playlist = this.$data.PLAYLIST;
-                    let page = PageController.PAGE_PLAYLIST;
-                    if (playlist === null) playlist = PageController.PAGE_PLAYLIST;
-                    if($player.currentTrackData.track !== null) {
-                        playlist = $player.currentTrackData.track.PLAYLIST;
-                    }
-                    
+                    let playlist = PageController.article.playlist.name;
+                    if(this.CURRENT_TRACK !== null) playlist =  this.CURRENT_TRACK.PLAYLIST;
+                    else if(this.PLAYLIST !== null) playlist =  this.PLAYLIST;
                     return {
                         PLAYLIST: playlist
                     };
+                }, 
+                
+                LOGO: function () {
+                    let playlist = PageController.article.playlist.name;
+                    if(this.CURRENT_TRACK !== null) playlist =  this.CURRENT_TRACK.PLAYLIST;
+                    else if(this.PLAYLIST !== null) playlist =  this.PLAYLIST;
+                    
+                    let icon = PageController.icons.getPlaylistIcon(playlist);                    
+                    return this.$data.LOADING ? icon.animatedBig : icon.big;
                 }
             },
-
             methods: {
                 update: function (json) {
                     this.$applyData(json);
-                }
+                },
+                
             }
         });
 
         this.menu = new Vue({
-            el: '#page-video>#player-menu',
+            el: '#video-container>#player-menu',
             data: {
                 PLAYSTATE: ''
             },

@@ -88,8 +88,8 @@ class EnvVarsJson extends DefaultJson {
 
         $data               = Db::getInstance()->updateCharts($track);
         $track['playcount'] = $data['playcount'];
+        $track['nr']        = $data['pos'];
         $track['lastplay']  = Functions::getInstance()->formatDate($data['lastplay_time']);
-
         return $this->jsonData($track);
     }
 
@@ -106,6 +106,7 @@ class EnvVarsJson extends DefaultJson {
 
         $updata            = Db::getInstance()->updateLastFMUserVisit($username);
         $data['playcount'] = $updata['playcount'];
+        $data['nr']        = $updata['pos'];
         $data['lastplay']  = Functions::getInstance()->formatDate($updata['last_played']);
 
         return $this->jsonData($data);

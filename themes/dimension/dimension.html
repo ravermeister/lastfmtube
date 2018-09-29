@@ -54,10 +54,10 @@
     <div id="main">
 
         <!-- Player -->
-        <article id="page-video">
+        <article id="video-container" name="video-container">
 
             <h2 class="major">
-                <a v-bind:href="$url(MENU)" @click.prevent="$loadListMenu(MENU, $event);" style="border: 0">
+                <a v-bind:href="'#' + MENU.PLAYLIST" @click.prevent="$loadListMenu(MENU, $event);" style="border: 0">
                     <i v-bind:class="LOGO"></i>&nbsp;{{TEXT}}
                 </a>
             </h2>
@@ -124,7 +124,7 @@
 
 
         <!-- Playlist -->
-        <article id="page-playlist" class="playlist-container">
+        <article id="playlist-container" name="playlist-container">
 
             <div class="page-header-nav">
                 <template v-for="MENU in MENUS">
@@ -340,7 +340,7 @@
         </article>
 
         <!-- Userlist (Topuser) -->
-        <article id="page-user" class="user-container">
+        <article id="user-container" name="user-container">
 
             <div class="page-header-nav">
                 <template v-for="MENU in MENUS">
