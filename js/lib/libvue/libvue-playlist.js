@@ -54,12 +54,6 @@ class LibvuePlaylist {
                         if ('undefined' !== typeof json.HEADER) {
                             this.$applyData(json.HEADER);
                         }
-
-                        if (this.$data.PLAYLIST === 'search') return;
-
-                        if (typeof $page.myVues.youtube !== 'undefined') {
-                            $page.myVues.youtube.header.PLAYLIST_NAME = this.$data.TEXT;
-                        }
                     }
                 }
             }),
@@ -67,15 +61,15 @@ class LibvuePlaylist {
             menu: new Vue({
                 el: '#page-playlist>.page-header-nav',
                 data: {
-                    PLAYLIST: 'page-playlist'
+                    PLAYLIST: null
                 },
                 computed: {
                     MENUS: function () {
-                        return this.$getMenuForPlaylist(this.PLAYLIST);
+                        let playlist = this.$data.PLAYLIST === null ?
+                            PageController.PAGE_PLAYLIST : this.$data.PLAYLIST;
+                        return this.$getMenuForPlaylist(playlist);
                     }
-                },
-
-                methods: {}
+                }
             })
         };
 
@@ -115,8 +109,8 @@ class LibvuePlaylist {
 
                 loadPage: function (user, pageNum) {
                     if (this.PLAYLIST === 'search') {
-                        let start = (pageNum - 1) * $page.TRACKS_PER_PAGE;
-                        let end = pageNum * $page.TRACKS_PER_PAGE;
+                        let start = (pageNum - 1) * PageController.TRACKS_PER_PAGE;
+                        let end = pageNum * PageController.TRACKS_PER_PAGE;
                         let tracks = [];
                         if (this.$data.SEARCH_RESULT.length > start) {
                             tracks = this.$data.SEARCH_RESULT.slice(start, end);
@@ -151,17 +145,13 @@ class LibvuePlaylist {
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
                     }
 
-                    if ('undefined' !== typeof $page.myVues.youtube.header) {
-                        $page.myVues.youtube.header.$data.PLAYLIST_ID = this.$data.PLAYLIST;
-                    }
-                    if (typeof this.$data.LASTFM_USER_NAME)
-                        $('#playlist_lastfmuser, #playlist_page, #search_videourl')
-                            .unbind('mouseup')
-                            .bind('mouseup',
-                                function () {
-                                    var $this = $(this);
-                                    $this.select();
-                                });
+                    $('#playlist_lastfmuser, #playlist_page, #search_videourl')
+                        .unbind('mouseup')
+                        .bind('mouseup',
+                            function () {
+                                var $this = $(this);
+                                $this.select();
+                            });
                 },
 
                 normalizeYouTubeUrl(event) {

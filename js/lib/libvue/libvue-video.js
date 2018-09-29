@@ -7,16 +7,32 @@ class LibvueVideo {
         this.header = new Vue({
             el: '#page-video>h2',
             data: {
-                NOW_PLAYING: '',
-                PLAYLIST_NAME: 'noname',
-                PAGE: $page.PAGE_PLAYLIST
+                PLAYLIST: null,
+                TEXT: '',
             },
             computed: {
-                
-                PLAYLIST_LOGO: function () {
-                    let icon = $page.icons.getPlaylistIcon(this.$data.PAGE);
-                    if (icon !== null) return icon.big;
-                    return $page.icons.diamond.big;
+
+                LOGO: function () {
+                    let playlist = this.$data.PLAYLIST;
+                    if (playlist === null) playlist = PageController.PAGE_PLAYLIST;
+                    if($player.currentTrackData.track !== null) {
+                        playlist = $player.currentTrackData.track.PLAYLIST;
+                    }
+                    let icon = PageController.icons.getPlaylistIcon(playlist);
+                    return icon.big;
+                },
+
+                MENU: function () {
+                    let playlist = this.$data.PLAYLIST;
+                    let page = PageController.PAGE_PLAYLIST;
+                    if (playlist === null) playlist = PageController.PAGE_PLAYLIST;
+                    if($player.currentTrackData.track !== null) {
+                        playlist = $player.currentTrackData.track.PLAYLIST;
+                    }
+                    
+                    return {
+                        PLAYLIST: playlist
+                    };
                 }
             },
 
@@ -44,7 +60,7 @@ class LibvueVideo {
                         $player.ytPlayer.playVideo();
                     }
                 },
-
+                
                 prev: function () {
                     $player.loadPreviousSong();
                 },
@@ -67,7 +83,7 @@ class LibvueVideo {
                     }
 
                     let oldIcon = $(elem).attr('class');
-                    $(elem).attr('class', $page.icons.search.animatedBig);
+                    $(elem).attr('class', PageController.icons.search.animatedBig);
                     $player.searchSong($player.currentTrackData.track, function () {
                         $(elem).attr('class', oldIcon);
                     }, true);

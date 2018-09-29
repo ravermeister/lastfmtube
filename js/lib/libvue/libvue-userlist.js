@@ -10,15 +10,16 @@ class LibvueUser {
                     TYPE: '',
                     LOGO: ''
                 },
-                computed: {
-                },
+                
                 methods: {
                     update: function (json) {
                         if (typeof json.HEADER !== 'undefined') {
                             this.$applyData(json.HEADER);
-                            if(this.$data.TYPE === '') return;
+                            if(this.$data.TYPE === '') {
+                                return;
+                            }
                             
-                            let logo = $page.icons.getPlaylistIcon(this.$data.TYPE);
+                            let logo = PageController.icons.getPlaylistIcon(this.$data.TYPE);
                             this.$data.LOGO = logo.big;
                         }
                     }

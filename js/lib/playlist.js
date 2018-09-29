@@ -76,8 +76,8 @@ class PlaylistController {
         let tracks = [];
         let savedVid = needle.videoId;
         if(trackCnt > 0) {
-            maxPages = trackCnt / $page.TRACKS_PER_PAGE | 0;
-            if(trackCnt%$page.TRACKS_PER_PAGE > 1) maxPages++;
+            maxPages = trackCnt / PageController.TRACKS_PER_PAGE | 0;
+            if(trackCnt%PageController.TRACKS_PER_PAGE > 1) maxPages++;
             
             for(let cnt=0;cnt<trackCnt;cnt++) {
                 let ytvid = result.data.value[cnt];
@@ -101,7 +101,7 @@ class PlaylistController {
         $page.setCurrentPlaylist('search');
         $page.myVues.playlist.update({
             HEADER: {
-                LOGO: $page.icons.search.big,
+                LOGO: PageController.icons.search.big,
                 TEXT: 'Search Results'
             },
 
@@ -114,7 +114,7 @@ class PlaylistController {
                 SEARCH_RESULT: tracks
             },
 
-            TRACKS: tracks.slice(0, $page.TRACKS_PER_PAGE)
+            TRACKS: tracks.slice(0, PageController.TRACKS_PER_PAGE)
         });
         
         if (typeof callBack === 'function') {
@@ -158,7 +158,7 @@ class PlaylistController {
 
         let tracks = this.getUserTracks();
 
-        let tracksPerPage = $page.TRACKS_PER_PAGE;
+        let tracksPerPage = PageController.TRACKS_PER_PAGE;
         pageNum = this.updateUserListPages(pageNum, tracks);
         let endIndex = pageNum * tracksPerPage;
         let startIndex = endIndex - tracksPerPage;
@@ -277,7 +277,7 @@ class PlaylistController {
 
         let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
         let maxPages = $page.myVues.playlist.menu.$data.MAX_PAGES;
-        let offset = ((pageNum - 1) * $page.TRACKS_PER_PAGE);
+        let offset = ((pageNum - 1) * PageController.TRACKS_PER_PAGE);
         
         tracks.splice(offset+index, 1);
         this.setUserTracks(tracks);
@@ -295,7 +295,7 @@ class PlaylistController {
             return 1;
         }
 
-        let tracksPerPage = $page.TRACKS_PER_PAGE;
+        let tracksPerPage = PageController.TRACKS_PER_PAGE;
 
         let pageCount = (tracks.length / tracksPerPage) | 0;
 

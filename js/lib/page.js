@@ -146,21 +146,21 @@ class Menu {
 
 class PageController {
 
-
     constructor() {
 
-        this.PLAYCOUNT_UP = '▴';
+        PageController.PAGE_PLAYLIST = 'page-playlist';
+        PageController.PAGE_VIDEO = 'page-video';
+        PageController.PAGE_USER = 'page-user';
+        PageController.TRACKS_PER_PAGE = 25; //in settings.ini
+        PageController.PLAYCOUNT_UP = '▴';
+        PageController.icons = PageController.initIcons();
+        
         this.isReady = false;
         this.PLAYLIST = null;
-        this.PAGE = null;
-        this.PAGE_PLAYLIST = 'page-playlist';
-        this.PAGE_VIDEO = 'page-video';
-        this.PAGE_USER = 'page-user';
-        this.TRACKS_PER_PAGE = 25; //in settings.ini
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
-        this.icons = this.initIcons();
-        this.menu = new Menu(this.icons);
+
+        this.menu = new Menu(PageController.icons);
         this.myVues = {};
         this.menuData = [];
         this.applyVueMethods();
@@ -229,11 +229,13 @@ class PageController {
         };
 
         Vue.prototype.$loadListMenu = function (menu, event) {
-
-            if (!$player.isReady ||
+            let curArticle = $(event.target).closest('article');
+            let playlistArticle = $('.playlist-container');
+            let forceReload = !$(playlistArticle).is(curArticle);
+            
+            if (!$player.isReady || !forceReload &&
                 typeof menu.PLAYLIST !== 'undefined' &&
-                $page.PAGE === null &&
-                menu.PLAYLIST === $page.PLAYLIST
+                menu.PLAYLIST === $page.PLAYLIST 
             )
                 return;
 
@@ -242,16 +244,11 @@ class PageController {
                 $page.setLoading();
                 if (typeof menu.PLAYLIST !== 'undefined') {
                     if (success) $page.setCurrentPlaylist(menu.PLAYLIST);
-
-                    let curArticle = $(event.target).closest('article');
-                    let playlistArticle = $('.playlist-container');
-                    $(playlistArticle).attr('id', menu.PLAYLIST);
-
-                    if (!$(playlistArticle).is(curArticle)) {
+                    $(playlistArticle).attr('id', menu.PLAYLIST);                    
+                    if (forceReload) {
                         location.href = '#' + menu.PLAYLIST;
                     }
                 } else {
-                    $page.setCurrentPage(menu.PAGE);
                     location.href = '#' + menu.PAGE;
                 }
             };
@@ -259,7 +256,19 @@ class PageController {
             try {
                 $page.setLoading(true);
                 if (typeof menu.PLAYLIST !== 'undefined') {
-                    $playlist.loadPlaylistPage(1, null, showPage, menu.PLAYLIST);
+                    let pageNum = 1;
+                    if (
+                        'undefined' !== typeof $player.currentTrackData.track &&
+                        $player.currentTrackData.track !== null &&
+                        $player.currentTrackData.track.PLAYLIST === menu.PLAYLIST
+                    ) {
+                        let curNr = $player.currentTrackData.track.NR;
+                        let curPage = (curNr / PageController.TRACKS_PER_PAGE) | 0;
+                        if ((curNr % PageController.TRACKS_PER_PAGE) > 0) curPage++;
+                        if (!isNaN(curPage)) pageNum = curPage;
+                    }
+
+                    $playlist.loadPlaylistPage(pageNum, null, showPage, menu.PLAYLIST);
                 } else {
                     showPage(true);
                 }
@@ -281,7 +290,7 @@ class PageController {
 
     }
 
-    initIcons() {
+    static initIcons() {
         let icons = {};
         icons.play = new Icon('fa-play');
         icons.pause = new Icon('fa-pause');
@@ -380,8 +389,7 @@ class PageController {
             $page.setMainPageLoading(true);
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value.playlist);
-            $page.setCurrentPlaylist('lastfm');
-            $('.playlist-container').attr('id', 'lastfm');
+            $page.myVues.youtube.header.TEXT = $page.myVues.playlist.header.title.$data.TEXT;
             $page.setMainPageLoading();
 
             $page.isReady = true;
@@ -405,24 +413,13 @@ class PageController {
         });
     }
 
-    setCurrentPage(page = null) {
-        if (page === null) return;
-        this.PAGE = page;
-        if (this.PAGE_USER === this.PAGE) {
-            $page.myVues.userlist.header.title.$forceUpdate();
-            $page.myVues.userlist.header.menu.$forceUpdate();
-        }
-    }
-
     setCurrentPlaylist(playlist = null) {
-
         if (playlist === this.PLAYLIST) return;
         this.PLAYLIST = playlist;
-        this.PAGE = null;
 
-        this.myVues.youtube.header.$data.PAGE = this.PLAYLIST === null ? this.PAGE : this.PLAYLIST;
-        this.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE : this.PLAYLIST;
-        this.myVues.userlist.header.menu.$data.PLAYLIST = this.PLAYLIST === null ? this.PAGE : this.PLAYLIST;
+        $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
+        $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
+        $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
     }
 
     isCurrentPlaylist(playlist) {
@@ -439,21 +436,23 @@ class PageController {
     }
 
     setMainPageLoading(active = false) {
-        this.myVues.base.logo.$data.PAGE_LOADER = active ? this.icons.loader.bigger : this.icons.diamond.bigger;
+        this.myVues.base.logo.$data.PAGE_LOADER = active ? 
+            PageController.icons.loader.bigger : PageController.icons.diamond.bigger;
     }
 
     setPageLoading(active = false) {
         if (this.PAGE === null) return;
 
-        let curIcon = this.icons.getPlaylistIcon(this.PAGE);
-        this.myVues.userlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
+        //let curIcon = PageController.icons.getPlaylistIcon(this.PAGE);
+        let userlogo = PageController.icons.getPlaylistIcon($page.myVues.userlist.header.title.$data.TYPE);
+        this.myVues.userlist.header.title.$data.LOGO = active ? userlogo.animatedBig : userlogo.big;
 
     }
 
     setPlaylistLoading(active = false) {
         if (this.PLAYLIST === null) return;
 
-        let curIcon = this.icons.getPlaylistIcon(this.PLAYLIST);
+        let curIcon = PageController.icons.getPlaylistIcon(this.PLAYLIST);
         this.myVues.playlist.header.title.$data.LOGO = active ? curIcon.animatedBig : curIcon.big;
     }
 
@@ -532,7 +531,7 @@ class PageController {
                 if (user.NAME === json.data.value.username) {
                     user.PLAYCOUNT = json.data.value.playcount;
                     user.LASTPLAY = json.data.value.lastplay;
-                    user.PLAYCOUNT_CHANGE = $page.PLAYCOUNT_UP;
+                    user.PLAYCOUNT_CHANGE = PageController.PLAYCOUNT_UP;
                 }
             }
 
@@ -576,7 +575,7 @@ class PageController {
                     track.LASTPLAY = json.data.value.lastplay;
                     if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
                         track.PLAYCOUNT = json.data.value.playcount;
-                        track.PLAYCOUNT_CHANGE = $page.PLAYCOUNT_UP;
+                        track.PLAYCOUNT_CHANGE = PageController.PLAYCOUNT_UP;
                     }
                 }
 

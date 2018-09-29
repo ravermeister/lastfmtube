@@ -57,8 +57,8 @@
         <article id="page-video">
 
             <h2 class="major">
-                <a v-bind:href="'#' + PAGE" style="border: 0">
-                    <i v-bind:class="PLAYLIST_LOGO"></i>&nbsp;{{PLAYLIST_NAME}}
+                <a v-bind:href="$url(MENU)" @click.prevent="$loadListMenu(MENU, $event);" style="border: 0">
+                    <i v-bind:class="LOGO"></i>&nbsp;{{TEXT}}
                 </a>
             </h2>
 

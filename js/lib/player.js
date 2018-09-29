@@ -184,7 +184,8 @@ class PlayerController {
         this.currentTrackData = {
             track: null,
             videoId: null,
-
+            playlistTitle: null,
+            
             validTrack: function () {
                 return (
                     this.track !== null &&
@@ -429,12 +430,15 @@ class PlayerController {
     setCurrentTrack(track) {
         if (this.isCurrentTrack(track)) return;
         let curTrack = this.currentTrackData.track;
+
         if (curTrack !== null) {
             this.setCurrentState();
             this.currentTrackData.track = null;
         }
-
+        
         this.currentTrackData.track = track;
+        $page.myVues.youtube.header.$data.TEXT = $page.myVues.playlist.header.title.$data.TEXT;
+        $page.myVues.youtube.header.$data.PLAYLIST = curTrack;
         this.setCurrentState('load');
     }
 

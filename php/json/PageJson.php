@@ -145,11 +145,7 @@ class PageJson extends DefaultJson {
     }
 
     private function getYoutube() {
-        return array(
-            'PLAYLIST_NAME' => 'Last.fm',
-            'PLAYLIST_URL'  => '#lastfm',
-            'PLAYLIST_ID'   => 'lastfm'
-        );
+        return array();
     }
 
     private function getPlaylist($user = false, $pageNum = 1) {

@@ -41,7 +41,6 @@ class LibvueMainpage {
                             $page.setMainPageLoading();
                             location.href='#' + menu.PLAYLIST;                            
                         } else {
-                            $page.setCurrentPage(menu.PAGE);
                             $page.setMainPageLoading();
                             location.href='#' + menu.PAGE;
                         }                         
