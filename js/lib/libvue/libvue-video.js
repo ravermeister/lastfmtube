@@ -9,6 +9,7 @@ class LibvueVideo {
             data: {
                 PLAYLIST: null,
                 CURRENT_TRACK: null,
+                SEARCH_TRACK: null,
                 LOADING: false,
                 TEXT: ''
             },
@@ -32,10 +33,26 @@ class LibvueVideo {
                 }
             },
             methods: {
-                update: function (json) {
+                
+                
+                update: function (json) {                    
                     this.$applyData(json);
                 },
                 
+                loadMenu: function (menu, event) {
+                    if(menu.PLAYLIST === 'search') {
+                        let vue = this;
+                        this.$data.LOADING = true;
+                        let callbak = function(success) {                            
+                            vue.$data.LOADING = false;
+                            location.href = '#' + menu.PLAYLIST;
+                        };
+                        $player.searchSong(this.$data.SEARCH_TRACK, callbak);
+                        return;
+                    }
+                    
+                    this.$loadListMenu(menu, event);
+                }
             }
         });
 
@@ -70,18 +87,11 @@ class LibvueVideo {
                     }
                 },
                 search: function (event) {
-                    if ($player.currentTrackData === null) return;
-                    let elem = null;
-                    if ($(event.target).prop('tagName').toUpperCase() === 'SPAN') {
-                        elem = event.target;
-                    } else {
-                        elem = $(event.target).find('span');
-                    }
-
-                    let oldIcon = $(elem).attr('class');
-                    $(elem).attr('class', PageController.icons.search.animatedBig);
-                    $player.searchSong($player.currentTrackData.track, function () {
-                        $(elem).attr('class', oldIcon);
+                    if ($page.myVues.youtube.header.SEARCH_TRACK === null) return;
+                    
+                    $page.myVues.youtube.header.$data.LOADING = true;
+                    $player.searchSong($page.myVues.youtube.header.SEARCH_TRACK, function () {
+                        $page.myVues.youtube.header.$data.LOADING = false;
                     }, true);
                 }
             }

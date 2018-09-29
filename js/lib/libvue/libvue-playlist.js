@@ -346,7 +346,7 @@ class LibvuePlaylist {
                     let curArticle = $(event.target).closest('article');
                     $page.setLoading(curArticle, true);
                     let callBack = function (success = false) {
-                        if (success) {
+                        if (!success) {
                             console.log('error for searching vidéos for song');
                         }
                         $page.setLoading(curArticle);

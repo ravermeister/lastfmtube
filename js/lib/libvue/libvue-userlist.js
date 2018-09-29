@@ -83,6 +83,7 @@ class LibvueUser {
                     let openurl = function (success) {
                         if (success) {
                             let article = $('article[name=playlist-container]');
+                            $page.setCurrentPlaylist('lastfm');
                             user.PLAY_CONTROL = '';
                             $page.myVues.userlist.header.title.$data.LOADING = false;
                             location.href = '#' + $(article).attr('id');
@@ -95,7 +96,7 @@ class LibvueUser {
                     
                     user.PLAY_CONTROL = 'loading';
                     $page.myVues.userlist.header.title.$data.LOADING = true;
-                    $playlist.loadDefaultPlayListPage(1, user.NAME, openurl, 'lastfm');
+                    $playlist.loadPlaylistPage(1, user.NAME, openurl, 'lastfm');
                 }
             }
         });

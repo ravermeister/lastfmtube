@@ -274,7 +274,7 @@ class PageController {
                     if (success) {
                         $page.setCurrentPlaylist(menu.PLAYLIST);
                         $(playlistArticle).attr('id', menu.PLAYLIST);
-                    } 
+                    }
                     $page.setLoading(curArticle);
                     if (forceReload) {
                         location.href = '#' + menu.PLAYLIST;
@@ -287,7 +287,7 @@ class PageController {
 
             try {
                 $page.setLoading(curArticle, true);
-                
+
                 if (typeof menu.PLAYLIST !== 'undefined') {
                     let pageNum = 1;
                     if (
@@ -454,9 +454,9 @@ class PageController {
         if (playlist === this.PLAYLIST) return;
 
         this.PLAYLIST = playlist;
-
         $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
+        $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
     }
 
@@ -472,9 +472,9 @@ class PageController {
 
         if ($(curArticle).is(PageController.article.user.dom())) {
             this.myVues.userlist.header.title.$data.LOADING = active;
-        } else if($(curArticle).is(PageController.article.playlist.dom())) {
-            this.myVues.playlist.header.title.$data.LOADING = active;       
-        } else if($(curArticle).is(PageController.article.video.dom())) {
+        } else if ($(curArticle).is(PageController.article.playlist.dom())) {
+            this.myVues.playlist.header.title.$data.LOADING = active;
+        } else if ($(curArticle).is(PageController.article.video.dom())) {
             this.myVues.youtube.header.$data.LOADING = active;
         }
     }
@@ -556,11 +556,13 @@ class PageController {
             for (let cnt in $page.myVues.userlist.content.$data.USER) {
                 let user = $page.myVues.userlist.content.$data.USER[cnt];
 
-                if (user.NAME === json.data.value.username) {                    
+                if (user.NAME === json.data.value.username) {
                     user.PLAYCOUNT = json.data.value.playcount;
                     user.LASTPLAY = json.data.value.lastplay;
-                    //user.NR = json.data.value.nr;
-                    user.PLAYCOUNT_CHANGE = PageController.PLAYCOUNT_UP;
+
+                    let diff = parseInt(user.NR) - parseInt(json.data.value.nr);
+                    user.PLAYCOUNT_CHANGE = diff > 0 ?
+                        diff + PageController.PLAYCOUNT_UP : PageController.PLAYCOUNT_UP;
                 }
             }
 
@@ -604,12 +606,14 @@ class PageController {
                     track.LASTPLAY = json.data.value.lastplay;
                     if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
                         track.PLAYCOUNT = json.data.value.playcount;
-                        track.PLAYCOUNT_CHANGE = PageController.PLAYCOUNT_UP;
-                        track.NR = json.data.value.nr;
+
+                        let diff = parseInt(track.NR) - parseInt(json.data.value.nr);
+                        track.PLAYCOUNT_CHANGE = diff > 0 ?
+                            diff + PageController.PLAYCOUNT_UP : PageController.PLAYCOUNT_UP;
                     }
                 }
-
             }
+
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -639,6 +643,18 @@ class PageController {
                 videoId: needle.videoId
             }
         }).done(function (json) {
+
+            let userTracks = $playlist.getUserTracks();
+            for (let cnt = 0; cnt < userTracks.length; cnt++) {
+                let uTrack = userTracks[cnt];
+                if (
+                    uTrack.TITLE === needle.title &&
+                    uTrack.ARTIST === needle.artist
+                ) {
+                    uTrack.VIDEO_ID = json.data.value.videoId;
+                }
+            }
+            $playlist.setUserTracks(userTracks);
             if (typeof callback === 'function') {
                 callback(true);
             }
@@ -662,6 +678,32 @@ class PageController {
                 title: needle.title
             }
         }).done(function (json) {
+            let userTracks = $playlist.getUserTracks();
+            let curTrack = null;
+            for (let cnt = 0; cnt < userTracks.length; cnt++) {
+                let uTrack = userTracks[cnt];
+                if (
+                    uTrack.TITLE === needle.title &&
+                    uTrack.ARTIST === needle.artist
+                ) {
+                    uTrack.VIDEO_ID = '';
+                }
+                if ($player.isCurrentTrack(uTrack)) {
+                    $player.currentTrackData.track.VIDEO_ID = '';
+                    curTrack = uTrack;
+                }
+            }
+            $playlist.setUserTracks(userTracks);
+            if ($page.PLAYLIST === 'userlist') {
+                if(curTrack!==null) {
+                    curTrack.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
+                    curTrack.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
+                    $player.currentTrackData.track = curTrack;
+                }
+                $page.myVues.playlist.content.update({
+                    TRACKS: userTracks
+                });
+            }
             if (typeof callback === 'function') {
                 callback(true);
             }

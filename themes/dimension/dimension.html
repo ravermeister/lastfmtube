@@ -57,7 +57,7 @@
         <article id="video-container" name="video-container">
 
             <h2 class="major">
-                <a v-bind:href="'#' + MENU.PLAYLIST" @click.prevent="$loadListMenu(MENU, $event);" style="border: 0">
+                <a v-bind:href="'#' + MENU.PLAYLIST" @click.prevent="loadMenu(MENU, $event);" style="border: 0">
                     <i v-bind:class="LOGO"></i>&nbsp;{{TEXT}}
                 </a>
             </h2>
@@ -259,13 +259,13 @@
                                 </td>
                                 <td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">
-                                    <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID != ''"
+                                    <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
                                        v-bind:title="'Video: ' + TRACK.VIDEO_ID">* {{TRACK.ARTIST}}</i>
                                     <span v-else="v-else">{{TRACK.ARTIST}}</span>
                                 </td>
                                 <td class="TRACK_TITLE" @click="togglePlayControl(TRACK);"
                                     style="cursor: pointer">
-                                    <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID != ''"
+                                    <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
                                        v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i>
                                     <span v-else="v-else">{{TRACK.TITLE}}</span>
                                     <span style="float: right;">{{TRACK.PLAYCOUNT_CHANGE}}</span>
@@ -304,7 +304,7 @@
                                         </a>
 
                                         <a @click="clearUserList();"
-                                           title="remove from Playlist"
+                                           title="clear Playlist"
                                            v-if="TRACK.PLAYLIST === 'userlist'"
                                            class="button smaller">
                                             <span class="fas fa-trash-alt"></span>

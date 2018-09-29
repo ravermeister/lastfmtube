@@ -31,6 +31,7 @@ class PlaylistController {
         if (playlist === null) playlist = $page.PLAYLIST;
 
         let ignoreTitle = playlist === $page.PLAYLIST;
+
         let curArticle = PageController.article.playlist.dom;
         let loadComplete = function (success) {
             let parentCallBack = callBack;
@@ -91,7 +92,11 @@ class PlaylistController {
                     PLAYSTATE: '',
                     PLAY_CONTROL: ''
                 };
-                
+                if($player.isCurrentTrack(track)) {
+                    track.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
+                    track.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
+                    $player.setCurrentTrack(track);
+                }
                 tracks[cnt] = track;
             }
         }
@@ -101,7 +106,6 @@ class PlaylistController {
         $page.setCurrentPlaylist('search');
         $page.myVues.playlist.update({
             HEADER: {
-                LOGO: PageController.icons.search.big,
                 TEXT: 'Search Results'
             },
 
