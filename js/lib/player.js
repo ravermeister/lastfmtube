@@ -50,6 +50,7 @@ class ChartTimer {
 
         $player.chartTimer.clearTimer();
         $page.saveChartTrack(needle);
+        console.log(track.lfmuser, '<>', $player.chartTimer.lastChartLfmUser);
         if ('undefined' !== typeof track.lfmuser &&
             track.lfmuser !== '' &&
             $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
@@ -531,13 +532,7 @@ class PlayerController {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             $player.ytPlayer.loadVideoById(videoId);
             $player.currentTrackData.videoId = videoId;
-
-            if ($page.PLAYLIST !== null && $page.PLAYLIST !== 'lastfm') {
-                $player.currentTrackData.lfmUser = '';
-            } else {
-                $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
-            }
-
+            $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
         } else {
             if ($player.errorLoopCount > $player.maxErrorLoop) {
                 console.error('maximum error loop reached');
