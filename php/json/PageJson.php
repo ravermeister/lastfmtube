@@ -7,7 +7,6 @@
 
 namespace LastFmTube\Json;
 
-use DateTime;
 use Exception;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
@@ -285,7 +284,7 @@ class PageJson extends DefaultJson {
 
         for ($cnt = 0; $cnt < sizeof($topuser); $cnt++) {
             $user = $topuser[$cnt];
-            
+
             $page['USER'][] = array(
                 'NR'           => ($offset + $cnt + 1),
                 'NAME'         => $user['lastfm_user'],
@@ -336,13 +335,14 @@ class PageJson extends DefaultJson {
             )
         );
 
+        $page['TRACKS'] = array();
         for ($cnt = 0; $cnt < sizeof($topsongs); $cnt++) {
             $track              = $topsongs[$cnt];
             $track['interpret'] = Functions::getInstance()->prepareNeedle($track['interpret']);
             $track['title']     = Functions::getInstance()->prepareNeedle($track['title']);
             $videoId            = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
-            
-            $page['TRACKS'][]   = array(
+
+            $page['TRACKS'][] = array(
                 'NR'           => ($offset + $cnt + 1),
                 'ARTIST'       => $track['interpret'],
                 'TITLE'        => $track['title'],

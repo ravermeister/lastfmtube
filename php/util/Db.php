@@ -59,48 +59,55 @@ class Db {
         $prefix = $this->settings ['database'] ['table_prefix'];
         $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'charts"');
         $this->pdo->exec('CREATE TABLE "' . $prefix . 'charts" (
-				"interpret" 	VARCHAR(500) 	NOT NULL,
-				"title" 	    VARCHAR(500) 	NOT NULL,
-				"playcount" 	INTEGER     	NOT NULL,
-				"lastplay_time" DATETIME 	    NOT NULL,
-				"lastplay_user" INTEGER 	    NOT NULL,
-				"lastplay_ip" 	VARCHAR(50) 	NOT NULL
+				interpret 	    VARCHAR(500) 	NOT NULL,
+				title 	        VARCHAR(500) 	NOT NULL,
+				playcount 	    INTEGER     	NOT NULL,
+				lastplay_time   DATETIME        NOT NULL,
+				lastplay_user   INTEGER 	    NOT NULL,
+				lastplay_ip 	VARCHAR(50) 	NOT NULL,
+				
+				PRIMARY KEY (interpret, title, lastplay_time)
 			)'
         );
 
         $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'charts_track_alias"');
         $this->pdo->exec('CREATE TABLE "' . $prefix . 'charts_track_alias" (
-				"interpret" 	    VARCHAR(500) 	NOT NULL,
-				"title" 	        VARCHAR(500) 	NOT NULL,				
-                "interpret_alias" 	VARCHAR(500) 	NOT NULL,
-				"title_alias" 	    VARCHAR(500) 	NOT NULL,				
-			)'
+                interpret 	        VARCHAR(500) 	NOT NULL,
+                title 	            VARCHAR(500) 	NOT NULL,				
+                alias_interpret 	VARCHAR(500) 	NOT NULL,
+                alias_title 	    VARCHAR(500) 	NOT NULL,		
+                
+                PRIMARY KEY (interpret, title, alias_interpret, alias_title),    
+                FOREIGN KEY (alias_interpret, alias_title) REFERENCES "' . $prefix . 'charts" (interpret, title)		
+            )'
         );
 
         $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'charts_lastfm_user"');
         $this->pdo->exec('CREATE TABLE "' . $prefix . 'charts_lastfm_user" (
-				"lastfm_user" 	VARCHAR(250) 	NOT NULL,
-				"last_played" 	DATETIME 	NOT NULL,
-				"playcount" 	INTEGER 	NOT NULL,
-				PRIMARY KEY ("lastfm_user")
+				lastfm_user 	VARCHAR(250) 	NOT NULL,
+				last_played 	DATETIME 	    NOT NULL,
+				playcount 	    INTEGER 	    NOT NULL,
+				PRIMARY KEY (lastfm_user)
 			)'
         );
 
         $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'playlists"');
         $this->pdo->exec('CREATE TABLE "' . $prefix . 'playlists" (
-				"user_id"	INTEGER 	NOT NULL,
-				"interpret"	VARCHAR(500)	NOT NULL,
-				"title"		VARCHAR(500)	NOT NULL,
-				"video_id"	VARCHAR(50)	NOT NULL
-                        )'
+				user_id 	INTEGER 	    NOT NULL,
+				interpret	VARCHAR(500)	NOT NULL,
+				title		VARCHAR(500)	NOT NULL,
+				video_id	VARCHAR(50)	    NOT NULL,
+				
+				PRIMARY KEY (user_id, interpret, title)
+            )'
         );
 
         $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'envvars"');
         $this->pdo->exec('CREATE TABLE "' . $prefix . 'envvars" (
-				"key"		VARCHAR(250)	NOT NULL,
-				"value"		VARCHAR(500)	NOT NULL,
+				key		    VARCHAR(250)	NOT NULL,
+				value		VARCHAR(500)	NOT NULL,
 				PRIMARY KEY("key")
-                        )'
+            )'
         );
     }
 
@@ -159,9 +166,9 @@ class Db {
                 ), chart_count AS (
                     SELECT * 
                     FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" mc, chart_user cu
-                        WHERE mc.`playcount` < cu.`playcount` OR (
-                        mc.`playcount` = cu.`playcount` AND 
-                        mc.`last_played` < cu.`last_played`
+                        WHERE mc.playcount < cu.playcount OR (
+                        mc.playcount = cu.playcount AND 
+                        mc.last_played < cu.last_played
                     )
                 )
                 SELECT ((SELECT COUNT(*) 
@@ -173,9 +180,9 @@ class Db {
             'UPDATE_LASTFM_USER_VISIT' => '
 				UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" 
 				SET
-				"playcount"="playcount"+1,
-				"last_played"= ?
-				WHERE "lastfm_user"= ?;
+				playcount=playcount+1,
+				last_played= ?
+				WHERE lastfm_user= ?;
 			',
 
             'INSERT_LASTFM_USER_VISIT' => '
@@ -186,13 +193,13 @@ class Db {
 			    UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts"
 			    SET
 				"playcount"="playcount"+1,
-				"lastplay_time"= ?,
-				"lastplay_user"= ?,
-				"lastplay_ip"= ?
+				lastplay_time= ?,
+				lastplay_user= ?,
+				lastplay_ip= ?
 
 			    WHERE
-				"interpret"= ? AND
-				"title"= ?;
+				interpret= ? AND
+				title= ?;
 			',
 
             'INSERT_CHARTS' => '
@@ -202,11 +209,12 @@ class Db {
 
             'SELECT_CHARTS'            => '
 				SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-			     ORDER BY `playcount` DESC, `lastplay_time` DESC LIMIT ? OFFSET ?;
+			     ORDER BY playcount DESC, lastplay_time DESC LIMIT ? OFFSET ?;
 			',
             'SELECT_CHARTS_NUM_ROWS'   => '
                 SELECT COUNT(*) AS "CNT" FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts";
             ',
+            
             'SELECT_CHART_COUNT_TRACK' => '
                 WITH chart_track AS (
                     SELECT *
@@ -215,9 +223,9 @@ class Db {
                 ), chart_count AS (
                     SELECT *
                     FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts" mc, chart_track ct
-                    WHERE mc.`playcount` < ct.`playcount` OR (
-                        mc.`playcount` = ct.`playcount` AND 
-                        mc.`lastplay_time` < ct.`lastplay_time`
+                    WHERE mc.playcount < ct.playcount OR (
+                        mc.playcount = ct.playcount AND 
+                        mc.lastplay_time < ct.lastplay_time
                     )	
                 )
                 SELECT ((SELECT COUNT(*) 
@@ -231,24 +239,24 @@ class Db {
             // SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts"
             // WHERE ("playcount" > 1) OR (
             // "playcount" = 1 AND
-            // "lastplay_time" IN (
-            // SELECT MAX("lastplay_time")
+            // lastplay_time IN (
+            // SELECT MAX(lastplay_time)
             // FROM "'.$this->settings['database']['table_prefix'].'charts"
             // WHERE "playcount"=1
             // )
             // )
-            // ORDER BY `playcount` DESC, `lastplay_time` DESC;
+            // ORDER BY playcount DESC, lastplay_time` DESC;
             // ',
 
 
             'GET_ENVVAR' => '
-				SELECT "value" FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
-				WHERE "key"= ?;
+				SELECT value FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
+				WHERE key= ?;
 			',
 
             'DEL_ENVVAR' => '
 				DELETE FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
-				WHERE "key"= ?;
+				WHERE key= ?;
 			',
 
             'SET_ENVVAR' => '
@@ -257,7 +265,7 @@ class Db {
 
             'SEARCH_CHARTS_TRACK' => '
                 SELECT * FROM "' . $this->settings['database']['table_prefix'] . 'charts_track_alias" 
-                WHERE "artist" LIKE ? OR "title" LIKE ?;
+                WHERE interpret LIKE ? OR title LIKE ?;
             '
         );
 

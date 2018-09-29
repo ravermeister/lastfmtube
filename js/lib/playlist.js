@@ -100,10 +100,10 @@ class PlaylistController {
                 tracks[cnt] = track;
             }
         }
-        
-        let playlistArticle = $('article[name=playlist-container]');
-        $(playlistArticle).attr('id', 'search');
+
         $page.setCurrentPlaylist('search');
+        let playlistArticle = $('article[name=playlist-container]');
+        $(playlistArticle).attr('id', 'search');        
         $page.myVues.playlist.update({
             HEADER: {
                 TEXT: 'Search Results'
@@ -129,7 +129,7 @@ class PlaylistController {
     loadTopSongsPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
 
         $.getJSON('php/json/JsonHandler.php?api=topsongs&data=playlist&page=' + pageNum, function (json) {
-
+            
             $page.myVues.playlist.update(json.data.value, ignoreTitle);
 
             try {

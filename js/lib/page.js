@@ -451,9 +451,12 @@ class PageController {
     }
 
     setCurrentPlaylist(playlist = null) {
+        
         if (playlist === this.PLAYLIST) return;
 
         this.PLAYLIST = playlist;
+
+        
         $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
