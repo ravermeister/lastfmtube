@@ -173,16 +173,12 @@ class LibvuePlaylist {
                         $(field).val('');
                         return;
                     }
-                    url = url.replace(LibvuePlaylist.YOUTUBE_URL_REGEX, '');
+                    
                     let videoId = $.urlParam('v', url);
                     if (videoId === null) {
-                        let vidsep = url.indexOf('/', (url.indexOf('//') + 2)) + 1;
-                        if (vidsep > 0) {
-                            let vidend = url.indexOf('?');
-                            if (vidend < vidsep) vidend = url.length;
-                            videoId = url.substr(vidsep, (vidend - vidsep));
-                        } else videoId = '';
+                        videoId = url.replace(LibvuePlaylist.YOUTUBE_URL_REGEX, '');
                     }
+                    
                     if (this.SEARCH_VIDEO_ID === videoId) this.$forceUpdate();
                     else this.SEARCH_VIDEO_ID = videoId;
                     $(field).trigger('blur');
