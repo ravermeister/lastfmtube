@@ -46,14 +46,6 @@ class PlaylistController {
         };
         
         $page.setLoading(curArticle, true);
-        if($page.PLAYLIST===playlist){
-            if (typeof callBack === 'function') {
-                callBack(true);
-            } else {
-                $playlist.setLoading(curArticle);
-            }
-            return;
-        }
         
         switch (playlist) {
             case 'userlist':                
@@ -69,7 +61,7 @@ class PlaylistController {
                 if (typeof callBack === 'function') {
                     callBack(true);
                 } else {
-                    $playlist.setLoading(curArticle);
+                    $page.setLoading(curArticle);
                 }
                 break;
             default:
