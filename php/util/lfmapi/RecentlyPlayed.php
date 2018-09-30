@@ -3,6 +3,7 @@
 namespace LastFmTube\Util\lfmapi;
 
 
+use LastFmTube\Util\Functions;
 use simplehtmldom_1_5\simple_html_dom;
 
 class RecentlyPlayed {
@@ -31,6 +32,14 @@ class RecentlyPlayed {
         foreach ($tracks as $track) { 
             $this->items [] = Track::fromXML($track);
         }
+        if($this->page > 1 && sizeof($this->items) > $this->itemsPerPage) {
+            //last.fm sends now playing track always...
+            //we want it only on page 1
+            if($this->items[0]->isPlaying()) {
+                array_splice($this->items, 0, 1);
+            } 
+        }
+        if($this->page > 1) Functions::getInstance()->logMessage('playlist size: ' . sizeof($tracks));
     }
 
     function getTracks() {

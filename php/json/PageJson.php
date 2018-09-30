@@ -171,7 +171,7 @@ class PageJson extends DefaultJson {
         $playlist  = $this->lfmapi->getRecentlyPlayed($pageNum, $maxpages);
         $tracks    = $playlist->getTracks();
         $pageStart = (($pageNum - 1) * $maxpages);
-
+        
         $page = array(
 
             'HEADER' => array(
@@ -226,7 +226,7 @@ class PageJson extends DefaultJson {
             );
         }
         //playlist content
-
+        if($pageNum > 1) Functions::getInstance()->logMessage(print_r($page['TRACKS'][0], true));
         return $page;
     }
 
