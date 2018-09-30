@@ -50,7 +50,7 @@ class LibvueVideo {
                         $player.searchSong(this.$data.SEARCH_TRACK, callbak);
                         return;
                     }
-                    
+                   
                     this.$loadListMenu(menu, event);
                 }
             }

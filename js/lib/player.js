@@ -50,7 +50,6 @@ class ChartTimer {
 
         $player.chartTimer.clearTimer();
         $page.saveChartTrack(needle);
-        console.log(track.lfmuser, '<>', $player.chartTimer.lastChartLfmUser);
         if ('undefined' !== typeof track.lfmuser &&
             track.lfmuser !== '' &&
             $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
@@ -438,7 +437,7 @@ class PlayerController {
 
         this.currentTrackData.track = track;
         $page.myVues.youtube.header.$data.CURRENT_TRACK = track;
-        if(track.PLAYLIST !== 'search') $page.myVues.youtube.header.SEARCH_TRACK = track;
+        if (track.PLAYLIST !== 'search') $page.myVues.youtube.header.SEARCH_TRACK = track;
         $page.myVues.youtube.header.$data.TEXT = $page.myVues.playlist.header.title.$data.TEXT;
         this.setCurrentState('load');
     }
@@ -541,17 +540,19 @@ class PlayerController {
             $player.errorLoopCount++;
             if ($player.loadNextOnError) {
                 $player.loadNextSong();
-            } 
+            }
         }
     }
 
 
     isCurrentTrack(track) {
         let curTrack = this.currentTrackData.track;
-        
+        if (curTrack === null) return false;
+        let checkNr = curTrack.PLAYLIST !== 'topsongs';
         let isEqual = curTrack !== null && (
+
             curTrack === track || (
-                parseInt(curTrack.NR) === parseInt(track.NR) &&
+                (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&
                 curTrack.PLAYLIST === track.PLAYLIST &&
                 curTrack.ARTIST === track.ARTIST &&
                 curTrack.TITLE === track.TITLE

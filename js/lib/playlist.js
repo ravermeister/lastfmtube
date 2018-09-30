@@ -46,9 +46,17 @@ class PlaylistController {
         };
         
         $page.setLoading(curArticle, true);
-
+        if($page.PLAYLIST===playlist){
+            if (typeof callBack === 'function') {
+                callBack(true);
+            } else {
+                $playlist.setLoading(curArticle);
+            }
+            return;
+        }
+        
         switch (playlist) {
-            case 'userlist':
+            case 'userlist':                
                 this.loadUserPlayListPage(pageNum, loadComplete, ignoreTitle);
                 break;
             case 'topsongs':
