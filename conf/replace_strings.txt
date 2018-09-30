@@ -1,0 +1,29 @@
+# encoding: UTF-8
+# comments are marked with #
+#key=value key is searched in youtube needle (track/artist) and replaced by value
+#note, to remove from youtube needle simply leave the value blank
+#note this file is tested with eol character line feet only
+[unknown]=
+_= 
+/= 
+Various Artists=
+122747299=
+www.qsound.eu=
+(RaagJatt.com)=
+144827295=
+HQ 09 171515071915300=
+1515289004183=
+31515281327040=
+90879177=
+''=
+"=
+- soon on 12=
+[DRUMCODE]=
+(128kbit Vorbis)=
+(128kbitVorbis)=
+(152kbit Vorbis)=
+(152kbitVorbis)=
+(128kbit Opus)=
+(128kbitOpus)=
+(128kbit AAC)=
+(192kbitAAC)=

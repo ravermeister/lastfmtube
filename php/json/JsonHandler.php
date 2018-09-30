@@ -1,93 +1,96 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: ravermeister
  * Date: 07.09.2018
  * Time: 05:07
  */
 
 namespace LastFmTube\json;
-
 require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
-static $METHODS = array('get', 'getAll', 'put', 'putAll', 'update', 'updateAll', 'delete', 'deleteAll');
-static $RESERVED_ARGS = array('method', 'api');
+use LastFmTube\Util\Functions;
 
 
-if (!isset($_GET['method']) || strlen($_GET['method']) == 0 || !isset($_GET['api']) || strlen($_GET['api']) == 0 ||
-    !in_array($_GET['method'], $METHODS)) {
-    DefaultJson::baseError('Falsche Parameter angabe!');
-    return;
+
+class JsonHandler {
+    private static $RESERVED_ARGS = array('api');
+    private static $HANDLER_NAMES = array(
+        'topuser',
+        'topsongs',
+        'lastfm',
+        'search',
+        'videos',
+        'page',
+        'vars'
+
+    );
+    
+    
+    private static function createHandler($api) {
+        switch ($api) {
+            case 'topuser':
+            case 'topsongs':
+            case 'lastfm':
+            case 'page': return new PageJson($api);
+
+            case 'vars': return new EnvVarsJson();
+
+            case 'search':
+            case 'videos': return new YouTubeJson();
+        }
+
+        return false;
+    }   
+    
+    
+    public static function handleRequest($returnOutput = false){
+        header("Content-Type: application/json;charset=utf-8");
+
+        if (!isset($_GET['api']) || strlen($_GET['api']) == 0 || !in_array($_GET['api'], JsonHandler::$HANDLER_NAMES, true)) {
+            DefaultJson::baseError('Falsche Parameter angabe! ');
+            return;
+        }
+
+        $json = JsonHandler::createHandler($_GET['api']);
+
+        if (!isset($json) || $json === false) {
+            DefaultJson::baseError('unbekannter Api Endpunkt: ' . $_GET['api']);
+        }
+
+        $getvars = Functions::getInstance()->requestVars('GET');
+        $output  = '';
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $json->setMethod('GET');
+                $output = $json->get($getvars);
+                break;
+
+            case 'POST':
+                $json->setMethod('PUT');
+                $postvars = Functions::getInstance()->requestVars('POST');
+                $output   = $json->post($getvars, $postvars);
+                break;
+
+            case 'PUT':
+                $json->setMethod('PUT');
+                $postvars = Functions::getInstance()->requestVars('PUT');
+                $output   = $json->put($getvars, $postvars);
+                break;
+
+            case 'DELETE':
+                $json->setMethod('DELETE');
+                $output = $json->delete($getvars);
+                break;
+
+            default:
+                $output = $json->jsonError('unbekannte Action:' . $_SERVER['REQUEST_METHOD']);
+                break;
+        }
+            
+        if($returnOutput) return $output;
+        die($output);        
+    }
 }
 
-$json = null;
-switch ($_GET['api']) {
-    case 'charts' :
-        $json = new ChartsJson();
-        break;
-    default:
-        DefaultJson::baseError('unbekannter Api Endpunkt');
-        break;
+JsonHandler::handleRequest();
 
-}
-
-$getvars = array();
-$postvars = array();
-
-foreach ($_GET as $key => $value) {
-    if (in_array($key, $RESERVED_ARGS)) continue;
-    $getvars[$key] = strip_tags($value);
-}
-foreach ($_POST as $key => $value) {
-    $postvars[$key] = strip_tags($value);
-}
-
-$output = '';
-switch ($_GET['method']) {
-    case 'get':
-        $json->setMethod('get');
-        $output = $json->get($getvars, $postvars);
-        break;
-
-    case 'getAll':
-        $json->setMethod('getAll');
-        $output = $json->getAll($getvars, $postvars);
-        break;
-
-    case 'put':
-        $json->setMethod('put');
-        $output = $json->put($getvars, $postvars);
-        break;
-
-    case 'putAll':
-        $json->setMethod('putAll');
-        $output = $json->putAll($getvars, $postvars);
-        break;
-
-    case 'update':
-        $json->setMethod('update');
-        $output = $json->update($getvars, $postvars);
-        break;
-
-    case 'updateAll':
-        $json->setMethod('updateAll');
-        $output = $json->updateAll($getvars, $postvars);
-        break;
-
-    case 'delete':
-        $json->setMethod('delete');
-        $output = $json->deleteAll($getvars, $postvars);
-        break;
-
-    case 'deleteAll':
-        $json->setMethod('deleteAll');
-        $output = $json->deleteAll($getvars, $postvars);
-        break;
-
-    default:
-        $output = $json->jsonError('unbekannte Action');
-        break;
-}
-
-header('Content-Type: application/json');
-die($output);

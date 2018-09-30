@@ -6,23 +6,19 @@ class YoutubeVideo {
     var $video_id;
     var $title;
 
-    function setTitle($theTitle)
-    {
+    function setTitle($theTitle) {
         $this->title = $theTitle;
     }
 
-    function getTitle()
-    {
+    function getTitle() {
         return $this->title;
     }
 
-    function setVideoID($id)
-    {
+    function setVideoID($id) {
         $this->video_id = $id;
     }
 
-    function getVideoID()
-    {
+    function getVideoID() {
         return $this->video_id;
     }
 }

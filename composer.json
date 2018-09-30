@@ -1,30 +1,28 @@
 {
-	"name" : "LastfmTube",
-	"require" : {
-        "php": ">=5.6",
-		"google/apiclient" : ">=2.0",
-		"smarty/smarty" : ">=3.1",
-		"sunra/php-simple-html-dom-parser" : "dev-master",
-        "ext-pdo": "*",
-        "ext-json":"*"
-	},
-	"support" : {
-		"email" : "jonny@rimkus.it",
-		"forum" : "http://www.rimkus.it"
-	},
-
-    "autoload": {
-      "files": [
-          "php/util/bootstrap.php"
-      ],
-      "psr-4": {
-        "LastFmTube\\": "php/",
-        "LastFmTube\\Util\\": "php/util/",
-		"LastFmTube\\Json\\": "php/json/"
-      }
-    },
-
-	"description" : "Lastfm YouTube Radio",
-	"homepage" : "http://lastfm.rimkus.it",
-	"license" : "http://www.wtfpl.net"
+  "name": "LastfmTube",
+  "require": {
+    "php": ">=5.6",
+    "google/apiclient": ">=2.0",
+    "sunra/php-simple-html-dom-parser": "dev-master",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "support": {
+    "email": "jonny@rimkus.it",
+    "forum": "http://www.rimkus.it"
+  },
+  "autoload": {
+    "files": [
+      "php/util/bootstrap.php"
+    ],
+    "psr-4": {
+      "LastFmTube\\": "php/",
+      "LastFmTube\\Util\\": "php/util/",
+      "LastFmTube\\Json\\": "php/json/"
+    }
+  },
+  "description": "Lastfm YouTube Radio",
+  "homepage": "http://lastfm.rimkus.it",
+  "license": "http://www.wtfpl.net"
 }

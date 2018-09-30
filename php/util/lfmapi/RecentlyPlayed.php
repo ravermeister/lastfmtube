@@ -6,30 +6,30 @@ namespace LastFmTube\Util\lfmapi;
 use simplehtmldom_1_5\simple_html_dom;
 
 class RecentlyPlayed {
-    var $page;
-    var $totalpages;
-    var $itemcount;
-    var $items = array ();
+    private $page;
+    private $totalPages;
+    private $itemsPerPage;
+    private $items = array();
 
     /**
      * RecentlyPlayed constructor.
      * @param simple_html_dom $html
-     * @param $invalidStrings
+     * @param                 $invalidStrings
      */
-    function __construct($html, $invalidStrings) {
+    function __construct($html) {
         /**
          * @var simple_html_dom $elem
          */
-        $elem = $html->find ( 'recenttracks ', 0 );
+        $elem = $html->find('recenttracks ', 0);
 
-        $this->page = $elem->page;
-        $this->totalpages = $elem->totalpages;
-        $this->itemcount = $elem->perPage;
+        $this->page         = $elem->page;
+        $this->totalPages   = $elem->totalpages;
+        $this->itemsPerPage = $elem->perPage;
+                   
 
-        $tracks = $html->find ( 'track' );
-        foreach ( $tracks as $track ) {
-            $trackobj = new Track ( $track, $invalidStrings );
-            $this->items [] = $trackobj;
+        $tracks = $html->find('track');
+        foreach ($tracks as $track) { 
+            $this->items [] = Track::fromXML($track);
         }
     }
 
@@ -39,9 +39,9 @@ class RecentlyPlayed {
 
     function getPlayingTrack() {
         $playing = '';
-        for($i = 0; $i < sizeof ( $this->items ); $i ++) {
+        for ($i = 0; $i < sizeof($this->items); $i++) {
             $track = $this->items [$i];
-            if ($track->isPlaying ()) {
+            if ($track->isPlaying()) {
                 $playing = $track;
                 break;
             }
@@ -50,4 +50,7 @@ class RecentlyPlayed {
         return $playing;
     }
 
+    function getTotalPages() {
+        return $this->totalPages;
+    }
 }

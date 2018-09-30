@@ -2,62 +2,117 @@
 
 namespace LastFmTube\Util\lfmapi;
 
+use LastFmTube\Util\Functions;
+use LastFmTube\Util\ytapi\YoutubeSearch;
 use simplehtmldom_1_5\simple_html_dom_node;
 
 class Track {
     /**
      * @var string
      */
-    var $artist;
+    private $artist;
     /**
      * @var string
      */
-    var $title;
+    private $title;
     /**
      * @var string
      */
-    var $album;
+    private $album;
     /**
      * @var bool
      */
-    var $isplaying;
+    private $isplaying;
 
     /**
      * @var string
      */
-    var $dateofplay;
+    private $dateofPlay;
 
     /**
      * Track constructor.
-     * @param simple_html_dom_node $trackxml
-     * @param $invalidNames
+     * @param        $artist
+     * @param        $title
+     * @param        $album
+     * @param string $lastplay
+     * @param bool   $isPlaying
      */
-    function __construct($trackxml, $invalidNames) {
-        $myArtist = $trackxml->children ( 0 )->innertext;
-        $myTitle = $trackxml->children ( 1 )->innertext;
-        $myAlbum = $trackxml->children ( 4 )->innertext;
+    public function __construct($artist, $title, $album = '', $lastplay = '', $isPlaying = false) {
+        $this->artist     = Functions::getInstance()->prepareNeedle($artist);
+        $this->title      = Functions::getInstance()->prepareNeedle($title);
+        $this->album      = Functions::getInstance()->decodeHTML($album);
+        $this->dateofPlay = $lastplay;
+        $this->isPlaying  = $isPlaying;
+    }
 
-        $this->artist = html_entity_decode ( ((array_key_exists ( $myArtist, $invalidNames )) ? $invalidNames [$myArtist] : $myArtist), ENT_QUOTES | ENT_HTML5 );
-        $this->title = html_entity_decode ( ((array_key_exists ( $myTitle, $invalidNames )) ? $invalidNames [$myTitle] : $myTitle), ENT_QUOTES | ENT_HTML5 );
-        $this->album = html_entity_decode ( ((array_key_exists ( $myAlbum, $invalidNames )) ? $invalidNames [$myAlbum] : $myAlbum), ENT_QUOTES | ENT_HTML5 );
+    
+    public static function fromXML($trackxml) {
 
         // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
-        $play_timestamp = 0;
-        if ($trackxml->children ( 10 ) !== null) {
-            $play_timestamp = $trackxml->children ( 10 )->uts;
+
+        if ($trackxml->children(10) !== null) {
+            $timestamp = $trackxml->children(10)->uts;                               
+            
+            if ($timestamp <= 0) {
+                // timestamp 0 means currently playing!
+                $lastplay = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
+                $isPlaying = true;
+            }
+            else {
+                $lastplay = date(
+                    'Y-m-d H:i:s',
+                    $trackxml->children(10)->uts
+                );
+                $isPlaying = false;
+            }
+
+            return new Track(
+                Functions::getInstance()->prepareNeedle($trackxml->children(0)->innertext),
+                Functions::getInstance()->prepareNeedle($trackxml->children(1)->innertext),
+                Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext),
+                $lastplay, $isPlaying
+            );
         }
-        if ($play_timestamp > 0)
-            $this->dateofplay = date ( 'd.m.Y H:i:s', $play_timestamp );
-        else
-            $this->dateofplay = "Jetzt!"; // timestamp 0 means currently playing!
-        $this->isplaying = $trackxml->nowplaying;
+
+        return new Track(
+            Functions::getInstance()->prepareNeedle($trackxml->children(0)->innertext),
+            Functions::getInstance()->prepareNeedle($trackxml->children(1)->innertext),
+            Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext)
+        );
     }
 
     /**
      * @return bool
      */
-    function isPlaying() {
+    public function isPlaying() {
         return $this->isplaying;
     }
 
+    /**
+     * @return string
+     */
+    public function getAlbum() {
+        return $this->album;
+    }
+
+    /**
+     * @return string
+     */
+    public function getArtist() {
+        return $this->artist;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateofPlay() {
+        return $this->dateofPlay;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle() {
+        return $this->title;
+    }
 }
