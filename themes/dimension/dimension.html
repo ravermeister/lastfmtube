@@ -328,7 +328,10 @@
                                         </a>
 
                                         <div style="float: right">
-                                            <span v-show="TRACK.PLAYLIST !== 'search'">{{TRACK.LASTPLAY}}</span>
+                                            <span v-show="TRACK.PLAYLIST !== 'search'">
+                                                <i v-show="TRACK.LASTFM_ISPLAYING === true">{{TRACK.LASTPLAY}}</i>
+                                                <span v-show="TRACK.LASTFM_ISPLAYING !== true">{{TRACK.LASTPLAY}}</span>
+                                            </span>
                                             <span v-show="TRACK.PLAYLIST === 'search'">Video: {{TRACK.VIDEO_ID}}</span>
                                         </div>
 

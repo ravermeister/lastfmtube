@@ -126,6 +126,7 @@ class Functions {
     public function formatDate($date, $srcFormat = 'Y-m-d H:i:s') {
         
         if(strlen(trim($date)) <= 0) return $date;
+         
         
         $newFormat = 'Y-m-d H:i:s';
         $lang = $this->getSettings()['general']['lang'];

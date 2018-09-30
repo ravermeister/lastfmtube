@@ -3,8 +3,6 @@
 namespace LastFmTube\Util\lfmapi;
 
 use LastFmTube\Util\Functions;
-use LastFmTube\Util\ytapi\YoutubeSearch;
-use simplehtmldom_1_5\simple_html_dom_node;
 
 class Track {
     /**
@@ -45,39 +43,40 @@ class Track {
         $this->isPlaying  = $isPlaying;
     }
 
-    
+
     public static function fromXML($trackxml) {
 
         // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
-
+        $isPlaying = false;
         if ($trackxml->children(10) !== null) {
-            $timestamp = $trackxml->children(10)->uts;                               
-            
+            $timestamp = $trackxml->children(10)->uts;
+
+
             if ($timestamp <= 0) {
                 // timestamp 0 means currently playing!
-                $lastplay = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
+                $lastplay  = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
                 $isPlaying = true;
             }
             else {
-                $lastplay = date(
+                $lastplay  = date(
                     'Y-m-d H:i:s',
                     $trackxml->children(10)->uts
                 );
                 $isPlaying = false;
             }
-
-            return new Track(
-                Functions::getInstance()->prepareNeedle($trackxml->children(0)->innertext),
-                Functions::getInstance()->prepareNeedle($trackxml->children(1)->innertext),
-                Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext),
-                $lastplay, $isPlaying
-            );
         }
-
+        else {
+            //no timestamp means currently playing (tested)
+            $lastplay  = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
+            $isPlaying = true;
+        }
+        
         return new Track(
             Functions::getInstance()->prepareNeedle($trackxml->children(0)->innertext),
             Functions::getInstance()->prepareNeedle($trackxml->children(1)->innertext),
-            Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext)
+            Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext),
+            $lastplay,
+            $isPlaying
         );
     }
 
@@ -85,7 +84,7 @@ class Track {
      * @return bool
      */
     public function isPlaying() {
-        return $this->isplaying;
+        return  $this->isPlaying;
     }
 
     /**

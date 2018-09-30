@@ -214,6 +214,7 @@ class LibvuePlaylist {
                     ARTIST: '',
                     TITLE: '',
                     LASTPLAY: '',
+                    LASTFM_ISPLAYING: false,
                     VIDEO_ID: '',
                     PLAY_CONTROL: '',
                     PLAYLIST: '',
@@ -312,7 +313,6 @@ class LibvuePlaylist {
 
                         this.$data.TRACKS = newTracks;
                     }
-
                 },
 
                 trackInfo: function (track) {

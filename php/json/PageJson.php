@@ -17,6 +17,7 @@ class PageJson extends DefaultJson {
     private $settings;
     private $locale;
     private $lfmapi;
+    private $funcs;
 
     public function __construct($api = 'page') {
         parent::__construct($api);
@@ -24,9 +25,11 @@ class PageJson extends DefaultJson {
         $funcs = Functions::getInstance();
         $funcs->startSession();
 
+        $this->funcs    = $funcs;
         $this->settings = $funcs->getSettings();
         $this->locale   = $funcs->getLocale();
         $this->lfmapi   = $funcs->getLfmApi();
+        $this->db       = DB::getInstance();
     }
 
     public function get($getvars) {
@@ -97,7 +100,7 @@ class PageJson extends DefaultJson {
     }
 
     private function getBaseMenu() {
-        $menu       = self::getPlaylistMenu();
+        $menu       = $this->getPlaylistMenu();
         $basemenu   = array();
         $basemenu[] = $menu['YTPLAYER'];
         $basemenu[] = $menu['LASTFM'];
@@ -148,7 +151,6 @@ class PageJson extends DefaultJson {
     }
 
     private function getPlaylist($user = false, $pageNum = 1) {
-        Functions::getInstance()->startSession();
 
         if ($this->isValidUser($user)) {
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
@@ -169,7 +171,6 @@ class PageJson extends DefaultJson {
         $playlist  = $this->lfmapi->getRecentlyPlayed($pageNum, $maxpages);
         $tracks    = $playlist->getTracks();
         $pageStart = (($pageNum - 1) * $maxpages);
-        $db        = DB::getInstance();
 
         $page = array(
 
@@ -202,25 +203,27 @@ class PageJson extends DefaultJson {
             )
         );
 
+        $page['TRACKS'] = array();
         for ($cnt = 0; $cnt < sizeof($tracks); $cnt++) {
             /**
              * @var Track
              */
             $track   = $tracks[$cnt];
-            $videoId = $db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
+            $videoId = $this->db->getEnvVar($track->getArtist() . ' ' . $track->getTitle());
 
             $page['TRACKS'][] = array(
-                'NR'           => ($pageStart + $cnt + 1),
-                'ARTIST'       => $track->getArtist(),
-                'TITLE'        => $track->getTitle(),
-                'LASTPLAY'     => $track->isPlaying() ?
+                'NR'               => ($pageStart + $cnt + 1),
+                'ARTIST'           => $track->getArtist(),
+                'TITLE'            => $track->getTitle(),
+                'LASTPLAY'         => $track->isPlaying() ?
                     $this->locale['playlist.lastplay.now'] :
-                    Functions::getInstance()->formatDate($track->getDateofPlay()),
-                'VIDEO_ID'     => $videoId,
-                'PLAY_CONTROL' => false,
-                'PLAYLIST'     => 'lastfm',
-                'PLAYSTATE'    => ''
-            );
+                    $this->funcs->formatDate($track->getDateofPlay()),
+                'LASTFM_ISPLAYING' => $track->isPlaying(),
+                'VIDEO_ID'         => $videoId,
+                'PLAY_CONTROL'     => false,
+                'PLAYLIST'         => 'lastfm',
+                'PLAYSTATE'        => ''
+            );            
         }
         //playlist content
 
@@ -236,7 +239,6 @@ class PageJson extends DefaultJson {
     }
 
     private function getTopUser($pageNum = 1, $user = false, $lastplay = '1970-01-01 00:00:00') {
-        Functions::getInstance()->startSession();
 
         if ($user !== false) {
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
@@ -245,13 +247,11 @@ class PageJson extends DefaultJson {
             }
         }
 
-        $user   = $_SESSION ['music'] ['lastfm_user'];
-        $db     = DB::getInstance();
         $limit  = $this->settings['general']['tracks_perpage'];
         $offset = ($pageNum - 1) * $limit;
 
-        $topuser  = Db::getInstance()->query('SELECT_ALL_LASTFM_USER', $limit, $offset);
-        $maxpages = Db::getInstance()->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
+        $topuser  = $this->db->query('SELECT_ALL_LASTFM_USER', $limit, $offset);
+        $maxpages = $this->db->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
         $maxpages = ((int)($maxpages / $limit));
 
         if (($maxpages % $limit) > 0) $maxpages++;
@@ -266,7 +266,7 @@ class PageJson extends DefaultJson {
             ),
 
 
-            'HEADER_MENU' => self::getPlaylistMenu(),
+            'HEADER_MENU' => $this->getPlaylistMenu(),
 
             'LIST_MENU' => array(
                 'MAX_PAGES' => $maxpages,
@@ -282,13 +282,14 @@ class PageJson extends DefaultJson {
             )
         );
 
+        $page['USER'] = array();
         for ($cnt = 0; $cnt < sizeof($topuser); $cnt++) {
             $user = $topuser[$cnt];
 
             $page['USER'][] = array(
                 'NR'           => ($offset + $cnt + 1),
                 'NAME'         => $user['lastfm_user'],
-                'LASTPLAY'     => Functions::getInstance()->formatDate($user['last_played']),
+                'LASTPLAY'     => $this->funcs->formatDate($user['last_played']),
                 'PLAYCOUNT'    => $user['playcount'],
                 'PLAY_CONTROL' => '',
             );
@@ -299,11 +300,11 @@ class PageJson extends DefaultJson {
 
     private function getTopSongs($pageNum = 1) {
 
-        $db       = DB::getInstance();
+
         $limit    = $this->settings['general']['tracks_perpage'];
         $offset   = ($pageNum - 1) * $limit;
-        $topsongs = Db::getInstance()->query('SELECT_CHARTS', $limit, $offset);
-        $maxpages = Db::getInstance()->query('SELECT_CHARTS_NUM_ROWS');
+        $topsongs = $this->db->query('SELECT_CHARTS', $limit, $offset);
+        $maxpages = $this->db->query('SELECT_CHARTS_NUM_ROWS');
         $maxpages = ((int)($maxpages / $limit));
         if (($maxpages % $limit) > 0) $maxpages++;
 
@@ -317,7 +318,7 @@ class PageJson extends DefaultJson {
             ),
 
 
-            'HEADER_MENU' => self::getPlaylistMenu(),
+            'HEADER_MENU' => $this->getPlaylistMenu(),
 
             'LIST_MENU' => array(
                 'MAX_PAGES' => $maxpages,
@@ -338,23 +339,26 @@ class PageJson extends DefaultJson {
         $page['TRACKS'] = array();
         for ($cnt = 0; $cnt < sizeof($topsongs); $cnt++) {
             $track              = $topsongs[$cnt];
-            $track['interpret'] = Functions::getInstance()->prepareNeedle($track['interpret']);
-            $track['title']     = Functions::getInstance()->prepareNeedle($track['title']);
-            $videoId            = $db->getEnvVar($track['interpret'] . ' ' . $track['title']);
+            $track['interpret'] = $this->funcs->prepareNeedle($track['interpret']);
+            $track['title']     = $this->funcs->prepareNeedle($track['title']);
+            $videoId            = $this->db->getEnvVar($track['interpret'] . ' ' . $track['title']);
 
             $page['TRACKS'][] = array(
-                'NR'           => ($offset + $cnt + 1),
-                'ARTIST'       => $track['interpret'],
-                'TITLE'        => $track['title'],
-                'LASTPLAY'     => Functions::getInstance()->formatDate($track['lastplay_time']),
-                'PLAYCOUNT'    => $track['playcount'],
-                'VIDEO_ID'     => $videoId,
-                'PLAY_CONTROL' => false,
-                'PLAYLIST'     => 'topsongs',
-                'PLAYSTATE'    => ''
+                'NR'               => ($offset + $cnt + 1),
+                'ARTIST'           => $track['interpret'],
+                'TITLE'            => $track['title'],
+                'LASTPLAY'         => $track->isPlaying() ?
+                    $this->locale['playlist.lastplay.now'] :
+                    $this->funcs->formatDate($track->getDateofPlay()),
+                'LASTFM_ISPLAYING' => $track->isPlaying(),
+                'PLAYCOUNT'        => $track['playcount'],
+                'VIDEO_ID'         => $videoId,
+                'PLAY_CONTROL'     => false,
+                'PLAYLIST'         => 'topsongs',
+                'PLAYSTATE'        => ''
             );
         }
-
+        
         return $page;
     }
 
