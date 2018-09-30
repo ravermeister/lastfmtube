@@ -223,7 +223,7 @@ class PageJson extends DefaultJson {
                 'PLAY_CONTROL'     => false,
                 'PLAYLIST'         => 'lastfm',
                 'PLAYSTATE'        => ''
-            );            
+            );
         }
         //playlist content
 
@@ -347,10 +347,8 @@ class PageJson extends DefaultJson {
                 'NR'               => ($offset + $cnt + 1),
                 'ARTIST'           => $track['interpret'],
                 'TITLE'            => $track['title'],
-                'LASTPLAY'         => $track->isPlaying() ?
-                    $this->locale['playlist.lastplay.now'] :
-                    $this->funcs->formatDate($track->getDateofPlay()),
-                'LASTFM_ISPLAYING' => $track->isPlaying(),
+                'LASTPLAY'         => Functions::getInstance()->formatDate($track['lastplay_time']),
+                'LASTFM_ISPLAYING' => false,
                 'PLAYCOUNT'        => $track['playcount'],
                 'VIDEO_ID'         => $videoId,
                 'PLAY_CONTROL'     => false,
@@ -358,7 +356,7 @@ class PageJson extends DefaultJson {
                 'PLAYSTATE'        => ''
             );
         }
-        
+
         return $page;
     }
 
