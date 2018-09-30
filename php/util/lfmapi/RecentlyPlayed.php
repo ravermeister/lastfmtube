@@ -39,7 +39,6 @@ class RecentlyPlayed {
                 array_splice($this->items, 0, 1);
             } 
         }
-        if($this->page > 1) Functions::getInstance()->logMessage('playlist size: ' . sizeof($tracks));
     }
 
     function getTracks() {

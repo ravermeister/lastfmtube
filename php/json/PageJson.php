@@ -226,7 +226,6 @@ class PageJson extends DefaultJson {
             );
         }
         //playlist content
-        if($pageNum > 1) Functions::getInstance()->logMessage(print_r($page['TRACKS'][0], true));
         return $page;
     }
 
