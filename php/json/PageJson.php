@@ -167,12 +167,13 @@ class PageJson extends DefaultJson {
         if ($pageNum === false || $pageNum < 1) $pageNum = 1;
 
 
-        $maxpages  = $this->settings['general']['tracks_perpage'];
-        $playlist  = $this->lfmapi->getRecentlyPlayed($pageNum, $maxpages);
-        $tracks    = $playlist->getTracks();
-        $pageStart = (($pageNum - 1) * $maxpages);
-        
-        $page = array(
+        $tracksPerpage = $this->settings['general']['tracks_perpage'];
+        $playlist      = $this->lfmapi->getRecentlyPlayed($pageNum, $tracksPerpage);
+        $tracks        = $playlist->getTracks();
+        $pageStart     = (($pageNum - 1) * $tracksPerpage);
+        $maxpages      = $playlist->getTotalPages();
+        $maxpages      = $maxpages <= 0 ? 1 : $maxpages;
+        $page          = array(
 
             'HEADER' => array(
                 'TEXT'       => $this->locale['playlist.title'],
@@ -242,19 +243,23 @@ class PageJson extends DefaultJson {
         if ($user !== false) {
             if (strcmp($_SESSION ['music'] ['lastfm_user'], $user) != 0) {
                 $_SESSION ['music'] ['lastfm_user'] = $user;
-                $pageNum                            = false;
+                $pageNum                            = 1;
             }
         }
 
         $limit  = $this->settings['general']['tracks_perpage'];
         $offset = ($pageNum - 1) * $limit;
 
-        $topuser  = $this->db->query('SELECT_ALL_LASTFM_USER', $limit, $offset);
+        $topuser  = $this->db->query('SELECT_ALL_LASTFM_USER',
+                                     array(
+                                         'limit'  => $limit,
+                                         'offset' => $offset
+                                     )
+        );
         $maxpages = $this->db->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
         $maxpages = ((int)($maxpages / $limit));
 
-        if (($maxpages % $limit) > 0) $maxpages++;
-        if ($maxpages <= 0) $maxpages = 1;
+        if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages++;
 
         $page = array(
 
@@ -302,10 +307,15 @@ class PageJson extends DefaultJson {
 
         $limit    = $this->settings['general']['tracks_perpage'];
         $offset   = ($pageNum - 1) * $limit;
-        $topsongs = $this->db->query('SELECT_CHARTS', $limit, $offset);
+        $topsongs = $this->db->query('SELECT_CHARTS',
+                                     array(
+                                         'limit'  => $limit,
+                                         'offset' => $offset
+                                     )
+        );
         $maxpages = $this->db->query('SELECT_CHARTS_NUM_ROWS');
         $maxpages = ((int)($maxpages / $limit));
-        if (($maxpages % $limit) > 0) $maxpages++;
+        if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages++;
 
         $page = array(
 
@@ -338,8 +348,8 @@ class PageJson extends DefaultJson {
         $page['TRACKS'] = array();
         for ($cnt = 0; $cnt < sizeof($topsongs); $cnt++) {
             $track              = $topsongs[$cnt];
-            $track['interpret'] = $this->funcs->prepareNeedle($track['interpret']);
-            $track['title']     = $this->funcs->prepareNeedle($track['title']);
+            $track['interpret'] = $this->funcs->decodeHTML($track['interpret']);
+            $track['title']     = $this->funcs->decodeHTML($track['title']);
             $videoId            = $this->db->getEnvVar($track['interpret'] . ' ' . $track['title']);
 
             $page['TRACKS'][] = array(

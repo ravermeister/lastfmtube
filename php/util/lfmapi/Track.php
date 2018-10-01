@@ -36,8 +36,8 @@ class Track {
      * @param bool   $isPlaying
      */
     public function __construct($artist, $title, $album = '', $lastplay = '', $isPlaying = false) {
-        $this->artist     = Functions::getInstance()->prepareNeedle($artist);
-        $this->title      = Functions::getInstance()->prepareNeedle($title);
+        $this->artist     = Functions::getInstance()->decodeHTML($artist);
+        $this->title      = Functions::getInstance()->decodeHTML($title);
         $this->album      = Functions::getInstance()->decodeHTML($album);
         $this->dateofPlay = $lastplay;
         $this->isPlaying  = $isPlaying;
@@ -72,8 +72,8 @@ class Track {
         }
         
         return new Track(
-            Functions::getInstance()->prepareNeedle($trackxml->children(0)->innertext),
-            Functions::getInstance()->prepareNeedle($trackxml->children(1)->innertext),
+            Functions::getInstance()->decodeHTML($trackxml->children(0)->innertext),
+            Functions::getInstance()->decodeHTML($trackxml->children(1)->innertext),
             Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext),
             $lastplay,
             $isPlaying

@@ -21,7 +21,7 @@ class EnvVarsJson extends DefaultJson {
         if (!isset ($getvars ['name'])) {
             return $this->jsonError('missing required parameters');
         }
-        $key   = Functions::getInstance()->prepareNeedle($getvars['name']);
+        $key   = Functions::getInstance()->decodeHTML($getvars['name']);
         $value = Db::getInstance()->getEnvVar($key);
         return $this->jsonData($this->createJSONData($key, $value));
     }
@@ -66,7 +66,7 @@ class EnvVarsJson extends DefaultJson {
         $title  = $postvars['title'];
         $video  = $postvars['videoId'];
 
-        $key   = Functions::getInstance()->prepareNeedle($artist . ' ' . $title);
+        $key   = Functions::getInstance()->decodeHTML($artist . ' ' . $title);
         $value = html_entity_decode($video);
 
         Db::getInstance()->setEnvVar($key, $value);
@@ -78,15 +78,16 @@ class EnvVarsJson extends DefaultJson {
         $artist = $postvars['artist'];
         $title  = $postvars['title'];
 
-        $key = Functions::getInstance()->prepareNeedle($artist . ' ' . $title);
+        $key = Functions::getInstance()->decodeHTML($artist . ' ' . $title);
         Db::getInstance()->delEnvVar($key);
 
         return $this->jsonData($this->createJSONData($key));
     }
 
     private function saveChartTrack($postvars) {
-        $track{'artist'} = filter_var($postvars['artist'], FILTER_SANITIZE_STRING);
-        $track['title']  = filter_var($postvars['title'], FILTER_SANITIZE_STRING);
+        
+        $track{'artist'} = Functions::getInstance()->decodeHTML($postvars['artist']);
+        $track['title'] = Functions::getInstance()->decodeHTML($postvars['title']);
         
         if(strlen(trim($track['title'])) === 0 && strlen(trim($track['artist'])) === 0) {            
             return $this->jsonData('missing required parameters'.print_r($postvars, true));
@@ -100,7 +101,7 @@ class EnvVarsJson extends DefaultJson {
     }
 
     private function saveUserChart($postvars) {
-        $username = filter_var($postvars['LASTFM_USER'], FILTER_SANITIZE_STRING);
+        $username = Functions::getInstance()->decodeHTML($postvars['LASTFM_USER']);
 
         $data['username'] = $username;
         if (strlen(trim($username)) <= 0) {
@@ -122,7 +123,7 @@ class EnvVarsJson extends DefaultJson {
         if (!isset ($getvars ['name'])) {
             return $this->jsonError('variable name for deletion');
         }
-        $key = Functions::getInstance()->prepareNeedle($getvars['name']);
+        $key = Functions::getInstance()->decodeHTML($getvars['name']);
 
         $deleted = '0';
         $deleted = Db::getInstance()->delEnvVar($key);

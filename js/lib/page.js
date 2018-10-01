@@ -179,9 +179,8 @@ class PageController {
                 name: 'video-container'
             }
         };
-        
+
         PageController.TRACKS_PER_PAGE = 25; //in settings.ini
-        PageController.PLAYCOUNT_UP = '▴';
         PageController.icons = PageController.initIcons();
 
         this.isReady = false;
@@ -451,12 +450,12 @@ class PageController {
     }
 
     setCurrentPlaylist(playlist = null) {
-        
+
         if (playlist === this.PLAYLIST) return;
 
         this.PLAYLIST = playlist;
 
-        
+
         $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
@@ -564,8 +563,7 @@ class PageController {
                     user.LASTPLAY = json.data.value.lastplay;
 
                     let diff = parseInt(user.NR) - parseInt(json.data.value.nr);
-                    user.PLAYCOUNT_CHANGE = diff > 0 ?
-                        diff + PageController.PLAYCOUNT_UP : PageController.PLAYCOUNT_UP;
+                    user.PLAYCOUNT_CHANGE = diff;
                 }
             }
 
@@ -599,20 +597,40 @@ class PageController {
                 title: needle.title
             }
         }).done(function (json) {
+            let isTopSongPlaylist = $page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs';
+            if( isTopSongPlaylist &&
+                $page.myVues.playlist.menu.$data.CUR_PAGE === $page.myVues.playlist.menu.$data.MAX_PAGES &&    
+                json.data.value.playcount === 1) {
+                if($page.myVues.playlist.content.$data.TRACKS.length >= PageController.TRACKS_PER_PAGE) {
+                    $page.myVues.playlist.menu.$data.MAX_PAGES = $page.myVues.playlist.menu.$data.MAX_PAGES + 1;
+                } else {
+                    $page.myVues.playlist.menu.content.$data.TRACKS.push({
+                        NR: json.data.value.nr,
+                        TITLE: json.data.value.title,
+                        ARTIST: json.data.value.artist,
+                        PLAYCOUNT: json.data.value.playcount,
+                        LASTPLAY: json.data.value.lastplay,
+                        PLAYCOUNT_CHANGE: 0
+                    });
+                }
+                return;
+            }
 
             for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
                 let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
+
                 if (
                     track.ARTIST === json.data.value.artist &&
                     track.TITLE === json.data.value.title
                 ) {
+                    console.log('aber hier...',isTopSongPlaylist);
                     track.LASTPLAY = json.data.value.lastplay;
-                    if ($page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs') {
+                    if (isTopSongPlaylist) {
                         track.PLAYCOUNT = json.data.value.playcount;
-
+                        console.log(json.data.value.nr, '<>', track.NR);
                         let diff = parseInt(track.NR) - parseInt(json.data.value.nr);
-                        track.PLAYCOUNT_CHANGE = diff > 0 ?
-                            diff + PageController.PLAYCOUNT_UP : PageController.PLAYCOUNT_UP;
+                        track.PLAYCOUNT_CHANGE = diff;
+                        console.log(track.PLAYCOUNT_CHANGE);
                     }
                 }
             }
@@ -698,7 +716,7 @@ class PageController {
             }
             $playlist.setUserTracks(userTracks);
             if ($page.PLAYLIST === 'userlist') {
-                if(curTrack!==null) {
+                if (curTrack !== null) {
                     curTrack.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
                     curTrack.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
                     $player.currentTrackData.track = curTrack;

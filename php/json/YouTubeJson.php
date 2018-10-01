@@ -56,7 +56,7 @@ class YouTubeJson extends DefaultJson {
             $size = YouTubeJson::MAX_YT_SEARCH_SIZE;
         }
 
-        $needle   = Functions::getInstance()->prepareNeedle($needle);
+        $needle   = Functions::getInstance()->decodeHTML($needle);
         $searcher = Functions::getInstance()->getYtApi();
         $searcher->setNeedle($needle);
 

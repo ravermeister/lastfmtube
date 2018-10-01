@@ -13,8 +13,6 @@ class Functions {
     private        $basedir         = false;
     private        $settings        = false;
     private        $settingsFile    = false;
-    private        $replacements    = false;
-    private        $replacementFile = false;
     private        $lfmapi          = null;
     private        $ytapi           = null;
     private        $locale          = null;
@@ -25,7 +23,6 @@ class Functions {
         $this->basedir      = dirname(__FILE__) . '/../..';
         $this->initSettings();
         $this->initLocale();
-        $this->initReplacements();
         $this->initInstances();
     }
 
@@ -55,22 +52,6 @@ class Functions {
             $this->locale = parse_ini_file($defLangFile);
         }
 
-    }
-
-    private function initReplacements($force = false) {
-        if (!$force && is_array($this->replacements)) return;
-
-        if ($this->replacementFile === false) $this->replacementFile = $this->basedir . '/conf/replace_strings.txt';
-        $lines = file($this->replacementFile);
-        if ($lines === false) throw new exception('Unable to open ' . $this->replacementFile . '.');
-
-        foreach ($lines as $line) {
-            if (substr(trim($line), 0, 1) === "#") continue;
-            $line  = str_replace(array("\r", "\n", "\r\n"), "", $line);
-            $entry = explode("=", $line, 2);
-            if (sizeof($entry) < 2) $entry[1] = '';
-            $this->replacements [$entry [0]] = $entry [1];
-        }
     }
 
     private function initInstances() {
@@ -226,16 +207,6 @@ class Functions {
         return ($text);
     }
 
-    public function prepareNeedle($needle) {
-        self::getInstance()->initReplacements();
-        $needle = $this->decodeHTML($needle);
-        if (is_array($this->replacements)) {
-            foreach ($this->replacements as $key => $value) {
-                $needle = str_replace($key, $value, $needle);
-            }
-        }
-        return $needle;
-    }
 
     public function decodeHTML($val) {
         return html_entity_decode(strip_tags($val), ENT_QUOTES | ENT_HTML5);
