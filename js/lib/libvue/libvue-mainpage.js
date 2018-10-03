@@ -24,62 +24,30 @@ class LibvueMainpage {
                 TEXT: '',
                 MENUS: [{
                     NAME: '',
-                    PLAYLIST: '',
-                    PAGE: '',
+                    LDATA: '',
+                    PAGE: ''
                 }]
             },
-            
+
             methods: {
-                
-                loadMenu(menu, event) {                        
+
+                loadMenu(menu, event) {
                     //if (!$player.isReady) return;
-
-                    let isPlayList = typeof menu.PLAYLIST !== 'undefined';
-                    let playlistLoaded = function (success) {
-                        if(isPlayList) {
-                            $page.setCurrentPlaylist(menu.PLAYLIST);
-                            $page.setMainPageLoading();
-                            location.href='#' + menu.PLAYLIST;                            
-                        } else {
-                            $page.setMainPageLoading();
-                            location.href='#' + menu.PAGE;
-                        }                         
-                    };
-                    
-                    $page.setMainPageLoading(true);                    
-                    if(isPlayList) {
-                        let article = $('article[name=playlist-container]');
-                        $(article).attr('id', menu.PLAYLIST);
-                        
-                        if(!$page.isCurrentPlaylist()) {
-                            let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
-                            if(typeof lfmuser === 'undefined' || lfmuser === null) {
-                                try {
-                                    lfmuser = $(article).find('#playlist_lastfmuser').val();
-                                }catch (e) {}
-                            }
-
-                            $playlist.loadPlaylistPage(1, lfmuser, playlistLoaded, menu.PLAYLIST);
-                            return;
-                        }                        
-                    }
-
-                    playlistLoaded(true);                    
-                },
+                    $page.load(menu.PAGE, menu.LDATA);
+                }
             }
         });
     }
 
 
     update(json) {
-
-        if ('undefined' !== typeof json) {
-            this.content.$data.PAGE_HEADER = json.TITLE;
-            this.content.$data.PAGE_WELCOME = json.TEXT;
+        if ('undefined' !== typeof json.content) {
+            this.content.$data.PAGE_HEADER = json.content.TITLE;
+            this.content.$data.PAGE_WELCOME = json.content.TEXT;
         }
 
-        if ('undefined' !== typeof json.MENU) {
-            this.menu.$data.MENUS = json.MENU;
+        if ('undefined' !== typeof json.basemenu) {
+            this.menu.$data.MENUS = json.basemenu;
         }
     }
 }

@@ -373,7 +373,7 @@ class PlayerController {
             if ((curPage + 1) > maxPages) curPage = 1;
             else curPage++;
 
-            $playlist.loadPlaylistPage(curPage, user, function (success) {
+            $playlist.loadList(curPage, user, function (success) {
                 try {
                     if (!success) return;
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
@@ -408,7 +408,7 @@ class PlayerController {
             if ((curPage - 1) > maxPages) curPage = maxPages;
             else curPage--;
 
-            $playlist.loadPlaylistPage(user, curPage, 'default', function (success) {
+            $playlist.loadList(user, curPage, 'default', function (success) {
                 if (!success) return;
 
                 let tracks = $page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
@@ -502,7 +502,7 @@ class PlayerController {
         }
 
         let request =
-            'php/json/JsonHandler.php?api=videos&data=search' +
+            'php/json/page/Youtube.php?action=search' +
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
             PlaylistController.loadSearchResult(needle, json, 1, callBack);

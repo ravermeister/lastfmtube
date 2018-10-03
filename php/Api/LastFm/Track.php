@@ -1,6 +1,6 @@
 <?php
 
-namespace LastFmTube\Util\lfmapi;
+namespace LastFmTube\Api\LastFm;
 
 use LastFmTube\Util\Functions;
 
@@ -9,6 +9,7 @@ class Track {
      * @var string
      */
     private $artist;
+
     /**
      * @var string
      */
@@ -36,9 +37,10 @@ class Track {
      * @param bool   $isPlaying
      */
     public function __construct($artist, $title, $album = '', $lastplay = '', $isPlaying = false) {
-        $this->artist     = Functions::getInstance()->decodeHTML($artist);
-        $this->title      = Functions::getInstance()->decodeHTML($title);
-        $this->album      = Functions::getInstance()->decodeHTML($album);
+        $this->artist        = $artist;
+        $this->title         = $title;
+        $this->album         = $album;
+
         $this->dateofPlay = $lastplay;
         $this->isPlaying  = $isPlaying;
     }
@@ -70,7 +72,7 @@ class Track {
             $lastplay  = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
             $isPlaying = true;
         }
-        
+
         return new Track(
             Functions::getInstance()->decodeHTML($trackxml->children(0)->innertext),
             Functions::getInstance()->decodeHTML($trackxml->children(1)->innertext),
@@ -84,7 +86,7 @@ class Track {
      * @return bool
      */
     public function isPlaying() {
-        return  $this->isPlaying;
+        return $this->isPlaying;
     }
 
     /**
@@ -100,6 +102,10 @@ class Track {
     public function getArtist() {
         return $this->artist;
     }
+    
+    public function setArtist($artist){
+        $this->artist = $artist;
+    }
 
     /**
      * @return string
@@ -108,10 +114,15 @@ class Track {
         return $this->dateofPlay;
     }
 
+
     /**
      * @return string
      */
     public function getTitle() {
         return $this->title;
+    }
+    
+    public function setTitle($title) {
+        $this->title = $title;
     }
 }

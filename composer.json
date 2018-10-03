@@ -13,13 +13,12 @@
     "forum": "http://www.rimkus.it"
   },
   "autoload": {
-    "files": [
-      "php/util/bootstrap.php"
-    ],
+  
     "psr-4": {
       "LastFmTube\\": "php/",
-      "LastFmTube\\Util\\": "php/util/",
-      "LastFmTube\\Json\\": "php/json/"
+      "\\Api\\": "php/api",
+      "\\Util\\": "php/util/",
+      "\\Json\\": "php/json/"
     }
   },
   "description": "Lastfm YouTube Radio",

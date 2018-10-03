@@ -1,8 +1,8 @@
 <?php
 
-namespace LastFmTube\Util\ytapi;
+namespace LastFmTube\Api\YouTube;
 
-class YoutubeVideo {
+class YouTubeVideo {
     var $video_id;
     var $title;
 
@@ -18,7 +18,7 @@ class YoutubeVideo {
         $this->video_id = $id;
     }
 
-    function getVideoID() {
+    function getVideoId() {
         return $this->video_id;
     }
 }

@@ -11,11 +11,11 @@ namespace LastFmTube\Json;
 
 interface JsonInterface {
 
-    public function get($getvars);
+    public function get();
 
-    public function delete($getvars);
+    public function delete();
 
-    public function post($getvars, $postvars);
+    public function post();
 
-    public function put($getvrs, $jsonvars);
+    public function put();
 }

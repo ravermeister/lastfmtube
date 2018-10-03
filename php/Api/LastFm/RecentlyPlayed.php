@@ -1,9 +1,7 @@
 <?php
 
-namespace LastFmTube\Util\lfmapi;
+namespace LastFmTube\Api\LastFm;
 
-
-use LastFmTube\Util\Functions;
 use simplehtmldom_1_5\simple_html_dom;
 
 class RecentlyPlayed {
@@ -26,18 +24,18 @@ class RecentlyPlayed {
         $this->page         = $elem->page;
         $this->totalPages   = $elem->totalpages;
         $this->itemsPerPage = $elem->perPage;
-                   
-
+        
         $tracks = $html->find('track');
-        foreach ($tracks as $track) { 
+        foreach ($tracks as $track) {
             $this->items [] = Track::fromXML($track);
         }
-        if($this->page > 1 && sizeof($this->items) > $this->itemsPerPage) {
+
+        if ($this->page > 1 && sizeof($this->items) > $this->itemsPerPage) {
             //last.fm sends now playing track always...
             //we want it only on page 1
-            if($this->items[0]->isPlaying()) {
+            if ($this->items[0]->isPlaying()) {
                 array_splice($this->items, 0, 1);
-            } 
+            }
         }
     }
 

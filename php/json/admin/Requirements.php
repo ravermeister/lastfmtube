@@ -11,7 +11,7 @@ namespace LastFmTube\Json;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
-class RequirementsJson extends DefaultJson {
+class Requirements extends DefaultJson {
 
     public function __construct() {
         parent::__construct('requirements');

@@ -11,18 +11,16 @@ class LibvueVideo {
                 CURRENT_TRACK: null,
                 SEARCH_TRACK: null,
                 LOADING: false,
-                TEXT: ''
             },
             computed: {
-                MENU: function () {
+                
+                TEXT: function () {
                     let playlist = PageController.article.playlist.name;
                     if(this.CURRENT_TRACK !== null) playlist =  this.CURRENT_TRACK.PLAYLIST;
                     else if(this.PLAYLIST !== null) playlist =  this.PLAYLIST;
-                    return {
-                        PLAYLIST: playlist
-                    };
-                }, 
-                
+                    return $page.menu.getMenuItem(playlist).TEXT;                    
+                },
+            
                 LOGO: function () {
                     let playlist = PageController.article.playlist.name;
                     if(this.CURRENT_TRACK !== null) playlist =  this.CURRENT_TRACK.PLAYLIST;
@@ -39,8 +37,8 @@ class LibvueVideo {
                     this.$applyData(json);
                 },
                 
-                loadMenu: function (menu, event) {
-                    if(menu.PLAYLIST === 'search') {
+                loadMenu: function (playlist, event) {
+                    if(playlist === 'search') {
                         let vue = this;
                         this.$data.LOADING = true;
                         let callbak = function(success) {                            
@@ -50,7 +48,8 @@ class LibvueVideo {
                         $player.searchSong(this.$data.SEARCH_TRACK, callbak);
                         return;
                     }
-                   
+                    
+                    let menu = $page.menu.getMenuItem(playlist);
                     this.$loadListMenu(menu, event);
                 }
             }
@@ -83,7 +82,7 @@ class LibvueVideo {
                 addToUserList: function () {
                     $playlist.addUserTrack($player.currentTrackData.track);
                     if ($page.PLAYLIST === 'userlist') {
-                        $playlist.loadUserPlayListPage($page.myVues.playlist.menu.$data.CUR_PAGE);
+                        $playlist.loadCustomerList($page.myVues.playlist.menu.$data.CUR_PAGE);
                     }
                 },
                 search: function (event) {

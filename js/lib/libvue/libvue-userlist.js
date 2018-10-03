@@ -58,10 +58,10 @@ class LibvueUser {
                 USER_LASTPLAY: 'Last Played',
 
                 USER: [{
-                    NR: '1',
-                    NAME: 'Ravermeister',
+                    NR: '',
+                    NAME: '',
                     LASTPLAY: '',
-                    PLAYCOUNT: '1',
+                    PLAYCOUNT: '',
                     PLAY_CONTROL: '',
                     PLAYCOUNT_CHANGE: ''
                 }]
@@ -96,7 +96,7 @@ class LibvueUser {
                     
                     user.PLAY_CONTROL = 'loading';
                     $page.myVues.userlist.header.title.$data.LOADING = true;
-                    $playlist.loadPlaylistPage(1, user.NAME, openurl, 'lastfm');
+                    $playlist.loadList(1, user.NAME, openurl, 'lastfm');
                 }
             }
         });

@@ -26,6 +26,13 @@ class Menu {
             PAGE: 'video'
         };
 
+        this.search = {
+            LOGO: icons.search.big,
+            TEXT: 'Search',
+            PAGE: 'playlist',
+            LDATA: 'search'
+        };
+        
         this.lastfm = {
             LOGO: icons.headphones.big,
             TEXT: 'Last.fm',
@@ -61,30 +68,51 @@ class Menu {
     }
 
     updateData(json) {
-        if ('undefined' === typeof json) return;
-
-        if ('undefined' !== typeof json.HEADER_MENU) json = json.HEADER_MENU;
+        if ('undefined' !== typeof json.listmenu) json = json.listmenu;
 
         if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
         if ('undefined' !== typeof json.YTPLAYER.PAGE) this.youtube.PAGE = json.YTPLAYER.PAGE;
-        if ('undefined' !== typeof json.YTPLAYER.PLAYLIST) this.youtube.PLAYLIST = json.YTPLAYER.PLAYLIST;
+        if ('undefined' !== typeof json.YTPLAYER.LDATA) this.youtube.LDATA = json.YTPLAYER.LDATA;
 
         if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
         if ('undefined' !== typeof json.LASTFM.PAGE) this.lastfm.PAGE = json.LASTFM.PAGE;
-        if ('undefined' !== typeof json.LASTFM.PLAYLIST) this.lastfm.PLAYLIST = json.LASTFM.PLAYLIST;
+        if ('undefined' !== typeof json.LASTFM.LDATA) this.lastfm.LDATA = json.LASTFM.LDATA;
 
         if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
         if ('undefined' !== typeof json.USERLIST.PAGE) this.userlist.PAGE = json.USERLIST.PAGE;
-        if ('undefined' !== typeof json.USERLIST.PLAYLIST) this.userlist.PLAYLIST = json.USERLIST.PLAYLIST;
+        if ('undefined' !== typeof json.USERLIST.LDATA) this.userlist.LDATA = json.USERLIST.LDATA;
 
         if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
         if ('undefined' !== typeof json.TOPSONGS.PAGE) this.topsongs.PAGE = json.TOPSONGS.PAGE;
-        if ('undefined' !== typeof json.TOPSONGS.PLAYLIST) this.topsongs.PLAYLIST = json.TOPSONGS.PLAYLIST;
+        if ('undefined' !== typeof json.TOPSONGS.LDATA) this.topsongs.LDATA = json.TOPSONGS.LDATA;
 
         if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
         if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;
-        if ('undefined' !== typeof json.TOPUSER.PLAYLIST) this.topuser.PLAYLIST = json.TOPUSER.PLAYLIST;
+        if ('undefined' !== typeof json.TOPUSER.LDATA) this.topuser.LDATA = json.TOPUSER.LDATA;
 
+    }
+
+    getMenuItem(playlist) {
+        switch (playlist) {
+            case 'youtube':
+            case 'video':
+            case 'video-container':
+                return this.youtube;
+            case 'lastfm':
+            case 'default':
+            case 'playlist-container':
+                return this.lastfm;
+            case 'topuser':
+                return this.topuser;
+            case 'topsongs':
+                return this.topsongs;
+            case 'userlist':
+                return this.userlist;
+            case 'search':
+                return this.search;
+            default:
+                return null;
+        }
     }
 
     getMenu(playlist) {
@@ -195,6 +223,81 @@ class PageController {
         this.applyJQueryMethods();
     }
 
+    load(page = '', ldata = '') {
+
+        let article = $('article[name=' + page + ']');
+
+        let pageLoaded = function (success) {
+            $page.setMainPageLoading();
+            if (ldata !== false) $page.setCurrentPlaylist(ldata);
+            location.href = '#' + (ldata === false ? page : ldata);
+        };
+
+        $page.setMainPageLoading(true);
+
+        $(article).attr('id', ldata);
+        if (!$page.isCurrentPlaylist(ldata)) {
+            let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            if (typeof lfmuser === 'undefined' || lfmuser === null) {
+                try {
+                    lfmuser = $(article).find('#playlist_lastfmuser').val();
+                } catch (e) {
+                }
+            }
+
+            $page.loadList(1, lfmuser, pageLoaded, ldata);
+            return;
+        }
+
+        pageLoaded(true);
+    }
+
+    loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
+        if (playlist === null) playlist = $page.PLAYLIST;
+
+        let curArticle = PageController.article.playlist.dom;
+        let isPlaylist = false;
+        let loadComplete = function (success) {
+            let parentCallBack = callBack;
+
+            if (typeof parentCallBack === 'function') {
+                parentCallBack(success);
+            } else if (isPlaylist) {
+                $page.setCurrentPlaylist(playlist);
+            }
+
+            $page.setLoading(curArticle);
+        };
+
+        $page.setLoading(curArticle, true);
+        switch (playlist) {
+            case 'userlist':
+                $playlist.loadCustomerList(pageNum, loadComplete);
+                isPlaylist = true;
+                break;
+            case 'topsongs':
+                $playlist.loadTopSongs(pageNum, loadComplete);
+                isPlaylist = true;
+                break;
+            case 'topuser':
+                $playlist.loadTopUser(pageNum, loadComplete);
+                break;
+            case 'video':
+                if (typeof callBack === 'function') {
+                    callBack(true);
+                } else {
+                    $page.setLoading(curArticle);
+                }
+                break;
+            case 'lastfm':
+                $playlist.loadLastFmList(pageNum, user, loadComplete);
+                isPlaylist = true;
+                break;
+            default:
+                break;
+        }
+    }
+
     applyJQueryMethods() {
         $.urlParam = function (name, url = null) {
             let theUrl = url !== null ? url : window.location.href;
@@ -258,25 +361,30 @@ class PageController {
 
         Vue.prototype.$loadListMenu = function (menu, event) {
             let curArticle = $(event.target).closest('article');
-            let playlistArticle = $('article[name=playlist-container]');
+            let playlistArticle = $('article[name=' + menu.PAGE + ']');
             let forceReload = !$(playlistArticle).is(curArticle);
 
             if (!$player.isReady || !forceReload &&
-                typeof menu.PLAYLIST !== 'undefined' &&
-                menu.PLAYLIST === $page.PLAYLIST
+                typeof menu.LDATA !== 'undefined' &&
+                menu.LDATA === $page.PLAYLIST
             )
                 return;
 
             let showPage = function (success) {
+
                 // DOM updated                
-                if (typeof menu.PLAYLIST !== 'undefined') {
-                    if (success) {
-                        $page.setCurrentPlaylist(menu.PLAYLIST);
-                        $(playlistArticle).attr('id', menu.PLAYLIST);
-                    }
+                if (typeof menu.LDATA !== 'undefined') {
                     $page.setLoading(curArticle);
+                    if (success) {
+
+                        if (menu.PAGE === 'playlist-container') {
+                            $page.setCurrentPlaylist(menu.LDATA);
+                        }
+                        $(playlistArticle).attr('id', menu.LDATA);
+                    }
+
                     if (forceReload) {
-                        location.href = '#' + menu.PLAYLIST;
+                        location.href = '#' + menu.LDATA;
                     }
                 } else {
                     $page.setLoading(curArticle);
@@ -287,12 +395,12 @@ class PageController {
             try {
                 $page.setLoading(curArticle, true);
 
-                if (typeof menu.PLAYLIST !== 'undefined') {
+                if (typeof menu.LDATA !== 'undefined') {
                     let pageNum = 1;
                     if (
                         'undefined' !== typeof $player.currentTrackData.track &&
                         $player.currentTrackData.track !== null &&
-                        $player.currentTrackData.track.PLAYLIST === menu.PLAYLIST
+                        $player.currentTrackData.track.PLAYLIST === menu.LDATA
                     ) {
                         let curNr = $player.currentTrackData.track.NR;
                         let curPage = (curNr / PageController.TRACKS_PER_PAGE) | 0;
@@ -300,7 +408,7 @@ class PageController {
                         if (!isNaN(curPage)) pageNum = curPage;
                     }
 
-                    $playlist.loadPlaylistPage(pageNum, null, showPage, menu.PLAYLIST);
+                    $page.loadList(pageNum, null, showPage, menu.LDATA);
                 } else {
                     showPage(true);
                 }
@@ -321,6 +429,145 @@ class PageController {
 
 
     }
+
+    initMyVues() {
+        this.myVues = {
+            base: new LibvueMainpage(),
+            playlist: new LibvuePlaylist(),
+            youtube: new LibvueVideo(),
+            userlist: new LibvueUser(),
+
+            updateAll: function (json) {
+                this.base.update(json);
+                this.playlist.update(json);
+                this.youtube.update(json);
+                this.userlist.update(json);
+            }
+        };
+    }
+
+    init() {
+
+        this.initMyVues();
+        $page.setMainPageLoading(true);
+        location.hash = '';
+
+        let request = 'php/json/page/Page.php?action=init';
+        $.getJSON(request, function (json) {
+            if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
+
+            $page.myVues.updateAll(json.data.value);
+            $page.menu.updateData(json.data.value);
+
+            $page.setMainPageLoading();
+
+            $page.isReady = true;
+
+            if ($player.autoPlay && $player.isReady &&
+                !$player.isPlaying() && !$player.isPaused()) {
+                $player.loadNextSong();
+            }
+            console.log('init page success');
+        }).fail(function (xhr) {
+            if (typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ', request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
+
+        });
+    }
+
+    setCurrentPlaylist(playlist = null) {
+
+        if (playlist === this.PLAYLIST) return;
+
+        this.PLAYLIST = playlist;
+
+
+        $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
+        $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
+        $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
+        $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
+
+    }
+
+    isCurrentPlaylist(playlist) {
+        return (
+            typeof playlist !== 'undefined' &&
+            this.PLAYLIST === playlist
+        );
+    }
+
+    setLoading(curArticle, active = false) {
+
+        if ($(curArticle).is(PageController.article.user.dom())) {
+            this.myVues.userlist.header.title.$data.LOADING = active;
+        } else if ($(curArticle).is(PageController.article.playlist.dom())) {
+            this.myVues.playlist.header.title.$data.LOADING = active;
+        } else if ($(curArticle).is(PageController.article.video.dom())) {
+            this.myVues.youtube.header.$data.LOADING = active;
+        }
+    }
+
+    setMainPageLoading(active = false) {
+        this.myVues.base.logo.$data.PAGE_LOADER = active ?
+            PageController.icons.loader.bigger : PageController.icons.diamond.bigger;
+    }
+
+    createNeedle(artist = '', title = '', videoId = '') {
+        return {
+            artist: artist,
+            title: title,
+            videoId: videoId,
+            asVar: function (raw = false) {
+                if (
+                    typeof this.artist === 'undefined' ||
+                    typeof this.title === 'undefined' ||
+                    this.artist === null ||
+                    this.title === null
+                ) return '';
+
+
+                if (!raw) return (encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title)).trim();
+                else return (this.artist + ' ' + this.title).trim();
+            },
+            isValid: function (checkVideo = false) {
+                if (checkVideo) {
+                    return (
+                        typeof this.videoId !== 'undefined' &&
+                        this.videoId !== null &&
+                        this.videoId.trim().length > 0
+                    );
+                }
+
+                let needleVar = this.asVar();
+
+                return (
+                    typeof needleVar !== 'undefined' &&
+                    needleVar !== null &&
+                    needleVar.trim().length > 0
+                );
+            },
+            applyData: function (json) {
+                if (
+                    typeof json.data !== 'undefined' &&
+                    typeof json.data.value !== 'undefined' &&
+                    json.data.value.length > 0 &&
+                    typeof json.data.value[0].video_id !== 'undefined' &&
+                    json.data.value[0].video_id.trim().length > 0
+                ) {
+                    this.videoId = json.data.value[0].video_id;
+                }
+            }
+        };
+    }
+
 
     static initIcons() {
         let icons = {};
@@ -393,147 +640,6 @@ class PageController {
         return icons;
     }
 
-    initMyVues() {
-        this.myVues = {
-            base: new LibvueMainpage(),
-            playlist: new LibvuePlaylist(),
-            youtube: new LibvueVideo(),
-            userlist: new LibvueUser(),
-
-            updateAll: function (json) {
-                this.base.update(json.base);
-                this.playlist.update(json.playlist);
-                this.youtube.update(json.youtube);
-                this.userlist.update(json.userlist);
-                this.youtube.header.update({
-                    LOGO: PageController.icons.getPlaylistIcon(this.playlist.menu.$data.PLAYLIST).big,
-                    TEXT: this.playlist.header.title.TEXT
-                });
-            }
-        };
-    }
-
-    init() {
-
-        this.initMyVues();
-        location.hash = '';
-
-        let request = 'php/json/JsonHandler.php?api=page&data=page';
-        $.getJSON(request, function (json) {
-            //console.log(JSON.stringify(json.data.value));
-
-            $page.setMainPageLoading(true);
-            $page.myVues.updateAll(json.data.value);
-            $page.menu.updateData(json.data.value.playlist);
-
-            $page.setMainPageLoading();
-
-            $page.isReady = true;
-            if ($player.autoPlay && $player.isReady &&
-                !$player.isPlaying() && !$player.isPaused()) {
-                $player.loadNextSong();
-            }
-            console.log('init page success');
-        }).fail(function (xhr) {
-            if (typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ', request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ', xhr.status,
-                    '\n\nerror: ', xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
-
-        });
-    }
-
-    setCurrentPlaylist(playlist = null) {
-
-        if (playlist === this.PLAYLIST) return;
-
-        this.PLAYLIST = playlist;
-
-
-        $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
-    }
-
-    isCurrentPlaylist(playlist) {
-        return (
-            typeof playlist !== 'undefined' &&
-            this.PLAYLIST === null && playlist === 'lastfm' ||
-            this.PLAYLIST === playlist
-        );
-    }
-
-    setLoading(curArticle, active = false) {
-
-        if ($(curArticle).is(PageController.article.user.dom())) {
-            this.myVues.userlist.header.title.$data.LOADING = active;
-        } else if ($(curArticle).is(PageController.article.playlist.dom())) {
-            this.myVues.playlist.header.title.$data.LOADING = active;
-        } else if ($(curArticle).is(PageController.article.video.dom())) {
-            this.myVues.youtube.header.$data.LOADING = active;
-        }
-    }
-
-    setMainPageLoading(active = false) {
-        this.myVues.base.logo.$data.PAGE_LOADER = active ?
-            PageController.icons.loader.bigger : PageController.icons.diamond.bigger;
-    }
-
-    createNeedle(artist = '', title = '', videoId = '') {
-        return {
-            artist: artist,
-            title: title,
-            videoId: videoId,
-            asVar: function (raw = false) {
-                if (
-                    typeof this.artist === 'undefined' ||
-                    typeof this.title === 'undefined' ||
-                    this.artist === null ||
-                    this.title === null
-                ) return '';
-
-
-                if (!raw) return encodeURIComponent(this.artist) + ' ' + encodeURIComponent(this.title);
-                else return this.artist + ' ' + this.title;
-            },
-            isValid: function (checkVideo = false) {
-                if (checkVideo) {
-                    return (
-                        typeof this.videoId !== 'undefined' &&
-                        this.videoId !== null &&
-                        this.videoId.trim().length > 0
-                    );
-                }
-
-                let needleVar = this.asVar();
-
-                return (
-                    typeof needleVar !== 'undefined' &&
-                    needleVar !== null &&
-                    needleVar.trim().length > 0
-                );
-            },
-            applyData: function (json) {
-                if (
-                    typeof json.data !== 'undefined' &&
-                    typeof json.data.value !== 'undefined' &&
-                    json.data.value.length > 0 &&
-                    typeof json.data.value[0].video_id !== 'undefined' &&
-                    json.data.value[0].video_id.trim().length > 0
-                ) {
-                    this.videoId = json.data.value[0].video_id;
-                }
-            }
-        };
-    }
-
     static clone(src) {
         return Object.assign({}, src);
     }
@@ -598,10 +704,10 @@ class PageController {
             }
         }).done(function (json) {
             let isTopSongPlaylist = $page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs';
-            if( isTopSongPlaylist &&
-                $page.myVues.playlist.menu.$data.CUR_PAGE === $page.myVues.playlist.menu.$data.MAX_PAGES &&    
+            if (isTopSongPlaylist &&
+                $page.myVues.playlist.menu.$data.CUR_PAGE === $page.myVues.playlist.menu.$data.MAX_PAGES &&
                 json.data.value.playcount === 1) {
-                if($page.myVues.playlist.content.$data.TRACKS.length >= PageController.TRACKS_PER_PAGE) {
+                if ($page.myVues.playlist.content.$data.TRACKS.length >= PageController.TRACKS_PER_PAGE) {
                     $page.myVues.playlist.menu.$data.MAX_PAGES = $page.myVues.playlist.menu.$data.MAX_PAGES + 1;
                 } else {
                     $page.myVues.playlist.menu.content.$data.TRACKS.push({
@@ -623,7 +729,7 @@ class PageController {
                     track.ARTIST === json.data.value.artist &&
                     track.TITLE === json.data.value.title
                 ) {
-                    console.log('aber hier...',isTopSongPlaylist);
+                    console.log('aber hier...', isTopSongPlaylist);
                     track.LASTPLAY = json.data.value.lastplay;
                     if (isTopSongPlaylist) {
                         track.PLAYCOUNT = json.data.value.playcount;
@@ -655,7 +761,7 @@ class PageController {
             return;
         }
 
-        $.ajax('php/json/JsonHandler.php?api=vars&action=savealternative', {
+        $.ajax('php/json/page/YouTube.php?action=save-video', {
             dataType: 'json',
             method: 'POST',
             data: {
@@ -672,7 +778,7 @@ class PageController {
                     uTrack.TITLE === needle.title &&
                     uTrack.ARTIST === needle.artist
                 ) {
-                    uTrack.VIDEO_ID = json.data.value.videoId;
+                    uTrack.VIDEO_ID = json.data.value.url;
                 }
             }
             $playlist.setUserTracks(userTracks);
@@ -691,7 +797,7 @@ class PageController {
 
         if (!needle.isValid()) return;
 
-        $.ajax('php/json/JsonHandler.php?api=vars&action=deletealternative', {
+        $.ajax('php/json/page/YouTube.php?action=delete-video', {
             dataType: 'json',
             method: 'POST',
             data: {

@@ -5,6 +5,10 @@ namespace LastFmTube\Util;
 use Exception;
 use PDO;
 
+/**
+ * Class Db
+ * @package LastFmTube\Util
+ */
 class Db {
 
     /**
@@ -37,7 +41,7 @@ class Db {
         if (!$this->settings = parse_ini_file($file, true)) throw new exception ('Unable to open ' . $file . '.');
         $this->connect();
         $this->prepareQueries();
-        $this->loadEnvVars();
+        $this->loadReplacements();
     }
 
     public function connect() {
@@ -55,57 +59,22 @@ class Db {
 
     public function createdb() {
         if ($this->validate()) return;
-
         $this->connect();
-        $prefix = $this->settings ['database'] ['table_prefix'];
-        $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'charts"');
-        $this->pdo->exec('CREATE TABLE "' . $prefix . 'charts" (
-				interpret 	    VARCHAR(500) 	NOT NULL,
-				title 	        VARCHAR(500) 	NOT NULL,
-				playcount 	    INTEGER     	NOT NULL,
-				lastplay_time   DATETIME        NOT NULL,
-				lastplay_user   INTEGER 	    NOT NULL,
-				lastplay_ip 	VARCHAR(50) 	NOT NULL,
-				
-				PRIMARY KEY (interpret, title, lastplay_time)
-			)'
-        );
+        $sqlf = file_get_contents($this->settings ['database']['dbinit_file']);
+        if ($sqlf === false) {
+            Functions::getInstance()->logMessage('Error could not open initdb sql file');
+            return $sqlf;
+        }
 
-        $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'charts_lastfm_user"');
-        $this->pdo->exec('CREATE TABLE "' . $prefix . 'charts_lastfm_user" (
-				lastfm_user 	VARCHAR(250) 	NOT NULL,
-				last_played 	DATETIME 	    NOT NULL,
-				playcount 	    INTEGER 	    NOT NULL,
-				PRIMARY KEY (lastfm_user)
-			)'
-        );
-
-        $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'playlists"');
-        $this->pdo->exec('CREATE TABLE "' . $prefix . 'playlists" (
-				user_id 	INTEGER 	    NOT NULL,
-				interpret	VARCHAR(500)	NOT NULL,
-				title		VARCHAR(500)	NOT NULL,
-				video_id	VARCHAR(50)	    NOT NULL,
-				
-				PRIMARY KEY (user_id, interpret, title)
-            )'
-        );
-
-        $this->pdo->exec('DROP TABLE IF EXISTS "' . $prefix . 'envvars"');
-        $this->pdo->exec('CREATE TABLE "' . $prefix . 'envvars" (
-				type        VARCHAR(50)     NOT NULL DEFAULT "YTVIDEO",
-				key		    VARCHAR(250)	NOT NULL,
-				value		VARCHAR(500)	NOT NULL,
-				PRIMARY KEY("key", "type")
-            )'
-        );
+        $this->pdo->exec($sqlf);
     }
 
     private function validate() {
         $this->connect();
-        $prefix = $this->settings ['database'] ['table_prefix'];
-        $valid  = $this->tableExists($prefix . 'charts') && $this->tableExists($prefix . 'charts_lastfm_user') &&
-                  $this->tableExists($prefix . 'playlists') && $this->tableExists($prefix . 'envvars');
+        $valid = $this->tableExists('trackplay') &&
+                 $this->tableExists('lfmuserplay') &&
+                 $this->tableExists('fimport') &&
+                 $this->tableExists('replacement');
 
         return $valid;
     }
@@ -135,153 +104,162 @@ class Db {
     private function prepareQueries() {
         if ($this->statements !== false) return;
         $this->statements = array(
+
             'SELECT_ALL_LASTFM_USER' => '
-				SELECT lastfm_user, last_played, playcount						
-				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"	
+				SELECT lfmuser, lastplayed, playcount						
+				FROM lfmuserplay
 				ORDER BY 
 					playcount DESC,
-					last_played DESC
+					lastplayed DESC
 				LIMIT :limit OFFSET :offset;
 			',
 
             'SELECT_ALL_LASTFM_USER_NUM_ROWS' => '
-				SELECT COUNT(*)	AS CNT					
-				FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user";
+				SELECT COUNT(*)	AS cnt					
+				FROM lfmuserplay;
 			',
 
             'SELECT_LASTFM_USER_VISIT' => '
                 WITH chart_user AS (
-                    SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user"
-                    WHERE lastfm_user = :user
+                    SELECT * FROM lfmuserplay
+                    WHERE lfmuser = :user
                 ), chart_count AS (
                     SELECT * 
-                    FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" mc, chart_user cu
+                    FROM lfmuserplay mc, chart_user cu
                         WHERE mc.playcount < cu.playcount OR (
                         mc.playcount = cu.playcount AND 
-                        mc.last_played < cu.last_played
+                        mc.lastplayed < cu.lastplayed
                     )
                 )
                 SELECT ((SELECT COUNT(*) 
-                        FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user") - COUNT(*)
+                        FROM lfmuserplay) - COUNT(*)
                     ) AS pos, cu.*
                 FROM chart_count ck, chart_user cu
 			',
 
             'UPDATE_LASTFM_USER_VISIT' => '
-				UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" 
+				UPDATE lfmuserplay 
 				SET
-				playcount=playcount+1,
-				last_played= :lastplayed
-				WHERE lastfm_user= :lastfm_user;
+				  playcount = playcount + 1,
+				  lastplayed = :lastplayed
+				WHERE lfmuser = :lfmuser;
 			',
 
             'INSERT_LASTFM_USER_VISIT' => '
-				INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts_lastfm_user" 
-				(lastfm_user, last_played, playcount) 
-				VALUES(:lastfm_user, :last_played, 1);
+				INSERT INTO lfmuserplay 
+				(lfmuser, lastplayed, playcount) 
+				VALUES(:lfmuser, :lastplayed, 1);
 			',
 
-            'UPDATE_CHARTS' => '
-			    UPDATE "' . $this->settings ['database'] ['table_prefix'] . 'charts"
+            'UPDATE_TRACKPLAY' => '
+			    UPDATE trackplay
 			    SET
-				"playcount"="playcount"+1,
-				lastplay_time= :lastplay_time,
-				lastplay_user= :lastplay_user,
-				lastplay_ip= :lastplay_ip
-
+				  playcount = playcount + 1,
+				  lastplayed = :lastplayed,
+				  lastplay_ip = :lastplay_ip
 			    WHERE
-				interpret= :interpret AND
-				title= :title;
+				  artist = :artist 
+				  AND title = :title;
 			',
 
-            'INSERT_CHARTS' => '
-			    INSERT INTO "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-			    (interpret, title, playcount, lastplay_time, lastplay_user, lastplay_ip)
-			    VALUES(:interpret, :title, 1, :lastplay_time, :lastplay_user, :lastplay_ip);
+            'INSERT_TRACKPLAY' => '
+			    INSERT INTO trackplay
+			    (artist, title, playcount, lastplayed, lastplay_ip)
+			    VALUES(:artist, :title, 1, :lastplayed, :lastplay_ip)
 			',
 
-            'SELECT_CHARTS'          => '
-				SELECT * FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-			     ORDER BY playcount DESC, lastplay_time DESC 
+            'SELECT_TRACKPLAY'          => '
+				SELECT * FROM v_trackplay
+			     ORDER BY playcount DESC, lastplayed DESC 
 			     LIMIT :limit OFFSET :offset;
 			',
-            'SELECT_CHARTS_NUM_ROWS' => '
-                SELECT COUNT(*) AS "CNT" FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts";
+            'SELECT_TRACKPLAY_NUM_ROWS' => '
+                SELECT COUNT(*) AS cnt FROM v_trackplay;
             ',
 
             'SELECT_CHART_COUNT_TRACK' => '
                 WITH chart_track AS (
                     SELECT *
-                    FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts"
-                    WHERE interpret= :interpret AND title= :title
+                    FROM v_trackplay
+                    WHERE artist= :artist AND title= :title
                 ), chart_count AS (
                     SELECT *
-                    FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts" mc, chart_track ct
+                    FROM v_trackplay mc, chart_track ct
                     WHERE mc.playcount < ct.playcount OR (
                         mc.playcount = ct.playcount AND 
-                        mc.lastplay_time < ct.lastplay_time
+                        mc.lastplayed < ct.lastplayed
                     )	
                 )
                 SELECT ((SELECT COUNT(*) 
-                        FROM "' . $this->settings ['database'] ['table_prefix'] . 'charts") - COUNT(*)
+                        FROM trackplay) - COUNT(*)
                     ) AS pos, ct.*
                 FROM chart_count ck, chart_track ct  
             ',
-            // SELECT ONLY the last heared song with playcount 1
-            // 'SELECT_CHARTS' =>
-            // '
-            // SELECT * FROM "'.$this->settings['database']['table_prefix'].'charts"
-            // WHERE ("playcount" > 1) OR (
-            // "playcount" = 1 AND
-            // lastplay_time IN (
-            // SELECT MAX(lastplay_time)
-            // FROM "'.$this->settings['database']['table_prefix'].'charts"
-            // WHERE "playcount"=1
-            // )
-            // )
-            // ORDER BY playcount DESC, lastplay_time` DESC;
-            // ',
 
-
-            'GET_ENVVAR' => '
-				SELECT value FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
-				WHERE type = :type AND key = :key;
+            'GET_VIDEO' => '
+				SELECT url FROM trackplay 
+				WHERE artist = :artist AND title = :title
 			',
 
-            'DEL_ENVVAR' => '
-				DELETE FROM "' . $this->settings ['database'] ['table_prefix'] . 'envvars" 
-				WHERE type = :type AND key = :key;
+            'EDIT_VIDEO' => '
+				UPDATE trackplay 
+				SET url = :url
+				WHERE artist = :artist AND title = :title
+			',
+            
+            'DELETE_VIDEO' => '
+                UPDATE trackplay
+                SET url = NULL 
+                WHERE artist = :artist AND title = :title
+            ',
+
+            'ADD_VIDEO' => '
+				INSERT INTO trackplay (artist, title, url) VALUES (:artist, :title, :url);
 			',
 
-            'SET_ENVVAR' => '
-				REPLACE INTO "' . $this->settings ['database'] ['table_prefix'] . 'envvars"  
-				VALUES (:type, :key, :value);
-			',
+            'LOAD_TRACK_REPLACEMENTS' => '
+                SELECT orig, repl FROM replacement;
+            ',
 
-            'SEARCH_CHARTS_TRACK' => '
-                SELECT * FROM "' . $this->settings['database']['table_prefix'] . 'charts_track_alias" 
-                WHERE interpret LIKE ? OR title LIKE ?;
+            'INSERT_REPLACEMENT' => '
+                REPLACE INTO replacement(orig, repl) VALUES (:orig, :repl);
+            ',
+
+            'SELECT_FIMPORT_SHA' => '
+                SELECT shasum FROM fimport WHERE fname = :fname
+            ',
+
+            'SET_FIMPORT_SHA' => '
+                REPLACE INTO fimport VALUES(:fname, :shasum)
             '
         );
 
         foreach ($this->statements as $prefix => $query) {
             $this->statements [$prefix] = $this->pdo->prepare($query);
+            if ($this->statements[$prefix] === false) {
+                Functions::getInstance()->logMessage('error creating query: ' . $query);
+                Functions::getInstance()->logMessage('>>>' . print_r($this->pdo->errorInfo(), true));
+            }
         }
     }
 
-    private function loadEnvVars() {
-        $funcs     = Functions::getInstance();
-        $csvfn     = $funcs->getSettings()['general']['vars_csv'];
+    private function loadReplacements() {
+        $funcs = Functions::getInstance();
+        $csvfn = $funcs->getSettings()['database']['replacement_csv'];
+        if (!file_exists($csvfn)) return;
+
         $csvsha    = sha1_file($csvfn);
-        $saved_sha = $this->getEnvVar('VARS_CSV_SHA', 'DB_VARS_CSV');
+        $saved_sha = $this->query('SELECT_FIMPORT_SHA', array('fname' => basename($csvfn)));
+        $saved_sha = is_array($saved_sha) && isset($saved_sha['shasum']) ?
+            $saved_sha['shasum'] : '';
         if (strcmp($csvsha, $saved_sha) === 0) {
             return; //file has not changed
         }
-        Functions::getInstance()->logMessage('vars.csv has changed importing new data.');
+        Functions::getInstance()->logMessage($csvfn . ' has changed importing new data.');
 
         $csvf = fopen($csvfn, 'r');
         if ($csvf === false) {
-            $funcs->logMessage('no initial CSV File found for var import');
+            $funcs->logMessage('initial replacement csv file ' . $csvfn . ' not found');
             return;
         }
 
@@ -291,47 +269,25 @@ class Db {
                 $rcnt++;
                 continue; //ignore header row
             }
-            if (sizeof($row) < 3) {
-                $funcs->logMessage('skiip row ' . ($rcnt + 1) . ' insufficient data');
+            if (sizeof($row) < 2) {
+                $funcs->logMessage('skip row ' . ($rcnt + 1) . ' insufficient data');
                 continue;
             }
-            $key   = $row[1];
-            $type  = $row[0];
-            $value = $row[2];
-            $this->setEnvVar($key, $value, $type);
+            $orig = $row[0];
+            $repl = $row[1];
+            $this->query('INSERT_REPLACEMENT',
+                         array('orig' => $orig, 'repl' => $repl)
+            );
 
             $rcnt++;
         }
 
-        $this->setEnvVar('VARS_CSV_SHA', $csvsha, 'DB_VARS_CSV');
+        $this->query('SET_FIMPORT_SHA',
+                     array('fname'  => basename($csvfn),
+                           'shasum' => $csvsha)
+        );
         $funcs->logMessage(($rcnt - 1) . ' rows imported');
 
-    }
-
-    public function getEnvVar($key, $type = 'YTVIDEO') {
-
-        $result = $this->statements ['GET_ENVVAR']->execute(
-            array(
-                'type' => $type,
-                'key'  => $key)
-        );
-
-        if ($result === false) return '';
-
-        $data = $this->statements ['GET_ENVVAR']->fetchAll(PDO::FETCH_ASSOC);
-        if (sizeof($data) < 1) return '';
-        return $data [0] ['value'];
-    }
-
-    public function setEnvVar($key, $value, $type = 'YTVIDEO') {
-        $res = $this->statements ['SET_ENVVAR']->execute(
-            array(
-                'key'   => $key,
-                'type'  => $type,
-                'value' => $value
-            )
-        );
-        return $res !== false && $res == 1;
     }
 
     public function query($queryName, $namedParms = array()) {
@@ -349,10 +305,10 @@ class Db {
         }
 
         $data = $this->statements [$queryName]->fetchAll(PDO::FETCH_ASSOC);
-        if (Functions::endsWith($queryName, '_NUM_ROWS')) {
-            $data = $data[0]['CNT'];
+        if (sizeof($data) <= 0) {
+            return $this->statements[$queryName]->rowCount();
         }
-
+        else if (sizeof($data) === 1) return $data[0];
         return $data;
     }
 
@@ -372,8 +328,8 @@ class Db {
         }
         $this->statements ['INSERT_LASTFM_USER_VISIT']->execute(
             array(
-                'user'        => $user,
-                'last_played' => $curvisit
+                'user'       => $user,
+                'lastplayed' => $curvisit
             )
         );
         return $this->readLastFMUserVisitForUpdate($origUser);
@@ -385,8 +341,8 @@ class Db {
         $data = Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->fetchAll(PDO::FETCH_ASSOC);
         if (sizeof($data) < 1) {
             return array(
-                'playcount'   => -1,
-                'last_played' => ''
+                'playcount'  => -1,
+                'lastplayed' => ''
             );
         }
 
@@ -407,25 +363,25 @@ class Db {
     public function updateCharts($track, $uid = 0) {
         $lastvisit = date('Y-m-d H:i:s');
 
-        $upres = $this->statements ['UPDATE_CHARTS']->execute(
+        $upres = $this->statements ['UPDATE_TRACKPLAY']->execute(
             array(
-                'lastplay_time' => $lastvisit,
+                'lastplayed'    => $lastvisit,
                 'lastplay_user' => $uid,
                 'lastplay_ip'   => $_SERVER ['REMOTE_ADDR'],
-                'interpret'     => $track ['artist'],
+                'artist'        => $track ['artist'],
                 'title'         => $track ['title']
             )
         );
-        if ($upres !== false && $this->statements ['UPDATE_CHARTS']->rowCount() == 1) {
+        if ($upres !== false && $this->statements ['UPDATE_TRACKPLAY']->rowCount() == 1) {
             return $this->readChartForUpdate($track);
         }
 
 
-        $this->statements ['INSERT_CHARTS']->execute(
+        $this->statements ['INSERT_TRACKPLAY']->execute(
             array(
-                'interpret'     => $track ['artist'],
+                'artist'        => $track ['artist'],
                 'title'         => $track ['title'],
-                'lastplay_time' => $lastvisit,
+                'lastplayed'    => $lastvisit,
                 'lastplay_user' => $uid,
                 'lastplay_ip'   => $_SERVER ['REMOTE_ADDR']
             )
@@ -436,16 +392,10 @@ class Db {
 
     private function readChartForUpdate($track) {
         $this->statements ['SELECT_CHART_COUNT_TRACK']->execute(
-            array('interpret' => $track['artist'], 'title' => $track['title'])
+            array('artist' => $track['artist'], 'title' => $track['title'])
         );
         $data = $this->statements['SELECT_CHART_COUNT_TRACK']->fetchAll(PDO::FETCH_ASSOC);
         if (sizeof($data) < 1) return -1;
         return $data[0];
     }
-
-    public function delEnvVar($key, $type = 'YTVIDEO') {
-        $res = $this->statements ['DEL_ENVVAR']->execute(array($type, $key));
-        return $res !== false && $res == 1;
-    }
-
 }

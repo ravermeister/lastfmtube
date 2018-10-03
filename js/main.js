@@ -25,7 +25,7 @@ require([
     $page = new PageController();
 
     
-    $player.autoPlay = true;
+    //$player.autoPlay = true;
     
     $page.init();
     $player.initPlayer();

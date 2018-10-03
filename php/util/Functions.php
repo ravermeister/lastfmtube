@@ -4,8 +4,8 @@ namespace LastFmTube\Util;
 
 use DateTime;
 use Exception;
-use LastFmTube\Util\lfmapi\LastFm;
-use LastFmTube\Util\ytapi\YoutubeSearch;
+use LastFmTube\Api\LastFm\LastFm;
+use LastFmTube\Api\YouTube\YouTubeSearch;
 
 class Functions {
 
@@ -58,7 +58,7 @@ class Functions {
 
         $this->lfmapi = new LastFm ();
         $this->lfmapi->setApiKey($this->settings ['lastfm'] ['apikey']);
-        $this->ytapi = new YoutubeSearch ();
+        $this->ytapi = new YouTubeSearch ();
         if (isset ($this->settings ['youtube'] ['email']))
             $this->ytapi->setAPIEmail($this->settings ['youtube'] ['email']);
         if (isset ($this->settings ['youtube'] ['jsonfile']))
@@ -127,7 +127,7 @@ class Functions {
     }
 
     /**
-     * @return YoutubeSearch
+     * @return YouTubeSearch
      */
     public function getYtApi() {
         return $this->ytapi;
@@ -235,9 +235,9 @@ class Functions {
                     "; the Admin Password as sha1_value (default is lfmtube)\n" . "adminpw = " .
                     $config['general']['adminpw'] . "\n" . ";[database]\n" .
                     ";dsn = mysql:host=127.0.0.1;port=3306;dbname=lasttube;charset=UTF8;\n" .
-                    ";table_prefix = music_\n" . ";username = lastuser\n" . ";password = l4stp4$$\n" . "\n" .
-                    "[database]\n" . "dsn = " . $config['database']['dsn'] . "\n" . "table_prefix = " .
-                    $config['database']['table_prefix'] . "\n" . "username = " . $config['database']['username'] .
+                    ";username = lastuser\n" . ";password = l4stp4$$\n" . "\n" .
+                    "[database]\n" . "dsn = " . $config['database']['dsn'] . "\n" .
+                     "username = " . $config['database']['username'] .
                     "\n" . "password = " . $config['database']['password'] . "\n" . "\n" . "[lastfm]\n" .
                     "; the lastfm user with the developer API Key\n" . "user = " . $config['lastfm']['user'] . "\n" .
                     "; the lastfm user developer API Key\n" . "apikey = " . $config['lastfm']['apikey'] . "\n" . "\n" .
@@ -248,29 +248,5 @@ class Functions {
         );
         fclose($fh);
         self::getInstance()->initSettings(true);
-    }
-
-    public function requestVars($type = 'GET') {
-        switch ($type) {
-            case 'GET':
-                $getvars = array();
-                foreach ($_GET as $key => $value) {
-                    $getvars[$key] = strip_tags($value);
-                }
-                return $getvars;
-
-            case 'POST':
-                $postvars = array();
-                foreach ($_POST as $key => $value) {
-                    $postvars[$key] = strip_tags($value);
-                }
-                return $postvars;
-
-            case 'PUT':
-                $rawData = file_get_contents('php://input');
-                return json_decode($rawData, true);
-                break;
-
-        }
     }
 }

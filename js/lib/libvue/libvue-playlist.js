@@ -70,14 +70,12 @@ class LibvuePlaylist {
             menu: new Vue({
                 el: '#playlist-container>.page-header-nav',
                 data: {
-                    PLAYLIST: null
+                    PLAYLIST: null,
                 },
                 
                 computed: {
                     MENUS: function () {
-                        let playlist = this.$data.PLAYLIST === null ?
-                            PageController.PLAYLIST : this.$data.PLAYLIST;
-                        return this.$getMenuForPlaylist(playlist);
+                        return this.$getMenuForPlaylist(this.$data.PLAYLIST);
                     }
                 }
             })
@@ -119,7 +117,7 @@ class LibvuePlaylist {
 
                 loadPage: function (user, pageNum) {
                     
-                    if (this.PLAYLIST === 'search') {
+                    if (this.$data.PLAYLIST === 'search') {
                         let start = (pageNum - 1) * PageController.TRACKS_PER_PAGE;
                         let end = pageNum * PageController.TRACKS_PER_PAGE;
                         let tracks = [];
@@ -134,7 +132,10 @@ class LibvuePlaylist {
                         return;
                     }
 
-                    $playlist.loadPlaylistPage(pageNum, user);
+                    $page.setLoading(PageController.article.playlist.dom(), true);
+                    $page.loadList(pageNum, user, function () {
+                        $page.setLoading(PageController.article.playlist.dom());
+                    });
                 },
 
                 loadNextPage: function (user, pageNum, maxPages) {
@@ -238,7 +239,7 @@ class LibvuePlaylist {
                     let curIndex = tracks.indexOf(track);
 
                     $playlist.removeUserTrack(track);
-                    $playlist.loadUserPlayListPage(curPage);
+                    $playlist.loadCustomerList(curPage);
 
                     tracks = $page.myVues.playlist.content.$data.TRACKS;
                     if (tracks.length > 0) {
@@ -252,7 +253,7 @@ class LibvuePlaylist {
 
                 clearUserList: function () {
                     $playlist.setUserTracks();
-                    $playlist.loadUserPlayListPage();
+                    $playlist.loadCustomerList();
                 },
 
                 togglePlay: function (track) {
@@ -306,7 +307,6 @@ class LibvuePlaylist {
                                 newTracks[cnt] = track;
                             }
                         } else newTracks = json.TRACKS;
-
                         this.$data.TRACKS = newTracks;
                     }
                 },
@@ -357,11 +357,9 @@ class LibvuePlaylist {
         return pdata === null ? {} : pdata;
     }
 
-    update(json, ignoreTitle = false) {
+    update(json) {
         this.content.update(json);
-        this.menu.update(json);
-        
-        if (ignoreTitle) return;
+        this.menu.update(json);        
         this.header.title.update(json);
     }
 

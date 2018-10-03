@@ -1,13 +1,13 @@
 <?php
 
-namespace LastFmTube\Util\ytapi;
+namespace LastFmTube\Api\YouTube;
 
 use Google_Client;
 use Google_Service_YouTube;
 use LastFmTube\Util\Functions;
 use LastFmTube\Util\lfmapi\Track;
 
-class YoutubeSearch {
+class YouTubeSearch {
 
     /*
      * Set $DEVELOPER_KEY to the "API key" value from the "Access" tab of the
@@ -110,7 +110,7 @@ class YoutubeSearch {
             foreach ($searchResponse->getItems() as $searchResult) {
                 switch ($searchResult ['id'] ['kind']) {
                     case 'youtube#video' :
-                        $video = new YoutubeVideo ();
+                        $video = new YouTubeVideo ();
                         $title = Functions::getInstance()->decodeHTML($searchResult ['snippet'] ['title']);
                         $vid   = $searchResult ['id'] ['videoId'];
 

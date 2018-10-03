@@ -1,0 +1,143 @@
+<?php
+/**
+ * User: ravermeister
+ * Date: 07.09.2018
+ * Time: 10:44
+ */
+
+namespace LastFmTube\Json\Page;
+require_once dirname(__FILE__) . '/../DefaultJson.php';
+
+use LastFmTube\Api\YouTube\YouTubeVideo;
+use LastFmTube\Json\DefaultJson;
+use LastFmTube\Util\Db;
+
+class YouTube extends DefaultJson {
+
+    //as stated in exception message from youtube
+    const MAX_YT_SEARCH_SIZE = 50;
+
+    public function __construct() {
+        parent::__construct('youtube');
+    }
+
+    public static function process($returnOutput = false) {
+        $instance = new YouTube();
+        $data     = $instance->handleRequest();
+        $data     = $instance->jsonData($data);
+        if ($returnOutput) return $data;
+        die($data);
+    }
+
+    public function get() {
+
+        try {
+
+            switch (self::getVar('action', '')) {
+                case 'search':
+                    return $this->search();
+                    break;
+                default:
+                    $this->jsonError('invalid Arguments');
+            }
+
+        } catch (Exception $err) {
+            $this->jsonError('unbekannter Fehler: ' . $err->getMessage());
+        }
+    }
+
+    private function search() {
+        $needle = self::getVar('needle', '');
+        if (strlen(trim($needle)) == 0) {
+            return $this->jsonError('Kein suchkriterium angegeben!');
+        }
+
+        $size = self::getVar('size', 1);
+        if ($size > YouTube::MAX_YT_SEARCH_SIZE) {
+            $size = YouTube::MAX_YT_SEARCH_SIZE;
+        }
+
+        $needle   = $this->funcs->decodeHTML($needle);
+        $searcher = $this->funcs->getYtApi();
+        $searcher->setNeedle($needle);
+
+        $searcher->search($size);
+
+        $videos = $searcher->getVideoList();
+        if ($size == 1 && sizeof($videos) > 0) {
+
+            /** @var YouTubeVideo $video */
+            $video = $videos[0];
+            return $video->getVideoId();
+        }
+        $tracks = array();
+        for ($cnt = 0; $cnt < sizeof($videos); $cnt++) {
+
+            /** @var YouTubeVideo $video */
+            $video    = $videos[$cnt];
+            $tracks[] = array(
+                'NR'           => ($cnt + 1),
+                'ARTIST'       => '',
+                'TITLE'        => $video->getTitle(),
+                'LASTPLAY'     => '',
+                'VIDEO_ID'     => $video->getVideoId(),
+                'PLAY_CONTROL' => false,
+                'PLAYLIST'     => 'search',
+                'PLAYSTATE'    => ''
+            );
+        }
+        return $tracks;
+    }
+
+    public function post() {
+        switch (self::getVar('action', '')) {
+            case 'save-video':
+                return $this->saveVideo();
+            case 'delete-video':
+                return $this->deleteVideo();
+            default:
+                $this->jsonError('invalid Arguments');
+        }
+    }
+
+    private function saveVideo() {
+        $title  = trim($this->funcs->encodeHTML($_POST['title']));
+        $artist = trim($this->funcs->encodeHTML($_POST['artist']));
+        $video  = trim($this->funcs->encodeHTML($_POST['videoId']));
+        if (strlen($video) === 0 || (strlen($title) === 0 && strlen($artist) === 0)) {
+            $this->jsonError('invalid Arguments');
+            return;
+        }
+        
+        $db = Db::getInstance();
+        $track =                    array(
+            'artist' => $artist,
+            'title'  => $title,
+            'url'    => $video
+        ); 
+        $upcnt = $db->query('EDIT_VIDEO', $track);
+        if($upcnt === 0) {
+            $db->query('ADD_VIDEO', $track);
+        } 
+        return $track;
+    }
+
+    private function deleteVideo() {
+        $artist = trim($this->funcs->encodeHTML($_POST['artist']));
+        $title  = trim($this->funcs->encodeHTML($_POST['title']));
+        if (strlen($title) === 0 && strlen($artist) === 0) {
+            $this->jsonError('invalid Arguments');
+            return;
+        }
+        $track = array(
+            'artist' => $artist,
+            'title'  => $title
+        );
+
+        $db = Db::getInstance();
+        $db->query('DELETE_VIDEO', $track);
+        return $track;
+    }
+}
+
+YouTube::process();

@@ -4,13 +4,13 @@ class PlaylistController {
         this.userStore = Storages.localStorage;
     }
 
-    loadTopUserPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
+    loadTopUser(pageNum = 1, callBack = null) {
 
-        let request = 'php/json/JsonHandler.php?api=topuser&data=playlist&page=' + pageNum;
+        let request = 'php/json/page/Playlist.php?list=topuser&page=' + pageNum;
 
         $.getJSON(request, function (json) {
 
-            $page.myVues.userlist.update(json.data.value, ignoreTitle);
+            $page.myVues.userlist.update(json.data.value);
 
             try {
                 if (typeof callBack === 'function') {
@@ -26,73 +26,29 @@ class PlaylistController {
         });
     }
 
-    loadPlaylistPage(pageNum = 1, user = null, callBack = null, playlist = null) {
-
-        if (playlist === null) playlist = $page.PLAYLIST;
-
-        let ignoreTitle = playlist === $page.PLAYLIST;
-
-        let curArticle = PageController.article.playlist.dom;
-        let loadComplete = function (success) {
-            let parentCallBack = callBack;
-
-            if (typeof parentCallBack !== 'function') {
-                $page.setCurrentPlaylist(playlist);
-            } else {
-                parentCallBack(success);
-            }
-
-            $page.setLoading(curArticle);
-        };
-        
-        $page.setLoading(curArticle, true);
-        
-        switch (playlist) {
-            case 'userlist':                
-                this.loadUserPlayListPage(pageNum, loadComplete, ignoreTitle);
-                break;
-            case 'topsongs':
-                this.loadTopSongsPlayListPage(pageNum, loadComplete, ignoreTitle);
-                break;
-            case 'topuser':
-                this.loadTopUserPlayListPage(pageNum, loadComplete, ignoreTitle);
-                break;
-            case 'video':
-                if (typeof callBack === 'function') {
-                    callBack(true);
-                } else {
-                    $page.setLoading(curArticle);
-                }
-                break;
-            default:
-                this.loadDefaultPlayListPage(pageNum, user, loadComplete, ignoreTitle);
-                break;
-        }
-    }
-
     static loadSearchResult(needle, result, pageNum = 1, callBack = null) {
 
         let trackCnt = result.data.value.length;
         let maxPages = 1;
         let tracks = [];
         let savedVid = needle.videoId;
-        if(trackCnt > 0) {
+        if (trackCnt > 0) {
             maxPages = trackCnt / PageController.TRACKS_PER_PAGE | 0;
-            if(trackCnt%PageController.TRACKS_PER_PAGE > 1) maxPages++;
-            
-            for(let cnt=0;cnt<trackCnt;cnt++) {
+            if (trackCnt % PageController.TRACKS_PER_PAGE > 1) maxPages++;
+
+            for (let cnt = 0; cnt < trackCnt; cnt++) {
                 let ytvid = result.data.value[cnt];
                 let track = {
                     NR: (cnt + 1) + '',
                     ARTIST: '',
-                    TITLE: ytvid.title,
-                    VIDEO_ID: ytvid.video_id,
+                    TITLE: ytvid.TITLE,
+                    VIDEO_ID: ytvid.VIDEO_ID,
                     PLAYLIST: 'search',
                     PLAYCOUNT: null,
                     PLAYSTATE: '',
                     PLAY_CONTROL: ''
                 };
-                if($player.isCurrentTrack(track)) {
+                if ($player.isCurrentTrack(track)) {
                     track.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
                     track.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
                     $player.setCurrentTrack(track);
@@ -103,7 +59,7 @@ class PlaylistController {
 
         $page.setCurrentPlaylist('search');
         let playlistArticle = $('article[name=playlist-container]');
-        $(playlistArticle).attr('id', 'search');        
+        $(playlistArticle).attr('id', 'search');
         $page.myVues.playlist.update({
             HEADER: {
                 TEXT: 'Search Results'
@@ -120,30 +76,31 @@ class PlaylistController {
 
             TRACKS: tracks.slice(0, PageController.TRACKS_PER_PAGE)
         });
-        
+
         if (typeof callBack === 'function') {
             callBack(true);
         }
     }
 
-    loadTopSongsPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
+    loadTopSongs(pageNum = 1, callBack = null) {
 
-        $.getJSON('php/json/JsonHandler.php?api=topsongs&data=playlist&page=' + pageNum, function (json) {
-            
-            $page.myVues.playlist.update(json.data.value, ignoreTitle);
+        $.getJSON('php/json/page/Playlist.php?list=topsongs&page=' + pageNum,
+            function (json) {
 
-            try {
-                if (typeof callBack === 'function') {
-                    callBack(true);
+                $page.myVues.playlist.update(json.data.value);
+
+                try {
+                    if (typeof callBack === 'function') {
+                        callBack(true);
+                    }
+
+                } catch (e) {
+                    console.error('error in load topsongs list callback function', e);
+                    console.error('Callback: ', callBack);
+                    console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
                 }
+            }).fail(function (xhr) {
 
-            } catch (e) {
-                console.error('error in load topsongs list callback function', e);
-                console.error('Callback: ', callBack);
-                console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
-            }
-        }).fail(function (xhr) {
-            
             $.logXhr(xhr);
 
             try {
@@ -154,11 +111,11 @@ class PlaylistController {
                 console.error('error in load topsongs list callback function', e);
                 console.error('Callback: ', callBack);
                 console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
-            } 
+            }
         });
     }
 
-    loadUserPlayListPage(pageNum = 1, callBack = null, ignoreTitle = false) {
+    loadCustomerList(pageNum = 1, callBack = null) {
 
         let tracks = this.getUserTracks();
 
@@ -177,7 +134,7 @@ class PlaylistController {
             let track = tracks[cnt];
             track.NR = ((pageNum - 1) * tracksPerPage) + (cnt + 1);
         }
-        
+
         $page.myVues.playlist.update({
             HEADER: {
                 PLAYLIST: 'userlist',
@@ -186,7 +143,7 @@ class PlaylistController {
             },
 
             TRACKS: tracks
-        }, ignoreTitle);
+        });
 
 
         if (typeof callBack === 'function') {
@@ -198,28 +155,26 @@ class PlaylistController {
         return user !== null && (user + '').trim().length > 0;
     }
 
-    loadDefaultPlayListPage(pageNum = 1, user = null, callBack = null, ignoreTitle = false) {
+    loadLastFmList(pageNum = 1, user = null, callBack = null) {
 
         let request = null;
 
         if (this.isValidUser(user)) {
-            request = 'php/json/JsonHandler.php?api=page&data=playlist' +
-                '&type=default' +
+            request = 'php/json/page/Playlist.php?list=playlist' +
                 '&user=' + user +
                 '&page=' + pageNum
             ;
         } else {
-            request = 'php/json/JsonHandler.php?api=page&data=playlist' +
-                '&type=default' +
+            request = 'php/json/page/Playlist.php?list=playlist' +
                 '&page=' + pageNum
             ;
         }
-        
+
         $.getJSON(request, function (json) {
 
             try {
-                $page.myVues.playlist.update(json.data.value, ignoreTitle);
-                
+                $page.myVues.playlist.update(json.data.value);
+
                 /**
                  Vue.nextTick()
                  .then(function () {
@@ -282,16 +237,16 @@ class PlaylistController {
         let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
         let maxPages = $page.myVues.playlist.menu.$data.MAX_PAGES;
         let offset = ((pageNum - 1) * PageController.TRACKS_PER_PAGE);
-        
-        tracks.splice(offset+index, 1);
+
+        tracks.splice(offset + index, 1);
         this.setUserTracks(tracks);
     }
 
     updateUserListPages(pageNum = null, tracks = null) {
-        
+
         $page.myVues.playlist.menu.$data.LASTFM_USER_NAME = '';
         $page.myVues.playlist.menu.$data.PLAYLIST = 'userlist';
-        
+
         if (tracks === null) tracks = this.getUserTracks();
         if (tracks.length <= 0) {
             $page.myVues.playlist.menu.$data.CUR_PAGE = 1;
@@ -314,7 +269,7 @@ class PlaylistController {
         else if (pageNum < 1) pageNum = 1;
 
         $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
-        
+
         return pageNum;
     }
 }

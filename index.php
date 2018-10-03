@@ -6,6 +6,7 @@
  */
 
 require_once 'vendor/autoload.php';
+
 use LastFmTube\Util\Functions;
 
 $settings = Functions::getInstance()->getSettings();
@@ -24,4 +25,6 @@ $themeData = str_replace('{{PHP_TITLE}}', $locale['site.title'], $themeData);
 //header("Expires: 0"); // Proxies.
 
 header("Content-Type: text/html"); //html content
+
+Functions::getInstance()->startSession();
 die($themeData);

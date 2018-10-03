@@ -1,6 +1,6 @@
 <?php
 
-namespace LastFmTube\Util\lfmapi;
+namespace LastFmTube\Api\LastFm;
 
 use LastFmTube\Util\Functions;
 use LastFmTube\Util\Strings;
