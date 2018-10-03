@@ -5,7 +5,7 @@
  * Time: 11:59
  */
 
-namespace LastFmTube\Json;
+namespace LastFmTube\Json\Admin;
 
 
 use LastFmTube\Util\Db;
