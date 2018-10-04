@@ -8,13 +8,12 @@
 namespace LastFmTube\Json\Page;
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
+use Exception;
 use LastFmTube\Api\LastFm\Track;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 
 class Playlist extends DefaultJson {
-
-    private $replaceMap = null;
 
     public static function process($returnOutput = false) {
         $instance = new Playlist();
@@ -41,6 +40,12 @@ class Playlist extends DefaultJson {
         }
     }
 
+    /**
+     * @param bool $user
+     * @param int  $pageNum
+     * @return array
+     * @throws Exception
+     */
     private function getList($user = false, $pageNum = 1) {
 
         $settings = $this->funcs->getSettings();
@@ -98,20 +103,21 @@ class Playlist extends DefaultJson {
             )
         );
 
-        $page['TRACKS']   = array();
-        $this->replaceMap = $db->query('LOAD_TRACK_REPLACEMENTS');
-        for ($cnt = 0; $cnt < sizeof($tracks); $cnt++) {
-            /**
-             * @var Track
-             */
-            $track = $this->normalizeTrack($tracks[$cnt]);
+        $page['TRACKS'] = array();
 
+        for ($cnt = 0; $cnt < sizeof($tracks); $cnt++) {
+
+            /** @var Track $track */
+            $track      = $tracks[$cnt];
+            $normalized = $this->funcs->replaceMap($track->getArtist(), $track->getTitle());
+            $track->setArtist($normalized[0]);
+            $track->setTitle($normalized[1]);
             $videoId = $db->query('GET_VIDEO',
                                   array('artist' => $track->getArtist(),
                                         'title'  => $track->getTitle())
             );
-            $videoId = is_array($videoId) && isset($videoId['url']) ?
-                $videoId['url'] : '';
+            $videoId = is_array($videoId) && isset($videoId[0]['url']) ?
+                $videoId[0]['url'] : '';
 
             $page['TRACKS'][] = array(
                 'NR'               => ($pageStart + $cnt + 1),
@@ -140,23 +146,6 @@ class Playlist extends DefaultJson {
         );
     }
 
-    /**
-     * @param Track $track
-     * @return Track
-     */
-    private function normalizeTrack($track) {
-        if (!is_array($this->replaceMap)) {
-            return $track;
-        }
-
-        for ($rcnt = 0; $rcnt < sizeof($this->replaceMap); $rcnt++) {
-            $orig = $this->replaceMap[$rcnt]['orig'];
-            $repl = $this->replaceMap[$rcnt]['repl'];
-            $track->setArtist(trim(str_replace($orig, $repl, $track->getArtist())));
-            $track->setTitle(trim(str_replace($orig, $repl, $track->getTitle())));
-        }
-        return $track;
-    }
 
     private function getTopSongs($pageNum = 1) {
 
@@ -202,18 +191,21 @@ class Playlist extends DefaultJson {
         );
 
         $page['TRACKS'] = array();
+        if ($topsongs === 0 || !is_array($topsongs)) return $page;
         for ($cnt = 0; $cnt < sizeof($topsongs); $cnt++) {
             $track   = $topsongs[$cnt];
             $videoId = $db->query('GET_VIDEO',
                                   array('artist' => $track['artist'],
                                         'title'  => $track['title'])
             );
+            $videoId = is_array($videoId) && isset($videoId[0]['url']) ?
+                $videoId[0]['url'] : '';
 
             $page['TRACKS'][] = array(
                 'NR'               => ($offset + $cnt + 1),
                 'ARTIST'           => $track['artist'],
                 'TITLE'            => $track['title'],
-                'LASTPLAY'         => $this->funcs->formatDate($track['lastplay_time']),
+                'LASTPLAY'         => $this->funcs->formatDate($track['lastplayed']),
                 'LASTFM_ISPLAYING' => false,
                 'PLAYCOUNT'        => $track['playcount'],
                 'VIDEO_ID'         => $videoId,
@@ -248,6 +240,7 @@ class Playlist extends DefaultJson {
                                )
         );
         $maxpages = $db->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
+        $this->funcs->logMessage(print_r($maxpages, true));
         $maxpages = $maxpages === false ? 1 : $maxpages['cnt'];
         $maxpages = ((int)($maxpages / $limit));
 
@@ -276,6 +269,7 @@ class Playlist extends DefaultJson {
         );
 
         $page['USER'] = array();
+        if ($topuser === 0 || !is_array($topuser)) return $page;
         for ($cnt = 0; $cnt < sizeof($topuser); $cnt++) {
             $user = $topuser[$cnt];
 
@@ -287,6 +281,7 @@ class Playlist extends DefaultJson {
                 'PLAY_CONTROL' => '',
             );
         }
+        
 
         return $page;
     }

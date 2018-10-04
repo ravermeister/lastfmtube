@@ -26,13 +26,15 @@ CREATE TABLE lfmuserplay (
 )
 ;
 
-DROP TABLE IF EXISTS fimport;
+DROP TABLE IF EXISTS fimport
+;
 
 CREATE TABLE fimport (
-  fname VARCHAR(50),
+  fname  VARCHAR(50),
   shasum VARCHAR(50),
   PRIMARY KEY (fname)
-);
+)
+;
 
 
 DROP TABLE IF EXISTS replacement
@@ -61,18 +63,19 @@ CREATE VIEW v_trackplay AS
              TRIM(REPLACE(mc.title, repl.orig, repl.repl))  AS new_title,
              playcount,
              lastplayed,
-             lastplay_ip
+             lastplay_ip,
+             url
         FROM trackplay mc
                JOIN replacement repl ON mc.title LIKE "%" || repl.orig || "%" OR
                                         mc.artist LIKE "%" || repl.orig || "%"
   ), excluded AS (
-      SELECT TRIM(mc.artist) AS artist, TRIM(mc.title) AS title, mc.playcount, mc.lastplayed, mc.lastplay_ip
+      SELECT TRIM(mc.artist) AS artist, TRIM(mc.title) AS title, mc.playcount, mc.lastplayed, mc.lastplay_ip, mc.url
         FROM trackplay mc
         WHERE mc.title NOT IN( SELECT title FROM duplicates )
            OR mc.artist NOT IN( SELECT artist FROM duplicates )
   )
-  SELECT artist, title, SUM(playcount) AS playcount, lastplayed, lastplay_ip
-    FROM (SELECT new_artist AS artist, new_title AS title, playcount, lastplayed, lastplay_ip FROM duplicates
-          UNION ALL SELECT artist, title, playcount, lastplayed, lastplay_ip FROM excluded)
+  SELECT artist, title, SUM(playcount) AS playcount, lastplayed, lastplay_ip, url
+    FROM (SELECT new_artist AS artist, new_title AS title, playcount, lastplayed, lastplay_ip, url FROM duplicates
+          UNION ALL SELECT artist, title, playcount, lastplayed, lastplay_ip, url FROM excluded)
     GROUP BY artist, title
 ;

@@ -6,16 +6,18 @@ use DateTime;
 use Exception;
 use LastFmTube\Api\LastFm\LastFm;
 use LastFmTube\Api\YouTube\YouTubeSearch;
+use LastFmTube\Api\LastFm\Track;
 
 class Functions {
 
     private static $instance;
-    private        $basedir         = false;
-    private        $settings        = false;
-    private        $settingsFile    = false;
-    private        $lfmapi          = null;
-    private        $ytapi           = null;
-    private        $locale          = null;
+    private        $basedir      = false;
+    private        $settings     = false;
+    private        $settingsFile = false;
+    private        $lfmapi       = null;
+    private        $ytapi        = null;
+    private        $locale       = null;
+    private        $replaceMap   = null;
 
 
     private function __construct($file = false) {
@@ -103,20 +105,50 @@ class Functions {
         }
         return (substr($haystack, -$length) === $needle);
     }
-    
+
+    /**
+     * @param array|mixed[] ...$strings
+     * @return array|mixed[]
+     * @throws Exception
+     */
+    public function replaceMap(...$strings) {
+        if ($this->replaceMap === null) {
+            $this->replaceMap = Db::getInstance()->query('LOAD_TRACK_REPLACEMENTS');
+        }
+
+        if (!is_array($this->replaceMap)) {
+            return $strings;
+        }
+        $newStrings = array();
+        for ($rcnt = 0; $rcnt < sizeof($this->replaceMap); $rcnt++) {
+            $row = $this->replaceMap[$rcnt];
+            foreach ($strings as $string) {
+                $newStrings[] = (trim(str_replace($row['orig'], $row['repl'], $string)));
+            }
+        }
+        return $newStrings;
+    } 
+ 
     public function formatDate($date, $srcFormat = 'Y-m-d H:i:s') {
-        
-        if(strlen(trim($date)) <= 0) return $date;
-         
-        
+
+        if (strlen(trim($date)) <= 0) return $date;
+
+
         $newFormat = 'Y-m-d H:i:s';
-        $lang = $this->getSettings()['general']['lang'];
-        if(strcmp($lang,'de') == 0) {
+        $lang      = $this->getSettings()['general']['lang'];
+        if (strcmp($lang, 'de') == 0) {
             $newFormat = 'd.m.Y H:i:s';
         }
-        if(strcmp($srcFormat,$newFormat) == 0) return $date;
-        
+        if (strcmp($srcFormat, $newFormat) == 0) return $date;
+
         return DateTime::createFromFormat($srcFormat, $date)->format($newFormat);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSettings() {
+        return $this->settings;
     }
 
     /**
@@ -131,13 +163,6 @@ class Functions {
      */
     public function getYtApi() {
         return $this->ytapi;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSettings() {
-        return $this->settings;
     }
 
     public function getLocale() {
@@ -237,7 +262,7 @@ class Functions {
                     ";dsn = mysql:host=127.0.0.1;port=3306;dbname=lasttube;charset=UTF8;\n" .
                     ";username = lastuser\n" . ";password = l4stp4$$\n" . "\n" .
                     "[database]\n" . "dsn = " . $config['database']['dsn'] . "\n" .
-                     "username = " . $config['database']['username'] .
+                    "username = " . $config['database']['username'] .
                     "\n" . "password = " . $config['database']['password'] . "\n" . "\n" . "[lastfm]\n" .
                     "; the lastfm user with the developer API Key\n" . "user = " . $config['lastfm']['user'] . "\n" .
                     "; the lastfm user developer API Key\n" . "apikey = " . $config['lastfm']['apikey'] . "\n" . "\n" .

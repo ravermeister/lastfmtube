@@ -32,7 +32,6 @@ class YouTube extends DefaultJson {
     public function get() {
 
         try {
-
             switch (self::getVar('action', '')) {
                 case 'search':
                     return $this->search();
@@ -46,6 +45,9 @@ class YouTube extends DefaultJson {
         }
     }
 
+    /**
+     * @return array|void
+     */
     private function search() {
         $needle = self::getVar('needle', '');
         if (strlen(trim($needle)) == 0) {
@@ -74,7 +76,10 @@ class YouTube extends DefaultJson {
         for ($cnt = 0; $cnt < sizeof($videos); $cnt++) {
 
             /** @var YouTubeVideo $video */
-            $video    = $videos[$cnt];
+            $video = $videos[$cnt];
+            /**
+             * TODO: we could split the title to an artist and title and use the replaceMap
+             */
             $tracks[] = array(
                 'NR'           => ($cnt + 1),
                 'ARTIST'       => '',
@@ -101,30 +106,30 @@ class YouTube extends DefaultJson {
     }
 
     private function saveVideo() {
-        $title  = trim($this->funcs->encodeHTML($_POST['title']));
-        $artist = trim($this->funcs->encodeHTML($_POST['artist']));
-        $video  = trim($this->funcs->encodeHTML($_POST['videoId']));
+        $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
+        $title  = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));
+        $video  = trim($this->funcs->decodeHTML(self::getVar('videoId', '', $_POST)));
         if (strlen($video) === 0 || (strlen($title) === 0 && strlen($artist) === 0)) {
             $this->jsonError('invalid Arguments');
             return;
         }
-        
-        $db = Db::getInstance();
-        $track =                    array(
+
+        $db    = Db::getInstance();
+        $track = array(
             'artist' => $artist,
             'title'  => $title,
             'url'    => $video
-        ); 
+        );
         $upcnt = $db->query('EDIT_VIDEO', $track);
-        if($upcnt === 0) {
+        if ($upcnt === 0) {
             $db->query('ADD_VIDEO', $track);
-        } 
+        }
         return $track;
     }
 
     private function deleteVideo() {
-        $artist = trim($this->funcs->encodeHTML($_POST['artist']));
-        $title  = trim($this->funcs->encodeHTML($_POST['title']));
+        $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
+        $title  = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));
         if (strlen($title) === 0 && strlen($artist) === 0) {
             $this->jsonError('invalid Arguments');
             return;

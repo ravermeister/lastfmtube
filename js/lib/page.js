@@ -32,7 +32,7 @@ class Menu {
             PAGE: 'playlist',
             LDATA: 'search'
         };
-        
+
         this.lastfm = {
             LOGO: icons.headphones.big,
             TEXT: 'Last.fm',
@@ -558,11 +558,9 @@ class PageController {
                 if (
                     typeof json.data !== 'undefined' &&
                     typeof json.data.value !== 'undefined' &&
-                    json.data.value.length > 0 &&
-                    typeof json.data.value[0].video_id !== 'undefined' &&
-                    json.data.value[0].video_id.trim().length > 0
+                    json.data.value.trim().length > 0
                 ) {
-                    this.videoId = json.data.value[0].video_id;
+                    this.videoId = json.data.value;
                 }
             }
         };
@@ -654,11 +652,11 @@ class PageController {
     saveChartUser(lfmuser = null) {
         if (typeof lfmuser === 'undefined' || lfmuser === null) return;
 
-        $.ajax('php/json/JsonHandler.php?api=vars&action=saveuserchart', {
+        $.ajax('php/json/page/Page.php?action=save-userplay', {
             dataType: 'json',
             method: 'POST',
             data: {
-                LASTFM_USER: lfmuser
+                user: lfmuser
             }
         }).done(function (json) {
             for (let cnt in $page.myVues.userlist.content.$data.USER) {
@@ -695,7 +693,7 @@ class PageController {
             return;
         }
 
-        $.ajax('php/json/JsonHandler.php?api=vars&action=savetrackchart', {
+        $.ajax('php/json/page/Page.php?&action=save-trackplay', {
             dataType: 'json',
             method: 'POST',
             data: {
@@ -703,23 +701,32 @@ class PageController {
                 title: needle.title
             }
         }).done(function (json) {
+            console.log(json, '<<');
             let isTopSongPlaylist = $page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs';
+            let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
+            let maxPages = parseInt($page.myVues.playlist.menu.$data.MAX_PAGES);
+            let playcount = parseInt(json.data.value.playcount);
+            console.log('hmm');
             if (isTopSongPlaylist &&
-                $page.myVues.playlist.menu.$data.CUR_PAGE === $page.myVues.playlist.menu.$data.MAX_PAGES &&
-                json.data.value.playcount === 1) {
-                if ($page.myVues.playlist.content.$data.TRACKS.length >= PageController.TRACKS_PER_PAGE) {
-                    $page.myVues.playlist.menu.$data.MAX_PAGES = $page.myVues.playlist.menu.$data.MAX_PAGES + 1;
-                } else {
-                    $page.myVues.playlist.menu.content.$data.TRACKS.push({
-                        NR: json.data.value.nr,
-                        TITLE: json.data.value.title,
-                        ARTIST: json.data.value.artist,
-                        PLAYCOUNT: json.data.value.playcount,
-                        LASTPLAY: json.data.value.lastplay,
-                        PLAYCOUNT_CHANGE: 0
-                    });
-                }
-                return;
+                curPage === maxPages &&
+                playcount === 1) {
+                console.log('hier ist richtig, track an der richtigen position einfügen');
+                console.log(json.data.value);
+                let newTrack = {
+                    NR: json.data.value.pos,
+                    ARTIST: json.data.value.artist,
+                    TITLE: json.data.value.title,
+                    PLAYCOUNT: json.data.value.playcount,
+                    PLAYCOUNT_CHANGE: 0,
+                    LASTPLAY: '',
+                    LASTFM_ISPLAYING: false,
+                    VIDEO_ID: '',
+                    PLAY_CONTROL: '',
+                    PLAYLIST: '',
+                    PLAYSTATE: ''
+                };
+                //1. und letzten eintrag prüfen und schauen ob der track dazwichen liegt
+
             }
 
             for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
@@ -729,14 +736,11 @@ class PageController {
                     track.ARTIST === json.data.value.artist &&
                     track.TITLE === json.data.value.title
                 ) {
-                    console.log('aber hier...', isTopSongPlaylist);
-                    track.LASTPLAY = json.data.value.lastplay;
+                    track.LASTPLAY = json.data.value.lastplayed;
                     if (isTopSongPlaylist) {
                         track.PLAYCOUNT = json.data.value.playcount;
-                        console.log(json.data.value.nr, '<>', track.NR);
-                        let diff = parseInt(track.NR) - parseInt(json.data.value.nr);
+                        let diff = parseInt(track.NR) - parseInt(json.data.value.pos);
                         track.PLAYCOUNT_CHANGE = diff;
-                        console.log(track.PLAYCOUNT_CHANGE);
                     }
                 }
             }

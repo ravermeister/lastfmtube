@@ -148,7 +148,6 @@ class ChartTimer {
                 );
             }
         };
-
         if (this.timerStart === null) {
             this.createTimer(track);
         } else {
@@ -187,13 +186,15 @@ class PlayerController {
 
             validTrack: function () {
                 return (
-                    this.track !== null &&
-                    'undefined' !== typeof this.track.TITLE &&
-                    this.track.TITLE !== null &&
-                    this.track.TITLE.length > 0 &&
-                    'undefined' !== typeof this.track.ARTIST &&
-                    this.track.ARTIST !== null &&
-                    this.track.ARTIST.length > 0
+                    this.track !== null && ((
+                        'undefined' !== typeof this.track.TITLE &&
+                        this.track.TITLE !== null &&
+                        this.track.TITLE.length > 0
+                    ) || (
+                        'undefined' !== typeof this.track.ARTIST &&
+                        this.track.ARTIST !== null &&
+                        this.track.ARTIST.length > 0
+                    ))
                 );
             },
 
@@ -472,7 +473,7 @@ class PlayerController {
             return;
         }
 
-        let request = 'php/json/JsonHandler.php?api=videos&data=search&needle=' + needle.asVar();
+        let request = 'php/json/page/YouTube.php?action=search&needle=' + needle.asVar();
 
         $.ajax(request, {
             dataType: 'json',

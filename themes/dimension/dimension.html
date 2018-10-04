@@ -173,14 +173,14 @@
                             <label>
                                 {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}}
                             </label>
-                            <button @click.prevent="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+                            <button type="button" @click.prevent="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                     title="Previous Page">
                                 <span class="fas fa-step-backward fa-2x"></span>
                             </button>
 
                             <input type="submit" name="playlist_load" id="playlist_load" v-bind:value="PLAYLIST_LOAD"/>
 
-                            <button @click.prevent="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+                            <button type="button" @click.prevent="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
                                     title="Next Page">
                                 <span class="fas fa-step-forward fa-2x"></span>
                             </button>
@@ -271,7 +271,8 @@
                                     <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
                                        v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i>
                                     <span v-else="v-else">{{TRACK.TITLE}}</span>
-                                    <span style="float: right;">{{TRACK.PLAYCOUNT_CHANGE}}</span>
+                                    <span style="float: right;" v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE">▲</span>
+                                    <span style="float: right;" v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE && TRACK.PLAYCOUNT_CHANGE > 0">TRACK.PLAYCOUNT_CHANGE</span>
                                 </td>
                             </tr>
 

@@ -86,7 +86,6 @@ class PlaylistController {
 
         $.getJSON('php/json/page/Playlist.php?list=topsongs&page=' + pageNum,
             function (json) {
-
                 $page.myVues.playlist.update(json.data.value);
 
                 try {

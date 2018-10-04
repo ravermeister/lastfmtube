@@ -23,39 +23,7 @@ abstract class DefaultJson implements JsonInterface {
         $this->funcs   = Functions::getInstance();
         $this->funcs->startSession();
         header("Content-Type: application/json;charset=utf-8");
-        
-    }
 
-    protected final function handleRequest() {
-        try {
-            $this->currentMethod = $_SERVER['REQUEST_METHOD'];
-
-            // @formatter:off
-            switch ($_SERVER['REQUEST_METHOD']) {
-                case 'GET': return $this->get();
-                case 'POST': return $this->post();
-                case 'PUT': return $this->put();
-                case 'DELETE': return $this->delete();
-                default: return $this->jsonError('unbekannte Action:' . $_SERVER['REQUEST_METHOD']);
-            }
-            // @formatter:on
-        } catch (Exception $err) {
-            $this->jsonError($err);
-            return null;
-        }
-
-    }
-
-    public function get() {
-    }
-
-    public function post() {
-    }
-
-    public function put() {
-    }
-
-    public function delete() {
     }
 
     /**
@@ -63,26 +31,11 @@ abstract class DefaultJson implements JsonInterface {
      * @return mixed
      */
     public static abstract function process($returnOutput = false);
-    
-    protected function jsonError($msg) {
-        $json['handler']       = $this->apiName;
-        $json['method']        = $this->currentMethod;
-        $json['data']['type']  = 'error';
-        $json['data']['value'] = $msg;
-
-        DefaultJson::setResponseHeader(500);
-        die(('handler: ' . $this->apiName . ', method: ' . $this->currentMethod . ', error: ' . $msg));
-        //return json_encode($json);
-    }
-
-    public static function setResponseHeader($status, $msg = false) {
-        if ($msg === false) http_response_code($status);
-        else header($_SERVER['SERVER_PROTOCOL'] . $status . ' ' . $msg);
-    }
 
     public static final function getVar($name, $defval = null, $vars = null) {
-        if (is_array($vars)) return isset($vars[$name]) ? $vars[$name] : $defval;
-        else return isset($_GET[$name]) ? $_GET[$name] : $defval;
+        return is_array($vars) ?
+            (isset($vars[$name]) ? $vars[$name] : $defval) :
+            (isset($_GET[$name]) ? $_GET[$name] : $defval);
     }
 
     public static function baseError($msg) {
@@ -123,5 +76,53 @@ abstract class DefaultJson implements JsonInterface {
         $json['data']['type']  = $dataType;
         $json['data']['value'] = $data;
         return json_encode($json);
+    }
+
+    protected final function handleRequest() {
+        try {
+            $this->currentMethod = $_SERVER['REQUEST_METHOD'];
+
+            // @formatter:off
+            switch ($_SERVER['REQUEST_METHOD']) {
+                case 'GET': return $this->get();
+                case 'POST': return $this->post();
+                case 'PUT': return $this->put();
+                case 'DELETE': return $this->delete();
+                default: return $this->jsonError('unbekannte Action:' . $_SERVER['REQUEST_METHOD']);
+            }
+            // @formatter:on
+        } catch (Exception $err) {
+            $this->jsonError($err);
+            return null;
+        }
+
+    }
+
+    public function get() {
+    }
+
+    public function post() {
+    }
+
+    public function put() {
+    }
+
+    public function delete() {
+    }
+
+    protected function jsonError($msg) {
+        $json['handler']       = $this->apiName;
+        $json['method']        = $this->currentMethod;
+        $json['data']['type']  = 'error';
+        $json['data']['value'] = $msg;
+
+        self::setResponseHeader(500);
+        die(('handler: ' . $this->apiName . ', method: ' . $this->currentMethod . ', error: ' . $msg));
+        //return json_encode($json);
+    }
+
+    public static function setResponseHeader($status, $msg = false) {
+        if ($msg === false) http_response_code($status);
+        else header($_SERVER['SERVER_PROTOCOL'] . $status . ' ' . $msg);
     }
 }

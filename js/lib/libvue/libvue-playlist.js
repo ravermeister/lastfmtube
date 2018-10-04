@@ -116,7 +116,6 @@ class LibvuePlaylist {
             methods: {
 
                 loadPage: function (user, pageNum) {
-                    
                     if (this.$data.PLAYLIST === 'search') {
                         let start = (pageNum - 1) * PageController.TRACKS_PER_PAGE;
                         let end = pageNum * PageController.TRACKS_PER_PAGE;

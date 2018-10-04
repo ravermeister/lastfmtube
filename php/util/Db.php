@@ -57,8 +57,11 @@ class Db {
         return $this->pdo !== false;
     }
 
+    /**
+     * @return bool
+     */
     public function createdb() {
-        if ($this->validate()) return;
+        if ($this->validate()) return false;
         $this->connect();
         $sqlf = file_get_contents($this->settings ['database']['dbinit_file']);
         if ($sqlf === false) {
@@ -67,6 +70,7 @@ class Db {
         }
 
         $this->pdo->exec($sqlf);
+        return true;
     }
 
     private function validate() {
@@ -170,8 +174,9 @@ class Db {
 
             'SELECT_TRACKPLAY'          => '
 				SELECT * FROM v_trackplay
-			     ORDER BY playcount DESC, lastplayed DESC 
-			     LIMIT :limit OFFSET :offset;
+			    WHERE playcount > 0
+			    ORDER BY playcount DESC, lastplayed DESC 
+			    LIMIT :limit OFFSET :offset;
 			',
             'SELECT_TRACKPLAY_NUM_ROWS' => '
                 SELECT COUNT(*) AS cnt FROM v_trackplay;
@@ -188,7 +193,12 @@ class Db {
                     WHERE mc.playcount < ct.playcount OR (
                         mc.playcount = ct.playcount AND 
                         mc.lastplayed < ct.lastplayed
-                    )	
+                    ) OR (
+                    	mc.artist = ct.artist AND
+                    	mc.title = ct.title AND 
+                    	mc.playcount = ct.playcount AND
+                    	mc.lastplayed = ct.lastplayed
+                    )
                 )
                 SELECT ((SELECT COUNT(*) 
                         FROM trackplay) - COUNT(*)
@@ -206,7 +216,7 @@ class Db {
 				SET url = :url
 				WHERE artist = :artist AND title = :title
 			',
-            
+
             'DELETE_VIDEO' => '
                 UPDATE trackplay
                 SET url = NULL 
@@ -308,10 +318,20 @@ class Db {
         if (sizeof($data) <= 0) {
             return $this->statements[$queryName]->rowCount();
         }
-        else if (sizeof($data) === 1) return $data[0];
+        else if (sizeof($data) === 1 &&
+                 Strings::endsWith($queryName, '_NUM_ROWS') ||
+                 strcmp($queryName, 'SELECT_FIMPORT_SHA') === 0) {
+            return $data[0];
+        }
         return $data;
     }
 
+    /**
+     * @param      $user
+     * @param bool $ignoreCase
+     * @return array
+     * @throws Exception
+     */
     public function updateLastFMUserVisit($user, $ignoreCase = true) {
         $origUser = $user;
         if ($ignoreCase) $user = strtolower($user);
@@ -336,6 +356,11 @@ class Db {
 
     }
 
+    /**
+     * @param $user
+     * @return array
+     * @throws Exception
+     */
     private function readLastFMUserVisitForUpdate($user) {
         Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->execute(array('user' => $user));
         $data = Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->fetchAll(PDO::FETCH_ASSOC);
@@ -360,39 +385,37 @@ class Db {
         return self::$instance;
     }
 
-    public function updateCharts($track, $uid = 0) {
+    public function updateTrackPlay($artist, $title) {
         $lastvisit = date('Y-m-d H:i:s');
 
         $upres = $this->statements ['UPDATE_TRACKPLAY']->execute(
             array(
-                'lastplayed'    => $lastvisit,
-                'lastplay_user' => $uid,
-                'lastplay_ip'   => $_SERVER ['REMOTE_ADDR'],
-                'artist'        => $track ['artist'],
-                'title'         => $track ['title']
+                'lastplayed'  => $lastvisit,
+                'lastplay_ip' => $_SERVER ['REMOTE_ADDR'],
+                'artist'      => $artist,
+                'title'       => $title
             )
         );
         if ($upres !== false && $this->statements ['UPDATE_TRACKPLAY']->rowCount() == 1) {
-            return $this->readChartForUpdate($track);
+            return $this->readChartForUpdate($artist, $title);
         }
 
 
         $this->statements ['INSERT_TRACKPLAY']->execute(
             array(
-                'artist'        => $track ['artist'],
-                'title'         => $track ['title'],
-                'lastplayed'    => $lastvisit,
-                'lastplay_user' => $uid,
-                'lastplay_ip'   => $_SERVER ['REMOTE_ADDR']
+                'artist'      => $artist,
+                'title'       => $title,
+                'lastplayed'  => $lastvisit,
+                'lastplay_ip' => $_SERVER ['REMOTE_ADDR']
             )
         );
-
-        return $this->readChartForUpdate($track);
+        $track = $this->readChartForUpdate($artist, $title);
+        return $track;
     }
 
-    private function readChartForUpdate($track) {
+    private function readChartForUpdate($artist, $title) {
         $this->statements ['SELECT_CHART_COUNT_TRACK']->execute(
-            array('artist' => $track['artist'], 'title' => $track['title'])
+            array('artist' => $artist, 'title' => $title)
         );
         $data = $this->statements['SELECT_CHART_COUNT_TRACK']->fetchAll(PDO::FETCH_ASSOC);
         if (sizeof($data) < 1) return -1;
