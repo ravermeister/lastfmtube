@@ -74,8 +74,31 @@ CREATE VIEW v_trackplay AS
         WHERE mc.title NOT IN( SELECT title FROM duplicates )
            OR mc.artist NOT IN( SELECT artist FROM duplicates )
   )
-  SELECT artist, title, SUM(playcount) AS playcount, lastplayed, lastplay_ip, url
-    FROM (SELECT new_artist AS artist, new_title AS title, playcount, lastplayed, lastplay_ip, url FROM duplicates
-          UNION ALL SELECT artist, title, playcount, lastplayed, lastplay_ip, url FROM excluded)
+  SELECT artist,
+         title,
+         orig_artist,
+         orig_title,
+         SUM(playcount) AS playcount,
+         lastplayed,
+         lastplay_ip,
+         url
+    FROM (SELECT new_artist AS artist,
+                 new_title  AS title,
+                 artist     AS orig_artist,
+                 title      AS orig_title,
+                 playcount,
+                 lastplayed,
+                 lastplay_ip,
+                 url
+            FROM duplicates
+          UNION ALL SELECT artist,
+                           title,
+                           artist AS orig_artist,
+                           title  AS orig_title,
+                           playcount,
+                           lastplayed,
+                           lastplay_ip,
+                           url
+                      FROM excluded)
     GROUP BY artist, title
 ;

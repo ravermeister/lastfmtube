@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use LastFmTube\Util\Functions;
 
 class Page extends DefaultJson {
 
@@ -115,8 +116,10 @@ class Page extends DefaultJson {
         if (strlen(trim($artist)) === 0 && strlen(trim($title)) === 0) {
             $this->jsonError('can not save trackplay, insufficient data');
         }
+        
+        $data = Db::getInstance()->updateTrackPlay($artist, $title);
 
-        return Db::getInstance()->updateTrackPlay($artist, $title);
+        return $data; 
     }
 
     /**

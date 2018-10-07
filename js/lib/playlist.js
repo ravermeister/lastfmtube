@@ -3,6 +3,7 @@ class PlaylistController {
     constructor() {
         this.userStore = Storages.localStorage;
     }
+    
 
     loadTopUser(pageNum = 1, callBack = null) {
 

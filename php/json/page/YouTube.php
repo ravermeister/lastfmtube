@@ -66,8 +66,9 @@ class YouTube extends DefaultJson {
         $searcher->search($size);
 
         $videos = $searcher->getVideoList();
-        if ($size == 1 && sizeof($videos) > 0) {
-
+        if ($size == 1) {
+            if( sizeof($videos) <= 0) return '';
+            
             /** @var YouTubeVideo $video */
             $video = $videos[0];
             return $video->getVideoId();

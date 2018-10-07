@@ -327,9 +327,10 @@ class PageController {
             if (log) {
                 console.log('updateData', 'vue: ', this.$data, ' json: ', json);
             }
+            if ('undefined' === typeof json) return;
 
             for (let key in this.$data) {
-                if (log) console.log((key, ' exists ', json.hasOwnProperty(key)));
+                if (log) console.log(key, ' exists ', (json.hasOwnProperty(key)));
                 if (json.hasOwnProperty(key)) {
                     if (log) console.log('old: ' + this.$data[key] + ' | new ' + json[key]);
                     this.$data[key] = json[key];
@@ -557,7 +558,7 @@ class PageController {
             applyData: function (json) {
                 if (
                     typeof json.data !== 'undefined' &&
-                    typeof json.data.value !== 'undefined' &&
+                    typeof json.data.value == 'string' &&
                     json.data.value.trim().length > 0
                 ) {
                     this.videoId = json.data.value;
@@ -651,6 +652,7 @@ class PageController {
 
     saveChartUser(lfmuser = null) {
         if (typeof lfmuser === 'undefined' || lfmuser === null) return;
+        return;
 
         $.ajax('php/json/page/Page.php?action=save-userplay', {
             dataType: 'json',
@@ -658,16 +660,15 @@ class PageController {
             data: {
                 user: lfmuser
             }
-        }).done(function (json) {
+        }).done(function (userJson) {
+
             for (let cnt in $page.myVues.userlist.content.$data.USER) {
                 let user = $page.myVues.userlist.content.$data.USER[cnt];
 
-                if (user.NAME === json.data.value.username) {
-                    user.PLAYCOUNT = json.data.value.playcount;
-                    user.LASTPLAY = json.data.value.lastplay;
-
-                    let diff = parseInt(user.NR) - parseInt(json.data.value.nr);
-                    user.PLAYCOUNT_CHANGE = diff;
+                if (user.NAME === userJson.data.value.username) {
+                    user.PLAYCOUNT = userJson.data.value.playcount;
+                    user.LASTPLAY = userJson.data.value.lastplay;
+                    user.PLAYCOUNT_CHANGE = parseInt(user.NR) - parseInt(userJson.data.value.nr);
                 }
             }
 
@@ -700,52 +701,78 @@ class PageController {
                 artist: needle.artist,
                 title: needle.title
             }
-        }).done(function (json) {
-            console.log(json, '<<');
-            let isTopSongPlaylist = $page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs';
-            let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
-            let maxPages = parseInt($page.myVues.playlist.menu.$data.MAX_PAGES);
-            let playcount = parseInt(json.data.value.playcount);
-            console.log('hmm');
-            if (isTopSongPlaylist &&
-                curPage === maxPages &&
-                playcount === 1) {
-                console.log('hier ist richtig, track an der richtigen position einfügen');
-                console.log(json.data.value);
-                let newTrack = {
-                    NR: json.data.value.pos,
-                    ARTIST: json.data.value.artist,
-                    TITLE: json.data.value.title,
-                    PLAYCOUNT: json.data.value.playcount,
-                    PLAYCOUNT_CHANGE: 0,
-                    LASTPLAY: '',
-                    LASTFM_ISPLAYING: false,
-                    VIDEO_ID: '',
-                    PLAY_CONTROL: '',
-                    PLAYLIST: '',
-                    PLAYSTATE: ''
-                };
-                //1. und letzten eintrag prüfen und schauen ob der track dazwichen liegt
+        }).done(function (chartJson) {
+                let isTopSongPlaylist = $page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs';
+                let trackList = $page.myVues.playlist.content.$data.TRACKS;
+                let oldTrack = null;
 
-            }
-
-            for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
-                let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
-
-                if (
-                    track.ARTIST === json.data.value.artist &&
-                    track.TITLE === json.data.value.title
-                ) {
-                    track.LASTPLAY = json.data.value.lastplayed;
-                    if (isTopSongPlaylist) {
-                        track.PLAYCOUNT = json.data.value.playcount;
-                        let diff = parseInt(track.NR) - parseInt(json.data.value.pos);
-                        track.PLAYCOUNT_CHANGE = diff;
+                for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
+                    let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
+                    if (
+                        track.ARTIST === chartJson.data.value.artist &&
+                        track.TITLE === chartJson.data.value.title
+                    ) {
+                        oldTrack = track;
+                        break;
                     }
                 }
-            }
 
-        }).fail(function (xhr) {
+                if (oldTrack === null) {
+                    if (!isTopSongPlaylist) return;
+                    if (parseInt(chartJson.data.value.pos) === 0) {
+                        console.log('dirty fix!!!');
+                        chartJson.data.value.pos = 1;
+                    } //dirty fix. check view and select for new position in db backend
+
+                    let newTrack = LibvuePlaylist.createEmptyTrack();
+                    newTrack.NR = chartJson.data.value.pos;
+                    newTrack.ARTIST = chartJson.data.value.artist;
+                    newTrack.TITLE = chartJson.data.value.title;
+                    newTrack.LASTPLAY = chartJson.data.value.lastplayed;
+                    newTrack.PLAYCOUNT = chartJson.data.value.playcount;
+                    newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(chartJson.data.value.pos));
+
+                    if (trackList.length === 0) {
+                        $page.myVues.playlist.content.$data.TRACKS.push(newTrack);
+                        return;
+                    }
+
+                    let trackInserted = false;
+                    for (let cnt = 0; cnt < trackList.length; cnt++) {
+                        let curTrack = trackList[cnt];
+
+                        if (!trackInserted && curTrack.NR <= newTrack.NR) {
+                            $page.myVues.playlist.content.$data.TRACKS.splice(cnt, 0, newTrack);
+                            trackInserted = true;
+                        } else if (trackInserted) {
+                            curTrack.NR = (parseInt(curTrack.NR) + 1);
+                        }
+                    }
+                    /**
+                     if ($page.myVues.playlist.content.$data.TRACKS.length > PageController.TRACKS_PER_PAGE) {
+                        $page.myVues.playlist.content.$data.TRACKS.splice(
+                            PageController.TRACKS_PER_PAGE,
+                            $page.myVues.playlist.content.$data.TRACKS.length
+                        );
+
+                        let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
+                        let maxPages = parseInt($page.myVues.playlist.menu.$data.MAX_PAGES);
+                        if (curPage === maxPages) {
+                            $page.myVues.playlist.menu.$data.MAX_PAGES = maxPages;
+                        }
+                    }
+                     **/
+                    return;
+                }
+
+                oldTrack.LASTPLAY = chartJson.data.value.lastplayed;
+                if (isTopSongPlaylist) {
+                    oldTrack.PLAYCOUNT = chartJson.data.value.playcount;
+                    console.log(oldTrack.NR, '<>', chartJson.data.value.pos, ' diff: ', (parseInt(oldTrack.NR) - parseInt(chartJson.data.value.pos)));
+                    oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(chartJson.data.value.pos));
+                }
+            }
+        ).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
                     '\n\nresponse: ', xhr.responseText,

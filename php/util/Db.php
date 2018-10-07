@@ -50,6 +50,7 @@ class Db {
         $this->pdo = new PDO ($this->settings ['database'] ['dsn'], $this->settings ['database'] ['username'],
                               $this->settings ['database'] ['password']
         );
+
         $this->createdb();
     }
 
@@ -173,7 +174,8 @@ class Db {
 			',
 
             'SELECT_TRACKPLAY'          => '
-				SELECT * FROM v_trackplay
+				SELECT artist, title, playcount, lastplayed, lastplay_ip, url
+				FROM v_trackplay
 			    WHERE playcount > 0
 			    ORDER BY playcount DESC, lastplayed DESC 
 			    LIMIT :limit OFFSET :offset;
@@ -182,28 +184,18 @@ class Db {
                 SELECT COUNT(*) AS cnt FROM v_trackplay;
             ',
 
-            'SELECT_CHART_COUNT_TRACK' => '
-                WITH chart_track AS (
-                    SELECT *
-                    FROM v_trackplay
-                    WHERE artist= :artist AND title= :title
-                ), chart_count AS (
-                    SELECT *
-                    FROM v_trackplay mc, chart_track ct
-                    WHERE mc.playcount < ct.playcount OR (
-                        mc.playcount = ct.playcount AND 
-                        mc.lastplayed < ct.lastplayed
-                    ) OR (
-                    	mc.artist = ct.artist AND
-                    	mc.title = ct.title AND 
-                    	mc.playcount = ct.playcount AND
-                    	mc.lastplayed = ct.lastplayed
-                    )
-                )
-                SELECT ((SELECT COUNT(*) 
-                        FROM trackplay) - COUNT(*)
-                    ) AS pos, ct.*
-                FROM chart_count ck, chart_track ct  
+            'SELECT_TRACKPLAY_BY_TRACK' =>
+            /** @lang PostgreSQL */
+            '
+                WITH CTE AS (
+                     SELECT 
+                     RANK() OVER (ORDER BY playcount DESC) AS pos,
+                     artist, title, orig_artist, orig_title, playcount, lastplayed, lastplay_ip, url
+                     FROM v_trackplay 
+                 ) 
+                 SELECT pos, artist, title, playcount, lastplay_ip, url FROM CTE
+                 WHERE artist =:artist AND title = :title 
+                 OR orig_artist = :artist AND orig_title = :title;
             ',
 
             'GET_VIDEO' => '
@@ -326,6 +318,13 @@ class Db {
         return $data;
     }
 
+    public static function getVersion() {
+        $dbh  = new PDO('sqlite::memory:');
+        $data = $dbh->query('select sqlite_version()')->fetch()[0];
+        $dbh  = null;
+        return $data;
+    }
+
     /**
      * @param      $user
      * @param bool $ignoreCase
@@ -414,10 +413,10 @@ class Db {
     }
 
     private function readChartForUpdate($artist, $title) {
-        $this->statements ['SELECT_CHART_COUNT_TRACK']->execute(
+        $this->statements ['SELECT_TRACKPLAY_BY_TRACK']->execute(
             array('artist' => $artist, 'title' => $title)
         );
-        $data = $this->statements['SELECT_CHART_COUNT_TRACK']->fetchAll(PDO::FETCH_ASSOC);
+        $data = $this->statements['SELECT_TRACKPLAY_BY_TRACK']->fetchAll(PDO::FETCH_ASSOC);
         if (sizeof($data) < 1) return -1;
         return $data[0];
     }
