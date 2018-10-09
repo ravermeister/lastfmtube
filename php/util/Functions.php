@@ -6,6 +6,7 @@ use DateTime;
 use Exception;
 use LastFmTube\Api\LastFm\LastFm;
 use LastFmTube\Api\YouTube\YouTubeSearch;
+use Locale;
 
 class Functions {
 
@@ -15,7 +16,7 @@ class Functions {
     private        $settingsFile = false;
     private        $lfmapi       = null;
     private        $ytapi        = null;
-    private        $locale       = null;
+    private        $localeMap    = null;
     private        $logFile      = null;
 
     private function __construct($file = false) {
@@ -48,10 +49,7 @@ class Functions {
             self::normalizePath($this->basedir,
                                 $this->settings['database']['replacement_csv']
             );
-    }
-    
-    private function initLogFile() {
-        $this->logFile = fopen($this->settings['general']['logfile'], 'a+');
+        $this->settings['general']['lang']              = 'en';
     }
 
     private static function normalizePath($basedir, $path) {
@@ -87,16 +85,24 @@ class Functions {
         return false;
     }
 
+    private function initLogFile() {
+        $this->logFile = fopen($this->settings['general']['logfile'], 'a+');
+    }
+
     private function initLocale() {
 
-        $defLangFile = $this->basedir . '/locale/locale.json';
-        $lang        = $this->settings['general']['lang'];
-        $langFile    = $this->basedir . '/locale/locale_' . $lang . '.json';
-        if (file_exists($langFile)) {
-            $this->locale = json_decode(file_get_contents($langFile), true);
-        }
-        else {
-            $this->locale = json_decode(file_get_contents($defLangFile), true);
+        $this->localeMap['en']         =
+            json_decode(file_get_contents($this->basedir . '/locale/locale.json'), true);
+        $this->localeMap['en']['code'] = 'en';
+
+        foreach (glob($this->basedir . '/locale/locale_??.json', GLOB_MARK) as $lang) {
+            if (Strings::endsWith($lang, '/')) continue; //dir
+
+            $ldef = explode('_', $lang)[1];
+            $ldef = explode('.', $ldef)[0];
+
+            $this->localeMap[$ldef]         = json_decode(file_get_contents($lang), true);
+            $this->localeMap[$ldef]['code'] = $ldef;
         }
     }
 
@@ -193,30 +199,12 @@ class Functions {
         return $this->ytapi;
     }
 
-    public function getLocale() {
-        return $this->locale;
-    }
-
-    public function startSession() {
-        $started = false;
-        if (php_sapi_name() !== 'cli') {
-            if (version_compare(phpversion(), '5.4.0', '>=')) $started = session_status() ===
-                                                                         PHP_SESSION_ACTIVE ? true : false;
-            else  $started = session_id() === '' ? false : true;
-        }
-        if (!$started) session_start();
-        $getuser = isset($_GET['lastfm_user']) ?
-            filter_var($_GET['lastfm_user'], FILTER_SANITIZE_STRING) : null;
-        if ($getuser != null && strlen(trim($getuser)) > 0) {
-            $_SESSION ['music'] ['lastfm_user'] = $getuser;
-            unset ($_GET ['lastfm_user']);
-        }
-        else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
-            $_SESSION ['music'] ['lastfm_user'] = $this->settings ['general'] ['lastfm_defaultuser'];
-        }
-        $_SESSION ['music'] ['lastfm_user'] = trim($_SESSION ['music'] ['lastfm_user']);
-
-        $this->lfmapi->setUser($_SESSION ['music'] ['lastfm_user']);
+    public function getLocale($lang = 'en') {
+        $requestLang = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        $requestLang = explode('_', $requestLang)[0];
+        return isset($this->localeMap[$requestLang]) ?
+            $this->localeMap[$requestLang] :
+            $this->localeMap[$lang];
     }
 
     public function logMessage($msg) {
@@ -251,6 +239,28 @@ class Functions {
         }
 
         return ($text);
+    }
+
+    public function startSession() {
+        $started = false;
+        if (php_sapi_name() !== 'cli') {
+            if (version_compare(phpversion(), '5.4.0', '>=')) $started = session_status() ===
+                                                                         PHP_SESSION_ACTIVE ? true : false;
+            else  $started = session_id() === '' ? false : true;
+        }
+        if (!$started) session_start();
+        $getuser = isset($_GET['lastfm_user']) ?
+            filter_var($_GET['lastfm_user'], FILTER_SANITIZE_STRING) : null;
+        if ($getuser != null && strlen(trim($getuser)) > 0) {
+            $_SESSION ['music'] ['lastfm_user'] = $getuser;
+            unset ($_GET ['lastfm_user']);
+        }
+        else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
+            $_SESSION ['music'] ['lastfm_user'] = $this->settings ['general'] ['lastfm_defaultuser'];
+        }
+        $_SESSION ['music'] ['lastfm_user'] = trim($_SESSION ['music'] ['lastfm_user']);
+
+        $this->lfmapi->setUser($_SESSION ['music'] ['lastfm_user']);
     }
 
     public function __destruct() {

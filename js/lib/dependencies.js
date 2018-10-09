@@ -2,12 +2,12 @@ requirejs.config({
     //By default load any module IDs from js/lib
     baseUrl: 'js/lib',
 
-    //except, if the module ID starts with "app",
-    //load it from the js/app directory. paths
-    //config is relative to the baseUrl, and
-    //never includes a ".js" extension since
-    //the paths config could be for a directory.
     paths: {
+
+        //Google analytics
+        analytics: [
+            'analytics/analytics'
+        ],
 
         //requirejs addon
         domReady: [
@@ -46,21 +46,21 @@ requirejs.config({
 
 
     shim: {
-        
+
         'Vue': {
             exports: ['Vue']
         },
-        
+
         'themes/main': {
             deps: ['jquery']
         },
         'themes/util': {
-            deps:['jquery']
+            deps: ['jquery']
         },
         //html5 theme dependencies 
-        
+
         'page': {
-            deps:['libvue']
+            deps: ['libvue']
         }
     }
 });
@@ -73,7 +73,7 @@ define('theme', [
 ]);
 define('libvue', [
     'jquery',
-    'Vue', 
+    'Vue',
     'libvue/libvue-mainpage',
     'libvue/libvue-playlist',
     'libvue/libvue-video',
