@@ -1,0 +1,29 @@
+{
+  "general": {
+    "baseurl": "/path/to/project/root/dir",
+    "lang": "en|de",
+    "logfile": "conf/logs/lastfmtube.log",
+    "playerwidth": "100%",
+    "playerheight": "500px",
+    "theme": "dimension",
+    "lastfm_defaultuser": "lastfm default user",
+    "adminpw": "shasum of password token",
+    "tracks_perpage": 25
+  },
+  "database": {
+    "dsn": "database dsn",
+    "username": "lastuser",
+    "pasdword": "l4stp4$$",
+    "dbinit_file": "conf/init.db.sql",
+    "replacement_csv": "conf/init.replacement.csv"
+  },
+  "api": {
+    "lastfm": {
+      "user": "lastfm user",
+      "key": "lastfm api key"
+    },
+    "youtube": {
+      "key": "youtube api key"
+    }
+  }
+}

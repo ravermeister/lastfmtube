@@ -27,5 +27,6 @@ $themeData = str_replace('{{PHP_TITLE}}', $locale['site.title'], $themeData);
 header("Content-Type: text/html"); //html content
 
 Functions::getInstance()->startSession();
-Functions::getInstance()->logMessage('SQLite Version: '.\LastFmTube\Util\Db::getVersion());
+// we need 3.25.2
+//Functions::getInstance()->logMessage('SQLite Version: '.\LastFmTube\Util\Db::getVersion());
 die($themeData);

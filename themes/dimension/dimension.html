@@ -271,8 +271,10 @@
                                     <i v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
                                        v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i>
                                     <span v-else="v-else">{{TRACK.TITLE}}</span>
-                                    <span style="float: right;" v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE">▲</span>
-                                    <span style="float: right;" v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE && TRACK.PLAYCOUNT_CHANGE > 0">{{TRACK.PLAYCOUNT_CHANGE}}</span>
+                                    <span style="float: right;" v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE">
+                                        <span v-show="TRACK.PLAYCOUNT_CHANGE > 0">({{TRACK.PLAYCOUNT_CHANGE}}▲</span>
+                                        <span v-show="TRACK.PLAYCOUNT_CHANGE <= 0 || TRACK.PLAYCOUNT_CHANGE == ''">▲</span>
+                                    </span>                                    
                                 </td>
                             </tr>
 

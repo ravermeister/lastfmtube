@@ -98,10 +98,6 @@ class Menu {
             case 'video':
             case 'video-container':
                 return this.youtube;
-            case 'lastfm':
-            case 'default':
-            case 'playlist-container':
-                return this.lastfm;
             case 'topuser':
                 return this.topuser;
             case 'topsongs':
@@ -111,7 +107,10 @@ class Menu {
             case 'search':
                 return this.search;
             default:
-                return null;
+            case 'lastfm':
+            case 'default':
+            case 'playlist-container':
+                return this.lastfm;
         }
     }
 
@@ -719,11 +718,7 @@ class PageController {
 
                 if (oldTrack === null) {
                     if (!isTopSongPlaylist) return;
-                    if (parseInt(chartJson.data.value.pos) === 0) {
-                        console.log('dirty fix!!!');
-                        chartJson.data.value.pos = 1;
-                    } //dirty fix. check view and select for new position in db backend
-
+                    
                     let newTrack = LibvuePlaylist.createEmptyTrack();
                     newTrack.NR = chartJson.data.value.pos;
                     newTrack.ARTIST = chartJson.data.value.artist;
@@ -740,16 +735,15 @@ class PageController {
                     let trackInserted = false;
                     for (let cnt = 0; cnt < trackList.length; cnt++) {
                         let curTrack = trackList[cnt];
-
-                        if (!trackInserted && curTrack.NR <= newTrack.NR) {
+                        if (!trackInserted && curTrack.NR >= newTrack.NR) {
                             $page.myVues.playlist.content.$data.TRACKS.splice(cnt, 0, newTrack);
                             trackInserted = true;
                         } else if (trackInserted) {
                             curTrack.NR = (parseInt(curTrack.NR) + 1);
                         }
                     }
-                    /**
-                     if ($page.myVues.playlist.content.$data.TRACKS.length > PageController.TRACKS_PER_PAGE) {
+         
+                    if ($page.myVues.playlist.content.$data.TRACKS.length > PageController.TRACKS_PER_PAGE) {
                         $page.myVues.playlist.content.$data.TRACKS.splice(
                             PageController.TRACKS_PER_PAGE,
                             $page.myVues.playlist.content.$data.TRACKS.length
@@ -761,14 +755,13 @@ class PageController {
                             $page.myVues.playlist.menu.$data.MAX_PAGES = maxPages;
                         }
                     }
-                     **/
+
                     return;
                 }
 
                 oldTrack.LASTPLAY = chartJson.data.value.lastplayed;
                 if (isTopSongPlaylist) {
                     oldTrack.PLAYCOUNT = chartJson.data.value.playcount;
-                    console.log(oldTrack.NR, '<>', chartJson.data.value.pos, ' diff: ', (parseInt(oldTrack.NR) - parseInt(chartJson.data.value.pos)));
                     oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(chartJson.data.value.pos));
                 }
             }

@@ -22,14 +22,12 @@ class Db {
     private $pdo = false;
 
     /**
-     * @var array|string
-     */
-    private $settings;
-
-    /**
      * @var array|\PDOStatement
      */
     private $statements = false;
+
+
+    private $replaceTitleMap = null;
 
     /**
      * Db constructor.
@@ -37,8 +35,6 @@ class Db {
      * @throws Exception
      */
     private function __construct($file = false) {
-        if ($file === false) $file = dirname(__FILE__) . '/../../conf/settings.ini';
-        if (!$this->settings = parse_ini_file($file, true)) throw new exception ('Unable to open ' . $file . '.');
         $this->connect();
         $this->prepareQueries();
         $this->loadReplacements();
@@ -47,8 +43,9 @@ class Db {
     public function connect() {
         if ($this->isConnected()) return;
 
-        $this->pdo = new PDO ($this->settings ['database'] ['dsn'], $this->settings ['database'] ['username'],
-                              $this->settings ['database'] ['password']
+        $settings = Functions::getInstance()->getSettings();
+        $this->pdo = new PDO ($settings ['database'] ['dsn'], $settings ['database'] ['username'],
+                              $settings ['database'] ['password']
         );
 
         $this->createdb();
@@ -186,14 +183,15 @@ class Db {
 
             'SELECT_TRACKPLAY_BY_TRACK' =>
             /** @lang PostgreSQL */
-            '
-                WITH CTE AS (
+                '
+                WITH cte AS (
                      SELECT 
                      RANK() OVER (ORDER BY playcount DESC) AS pos,
                      artist, title, orig_artist, orig_title, playcount, lastplayed, lastplay_ip, url
                      FROM v_trackplay 
                  ) 
-                 SELECT pos, artist, title, playcount, lastplay_ip, url FROM CTE
+                 SELECT pos, artist, title, playcount, lastplayed, lastplay_ip, url 
+                 FROM cte
                  WHERE artist =:artist AND title = :title 
                  OR orig_artist = :artist AND orig_title = :title;
             ',
@@ -219,12 +217,14 @@ class Db {
 				INSERT INTO trackplay (artist, title, url) VALUES (:artist, :title, :url);
 			',
 
-            'LOAD_TRACK_REPLACEMENTS' => '
-                SELECT orig, repl FROM replacement;
+            'LOAD_TITLE_REPLACEMENTS' => '
+                SELECT orig, repl 
+                FROM replacement 
+                WHERE repltyp = "TITLE";
             ',
 
             'INSERT_REPLACEMENT' => '
-                REPLACE INTO replacement(orig, repl) VALUES (:orig, :repl);
+                REPLACE INTO replacement(repltyp, orig, repl) VALUES (:repltyp, :orig, :repl);
             ',
 
             'SELECT_FIMPORT_SHA' => '
@@ -271,14 +271,15 @@ class Db {
                 $rcnt++;
                 continue; //ignore header row
             }
-            if (sizeof($row) < 2) {
+            if (sizeof($row) < 3) {
                 $funcs->logMessage('skip row ' . ($rcnt + 1) . ' insufficient data');
                 continue;
             }
-            $orig = $row[0];
-            $repl = $row[1];
+            $typ  = $row[0];
+            $orig = $row[1];
+            $repl = $row[2];
             $this->query('INSERT_REPLACEMENT',
-                         array('orig' => $orig, 'repl' => $repl)
+                         array('repltyp' => $typ, 'orig' => $orig, 'repl' => $repl)
             );
 
             $rcnt++;
@@ -419,5 +420,27 @@ class Db {
         $data = $this->statements['SELECT_TRACKPLAY_BY_TRACK']->fetchAll(PDO::FETCH_ASSOC);
         if (sizeof($data) < 1) return -1;
         return $data[0];
+    }
+
+
+    /**
+     * @param $string
+     * @return string
+     */
+    public function normalizeTitle($string) {
+        if ($this->replaceTitleMap === null) {
+            $this->replaceTitleMap = $this->query('LOAD_TITLE_REPLACEMENTS');
+        }
+
+        if (!is_array($this->replaceTitleMap)) {
+            return $string;
+        }
+
+        for ($rcnt = 0; $rcnt < sizeof($this->replaceTitleMap); $rcnt++) {
+            $row    = $this->replaceTitleMap[$rcnt];
+            $string = (trim(str_replace($row['orig'], $row['repl'], $string)));
+        }
+
+        return $string;
     }
 }

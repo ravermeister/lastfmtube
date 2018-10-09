@@ -6,7 +6,6 @@ use DateTime;
 use Exception;
 use LastFmTube\Api\LastFm\LastFm;
 use LastFmTube\Api\YouTube\YouTubeSearch;
-use LastFmTube\Api\LastFm\Track;
 
 class Functions {
 
@@ -17,13 +16,13 @@ class Functions {
     private        $lfmapi       = null;
     private        $ytapi        = null;
     private        $locale       = null;
-    private        $replaceMap   = null;
-
+    private        $logFile      = null;
 
     private function __construct($file = false) {
         $this->settingsFile = $file;
         $this->basedir      = dirname(__FILE__) . '/../..';
         $this->initSettings();
+        $this->initLogFile();
         $this->initLocale();
         $this->initInstances();
     }
@@ -31,43 +30,88 @@ class Functions {
     private function initSettings($force = false) {
         if (!$force && is_array($this->settings)) return;
 
-        if ($this->settingsFile === false) $this->settingsFile = $this->basedir . '/conf/settings.ini';
-        if (!$this->settings = parse_ini_file($this->settingsFile, true)) throw new exception('Unable to open ' .
-                                                                                              $this->settingsFile . '.'
-        );
-
-        if (strncmp($this->settings ['general'] ['baseurl'], '/', strlen($this->settings ['general'] ['baseurl'])) ===
-            0) {
-            $this->settings ['general'] ['baseurl'] = substr($this->settings ['general'] ['baseurl'], 1);
+        if ($this->settingsFile === false) $this->settingsFile = $this->basedir . '/conf/settings.json';
+        $this->settings = json_decode(file_get_contents($this->settingsFile), true);
+        if (!$this->settings || $this->settings === null) {
+            throw new exception('Unable to open ' . $this->settingsFile . '.');
         }
+
+        $this->settings['general'] ['logfile']          =
+            self::normalizePath($this->basedir,
+                                $this->settings['general']['logfile']
+            );
+        $this->settings['database'] ['dbinit_file']     =
+            self::normalizePath($this->basedir,
+                                $this->settings['database']['dbinit_file']
+            );
+        $this->settings['database'] ['replacement_csv'] =
+            self::normalizePath($this->basedir,
+                                $this->settings['database']['replacement_csv']
+            );
+    }
+    
+    private function initLogFile() {
+        $this->logFile = fopen($this->settings['general']['logfile'], 'a+');
+    }
+
+    private static function normalizePath($basedir, $path) {
+        if (!self::isAbsolutePath($path)) {
+            return $basedir . '/' . $path;
+        }
+        return $path;
+    }
+
+    private static function isAbsolutePath($path) {
+        if (!is_string($path)) {
+            $mess = sprintf('String expected but was given %s', gettype($path));
+            throw new \InvalidArgumentException($mess);
+        }
+        if (!ctype_print($path)) {
+            $mess = 'Path can NOT have non-printable characters or be empty';
+            throw new \DomainException($mess);
+        }
+        // Optional wrapper(s).
+        $regExp = '%^(?<wrappers>(?:[[:print:]]{2,}://)*)';
+        // Optional root prefix.
+        $regExp .= '(?<root>(?:[[:alpha:]]:/|/)?)';
+        // Actual path.
+        $regExp .= '(?<path>(?:[[:print:]]*))$%';
+        $parts  = [];
+        if (!preg_match($regExp, $path, $parts)) {
+            $mess = sprintf('Path is NOT valid, was given %s', $path);
+            throw new \DomainException($mess);
+        }
+        if ('' !== $parts['root']) {
+            return true;
+        }
+        return false;
     }
 
     private function initLocale() {
 
-        $defLangFile = $this->basedir . '/locale/locale.properties';
+        $defLangFile = $this->basedir . '/locale/locale.json';
         $lang        = $this->settings['general']['lang'];
-        $langFile    = $this->basedir . '/locale/locale_' . $lang . '.properties';
+        $langFile    = $this->basedir . '/locale/locale_' . $lang . '.json';
         if (file_exists($langFile)) {
-            $this->locale = parse_ini_file($langFile);
+            $this->locale = json_decode(file_get_contents($langFile), true);
         }
         else {
-            $this->locale = parse_ini_file($defLangFile);
+            $this->locale = json_decode(file_get_contents($defLangFile), true);
         }
-
     }
 
     private function initInstances() {
 
         $this->lfmapi = new LastFm ();
-        $this->lfmapi->setApiKey($this->settings ['lastfm'] ['apikey']);
+        $this->lfmapi->setApiKey($this->settings ['api']['lastfm'] ['key']);
         $this->ytapi = new YouTubeSearch ();
-        if (isset ($this->settings ['youtube'] ['email']))
+        if (isset ($this->settings ['api']['youtube'] ['email']))
             $this->ytapi->setAPIEmail($this->settings ['youtube'] ['email']);
-        if (isset ($this->settings ['youtube'] ['jsonfile']))
+        if (isset ($this->settings ['api']['youtube'] ['jsonfile']))
             $this->ytapi->setAPIJson($this->settings ['youtube'] ['jsonfile']);
-        if (isset ($this->settings ['youtube'] ['user']))
+        if (isset ($this->settings ['api']['youtube'] ['user']))
             $this->ytapi->setAPIUser($this->settings ['youtube'] ['user']);
-        $this->ytapi->setAPIKey($this->settings ['youtube'] ['apikey']);
+        $this->ytapi->setAPIKey($this->settings ['api']['youtube'] ['key']);
     }
 
     public static function startsWith($haystack, $needle) {
@@ -106,29 +150,13 @@ class Functions {
         return (substr($haystack, -$length) === $needle);
     }
 
-    /**
-     * @param array|mixed[] ...$strings
-     * @return array|mixed[]
-     * @throws Exception
-     */
-    public function replaceMap(...$strings) {
-        if ($this->replaceMap === null) {
-            $this->replaceMap = Db::getInstance()->query('LOAD_TRACK_REPLACEMENTS');
+    public static function getInstance() {
+        if (is_null(self::$instance)) {
+            self::$instance = new Functions();
         }
+        return self::$instance;
+    }
 
-        if (!is_array($this->replaceMap)) {
-            return $strings;
-        }
-        $newStrings = array();
-        for ($rcnt = 0; $rcnt < sizeof($this->replaceMap); $rcnt++) {
-            $row = $this->replaceMap[$rcnt];
-            foreach ($strings as $string) {
-                $newStrings[] = (trim(str_replace($row['orig'], $row['repl'], $string)));
-            }
-        }
-        return $newStrings;
-    } 
- 
     public function formatDate($date, $srcFormat = 'Y-m-d H:i:s') {
 
         if (strlen(trim($date)) <= 0) return $date;
@@ -184,41 +212,34 @@ class Functions {
             unset ($_GET ['lastfm_user']);
         }
         else if (!isset ($_SESSION ['music'] ['lastfm_user'])) {
-            $_SESSION ['music'] ['lastfm_user'] = self::$instance->settings ['general'] ['lastfm_defaultuser'];
+            $_SESSION ['music'] ['lastfm_user'] = $this->settings ['general'] ['lastfm_defaultuser'];
         }
         $_SESSION ['music'] ['lastfm_user'] = trim($_SESSION ['music'] ['lastfm_user']);
 
-        self::$instance->lfmapi->setUser($_SESSION ['music'] ['lastfm_user']);
+        $this->lfmapi->setUser($_SESSION ['music'] ['lastfm_user']);
     }
 
     public function logMessage($msg) {
-        self::$instance->initSettings();
-        $logfile = fopen(self::getInstance()->settings['general']['logpath'], 'a+');
+
+        if ($this->logFile === null || $this->logFile === false) return;
 
         $prefix = date('d.m.Y H:i:s');
         if (is_array($msg)) {
             foreach ($msg as $item) {
                 $msgArr = explode("\n", self::br2nl($item));
                 for ($i = 0; $i < sizeof($msgArr); $i++) {
-                    if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
+                    if (strlen($msgArr[$i]) > 0) fwrite($this->logFile, $prefix . "\t" . $msgArr[$i] . "\r\n");
                 }
             }
         }
         else {
             $msgArr = explode("\n", self::br2nl($msg));
             for ($i = 0; $i < sizeof($msgArr); $i++) {
-                if (strlen($msgArr[$i]) > 0) fwrite($logfile, $prefix . "\t" . $msgArr[$i] . "\r\n");
+                if (strlen($msgArr[$i]) > 0) fwrite($this->logFile, $prefix . "\t" . $msgArr[$i] . "\r\n");
             }
         }
 
-        fclose($logfile);
-    }
-
-    public static function getInstance() {
-        if (is_null(self::$instance)) {
-            self::$instance = new Functions();
-        }
-        return self::$instance;
+        fflush($this->logFile);
     }
 
     public static function br2nl($text, $tags = "br") {
@@ -232,6 +253,10 @@ class Functions {
         return ($text);
     }
 
+    public function __destruct() {
+        fflush($this->logFile);
+        fclose($this->logFile);
+    }
 
     public function decodeHTML($val) {
         return html_entity_decode(strip_tags($val), ENT_QUOTES | ENT_HTML5);
@@ -272,6 +297,6 @@ class Functions {
                     ";keyfile = /home/ravermeister/lastfm.rimkus.it/conf/youtube.p12\n" . ";user = info@rimkus.it\n"
         );
         fclose($fh);
-        self::getInstance()->initSettings(true);
+        $this->initSettings(true);
     }
 }

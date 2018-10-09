@@ -77,29 +77,29 @@ class Playlist extends DefaultJson {
 
 
             'HEADER' => array(
-                'TEXT'       => $locale['playlist.title'],
+                'TEXT'       => $locale['playlist']['title'],
                 'URL'        => '//last.fm/user/' . $lfmapi->getUser(),
                 'URL_TARGET' => '_blank',
                 'PLAYLIST'   => 'lastfm'
             ),
 
             'LIST_MENU' => array(
-                'LASTFM_USER_NAME_LABEL' => $locale['playlist.control.user'],
+                'LASTFM_USER_NAME_LABEL' => $locale['playlist']['control']['user'],
                 'LASTFM_USER_NAME'       => $lfmapi->getUser(),
-                'CUR_PAGE_LABEL'         => $locale['playlist.control.page'],
-                'PAGES_OF_LABEL'         => $locale['playlist.control.pageof'],
+                'CUR_PAGE_LABEL'         => $locale['playlist']['control']['page'],
+                'PAGES_OF_LABEL'         => $locale['playlist']['control']['pageof'],
                 'MAX_PAGES'              => $maxpages,
                 'CUR_PAGE'               => $pageNum,
-                'PLAYLIST_LOAD'          => $locale['playlist.control.load'],
+                'PLAYLIST_LOAD'          => $locale['playlist']['control']['load'],
                 'playlist'               => 'lastfm'
             ),
             //lastfm navigation (pages/username)
 
             'LIST_HEADER' => array(
-                'TRACK_NR'       => $locale['playlist.header.nr'],
-                'TRACK_ARTIST'   => $locale['playlist.header.artist'],
-                'TRACK_TITLE'    => $locale['playlist.header.title'],
-                'TRACK_LASTPLAY' => $locale['playlist.header.lastplay']
+                'TRACK_NR'       => $locale['playlist']['header']['nr'],
+                'TRACK_ARTIST'   => $locale['playlist']['header']['artist'],
+                'TRACK_TITLE'    => $locale['playlist']['header']['title'],
+                'TRACK_LASTPLAY' => $locale['playlist']['header']['lastplay']
             )
         );
 
@@ -108,10 +108,7 @@ class Playlist extends DefaultJson {
         for ($cnt = 0; $cnt < sizeof($tracks); $cnt++) {
 
             /** @var Track $track */
-            $track      = $tracks[$cnt];
-            $normalized = $this->funcs->replaceMap($track->getArtist(), $track->getTitle());
-            $track->setArtist($normalized[0]);
-            $track->setTitle($normalized[1]);
+            $track   = $tracks[$cnt];
             $videoId = $db->query('GET_VIDEO',
                                   array('artist' => $track->getArtist(),
                                         'title'  => $track->getTitle())
@@ -119,12 +116,14 @@ class Playlist extends DefaultJson {
             $videoId = is_array($videoId) && isset($videoId[0]['url']) ?
                 $videoId[0]['url'] : '';
 
+            $track->setTitle($db->normalizeTitle($track->getTitle()));
+
             $page['TRACKS'][] = array(
                 'NR'               => ($pageStart + $cnt + 1),
                 'ARTIST'           => $track->getArtist(),
                 'TITLE'            => $track->getTitle(),
                 'LASTPLAY'         => $track->isPlaying() ?
-                    $locale['playlist.lastplay.now'] :
+                    $locale['playlist']['nowplaying'] :
                     $this->funcs->formatDate($track->getDateofPlay()),
                 'LASTFM_ISPLAYING' => $track->isPlaying(),
                 'VIDEO_ID'         => $videoId,
@@ -168,7 +167,7 @@ class Playlist extends DefaultJson {
         $page = array(
 
             'HEADER' => array(
-                'TEXT'       => $locale['menu.topsongs'],
+                'TEXT'       => $locale['menu']['topsongs'],
                 'URL'        => '#playlist-container',
                 'URL_TARGET' => '_self',
                 'PLAYLIST'   => 'topsongs',
@@ -182,11 +181,11 @@ class Playlist extends DefaultJson {
             //lastfm navigation (pages/username)
 
             'LIST_HEADER' => array(
-                'TRACK_NR'        => $locale['playlist.header.nr'],
-                'TRACK_ARTIST'    => $locale['playlist.header.artist'],
-                'TRACK_TITLE'     => $locale['playlist.header.title'],
-                'TRACK_LASTPLAY'  => $locale['playlist.header.lastplay'],
-                'TRACK_PLAYCOUNT' => $locale['playlist.header.playcount'],
+                'TRACK_NR'        => $locale['playlist']['header']['nr'],
+                'TRACK_ARTIST'    => $locale['playlist']['header']['artist'],
+                'TRACK_TITLE'     => $locale['playlist']['header']['title'],
+                'TRACK_LASTPLAY'  => $locale['playlist']['header']['lastplay'],
+                'TRACK_PLAYCOUNT' => $locale['playlist']['header']['playcount'],
             )
         );
 
@@ -249,7 +248,7 @@ class Playlist extends DefaultJson {
         $page = array(
 
             'HEADER' => array(
-                'TEXT'       => $locale['menu.topuser'],
+                'TEXT'       => $locale['menu']['topuser'],
                 'URL_TARGET' => '_self',
                 'TYPE'       => 'topuser',
             ),
@@ -261,10 +260,10 @@ class Playlist extends DefaultJson {
             //lastfm navigation (pages/username)
 
             'LIST_HEADER' => array(
-                'USER_NR'        => $locale['playlist.header.nr'],
-                'USER_NAME'      => $locale['playlist.header.name'],
-                'USER_LASTPLAY'  => $locale['playlist.header.lastplay'],
-                'USER_PLAYCOUNT' => $locale['playlist.header.playcount'],
+                'USER_NR'        => $locale['playlist']['header']['nr'],
+                'USER_NAME'      => $locale['playlist']['header']['name'],
+                'USER_LASTPLAY'  => $locale['playlist']['header']['lastplay'],
+                'USER_PLAYCOUNT' => $locale['playlist']['header']['playcount'],
             )
         );
 
@@ -281,7 +280,7 @@ class Playlist extends DefaultJson {
                 'PLAY_CONTROL' => '',
             );
         }
-        
+
 
         return $page;
     }

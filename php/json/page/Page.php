@@ -10,7 +10,6 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
-use LastFmTube\Util\Functions;
 
 class Page extends DefaultJson {
 
@@ -38,10 +37,9 @@ class Page extends DefaultJson {
     }
 
     private function getBase() {
-
         return array(
-            'TITLE' => $this->funcs->getLocale()['site.title'],
-            'TEXT'  => $this->funcs->getLocale()['site.header.text'],
+            'TITLE' => $this->funcs->getLocale()['site']['title'],
+            'TEXT'  => $this->funcs->getLocale()['site']['header'],
             'MENU'  => $this->getBaseMenu()
         );
         //header content
@@ -65,32 +63,32 @@ class Page extends DefaultJson {
         $locale = $this->funcs->getLocale();
         return array(
             'TOPUSER'  => array(
-                'TEXT'  => $locale['menu.topuser'],
+                'TEXT'  => $locale['menu']['topuser'],
                 'PAGE'  => 'user-container',
                 'LDATA' => 'topuser'
             ),
             'TOPSONGS' => array(
-                'TEXT'  => $locale['menu.topsongs'],
+                'TEXT'  => $locale['menu']['topsongs'],
                 'PAGE'  => 'playlist-container',
                 'LDATA' => 'topsongs',
             ),
             'LASTFM'   => array(
-                'TEXT'  => $locale['menu.lastfm'],
+                'TEXT'  => $locale['menu']['lastfm'],
                 'PAGE'  => 'playlist-container',
                 'LDATA' => 'lastfm',
             ),
             'SEARCH'   => array(
-                'TEXT'  => $locale['menu.search'],
+                'TEXT'  => $locale['menu']['search'],
                 'PAGE'  => 'playlist-container',
                 'LDATA' => 'search',
             ),
             'USERLIST' => array(
-                'TEXT'  => $locale['menu.userlist'],
+                'TEXT'  => $locale['menu']['userlist'],
                 'PAGE'  => 'playlist-container',
                 'LDATA' => 'userlist',
             ),
             'YTPLAYER' => array(
-                'TEXT'  => $locale['menu.youtube'],
+                'TEXT'  => $locale['menu']['youtube'],
                 'PAGE'  => 'video-container',
                 'LDATA' => 'video'
             )
@@ -116,10 +114,10 @@ class Page extends DefaultJson {
         if (strlen(trim($artist)) === 0 && strlen(trim($title)) === 0) {
             $this->jsonError('can not save trackplay, insufficient data');
         }
-        
+
         $data = Db::getInstance()->updateTrackPlay($artist, $title);
 
-        return $data; 
+        return $data;
     }
 
     /**
