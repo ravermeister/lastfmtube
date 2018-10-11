@@ -116,6 +116,7 @@ class Playlist extends DefaultJson {
             $videoId = is_array($videoId) && isset($videoId[0]['url']) ?
                 $videoId[0]['url'] : '';
 
+            $track->setArtist($db->normalizeArtist($track->getArtist()));
             $track->setTitle($db->normalizeTitle($track->getTitle()));
 
             $page['TRACKS'][] = array(
