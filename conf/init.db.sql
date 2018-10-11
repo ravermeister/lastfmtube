@@ -55,6 +55,7 @@ DROP VIEW IF EXISTS v_trackplay
 ;
 
 CREATE VIEW v_trackplay AS
+
   WITH artist_vars AS (
       SELECT orig, repl
         FROM replacement
@@ -66,30 +67,43 @@ CREATE VIEW v_trackplay AS
         WHERE repltyp = 'TITLE'
         ORDER BY LENGTH(orig) DESC
   ), duplicates AS (
-    SELECT 
-  		 artist,
-         TRIM(REPLACE(mc.artist, av.orig, av.repl)) AS new_artist,
-         title,
-         TRIM(REPLACE(mc.title, tv.orig, tv.repl))  AS new_title,
-         SUM(playcount)                             AS playcount,
-         MAX(lastplayed)                            AS lastplayed,
-         MAX(lastplay_ip)                           AS lastplay_ip,
-         MAX(url)                                   AS url
-    FROM trackplay mc
-           LEFT JOIN artist_vars av ON mc.artist LIKE "%" || av.orig || "%"
-           LEFT JOIN title_vars tv ON mc.title LIKE "%" || tv.orig || "%"
-    WHERE new_artist IS NOT NULL
-       OR new_title IS NOT NULL
-    GROUP BY new_artist, new_title
+      SELECT artist,
+             TRIM(REPLACE(mc.artist, av.orig, av.repl)) AS new_artist,
+             title,
+             TRIM(REPLACE(mc.title, tv.orig, tv.repl))  AS new_title,
+             SUM(playcount)                             AS playcount,
+             MAX(lastplayed)                            AS lastplayed,
+             MAX(lastplay_ip)                           AS lastplay_ip,
+             MAX(url)                                   AS url
+        FROM trackplay mc
+               LEFT JOIN artist_vars av ON mc.artist LIKE "%" || av.orig || "%"
+               LEFT JOIN title_vars tv ON mc.title LIKE "%" || tv.orig || "%"
+        WHERE new_artist IS NOT NULL
+           OR new_title IS NOT NULL
+        GROUP BY new_artist, new_title
+  ), cleantracks AS (
+    SELECT TRIM(COALESCE(new_artist, artist)) AS artist,
+           TRIM(COALESCE(new_title, title))   AS title,
+           playcount,
+           lastplayed,
+           lastplay_ip,
+           url
+      FROM duplicates
+    UNION
+    SELECT TRIM(artist) AS artist, TRIM(title) AS title, playcount, lastplayed, lastplay_ip, url
+      FROM trackplay
+      WHERE artist NOT IN ( SELECT artist FROM duplicates )
+        AND title NOT IN ( SELECT title FROM duplicates )
   )
-  SELECT 
-  	COALESCE(new_artist, artist) AS artist,
-  	COALESCE(new_title, title) AS title,
-  	playcount,
-  	lastplayed,
-  	lastplay_ip,
-  	url
-  FROM duplicates;
+  SELECT artist,
+         title,
+         SUM(playcount)   AS playcount,
+         MAX(lastplayed)  AS lastplayed,
+         MAX(lastplay_ip) AS lastplay_ip,
+         MAX(url)         AS url
+    FROM cleantracks
+    GROUP BY artist, title
+
 ;
 
 COMMIT
