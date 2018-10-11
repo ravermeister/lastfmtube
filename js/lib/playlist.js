@@ -3,7 +3,7 @@ class PlaylistController {
     constructor() {
         this.userStore = Storages.localStorage;
     }
-    
+
 
     loadTopUser(pageNum = 1, callBack = null) {
 
@@ -137,9 +137,9 @@ class PlaylistController {
 
         $page.myVues.playlist.update({
             HEADER: {
-                PLAYLIST: 'userlist',
-                TEXT: 'My Songs',
-                URL: ''
+                PLAYLIST: $page.menu.getMenuItem('userlist').PLAYLIST,
+                TEXT: $page.menu.getMenuItem('userlist').TEXT,
+                URL: $page.menu.getMenuItem('userlist').LDATA
             },
 
             TRACKS: tracks

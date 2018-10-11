@@ -367,8 +367,9 @@ class PageController {
             if (!$player.isReady || !forceReload &&
                 typeof menu.LDATA !== 'undefined' &&
                 menu.LDATA === $page.PLAYLIST
-            )
+            ) {
                 return;
+            }
 
             let showPage = function (success) {
 
@@ -488,12 +489,16 @@ class PageController {
         if (playlist === this.PLAYLIST) return;
 
         this.PLAYLIST = playlist;
-
-
         $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
+        
+        if (!$player.isPlaying() || 
+            'undefined' === typeof $player.currentTrackData.track || 
+            $player.currentTrackData.track === null || 
+            $player.currentTrackData.track.PLAYLIST === playlist) {
+            $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
+        }
 
     }
 
@@ -718,7 +723,7 @@ class PageController {
 
                 if (oldTrack === null) {
                     if (!isTopSongPlaylist) return;
-                    
+
                     let newTrack = LibvuePlaylist.createEmptyTrack();
                     newTrack.NR = chartJson.data.value.pos;
                     newTrack.ARTIST = chartJson.data.value.artist;
@@ -742,7 +747,7 @@ class PageController {
                             curTrack.NR = (parseInt(curTrack.NR) + 1);
                         }
                     }
-         
+
                     if ($page.myVues.playlist.content.$data.TRACKS.length > PageController.TRACKS_PER_PAGE) {
                         $page.myVues.playlist.content.$data.TRACKS.splice(
                             PageController.TRACKS_PER_PAGE,

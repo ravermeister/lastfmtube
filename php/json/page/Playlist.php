@@ -274,7 +274,7 @@ class Playlist extends DefaultJson {
 
             $page['USER'][] = array(
                 'NR'           => ($offset + $cnt + 1),
-                'NAME'         => $user['lastfm_user'],
+                'NAME'         => $user['lfmuser'],
                 'LASTPLAY'     => $this->funcs->formatDate($user['lastplayed']),
                 'PLAYCOUNT'    => $user['playcount'],
                 'PLAY_CONTROL' => '',

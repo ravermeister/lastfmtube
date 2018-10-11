@@ -61,7 +61,7 @@ class Db {
     public function createdb() {
         if ($this->validate()) return false;
         $this->connect();
-        $sqlf = file_get_contents($this->settings ['database']['dbinit_file']);
+        $sqlf = file_get_contents(Functions::getInstance()->getSettings() ['database']['dbinit_file']);
         if ($sqlf === false) {
             Functions::getInstance()->logMessage('Error could not open initdb sql file');
             return $sqlf;

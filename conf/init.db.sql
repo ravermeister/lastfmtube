@@ -41,10 +41,10 @@ DROP TABLE IF EXISTS replacement
 ;
 
 CREATE TABLE replacement (
-  repltyp VARCHAR(10) DEFAULT('TITLE'),
+  repltyp VARCHAR(10) DEFAULT ('TITLE'),
   orig    VARCHAR(500),
   repl    VARCHAR(500),
-  
+
   PRIMARY KEY (repltyp, orig),
   CHECK (repltyp IN ('ARTIST', 'TITLE'))
 )
@@ -55,53 +55,32 @@ DROP VIEW IF EXISTS v_trackplay
 ;
 
 CREATE VIEW v_trackplay AS
-  WITH vars AS (
+  WITH artist_vars AS (
       SELECT orig, repl
         FROM replacement
-        ORDER BY LENGTH(orig)
-  ), duplicates AS (
-      SELECT artist,
-             title,
-             TRIM(REPLACE(mc.artist, repl.orig, repl.repl)) AS new_artist,
-             TRIM(REPLACE(mc.title, repl.orig, repl.repl))  AS new_title,
-             playcount,
-             lastplayed,
-             lastplay_ip,
-             url
-        FROM trackplay mc
-               JOIN replacement repl ON mc.title LIKE "%" || repl.orig || "%" OR
-                                        mc.artist LIKE "%" || repl.orig || "%"
-  ), excluded AS (
-      SELECT TRIM(mc.artist) AS artist, TRIM(mc.title) AS title, mc.playcount, mc.lastplayed, mc.lastplay_ip, mc.url
-        FROM trackplay mc
-        WHERE mc.title NOT IN( SELECT title FROM duplicates )
-           OR mc.artist NOT IN( SELECT artist FROM duplicates )
+        WHERE repltyp = 'ARTIST'
+        ORDER BY LENGTH(orig) DESC
+  ), title_vars AS (
+      SELECT orig, repl
+        FROM replacement
+        WHERE repltyp = 'TITLE'
+        ORDER BY LENGTH(orig) DESC
   )
   SELECT artist,
+         TRIM(REPLACE(mc.artist, av.orig, av.repl)) AS new_artist,
          title,
-         orig_artist,
-         orig_title,
-         SUM(playcount) AS playcount,
-         lastplayed,
-         lastplay_ip,
-         url
-    FROM (SELECT new_artist AS artist,
-                 new_title  AS title,
-                 artist     AS orig_artist,
-                 title      AS orig_title,
-                 playcount,
-                 lastplayed,
-                 lastplay_ip,
-                 url
-            FROM duplicates
-          UNION ALL SELECT artist,
-                           title,
-                           artist AS orig_artist,
-                           title  AS orig_title,
-                           playcount,
-                           lastplayed,
-                           lastplay_ip,
-                           url
-                      FROM excluded)
-    GROUP BY artist, title
+         TRIM(REPLACE(mc.title, tv.orig, tv.repl))  AS new_title,
+         SUM(playcount)                             AS playcount,
+         MAX(lastplayed)                            AS lastplayed,
+         MAX(lastplay_ip)                           AS lastplay_ip,
+         MAX(url)                                   AS url
+    FROM trackplay mc
+           LEFT JOIN artist_vars av ON mc.artist LIKE "%" || av.orig || "%"
+           LEFT JOIN title_vars tv ON mc.title LIKE "%" || tv.orig || "%"
+    WHERE new_artist IS NOT NULL
+       OR new_title IS NOT NULL
+    GROUP BY new_artist, new_title
+;
+
+COMMIT
 ;
