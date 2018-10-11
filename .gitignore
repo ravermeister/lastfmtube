@@ -1,8 +1,6 @@
 vendor
 conf/settings.ini
-conf/lasttube.db.prod
-conf/lasttube.db.dev
-conf/lasttube.db
+conf/*.db
 conf/*.log
 .buildpath
 .project

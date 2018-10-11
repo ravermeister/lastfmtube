@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2061176669ab71233b6c61365703f8fc",
+    "content-hash": "a73b818c0563b48c7a006622ff0b65de",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -113,16 +113,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.70",
+            "version": "v0.71",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "759a1a246409eae1c723abc72d817205a1d5549f"
+                "reference": "f066aac8c0ea88cf5880611d589fd1e01c4fd082"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/759a1a246409eae1c723abc72d817205a1d5549f",
-                "reference": "759a1a246409eae1c723abc72d817205a1d5549f",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/f066aac8c0ea88cf5880611d589fd1e01c4fd082",
+                "reference": "f066aac8c0ea88cf5880611d589fd1e01c4fd082",
                 "shasum": ""
             },
             "require": {
@@ -146,7 +146,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2018-09-16T00:22:55+00:00"
+            "time": "2018-10-09T00:22:49+00:00"
         },
         {
             "name": "google/auth",
@@ -691,16 +691,16 @@
         },
         {
             "name": "sunra/php-simple-html-dom-parser",
-            "version": "dev-master",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sunra/php-simple-html-dom-parser.git",
-                "reference": "fa1052a00729e14bcd7de1d969d12809d0536b5a"
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sunra/php-simple-html-dom-parser/zipball/fa1052a00729e14bcd7de1d969d12809d0536b5a",
-                "reference": "fa1052a00729e14bcd7de1d969d12809d0536b5a",
+                "url": "https://api.github.com/repos/sunra/php-simple-html-dom-parser/zipball/75b9b1cb64502d8f8c04dc11b5906b969af247c6",
+                "reference": "75b9b1cb64502d8f8c04dc11b5906b969af247c6",
                 "shasum": ""
             },
             "require": {
@@ -735,22 +735,21 @@
                 "html",
                 "parser"
             ],
-            "time": "2017-09-30T16:50:01+00:00"
+            "time": "2016-11-22T22:57:47+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "sunra/php-simple-html-dom-parser": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.6",
         "ext-pdo": "*",
         "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-intl": "*"
     },
     "platform-dev": []
 }

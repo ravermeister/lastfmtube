@@ -13,7 +13,7 @@
     "email": "jonny@rimkus.it",
     "forum": "http://www.rimkus.it"
   },
-  "autoload": {  
+  "autoload": {
     "psr-4": {
       "LastFmTube\\Api\\": "php/api",
       "LastFmTube\\Util\\": "php/util/",
