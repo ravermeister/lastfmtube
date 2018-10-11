@@ -65,8 +65,9 @@ CREATE VIEW v_trackplay AS
         FROM replacement
         WHERE repltyp = 'TITLE'
         ORDER BY LENGTH(orig) DESC
-  )
-  SELECT artist,
+  ), duplicates AS (
+    SELECT 
+  		 artist,
          TRIM(REPLACE(mc.artist, av.orig, av.repl)) AS new_artist,
          title,
          TRIM(REPLACE(mc.title, tv.orig, tv.repl))  AS new_title,
@@ -80,6 +81,15 @@ CREATE VIEW v_trackplay AS
     WHERE new_artist IS NOT NULL
        OR new_title IS NOT NULL
     GROUP BY new_artist, new_title
+  )
+  SELECT 
+  	COALESCE(new_artist, artist) AS artist,
+  	COALESCE(new_title, title) AS title,
+  	playcount,
+  	lastplayed,
+  	lastplay_ip,
+  	url
+  FROM duplicates;
 ;
 
 COMMIT

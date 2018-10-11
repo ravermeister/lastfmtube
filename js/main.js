@@ -14,9 +14,12 @@ require([
     $page = new PageController();
 
     $page.init();
-    $player.initPlayer();
-
     
+    $playlist.loadLastFmList();    
+    $player.autoPlay = true;
+    
+    $player.initPlayer();
+        
     //maybe set it to page...
     require(['analytics']);
 });

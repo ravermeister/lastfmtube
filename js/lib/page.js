@@ -486,18 +486,18 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
-        if (playlist === this.PLAYLIST) return;
+        if (playlist === null || playlist === 'video' || this.isCurrentPlaylist(playlist))
+            return;
 
         this.PLAYLIST = playlist;
         $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
-        
-        if (!$player.isPlaying() || 
-            'undefined' === typeof $player.currentTrackData.track || 
-            $player.currentTrackData.track === null || 
+        $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
+        if (!$player.isPlaying() ||
+            'undefined' === typeof $player.currentTrackData.track ||
+            $player.currentTrackData.track === null ||
             $player.currentTrackData.track.PLAYLIST === playlist) {
-            $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
         }
 
     }

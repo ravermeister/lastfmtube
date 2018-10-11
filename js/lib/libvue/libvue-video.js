@@ -10,45 +10,49 @@ class LibvueVideo {
                 PLAYLIST: null,
                 CURRENT_TRACK: null,
                 SEARCH_TRACK: null,
-                LOADING: false,
+                LOADING: false
             },
             computed: {
-                
+
                 TEXT: function () {
                     let playlist = PageController.article.playlist.name;
-                    if(this.CURRENT_TRACK !== null) playlist =  this.CURRENT_TRACK.PLAYLIST;
-                    else if(this.PLAYLIST !== null) playlist =  this.PLAYLIST;
-                    return $page.menu.getMenuItem(playlist).TEXT;                    
+                    if (this.CURRENT_TRACK !== null) playlist = this.CURRENT_TRACK.PLAYLIST;
+                    else if (this.PLAYLIST !== null) playlist = this.PLAYLIST;
+                    return $page.menu.getMenuItem(playlist).TEXT;
                 },
-            
+
                 LOGO: function () {
                     let playlist = PageController.article.playlist.name;
-                    if(this.CURRENT_TRACK !== null) playlist =  this.CURRENT_TRACK.PLAYLIST;
-                    else if(this.PLAYLIST !== null) playlist =  this.PLAYLIST;
-                    
-                    let icon = PageController.icons.getPlaylistIcon(playlist);                    
+                    if (this.CURRENT_TRACK !== null) playlist = this.CURRENT_TRACK.PLAYLIST;
+                    else if (this.PLAYLIST !== null) playlist = this.PLAYLIST;
+
+                    let icon = PageController.icons.getPlaylistIcon(playlist);
                     return this.$data.LOADING ? icon.animatedBig : icon.big;
                 }
             },
             methods: {
-                
-                
-                update: function (json) {                    
+
+
+                update: function (json) {
                     this.$applyData(json);
                 },
-                
+
                 loadMenu: function (playlist, event) {
-                    if(playlist === 'search') {
+
+                    if (playlist === 'search') {
                         let vue = this;
                         this.$data.LOADING = true;
-                        let callbak = function(success) {                            
+                        let callbak = function (success) {
                             vue.$data.LOADING = false;
                             location.href = '#' + menu.PLAYLIST;
                         };
                         $player.searchSong(this.$data.SEARCH_TRACK, callbak);
                         return;
+                    } else if (playlist === 'video') {
+                        playlist = $page.PLAYLIST;
+                        if (playlist === null) playlist = 'lastfm';
                     }
-                    
+
                     let menu = $page.menu.getMenuItem(playlist);
                     this.$loadListMenu(menu, event);
                 }
@@ -72,7 +76,7 @@ class LibvueVideo {
                         $player.ytPlayer.playVideo();
                     }
                 },
-                
+
                 prev: function () {
                     $player.loadPreviousSong();
                 },
@@ -87,7 +91,7 @@ class LibvueVideo {
                 },
                 search: function (event) {
                     if ($page.myVues.youtube.header.SEARCH_TRACK === null) return;
-                    
+
                     $page.myVues.youtube.header.$data.LOADING = true;
                     $player.searchSong($page.myVues.youtube.header.SEARCH_TRACK, function () {
                         $page.myVues.youtube.header.$data.LOADING = false;
