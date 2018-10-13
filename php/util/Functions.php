@@ -200,8 +200,11 @@ class Functions {
     }
 
     public function getLocale($lang = 'en') {
-        $requestLang = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        $requestLang = explode('_', $requestLang)[0];
+        $requestLang = '';
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            $requestLang = Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $requestLang = explode('_', $requestLang)[0];
+        }
         return isset($this->localeMap[$requestLang]) ?
             $this->localeMap[$requestLang] :
             $this->localeMap[$lang];

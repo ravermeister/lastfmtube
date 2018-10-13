@@ -12,6 +12,7 @@ use Exception;
 use LastFmTube\Api\LastFm\Track;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
 
@@ -109,16 +110,17 @@ class Playlist extends DefaultJson {
 
             /** @var Track $track */
             $track   = $tracks[$cnt];
+            
+            $track->setArtist($db->normalizeArtist($track->getArtist()));
+            $track->setTitle($db->normalizeTitle($track->getTitle()));
+
             $videoId = $db->query('GET_VIDEO',
                                   array('artist' => $track->getArtist(),
                                         'title'  => $track->getTitle())
             );
             $videoId = is_array($videoId) && isset($videoId[0]['url']) ?
                 $videoId[0]['url'] : '';
-
-            $track->setArtist($db->normalizeArtist($track->getArtist()));
-            $track->setTitle($db->normalizeTitle($track->getTitle()));
-
+                        
             $page['TRACKS'][] = array(
                 'NR'               => ($pageStart + $cnt + 1),
                 'ARTIST'           => $track->getArtist(),

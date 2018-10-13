@@ -27,7 +27,8 @@ class Db {
     private $statements = false;
 
 
-    private $replaceTitleMap = null;
+    private $replaceTitleMap  = null;
+    private $replaceArtistMap = null;
 
     /**
      * Db constructor.
@@ -43,7 +44,7 @@ class Db {
     public function connect() {
         if ($this->isConnected()) return;
 
-        $settings = Functions::getInstance()->getSettings();
+        $settings  = Functions::getInstance()->getSettings();
         $this->pdo = new PDO ($settings ['database'] ['dsn'], $settings ['database'] ['username'],
                               $settings ['database'] ['password']
         );
@@ -187,13 +188,12 @@ class Db {
                 WITH cte AS (
                      SELECT 
                      RANK() OVER (ORDER BY playcount DESC) AS pos,
-                     artist, title, orig_artist, orig_title, playcount, lastplayed, lastplay_ip, url
+                     artist, title, playcount, lastplayed, lastplay_ip, url
                      FROM v_trackplay 
                  ) 
                  SELECT pos, artist, title, playcount, lastplayed, lastplay_ip, url 
                  FROM cte
-                 WHERE artist =:artist AND title = :title 
-                 OR orig_artist = :artist AND orig_title = :title;
+                 WHERE artist =:artist AND title = :title;
             ',
 
             'GET_VIDEO' => '
@@ -222,7 +222,7 @@ class Db {
                 FROM replacement 
                 WHERE repltyp = :repltyp;
             ',
-            
+
 
             'INSERT_REPLACEMENT' => '
                 REPLACE INTO replacement(repltyp, orig, repl) VALUES (:repltyp, :orig, :repl);
@@ -266,6 +266,7 @@ class Db {
             return;
         }
 
+        $this->pdo->query('DELETE FROM replacement WHERE repltyp IN ("ARTIST","TITLE")');
         $rcnt = 0;
         while (($row = fgetcsv($csvf, 1000)) !== false) {
             if ($rcnt === 0) {
@@ -429,6 +430,7 @@ class Db {
      * @return string
      */
     public function normalizeTitle($string) {
+        
         if ($this->replaceTitleMap === null) {
             $this->replaceTitleMap = $this->query('LOAD_REPLACEMENTS', array('repltyp' => 'TITLE'));
         }
@@ -451,16 +453,16 @@ class Db {
      * @return string
      */
     public function normalizeArtist($string) {
-        if ($this->replaceTitleMap === null) {
-            $this->replaceTitleMap = $this->query('LOAD_REPLACEMENTS', array('repltyp' => 'ARTIST'));
+        if ($this->replaceArtistMap === null) {
+            $this->replaceArtistMap = $this->query('LOAD_REPLACEMENTS', array('repltyp' => 'ARTIST'));
         }
 
-        if (!is_array($this->replaceTitleMap)) {
+        if (!is_array($this->replaceArtistMap)) {
             return $string;
         }
 
-        for ($rcnt = 0; $rcnt < sizeof($this->replaceTitleMap); $rcnt++) {
-            $row    = $this->replaceTitleMap[$rcnt];
+        for ($rcnt = 0; $rcnt < sizeof($this->replaceArtistMap); $rcnt++) {
+            $row    = $this->replaceArtistMap[$rcnt];
             $string = (trim(str_replace($row['orig'], $row['repl'], $string)));
         }
 
