@@ -209,6 +209,7 @@ class PageController {
 
         PageController.TRACKS_PER_PAGE = 25; //in settings.ini
         PageController.icons = PageController.initIcons();
+        PageController.analytics = null;
 
         this.isReady = false;
         this.PLAYLIST = null;
@@ -251,6 +252,27 @@ class PageController {
         pageLoaded(true);
     }
 
+    trackPlaylist(playlist) {
+
+        if (PageController.analytics === null) return;
+        PageController.analytics('send', {
+            'hitType': 'event',
+            'eventCategory': playlist,
+            'eventAction': 'view',
+            'eventLabel': 'Playlist'
+        });
+    }
+
+    trackSongPlay(track) {
+        if (PageController.analytics === null) return;
+        PageController.analytics('send', {
+            'hitType': 'event',
+            'eventCategory': (track.artist + ' ' + track.title),
+            'eventAction': 'play',
+            'eventLabel': 'Track played'
+        });
+    }
+
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist === null) playlist = $page.PLAYLIST;
 
@@ -266,6 +288,7 @@ class PageController {
             }
 
             $page.setLoading(curArticle);
+            $page.trackPlaylist($page.PLAYLIST);
         };
 
         $page.setLoading(curArticle, true);
@@ -760,6 +783,7 @@ class PageController {
                         }
                     }
 
+                    $page.trackSongPlay(newTrack);
                     return;
                 }
 
@@ -768,6 +792,7 @@ class PageController {
                     oldTrack.PLAYCOUNT = chartJson.data.value.playcount;
                     oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(chartJson.data.value.pos));
                 }
+                $page.trackSongPlay(oldTrack);
             }
         ).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {

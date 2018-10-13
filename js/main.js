@@ -21,5 +21,7 @@ require([
     $player.initPlayer();
         
     //maybe set it to page...
-    require(['analytics']);
+    require(['analytics'], function (analytics) {
+        PageController.analytics = analytics;
+    });
 });
