@@ -1,0 +1,34 @@
+{
+  "site": {
+    "title": "Last.fm YouTube Radio",
+    "header": "sucht Songs eines Last.fm Benutzers in Youtube und spielt Sie als Radio Stream"
+  },
+  "playlist": {
+    "title": "Last.fm",
+    "nowplaying": "wird gespielt",
+    "header": {
+      "name": "Name",
+      "playcount": "Spielanzahl",
+      "nr": "Nr.",
+      "artist": "Künstler",
+      "title": "Titel",
+      "lastplay": "Gespielt am"
+    },
+    "control": {
+      "user": "Benutzer:",
+      "page": "Seite",
+      "pageof": "von",
+      "save": "Speichern",
+      "load": "Laden",
+      "addtrack": "zur Playlist hinzufügen"
+    }
+  },
+  "menu": {
+    "topuser": "Top Benutzer",
+    "userlist": "Meine Songs",
+    "lastfm": "Last.fm",
+    "topsongs": "Top Songs",
+    "search": "Suche",
+    "youtube": "Player"
+  }
+}

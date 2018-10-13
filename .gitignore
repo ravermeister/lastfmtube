@@ -1,10 +1,13 @@
 vendor
 conf/settings.ini
-conf/lasttube.db.prod
-conf/lasttube.db.dev
-conf/lasttube.db
+conf/*.db
+conf/*.log
 .buildpath
 .project
 .settings/
 google966f8a1df1fe6267.html
 tmp/
+.idea
+lastfmtube.iml
+
+conf/settings\.json
