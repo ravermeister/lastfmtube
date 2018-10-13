@@ -96,7 +96,7 @@ class LibvueUser {
                     
                     user.PLAY_CONTROL = 'loading';
                     $page.myVues.userlist.header.title.$data.LOADING = true;
-                    $playlist.loadList(1, user.NAME, openurl, 'lastfm');
+                    $page.loadList(1, user.NAME, openurl, 'lastfm');
                 }
             }
         });

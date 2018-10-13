@@ -268,7 +268,7 @@ class Db {
 
         $this->pdo->query('DELETE FROM replacement WHERE repltyp IN ("ARTIST","TITLE")');
         $rcnt = 0;
-        while (($row = fgetcsv($csvf, 1000)) !== false) {
+        while (($row = fgetcsv($csvf, 10000)) !== false) {
             if ($rcnt === 0) {
                 $rcnt++;
                 continue; //ignore header row

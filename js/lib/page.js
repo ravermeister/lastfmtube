@@ -656,7 +656,6 @@ class PageController {
 
     saveChartUser(lfmuser = null) {
         if (typeof lfmuser === 'undefined' || lfmuser === null) return;
-        return;
 
         $.ajax('php/json/page/Page.php?action=save-userplay', {
             dataType: 'json',

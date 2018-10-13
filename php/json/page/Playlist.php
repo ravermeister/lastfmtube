@@ -242,7 +242,6 @@ class Playlist extends DefaultJson {
                                )
         );
         $maxpages = $db->query('SELECT_ALL_LASTFM_USER_NUM_ROWS');
-        $this->funcs->logMessage(print_r($maxpages, true));
         $maxpages = $maxpages === false ? 1 : $maxpages['cnt'];
         $maxpages = ((int)($maxpages / $limit));
 
