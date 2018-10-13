@@ -26,10 +26,12 @@ class LibvueVideo {
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 TRACK_NR: function () {
-                    return (this.CURRENT_TRACK === null ||
-                        this.PLAYLIST === null && this.CURRENT_TRACK.PLAYLIST !== 'lastfm' ||
-                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== this.PLAYLIST) ? '' :
+                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                        this.PLAYLIST;
+                    let tnr = (this.CURRENT_TRACK === null ||
+                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== playlist) ? '' :
                         '#' + this.CURRENT_TRACK.NR;
+                    return tnr;
                 }
             },
             methods: {
@@ -41,16 +43,18 @@ class LibvueVideo {
 
                 loadMenu: function (playlist, event) {
 
-                    if (playlist === 'search') {
+                    if ('search' === playlist) {
                         let vue = this;
                         this.$data.LOADING = true;
-                        let callbak = function (success) {
+                        let callback = function (success) {
                             vue.$data.LOADING = false;
                             location.href = '#' + menu.PLAYLIST;
                         };
-                        $player.searchSong(this.$data.SEARCH_TRACK, callbak);
+                        $player.searchSong(this.$data.SEARCH_TRACK, callback);
                         return;
-                    } else if (playlist === 'video') {
+                    }
+
+                    if ('video' === playlist) {
                         playlist = $page.PLAYLIST;
                         if (playlist === null) playlist = 'lastfm';
                     }

@@ -759,7 +759,15 @@ class PageController {
                         $page.myVues.playlist.content.$data.TRACKS.push(newTrack);
                         return;
                     }
-
+                    if($player.isCurrentTrack(newTrack)) {
+                        newTrack.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
+                        newTrack.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
+                        $player.setCurrentTrack(newTrack);                         
+                    }
+                    if($page.myVues.playlist.content.$data.TRACKS[0].NR > newTrack.NR) {
+                        return; //we are higher than first pos in list
+                    }
+                    
                     let trackInserted = false;
                     for (let cnt = 0; cnt < trackList.length; cnt++) {
                         let curTrack = trackList[cnt];
