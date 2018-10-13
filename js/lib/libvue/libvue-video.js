@@ -23,10 +23,12 @@ class LibvueVideo {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
                     let icon = PageController.icons.getPlaylistIcon(playlist);
-                    return icon.big;
+                    return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 TRACK_NR: function () {
-                    return this.CURRENT_TRACK === null ? '' :
+                    return (this.CURRENT_TRACK === null ||
+                        this.PLAYLIST === null && this.CURRENT_TRACK.PLAYLIST !== 'lastfm' ||
+                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== this.PLAYLIST) ? '' :
                         '#' + this.CURRENT_TRACK.NR;
                 }
             },
