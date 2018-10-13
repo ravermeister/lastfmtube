@@ -342,7 +342,7 @@ class Db {
         $upres = $this->statements ['UPDATE_LASTFM_USER_VISIT']->execute(
             array(
                 'lastplayed' => $curvisit,
-                'user'       => $user
+                'lfmuser'       => $user
             )
         );
         if ($upres !== false && $this->statements ['UPDATE_LASTFM_USER_VISIT']->rowCount() == 1) {
@@ -350,7 +350,7 @@ class Db {
         }
         $this->statements ['INSERT_LASTFM_USER_VISIT']->execute(
             array(
-                'user'       => $user,
+                'lfmuser'       => $user,
                 'lastplayed' => $curvisit
             )
         );
