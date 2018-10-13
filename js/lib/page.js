@@ -517,6 +517,7 @@ class PageController {
         $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
+        
         if (!$player.isPlaying() ||
             'undefined' === typeof $player.currentTrackData.track ||
             $player.currentTrackData.track === null ||

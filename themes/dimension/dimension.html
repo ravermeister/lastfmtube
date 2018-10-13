@@ -58,7 +58,7 @@
 
             <h2 class="major">
                 <a v-bind:href="'#' + PLAYLIST" @click.prevent="loadMenu(PLAYLIST, $event);" style="border: 0">
-                    <i v-bind:class="LOGO"></i>&nbsp;{{TEXT}}
+                    <i v-bind:class="LOGO"></i>&nbsp;{{TEXT}} {{TRACK_NR}}
                 </a>
             </h2>
 

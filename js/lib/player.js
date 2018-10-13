@@ -440,7 +440,6 @@ class PlayerController {
         this.currentTrackData.track = track;
         $page.myVues.youtube.header.$data.CURRENT_TRACK = track;
         if (track.PLAYLIST !== 'search') $page.myVues.youtube.header.SEARCH_TRACK = track;
-        $page.myVues.youtube.header.$data.TEXT = $page.myVues.playlist.header.title.$data.TEXT;
         this.setCurrentState('load');
     }
 

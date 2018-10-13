@@ -13,21 +13,21 @@ class LibvueVideo {
                 LOADING: false
             },
             computed: {
-
                 TEXT: function () {
-                    let playlist = PageController.article.playlist.name;
-                    if (this.CURRENT_TRACK !== null) playlist = this.CURRENT_TRACK.PLAYLIST;
-                    else if (this.PLAYLIST !== null) playlist = this.PLAYLIST;
-                    return $page.menu.getMenuItem(playlist).TEXT;
+                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                        this.PLAYLIST;
+                    let menu = $page.menu.getMenuItem(playlist);
+                    return menu.TEXT;
                 },
-
                 LOGO: function () {
-                    let playlist = PageController.article.playlist.name;
-                    if (this.CURRENT_TRACK !== null) playlist = this.CURRENT_TRACK.PLAYLIST;
-                    else if (this.PLAYLIST !== null) playlist = this.PLAYLIST;
-
+                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                        this.PLAYLIST;
                     let icon = PageController.icons.getPlaylistIcon(playlist);
-                    return this.$data.LOADING ? icon.animatedBig : icon.big;
+                    return icon.big;
+                },
+                TRACK_NR: function () {
+                    return this.CURRENT_TRACK === null ? '' :
+                        '#' + this.CURRENT_TRACK.NR;
                 }
             },
             methods: {
