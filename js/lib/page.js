@@ -275,7 +275,8 @@ class PageController {
 
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist === null) playlist = $page.PLAYLIST;
-
+        if (playlist === null) playlist = 'lastfm';
+        
         let curArticle = PageController.article.playlist.dom;
         let isPlaylist = false;
         let loadComplete = function (success) {
@@ -427,6 +428,13 @@ class PageController {
                         $player.currentTrackData.track.PLAYLIST === menu.LDATA
                     ) {
                         let curNr = $player.currentTrackData.track.NR;
+                        if (
+                            'undefined' !== typeof $player.currentTrackData.track.PLAYCOUNT_CHANGE &&
+                            parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE) > 0
+                        ) {
+                            curNr = parseInt(curNr) - parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE);
+                        }
+
                         let curPage = (curNr / PageController.TRACKS_PER_PAGE) | 0;
                         if ((curNr % PageController.TRACKS_PER_PAGE) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
@@ -517,7 +525,7 @@ class PageController {
         $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
         $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
-        
+
         if (!$player.isPlaying() ||
             'undefined' === typeof $player.currentTrackData.track ||
             $player.currentTrackData.track === null ||
@@ -759,15 +767,11 @@ class PageController {
                         $page.myVues.playlist.content.$data.TRACKS.push(newTrack);
                         return;
                     }
-                    if($player.isCurrentTrack(newTrack)) {
-                        newTrack.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
-                        newTrack.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
-                        $player.setCurrentTrack(newTrack);                         
-                    }
-                    if($page.myVues.playlist.content.$data.TRACKS[0].NR > newTrack.NR) {
+
+                    if ($page.myVues.playlist.content.$data.TRACKS[0].NR > newTrack.NR) {
                         return; //we are higher than first pos in list
                     }
-                    
+
                     let trackInserted = false;
                     for (let cnt = 0; cnt < trackList.length; cnt++) {
                         let curTrack = trackList[cnt];
@@ -800,6 +804,9 @@ class PageController {
                 if (isTopSongPlaylist) {
                     oldTrack.PLAYCOUNT = chartJson.data.value.playcount;
                     oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(chartJson.data.value.pos));
+                    if ($player.isCurrentTrack(oldTrack)) {
+                        oldTrack.NR = oldTrack.NR + '';
+                    }
                 }
                 $page.trackSongPlay(oldTrack);
             }

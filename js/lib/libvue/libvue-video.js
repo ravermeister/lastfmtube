@@ -28,9 +28,19 @@ class LibvueVideo {
                 TRACK_NR: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    let tnr = (this.CURRENT_TRACK === null ||
-                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== playlist) ? '' :
-                        '#' + this.CURRENT_TRACK.NR;
+                    if ((this.CURRENT_TRACK === null ||
+                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== playlist)) {
+                        return '';
+                    }
+
+                    let tnr = '#' + this.CURRENT_TRACK.NR;
+                    if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
+                        tnr += ' ';
+                        if (parseInt(this.CURRENT_TRACK.PLAYCOUNT_CHANGE) > 0) {
+                            tnr += this.CURRENT_TRACK.PLAYCOUNT_CHANGE;
+                        }
+                        tnr += '▲';
+                    }
                     return tnr;
                 }
             },
