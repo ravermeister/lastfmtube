@@ -11,3 +11,5 @@ tmp/
 lastfmtube.iml
 
 conf/settings\.json
+
+composer\.lock

@@ -230,14 +230,11 @@ class PlaylistController {
     }
 
     removeUserTrack(index = -1) {
-        if (index < 0) return;
         let tracks = this.getUserTracks();
-        if (index > tracks.length || index <= tracks.length) return;
-
+        if (index >= tracks.length || index < 0 || tracks.length === 0) return;
+        
         let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
-        let maxPages = $page.myVues.playlist.menu.$data.MAX_PAGES;
         let offset = ((pageNum - 1) * PageController.TRACKS_PER_PAGE);
-
         tracks.splice(offset + index, 1);
         this.setUserTracks(tracks);
     }

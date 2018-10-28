@@ -26,10 +26,22 @@ class LibvueVideo {
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 TRACK_NR: function () {
-                    return (this.CURRENT_TRACK === null ||
-                        this.PLAYLIST === null && this.CURRENT_TRACK.PLAYLIST !== 'lastfm' ||
-                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== this.PLAYLIST) ? '' :
-                        '#' + this.CURRENT_TRACK.NR;
+                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                        this.PLAYLIST;
+                    if ((this.CURRENT_TRACK === null ||
+                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== playlist)) {
+                        return '';
+                    }
+
+                    let tnr = '#' + this.CURRENT_TRACK.NR;
+                    if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
+                        tnr += ' ';
+                        if (parseInt(this.CURRENT_TRACK.PLAYCOUNT_CHANGE) > 0) {
+                            tnr += this.CURRENT_TRACK.PLAYCOUNT_CHANGE;
+                        }
+                        tnr += '▲';
+                    }
+                    return tnr;
                 }
             },
             methods: {
@@ -41,22 +53,25 @@ class LibvueVideo {
 
                 loadMenu: function (playlist, event) {
 
-                    if (playlist === 'search') {
+                    if ('search' === playlist) {
                         let vue = this;
                         this.$data.LOADING = true;
-                        let callbak = function (success) {
+                        let callback = function (success) {
                             vue.$data.LOADING = false;
                             location.href = '#' + menu.PLAYLIST;
                         };
-                        $player.searchSong(this.$data.SEARCH_TRACK, callbak);
+                        $player.searchSong(this.$data.SEARCH_TRACK, callback);
                         return;
-                    } else if (playlist === 'video') {
-                        playlist = $page.PLAYLIST;
-                        if (playlist === null) playlist = 'lastfm';
                     }
-
-                    let menu = $page.menu.getMenuItem(playlist);
-                    this.$loadListMenu(menu, event);
+                    
+                    if ('video' === playlist) playlist = $page.PLAYLIST;
+                    if (playlist === null) playlist = 'lastfm';
+                    if(playlist === $page.PLAYLIST) {
+                        location.href = '#' + playlist;
+                    } else {
+                        let menu = $page.menu.getMenuItem(playlist);
+                        this.$loadListMenu(menu, event);
+                    }
                 }
             }
         });

@@ -183,7 +183,7 @@ class LibvuePlaylist {
                     let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
                     let curIndex = tracks.indexOf(track);
 
-                    $playlist.removeUserTrack(track);
+                    $playlist.removeUserTrack(curIndex);
                     $playlist.loadCustomerList(curPage);
 
                     tracks = $page.myVues.playlist.content.$data.TRACKS;
