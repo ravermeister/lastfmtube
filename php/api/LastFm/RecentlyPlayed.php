@@ -2,7 +2,7 @@
 
 namespace LastFmTube\Api\LastFm;
 
-use simplehtmldom_1_5\simple_html_dom;
+use Sunra\PhpSimple\HtmlDomParser;
 
 class RecentlyPlayed {
     private $page;
@@ -12,13 +12,10 @@ class RecentlyPlayed {
 
     /**
      * RecentlyPlayed constructor.
-     * @param simple_html_dom $html
      * @param                 $invalidStrings
      */
     function __construct($html) {
-        /**
-         * @var simple_html_dom $elem
-         */
+
         $elem = $html->find('recenttracks ', 0);
 
         $this->page         = $elem->page;
