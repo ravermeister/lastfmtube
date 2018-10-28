@@ -63,14 +63,15 @@ class LibvueVideo {
                         $player.searchSong(this.$data.SEARCH_TRACK, callback);
                         return;
                     }
-
-                    if ('video' === playlist) {
-                        playlist = $page.PLAYLIST;
-                        if (playlist === null) playlist = 'lastfm';
+                    
+                    if ('video' === playlist) playlist = $page.PLAYLIST;
+                    if (playlist === null) playlist = 'lastfm';
+                    if(playlist === $page.PLAYLIST) {
+                        location.href = '#' + playlist;
+                    } else {
+                        let menu = $page.menu.getMenuItem(playlist);
+                        this.$loadListMenu(menu, event);
                     }
-
-                    let menu = $page.menu.getMenuItem(playlist);
-                    this.$loadListMenu(menu, event);
                 }
             }
         });
