@@ -365,9 +365,13 @@ class PlayerController {
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
         let curTrack = this.currentTrackData.track;
-        let nextIndex = curTrack !== null ? tracks.indexOf(curTrack) + 1 : 0;
 
-        if ((nextIndex) >= tracks.length) {
+        let nextIndex = curTrack !== null ?
+            (parseInt(curTrack.NR) % PageController.TRACKS_PER_PAGE) : 0;
+        let isLast = curTrack !== null && ($page.myVues.playlist.menu.$data.CUR_PAGE *
+            PageController.TRACKS_PER_PAGE) === parseInt(curTrack.NR);
+
+        if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
@@ -375,7 +379,7 @@ class PlayerController {
             if ((curPage + 1) > maxPages) curPage = 1;
             else curPage++;
 
-            $playlist.loadList(curPage, user, function (success) {
+            $page.loadList(curPage, user, function (success) {
                 try {
                     if (!success) return;
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
@@ -399,37 +403,33 @@ class PlayerController {
         if (curTrack === null) return;
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
+        let isLast = curTrack !== null && ($page.myVues.playlist.menu.$data.CUR_PAGE *
+            PageController.TRACKS_PER_PAGE) === parseInt(curTrack.NR);
+        let prevIndex = (parseInt(curTrack.NR) % PageController.TRACKS_PER_PAGE) - 2;
 
-        let index = tracks.indexOf(curTrack);
+        if (isLast) {
+            prevIndex = tracks.length - 2;
+        } else if (prevIndex < 0) {
+            let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
+            if ('undefined' === typeof curPage) curPage = 1;
+            let maxPages = $page.myVues.playlist.menu.$data.MAX_PAGES;
+            let user = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
 
-        if ((index - 1) < 0) {
-            let playlist = $page.myVues.playlist.header.menu;
-            let curPage = playlist.$data.CUR_PAGE;
-            let maxPages = playlist.$data.MAX_PAGES;
-            let user = playlist.$data.LASTFM_USER_NAME;
-            if ((curPage - 1) > maxPages) curPage = maxPages;
+            if ((curPage - 1) < 1) curPage = maxPages;
             else curPage--;
-
-            $playlist.loadList(user, curPage, 'default', function (success) {
+            $page.loadList(curPage, user, function (success) {
                 if (!success) return;
-
-                let tracks = $page.vueMap['PLAYLIST_TRACKS'].$data.TRACKS;
+                tracks = $page.myVues.playlist.content.$data.TRACKS;
                 $player.loadSong(tracks[tracks.length - 1]);
             });
-
-
-            index = tracks.length - 1;
-        } else if (index < 0) {
-            index = 0;
-        } else {
-            index--;
+            return;
         }
 
-        this.loadSong(tracks[index]);
+        this.loadSong(tracks[prevIndex]);
     }
 
-    setCurrentTrack(track) {
-        if (this.isCurrentTrack(track)) return;
+    setCurrentTrack(track, force = false) {
+        if (!force && this.isCurrentTrack(track)) return;
         let curTrack = this.currentTrackData.track;
 
         if (curTrack !== null) {

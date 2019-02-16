@@ -28,6 +28,18 @@
 
 <!-- Wrapper -->
 <div id="wrapper">
+
+<!--// Fork me on github logo //-->
+<a href="//github.com/ravermeister/lastfmtube" target="_blank">
+	<img 
+		style="position: absolute; top: 0; right: 0; border: 0;" 
+		src="//s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" 
+		alt="Fork me on GitHub"
+	/>
+</a>
+
+
+
     <!-- Header -->
     <header id="header">
         <div class="logo">
@@ -71,6 +83,7 @@
                 <div class="btn-nav">
                     <a @click.prevent="togglePlay()"
                        class="button medium"
+		       title="Pause Track"
                        v-show="PLAYSTATE === ''">
                         <span class="fas fa-pause fa-2x"></span>
                     </a>
@@ -78,6 +91,7 @@
                 <div class="btn-nav">
                     <a @click.prevent="togglePlay()"
                        class="button medium"
+			title="Pause Track"
                        v-show="PLAYSTATE === 'play' || PLAYSTATE === 'load'">
                         <span class="fas fa-pause faa-flash animated  fa-2x"></span>
                     </a>
@@ -85,33 +99,38 @@
                 <div class="btn-nav">
                     <a @click.prevent="togglePlay()"
                        class="button medium"
+		       title="Play Track"
                        v-show="PLAYSTATE === 'pause'">
                         <span class="fas fa-play  fa-2x"></span>
                     </a>
                 </div>
                 <div class="btn-nav">
                     <a @click.prevent="prev()"
-                       class="button medium">
+                	class="button medium"
+			title="Previous Track">
                         <span class="fas fa-backward  fa-2x"></span>
                     </a>
                 </div>
                 <div class="btn-nav">
                     <a @click.prevent="next()"
-                       class="button medium">
+                       class="button medium"
+			title="Next Track">
                         <span class="fas fa-forward  fa-2x"></span>
                     </a>
                 </div>
 
                 <div class="btn-nav">
                     <a @click.prevent="addToUserList()"
-                       class="button medium">
+                       class="button medium"
+			title="add to My Playlist">
                         <span class="fas fa-user-plus  fa-2x"></span>
                     </a>
                 </div>
 
                 <div class="btn-nav">
                     <a @click.prevent="search($event)"
-                       class="button medium">
+                       class="button medium"
+			title="search alternative Track">
                         <span class="fas fa-search  fa-2x"></span>
                     </a>
                 </div>

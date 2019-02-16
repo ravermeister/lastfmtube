@@ -56,7 +56,7 @@ class Track {
 
             if ($timestamp <= 0) {
                 // timestamp 0 means currently playing!
-                $lastplay  = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
+                $lastplay  = Functions::getInstance()->getLocale()['playlist.nowplaying'];
                 $isPlaying = true;
             }
             else {
@@ -69,7 +69,7 @@ class Track {
         }
         else {
             //no timestamp means currently playing (tested)
-            $lastplay  = Functions::getInstance()->getLocale()['playlist.lastplay.now'];
+            $lastplay  = Functions::getInstance()->getLocale()['playlist.nowplaying'];
             $isPlaying = true;
         }
 
