@@ -38,7 +38,6 @@ Installation:
 4. create a last.fm user with a Developer API key
 5. create a youtube user with a Developer API Key
 6. enter the API keys in the settings.json
-   not yet implemented
 7. open http://example.com/lfmtube and enjoy
 
 Directory Structure:
