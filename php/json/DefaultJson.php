@@ -39,6 +39,7 @@ abstract class DefaultJson implements JsonInterface {
     }
 
     public static function baseError($msg) {
+        $json = array();
         $json['handler']       = 'default';
         $json['method']        = 'unknown';
         $json['data']['type']  = 'error';
@@ -51,6 +52,7 @@ abstract class DefaultJson implements JsonInterface {
     }
 
     public static function baseMsg($msg) {
+        $json = array();
         $json['handler']       = 'default';
         $json['method']        = 'unknown';
         $json['data']['type']  = 'msg';
@@ -63,6 +65,7 @@ abstract class DefaultJson implements JsonInterface {
     }
 
     public function jsonMsg($msg) {
+        $json = array();
         $json['handler']       = $this->apiName;
         $json['method']        = $this->currentMethod;
         $json['data']['type']  = 'msg';
@@ -71,6 +74,7 @@ abstract class DefaultJson implements JsonInterface {
     }
 
     public function jsonData($data, $dataType = 'data') {
+        $json = array();
         $json['handler']       = $this->apiName;
         $json['method']        = $this->currentMethod;
         $json['data']['type']  = $dataType;
@@ -111,6 +115,7 @@ abstract class DefaultJson implements JsonInterface {
     }
 
     protected function jsonError($msg) {
+        $json = array();
         $json['handler']       = $this->apiName;
         $json['method']        = $this->currentMethod;
         $json['data']['type']  = 'error';

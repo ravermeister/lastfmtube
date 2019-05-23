@@ -2,7 +2,6 @@
 
 namespace LastFmTube\Api\LastFm;
 
-use Sunra\PhpSimple\HtmlDomParser;
 
 class RecentlyPlayed {
     private $page;

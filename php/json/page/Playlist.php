@@ -8,11 +8,9 @@
 namespace LastFmTube\Json\Page;
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
-use Exception;
-use LastFmTube\Api\LastFm\Track;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
-use LastFmTube\Util\Functions;
+use Exception;
 
 class Playlist extends DefaultJson {
 
