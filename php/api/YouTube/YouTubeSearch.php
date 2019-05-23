@@ -2,10 +2,10 @@
 
 namespace LastFmTube\Api\YouTube;
 
+use LastFmTube\Util\Functions;
+use Exception;
 use Google_Client;
 use Google_Service_YouTube;
-use LastFmTube\Util\Functions;
-use LastFmTube\Util\lfmapi\Track;
 
 class YouTubeSearch {
 
