@@ -147,7 +147,7 @@ class Playlist extends DefaultJson {
 				 * to calculate the track rank after the duplicates were merged together.
 				 */
 				/*'limit' => $limit * 3,*/
-				'limit' => $trackCnt,
+				'limit' => (int) $trackCnt,
 				'offset' => $offset
 		) );
 		$maxpages = $trackCnt;
