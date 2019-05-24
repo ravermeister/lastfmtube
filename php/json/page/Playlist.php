@@ -143,7 +143,7 @@ class Playlist extends DefaultJson {
 				'limit' => $limit * 2,
 				'offset' => $offset
 		) );
-
+		die('hmmmmmm');
 		$maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
 		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
 		$maxpages = (( int ) ($maxpages / $limit));
@@ -187,7 +187,6 @@ class Playlist extends DefaultJson {
 			$trackId = $track ['artist'] . '-' . $track ['title'];
 			if (array_key_exists ( $trackId, $uniqueTracks )) {
 				$uniqueTrack = $uniqueTracks [$trackId];
-				Functions::getInstance ()->logMessage ( '>>>>'. $trackId . ' Old=' . $uniqueTrack ['PLAYCOUNT'] . ' Dup=' . $track ['playcount'] . ' New=' . (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']) );
 				$uniqueTrack ['PLAYCOUNT'] = (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']);
 				continue;
 			}
