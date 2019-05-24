@@ -254,7 +254,7 @@ class Functions {
 		fclose ( $fh );
 		$this->initSettings ( true );
 	}
-	public function sortArrayByPlayCount($tracks, $asc=false) {
+	public function sortTracksByPlayCount($tracks, $asc=false) {
 		$sorted = false;
 		if($asc) {
 			$sorted = usort($tracks, function($trackA, $trackB) {
@@ -266,7 +266,9 @@ class Functions {
 			});
 		}
 		
-		Functions::getInstance()->logMessage(print_r($tracks, true));
+		for($cnt=0;$cnt<sizeof($tracks);$cnt++) {
+			$tracks[$cnt]['NR'] = ($cnt+1);
+		}
 		return $sorted;
 	}
 	private static function sortArrayByPlayCountDesc($trackA, $trackB) {
