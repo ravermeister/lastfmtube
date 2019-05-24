@@ -209,8 +209,6 @@ class Playlist extends DefaultJson {
 					'PLAYLIST' => 'topsongs',
 					'PLAYSTATE' => ''
 			);
-
-			$page ['TRACKS'] [] = $pTrack;
 			$uniqueTracks [$trackId] = $pTrack;
 
 			if (sizeof ( $uniqueTracks ) >= ($limit - 1)) {
@@ -218,6 +216,7 @@ class Playlist extends DefaultJson {
 			}
 		}
 
+		$page ['TRACKS'] = array_values($uniqueTracks);
 		return $page;
 	}
 	private function getTopUser($pageNum = 1, $user = false) {
