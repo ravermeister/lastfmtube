@@ -149,7 +149,6 @@ class Playlist extends DefaultJson {
 		if (($maxpages % $limit) > 0 || $maxpages <= 0)
 			$maxpages ++;
 
-		die('hmmmmmm');
 		$page = array (
 
 				'HEADER' => array (
