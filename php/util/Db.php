@@ -173,7 +173,7 @@ class Db {
 
             'SELECT_TRACKPLAY'          => '
 				SELECT artist, title, playcount, lastplayed, lastplay_ip, url
-				FROM v_trackplay
+				FROM trackplay
 			    WHERE playcount > 0
 			    ORDER BY playcount DESC, lastplayed DESC 
 			    LIMIT :limit OFFSET :offset;
@@ -425,47 +425,55 @@ class Db {
     }
 
 
+    public function getReplaceTitleMap(){
+    	if ($this->replaceTitleMap === null) {
+    		$this->replaceTitleMap = $this->query('LOAD_REPLACEMENTS', array('repltyp' => 'TITLE'));
+    	}
+    	return $this->replaceTitleMap;
+    }
+    
+    public function getReplaceArtistMap() {
+    	if ($this->replaceArtistMap === null) {
+    		$this->replaceArtistMap = $this->query('LOAD_REPLACEMENTS', array('repltyp' => 'ARTIST'));
+    	}
+    	return $this->replaceArtistMap;
+    }
+    
+    
     /**
      * @param $string
      * @return string
      */
     public function normalizeTitle($string) {
-        
-        if ($this->replaceTitleMap === null) {
-            $this->replaceTitleMap = $this->query('LOAD_REPLACEMENTS', array('repltyp' => 'TITLE'));
-        }
-
-        if (!is_array($this->replaceTitleMap)) {
-            return $string;
-        }
-
-        for ($rcnt = 0; $rcnt < sizeof($this->replaceTitleMap); $rcnt++) {
-            $row    = $this->replaceTitleMap[$rcnt];
-            $string = (trim(str_replace($row['orig'], $row['repl'], $string)));
-        }
-
-        return $string;
+    	$this->getReplaceTitleMap();
+    	if (!is_array($this->replaceTitleMap)) {
+    		return $string;
+    	}
+    	
+    	for ($rcnt = 0; $rcnt < sizeof($this->replaceTitleMap); $rcnt++) {
+    		$row    = $this->replaceTitleMap[$rcnt];
+    		$string = (trim(str_replace($row['orig'], $row['repl'], $string)));
+    	}
+    	
+    	return $string;
     }
-
-
+    
+    
     /**
      * @param $string
      * @return string
      */
     public function normalizeArtist($string) {
-        if ($this->replaceArtistMap === null) {
-            $this->replaceArtistMap = $this->query('LOAD_REPLACEMENTS', array('repltyp' => 'ARTIST'));
-        }
-
-        if (!is_array($this->replaceArtistMap)) {
-            return $string;
-        }
-
-        for ($rcnt = 0; $rcnt < sizeof($this->replaceArtistMap); $rcnt++) {
-            $row    = $this->replaceArtistMap[$rcnt];
-            $string = (trim(str_replace($row['orig'], $row['repl'], $string)));
-        }
-
-        return $string;
+    	$this->getReplaceArtistMap();
+    	if (!is_array($this->replaceArtistMap)) {
+    		return $string;
+    	}
+    	
+    	for ($rcnt = 0; $rcnt < sizeof($this->replaceArtistMap); $rcnt++) {
+    		$row    = $this->replaceArtistMap[$rcnt];
+    		$string = (trim(str_replace($row['orig'], $row['repl'], $string)));
+    	}
+    	
+    	return $string;
     }
 }

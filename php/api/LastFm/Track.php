@@ -27,6 +27,12 @@ class Track {
      * @var string
      */
     private $dateofPlay;
+    
+    /**
+     * 
+     * @var integer
+     */
+    private $playcount;
 
     /**
      * Track constructor.
@@ -124,5 +130,13 @@ class Track {
     
     public function setTitle($title) {
         $this->title = $title;
+    }
+    
+    public function getPlayCount() {
+    	return $this->playcount;
+    }
+    
+    public function setPlayCount($playount){
+    	$this->playcount = $playount;
     }
 }
