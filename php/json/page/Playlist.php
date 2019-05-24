@@ -134,9 +134,9 @@ class Playlist extends DefaultJson {
 		return (isset ( $user ) && $user !== false && $user != null && strlen ( filter_var ( $user, FILTER_SANITIZE_STRING ) ) > 0);
 	}
 	private function getTopSongs($pageNum = 1) {
-		die('hmmmmmm');
 		$settings = $this->funcs->getSettings ();
 		$locale = $this->funcs->getLocale ();
+		die('hmmmmmm');
 		$db = Db::getInstance ();
 		$limit = $settings ['general'] ['tracks_perpage'];
 		$offset = ($pageNum - 1) * $limit;
