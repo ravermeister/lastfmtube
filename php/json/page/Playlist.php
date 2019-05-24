@@ -137,6 +137,7 @@ class Playlist extends DefaultJson {
 		$locale = $this->funcs->getLocale ();
 		$db = Db::getInstance ();
 		$limit = $settings ['general'] ['tracks_perpage'];
+		$trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
 		$offset = ($pageNum - 1) * $limit;
 		$topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
 				/**
@@ -145,10 +146,11 @@ class Playlist extends DefaultJson {
 				 * We should have a better and performant way 
 				 * to calculate the track rank after the duplicates were merged together.
 				 */
-				/*'limit' => $limit * 4,*/
+				/*'limit' => $limit * 3,*/
+				'limit' => $trackCnt,
 				'offset' => $offset
 		) );
-		$maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
+		$maxpages = $trackCnt;
 		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
 		$maxpages = (( int ) ($maxpages / $limit));
 		if (($maxpages % $limit) > 0 || $maxpages <= 0)
