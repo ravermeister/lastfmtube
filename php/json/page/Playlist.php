@@ -138,6 +138,7 @@ class Playlist extends DefaultJson {
 		$db = Db::getInstance ();
 		$limit = $settings ['general'] ['tracks_perpage'];
 		$trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
+		$trackCnt = (int) ($trackCnt === false ? 1 : $trackCnt ['cnt']);
 		$offset = ($pageNum - 1) * $limit;
 		$topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
 				/**
@@ -150,9 +151,8 @@ class Playlist extends DefaultJson {
 				'limit' => (int) $trackCnt,
 				'offset' => $offset
 		) );
-		$maxpages = $trackCnt;
-		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
-		$maxpages = (( int ) ($maxpages / $limit));
+		
+		$maxpages = (( int ) ($trackCnt / $limit));
 		if (($maxpages % $limit) > 0 || $maxpages <= 0)
 			$maxpages ++;
 
