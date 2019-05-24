@@ -216,7 +216,7 @@ class Playlist extends DefaultJson {
 		}
 		
 		$uniqueTracks = array_values($uniqueTracks);
-		$this->funcs->sortTracksByPlayCount($uniqueTracks);	
+		$this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);	
 		$this->funcs->logMessage(print_r($uniqueTracks, true));
 		$page ['TRACKS'] = $uniqueTracks;
 		return $page;
