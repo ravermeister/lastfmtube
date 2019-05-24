@@ -210,7 +210,7 @@ class Playlist extends DefaultJson {
 			);
 			$uniqueTracks [$trackId] = $pTrack;
 
-			if (sizeof ( $uniqueTracks ) >= ($limit - 1)) {
+			if (sizeof ( $uniqueTracks ) >= ($limit)) {
 				break;
 			}
 		}
