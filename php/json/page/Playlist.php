@@ -11,7 +11,6 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
-use LastFmTube\Util\Functions;
 use Exception;
 
 class Playlist extends DefaultJson {
@@ -217,7 +216,8 @@ class Playlist extends DefaultJson {
 		}
 		
 		$uniqueTracks = array_values($uniqueTracks);
-		Functions::getInstance()->sortTracksByPlayCount($uniqueTracks);	
+		$this->funcs->sortTracksByPlayCount($uniqueTracks);	
+		$this->funcs->logMessage(print_r($uniqueTracks, true));
 		$page ['TRACKS'] = $uniqueTracks;
 		return $page;
 	}
