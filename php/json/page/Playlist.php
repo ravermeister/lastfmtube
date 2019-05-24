@@ -187,6 +187,7 @@ class Playlist extends DefaultJson {
 			if (array_key_exists ( $trackId, $uniqueTracks )) {
 				$uniqueTrack = $uniqueTracks [$trackId];
 				$uniqueTrack ['PLAYCOUNT'] = (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']);
+				$uniqueTracks[$trackId] = $uniqueTrack;
 				continue;
 			}
 
