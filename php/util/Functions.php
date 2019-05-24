@@ -254,10 +254,19 @@ class Functions {
 		fclose ( $fh );
 		$this->initSettings ( true );
 	}
-	public function sortArrayByPlayCountDesc($trackA, $trackB) {
-		return $this->sortArrayByPlayCountAsc ( $trackA, $trackB ) * - 1;
+	public function sortArrayByPlayCount($tracks, $asc=false) {
+		
+		if($asc) {
+			usort($tracks, "Functions::sortArrayByPlayCountAsc");
+		} else {
+			usort($tracks, "Functions::sortArrayByPlayCountDesc");
+		}
+		return $tracks;
 	}
-	public function sortArrayByPlayCountAsc($trackA, $trackB) {
+	private static function sortArrayByPlayCountDesc($trackA, $trackB) {
+		return Functions::sortArrayByPlayCountAsc ( $trackA, $trackB ) * - 1;
+	}
+	private static function sortArrayByPlayCountAsc($trackA, $trackB) {
 		$aCnt = isset ( $trackA ['PLAYCOUNT'] ) ? $trackA ['PLAYCOUNT'] : 0;
 		$bCnt = isset ( $trackB ['PLAYCOUNT'] ) ? $trackB ['PLAYCOUNT'] : 0;
 
