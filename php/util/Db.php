@@ -184,7 +184,7 @@ class Db {
 
             'SELECT_TRACKPLAY_BY_TRACK' =>
                 '
-                 SELECT pos, artist, title, playcount, lastplayed, lastplay_ip, url 
+                 SELECT artist, title, playcount, lastplayed, lastplay_ip, url 
                  FROM trackplay
                  WHERE artist =:artist AND title = :title;
             ',
