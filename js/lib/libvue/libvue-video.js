@@ -118,7 +118,7 @@ class LibvueVideo {
         });
         
         this.comments = new Vue({
-            el: '#video-container>#vidoe-comments',
+            el: '#video-container>#video-comments',
             data: {
                 LIST_HEADER: 'Video Comment List Header'
             },
