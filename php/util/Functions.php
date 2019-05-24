@@ -273,7 +273,7 @@ class Functions {
 	private static function sortArrayByPlayCountAsc($trackA, $trackB) {
 		$aCnt = isset ( $trackA ['PLAYCOUNT'] ) ? $trackA ['PLAYCOUNT'] : 0;
 		$bCnt = isset ( $trackB ['PLAYCOUNT'] ) ? $trackB ['PLAYCOUNT'] : 0;
-
+		Functions::getInstance()->logMessage('acnt='.$aCnt.' bcnt='.$bCnt);
 		return $aCnt > $bCnt ? 1 : $aCnt < $bCnt ? - 1 : 0;
 	}
 }
