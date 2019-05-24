@@ -123,6 +123,9 @@ class LibvueVideo {
                 LIST_HEADER: 'Video Comment List Header'
             },
             methods: {
+                update: function (json) {
+                    this.$applyData(json);
+                },
             }
         });
     }
