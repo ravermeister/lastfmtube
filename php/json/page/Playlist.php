@@ -12,6 +12,7 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
+use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
 	public static function process($returnOutput = false) {
@@ -141,10 +142,10 @@ class Playlist extends DefaultJson {
 		$topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
 				'limit' => $limit * 2,
 				'offset' => $offset
-		) );		
-		
-		$maxpages = $db->query('SELECT_TRACKPLAY_NUM_ROWS');
-		$maxpages = $maxpages === false ? 1 : $maxpages['cnt'];
+		) );
+
+		$maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
+		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
 		$maxpages = (( int ) ($maxpages / $limit));
 		if (($maxpages % $limit) > 0 || $maxpages <= 0)
 			$maxpages ++;
@@ -186,6 +187,7 @@ class Playlist extends DefaultJson {
 			$trackId = $track ['artist'] . '-' . $track ['title'];
 			if (array_key_exists ( $trackId, $uniqueTracks )) {
 				$uniqueTrack = $uniqueTracks [$trackId];
+				Functions::getInstance ()->logMessage ( $trackId . ' Old=' . $uniqueTrack ['PLAYCOUNT'] . ' Dup=' . $track ['playcount'] . ' New=' . (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']) );
 				$uniqueTrack ['PLAYCOUNT'] = (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']);
 				continue;
 			}
@@ -212,7 +214,7 @@ class Playlist extends DefaultJson {
 			$page ['TRACKS'] [] = $pTrack;
 			$uniqueTracks [$trackId] = $pTrack;
 
-			if (sizeof ( $uniqueTracks ) >= ($limit-1)) {
+			if (sizeof ( $uniqueTracks ) >= ($limit - 1)) {
 				break;
 			}
 		}
