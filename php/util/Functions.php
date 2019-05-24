@@ -265,6 +265,8 @@ class Functions {
 				return Functions::sortArrayByPlayCountDesc($trackA, $trackB);
 			});
 		}
+		
+		Functions::getInstance()->logMessage(print_r($tracks, true));
 		return $sorted;
 	}
 	private static function sortArrayByPlayCountDesc($trackA, $trackB) {
@@ -274,7 +276,6 @@ class Functions {
 		$aCnt = isset ( $trackA ['PLAYCOUNT'] ) ? $trackA ['PLAYCOUNT'] : 0;
 		$bCnt = isset ( $trackB ['PLAYCOUNT'] ) ? $trackB ['PLAYCOUNT'] : 0;
 		$cmpVal = (($aCnt > $bCnt) ? 1 : (($aCnt < $bCnt) ? - 1 : 0) );
-		Functions::getInstance()->logMessage('acnt='.$aCnt.' bcnt='.$bCnt.' cmpval='.$cmpVal);
 		return $cmpVal;
 	}
 }
