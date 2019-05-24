@@ -120,7 +120,7 @@ class LibvueVideo {
         this.comments = new Vue({
             el: '#video-container>#video-comments',
             data: {
-            	LIST_HEADER: 'Video Comment List Header'
+            	LIST_HEADER: 'Video Comment List'
             },
             methods: {
                 update: function (json) {
