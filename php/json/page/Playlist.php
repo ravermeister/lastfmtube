@@ -136,8 +136,8 @@ class Playlist extends DefaultJson {
 	private function getTopSongs($pageNum = 1) {
 		$settings = $this->funcs->getSettings ();
 		$locale = $this->funcs->getLocale ();
-		die('hmmmmmm');
 		$db = Db::getInstance ();
+		die('hmmmmmm');
 		$limit = $settings ['general'] ['tracks_perpage'];
 		$offset = ($pageNum - 1) * $limit;
 		$topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
