@@ -101,7 +101,7 @@ class YouTubeSearch {
                       'type'       => 'video'
                 )
             );
-
+			Functions::getInstance()->logMessage(print_r($searchResponse, true));
             // $channels = '';
             // $playlists = '';
 
