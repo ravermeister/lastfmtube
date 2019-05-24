@@ -146,9 +146,13 @@ class Playlist extends DefaultJson {
 				 * duplicates after the track artist and title string normalization.
 				 * We should have a better and performant way 
 				 * to calculate the track rank after the duplicates were merged together.
+				 * 
+				 * I set the limit to the rowcount of the tracks sothat we search
+				 * the complete play history of all tracks!!!
+				 * use the commented limit if performance is worse!
 				 */
 				/*'limit' => $limit * 3,*/
-				'limit' => (int) $trackCnt,
+				'limit' => $trackCnt,
 				'offset' => $offset
 		) );
 		
