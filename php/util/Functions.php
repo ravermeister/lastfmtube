@@ -254,20 +254,20 @@ class Functions {
 		fclose ( $fh );
 		$this->initSettings ( true );
 	}
-	public function sortTracksByPlayCount(&$tracks, $asc=false) {
+	public function sortTracksByPlayCount(&$tracks, $offset = 0, $asc = false) {
 		$sorted = false;
-		if($asc) {
-			$sorted = usort($tracks, function($trackA, $trackB) {
-				return Functions::sortArrayByPlayCountAsc($trackA, $trackB);
-			});
+		if ($asc) {
+			$sorted = usort ( $tracks, function ($trackA, $trackB) {
+				return Functions::sortArrayByPlayCountAsc ( $trackA, $trackB );
+			} );
 		} else {
-			$sorted = usort($tracks, function($trackA, $trackB){
-				return Functions::sortArrayByPlayCountDesc($trackA, $trackB);
-			});
+			$sorted = usort ( $tracks, function ($trackA, $trackB) {
+				return Functions::sortArrayByPlayCountDesc ( $trackA, $trackB );
+			} );
 		}
-		
-		for($cnt=0;$cnt<sizeof($tracks);$cnt++) {
-			$tracks[$cnt]['NR'] = ($cnt+1);
+
+		for($cnt = 0; $cnt < sizeof ( $tracks ); $cnt ++) {
+			$tracks [$cnt] ['NR'] = $offset + ($cnt + 1);
 		}
 		return $sorted;
 	}
@@ -277,7 +277,7 @@ class Functions {
 	private static function sortArrayByPlayCountAsc($trackA, $trackB) {
 		$aCnt = isset ( $trackA ['PLAYCOUNT'] ) ? $trackA ['PLAYCOUNT'] : 0;
 		$bCnt = isset ( $trackB ['PLAYCOUNT'] ) ? $trackB ['PLAYCOUNT'] : 0;
-		$cmpVal = (($aCnt > $bCnt) ? 1 : (($aCnt < $bCnt) ? - 1 : 0) );
+		$cmpVal = (($aCnt > $bCnt) ? 1 : (($aCnt < $bCnt) ? - 1 : 0));
 		return $cmpVal;
 	}
 }
