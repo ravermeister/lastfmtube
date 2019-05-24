@@ -188,6 +188,7 @@ class Playlist extends DefaultJson {
 				$uniqueTrack = $uniqueTracks [$trackId];
 				Functions::getInstance ()->logMessage ( '>>>' . $trackId . 'OLD=' . $uniqueTrack ['PLAYCOUNT'] . ' NEW=' . $track ['playcount'] . 'SUM=' . ((( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount'])) );
 				$uniqueTrack ['PLAYCOUNT'] = (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']);
+				Functions::getInstance ()->logMessage ( '>>>' . $trackId . 'OLD=' . $uniqueTrack ['PLAYCOUNT'] . ' NEW=' . $track ['playcount'] . 'SUM=' . ((( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount'])) );
 				continue;
 			}
 
