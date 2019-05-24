@@ -134,6 +134,7 @@ class Playlist extends DefaultJson {
 		return (isset ( $user ) && $user !== false && $user != null && strlen ( filter_var ( $user, FILTER_SANITIZE_STRING ) ) > 0);
 	}
 	private function getTopSongs($pageNum = 1) {
+		die('hmmmmmm');
 		$settings = $this->funcs->getSettings ();
 		$locale = $this->funcs->getLocale ();
 		$db = Db::getInstance ();
@@ -143,7 +144,6 @@ class Playlist extends DefaultJson {
 				'limit' => $limit * 2,
 				'offset' => $offset
 		) );
-		die('hmmmmmm');
 		$maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
 		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
 		$maxpages = (( int ) ($maxpages / $limit));
