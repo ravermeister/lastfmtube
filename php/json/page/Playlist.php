@@ -187,7 +187,7 @@ class Playlist extends DefaultJson {
 			$trackId = $track ['artist'] . '-' . $track ['title'];
 			if (array_key_exists ( $trackId, $uniqueTracks )) {
 				$uniqueTrack = $uniqueTracks [$trackId];
-				Functions::getInstance ()->logMessage ( $trackId . ' Old=' . $uniqueTrack ['PLAYCOUNT'] . ' Dup=' . $track ['playcount'] . ' New=' . (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']) );
+				Functions::getInstance ()->logMessage ( '>>>>'. $trackId . ' Old=' . $uniqueTrack ['PLAYCOUNT'] . ' Dup=' . $track ['playcount'] . ' New=' . (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']) );
 				$uniqueTrack ['PLAYCOUNT'] = (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']);
 				continue;
 			}
