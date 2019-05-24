@@ -179,20 +179,13 @@ class Db {
 			    LIMIT :limit OFFSET :offset;
 			',
             'SELECT_TRACKPLAY_NUM_ROWS' => '
-                SELECT COUNT(*) AS cnt FROM v_trackplay;
+                SELECT COUNT(*) AS cnt FROM trackplay;
             ',
 
             'SELECT_TRACKPLAY_BY_TRACK' =>
-            /** @lang PostgreSQL */
                 '
-                WITH cte AS (
-                     SELECT 
-                     RANK() OVER (ORDER BY playcount DESC) AS pos,
-                     artist, title, playcount, lastplayed, lastplay_ip, url
-                     FROM v_trackplay 
-                 ) 
                  SELECT pos, artist, title, playcount, lastplayed, lastplay_ip, url 
-                 FROM cte
+                 FROM trackplay
                  WHERE artist =:artist AND title = :title;
             ',
 
