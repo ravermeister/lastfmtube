@@ -139,7 +139,13 @@ class Playlist extends DefaultJson {
 		$limit = $settings ['general'] ['tracks_perpage'];
 		$offset = ($pageNum - 1) * $limit;
 		$topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
-				'limit' => $limit * 2,
+				/**
+				 * @fixme: the multiplier 4 is used for checking 
+				 * duplicates after the track artist and title string normalization.
+				 * We should have a better and performant way 
+				 * to calculate the track rank after the duplicates were merged together.
+				 */
+				/*'limit' => $limit * 4,*/
 				'offset' => $offset
 		) );
 		$maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
@@ -217,7 +223,6 @@ class Playlist extends DefaultJson {
 		
 		$uniqueTracks = array_values($uniqueTracks);
 		$this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);	
-		$this->funcs->logMessage(print_r($uniqueTracks, true));
 		$page ['TRACKS'] = $uniqueTracks;
 		return $page;
 	}
