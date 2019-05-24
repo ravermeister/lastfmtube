@@ -128,7 +128,7 @@
                 </div>
 
                 <div class="btn-nav">
-                    <a @click.prevent="search($event)"
+                    <a @click.prevent="searchVideo($event)"
                        class="button medium"
 						title="search alternative Track">
                         <span class="fas fa-search  fa-2x"></span>
@@ -136,7 +136,7 @@
                 </div>
                 
                 <div class="btn-nav">
-                	<a @click.prevent=""
+                	<a @click.prevent="showComments($event)"
                 		class="button medium"
 						title="show Video Comments">
                 		<span class="far fa-comment fa-2x"></span>
@@ -147,7 +147,8 @@
             <br/>
             <br/>
 
-			<div id="video-comments">
+			
+			<div id="video-comments" v-bind-style="{'display': IS_VISIBLE ? 'visible' : 'none'}">
 				{{LIST_HEADER}}
 			</div>
 			

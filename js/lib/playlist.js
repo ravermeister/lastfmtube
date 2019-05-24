@@ -151,6 +151,21 @@ class PlaylistController {
         }
     }
 
+    loadVideoCommentList(videoId) {
+    	request = 'php/api/YouTube/VideoComments.php?videoId='+videoId;
+    	$.getJSON(request, function(json){
+    		Console.log(json);
+    		
+    	}).fail(function (xhr) {
+
+            $.logXhr(xhr);
+
+            if (typeof callBack === 'function') {
+                callBack(false);
+            }
+        });;
+    }
+    
     isValidUser(user = null) {
         return user !== null && (user + '').trim().length > 0;
     }

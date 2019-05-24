@@ -106,13 +106,18 @@ class LibvueVideo {
                         $playlist.loadCustomerList($page.myVues.playlist.menu.$data.CUR_PAGE);
                     }
                 },
-                search: function (event) {
+                searchVideo: function (event) {
                     if ($page.myVues.youtube.header.SEARCH_TRACK === null) return;
 
                     $page.myVues.youtube.header.$data.LOADING = true;
                     $player.searchSong($page.myVues.youtube.header.SEARCH_TRACK, function () {
                         $page.myVues.youtube.header.$data.LOADING = false;
                     }, true);
+                },
+                showComments: function(event) {
+                	Console.log('show comments');
+                	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
+                	$page.myVues.youtube.comments.toggleVisible(!$page.myVues.youtube.comments.IS_VISIBLE);
                 }
             }
         });
@@ -120,12 +125,16 @@ class LibvueVideo {
         this.comments = new Vue({
             el: '#video-container>#video-comments',
             data: {
-            	LIST_HEADER: 'Video Comment List'
+            	LIST_HEADER: 'Video Comment List',
+            	IS_VISIBLE: false
             },
             methods: {
                 update: function (json) {
                     this.$applyData(json);
                 },
+                toggleVisible: function(show=false) {
+                	IS_VISIBLE = show;
+                }
             }
         });
     }
