@@ -254,7 +254,7 @@ class Functions {
 		fclose ( $fh );
 		$this->initSettings ( true );
 	}
-	public function sortTracksByPlayCount($tracks, $asc=false) {
+	public function sortTracksByPlayCount(&$tracks, $asc=false) {
 		$sorted = false;
 		if($asc) {
 			$sorted = usort($tracks, function($trackA, $trackB) {
