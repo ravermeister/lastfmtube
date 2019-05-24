@@ -11,7 +11,6 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
-use Exception;
 use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
@@ -215,12 +214,12 @@ class Playlist extends DefaultJson {
 				break;
 			}
 		}
-
+		
+		$uniqueTracks = usort($uniqueTracks, Functions::getInstance()->sortArrayByPlayCountDesc);		
 		$page ['TRACKS'] = array_values($uniqueTracks);
-		Functions::getInstance()->logMessage(print_r($page['TRACKS'], true));
-		Functions::getInstance()->logMessage(print_r($uniqueTracks, true));
 		return $page;
 	}
+	
 	private function getTopUser($pageNum = 1, $user = false) {
 		if ($user !== false) {
 			if (strcmp ( $_SESSION ['music'] ['lastfm_user'], $user ) != 0) {

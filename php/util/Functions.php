@@ -254,5 +254,13 @@ class Functions {
 		fclose ( $fh );
 		$this->initSettings ( true );
 	}
-	
+	public function sortArrayByPlayCountDesc($trackA, $trackB) {
+		return $this->sortArrayByPlayCountAsc ( $trackA, $trackB ) * - 1;
+	}
+	public function sortArrayByPlayCountAsc($trackA, $trackB) {
+		$aCnt = isset ( $trackA ['PLAYCOUNT'] ) ? $trackA ['PLAYCOUNT'] : 0;
+		$bCnt = isset ( $trackB ['PLAYCOUNT'] ) ? $trackB ['PLAYCOUNT'] : 0;
+
+		return $aCnt > $bCnt ? 1 : $aCnt < $bCnt ? - 1 : 0;
+	}
 }
