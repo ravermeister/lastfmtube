@@ -11,6 +11,7 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
+use LastFmTube\Util\Functions;
 
 class YouTube extends DefaultJson {
 
@@ -34,7 +35,10 @@ class YouTube extends DefaultJson {
         try {
             switch (self::getVar('action', '')) {
                 case 'search':
-                    return $this->search();
+                    return $this->searchVideo();
+                    break;
+                case 'videoComments':
+                    return $this->loadVideoComments(self::getVar('videoId', ''));
                     break;
                 default:
                     $this->jsonError('invalid Arguments');
@@ -44,11 +48,21 @@ class YouTube extends DefaultJson {
             $this->jsonError('unbekannter Fehler: ' . $err->getMessage());
         }
     }
+    
+    private function loadVideoComments($videoId='', $limit=25) {
+        if(strlen($videoId)==0) return;
+        
+        $searcher = $this->funcs->getYtApi();
+        $searchResult = $searcher->searchComments($videoId, $limit);
+        
+        Functions::getInstance()->logMessage('Comments for Video: '.$videoId);
+        Functions::getInstance()->logMessage(print_r($searchResult, true));
+    }
 
     /**
      * @return array|void
      */
-    private function search() {
+    private function searchVideo() {
         $needle = self::getVar('needle', '');
         if (strlen(trim($needle)) == 0) {
             return $this->jsonError('invalid search criteria!');
@@ -63,9 +77,7 @@ class YouTube extends DefaultJson {
         $searcher = $this->funcs->getYtApi();
         $searcher->setNeedle($needle);
 
-        $searcher->search($size);
-
-        $videos = $searcher->getVideoList();
+        $videos = $searcher->searchVideo($size);
         if ($size == 1) {
             if( sizeof($videos) <= 0) return '';
             

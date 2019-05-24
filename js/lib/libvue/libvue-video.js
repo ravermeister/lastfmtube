@@ -116,6 +116,15 @@ class LibvueVideo {
                 }
             }
         });
+        
+        this.comments = new Vue({
+            el: '#video-container>#vidoe-comments',
+            data: {
+                LIST_HEADER: 'Video Comment List Header'
+            },
+            methods: {
+            }
+        });
     }
 
 

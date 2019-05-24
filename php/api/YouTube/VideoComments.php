@@ -5,10 +5,10 @@ class VideoComments {
 	 * 
 	 * @var VideoComments
 	 */
-	var $video;
+	var $videoId;
 	
-	function __construct($video) {
-		$this->video = $video;
+	function __construct($videoId, $item) {
+		$this->video = $videoId;
 	}
 	
 	
