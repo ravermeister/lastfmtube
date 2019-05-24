@@ -142,6 +142,9 @@ class Playlist extends DefaultJson {
 				'limit' => $limit * 2,
 				'offset' => $offset
 		) );
+		die(print_r($topsongs));
+		
+		
 		$topsongs = $maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
 		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
 		$maxpages = (( int ) ($maxpages / $limit));
