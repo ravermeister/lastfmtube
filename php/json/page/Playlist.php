@@ -137,13 +137,13 @@ class Playlist extends DefaultJson {
 		$settings = $this->funcs->getSettings ();
 		$locale = $this->funcs->getLocale ();
 		$db = Db::getInstance ();
-		die('hmmmmmm');
 		$limit = $settings ['general'] ['tracks_perpage'];
 		$offset = ($pageNum - 1) * $limit;
 		$topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
 				'limit' => $limit * 2,
 				'offset' => $offset
 		) );
+		die('hmmmmmm');
 		$maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
 		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
 		$maxpages = (( int ) ($maxpages / $limit));
