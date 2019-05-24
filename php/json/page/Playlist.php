@@ -11,8 +11,6 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
-use Exception;
-use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
 	public static function process($returnOutput = false) {
@@ -142,12 +140,10 @@ class Playlist extends DefaultJson {
 		$topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
 				'limit' => $limit * 2,
 				'offset' => $offset
-		) );
-		die(Functions::getInstance()->logMessage(print_r($topsongs, true)));
+		) );		
 		
-		
-		$topsongs = $maxpages = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
-		$maxpages = $maxpages === false ? 1 : $maxpages ['cnt'];
+		$maxpages = $db->query('SELECT_TRACKPLAY_NUM_ROWS');
+		$maxpages = $maxpages === false ? 1 : $maxpages['cnt'];
 		$maxpages = (( int ) ($maxpages / $limit));
 		if (($maxpages % $limit) > 0 || $maxpages <= 0)
 			$maxpages ++;
