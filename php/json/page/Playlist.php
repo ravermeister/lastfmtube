@@ -216,6 +216,7 @@ class Playlist extends DefaultJson {
 		}
 
 		$page ['TRACKS'] = array_values($uniqueTracks);
+		Functions::getInstance()->logMessage(print_r($page['TRACKS'], true));
 		return $page;
 	}
 	private function getTopUser($pageNum = 1, $user = false) {
