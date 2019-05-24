@@ -216,7 +216,8 @@ class Playlist extends DefaultJson {
 			}
 		}
 		
-		$uniqueTracks = Functions::getInstance()->sortArrayByPlayCount(array_values($uniqueTracks));	
+		$uniqueTracks = array_values($uniqueTracks);
+		Functions::getInstance()->sortArrayByPlayCount($uniqueTracks);	
 		$page ['TRACKS'] = $uniqueTracks;
 		return $page;
 	}

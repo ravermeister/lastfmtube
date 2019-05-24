@@ -255,13 +255,17 @@ class Functions {
 		$this->initSettings ( true );
 	}
 	public function sortArrayByPlayCount($tracks, $asc=false) {
-		
+		$sorted = false;
 		if($asc) {
-			usort($tracks, "Functions::sortArrayByPlayCountAsc");
+			$sorted = usort($tracks, function($trackA, $trackB) {
+				return Functions::sortArrayByPlayCountAsc($trackA, $trackB);
+			});
 		} else {
-			usort($tracks, "Functions::sortArrayByPlayCountDesc");
+			$sorted = usort($tracks, function($trackA, $trackB){
+				return Functions::sortArrayByPlayCountDesc($trackA, $trackB);
+			});
 		}
-		return $tracks;
+		return $sorted;
 	}
 	private static function sortArrayByPlayCountDesc($trackA, $trackB) {
 		return Functions::sortArrayByPlayCountAsc ( $trackA, $trackB ) * - 1;
