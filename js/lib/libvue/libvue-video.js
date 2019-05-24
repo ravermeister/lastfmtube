@@ -130,6 +130,7 @@ class LibvueVideo {
 
     update(json) {
         this.header.update(json);
+        this.comments.update(json);
     }
 }
 
