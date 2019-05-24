@@ -11,6 +11,7 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use Exception;
 
 class Playlist extends DefaultJson {
 	public static function process($returnOutput = false) {
