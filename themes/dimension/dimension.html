@@ -144,9 +144,13 @@
 						<template v-for="comment in commentData">
 						<div class="dialogbox">
 							<div class="body">
-								<span class="tip tip-left">user:</span>
+								<span class="tip tip-left" />
 								<div class="message">
-									<span v-html="comment.text"></span>
+									<p style="float:left;">
+										<img src="comment.useravatar" style="float:left;"/>
+										<span v-html="comment.username" />
+									</p>
+									<span v-html="comment.text" />
 								</div>
 							</div>
 						</div>
