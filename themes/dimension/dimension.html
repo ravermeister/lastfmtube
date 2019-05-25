@@ -155,15 +155,18 @@
 							</div>
 							<!-- Contenedor del Comentario -->
 							<div class="comment-box">
-								<div class="comment-head">
+								<div class="comment-head" style="float:left;">
 									<h6 class="comment-name by-author">
 										<a v-bind:href="'//youtube.com/user/' + comment.username">{{comment.username}}</a>
 									</h6>
-									<span>hace 20 minutos</span> <i class="fa fa-reply"></i> <i
-										class="fa fa-heart"></i>
+									<span>{{comment.date}}</span> <i class="fa fa-reply"></i> <br/>
+									<span>{{comment.likes}}</span><i class="fa fa-heart"></i>
 								</div>
 								
-								<div v-html="comment.text" class="comment-content"></div>
+								<div v-html="comment.text"
+									style="float:left;" 
+									class="comment-content">
+								</div>
 							</div>
 						</template>
 					</ul>
