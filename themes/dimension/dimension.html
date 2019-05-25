@@ -147,7 +147,15 @@
 					<div class="dialogbox">
 						<div class="body">
 							<span class="tip tip-up"></span>
-							<div class="message">								
+							<div class="message">
+								<div class="userbox">
+									<img v-bind:src="comment.useravatar" />
+									<a v-bind:href="'//youtube.com/user/' + comment.username"
+										target="_blank">
+											{{comment.username}}
+									</a>
+								</div>
+								
 								<div v-bind:html="comment.text" class="content"></div>
 							</div>
 						</div>
