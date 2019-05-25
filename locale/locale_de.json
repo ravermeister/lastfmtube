@@ -29,6 +29,7 @@
 		"lastfm": "Last.fm",
 		"topsongs": "Top Songs",
 		"search": "Suche",
-		"youtube": "Player"
+		"youtube": "Player",
+		"nowplaying": "Wird Gespielt"
 	}
 }
