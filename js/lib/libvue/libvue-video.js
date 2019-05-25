@@ -133,6 +133,7 @@ class LibvueVideo {
             methods: {
                 update: function (json) {
                     this.$applyData(json);
+                    commentData = json;
                 },
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
