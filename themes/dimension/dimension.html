@@ -143,20 +143,22 @@
 				<div id="video-comments" v-if="showComments"
 					class="comments-container">
 					<h1>{{LIST_HEADER}}</h1>
-					<ul id="comments-list" class="comments-list">
-						<template v-for="comment in commentData">
-						<div class="container">
-							<div class="dialogbox">
-								<div class="body">
-									<span class="tip tip-up"></span>
-									<div class="message">
-										<span>I just made a comment about this comment box
-											which is purely made from CSS.</span>
-									</div>
+					<template v-for="comment in commentData">
+					<div class="dialogbox">
+						<div class="body">
+							<span class="tip tip-up"></span>
+							<div class="message">
+								<div class="userbox">
+									<img v-bind:src="comment.useravatar" /> <a
+										v-bind:href="'//youtube.com/user/' + comment.username"
+										target="_blank"> {{comment.username}} </a>
 								</div>
+
+								<div v-bind:html="comment.text" class="content"></div>
 							</div>
-						</template>
-					</ul>
+						</div>
+					</div>
+					</template>
 				</div>
 
 			</article>
