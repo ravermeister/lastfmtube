@@ -118,7 +118,7 @@ class LastFm {
                '&page=' . $page . '&limit=' . $limit;
         $this->setURL($url);        
         $html = $this->getDOM();
-
+        Functions::getInstance()->logMessage($url);
         return new RecentlyPlayed ($html);
     }
 }
