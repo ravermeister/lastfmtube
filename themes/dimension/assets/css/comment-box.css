@@ -68,9 +68,11 @@
 .dialogbox-footer {
 	margin-top: 5px;
 	border-top: 1px solid light-gray;
+	clear:both;
 	display: block;
 	position: relative;
 	bottom: 1px;
+	left: 0px;
 }
 .dialogbox-footer .dialogbox-likes {
 	float: right;
