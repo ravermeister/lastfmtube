@@ -146,13 +146,8 @@
 					<template v-for="comment in commentData">
 					<div class="dialogbox">
 						<div class="body">
-							<span class="tip tip-left"></span>
-							<div class="message">
-								<div class="userbox">
-									<img v-bind:src="comment.useravatar" /> <a
-										v-bind:href="'#"> {{comment.username}} </a>
-								</div>
-								sfdsdf
+							<span class="tip tip-up"></span>
+							<div class="message">								
 								<div v-bind:html="comment.text" class="content"></div>
 							</div>
 						</div>
