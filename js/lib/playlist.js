@@ -159,7 +159,7 @@ class PlaylistController {
     		console.log('Comments for Video {} %s already loaded', videoId);
     	}
     	$page.myVues.youtube.comments.$data.videoId = videoId;
-    	
+    	console.log('warum 2x? '+$page.myVues.youtube.comments.$data.videoId);
     	request = 'php/api/YouTube/VideoComments.php?videoId='+videoId;
     	$.getJSON(request, function(json){
     		console.log(json);
