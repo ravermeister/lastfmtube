@@ -72,7 +72,7 @@ class YouTubeSearch {
         
         $searchResponse = $this->youtube->commentThreads->listCommentThreads ( array (
                 'part' => 'snippet,id',
-                'videoId' => $videoId
+                'videoId' => 'gibtnix'
                 /*'maxResults' => $limit*/
         ) );
         
