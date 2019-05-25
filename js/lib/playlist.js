@@ -164,9 +164,7 @@ class PlaylistController {
         		'&videoId=' + videoId;
     	console.log('request: '+request);
     	$.getJSON(request, function(json){
-    		console.log('request success');
-    		console.log(JSON.stringify(json));
-    		
+    		$page.myVues.youtube.comments.$data.commentData = json;    		
     	}).fail(function (xhr) {
     		console.error('request failed');
             $.logXhr(xhr);

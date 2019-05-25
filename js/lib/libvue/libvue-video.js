@@ -128,6 +128,7 @@ class LibvueVideo {
             	LIST_HEADER: 'Comments coming soon..',
             	showComments: false,
             	videoId: '',
+            	commentData: {},
             },
             methods: {
                 update: function (json) {
