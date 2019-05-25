@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use LastFmTube\Util\Functions;
 use Exception;
 class YouTube extends DefaultJson {
 
@@ -56,8 +57,10 @@ class YouTube extends DefaultJson {
          * 
          * @var VideoComments $searchResult
          */
-        $searchResult = $searcher->searchComments($videoId, $limit);             
-        return $searchResult->toJson();
+        $searchResult = $searcher->searchComments($videoId, $limit);
+        $json = $searchResult->toJson();
+        Functions::getInstance()->logMessage(print_r($json));
+        return $json;
     }
 
     /**
