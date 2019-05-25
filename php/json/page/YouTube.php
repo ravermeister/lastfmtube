@@ -59,7 +59,7 @@ class YouTube extends DefaultJson {
          */
         $searchResult = $searcher->searchComments($videoId, $limit);
         $json = $searchResult->toJson();
-        Functions::getInstance()->logMessage(print_r($json));
+        Functions::getInstance()->logMessage(print_r($json, true));
         return $json;
     }
 
