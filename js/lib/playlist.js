@@ -162,7 +162,7 @@ class PlaylistController {
     	
     	request = 'php/json/page/YouTube.php?action=videoComments' + 
         		'&videoId=' + videoId;
-    	/**
+    	console.log('request: '+request);
     	$.getJSON(request, function(json){
     		console.log('request success', json);
     		
@@ -174,7 +174,7 @@ class PlaylistController {
                 callBack(false);
             }
         });
-        **/
+        
     }
     
     isValidUser(user = null) {

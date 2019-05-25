@@ -38,7 +38,9 @@ class YouTube extends DefaultJson {
                     return $this->searchVideo();
                     break;
                 case 'videoComments':
-                    return $this->loadVideoComments(self::getVar('videoId', ''));
+                    $videoId = self::getVar('videoId', '');
+                    Functions::getInstance()->logMessage('Comments for Video: '.$videoId);
+                    return $this->loadVideoComments($videoId);
                     break;
                 default:
                     $this->jsonError('invalid Arguments');
