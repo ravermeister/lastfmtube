@@ -23,7 +23,8 @@
 	crossorigin="anonymous">
 
 <link rel="stylesheet" href="themes/dimension/assets/css/main.css" />
-<link rel="stylesheet" href="themes/dimension/assets/css/comment-box.css" />
+<link rel="stylesheet"
+	href="themes/dimension/assets/css/comment-box.css" />
 <noscript>
 	<link rel="stylesheet" href="themes/dimension/assets/css/noscript.css" />
 </noscript>
@@ -147,26 +148,22 @@
 						<div class="comment-main-level">
 							<!-- Avatar -->
 							<div class="comment-avatar">
-								<img
-									v-bind:src="comment.useravatar"
-									alt=""
-									width="75px"
+								<img v-bind:src="comment.useravatar" alt="" width="75px"
 									height="75px">
 							</div>
 							<!-- Contenedor del Comentario -->
 							<div class="comment-box">
-								<div class="comment-head" style="float:left;">
+								<div class="comment-head" style="float: left;">
 									<h6 class="comment-name by-author">
 										<a v-bind:href="'//youtube.com/user/' + comment.username">{{comment.username}}</a>
 									</h6>
-									<span>{{comment.date}}</span> <i class="fa fa-reply"></i> <br/>
-									<span>{{comment.likes}}</span><i class="fa fa-heart"></i>
+									<i class="fa fa-reply" /> <span>{{comment.date}}</span>
+									<br/>
+									<i class="fa fa-heart" /> <span>{{comment.likes}}</span>
 								</div>
-								
-								<div v-html="comment.text"
-									style="float:left;" 
-									class="comment-content">
-								</div>
+
+								<div v-html="comment.text" style="float: right;"
+									class="comment-content"></div>
 							</div>
 						</template>
 					</ul>
