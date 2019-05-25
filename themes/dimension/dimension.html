@@ -151,8 +151,7 @@
 								<div class="userbox">
 									<img v-bind:src="comment.useravatar" /> 
 								</div>
-								<span>{{comment.text}}</span>
-								<span v-bind:html="comment.text"></span>
+								<span v-html="comment.text"></span>
 							</div>
 						</div>
 					</div>
