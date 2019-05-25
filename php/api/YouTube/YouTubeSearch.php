@@ -70,10 +70,9 @@ class YouTubeSearch {
     function searchComments($videoId, $limit = 25) {
         $this->initYTApi();
         
-        $searchResponse = $this->youtube->commentThreads->listCommentThreads ( array (
-                'part' => 'snippet,id',
-                'videoId' => 'gibtnix'
-                /*'maxResults' => $limit*/
+        $searchResponse = $this->youtube->commentThreads->listCommentThreads ('snippet,id', array (
+                'videoId' => $videoId,
+                'maxResults' => $limit
         ) );
         
         return $searchResponse;
