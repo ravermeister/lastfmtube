@@ -4,8 +4,6 @@ namespace LastFmTube\Api\LastFm;
 
 
 
-use Sunra\PhpSimple\HtmlDomParser;
-use simplehtmldom_1_5\simple_html_dom;
 
 class RecentlyPlayed {
     private $page;
