@@ -126,14 +126,14 @@ class LibvueVideo {
             el: '#video-container>#video-comments',
             data: {
             	LIST_HEADER: 'Video Comment List',
-            	IS_VISIBLE: false
+            	IS_VISIBLE: 'none'
             },
             methods: {
                 update: function (json) {
                     this.$applyData(json);
                 },
                 toggleVisible: function(show=false) {
-                	this.IS_VISIBLE = show;
+                	this.IS_VISIBLE = show ? 'visible' : 'none';
                 }
             }
         });
