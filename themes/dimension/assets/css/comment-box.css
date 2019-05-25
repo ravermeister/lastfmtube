@@ -4,14 +4,6 @@
  * Detalle: #c7cacb
  * Fondo: #dee1e3
  ----------------------------------*/
-.comments-container * {
-    margin: 0;
-    padding: 0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
- }
-
 .comments-container a {
     color: #03658c;
     text-decoration: none;
