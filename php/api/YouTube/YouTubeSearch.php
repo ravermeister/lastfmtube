@@ -74,8 +74,10 @@ class YouTubeSearch {
                 'maxResults' => $limit
         ) );
         
-        
-        return new VideoComments($videoId, $searchResponse);
+        if(isset($searchResponse['items'])) {            
+            return new VideoComments($videoId, $searchResponse['items']);
+        }
+        return $searchResponse;
     }
     
     private function initYTApi(){
