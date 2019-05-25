@@ -56,9 +56,8 @@ class YouTube extends DefaultJson {
         
         $searcher = $this->funcs->getYtApi();
         $searchResult = $searcher->searchComments($videoId, $limit);
-        
-        Functions::getInstance()->logMessage('Comments for Video: '.$videoId);
-        Functions::getInstance()->logMessage(print_r($searchResult, true));
+                
+        return $searchResult;
     }
 
     /**

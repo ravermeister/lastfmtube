@@ -75,6 +75,9 @@ class YouTubeSearch {
                 'maxResults' => $limit
         ) );
         
+        Functions::getInstance()->logMessage('Comments for Video: '.$videoId);
+        Functions::getInstance()->logMessage(print_r($searchResponse, true));
+        
         return $searchResponse;
     }
     
