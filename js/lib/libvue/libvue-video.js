@@ -125,7 +125,7 @@ class LibvueVideo {
         this.comments = new Vue({
             el: '#video-container>#video-comments',
             data: {
-            	LIST_HEADER: 'Comments coming soon..',
+            	LIST_HEADER: 'Comments',
             	showComments: false,
             	videoId: '',
             	commentData: [
@@ -139,8 +139,6 @@ class LibvueVideo {
                 },
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
-                	console.log(this.$data.showComments );
-                	console.log(this.$data.commentData);
                 }
             }
         });
