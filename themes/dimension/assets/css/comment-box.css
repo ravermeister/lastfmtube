@@ -58,6 +58,6 @@
   color: #797979;
 }
 
-.body .message .userbox .a {
+.body .message .userbox span {
 	display: block;
 }
