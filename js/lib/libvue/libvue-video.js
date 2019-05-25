@@ -115,7 +115,7 @@ class LibvueVideo {
                     }, true);
                 },
                 showComments: function(event) {
-                	Console.log('show comments');
+                	
                 	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
                 	$page.myVues.youtube.comments.toggleVisible(!$page.myVues.youtube.comments.IS_VISIBLE);
                 }
