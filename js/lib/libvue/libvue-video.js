@@ -122,6 +122,7 @@ class LibvueVideo {
                 	} else {
                 		$page.myVues.youtube.comments.IS_VISIBLE = 'visible';
                 	}
+                	console.log($page.myVues.youtube.comments.IS_VISIBLE );
                 }
             }
         });
