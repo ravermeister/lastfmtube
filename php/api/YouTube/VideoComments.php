@@ -35,7 +35,7 @@ class VideoComments {
 	         * @var Google_Service_YouTube_CommentThreadSnippet $snippet
 	         */
             $snippet = $commentThread->getSnippet();
-            Functions::getInstance()->logMessage('>>>'.print_r($commentThread->getReplies(), true));
+            Functions::getInstance()->logMessage('>>>'.print_r($commentThread, true));
             $this->commentList[] = new VideoComment($snippet->getTopLevelComment(), $commentThread->getReplies());
 	    }
 	}
