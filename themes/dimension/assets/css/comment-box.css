@@ -49,6 +49,7 @@
   border: 5px solid #ccc;
 }
 
+
 .body .message {
   min-height: 30px;
   border-radius: 3px;
@@ -58,9 +59,16 @@
   color: #797979;
 }
 
-.body .message .dialogbox-user {
+.dialogbox-user {
 	float: left;
 }
-.body .message .dialogbox-user img {
+.dialogbox-user img {
 	margin-right: 5px;
 } 
+.dialogbox-footer {
+	margin-top: 5px;
+	border-top: 1px solid light-gray;
+}
+.dialogbox-footer .dialogbox-likes {
+	float: right;
+}
