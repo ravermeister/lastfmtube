@@ -115,9 +115,10 @@ class LibvueVideo {
                     }, true);
                 },
                 showComments: function(event) {                	
+                	console.log('show comments');
                 	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
                 	if($page.myVues.youtube.comments.IS_VISIBLE =='visible') {
-                		$page.myVues.youtube.comments.IS_VISIBLE = 'none';
+                		$page.myVues.youtube.comments.IS_VISIBLE = 'visible';
                 	} else {
                 		$page.myVues.youtube.comments.IS_VISIBLE = 'visible';
                 	}
