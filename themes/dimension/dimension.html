@@ -151,8 +151,18 @@
 								<div class="userbox">
 									<img v-bind:src="comment.useravatar" /> 
 								</div>
+				
 								<div v-html="comment.text"></div>
 				
+								
+								<div class="footer">
+									<span>{{comment-date}}</span> by 
+									<span>{{comment-username}}</span>
+									<span>
+										<i class="far fa-thumbs-up"></i>	
+										{{comment.likes}}
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
