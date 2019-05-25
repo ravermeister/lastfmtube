@@ -135,7 +135,7 @@
  * Caja del Comentario
  ---------------------------*/
 .comments-list .comment-box {
-    width: 680px;
+    width: 100%;
     float: right;
     position: relative;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
