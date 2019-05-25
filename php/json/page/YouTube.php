@@ -12,7 +12,7 @@ use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
 use LastFmTube\Util\Functions;
-
+use VideoComments;
 class YouTube extends DefaultJson {
 
     //as stated in exception message from youtube
@@ -57,7 +57,7 @@ class YouTube extends DefaultJson {
         $searcher = $this->funcs->getYtApi();
         /**
          * 
-         * @var \VideoComments $searchResult
+         * @var VideoComments $searchResult
          */
         $searchResult = $searcher->searchComments($videoId, $limit);             
         return $searchResult->toJson();
