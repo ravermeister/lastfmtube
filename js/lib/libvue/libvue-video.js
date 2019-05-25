@@ -128,7 +128,9 @@ class LibvueVideo {
             	LIST_HEADER: 'Comments coming soon..',
             	showComments: false,
             	videoId: '',
-            	commentData: {},
+            	commentData: [
+            		
+            	],
             },
             methods: {
                 update: function (json) {
@@ -138,6 +140,7 @@ class LibvueVideo {
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
                 	console.log(this.$data.showComments );
+                	console.log(this.$data.commentData);
                 }
             }
         });
