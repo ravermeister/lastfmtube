@@ -136,7 +136,7 @@ class LibvueVideo {
                     this.$applyData(json);
                 },
                 toggleVisibility: function() {
-                	if(styleData.display =='visible') {
+                	if(this.$data.styleData.display =='visible') {
                 		this.$data.styleData.display = 'none';
                 	} else {
                 		this.$data.styleData.display = 'visible';
