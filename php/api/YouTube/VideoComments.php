@@ -12,7 +12,7 @@ class VideoComments {
 	 */
 	var $commentList;
 	
-	function __construct($videoId, $rawDocument) {
+	public function __construct($videoId, $rawDocument) {
 		$this->video = $videoId;
 	   	$this->initList($rawDocument);
 	}
