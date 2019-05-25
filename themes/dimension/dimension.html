@@ -23,7 +23,7 @@
 	crossorigin="anonymous">
 
 <link rel="stylesheet" href="themes/dimension/assets/css/main.css" />
-<link rel="stylesheet" href="themes/dimension/assets/css/comment.css" />
+<link rel="stylesheet" href="themes/dimension/assets/css/comment-box.css" />
 <noscript>
 	<link rel="stylesheet" href="themes/dimension/assets/css/noscript.css" />
 </noscript>
@@ -148,8 +148,10 @@
 							<!-- Avatar -->
 							<div class="comment-avatar">
 								<img
-									src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg"
-									v-bind:alt="comment.useravatar">
+									v-bind:src="comment.useravatar"
+									alt=""
+									width="75px"
+									height="75px">
 							</div>
 							<!-- Contenedor del Comentario -->
 							<div class="comment-box">
