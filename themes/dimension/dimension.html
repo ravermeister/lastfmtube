@@ -145,26 +145,27 @@
 					<h1>{{LIST_HEADER}}</h1>
 					<ul id="comments-list" class="comments-list">
 						<template v-for="comment in commentData">
-						<div class="comment-main-level">
-							<!-- Avatar -->
-							<div class="comment-avatar">
-								<img v-bind:src="comment.useravatar" alt="" width="75px"
-									height="75px">
-							</div>
-							<!-- Contenedor del Comentario -->
-							<div class="comment-box">
-								<div class="comment-head" style="float: left;">
-									<h6 class="comment-name by-author">
-										<a v-bind:href="'//youtube.com/user/' + comment.username">{{comment.username}}</a>
-									</h6>
-									<i class="fa fa-reply" /> <span>{{comment.date}}</span>
-									<br/>
-									<i class="fa fa-heart" /> <span>{{comment.likes}}</span>
+						<li>
+							<div class="comment-main-level">
+								<!-- Avatar -->
+								<div class="comment-avatar">
+									<img v-bind:src="comment.useravatar" alt="" width="75px"
+										height="75px">
 								</div>
+								<!-- Contenedor del Comentario -->
+								<div class="comment-box">
+									<div class="comment-head">
+										<h6 class="comment-name by-author">
+											<a v-bind:href="'//youtube.com/user/' + comment.username">{{comment.username}}</a>
+										</h6>
+										<i class="fa fa-reply" /> <span>{{comment.date}}</span> <br />
+										<i class="fa fa-heart" /> <span>{{comment.likes}}</span>
+									</div>
 
-								<div v-html="comment.text" style="float: right;"
-									class="comment-content"></div>
+									<div v-html="comment.text" class="comment-content"></div>
+								</div>
 							</div>
+						</li>
 						</template>
 					</ul>
 				</div>
