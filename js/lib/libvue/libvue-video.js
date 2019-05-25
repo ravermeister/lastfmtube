@@ -117,11 +117,7 @@ class LibvueVideo {
                 showComments: function(event) {                	
                 	console.log('show comments');
                 	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
-                	if($page.myVues.youtube.comments.styleData.display =='visible') {
-                		$page.myVues.youtube.comments.styleData.display = 'none';
-                	} else {
-                		$page.myVues.youtube.comments.styleData.display = 'visible';
-                	}
+                	$page.myVues.youtube.comments.toggleVisibility();
                 	console.log($page.myVues.youtube.comments.styleData.display );
                 }
             }
@@ -138,7 +134,14 @@ class LibvueVideo {
             methods: {
                 update: function (json) {
                     this.$applyData(json);
-                }
+                },
+                toggleVisibility: function() {
+                	if(styleData.display =='visible') {
+                		styleData.display = 'none';
+                	} else {
+                		styleData.display = 'visible';
+                	}
+                } 
             }
         });
     }
