@@ -153,7 +153,7 @@ class PlaylistController {
     
 
     loadVideoCommentList(videoId) {
-    	if($page.myVues.youtube.comments.$data.videoId == vidoeId) {
+    	if($page.myVues.youtube.comments.$data.videoId == videoId) {
     		console.log('Comments for Video {} %s already loaded', videoId);
     	}
     	request = 'php/api/YouTube/VideoComments.php?videoId='+videoId;
