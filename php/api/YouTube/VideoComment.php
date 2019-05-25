@@ -1,4 +1,5 @@
 <?php
+
 namespace LastFmTube\Api\YouTube;
 
 use Google_Service_YouTube_Comment;
@@ -53,19 +54,21 @@ class VideoComment {
      * @param Google_Service_YouTube_Comment $comment
      * @param Google_Service_YouTube_CommentThreadReplies $replies
      */
-    public function __construct($comment, $replies) {
+    public function __construct($comment, $replies = false) {
         $this->text = $comment->getSnippet ()->getTextDisplay ();
         $this->username = $comment->getSnippet ()->getAuthorDisplayName ();
         $this->date = $comment->getSnippet ()->getPublishedAt ();
         $this->useravatarUrl = $comment->getSnippet ()->getAuthorProfileImageUrl ();
         $this->likeCount = $comment->getSnippet ()->getLikeCount ();
 
-        /**
-         *
-         * @var Google_Service_YouTube_Comment $replComment
-         */
-        foreach ( $replies->getComments () as $replComment ) {
-            $this->answerComments [] = new VideoComment ( $replComment, array () );
+        if ($replies !== false) {
+            /**
+             *
+             * @var Google_Service_YouTube_Comment $replComment
+             */
+            foreach ( $replies->getComments () as $replComment ) {
+                $this->answerComments [] = new VideoComment ( $replComment );
+            }
         }
     }
 }
