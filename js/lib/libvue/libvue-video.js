@@ -129,7 +129,7 @@ class LibvueVideo {
             el: '#video-container>#video-comments',
             data: {
             	LIST_HEADER: 'Video Comment List',
-            	IS_VISIBLE: 'none'
+            	IS_VISIBLE: 'visible'
             },
             methods: {
                 update: function (json) {
