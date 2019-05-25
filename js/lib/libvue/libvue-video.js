@@ -118,7 +118,7 @@ class LibvueVideo {
                 	console.log('show comments');
                 	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
                 	if($page.myVues.youtube.comments.IS_VISIBLE =='visible') {
-                		$page.myVues.youtube.comments.IS_VISIBLE = 'visible';
+                		$page.myVues.youtube.comments.IS_VISIBLE = 'none';
                 	} else {
                 		$page.myVues.youtube.comments.IS_VISIBLE = 'visible';
                 	}
@@ -131,7 +131,9 @@ class LibvueVideo {
             el: '#video-container>#video-comments',
             data: {
             	LIST_HEADER: 'Video Comment List',
-            	IS_VISIBLE: 'visible'
+            	styleData: {
+            		display: 'visible'
+            	}
             },
             methods: {
                 update: function (json) {
