@@ -116,7 +116,6 @@ class LibvueVideo {
                 },
                 showComments: function(event) {                	
                 	console.log('show comments');
-                	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
                 	$page.myVues.youtube.comments.toggleVisibility();
                 	
                 }
@@ -126,8 +125,8 @@ class LibvueVideo {
         this.comments = new Vue({
             el: '#video-container>#video-comments',
             data: {
-            	LIST_HEADER: 'Video Comment List',
-            	styleData: {
+            	LIST_HEADER: 'Comments coming soon..',
+            	commentListStyle: {
             		display: 'visible'
             	}
             },
@@ -136,12 +135,12 @@ class LibvueVideo {
                     this.$applyData(json);
                 },
                 toggleVisibility: function() {
-                	if(this.$data.styleData.display =='visible') {
-                		this.$data.styleData.display = 'none';
+                	if(this.$data.commentListStyle.display =='visible') {
+                		this.$data.commentListStyle.display = 'none';
                 	} else {
-                		this.$data.styleData.display = 'visible';
+                		this.$data.commentListStyle.display = 'visible';
                 	}
-                	console.log(this.$data.styleData.display );
+                	console.log(this.$data.commentListStyle.display );
                 } 
             }
         });

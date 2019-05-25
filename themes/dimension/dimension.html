@@ -148,8 +148,11 @@
             <br/>
 
 			
-			<div id="video-comments" v-bind:style="styleData">
-				{{LIST_HEADER}}
+			<div id="video-comments">
+				<h5>{{LIST_HEADER}}</h5>
+				<div id="comment-list" v-bind:style="commentListStyle">
+					show comments here
+				</div>
 			</div>
 			
         </article>
