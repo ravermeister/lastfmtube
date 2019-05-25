@@ -58,6 +58,7 @@ class VideoComments {
 	        /**
 	         * @var VideoComment $acomment
 	         */
+	        /**
 	        foreach ($comment->answerComments as $acomment) {
 	            $jsonAnswerComment = array (
 	                    'username' => $comment->username,
@@ -68,7 +69,7 @@ class VideoComments {
 	            );
 	            $jsonComment['replies'][] = $jsonAnswerComment;
 	        }
-	        
+	        **/
 	        $json[] = $jsonComment;
 	    }
 	    
