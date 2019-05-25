@@ -159,7 +159,10 @@ class PlaylistController {
     		console.log('Comments for Video {} %s already loaded', videoId);
     	}
     	$page.myVues.youtube.comments.$data.videoId = videoId;
-    	request = 'php/api/YouTube/VideoComments.php?videoId='+videoId;
+    	
+    	request = 'php/json/page/YouTube.php?action=videoComments' + 
+        		'&videoId=' + videoId;
+    	
     	$.getJSON(request, function(json){
     		console.log('request success', json);
     		
@@ -198,12 +201,10 @@ class PlaylistController {
                 $page.myVues.playlist.update(json.data.value);
 
                 /**
-                 Vue.nextTick()
-                 .then(function () {
-                        // DOM updated
-                        $page.myVues.playlist.update(json.data.value, ignoreTitle);
-                    });
-                 **/
+				 * Vue.nextTick() .then(function () { // DOM updated
+				 * $page.myVues.playlist.update(json.data.value, ignoreTitle);
+				 * });
+				 */
 
                 if (typeof callBack === 'function') {
                     callBack(true);
