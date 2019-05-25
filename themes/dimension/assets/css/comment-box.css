@@ -4,7 +4,7 @@
  * Detalle: #c7cacb
  * Fondo: #dee1e3
  ----------------------------------*/
- * {
+.comments-container * {
     margin: 0;
     padding: 0;
     -webkit-box-sizing: border-box;
@@ -12,18 +12,13 @@
     box-sizing: border-box;
  }
 
- a {
+.comments-container a {
     color: #03658c;
     text-decoration: none;
  }
 
-ul {
+.comments-container ul {
     list-style-type: none;
-}
-
-body {
-    font-family: 'Roboto', Arial, Helvetica, Sans-serif, Verdana;
-    background: #dee1e3;
 }
 
 /** ====================
