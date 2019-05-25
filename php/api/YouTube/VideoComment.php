@@ -45,6 +45,12 @@ class VideoComment {
     var $useravatarUrl;
 
     /**
+     * 
+     * @var string
+     */
+    var $userchannelUrl;
+    
+    /**
      *
      * @var int
      */
@@ -58,6 +64,7 @@ class VideoComment {
     public function __construct($comment, $replies = false) {
         $this->text = $comment->getSnippet ()->getTextDisplay ();
         $this->username = $comment->getSnippet ()->getAuthorDisplayName ();
+        $this->userchannelUrl = $comment->getSnippet()->getAuthorChannelUrl();
         $this->date = $comment->getSnippet ()->getPublishedAt ();
         $this->useravatarUrl = $comment->getSnippet ()->getAuthorProfileImageUrl ();
         $this->likeCount = $comment->getSnippet ()->getLikeCount ();

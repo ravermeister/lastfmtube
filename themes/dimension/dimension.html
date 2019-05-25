@@ -151,13 +151,17 @@
 								<div class="dialogbox-user">
 									<img v-bind:src="comment.useravatar" /> 
 								</div>
-				
+								
 								<div class="dialogbox-text" v-html="comment.text"></div>
 				
 								
 								<div class="dialogbox-footer">
 									<span>{{comment.date}}</span>
-									<span>{{comment.username}}</span>
+									<span>
+									<a v-bind:href="comment.userchannel" target="_blank">
+										{{comment.username}}
+									</a>
+									</span>
 									<span class="dialogbox-likes">
 										<i class="far fa-thumbs-up"></i>	
 										{{comment.likes}}

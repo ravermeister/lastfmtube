@@ -1,7 +1,6 @@
 <?php
 namespace LastFmTube\Api\YouTube;
 
-use LastFmTube\Util\Functions;
 
 class VideoComments {
 	
@@ -35,7 +34,6 @@ class VideoComments {
 	         * @var Google_Service_YouTube_CommentThreadSnippet $snippet
 	         */
             $snippet = $commentThread->getSnippet();
-            Functions::getInstance()->logMessage('>>>'.print_r($commentThread, true));
             $this->commentList[] = new VideoComment($snippet->getTopLevelComment(), $commentThread->getReplies());
 	    }
 	}
@@ -52,6 +50,7 @@ class VideoComments {
 	        $jsonComment = array (
 	             'username' => $comment->username,
 	             'useravatar' => $comment->useravatarUrl,
+	             'userchannel' => $comment->userchannelUrl,
 	             'likes' => $comment->likeCount,
 	             'date' => $comment->date,
 	             'text' => $comment->text,
