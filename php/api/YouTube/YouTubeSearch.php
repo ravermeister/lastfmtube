@@ -66,6 +66,13 @@ class YouTubeSearch {
     function setNeedle($needle) {
         $this->needle = $needle;
     }
+    
+    /**
+     * 
+     * @param string $videoId
+     * @param int $limit
+     * @return VideoComments|mixed
+     */
     function searchComments($videoId, $limit = 25) {
         $this->initYTApi();
         

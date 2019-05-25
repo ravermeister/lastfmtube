@@ -164,7 +164,8 @@ class PlaylistController {
         		'&videoId=' + videoId;
     	console.log('request: '+request);
     	$.getJSON(request, function(json){
-    		console.log('request success', json);
+    		console.log('request success');
+    		console.log(JSON.stringify(json));
     		
     	}).fail(function (xhr) {
     		console.error('request failed');
