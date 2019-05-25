@@ -70,6 +70,7 @@ class YouTubeSearch {
     }
     function searchComments($videoId, $limit = 25) {
         $searchResponse = $this->youtube->commentThreads->listCommentThreads ( 'id', 'snippet', array (
+                'part' => 'id,snippet',
                 'videoID' => $videoId,
                 'maxResults' => $limit
         ) );
