@@ -114,10 +114,13 @@ class LibvueVideo {
                         $page.myVues.youtube.header.$data.LOADING = false;
                     }, true);
                 },
-                showComments: function(event) {
-                	
+                showComments: function(event) {                	
                 	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
-                	$page.myVues.youtube.comments.toggleVisible(!$page.myVues.youtube.comments.IS_VISIBLE);
+                	if($page.myVues.youtube.comments.IS_VISIBLE =='visible') {
+                		$page.myVues.youtube.comments.IS_VISIBLE = 'none';
+                	} else {
+                		$page.myVues.youtube.comments.IS_VISIBLE = 'visible';
+                	}
                 }
             }
         });
@@ -131,9 +134,6 @@ class LibvueVideo {
             methods: {
                 update: function (json) {
                     this.$applyData(json);
-                },
-                toggleVisible: function(show=false) {
-                	this.IS_VISIBLE = ((show == true) ? 'visible' : 'none');
                 }
             }
         });
