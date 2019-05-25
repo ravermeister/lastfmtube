@@ -57,3 +57,7 @@
   line-height: 1.5;
   color: #797979;
 }
+
+.body .message .userbox .a {
+	display: block;
+}
