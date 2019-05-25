@@ -150,7 +150,7 @@
 			
 			<div id="video-comments">
 				<h5>{{LIST_HEADER}}</h5>
-				<div id="comment-list" v-bind:style="commentListStyle">
+				<div id="comment-list" v-if="showComments">
 					show comments here
 				</div>
 			</div>

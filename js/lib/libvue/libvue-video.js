@@ -126,21 +126,15 @@ class LibvueVideo {
             el: '#video-container>#video-comments',
             data: {
             	LIST_HEADER: 'Comments coming soon..',
-            	commentListStyle: {
-            		display: 'visible'
-            	}
+            	showComments: false
             },
             methods: {
                 update: function (json) {
                     this.$applyData(json);
                 },
                 toggleVisibility: function() {
-                	if(this.$data.commentListStyle.display =='visible') {
-                		this.$data.commentListStyle.display = 'none';
-                	} else {
-                		this.$data.commentListStyle.display = 'visible';
-                	}
-                	console.log(this.$data.commentListStyle.display );
+                	this.$data.showComments = !this.$data.showComments;
+                	console.log(this.$data.showComments );
                 } 
             }
         });
