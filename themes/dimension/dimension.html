@@ -146,12 +146,21 @@
 					<template v-for="comment in commentData">
 					<div class="dialogbox">
 						<div class="body">
-							<span class="tip tip-up"></span>
+							<span class="tip tip-left"></span>
 							<div class="message">
 								<div class="userbox">
 									<img v-bind:src="comment.useravatar" /> 
 								</div>
 								<span v-html="comment.text"></span>
+								
+								<div class="footer">
+									<span>{{comment-date}}</span> by 
+									<span>{{comment-username}}</span>
+									<span>
+										<i class="far fa-thumbs-up"></i>	
+										{{comment.likes}}
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
