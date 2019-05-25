@@ -26,7 +26,6 @@ class YouTubeSearch {
     
     function __construct() {
         $this->client = new Google_Client ();
-        $this->youtube = new Google_Service_YouTube ( $this->client );
     }
 
     /**
@@ -69,6 +68,7 @@ class YouTubeSearch {
         $this->needle = $needle;
     }
     function searchComments($videoId, $limit = 25) {
+        $this->initYTApi();
         $searchResponse = $this->youtube->commentThreads->listCommentThreads ( array (
                 'part' => 'snippet,id',
                 'videoID' => $videoId,
@@ -77,10 +77,8 @@ class YouTubeSearch {
         
         return $searchResponse;
     }
-    function searchVideo($resultcount = 1) {
-       
-        $video_list = array ();
-
+    
+    private function initYTApi(){
         if (! empty ( $this->api_json )) {
             putenv ( 'GOOGLE_APPLICATION_CREDENTIALS=' . $this->api_json );
             $this->client->useApplicationDefaultCredentials ();
@@ -89,8 +87,14 @@ class YouTubeSearch {
             $this->client->setDeveloperKey ( $this->api_key );
         }
         // Define an object that will be used to make all API requests.
-
+        
         $this->youtube = new Google_Service_YouTube ( $this->client );
+    }
+    
+    function searchVideo($resultcount = 1) {
+       
+        $video_list = array ();
+        $this->initYTApi();
 
         try {
             // Call the search.list method to retrieve results matching the specified
