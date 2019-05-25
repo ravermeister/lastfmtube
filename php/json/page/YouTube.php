@@ -11,8 +11,6 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
-use LastFmTube\Util\Functions;
-use VideoComments;
 class YouTube extends DefaultJson {
 
     //as stated in exception message from youtube
@@ -39,7 +37,6 @@ class YouTube extends DefaultJson {
                     break;
                 case 'videoComments':
                     $videoId = self::getVar('videoId', '');
-                    Functions::getInstance()->logMessage('Comments for Video: '.$videoId);
                     return $this->loadVideoComments($videoId);
                     break;
                 default:
