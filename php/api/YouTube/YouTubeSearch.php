@@ -6,6 +6,7 @@ use LastFmTube\Util\Functions;
 use Exception;
 use Google_Client;
 use Google_Service_YouTube;
+
 class YouTubeSearch {
 
     /*
@@ -22,7 +23,6 @@ class YouTubeSearch {
     private $ignoreVids = array ();
     private $client;
     private $youtube;
-    
     function __construct() {
         $this->client = new Google_Client ();
     }
@@ -66,28 +66,27 @@ class YouTubeSearch {
     function setNeedle($needle) {
         $this->needle = $needle;
     }
-    
+
     /**
-     * 
+     *
      * @param string $videoId
      * @param int $limit
      * @return VideoComments|mixed
      */
     function searchComments($videoId, $limit = 25) {
-        $this->initYTApi();
-        
-        $searchResponse = $this->youtube->commentThreads->listCommentThreads ('snippet,id', array (
+        $this->initYTApi ();
+
+        $searchResponse = $this->youtube->commentThreads->listCommentThreads ( 'snippet,id', array (
                 'videoId' => $videoId,
                 'maxResults' => $limit
         ) );
-        
-        if(isset($searchResponse['items'])) {            
-            return new VideoComments($videoId, $searchResponse['items']);
+
+        if (isset ( $searchResponse ['items'] )) {
+            return new VideoComments ( $videoId, $searchResponse ['items'] );
         }
         return $searchResponse;
     }
-    
-    private function initYTApi(){
+    private function initYTApi() {
         if (! empty ( $this->api_json )) {
             putenv ( 'GOOGLE_APPLICATION_CREDENTIALS=' . $this->api_json );
             $this->client->useApplicationDefaultCredentials ();
@@ -96,14 +95,12 @@ class YouTubeSearch {
             $this->client->setDeveloperKey ( $this->api_key );
         }
         // Define an object that will be used to make all API requests.
-        
+
         $this->youtube = new Google_Service_YouTube ( $this->client );
     }
-    
     function searchVideo($resultcount = 1) {
-       
         $video_list = array ();
-        $this->initYTApi();
+        $this->initYTApi ();
 
         try {
             // Call the search.list method to retrieve results matching the specified
@@ -146,7 +143,7 @@ class YouTubeSearch {
         } catch ( Exception $e ) {
             Functions::getInstance ()->logMessage ( 'A service error occurred: ' . $e->getMessage () );
         }
-        
+
         return $video_list;
     }
 }

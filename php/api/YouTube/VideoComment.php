@@ -45,11 +45,11 @@ class VideoComment {
     var $useravatarUrl;
 
     /**
-     * 
+     *
      * @var string
      */
     var $userchannelUrl;
-    
+
     /**
      *
      * @var int
@@ -64,22 +64,22 @@ class VideoComment {
     public function __construct($comment, $replies = false) {
         $this->text = $comment->getSnippet ()->getTextDisplay ();
         $this->username = $comment->getSnippet ()->getAuthorDisplayName ();
-        $this->userchannelUrl = $comment->getSnippet()->getAuthorChannelUrl();
+        $this->userchannelUrl = $comment->getSnippet ()->getAuthorChannelUrl ();
         $this->date = $comment->getSnippet ()->getPublishedAt ();
         $this->useravatarUrl = $comment->getSnippet ()->getAuthorProfileImageUrl ();
         $this->likeCount = $comment->getSnippet ()->getLikeCount ();
 
         if ($replies !== false) {
-            Functions::getInstance()->logMessage(print_r($replies, true));
-            /**
-             *
-             * @var Google_Service_YouTube_Comment $replComment
-             */
-            /**
-            foreach ( $replies->getComments () as $replComment ) {
-                $this->answerComments [] = new VideoComment ( $replComment );
-            }
-            **/
+            Functions::getInstance ()->logMessage ( print_r ( $replies, true ) );
+        /**
+         *
+         * @var Google_Service_YouTube_Comment $replComment
+         */
+        /**
+         * foreach ( $replies->getComments () as $replComment ) {
+         * $this->answerComments [] = new VideoComment ( $replComment );
+         * }
+         */
         }
     }
 }

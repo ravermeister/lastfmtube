@@ -1,79 +1,81 @@
 .tip {
-  width: 0px;
-  height: 0px;
-  position: absolute;
-  background: transparent;
-  border: 10px solid #ccc;
+	width: 0px;
+	height: 0px;
+	position: absolute;
+	background: transparent;
+	border: 10px solid #ccc;
 }
 
 .tip-up {
-  top: -25px; /* Same as body margin top + border */
-  left: 10px;
-  border-right-color: transparent;
-  border-left-color: transparent;
-  border-top-color: transparent;
+	top: -25px; /* Same as body margin top + border */
+	left: 10px;
+	border-right-color: transparent;
+	border-left-color: transparent;
+	border-top-color: transparent;
 }
 
 .tip-down {
-  bottom: -25px;
-  left: 10px;
-  border-right-color: transparent;
-  border-left-color: transparent;
-  border-bottom-color: transparent;  
+	bottom: -25px;
+	left: 10px;
+	border-right-color: transparent;
+	border-left-color: transparent;
+	border-bottom-color: transparent;
 }
 
 .tip-left {
-  top: 10px;
-  left: -25px;
-  border-top-color: transparent;
-  border-left-color: transparent;
-  border-bottom-color: transparent;  
+	top: 10px;
+	left: -25px;
+	border-top-color: transparent;
+	border-left-color: transparent;
+	border-bottom-color: transparent;
 }
 
 .tip-right {
-  top: 10px;
-  right: -25px;
-  border-top-color: transparent;
-  border-right-color: transparent;
-  border-bottom-color: transparent;  
+	top: 10px;
+	right: -25px;
+	border-top-color: transparent;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
 }
 
 .dialogbox .body {
-  position: relative;
-  max-width: 100%;
-  height: auto;
-  margin: 20px 10px;
-  padding: 5px;
-  background-color: #DADADA;
-  border-radius: 3px;
-  border: 5px solid #ccc;
+	position: relative;
+	max-width: 100%;
+	height: auto;
+	margin: 20px 10px;
+	padding: 5px;
+	background-color: #DADADA;
+	border-radius: 3px;
+	border: 5px solid #ccc;
 }
 
-
 .body .message {
-  min-height: 30px;
-  border-radius: 3px;
-  font-family: Arial;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #797979;
+	min-height: 30px;
+	border-radius: 3px;
+	font-family: Arial;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #797979;
 }
 
 .dialogbox-user {
 	float: left;
 }
+
 .dialogbox-user img {
 	margin-right: 5px;
-} 
+}
+
 .dialogbox-footer {
 	margin-top: 15px;
 	border-top: 1px solid light-gray;
-	clear:both;
+	clear: both;
 	display: block;
 	position: relative;
 	bottom: 1px;
 	left: 0px;
 }
+
 .dialogbox-footer .dialogbox-likes {
 	float: right;
 }
