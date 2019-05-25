@@ -4,6 +4,7 @@ namespace LastFmTube\Api\YouTube;
 
 use Google_Service_YouTube_Comment;
 use Google_Service_YouTube_CommentThreadReplies;
+use LastFmTube\Util\Functions;
 
 class VideoComment {
 
@@ -62,13 +63,16 @@ class VideoComment {
         $this->likeCount = $comment->getSnippet ()->getLikeCount ();
 
         if ($replies !== false) {
+            Functions::getInstance()->logMessage(print_r($replies, true));
             /**
              *
              * @var Google_Service_YouTube_Comment $replComment
              */
+            /**
             foreach ( $replies->getComments () as $replComment ) {
                 $this->answerComments [] = new VideoComment ( $replComment );
             }
+            **/
         }
     }
 }
