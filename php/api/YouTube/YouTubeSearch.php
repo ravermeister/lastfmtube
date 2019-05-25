@@ -6,7 +6,6 @@ use LastFmTube\Util\Functions;
 use Exception;
 use Google_Client;
 use Google_Service_YouTube;
-use VideoComments;
 class YouTubeSearch {
 
     /*
