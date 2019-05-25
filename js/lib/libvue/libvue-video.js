@@ -133,7 +133,7 @@ class LibvueVideo {
                     this.$applyData(json);
                 },
                 toggleVisible: function(show=false) {
-                	this.IS_VISIBLE = show ? 'visible' : 'none';
+                	this.IS_VISIBLE = ((show == true) ? 'visible' : 'none');
                 }
             }
         });
