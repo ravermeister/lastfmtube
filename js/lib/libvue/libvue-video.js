@@ -118,7 +118,7 @@ class LibvueVideo {
                 	console.log('show comments');
                 	$page.myVues.youtube.comments.$data.LIST_HEADER = 'Comments coming soon..';
                 	$page.myVues.youtube.comments.toggleVisibility();
-                	console.log($page.myVues.youtube.comments.styleData.display );
+                	
                 }
             }
         });
@@ -137,10 +137,11 @@ class LibvueVideo {
                 },
                 toggleVisibility: function() {
                 	if(styleData.display =='visible') {
-                		styleData.display = 'none';
+                		this.$data.styleData.display = 'none';
                 	} else {
-                		styleData.display = 'visible';
+                		this.$data.styleData.display = 'visible';
                 	}
+                	console.log(this.$data.styleData.display );
                 } 
             }
         });
