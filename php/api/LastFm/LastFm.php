@@ -2,8 +2,8 @@
 
 namespace LastFmTube\Api\LastFm;
 
-use Sunra\PhpSimple\HtmlDomParser;
 use LastFmTube\Util\Functions;
+use Sunra\PhpSimple\HtmlDomParser;
 
 class LastFm {
     private $base_url     = 'http://ws.audioscrobbler.com/2.0';
@@ -96,7 +96,11 @@ class LastFm {
         if (empty($html)) return null;
         return $html->outertext;
     }
-
+    
+    /**
+     * 
+     * @return \simplehtmldom_1_5\simple_html_dom
+     */
     function getDOM() {
         $url = $this->base_url . '?method=' . $this->method . '&api_key=' . $this->apikey;
 
@@ -118,7 +122,6 @@ class LastFm {
                '&page=' . $page . '&limit=' . $limit;
         $this->setURL($url);        
         $html = $this->getDOM();
-        Functions::getInstance()->logMessage('>>>'.$url);
         return new RecentlyPlayed ($html);
     }
 }

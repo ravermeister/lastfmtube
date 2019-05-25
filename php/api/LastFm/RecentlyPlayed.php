@@ -4,6 +4,9 @@ namespace LastFmTube\Api\LastFm;
 
 
 
+use Sunra\PhpSimple\HtmlDomParser;
+use simplehtmldom_1_5\simple_html_dom;
+
 class RecentlyPlayed {
     private $page;
     private $totalPages;
@@ -12,15 +15,15 @@ class RecentlyPlayed {
 
     /**
      * RecentlyPlayed constructor.
-     * @param                 $invalidStrings
+     * @param simple_html_dom $html
      */
-    function __construct($html) {
+    function __construct(&$html) {
 
         $elem = $html->find('recenttracks ', 0);
-
-        $this->page         = isset($elem->page) ? $elem->page : 1;
-        $this->totalPages   = isset($elem->totalPages) ? $elem->totalpages : 1;
-        $this->itemsPerPage = isset($elem->itemsPerPage) ? $elem->itemsPerPage : 25;
+        
+        $this->page         = $elem->getAttribute('page');
+        $this->totalPages   = $elem->getAttribute('totalpages');
+        $this->itemsPerPage = $elem->getAttribute('perPage');
         
         $tracks = $html->find('track');
         foreach ($tracks as $track) {
