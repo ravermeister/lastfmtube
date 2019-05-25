@@ -3,6 +3,8 @@
 namespace LastFmTube\Api\LastFm;
 
 
+use LastFmTube\Util\Functions;
+
 class RecentlyPlayed {
     private $page;
     private $totalPages;
@@ -16,7 +18,7 @@ class RecentlyPlayed {
     function __construct($html) {
 
         $elem = $html->find('recenttracks ', 0);
-
+        Functions::getInstance()->logMessage(print_r($elem, true));
         $this->page         = isset($elem->page) ? $elem->page : 1;
         $this->totalPages   = isset($elem->totalPages) ? $elem->totalpages : 1;
         $this->itemsPerPage = isset($elem->itemsPerPage) ? $elem->itemsPerPage : 25;
