@@ -150,12 +150,16 @@ class PlaylistController {
             callBack(true);
         }
     }
+    
 
     loadVideoCommentList(videoId) {
+    	if($page.myVues.youtube.comments.$data.videoId == vidoeId) {
+    		console.log('Comments for Video {} %s already loaded', videoId);
+    	}
     	request = 'php/api/YouTube/VideoComments.php?videoId='+videoId;
     	$.getJSON(request, function(json){
     		Console.log(json);
-    		
+    		$page.myVues.youtube.comments.$data.videoId = videoId;
     	}).fail(function (xhr) {
 
             $.logXhr(xhr);
@@ -163,7 +167,7 @@ class PlaylistController {
             if (typeof callBack === 'function') {
                 callBack(false);
             }
-        });;
+        });
     }
     
     isValidUser(user = null) {

@@ -126,7 +126,8 @@ class LibvueVideo {
             el: '#video-container>#video-comments',
             data: {
             	LIST_HEADER: 'Comments coming soon..',
-            	showComments: false
+            	showComments: false,
+            	videoCommentId: '',
             },
             methods: {
                 update: function (json) {
@@ -135,7 +136,7 @@ class LibvueVideo {
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
                 	console.log(this.$data.showComments );
-                } 
+                }
             }
         });
     }
