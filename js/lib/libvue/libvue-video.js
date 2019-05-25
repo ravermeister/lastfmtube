@@ -127,7 +127,7 @@ class LibvueVideo {
             data: {
             	LIST_HEADER: 'Comments coming soon..',
             	commentListStyle: {
-            		display: 'visible'
+            		display: 'none'
             	}
             },
             methods: {
