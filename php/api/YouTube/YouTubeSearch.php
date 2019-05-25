@@ -6,7 +6,7 @@ use LastFmTube\Util\Functions;
 use Exception;
 use Google_Client;
 use Google_Service_YouTube;
-
+use VideoComments;
 class YouTubeSearch {
 
     /*
@@ -75,10 +75,7 @@ class YouTubeSearch {
                 'maxResults' => $limit
         ) );
         
-        Functions::getInstance()->logMessage('Comments for Video: '.$videoId);
-        Functions::getInstance()->logMessage(print_r($searchResponse, true));
-        
-        return $searchResponse;
+        return new VideoComments($videoId, $searchResponse);
     }
     
     private function initYTApi(){
