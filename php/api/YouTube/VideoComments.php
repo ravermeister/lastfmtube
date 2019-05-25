@@ -12,7 +12,7 @@ class VideoComments {
 	/**
 	 * @var array
 	 */
-	var $commentList;
+	var $commentList = array();
 	
 	function __construct($videoId, $rawDocument) {
 		$this->video = $videoId;
