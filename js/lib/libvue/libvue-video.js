@@ -128,7 +128,7 @@ class LibvueVideo {
             data: {
             	LIST_HEADER: 'Video Comment List',
             	styleData: {
-            		display: 'none'
+            		display: 'visible'
             	}
             },
             methods: {
@@ -137,7 +137,7 @@ class LibvueVideo {
                 },
                 toggleVisibility: function() {
                 	if(this.$data.styleData.display =='visible') {
-                		this.$data.styleData.display = 'none';
+                		this.$data.styleData.display = 'visible';
                 	} else {
                 		this.$data.styleData.display = 'visible';
                 	}
