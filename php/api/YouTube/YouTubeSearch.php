@@ -69,8 +69,8 @@ class YouTubeSearch {
         $this->needle = $needle;
     }
     function searchComments($videoId, $limit = 25) {
-        $searchResponse = $this->youtube->commentThreads->listCommentThreads ( 'id', 'snippet', array (
-                'part' => 'id,snippet',
+        $searchResponse = $this->youtube->commentThreads->listCommentThreads ( array (
+                'part' => 'snippet,id',
                 'videoID' => $videoId,
                 'maxResults' => $limit
         ) );
