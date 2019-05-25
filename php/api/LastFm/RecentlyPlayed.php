@@ -17,9 +17,9 @@ class RecentlyPlayed {
 
         $elem = $html->find('recenttracks ', 0);
 
-        $this->page         = $elem->page;
-        $this->totalPages   = $elem->totalpages;
-        $this->itemsPerPage = $elem->perPage;
+        $this->page         = isset($elem->page) ? $elem->page : 1;
+        $this->totalPages   = isset($elem->totalPages) ? $elem->totalpages : 1;
+        $this->itemsPerPage = isset($elem->itemsPerPage) ? $elem->itemsPerPage : 25;
         
         $tracks = $html->find('track');
         foreach ($tracks as $track) {
