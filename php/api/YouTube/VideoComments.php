@@ -1,4 +1,6 @@
 <?php
+namespace LastFmTube\Api\YouTube;
+
 class VideoComments {
 	
 	/**
@@ -12,7 +14,7 @@ class VideoComments {
 	 */
 	var $commentList;
 	
-	public function __construct($videoId, $rawDocument) {
+	function __construct($videoId, $rawDocument) {
 		$this->video = $videoId;
 	   	$this->initList($rawDocument);
 	}

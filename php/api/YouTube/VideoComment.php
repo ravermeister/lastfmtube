@@ -1,4 +1,9 @@
 <?php
+namespace LastFmTube\Api\YouTube;
+
+use Google_Service_YouTube_Comment;
+use Google_Service_YouTube_CommentThreadReplies;
+
 class VideoComment {
 
     /**
