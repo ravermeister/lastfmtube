@@ -58,9 +58,9 @@
   color: #797979;
 }
 
-.body .message .userbox {
+.body .message .dialogbox-user {
 	float: left;
 }
-.body .message .userbox img {
+.body .message .dialogbox-user img {
 	margin-right: 5px;
 } 

@@ -148,14 +148,14 @@
 						<div class="body">
 							<span class="tip tip-left"></span>
 							<div class="message">
-								<div class="userbox">
+								<div class="dialogbox-user">
 									<img v-bind:src="comment.useravatar" /> 
 								</div>
 				
-								<div v-html="comment.text"></div>
+								<div class="dialogbox-text" v-html="comment.text"></div>
 				
 								
-								<div class="footer">
+								<div class="dialogbox-footer">
 									<span>{{comment-date}}</span> by 
 									<span>{{comment-username}}</span>
 									<span>
