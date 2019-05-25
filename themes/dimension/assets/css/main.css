@@ -1744,7 +1744,7 @@ input[type="number"] {
 
 .dialogbox .body {
   position: relative;
-  max-width: 300px;
+  max-width: 100%;
   height: auto;
   margin: 20px 10px;
   padding: 5px;
