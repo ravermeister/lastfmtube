@@ -155,7 +155,8 @@ class PlaylistController {
     loadVideoCommentList(videoId, pagetoken=false) {
     	
     	let request = null;    	
-    	if($page.myVues.youtube.comments.$data.videoId == videoId) {
+    	if(pagetoken===false &&
+    			$page.myVues.youtube.comments.$data.videoId == videoId) {
     		console.log('Comments for Video {} %s already loaded', videoId);
     		return;
     	}
