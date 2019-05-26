@@ -158,7 +158,6 @@ class LibvueVideo {
                 	if(undefined === pinfo.NEXT || false === pinfo.NEXT) {
                 		return;
                 	} 
-                	console.log('load next page: '+pinfo.NEXT);
                 	$playlist.loadVideoCommentList(this.$data.videoId, pinfo.NEXT);
                 }
             }
