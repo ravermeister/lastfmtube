@@ -209,7 +209,7 @@ class PageController {
             }
         };
 
-        PageController.TRACKS_PER_PAGE = 25; //in settings.ini
+        PageController.TRACKS_PER_PAGE = 25; // in settings.ini
         PageController.icons = PageController.initIcons();
         PageController.analytics = null;
 
@@ -274,10 +274,10 @@ class PageController {
             'eventLabel': 'Track played'
         });
     }
-
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
+        if (sortBy === null) sortBy = $page.myVues.playlist.menu.$data.SORTBY.SELECTED;
         
         let curArticle = PageController.article.playlist.dom;
         let isPlaylist = false;
@@ -301,7 +301,7 @@ class PageController {
                 isPlaylist = true;
                 break;
             case 'topsongs':
-                $playlist.loadTopSongs(pageNum, loadComplete);
+                $playlist.loadTopSongs(pageNum, null, loadComplete);
                 isPlaylist = true;
                 break;
             case 'topuser':
@@ -376,7 +376,7 @@ class PageController {
         };
         Vue.prototype.$url = function (menu, log = false) {
             let url = this.$url2(menu.PAGE, menu.PLAYLIST, log);
-            //console.log('for menu', menu);
+            // console.log('for menu', menu);
             return url;
         };
 
@@ -399,7 +399,7 @@ class PageController {
 
             let showPage = function (success) {
 
-                // DOM updated                
+                // DOM updated
                 if (typeof menu.LDATA !== 'undefined') {
                     $page.setLoading(curArticle);
                     if (success) {
@@ -449,15 +449,13 @@ class PageController {
 
                 // usage as a promise (2.1.0+, see note below)
                 /**
-                 Vue.nextTick()
-                 .then(function () {
-                                    // DOM updated
-                                    
-                                });
-                 **/
+				 * Vue.nextTick() .then(function () { // DOM updated
+				 * 
+				 * });
+				 */
             } catch (e) {
                 console.error(e);
-                //showPage(false);
+                // showPage(false);
             }
         };
 
@@ -771,7 +769,7 @@ class PageController {
                     }
 
                     if ($page.myVues.playlist.content.$data.TRACKS[0].NR > newTrack.NR) {
-                        return; //we are higher than first pos in list
+                        return; // we are higher than first pos in list
                     }
 
                     let trackInserted = false;

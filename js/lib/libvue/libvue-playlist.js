@@ -77,8 +77,11 @@ class LibvuePlaylist {
             },
 
             methods: {
-            	sortBy: function(event) {            		
-            		console.log('TODO: reload tracks with sort order: '+this.$data.SORTBY.SELECTED);
+            	sortBy: function(event) {           		
+                    $page.setLoading(PageController.article.playlist.dom(), true);
+                    $page.loadList(pageNum, user, function () {
+                        $page.setLoading(PageController.article.playlist.dom());
+                    });            		
             		return true;
             		
             	},

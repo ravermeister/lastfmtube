@@ -141,6 +141,10 @@ class Playlist extends DefaultJson {
         $trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
         $trackCnt = ( int ) ($trackCnt === false ? 1 : $trackCnt ['cnt']);
         $offset = ($pageNum - 1) * $limit;
+
+        $orderby = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'lastplayed' : 'playcount';
+        $orderbysecond = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'playcount' : 'lastplayed';
+
         $topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
                 /**
                  *
@@ -154,6 +158,8 @@ class Playlist extends DefaultJson {
                  * use the commented limit if performance is worse!
                  */
                 /* 'limit' => $limit * 3, */
+                'orderby' => $orderby,
+                'orderbysecond' => $orderbysecond,
                 'limit' => $trackCnt,
                 'offset' => $offset
         ) );
