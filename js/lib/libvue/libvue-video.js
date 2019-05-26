@@ -142,7 +142,7 @@ class LibvueVideo {
                 update: function (json) {
                     this.$applyData(json);
                     if(undefined !== json.comments) {                    	
-                    	this.normalizeComments(json.comments);
+                    	this.normalizMessage(json.comments);
                     	this.$data.commentData = json.comments;
                     }
                     if(undefined !== json.pageinfo) {
@@ -152,7 +152,7 @@ class LibvueVideo {
                 append: function(json) {
  
                     if(undefined !== json.comments) {                    	
-                    	this.normalizeComments(json.comments);
+                    	this.normalizMessage(json.comments);
                     	this.$data.commentData = this.$data.commentData.concat(json.comments);                    	
                     }
                     if(undefined !== json.pageinfo) {
