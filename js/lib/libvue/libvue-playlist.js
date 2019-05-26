@@ -82,7 +82,7 @@ class LibvuePlaylist {
             			return;
             		}
             		
-            		let newSort = event.srcElement.value;
+            		let newSort = event.target.value;
             		if(newSort==this.$data.SORTBY.SELECTED) {
             			return;
             		}
@@ -90,6 +90,7 @@ class LibvuePlaylist {
             		console.log('reload tracks with sort order: '+newSort);
             		console.log(event);
             		this.$data.SORTBY.SELECTED = newSort;
+            		return true;
             		
             	},
                 loadPage: function (user, pageNum) {
