@@ -70,9 +70,6 @@
 	margin-top: 15px;
 	border-top: 1px solid light-gray;
 	clear: both;
-	position: relative;
-	bottom: 1px;
-	left: 0px;
 	
 	background: green;
 }
