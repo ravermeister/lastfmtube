@@ -78,13 +78,13 @@ class LibvuePlaylist {
 
             methods: {
             	sortBy: function(event) {
-            		console.log('>>>', event);
             		if(undefined === event.target)  {
             			return;
             		}
             		
             		let newSort = event.target.value;
             		if(newSort==this.$data.SORTBY.SELECTED) {
+            			console.log('new and old sort are the same');
             			return;
             		}
             		
