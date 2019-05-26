@@ -134,8 +134,11 @@ class LibvueVideo {
                 update: function (json) {
                     this.$applyData(json);
                     if(undefined !== json.comments) {                    	
+                    	let links = $(json.comments).find('a');
+                    	console.log(links);
+                    	links.attr('target','_blank');
+                    	
                     	this.$data.commentData = json.comments;
-                    	$('.dialogbox .dialogbox-text a').attr('target','_blank');
                     }
                     if(undefined !== json.pageinfo) {
                     	this.$data.pageinfo = json.pageinfo;
@@ -144,8 +147,11 @@ class LibvueVideo {
                 append: function(json) {
  
                     if(undefined !== json.comments) {                    	
-                    	this.$data.commentData = this.$data.commentData.concat(json.comments);
-                    	$('.dialogbox .dialogbox-text a').attr('target','_blank');
+                    	let links = $(json.comments).find('a');
+                    	console.log(links);
+                    	links.attr('target','_blank');
+                    	
+                    	this.$data.commentData = this.$data.commentData.concat(json.comments);                    	
                     }
                     if(undefined !== json.pageinfo) {
                     	this.$data.pageinfo = json.pageinfo;
