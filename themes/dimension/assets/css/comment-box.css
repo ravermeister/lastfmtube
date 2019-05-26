@@ -66,16 +66,10 @@
 	margin-right: 5px;
 }
 
-.dialogbox-footer {
-	border-top: 1px solid light-gray;
 
-	background: brown;
-}
 .dialogbox-footer .footer-content {
 	float: left;
-	background: red;
 }
 .dialogbox-footer .dialogbox-likes {
 	float: right;
-	background:blue;
 }
