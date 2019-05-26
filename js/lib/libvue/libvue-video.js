@@ -134,7 +134,7 @@ class LibvueVideo {
             	normalizeMessage: function(comments) {
             		for(let cnt=0;cnt<comments.length;cnt++) {
             			let comment = comments[cnt];
-            			let links = $.parseHTML(comment.text).find('a');
+            			let links = $(comment.text);
             			console.log('>>>links');
             			console.log(links);
             			links.attr('target','_blank');
