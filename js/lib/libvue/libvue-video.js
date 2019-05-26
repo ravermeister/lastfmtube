@@ -143,18 +143,11 @@ class LibvueVideo {
                 append: function(json) {
  
                     if(undefined !== json.comments) {
-                    	console.log('append comments:');
-                    	console.log(json.comments);
-                    	
-                    	Array.prototype.push.apply(
-                    			this.$data.commentData, 
-                    			json.comments);         
+                    	console.log('append '+json.comments.length+'comments');
+                    	console.log(json.comments);     
+                    	this.$data.commentData.concat(json.comments);
                     }
                     if(undefined !== json.pageinfo) {
-                    	console.log('old info: ');
-                    	console.log(this.$data.pageinfo);
-                    	console.log('new info: ');
-                    	console.log(json.pageinfo);
                     	this.$data.pageinfo = json.pageinfo;
                     }       
                 },                    
