@@ -131,7 +131,7 @@ class LibvueVideo {
             	commentData: [],
             },
             methods: {
-            	normalizeMessage(comments) {
+            	normalizeMessage: function(comments) {
             		for(let comment in comments) {
             			let links = $(comment.text).find('a');
             			links.attr('target','_blank');
