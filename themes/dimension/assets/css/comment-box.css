@@ -63,8 +63,7 @@
 	font-weight: bold;
 }
 .comments-container .btn-loadmore {
-	position: relative;
-	left: 55%;
+	width: 100%;
 }
 
 .dialogbox-user {
