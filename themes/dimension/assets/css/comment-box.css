@@ -70,3 +70,7 @@
 .dialogbox-footer .footer-content {
 	float: left;
 }
+
+.dialogbox-footer .dialogbox-likes {
+	white-space: nowrap;
+}
