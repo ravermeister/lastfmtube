@@ -137,7 +137,7 @@ class Playlist extends DefaultJson {
         $sort_bydate = $locale ['playlist'] ['control'] ['sortby'] ['date'];
         $sort_bypcount = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
 
-        if ($sortby === false || ! (strcmp ( $sortby, $sort_bydate ) == 0 || strcmp ( $sort_bypcount ) == 0)) {
+        if ($sortby === false || ! (strcmp ( $sortby, $sort_bydate ) == 0 || strcmp ( $sortby, $sort_bypcount ) == 0)) {
             $sortby = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
         }
         
