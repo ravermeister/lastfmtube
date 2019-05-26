@@ -80,6 +80,7 @@
 
 .dialogbox-footer .dialogbox-likes {
 	display: block;
+	float: right;
 	position: relative;
 	right: 5px;
 	background:blue;
