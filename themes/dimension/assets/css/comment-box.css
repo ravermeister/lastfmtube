@@ -68,9 +68,8 @@
 
 .dialogbox-footer {
 	border-top: 1px solid light-gray;
-	clear: both;
-	
-	background: green;
+
+	background: brown;
 }
 .dialogbox-footer .footer-content {
 	float: left;
