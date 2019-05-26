@@ -163,7 +163,8 @@ class Playlist extends DefaultJson {
                  */
                 /* 'limit' => $limit * 3, */
                 'limit' => $trackCnt,
-                'orderby' => $orderby,
+                'orderby' => 'playcount',
+                'orderbysecond' => 'lastplayed',
                 'offset' => $offset
         ) );
 
