@@ -149,7 +149,9 @@
 							<span class="tip tip-left"></span>
 							<div class="message">
 								<div class="dialogbox-user">
-									<img v-bind:src="comment.useravatar" />
+									<a v-bind:href="comment.userchannel" target="_blank" v-bind:title="comment.username + '\'s Channel'">
+										<img v-bind:src="comment.useravatar" />
+									</a>
 								</div>
 
 								<div class="dialogbox-text" v-html="comment.text"></div>
