@@ -141,7 +141,6 @@ class Playlist extends DefaultJson {
             $sortby = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
         }
         
-        Functions::getInstance ()->logMessage ( 'sortby: ' . $sortby );
         $db = Db::getInstance ();
         $limit = $settings ['general'] ['tracks_perpage'];
         $trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
