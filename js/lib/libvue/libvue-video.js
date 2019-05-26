@@ -137,7 +137,6 @@ class LibvueVideo {
             			let links = $.parseHTML(comment.text);
             			console.log('>>>links');
             			console.log(links);
-            			links.attr('target','_blank');
             		}
             	},
                 update: function (json) {
