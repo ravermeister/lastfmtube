@@ -62,13 +62,6 @@
 	float: left;
 }
 
-.dialogbox-user a,
-.dialogbox-user a:active, 
-.dialogbox-user a:hover,
-.dialogbox-user a:visited {
-	text-decoration: none;
-}
-
 .dialogbox-user img {
 	margin-right: 5px;
 }

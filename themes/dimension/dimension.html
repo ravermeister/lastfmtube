@@ -149,8 +149,9 @@
 							<span class="tip tip-left"></span>
 							<div class="message">
 								<div class="dialogbox-user">
-									<a v-bind:href="comment.userchannel" target="_blank" v-bind:title="comment.username + '\'s Channel'">
-										<img v-bind:src="comment.useravatar" />
+									<a v-bind:href="comment.userchannel"
+										v-bind:title="comment.username + '\'s Channel'"
+										target="_blank"> <img v-bind:src="comment.useravatar" />
 									</a>
 								</div>
 
@@ -160,12 +161,14 @@
 								<div class="dialogbox-footer">
 									<div class="footer-content">
 										<span>{{comment.date}}</span> <span> <a
-											v-bind:href="comment.userchannel" target="_blank">
-												{{comment.username}} </a>
+											v-bind:href="comment.userchannel"
+											v-bind:title="comment.username + '\'s Channel'"
+											target="_blank"> {{comment.username}} </a>
 										</span>
 									</div>
-									<div class="dialogbox-likes"> 
-									<span> <i class="far fa-thumbs-up"></i> {{comment.likes}}
+									<div class="dialogbox-likes">
+										<span> <i class="far fa-thumbs-up"></i>
+											{{comment.likes}}
 										</span>
 									</div>
 								</div>
