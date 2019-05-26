@@ -51,6 +51,11 @@ class LibvuePlaylist {
                 CUR_PAGE: 0,
                 PLAYLIST_LOAD: 'Load',
                 PLAYLIST: 'undefined',
+                SORTBY: {
+                	LABEL: 'Sort by',
+                	VALUES: ['Playcount', 'Date'],
+                	SELECTED: 'Playcount',                	
+                },
 
                 SAVED_VIDEO_ID: '',
                 SEARCH_VIDEO_ID: '',
@@ -61,8 +66,8 @@ class LibvuePlaylist {
             computed: {
 
                 /**
-                 * @return {string}
-                 */
+				 * @return {string}
+				 */
                 SAVED_TITLE: function () {
                     return this.SAVED_VIDEO_ID !== null &&
                     this.SAVED_VIDEO_ID.length > 0 &&
@@ -72,7 +77,14 @@ class LibvuePlaylist {
             },
 
             methods: {
-
+            	sortBy: function(event) {           		
+                    $page.setLoading(PageController.article.playlist.dom(), true);
+                    $page.loadList(this.$data.CUR_PAGE, null, function () {
+                        $page.setLoading(PageController.article.playlist.dom());
+                    });            		
+            		return true;
+            		
+            	},
                 loadPage: function (user, pageNum) {
                     if (this.$data.PLAYLIST === 'search') {
                         let start = (pageNum - 1) * PageController.TRACKS_PER_PAGE;

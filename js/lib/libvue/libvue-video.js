@@ -131,9 +131,21 @@ class LibvueVideo {
             	commentData: [],
             },
             methods: {
+            	normalizeMessage: function(comments) {
+            		for(let cnt=0;cnt<comments.length;cnt++) {
+            			let comment = comments[cnt];
+            			let text = $.parseHTML(comment.text);
+            				$(text).filter('a')
+            				.attr('target','_blank');
+            			let container = $('<div></div>');
+            			$(container).append(text);
+            			comment.text = $(container).html();
+            		}
+            	},
                 update: function (json) {
                     this.$applyData(json);
                     if(undefined !== json.comments) {                    	
+                    	this.normalizeMessage(json.comments);
                     	this.$data.commentData = json.comments;
                     }
                     if(undefined !== json.pageinfo) {
@@ -142,8 +154,9 @@ class LibvueVideo {
                 },
                 append: function(json) {
  
-                    if(undefined !== json.comments) {
-                    	this.$data.commentData = this.$data.commentData.concat(json.comments);
+                    if(undefined !== json.comments) {                    	
+                    	this.normalizeMessage(json.comments);
+                    	this.$data.commentData = this.$data.commentData.concat(json.comments);                    	
                     }
                     if(undefined !== json.pageinfo) {
                     	this.$data.pageinfo = json.pageinfo;

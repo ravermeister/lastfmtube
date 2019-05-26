@@ -83,22 +83,28 @@ class PlaylistController {
         }
     }
 
-    loadTopSongs(pageNum = 1, callBack = null) {
-
-        $.getJSON('php/json/page/Playlist.php?list=topsongs&page=' + pageNum,
-            function (json) {
-                $page.myVues.playlist.update(json.data.value);
-
-                try {
-                    if (typeof callBack === 'function') {
-                        callBack(true);
-                    }
-
-                } catch (e) {
-                    console.error('error in load topsongs list callback function', e);
-                    console.error('Callback: ', callBack);
-                    console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
-                }
+    loadTopSongs(pageNum = 1, sortBy = null, callBack = null) {
+    	
+    	if(sortBy === null) {
+    		sortBy = $page.myVues.playlist.menu.$data.SORTBY.SELECTED;
+    	}
+    	
+        $.getJSON('php/json/page/Playlist.php?list=topsongs' + 
+        		'&page=' + pageNum + 
+        		'&sortby=' + sortBy, 
+        		function (json) {
+					$page.myVues.playlist.update(json.data.value);
+					
+					try {
+					    if (typeof callBack === 'function') {
+					        callBack(true);
+					    }
+					
+					} catch (e) {
+					    console.error('error in load topsongs list callback function', e);
+					    console.error('Callback: ', callBack);
+					    console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
+					}
             }).fail(function (xhr) {
 
             $.logXhr(xhr);

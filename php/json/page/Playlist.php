@@ -11,6 +11,7 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use DateTime;
 use Exception;
 
 class Playlist extends DefaultJson {
@@ -24,9 +25,9 @@ class Playlist extends DefaultJson {
     function get() {
         switch (self::getVar ( 'list', '' )) {
             case 'playlist' :
-                return $this->getList ( self::getVar ( 'user', false ), self::getVar ( 'page', 1 ) );
+                return $this->getLastFm ( self::getVar ( 'user', false ), self::getVar ( 'page', 1 ) );
             case 'topsongs' :
-                return $this->getTopSongs ( self::getVar ( 'page', 1 ) );
+                return $this->getTopSongs ( self::getVar ( 'page', 1 ), self::getVar ( 'sortby', false ) );
             case 'topuser' :
                 return $this->getTopUser ( self::getVar ( 'page', 1 ) );
             case 'menu' :
@@ -44,7 +45,7 @@ class Playlist extends DefaultJson {
      * @return array
      * @throws Exception
      */
-    private function getList($user = false, $pageNum = 1) {
+    private function getLastFm($user = false, $pageNum = 1) {
         $settings = $this->funcs->getSettings ();
         $lfmapi = $this->funcs->getLfmApi ();
         $locale = $this->funcs->getLocale ();
@@ -130,14 +131,25 @@ class Playlist extends DefaultJson {
     private function isValidUser($user) {
         return (isset ( $user ) && $user !== false && $user != null && strlen ( filter_var ( $user, FILTER_SANITIZE_STRING ) ) > 0);
     }
-    private function getTopSongs($pageNum = 1) {
+    private function getTopSongs($pageNum = 1, $sortby = false) {
         $settings = $this->funcs->getSettings ();
         $locale = $this->funcs->getLocale ();
+        $sort_bydate = $locale ['playlist'] ['control'] ['sortby'] ['date'];
+        $sort_bypcount = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
+
+        if ($sortby === false || ! (strcmp ( $sortby, $sort_bydate ) == 0 || strcmp ( $sortby, $sort_bypcount ) == 0)) {
+            $sortby = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
+        }
+
         $db = Db::getInstance ();
         $limit = $settings ['general'] ['tracks_perpage'];
         $trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
         $trackCnt = ( int ) ($trackCnt === false ? 1 : $trackCnt ['cnt']);
         $offset = ($pageNum - 1) * $limit;
+
+        $orderby = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'lastplayed' : 'playcount';
+        $orderbysecond = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'playcount' : 'lastplayed';
+
         $topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
                 /**
                  *
@@ -151,6 +163,8 @@ class Playlist extends DefaultJson {
                  * use the commented limit if performance is worse!
                  */
                 /* 'limit' => $limit * 3, */
+                'orderby' => $orderby,
+                'orderbysecond' => $orderbysecond,
                 'limit' => $trackCnt,
                 'offset' => $offset
         ) );
@@ -170,7 +184,15 @@ class Playlist extends DefaultJson {
                 'LIST_MENU' => array (
                         'MAX_PAGES' => $maxpages,
                         'CUR_PAGE' => $pageNum,
-                        'playlist' => 'topsongs'
+                        'playlist' => 'topsongs',
+                        'SORTBY' => array (
+                                'LABEL' => $locale ['playlist'] ['control'] ['sortby'] ['label'],
+                                'SELECTED' => $sortby,
+                                'VALUES' => array (
+                                        $locale ['playlist'] ['control'] ['sortby'] ['date'],
+                                        $locale ['playlist'] ['control'] ['sortby'] ['playcount']
+                                )
+                        )
                 ),
                 // lastfm navigation (pages/username)
 
@@ -196,6 +218,12 @@ class Playlist extends DefaultJson {
                 $uniqueTrack = $uniqueTracks [$trackId];
                 $uniqueTrack ['PLAYCOUNT'] = (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']);
                 $uniqueTracks [$trackId] = $uniqueTrack;
+
+                $date1 = new DateTime ( $uniqueTrack ['LASTPLAY'] );
+                $date2 = new DateTime ( $this->funcs->formatDate ( $track ['lastplayed'] ) );
+                if ($date2 > $date1) {
+                    $uniqueTrack ['LASTPLAY'] = $track ['lastplayed'];
+                }
                 continue;
             }
 
@@ -225,7 +253,12 @@ class Playlist extends DefaultJson {
         }
 
         $uniqueTracks = array_values ( $uniqueTracks );
-        $this->funcs->sortTracksByPlayCount ( $uniqueTracks, $offset );
+        if (strcmp ( $sortby, $sort_bydate ) == 0) {
+            $this->funcs->sortTracksByDate( $uniqueTracks, $offset );
+        } else {
+            $this->funcs->sortTracksByPlayCount ( $uniqueTracks, $offset );
+        }
+        
         $page ['TRACKS'] = $uniqueTracks;
         return $page;
     }

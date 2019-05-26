@@ -144,9 +144,10 @@
 					class="comments-container">
 
 					<h4>Comments</h4>
-					
+
 					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load More</button>
+						<button class="btn-loadmore" @click="loadMore();">Load
+							More</button>
 					</span>
 
 					<template v-for="comment in commentData">
@@ -182,9 +183,10 @@
 						</div>
 					</div>
 					</template>
-					
+
 					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load More</button>
+						<button class="btn-loadmore" @click="loadMore();">Load
+							More</button>
 					</span>
 				</div>
 
@@ -236,7 +238,7 @@
 									v-bind:value="CUR_PAGE" @mouseup="selectOnMouseUp($event)" />
 							</div>
 
-							<div class="field btn-page-nav" style="width: initial;">
+							<div class="field third btn-page-nav" style="width: initial;">
 								<label> {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}} </label>
 
 								<button type="button"
@@ -253,6 +255,18 @@
 									title="Next Page">
 									<span class="fas fa-step-forward fa-2x"></span>
 								</button>
+							</div>
+
+							<div v-if="PLAYLIST === 'topsongs'"
+								class="field third btn-page-nav">
+								<label>{{SORTBY.LABEL}}</label>
+								 <select id="topsong-sortby"
+								 v-model="SORTBY.SELECTED"
+								 @change="sortBy(event)">
+									<template v-for="VALUE in SORTBY.VALUES">										
+										<option>{{VALUE}}</option>
+									</template>
+								</select>
 							</div>
 						</div>
 
