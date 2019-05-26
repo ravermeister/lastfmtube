@@ -226,7 +226,7 @@ class PlayerController {
 
         this.ytStatus.CUED = {};
         this.ytStatus.CUED.ID = 5;
-        this.ytStatus.CUED.NAME = 'vide cued';
+        this.ytStatus.CUED.NAME = 'video cued';
 
         this.chartTimer = new ChartTimer(this);
         this.addStateChangeListener(function (event) {
@@ -531,6 +531,8 @@ class PlayerController {
     loadVideo(videoId = '') {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             $player.ytPlayer.loadVideoById(videoId);
+            $playlist.loadVideoCommentList(videoId);
+            
             $player.currentTrackData.videoId = videoId;
             $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
         } else {

@@ -1,34 +1,35 @@
 {
-  "site": {
-    "title": "Last.fm YouTube Radio",
-    "header": "searches songs of Last.fm users in Youtube and plays them as a radio stream"
-  },
-  "playlist": {
-    "title": "Last.fm",
-    "nowplaying": "Now Playing",
-    "header": {
-      "name": "Name",
-      "playcount": "Playcount",
-      "nr": "Nr.",
-      "artist": "Artist",
-      "title": "Title",
-      "lastplay": "Played"
-    },
-    "control": {
-      "user": "User:",
-      "page": "Page",
-      "pageof": "of",
-      "load": "load",
-      "addtrack": "add to Playlist",
-      "save": "Save"
-    }
-  },
-  "menu": {
-    "topuser": "Top User",
-    "userlist": "My Songs",
-    "lastfm": "Last.fm",
-    "topsongs": "Top Songs",
-    "search": "Search Result",
-    "youtube": "Player"
-  }
+	"site": {
+		"title": "Last.fm YouTube Radio",
+		"header": "searches songs of Last.fm users in Youtube and plays them as a radio stream"
+	},
+	"playlist": {
+		"title": "Last.fm",
+		"nowplaying": "Now Playing",
+		"header": {
+			"name": "Name",
+			"playcount": "Playcount",
+			"nr": "Nr.",
+			"artist": "Artist",
+			"title": "Title",
+			"lastplay": "Played"
+		},
+		"control": {
+			"user": "User:",
+			"page": "Page",
+			"pageof": "of",
+			"load": "load",
+			"addtrack": "add to Playlist",
+			"save": "Save"
+		}
+	},
+	"menu": {
+		"topuser": "Top User",
+		"userlist": "My Songs",
+		"lastfm": "Last.fm",
+		"topsongs": "Top Songs",
+		"search": "Search Result",
+		"youtube": "Player",
+		"live": "Live"
+	}
 }

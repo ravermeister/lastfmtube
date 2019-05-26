@@ -106,13 +106,59 @@ class LibvueVideo {
                         $playlist.loadCustomerList($page.myVues.playlist.menu.$data.CUR_PAGE);
                     }
                 },
-                search: function (event) {
+                searchVideo: function (event) {
                     if ($page.myVues.youtube.header.SEARCH_TRACK === null) return;
 
                     $page.myVues.youtube.header.$data.LOADING = true;
                     $player.searchSong($page.myVues.youtube.header.SEARCH_TRACK, function () {
                         $page.myVues.youtube.header.$data.LOADING = false;
                     }, true);
+                },
+                showComments: function(event) {                	
+                	$page.myVues.youtube.comments.toggleVisibility();
+                	
+                }
+            }
+        });
+        
+        this.comments = new Vue({
+            el: '#video-container>#video-comments',
+            data: {
+            	showComments: false,
+            	showLoadMore: false,
+            	videoId: '',
+            	pageinfo: [],
+            	commentData: [],
+            },
+            methods: {
+                update: function (json) {
+                    this.$applyData(json);
+                    if(undefined !== json.comments) {                    	
+                    	this.$data.commentData = json.comments;
+                    }
+                    if(undefined !== json.pageinfo) {
+                    	this.$data.pageinfo = json.pageinfo;
+                    }
+                },
+                append: function(json) {
+ 
+                    if(undefined !== json.comments) {
+                    	this.$data.commentData = this.$data.commentData.concat(json.comments);
+                    }
+                    if(undefined !== json.pageinfo) {
+                    	this.$data.pageinfo = json.pageinfo;
+                    }       
+                },                    
+                toggleVisibility: function() {
+                	this.$data.showComments = !this.$data.showComments;
+                	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT;
+                },
+                loadMore: function() {
+                	let pinfo = this.$data.pageinfo;
+                	if(undefined === pinfo.NEXT || false === pinfo.NEXT) {
+                		return;
+                	} 
+                	$playlist.loadVideoCommentList(this.$data.videoId, pinfo.NEXT);
                 }
             }
         });
@@ -121,6 +167,7 @@ class LibvueVideo {
 
     update(json) {
         this.header.update(json);
+        this.comments.update(json);
     }
 }
 

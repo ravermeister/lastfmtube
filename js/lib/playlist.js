@@ -150,7 +150,41 @@ class PlaylistController {
             callBack(true);
         }
     }
+    
 
+    loadVideoCommentList(videoId, pagetoken=false) {
+    	
+    	let request = null;    	
+    	if(pagetoken===false &&
+    			$page.myVues.youtube.comments.$data.videoId == videoId) {
+    		console.log('Comments for Video {} %s already loaded', videoId);
+    		return;
+    	}
+    	$page.myVues.youtube.comments.$data.videoId = videoId;
+    	
+    	request = 'php/json/page/YouTube.php?action=videoComments' + 
+        		'&videoId=' + videoId;
+    	if(pagetoken!==false) {
+    		request += '&pageToken=' + pagetoken;
+    	}
+    	
+    	$.getJSON(request, function(json){
+    		if(pagetoken===false) {    			
+    			$page.myVues.youtube.comments.update(json.data.value);   		
+    		} else {
+    			$page.myVues.youtube.comments.append(json.data.value);
+    		}
+    	}).fail(function (xhr) {
+    		console.error('request failed');
+            $.logXhr(xhr);
+
+            if (typeof callBack === 'function') {
+                callBack(false);
+            }
+        });
+        
+    }
+    
     isValidUser(user = null) {
         return user !== null && (user + '').trim().length > 0;
     }
@@ -176,12 +210,10 @@ class PlaylistController {
                 $page.myVues.playlist.update(json.data.value);
 
                 /**
-                 Vue.nextTick()
-                 .then(function () {
-                        // DOM updated
-                        $page.myVues.playlist.update(json.data.value, ignoreTitle);
-                    });
-                 **/
+				 * Vue.nextTick() .then(function () { // DOM updated
+				 * $page.myVues.playlist.update(json.data.value, ignoreTitle);
+				 * });
+				 */
 
                 if (typeof callBack === 'function') {
                     callBack(true);
