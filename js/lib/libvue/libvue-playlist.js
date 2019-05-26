@@ -88,7 +88,9 @@ class LibvuePlaylist {
             		}
             		
             		console.log('reload tracks with sort order: '+newSort);
+            		console.log(event);
             		this.$data.SORTBY.SELECTED = newSort;
+            		
             	},
                 loadPage: function (user, pageNum) {
                     if (this.$data.PLAYLIST === 'search') {
