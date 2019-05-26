@@ -76,9 +76,9 @@
 	
 	background: green;
 }
-.dialogbox-footer .dialogbox-content {
+.dialogbox-footer .footer-content {
 	float: left;
-	background: gray;
+	background: red;
 }
 .dialogbox-footer .dialogbox-likes {
 	float: right;
