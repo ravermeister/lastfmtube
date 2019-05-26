@@ -77,8 +77,8 @@ class LibvuePlaylist {
             },
 
             methods: {
-            	sortBy: function(newSort) {
-            		console.log('sort by '+newSort);
+            	sortBy: function(event) {
+            		console.log('sort by '+event);
             	},
                 loadPage: function (user, pageNum) {
                     if (this.$data.PLAYLIST === 'search') {
