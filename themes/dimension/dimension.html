@@ -142,10 +142,12 @@
 
 				<div id="video-comments" v-if="showComments"
 					class="comments-container">
-					<h4>Comments</h4>
-					<span v-if="showLoadMore"> |
-						<button>Load More</button>
-					</span>
+					<div>
+						<h4 style="float:inline-start;">Comments</h4>
+						<span v-if="showLoadMore" style="float:inline-end;"> |
+							<button>Load More</button>
+						</span>
+					</div>
 					<template v-for="comment in commentData">
 					<div class="dialogbox">
 						<div class="body">
