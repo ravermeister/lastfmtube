@@ -148,8 +148,7 @@ class Playlist extends DefaultJson {
         $offset = ($pageNum - 1) * $limit;
 
         $orderby = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'lastplayed' : 'playcount';
-        $orderbysecond = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'playcount' : 'lastplayed';
-
+        
         $topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
                 /**
                  *
@@ -160,12 +159,10 @@ class Playlist extends DefaultJson {
                  *
                  * I set the limit to the rowcount of the tracks sothat we search
                  * the complete play history of all tracks!!!
-                 * use the commented limit if performance is worse!
+                 * add the commented limit if performance is worse!
                  */
                 /* 'limit' => $limit * 3, */
                 'orderby' => $orderby,
-                'orderbysecond' => $orderbysecond,
-                'limit' => $trackCnt,
                 'offset' => $offset
         ) );
 
