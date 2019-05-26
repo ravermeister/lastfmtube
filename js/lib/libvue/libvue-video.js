@@ -125,6 +125,7 @@ class LibvueVideo {
             el: '#video-container>#video-comments',
             data: {
             	showComments: false,
+            	showLoadMore: false,
             	videoId: '',
             	pageinfo: [],
             	commentData: [],
@@ -141,6 +142,7 @@ class LibvueVideo {
                 },
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
+                	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT;
                 }
             }
         });
