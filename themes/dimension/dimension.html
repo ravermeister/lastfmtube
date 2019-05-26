@@ -156,12 +156,15 @@
 
 
 								<div class="dialogbox-footer">
-									<span>{{comment.date}}</span> <span> <a
-										v-bind:href="comment.userchannel" target="_blank">
-											{{comment.username}} </a>
-									</span> <span class="dialogbox-likes"> <i
+									<div class="footer-content">
+										<span>{{comment.date}}</span> <span> <a
+											v-bind:href="comment.userchannel" target="_blank">
+												{{comment.username}} </a>
+										</span>
+									</div>
+									<div class="dialogbox-likes"> <i
 										class="far fa-thumbs-up"></i> {{comment.likes}}
-									</span>
+									</div>
 								</div>
 							</div>
 						</div>

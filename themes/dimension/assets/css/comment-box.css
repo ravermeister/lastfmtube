@@ -70,18 +70,17 @@
 	margin-top: 15px;
 	border-top: 1px solid light-gray;
 	clear: both;
-	display: block;
 	position: relative;
 	bottom: 1px;
 	left: 0px;
 	
-	background: yellow;
+	background: green;
 }
-
+.dialogbox-footer .dialogbox-content {
+	float: left;
+	background: gray;
+}
 .dialogbox-footer .dialogbox-likes {
-	display: block;
 	float: right;
-	position: relative;
-	right: 5px;
 	background:blue;
 }
