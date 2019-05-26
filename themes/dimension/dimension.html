@@ -182,6 +182,10 @@
 						</div>
 					</div>
 					</template>
+					
+					<span v-if="showLoadMore">
+						<button style="width: 100%;" @click="loadMore();">Load More</button>
+					</span>
 				</div>
 
 			</article>
