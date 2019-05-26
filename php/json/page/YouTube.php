@@ -49,7 +49,7 @@ class YouTube extends DefaultJson {
      *
      * @return array|void
      */
-    private function loadVideoComments($videoId = '', $limit = 25) {
+    private function loadVideoComments($videoId = '', $page = 1, $limit = 25) {
         if (strlen ( $videoId ) == 0) return;
 
         $searcher = $this->funcs->getYtApi ();
@@ -57,7 +57,7 @@ class YouTube extends DefaultJson {
          *
          * @var VideoComments $searchResult
          */
-        $searchResult = $searcher->searchComments ( $videoId, $limit );
+        $searchResult = $searcher->searchComments ( $videoId, $page, $limit );
         $json = $searchResult->toJson ();
         return $json;
     }
