@@ -144,9 +144,10 @@
 					class="comments-container">
 
 					<h4>Comments</h4>
-					
+
 					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load More</button>
+						<button class="btn-loadmore" @click="loadMore();">Load
+							More</button>
 					</span>
 
 					<template v-for="comment in commentData">
@@ -182,9 +183,10 @@
 						</div>
 					</div>
 					</template>
-					
+
 					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load More</button>
+						<button class="btn-loadmore" @click="loadMore();">Load
+							More</button>
 					</span>
 				</div>
 
@@ -236,7 +238,7 @@
 									v-bind:value="CUR_PAGE" @mouseup="selectOnMouseUp($event)" />
 							</div>
 
-							<div class="field btn-page-nav" style="width: initial;">
+							<div class="field third btn-page-nav" style="width: initial;">
 								<label> {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}} </label>
 
 								<button type="button"
@@ -256,6 +258,13 @@
 							</div>
 						</div>
 
+						<div v-if="PLAYLIST === 'topsongs'" class="field third">
+							Sort by: 
+							<select id="topsong-sortby">
+								<option>Playcount</option>
+								<option>Date</option>
+							</select>
+						</div> 
 					</form>
 
 					<!--// search navi //-->
