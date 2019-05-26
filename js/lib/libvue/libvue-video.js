@@ -133,6 +133,7 @@ class LibvueVideo {
             methods: {
             	normalizeMessage: function(comments) {
             		for(let comment in comments) {
+            			console.log('c>>>'+comment);
             			console.log(comment.text);
             		}
             	},
