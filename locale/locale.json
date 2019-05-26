@@ -20,7 +20,12 @@
 			"pageof": "of",
 			"load": "load",
 			"addtrack": "add to Playlist",
-			"save": "Save"
+			"save": "Save",
+			"sortby": {
+				"label": "Sort by",
+				"date": "Date",
+				"playcount": "Played"
+			}
 		}
 	},
 	"menu": {

@@ -51,6 +51,11 @@ class LibvuePlaylist {
                 CUR_PAGE: 0,
                 PLAYLIST_LOAD: 'Load',
                 PLAYLIST: 'undefined',
+                TOPSONGS_SORTBY: {
+                	LABEL: 'Sort by',
+                	VALUES: ['Playcount', 'Date'],
+                	SELECTED: 'Playcount',                	
+                },
 
                 SAVED_VIDEO_ID: '',
                 SEARCH_VIDEO_ID: '',
@@ -61,8 +66,8 @@ class LibvuePlaylist {
             computed: {
 
                 /**
-                 * @return {string}
-                 */
+				 * @return {string}
+				 */
                 SAVED_TITLE: function () {
                     return this.SAVED_VIDEO_ID !== null &&
                     this.SAVED_VIDEO_ID.length > 0 &&

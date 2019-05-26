@@ -24,7 +24,7 @@ class Playlist extends DefaultJson {
     function get() {
         switch (self::getVar ( 'list', '' )) {
             case 'playlist' :
-                return $this->getList ( self::getVar ( 'user', false ), self::getVar ( 'page', 1 ) );
+                return $this->getLastFm ( self::getVar ( 'user', false ), self::getVar ( 'page', 1 ) );
             case 'topsongs' :
                 return $this->getTopSongs ( self::getVar ( 'page', 1 ) );
             case 'topuser' :
@@ -44,7 +44,7 @@ class Playlist extends DefaultJson {
      * @return array
      * @throws Exception
      */
-    private function getList($user = false, $pageNum = 1) {
+    private function getLastFm($user = false, $pageNum = 1) {
         $settings = $this->funcs->getSettings ();
         $lfmapi = $this->funcs->getLfmApi ();
         $locale = $this->funcs->getLocale ();
@@ -130,9 +130,12 @@ class Playlist extends DefaultJson {
     private function isValidUser($user) {
         return (isset ( $user ) && $user !== false && $user != null && strlen ( filter_var ( $user, FILTER_SANITIZE_STRING ) ) > 0);
     }
-    private function getTopSongs($pageNum = 1) {
+    private function getTopSongs($pageNum = 1, $sortby = false) {
         $settings = $this->funcs->getSettings ();
         $locale = $this->funcs->getLocale ();
+        if ($sortby === false) {
+            $sortby = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
+        }
         $db = Db::getInstance ();
         $limit = $settings ['general'] ['tracks_perpage'];
         $trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
@@ -170,7 +173,15 @@ class Playlist extends DefaultJson {
                 'LIST_MENU' => array (
                         'MAX_PAGES' => $maxpages,
                         'CUR_PAGE' => $pageNum,
-                        'playlist' => 'topsongs'
+                        'playlist' => 'topsongs',
+                        'TOPSONGS_SORTBY' => array (
+                                'LABEL' => $locale ['playlist'] ['control'] ['sortby'] ['label'],
+                                'SELECTED' => $sortby,
+                                'VALUES' => array (
+                                        $locale ['playlist'] ['control'] ['sortby'] ['date'],
+                                        $locale ['playlist'] ['control'] ['sortby'] ['playcount']
+                                )
+                        )
                 ),
                 // lastfm navigation (pages/username)
 
