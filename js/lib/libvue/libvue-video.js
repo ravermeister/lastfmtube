@@ -133,7 +133,7 @@ class LibvueVideo {
             methods: {
             	normalizeMessage: function(comments) {
             		for(let comment in comments) {
-            			let links = $(comment.text);
+            			let links = $.parseHTML(comment).find('a');
             			console.log('links:');
             			console.log(links);
             		}
