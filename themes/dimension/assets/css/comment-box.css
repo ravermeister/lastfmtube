@@ -74,6 +74,7 @@
 .dialogbox-footer .footer-content {
 	float: inline-start;
 	display: inline;
+	font-size: smaller;
 }
 .dialogbox-footer .dialogbox-likes {
 	float: inline-end;
