@@ -71,8 +71,6 @@
 }
 .dialogbox-footer .dialogbox-likes {
 }
-.dialogbox-footer .dialogbox-likes span{
-	position: relative; 
-	right: 5px;	
+.dialogbox-footer .dialogbox-likes span{	
 	white-space: nowrap;
 }
