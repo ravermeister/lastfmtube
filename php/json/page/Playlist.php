@@ -13,6 +13,7 @@ use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use DateTime;
 use Exception;
+use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
     public static function process($returnOutput = false) {
@@ -168,7 +169,7 @@ class Playlist extends DefaultJson {
                 'orderbysecond' => $orderbysecond,
                 'offset' => $offset
         ) );
-
+        Functions::getInstance()->logMessage($topsongs);
         $maxpages = (( int ) ($trackCnt / $limit));
         if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
@@ -245,21 +246,17 @@ class Playlist extends DefaultJson {
                     'PLAYLIST' => 'topsongs',
                     'PLAYSTATE' => ''
             );
-            $uniqueTracks [$trackId] = $pTrack;
-
-            if (sizeof ( $uniqueTracks ) >= ($limit)) {
-                break;
-            }
+            $uniqueTracks [$trackId] = $pTrack;            
         }
 
         $uniqueTracks = array_values ( $uniqueTracks );
-        /**
         if (strcmp ( $sortby, $sort_bydate ) == 0) {
             $this->funcs->sortTracksByDate ( $uniqueTracks, $offset );
         } else {
             $this->funcs->sortTracksByPlayCount ( $uniqueTracks, $offset );
         }
-        **/
+
+        
         $page ['TRACKS'] = $uniqueTracks;
         return $page;
     }
