@@ -240,6 +240,24 @@ class Functions {
         fclose ( $fh );
         $this->initSettings ( true );
     }
+    
+    public function sortTracksByDate(&$tracks, $offset = 0, $asc = false) {
+        $sorted = false;
+        if ($asc) {
+            $sorted = usort ( $tracks, function ($trackA, $trackB) {
+                return Functions::sortArrayByDateAsc ( $trackA, $trackB );
+            } );
+        } else {
+            $sorted = usort ( $tracks, function ($trackA, $trackB) {
+                return Functions::sortArrayByDateDesc ( $trackA, $trackB );
+            } );
+        }
+        
+        for($cnt = 0; $cnt < sizeof ( $tracks ); $cnt ++) {
+            $tracks [$cnt] ['NR'] = $offset + ($cnt + 1);
+        }
+        return $sorted;
+    }
     public function sortTracksByPlayCount(&$tracks, $offset = 0, $asc = false) {
         $sorted = false;
         if ($asc) {
@@ -264,6 +282,15 @@ class Functions {
         $aCnt = isset ( $trackA ['PLAYCOUNT'] ) ? $trackA ['PLAYCOUNT'] : 0;
         $bCnt = isset ( $trackB ['PLAYCOUNT'] ) ? $trackB ['PLAYCOUNT'] : 0;
         $cmpVal = (($aCnt > $bCnt) ? 1 : (($aCnt < $bCnt) ? - 1 : 0));
+        return $cmpVal;
+    }
+    private static function sortArrayByDateDesc($trackA, $trackB) {
+        return Functions::sortArrayByDateAsc ( $trackA, $trackB ) * - 1;
+    }
+    private static function sortArrayByDateAsc($trackA, $trackB) {
+        $aDate = isset ( $trackA ['LASTPLAY'] ) ? new DateTime($trackA ['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');
+        $bDate = isset ( $trackB ['LASTPLAY'] ) ? new DateTime($trackB ['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');
+        $cmpVal = (($aDate > $bDate) ? 1 : (($aDate < $bDate) ? - 1 : 0));
         return $cmpVal;
     }
 }

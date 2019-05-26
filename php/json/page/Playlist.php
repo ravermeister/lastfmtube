@@ -11,8 +11,8 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use DateTime;
 use Exception;
-use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
     public static function process($returnOutput = false) {
@@ -140,7 +140,7 @@ class Playlist extends DefaultJson {
         if ($sortby === false || ! (strcmp ( $sortby, $sort_bydate ) == 0 || strcmp ( $sortby, $sort_bypcount ) == 0)) {
             $sortby = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
         }
-        
+
         $db = Db::getInstance ();
         $limit = $settings ['general'] ['tracks_perpage'];
         $trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
@@ -149,9 +149,7 @@ class Playlist extends DefaultJson {
 
         $orderby = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'lastplayed' : 'playcount';
         $orderbysecond = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'playcount' : 'lastplayed';
-    
-        Functions::getInstance()->logMessage('order by 1='.$orderby.' 2='.$orderbysecond);
-        
+
         $topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
                 /**
                  *
@@ -220,6 +218,12 @@ class Playlist extends DefaultJson {
                 $uniqueTrack = $uniqueTracks [$trackId];
                 $uniqueTrack ['PLAYCOUNT'] = (( int ) $uniqueTrack ['PLAYCOUNT']) + (( int ) $track ['playcount']);
                 $uniqueTracks [$trackId] = $uniqueTrack;
+
+                $date1 = new DateTime ( $uniqueTrack ['LASTPLAY'] );
+                $date2 = new DateTime ( $this->funcs->formatDate ( $track ['lastplayed'] ) );
+                if ($date2 > $date1) {
+                    $uniqueTrack ['LASTPLAY'] = $track ['lastplayed'];
+                }
                 continue;
             }
 
@@ -249,7 +253,12 @@ class Playlist extends DefaultJson {
         }
 
         $uniqueTracks = array_values ( $uniqueTracks );
-        $this->funcs->sortTracksByPlayCount ( $uniqueTracks, $offset );
+        if (stcmp ( $sortby, $sort_bydate ) == 0) {
+            $this->funcs->sortTracksByDate( $uniqueTracks, $offset );
+        } else {
+            $this->funcs->sortTracksByPlayCount ( $uniqueTracks, $offset );
+        }
+        
         $page ['TRACKS'] = $uniqueTracks;
         return $page;
     }
