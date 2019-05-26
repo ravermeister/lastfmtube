@@ -132,18 +132,15 @@ class LibvueVideo {
             },
             methods: {
             	normalizeMessage: function(comments) {
-            		for(let comment in comments) {
-            			let links = $(comment.text);
-            			links = links.find('a');
-            			console.log('links:');
-            			console.log(links);
-            		}
+            		$(function(){
+          			  $(".dialogbox-text a").attr("target","_blank");
+          			});
             	},
                 update: function (json) {
                     this.$applyData(json);
                     if(undefined !== json.comments) {                    	
-                    	this.normalizeMessage(json.comments);
                     	this.$data.commentData = json.comments;
+                    	this.normalizeMessage(json.comments);                    	
                     }
                     if(undefined !== json.pageinfo) {
                     	this.$data.pageinfo = json.pageinfo;
@@ -152,8 +149,8 @@ class LibvueVideo {
                 append: function(json) {
  
                     if(undefined !== json.comments) {                    	
-                    	this.normalizeMessage(json.comments);
                     	this.$data.commentData = this.$data.commentData.concat(json.comments);                    	
+                    	this.normalizeMessage(json.comments);
                     }
                     if(undefined !== json.pageinfo) {
                     	this.$data.pageinfo = json.pageinfo;
