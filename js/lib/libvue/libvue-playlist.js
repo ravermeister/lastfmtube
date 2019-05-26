@@ -78,7 +78,8 @@ class LibvuePlaylist {
 
             methods: {
             	sortBy: function(event) {
-            		if(undefined === event.srcElement)  {
+            		console.log('>>>', event);
+            		if(undefined === event.target)  {
             			return;
             		}
             		
