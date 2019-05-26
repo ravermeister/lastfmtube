@@ -171,7 +171,7 @@ class Db {
 				FROM trackplay
 			    WHERE playcount > 0
 			    ORDER BY :orderby DESC
-			    OFFSET :offset;
+			    LIMIT :limit OFFSET :offset;
 			',
                 'SELECT_TRACKPLAY_NUM_ROWS' => '
                 SELECT COUNT(*) AS cnt FROM trackplay;
