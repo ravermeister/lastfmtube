@@ -43,6 +43,7 @@ class VideoComments {
         $this->pageinfo ['CURRENT'] = $page;
         $this->pageinfo ['PER_PAGE'] = $commentThreadResponse->getPageInfo ()->getResultsPerPage ();
         $this->pageinfo ['ALL'] = $commentThreadResponse->getPageInfo ()->getTotalResults ();
+        $this->pageinfo ['NEXT'] = $commentThreadResponse->getNextPageToken();        
     }
     public function initList($document) {
         $this->commentList = array ();

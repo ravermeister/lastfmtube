@@ -142,7 +142,10 @@
 
 				<div id="video-comments" v-if="showComments"
 					class="comments-container">
-					<h4>{{LIST_HEADER}}</h4>
+					<h4>Comments</h4>
+					<span v-if="showLoadMore"> |
+						<button>Load More</button>
+					</span>
 					<template v-for="comment in commentData">
 					<div class="dialogbox">
 						<div class="body">

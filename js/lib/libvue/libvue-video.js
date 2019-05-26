@@ -129,20 +129,6 @@ class LibvueVideo {
             	pageinfo: [],
             	commentData: [],
             },
-            computed: {
-            	LIST_HEADER: function(){
-            		let pinfo = this.$data.pageinfo;
-            		console.log('>>>pinfo');
-            		console.log(pinfo);
-            		let current = undefined !== pinfo.CURRENT ? pinfo.CURRENT : 1;
-            		let all = undefined !== pinfo.ALL ? pinfo.ALL : 1;
-            		let perpage = undefined !== pinfo.PER_PAGE ? pinfo.PER_PAGE : 20;
-            
-            		return 'Comments  |  Page ' 
-            			+ current + ' of ' + all + 
-            			' | ' + perpage + ' per Page';            			
-            	},
-            },
             methods: {
                 update: function (json) {
                     this.$applyData(json);
