@@ -87,7 +87,7 @@ class LibvuePlaylist {
             			return;
             		}
             		
-            		console.log('reload tracks with sort order: '+newsort);
+            		console.log('reload tracks with sort order: '+newSort);
             		this.$data.SORTBY.SELECTED = newSort;
             	},
                 loadPage: function (user, pageNum) {
