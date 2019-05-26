@@ -66,6 +66,9 @@
 	margin-right: 5px;
 }
 
+.dialogbox-footer {
+	display: flow-root;
+}
 .dialogbox-footer .footer-content {
 	float: left;
 }
