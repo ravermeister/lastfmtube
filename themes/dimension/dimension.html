@@ -261,6 +261,7 @@
 								class="field third btn-page-nav">
 								<label>{{SORTBY.LABEL}}</label>
 								 <select id="topsong-sortby"
+								 v-model="SORTBY.SELECTED"
 								 @change="sortBy(event)">
 									<template v-for="VALUE in SORTBY.VALUES">										
 										<option>{{VALUE}}</option>
