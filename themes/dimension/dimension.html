@@ -256,16 +256,16 @@
 									<span class="fas fa-step-forward fa-2x"></span>
 								</button>
 							</div>
+
+							<div v-if="PLAYLIST === 'topsongs'"
+								class="field third btn-page-nav">
+								<label>Sort by:</label> <select id="topsong-sortby">
+									<option>Playcount</option>
+									<option>Date</option>
+								</select>
+							</div>
 						</div>
 
-						<div v-if="PLAYLIST === 'topsongs'" 
-						class="field third btn-page-nav">
-							<label>Sort by:</label>
-							<select id="topsong-sortby">
-								<option>Playcount</option>
-								<option>Date</option>
-							</select>
-						</div> 
 					</form>
 
 					<!--// search navi //-->
