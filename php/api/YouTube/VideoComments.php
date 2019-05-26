@@ -3,6 +3,7 @@
 namespace LastFmTube\Api\YouTube;
 
 use Google_Service_YouTube_CommentThreadListResponse;
+use LastFmTube\Util\Functions;
 
 class VideoComments {
 
@@ -42,6 +43,8 @@ class VideoComments {
         $this->pageinfo ['CURRENT'] = $page;
         $this->pageinfo ['PER_PAGE'] = $commentThreadResponse->getPageInfo ()->getResultsPerPage ();
         $this->pageinfo ['ALL'] = $commentThreadResponse->getPageInfo ()->getTotalResults ();
+        
+        Functions::getInstance()->logMessage(print_r($commentThreadResponse->getPageInfo(), true));
     }
     public function initList($document) {
         $this->commentList = array ();
