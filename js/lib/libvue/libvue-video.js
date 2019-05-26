@@ -144,13 +144,8 @@ class LibvueVideo {
  
                     if(undefined !== json.comments) {
                     	console.log('append '+json.comments.length+' comments');
-                    	let commentData = this.$data.commentData;
-                    	
-                    	console.log('old size: '+ commentData.length);                    	
-                    	commentData.concat(json.comments);
+                    	this.$data.commentData = this.$data.commentData.concat(json.comments);
                     	console.log('new size: '+ commentData.length);
-                    	
-                    	this.$data.commentData = commentData;
                     }
                     if(undefined !== json.pageinfo) {
                     	this.$data.pageinfo = json.pageinfo;
