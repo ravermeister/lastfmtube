@@ -143,7 +143,7 @@
 				<div id="video-comments" v-if="showComments"
 					class="comments-container">
 
-					<span class="comments-header">Comments</span>
+					<h4>Comments</h4>
 					
 					<span v-if="showLoadMore">
 						<button class="btn-loadmore" @click="loadMore();">Load More</button>
@@ -184,7 +184,7 @@
 					</template>
 					
 					<span v-if="showLoadMore">
-						<button style="width: 100%;" @click="loadMore();">Load More</button>
+						<button class="btn-loadmore" @click="loadMore();">Load More</button>
 					</span>
 				</div>
 
