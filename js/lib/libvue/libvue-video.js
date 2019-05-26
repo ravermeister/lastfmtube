@@ -135,6 +135,7 @@ class LibvueVideo {
             		for(let cnt=0;cnt<comments.length;cnt++) {
             			let comment = comments[cnt];
             			let links = $.parseHTML(comment.text);
+            			links = $(links).find('a');            	
             			console.log('>>>links');
             			console.log(links);
             		}
