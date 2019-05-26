@@ -140,9 +140,25 @@ class LibvueVideo {
                     	this.$data.pageinfo = json.pageinfo;
                     }
                 },
+                append: function(json) {
+                    if(undefined !== json.comments) {                    	
+                    	this.$data.commentData.push(json.comments);
+                    }
+                    if(undefined !== json.pageinfo) {
+                    	this.$data.pageinfo = json.pageinfo;
+                    }       
+                },                    
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
                 	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT;
+                },
+                loadMore: function() {
+                	let pinfo = this.$data.pageinfo;
+                	if(undefined === pinfo.NEXT || false === pinfo.NEXT) {
+                		return;
+                	} 
+                	console.log('load next page: '+pinfo.NEXT);
+                	$playlist.loadVideoCommentList(this.$data.videoId, pinfo.NEXT);
                 }
             }
         });
