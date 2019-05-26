@@ -257,7 +257,7 @@ class Playlist extends DefaultJson {
         }
 
         
-        $page ['TRACKS'] = $uniqueTracks;
+        $page ['TRACKS'] = array_slice($uniqueTracks, $offset);
         return $page;
     }
     private function getTopUser($pageNum = 1, $user = false) {
