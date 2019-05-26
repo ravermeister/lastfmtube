@@ -259,12 +259,10 @@
 
 							<div v-if="PLAYLIST === 'topsongs'"
 								class="field third btn-page-nav">
-								<label>{{SORTBY.LABEL}}</label> <select id="topsong-sortby">
-									<template v-for="OPTION IN SORTBY.VALUES">
-									<option v-if="SORTBY.SELECTED === OPTION" selected="selected">{{OPTION}}</option>
-									<option v-else="v-else">{{OPTION}}</option>
-									</template>
-								</select>
+								<label>{{SORTBY.LABEL}}</label>
+								<span v-for="VALUE in SORTBY.VALUES">
+									{{VALUE}}
+								</span>
 							</div>
 						</div>
 
