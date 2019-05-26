@@ -75,10 +75,10 @@
 	bottom: 1px;
 	left: 0px;
 	width: 100%;
-	background: orange;
 }
 
 .dialogbox-footer .dialogbox-likes {
 	position: relative;
 	right: 5px;
+	background:blue;
 }
