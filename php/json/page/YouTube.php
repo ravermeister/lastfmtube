@@ -35,7 +35,8 @@ class YouTube extends DefaultJson {
                     break;
                 case 'videoComments' :
                     $videoId = self::getVar ( 'videoId', '' );
-                    return $this->loadVideoComments ( $videoId );
+                    $page = self::getVar('pageToken', false);
+                    return $this->loadVideoComments ( $videoId, $page );
                     break;
                 default :
                     $this->jsonError ( 'invalid Arguments' );
@@ -49,7 +50,7 @@ class YouTube extends DefaultJson {
      *
      * @return array|void
      */
-    private function loadVideoComments($videoId = '', $page = 1, $limit = 25) {
+    private function loadVideoComments($videoId = '', $page = false, $limit = 25) {
         if (strlen ( $videoId ) == 0) return;
 
         $searcher = $this->funcs->getYtApi ();

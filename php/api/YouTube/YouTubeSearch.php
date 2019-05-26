@@ -73,13 +73,19 @@ class YouTubeSearch {
      * @param int $limit
      * @return VideoComments|mixed
      */
-    function searchComments($videoId, $page = 1, $limit = 25) {
+    function searchComments($videoId, $page = false, $limit = 25) {
         $this->initYTApi ();
 
-        $searchResponse = $this->youtube->commentThreads->listCommentThreads ( 'snippet,id', array (
+        $args = array (
                 'videoId' => $videoId,
                 'maxResults' => $limit
-        ) );
+        );
+
+        if ($page !== false) {
+            $args ['pageToken'] = $page;
+        }
+
+        $searchResponse = $this->youtube->commentThreads->listCommentThreads ( 'snippet,id', $args );
 
         return new VideoComments ( $videoId, $searchResponse, $page, $limit );
     }
