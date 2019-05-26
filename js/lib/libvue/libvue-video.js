@@ -139,7 +139,7 @@ class LibvueVideo {
             				.filter('a')
             				.attr('target','_blank');
             			console.log('>>html:');
-            			console.log($(text).html());
+            			console.log(text);
             			comment.text = $(text).html();
             		}
             	},
