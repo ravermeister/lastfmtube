@@ -71,7 +71,9 @@
 	float: left;
 }
 .dialogbox-footer .dialogbox-likes {
-	float: right;
+	position: relative; 
+	right: 5px;
+	
 }
 .dialogbox-footer .dialogbox-likes span{
 	white-space: nowrap;
