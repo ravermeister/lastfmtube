@@ -253,7 +253,7 @@ class Playlist extends DefaultJson {
         }
 
         $uniqueTracks = array_values ( $uniqueTracks );
-        if (stcmp ( $sortby, $sort_bydate ) == 0) {
+        if (strcmp ( $sortby, $sort_bydate ) == 0) {
             $this->funcs->sortTracksByDate( $uniqueTracks, $offset );
         } else {
             $this->funcs->sortTracksByPlayCount ( $uniqueTracks, $offset );
