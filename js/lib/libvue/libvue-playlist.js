@@ -77,7 +77,7 @@ class LibvuePlaylist {
             },
 
             methods: {
-            	changeSorting: function(newSort) {
+            	sortBy: function(newSort) {
             		console.log('sort by '+newSort);
             	},
                 loadPage: function (user, pageNum) {
