@@ -77,20 +77,9 @@ class LibvuePlaylist {
             },
 
             methods: {
-            	sortBy: function(event) {
-            		if(undefined === event.target)  {
-            			return;
-            		}
-            		
-            		let newSort = event.target.value;
-            		if(newSort==this.$data.SORTBY.SELECTED) {
-            			console.log('new and old sort are the same');
-            			return;
-            		}
-            		
-            		console.log('reload tracks with sort order: '+newSort);
-            		console.log(event);
-            		this.$data.SORTBY.SELECTED = newSort;
+            	sortBy: function(event) {            		
+            		console.log('reload tracks with sort order: '+SORTBY.SELECTED);
+            		console.log(event);            		
             		return true;
             		
             	},
