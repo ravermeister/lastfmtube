@@ -68,6 +68,7 @@
 
 .dialogbox-footer {
 	display: flow-root;
+	border-top: 1px solid gray;
 }
 .dialogbox-footer .footer-content {
 	float: left;
