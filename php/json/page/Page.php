@@ -50,6 +50,7 @@ class Page extends DefaultJson {
         $basemenu [] = $menu ['USERLIST'];
         $basemenu [] = $menu ['TOPSONGS'];
         $basemenu [] = $menu ['TOPUSER'];
+        $basemenu [] = $menu ['LIVE'];
 
         return $basemenu;
     }
