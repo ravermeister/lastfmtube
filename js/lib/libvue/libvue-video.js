@@ -132,9 +132,11 @@ class LibvueVideo {
             },
             computed: {
             	LIST_HEADER: function(){
-            		let current = undefined !== this.$data.pageinfo.CURRENT ? pageinfo.CURRENT : 1;
-            		let all = undefined !== this.$data.pageinfo.ALL ? pageinfo.ALL : 1;
-            		let perpage = undefined !== this.$data.pageinfo.PER_PAGE ? pageinfo.PER_PAGE : 20;
+            		let pinfo = this.$data.pageinfo;
+            		let current = undefined !== pinfo.CURRENT ? pinfo.CURRENT : 1;
+            		let all = undefined !== pinfo.ALL ? pinfo.ALL : 1;
+            		let perpage = undefined !== pinfo.PER_PAGE ? pinfo.PER_PAGE : 20;
+            
             		return 'Comments  |  Page ' 
             			+ current + ' of ' + ALL + 
             			' | ' + perpage + ' per Page';            			
