@@ -27,7 +27,7 @@ class Playlist extends DefaultJson {
             case 'playlist' :
                 return $this->getLastFm ( self::getVar ( 'user', false ), self::getVar ( 'page', 1 ) );
             case 'topsongs' :
-                return $this->getTopSongs ( self::getVar ( 'page', 1 ), self::getVar('sortby', false) );
+                return $this->getTopSongs ( self::getVar ( 'page', 1 ), self::getVar ( 'sortby', false ) );
             case 'topuser' :
                 return $this->getTopUser ( self::getVar ( 'page', 1 ) );
             case 'menu' :
@@ -134,10 +134,14 @@ class Playlist extends DefaultJson {
     private function getTopSongs($pageNum = 1, $sortby = false) {
         $settings = $this->funcs->getSettings ();
         $locale = $this->funcs->getLocale ();
-        if ($sortby === false) {
+        $sort_bydate = $locale ['playlist'] ['control'] ['sortby'] ['date'];
+        $sort_bypcount = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
+
+        if ($sortby === false && ! (strcmp ( $sortby, $sort_bydate ) == 0 || strcmp ( $sort_bypcount ) == 0)) {
             $sortby = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
         }
-        Functions::getInstance()->logMessage('sortby: '.$sortby);
+        
+        Functions::getInstance ()->logMessage ( 'sortby: ' . $sortby );
         $db = Db::getInstance ();
         $limit = $settings ['general'] ['tracks_perpage'];
         $trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
