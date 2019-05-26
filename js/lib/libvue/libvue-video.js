@@ -138,7 +138,7 @@ class LibvueVideo {
             		let perpage = undefined !== pinfo.PER_PAGE ? pinfo.PER_PAGE : 20;
             
             		return 'Comments  |  Page ' 
-            			+ current + ' of ' + ALL + 
+            			+ current + ' of ' + all + 
             			' | ' + perpage + ' per Page';            			
             	},
             },
