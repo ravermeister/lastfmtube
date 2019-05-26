@@ -135,6 +135,7 @@ class LibvueVideo {
                     this.$applyData(json);
                     if(undefined !== json.comments) {                    	
                     	this.$data.commentData = json.comments;
+                    	$('.dialogbox .dialogbox-text a').attr('target','_blank');
                     }
                     if(undefined !== json.pageinfo) {
                     	this.$data.pageinfo = json.pageinfo;
