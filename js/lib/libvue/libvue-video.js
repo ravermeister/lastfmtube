@@ -139,7 +139,7 @@ class LibvueVideo {
             				.attr('target','_blank');
             				
             			console.log('>>html:');
-            			console.log(comment.text);
+            			console.log(text);
             		}
             	},
                 update: function (json) {
