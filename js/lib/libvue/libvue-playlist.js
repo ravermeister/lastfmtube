@@ -78,8 +78,7 @@ class LibvuePlaylist {
 
             methods: {
             	sortBy: function(event) {            		
-            		console.log('reload tracks with sort order: '+this.$data.SORTBY.SELECTED);
-            		console.log(event);            		
+            		console.log('TODO: reload tracks with sort order: '+this.$data.SORTBY.SELECTED);
             		return true;
             		
             	},
