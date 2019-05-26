@@ -66,17 +66,13 @@
 	margin-right: 5px;
 }
 
-.dialogbox-footer {
-	width: 100%;
-}
 .dialogbox-footer .footer-content {
 	float: left;
 }
 .dialogbox-footer .dialogbox-likes {
-	position: relative; 
-	right: 5px;
-	
 }
 .dialogbox-footer .dialogbox-likes span{
+	position: relative; 
+	right: 5px;	
 	white-space: nowrap;
 }
