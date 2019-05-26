@@ -277,7 +277,6 @@ class PageController {
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
-        if (sortBy === null) sortBy = $page.myVues.playlist.menu.$data.SORTBY.SELECTED;
         
         let curArticle = PageController.article.playlist.dom;
         let isPlaylist = false;
