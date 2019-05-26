@@ -72,10 +72,12 @@
 	padding-top: 5px;
 }
 .dialogbox-footer .footer-content {
-	float: left;
+	float: inline-start;
+	display: inline;
 }
 .dialogbox-footer .dialogbox-likes {
 	float: inline-end;
+	display: inline;
 }
 .dialogbox-footer .dialogbox-likes span{	
 	white-space: nowrap;
