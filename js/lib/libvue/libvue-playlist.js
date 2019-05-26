@@ -79,7 +79,7 @@ class LibvuePlaylist {
             methods: {
             	sortBy: function(event) {           		
                     $page.setLoading(PageController.article.playlist.dom(), true);
-                    $page.loadList(this.$data.CUR_PAGE, user, function () {
+                    $page.loadList(this.$data.CUR_PAGE, null, function () {
                         $page.setLoading(PageController.article.playlist.dom());
                     });            		
             		return true;
