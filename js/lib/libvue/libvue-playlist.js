@@ -51,7 +51,7 @@ class LibvuePlaylist {
                 CUR_PAGE: 0,
                 PLAYLIST_LOAD: 'Load',
                 PLAYLIST: 'undefined',
-                TOPSONGS_SORTBY: {
+                SORTBY: {
                 	LABEL: 'Sort by',
                 	VALUES: ['Playcount', 'Date'],
                 	SELECTED: 'Playcount',                	

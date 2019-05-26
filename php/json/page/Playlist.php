@@ -174,7 +174,7 @@ class Playlist extends DefaultJson {
                         'MAX_PAGES' => $maxpages,
                         'CUR_PAGE' => $pageNum,
                         'playlist' => 'topsongs',
-                        'TOPSONGS_SORTBY' => array (
+                        'SORTBY' => array (
                                 'LABEL' => $locale ['playlist'] ['control'] ['sortby'] ['label'],
                                 'SELECTED' => $sortby,
                                 'VALUES' => array (
