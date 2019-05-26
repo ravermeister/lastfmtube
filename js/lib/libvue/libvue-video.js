@@ -138,7 +138,9 @@ class LibvueVideo {
             			let links = $(text)
             				.filter('a')
             				.attr('target','_blank');
-            			comment.text = text;
+            			console.log('>>html:');
+            			console.loh($(text).prop('outerHTML'));
+            			comment.text = $(text).prop('outerHTML');
             		}
             	},
                 update: function (json) {
