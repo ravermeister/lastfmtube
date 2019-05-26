@@ -141,12 +141,20 @@ class LibvueVideo {
                     }
                 },
                 append: function(json) {
-                	console.log('append json: ');
-                	console.log(json);
-                    if(undefined !== json.comments) {                    	
-                    	this.$data.commentData.push(json.comments);
+ 
+                    if(undefined !== json.comments) {
+                    	console.log('append comments:');
+                    	console.log(json.comments);
+                    	
+                    	Array.prototype.push.apply(
+                    			this.$data.commentData, 
+                    			json.comments);         
                     }
                     if(undefined !== json.pageinfo) {
+                    	console.log('old info: ');
+                    	console.log(this.$data.pageinfo);
+                    	console.log('new info: ');
+                    	console.log(json.pageinfo);
                     	this.$data.pageinfo = json.pageinfo;
                     }       
                 },                    
