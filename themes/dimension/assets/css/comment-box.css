@@ -71,6 +71,6 @@
 	float: left;
 }
 
-.dialogbox-footer .dialogbox-likes {
+.dialogbox-footer .dialogbox-likes span{
 	white-space: nowrap;
 }
