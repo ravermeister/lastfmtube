@@ -261,7 +261,7 @@
 								class="field third btn-page-nav">
 								<label>{{SORTBY.LABEL}}</label>
 								 <select id="topsong-sortby"
-								 onchange="console.log('>>>'+this.value); sortBy(this.value);">
+								 @change="sortBy($('#topsongs-sortby').value);">
 									<template v-for="VALUE in SORTBY.VALUES"> 
 										<option v-if="VALUE === SORTBY.SELECTED" selected="selected">{{VALUE}}</option>
 										<option v-else="v-else">{{VALUE}}</option>
