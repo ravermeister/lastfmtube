@@ -148,6 +148,7 @@ class Playlist extends DefaultJson {
         $offset = ($pageNum - 1) * $limit;
 
         $orderby = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'lastplayed' : 'playcount';
+        $orderbysecond = strcmp ( $sortby, $locale ['playlist'] ['control'] ['sortby'] ['date'] ) == 0 ? 'playcount' : 'lastplayed';
 
         $topsongs = $db->query ( 'SELECT_TRACKPLAY', array (
                 /**
@@ -163,8 +164,8 @@ class Playlist extends DefaultJson {
                  */
                 /* 'limit' => $limit * 3, */
                 'limit' => $trackCnt,
-                'orderby' => 'playcount',
-                'orderbysecond' => 'lastplayed',
+                'orderby' => $orderby,             
+                'orderbysecond' => $orderbysecond,
                 'offset' => $offset
         ) );
 
@@ -252,12 +253,13 @@ class Playlist extends DefaultJson {
         }
 
         $uniqueTracks = array_values ( $uniqueTracks );
+        /**
         if (strcmp ( $sortby, $sort_bydate ) == 0) {
             $this->funcs->sortTracksByDate ( $uniqueTracks, $offset );
         } else {
             $this->funcs->sortTracksByPlayCount ( $uniqueTracks, $offset );
         }
-
+        **/
         $page ['TRACKS'] = $uniqueTracks;
         return $page;
     }
