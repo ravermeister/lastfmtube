@@ -146,7 +146,7 @@
 					<span class="comments-header">Comments</span>
 					
 					<span v-if="showLoadMore">
-						<button class="btn-loadmore">Load More</button>
+						<button class="btn-loadmore" @click="loadMore();">Load More</button>
 					</span>
 
 					<template v-for="comment in commentData">
