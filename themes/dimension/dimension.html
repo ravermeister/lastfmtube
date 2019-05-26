@@ -143,10 +143,10 @@
 				<div id="video-comments" v-if="showComments"
 					class="comments-container">
 
-					<span style="font-size: large; font-weight: bold;">Comments</span>
+					<span class="comments-header">Comments</span>
 					
 					<span v-if="showLoadMore">
-						<button>Load More</button>
+						<button class="btn-loadmore">Load More</button>
 					</span>
 
 					<template v-for="comment in commentData">

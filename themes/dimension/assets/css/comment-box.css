@@ -58,6 +58,15 @@
 	color: #797979;
 }
 
+.comments-container .comments-header {
+	font-size: large; 
+	font-weight: bold;
+}
+.comments-container .btn-loadmore {
+	position: relative;
+	left: 55%;
+}
+
 .dialogbox-user {
 	float: left;
 }
