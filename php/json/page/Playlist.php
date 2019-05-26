@@ -26,7 +26,7 @@ class Playlist extends DefaultJson {
             case 'playlist' :
                 return $this->getLastFm ( self::getVar ( 'user', false ), self::getVar ( 'page', 1 ) );
             case 'topsongs' :
-                return $this->getTopSongs ( self::getVar ( 'page', 1 ) );
+                return $this->getTopSongs ( self::getVar ( 'page', 1 ), self::getVar('sortby', false) );
             case 'topuser' :
                 return $this->getTopUser ( self::getVar ( 'page', 1 ) );
             case 'menu' :
