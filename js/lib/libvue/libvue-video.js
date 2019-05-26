@@ -137,10 +137,10 @@ class LibvueVideo {
             			let text = $.parseHTML(comment.text);
             				$(text).filter('a')
             				.attr('target','_blank');
-            				
-            			console.log('>>html:');
-            			console.log(text.join(''));
-            			comment.text = text.join('');
+            			let container = $('<div></div>');
+            			$(container).append(text);
+            			console.log('>>>');
+            			console.log($(container).html());
             		}
             	},
                 update: function (json) {
