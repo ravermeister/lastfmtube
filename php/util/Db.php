@@ -170,7 +170,7 @@ class Db {
 				SELECT artist, title, playcount, lastplayed, lastplay_ip, url
 				FROM trackplay
 			    WHERE playcount > 0
-			    ORDER BY :orderby DESC, :orderbysecond DESC 
+			    ORDER BY :orderby DESC, :orderbysecond DESC
 			    LIMIT :limit OFFSET :offset;
 			',
                 'SELECT_TRACKPLAY_NUM_ROWS' => '
