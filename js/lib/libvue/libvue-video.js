@@ -135,6 +135,7 @@ class LibvueVideo {
                     this.$applyData(json);
                     if(undefined !== json.comments) {                    	
                     	let links = $(json.comments).find('a');
+                    	console.log('links:')
                     	console.log(links);
                     	links.attr('target','_blank');
                     	
@@ -148,6 +149,7 @@ class LibvueVideo {
  
                     if(undefined !== json.comments) {                    	
                     	let links = $(json.comments).find('a');
+                    	console.log('links:')
                     	console.log(links);
                     	links.attr('target','_blank');
                     	
