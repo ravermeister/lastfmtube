@@ -88,7 +88,7 @@ class Page extends DefaultJson {
                         'LDATA' => 'video'
                 ),
                 'LIVE' => array (
-                        'TEXT' => $locale ['menu'] ['nowplaying'],
+                        'TEXT' => $locale ['menu'] ['live'],
                         'PAGE' => 'playlist-container',
                         'LDATA' => 'topsongs'
                 )
