@@ -44,7 +44,7 @@ class VideoComments {
         $this->pageinfo ['PER_PAGE'] = $commentThreadResponse->getPageInfo ()->getResultsPerPage ();
         $this->pageinfo ['ALL'] = $commentThreadResponse->getPageInfo ()->getTotalResults ();
         
-        Functions::getInstance()->logMessage(print_r($this->pageinfo);
+        Functions::getInstance()->logMessage(print_r($this->pageinfo));
     }
     public function initList($document) {
         $this->commentList = array ();
