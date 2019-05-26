@@ -133,6 +133,7 @@ class LibvueVideo {
             methods: {
             	normalizeMessage: function(comments) {
             		$(function(){
+            			console.log($(".dialogbox-text a"));
           			  $(".dialogbox-text a").attr("target","_blank");
           			});
             	},
