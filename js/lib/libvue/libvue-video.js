@@ -135,9 +135,12 @@ class LibvueVideo {
             		for(let cnt=0;cnt<comments.length;cnt++) {
             			let comment = comments[cnt];
             			let links = $.parseHTML(comment.text);
-            			links = $(links).find('a');            	
+            			links = $(links)
+            				.filter('a')
+            				.attr('target','_blank');            	
             			console.log('>>>links');
             			console.log(links);
+            			
             		}
             	},
                 update: function (json) {
