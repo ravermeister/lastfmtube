@@ -12,6 +12,7 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
+use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
     public static function process($returnOutput = false) {
@@ -136,6 +137,7 @@ class Playlist extends DefaultJson {
         if ($sortby === false) {
             $sortby = $locale ['playlist'] ['control'] ['sortby'] ['playcount'];
         }
+        Functions::getInstance()->logMessage('sortby: '.$sortby);
         $db = Db::getInstance ();
         $limit = $settings ['general'] ['tracks_perpage'];
         $trackCnt = $db->query ( 'SELECT_TRACKPLAY_NUM_ROWS' );
