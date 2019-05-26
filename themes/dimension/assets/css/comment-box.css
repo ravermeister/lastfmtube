@@ -74,7 +74,8 @@
 	position: relative;
 	bottom: 1px;
 	left: 0px;
-	width: 100%;
+	
+	background: yellow;
 }
 
 .dialogbox-footer .dialogbox-likes {
