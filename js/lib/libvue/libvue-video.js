@@ -125,17 +125,30 @@ class LibvueVideo {
         this.comments = new Vue({
             el: '#video-container>#video-comments',
             data: {
-            	LIST_HEADER: 'Comments',
             	showComments: false,
             	videoId: '',
-            	commentData: [
-            		
-            	],
+            	pageinfo: [],
+            	commentData: [],
+            },
+            computed: {
+            	LIST_HEADER: function(){
+            		let current = undefined !== pageinfo.CURRENT ? pageinfo.CURRENT : 1;
+            		let all = undefined !== pageinfo.ALL ? pageinfo.ALL : 1;
+            		let perpage = undefined !== pageinfo.PER_PAGE ? pageinfo.PER_PAGE : 20;
+            		return 'Comments  |  Page ' 
+            			+ current + ' of ' + ALL + 
+            			' | ' + perpage + ' per Page';            			
+            	},
             },
             methods: {
                 update: function (json) {
                     this.$applyData(json);
-                    this.$data.commentData = json;
+                    if(undefined !== json.comments) {                    	
+                    	this.$data.commentData = json.comments;
+                    }
+                    if(undefined !== json.pageinfo) {
+                    	this.$data.pageinfo = json.pageinfo;
+                    }
                 },
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;

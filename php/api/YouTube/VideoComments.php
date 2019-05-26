@@ -2,6 +2,8 @@
 
 namespace LastFmTube\Api\YouTube;
 
+use Google_Service_YouTube_CommentThreadListResponse;
+
 class VideoComments {
 
     /**
@@ -15,9 +17,31 @@ class VideoComments {
      * @var array
      */
     var $commentList = array ();
-    function __construct($videoId, $rawDocument) {
+
+    /**
+     *
+     * @var array
+     */
+    var $pageinfo = array (
+            'CURRENT' => 1,
+            'ALL' => 1,
+            'PER_PAGE' => 25
+    );
+
+    /**
+     *
+     * @param string $videoId
+     * @param Google_Service_YouTube_CommentThreadListResponse $commentThreadResponse
+     * @param int $page
+     * @param int $limit
+     */
+    function __construct($videoId, $commentThreadResponse, $page = 1, $limit = 25) {
         $this->video = $videoId;
-        $this->initList ( $rawDocument );
+        $this->initList ( $commentThreadResponse->getItems () );
+
+        $this->pageinfo ['CURRENT'] = $page;
+        $this->pageinfo ['PER_PAGE'] = $commentThreadResponse->getPageInfo ()->getResultsPerPage ();
+        $this->pageinfo ['ALL'] = $commentThreadResponse->getPageInfo ()->getTotalResults ();
     }
     public function initList($document) {
         $this->commentList = array ();
@@ -69,8 +93,10 @@ class VideoComments {
              * $jsonComment['replies'][] = $jsonAnswerComment;
              * }
              */
-            $json [] = $jsonComment;
+            $json ['comments'] [] = $jsonComment;
         }
+
+        $json ['pageinfo'] = $this->pageinfo;
 
         return $json;
     }

@@ -73,7 +73,7 @@ class YouTubeSearch {
      * @param int $limit
      * @return VideoComments|mixed
      */
-    function searchComments($videoId, $limit = 25) {
+    function searchComments($videoId, $page = 1, $limit = 25) {
         $this->initYTApi ();
 
         $searchResponse = $this->youtube->commentThreads->listCommentThreads ( 'snippet,id', array (
@@ -81,10 +81,7 @@ class YouTubeSearch {
                 'maxResults' => $limit
         ) );
 
-        if (isset ( $searchResponse ['items'] )) {
-            return new VideoComments ( $videoId, $searchResponse ['items'] );
-        }
-        return $searchResponse;
+        return new VideoComments ( $videoId, $searchResponse, $page, $limit );
     }
     private function initYTApi() {
         if (! empty ( $this->api_json )) {
