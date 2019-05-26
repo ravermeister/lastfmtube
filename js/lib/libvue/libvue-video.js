@@ -139,8 +139,7 @@ class LibvueVideo {
             				.attr('target','_blank');
             			let container = $('<div></div>');
             			$(container).append(text);
-            			console.log('>>>');
-            			console.log($(container).html());
+            			comment.text = $(container).html();
             		}
             	},
                 update: function (json) {
