@@ -115,7 +115,6 @@ class LibvueVideo {
                     }, true);
                 },
                 showComments: function(event) {                	
-                	console.log('show comments');
                 	$page.myVues.youtube.comments.toggleVisibility();
                 	
                 }
@@ -133,6 +132,8 @@ class LibvueVideo {
             computed: {
             	LIST_HEADER: function(){
             		let pinfo = this.$data.pageinfo;
+            		console.log('>>>pinfo');
+            		console.log(pinfo);
             		let current = undefined !== pinfo.CURRENT ? pinfo.CURRENT : 1;
             		let all = undefined !== pinfo.ALL ? pinfo.ALL : 1;
             		let perpage = undefined !== pinfo.PER_PAGE ? pinfo.PER_PAGE : 20;

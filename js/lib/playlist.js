@@ -157,12 +157,12 @@ class PlaylistController {
     	let request = null;    	
     	if($page.myVues.youtube.comments.$data.videoId == videoId) {
     		console.log('Comments for Video {} %s already loaded', videoId);
+    		return;
     	}
     	$page.myVues.youtube.comments.$data.videoId = videoId;
     	
     	request = 'php/json/page/YouTube.php?action=videoComments' + 
         		'&videoId=' + videoId;
-    	console.log('request: '+request);
     	$.getJSON(request, function(json){
     		$page.myVues.youtube.comments.update(json.data.value);   		
     	}).fail(function (xhr) {
