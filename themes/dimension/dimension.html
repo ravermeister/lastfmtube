@@ -260,9 +260,9 @@
 							<div v-if="PLAYLIST === 'topsongs'"
 								class="field third btn-page-nav">
 								<label>{{SORTBY.LABEL}}</label>
-								<span v-for="VALUE in SORTBY.VALUES">
+								<template v-for="VALUE in SORTBY.VALUES">
 									{{VALUE}}
-								</span>
+								</template>
 							</div>
 						</div>
 
