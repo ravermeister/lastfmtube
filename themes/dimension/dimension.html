@@ -146,13 +146,13 @@
 					<h4>Comments</h4>
 
 					<div v-if="showLoadMore">
-						<div style="float: lefT;">
+						<span>
 							<button class="btn-loadmore" id="comment-top"
 								@click="loadMore();">Load More</button>
 						</div>
-						<div>
+						<span>
 							<button onclick="#comment-bottom">Bottom</button>
-						</div>
+						</span>
 					</div>
 
 					<template v-for="comment in commentData">
