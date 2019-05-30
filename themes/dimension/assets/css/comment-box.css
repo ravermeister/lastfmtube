@@ -63,10 +63,12 @@
 	font-weight: bold;
 }
 .comments-container .btn-loadmore {
-	width: 40%;
+	width: 45%;
+	float:left;
 }
 .comments-container .btn-jump {
-	width: 40%;
+	width: 45%;
+	float:right;
 }
 
 .dialogbox-user {
