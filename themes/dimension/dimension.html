@@ -147,8 +147,11 @@
 
 					<span v-if="showLoadMore">
 							<button id="comment-top"
+								class="btn-loadmore"
 								@click="loadMore();">Load More</button>
-							<button onclick="#comment-bottom">Bottom</button>
+							<button
+								class="btn-jump" 
+								onclick="#comment-bottom">Bottom</button>
 					</span>
 
 					<template v-for="comment in commentData">

@@ -63,7 +63,10 @@
 	font-weight: bold;
 }
 .comments-container .btn-loadmore {
-	width: 100%;
+	width: 50%;
+}
+.comments-container .btn-jump {
+	width: 50%;
 }
 
 .dialogbox-user {
