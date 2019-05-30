@@ -151,7 +151,7 @@
 								@click="loadMore();">Load More</button>
 							<button
 								class="btn-jump" 
-								onclick="#comment-bottom">Bottom</button>
+								onclick="#comment-bottom">∇ Down</button>
 					</span>
 
 					<template v-for="comment in commentData">
@@ -188,15 +188,14 @@
 					</div>
 					</template>
 
-					<div v-if="showLoadMore">
-						<div style="float: lefT;">
-							<button class="btn-loadmore" id="comment-bottom"
+					<span v-if="showLoadMore">
+							<button id="comment-top"
+								class="btn-loadmore"
 								@click="loadMore();">Load More</button>
-						</div>
-						<div style="float:left;">
-							<button onclick="#comment-top">Top</button>
-						</div>
-					</div>
+							<button
+								class="btn-jump" 
+								onclick="#comment-top">∆ Up</button>
+					</span>
 				</div>
 
 			</article>
