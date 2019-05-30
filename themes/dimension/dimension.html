@@ -145,10 +145,15 @@
 
 					<h4>Comments</h4>
 
-					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load
-							More</button>
-					</span>
+					<div v-if="showLoadMore">
+						<div style="float: lefT;">
+							<button class="btn-loadmore" id="comment-top"
+								@click="loadMore();">Load More</button>
+						</div>
+						<div>
+							<button onclick="#comment-bottom">Bottom</button>
+						</div>
+					</div>
 
 					<template v-for="comment in commentData">
 					<div class="dialogbox">
@@ -184,10 +189,15 @@
 					</div>
 					</template>
 
-					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load
-							More</button>
-					</span>
+					<div v-if="showLoadMore">
+						<div style="float: lefT;">
+							<button class="btn-loadmore" id="comment-bottom"
+								@click="loadMore();">Load More</button>
+						</div>
+						<div style="float:left;">
+							<button onclick="#comment-top">Top</button>
+						</div>
+					</div>
 				</div>
 
 			</article>
@@ -259,12 +269,10 @@
 
 							<div v-if="PLAYLIST === 'topsongs'"
 								class="field third btn-page-nav">
-								<label>{{SORTBY.LABEL}}</label>
-								 <select id="topsong-sortby"
-								 v-model="SORTBY.SELECTED"
-								 @change="sortBy(event)">
-									<template v-for="VALUE in SORTBY.VALUES">										
-										<option>{{VALUE}}</option>
+								<label>{{SORTBY.LABEL}}</label> <select id="topsong-sortby"
+									v-model="SORTBY.SELECTED" @change="sortBy(event)">
+									<template v-for="VALUE in SORTBY.VALUES">
+									<option>{{VALUE}}</option>
 									</template>
 								</select>
 							</div>
