@@ -68,6 +68,7 @@
 }
 .comments-container .btn-jump {
 	width: 45%;
+	float: right;
 }
 
 .dialogbox-user {
