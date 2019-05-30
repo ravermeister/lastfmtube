@@ -73,7 +73,7 @@ class YouTubeSearch {
      * @param int $limit
      * @return VideoComments|mixed
      */
-    function searchComments($videoId, $page = false, $limit = 5) {
+    function searchComments($videoId, $page = false, $limit = 7) {
         $this->initYTApi ();
 
         $args = array (
