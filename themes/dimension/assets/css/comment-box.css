@@ -90,7 +90,7 @@
 	font-size: smaller;
 }
 .dialogbox-footer .dialogbox-likes {
-	float: inline-end;
+	float: right;
 	display: inline;
 }
 .dialogbox-footer .dialogbox-likes span{	
