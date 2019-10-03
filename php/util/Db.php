@@ -215,7 +215,7 @@ class Db {
             ',
 
                 'INSERT_REPLACEMENT' => '
-                REPLACE INTO replacement(repltyp, orig, repl) VALUES (:repltyp, :orig, :repl);
+                REPLACE INTO replacement(orig_artist_expr, orig_title_expr, repl_artist, repl_title) VALUES (:orig_artist_expr, :orig_title_expr, :repl_artist, :repl_title);
             ',
 
                 'SELECT_FIMPORT_SHA' => '
