@@ -163,9 +163,9 @@ class Track
             $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
             $repl_artist = str_replace(DB::$TRACK_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
             $repl_title = str_replace(DB::$TRACK_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
-            //Functions::getInstance()->logMessage($this->artist . ' - ' . $this->title);
-            //Functions::getInstance()->logMessage('preg_match '.print_r(preg_match($orig_artist_expr, $this->artist), true));
-            Functions::getInstance()->logMessage('preg_match '.prinr_r(preg_match($orig_artist_expr, $this->artist), true));
+            Functions::getInstance()->logMessage($this->artist . ' - ' . $this->title);
+            //Functions::getInstance()->logMessage('preg_match '.print_r(preg_match($orig_artist_expr, $this->artist), true);
+            //Functions::getInstance()->logMessage('preg_match '.prinr_r(preg_match($orig_artist_expr, $this->artist), true));
             Functions::getInstance()->logMessage('preg_repl '.print_r(preg_replace($orig_artist_expr, $repl_artist, $this->artist), true));
             Functions::getInstance()->logMessage('preg_repl '.prinr_r(preg_replace($orig_title_expr, $repl_title, $this->title), true));
             
