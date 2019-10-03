@@ -16,8 +16,15 @@ class Db {
      * 
      * @var string
      */
-    public static $TRACK_REPLACEMENT_REGEX_IDENTIFIER = "__REGEX";
+    public static $ARTIST_REPLACEMENT_REGEX_IDENTIFIER = "__ARTIST_REGEX";
 
+    /**
+     *
+     * @var string
+     */
+    public static $TITLE_REPLACEMENT_REGEX_IDENTIFIER = "__TITLE_REGEX";
+    
+    
     /**
      *
      * @var Db
