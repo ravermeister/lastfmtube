@@ -160,34 +160,38 @@ class Track
         $replacements = Db::getInstance()->getReplaceTrackMap();
 
         foreach ($replacements as $row) {
-
             $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
             $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
-            $repl_artist = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
-            $repl_title = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
-
+            
+            
             if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
-                $this->artist = preg_replace($orig_artist_expr, $repl_artist, $this->artist);
-                //Functions::getInstance()->logMessage('artist replacement: '.$this->artist);
-                
-                $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->artist);
-                //Functions::getInstance()->logMessage('repl artist: '.$repl_artist);
-                $repl_title_artist = preg_replace($orig_title_expr, $repl_artist, $this->title);
-                if (strpos($this->artist, DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_title_artist, $this->title) !== 0*/) {
-                    $this->artist = $repl_title_artist;
-                }
 
-                $this->title = preg_replace($orig_title_expr, $repl_title, $this->title);
-                Functions::getInstance()->logMessage('title replacement: '.$this->title);
+                $orig_artist = $this->artist;
+                $orig_title = $this->title;
                 
-                $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->title);
-                Functions::getInstance()->logMessage('repl_title: '.$this->artist);
-                $repl_artist_title = preg_replace($orig_artist_expr, $repl_title, $this->artist);
-                Functions::getInstance()->logMessage('title after artist: '.$this->title);
+                $repl_artist = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
+                $repl_artist = preg_replace($orig_artist_expr, $repl_artist, $orig_artist);
+                Functions::getInstance()->logMessage('artist>artist replacement: '.$repl_artist);
+                //artist with artist regex replaced                
                 
-                if (strpos($this->artist, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
-                    $this->title = $repl_artist_title;
-                }
+                $repl_title = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
+                $repl_title = preg_replace($orig_title_expr, $repl_title, $orig_title);
+                Functions::getInstance()->logMessage('title>title replacement: '.$repl_title);
+                //title with title regex replaced
+                
+                
+                $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_artist);
+                $repl_artist = preg_replace($orig_title_expr, $repl_artist, $orig_title);
+                Functions::getInstance()->logMessage('artist>title replacement: '.$repl_artist);
+                //artist with title replaced
+                                
+                $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_title);
+                $repl_title = preg_replace($orig_artist_expr, $repl_title, $orig_artist);
+                Functions::getInstance()->logMessage('title>artist replacement: '.$repl_title);
+                //title with artist replaced
+                
+                $this->artist = $repl_artist;
+                $this->title = $repl_title;
                 
                 // stop prcessing when pattern matched
                 break;
