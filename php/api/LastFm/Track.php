@@ -158,13 +158,8 @@ class Track
     public function normalize()
     {
         Functions::getInstance()->logMessage("inside normlize Track!");
-//         $replacements = Db::getInstance()->getReplaceTrackMap();
-//         Functions::getInstance()->logMessage(print_r($replacements, true));
-        
-       
-        
-        /**
-        
+        $replacements = Db::getInstance()->getReplaceTrackMap();
+    
         foreach ($replacements as $row) {
             
             $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
@@ -187,6 +182,5 @@ class Track
                 preg_replace($orig_title_expr, $repl_title, $this->title);
             }
         }
-        **/
     }
 }
