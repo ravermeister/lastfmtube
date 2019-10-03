@@ -173,9 +173,9 @@ class Track
             Functions::getInstance()->logMessage('repl_title '.$repl_title);
             
             Functions::getInstance()->logMessage('preg_match '.print_r(preg_match($orig_artist_expr, $this->artist), true));
-            Functions::getInstance()->logMessage('preg_match2 '.prinr_r(preg_match($orig_artist_expr, $this->artist), true));
+            Functions::getInstance()->logMessage('preg_match2 '.print_r(preg_match($orig_artist_expr, $this->artist), true));
             Functions::getInstance()->logMessage('preg_repl '.print_r(preg_replace($orig_artist_expr, $repl_artist, $this->artist), true));
-            Functions::getInstance()->logMessage('preg_repl 2'.prinr_r(preg_replace($orig_title_expr, $repl_title, $this->title), true));
+            Functions::getInstance()->logMessage('preg_repl 2'.print_r(preg_replace($orig_title_expr, $repl_title, $this->title), true));
   
             if (preg_match($orig_artist_expr, $this->artist) !== false && preg_match($orig_title_expr, $this->title) !== false) {
                 preg_replace($orig_artist_expr, $repl_artist, $this->artist);
