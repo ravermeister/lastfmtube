@@ -67,3 +67,7 @@ Directory Structure:
 +- php/util -> all required php libs youtube/last.fm
 +- tmp -> temp folder for generated templates
 ```
+
+====== replacements.csv ======
+you can use Regular Expressions for Replacing artist and title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in a database after first load, and re-imported automoically if changed. see the `init.replacement.example.csv` for more details 
+
