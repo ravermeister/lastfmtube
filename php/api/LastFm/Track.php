@@ -182,6 +182,9 @@ class Track
                 if(strcmp($repl_artist_title, $this->artist) !== 0) {
                     $this->title = $repl_artist_title;
                 }
+                Functions::getInstance()->logMessage(' Stop processing');
+                Functions::getInstance()->logMessage('Artist: '.$this->artist);
+                Functions::getInstance()->logMessage('Title: '.$this->title);
                 
                 //stop prcessing when pattern matched
                 break;
