@@ -169,11 +169,11 @@ class Track
             if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
                 
                 $repl_artist = preg_replace($orig_artist_expr, $repl_artist, $this->artist);
-                //Functions::getInstance()->logMessage('artist replacement: '.$this->artist);                
+                Functions::getInstance()->logMessage('artist replacement: '.$this->artist);                
                 $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->artist);                
-                //Functions::getInstance()->logMessage('repl artist: '.$repl_artist);                
+                Functions::getInstance()->logMessage('repl artist: '.$repl_artist);                
                 $repl_title_artist = preg_replace($orig_title_expr, $repl_artist, $this->title);
-                //Functions::getInstance()->logMessage('artist after title: '.$this->artist);
+                Functions::getInstance()->logMessage('artist after title: '.$this->artist);
 
                 
                 $repl_title = preg_replace($orig_title_expr, $repl_title, $this->title);
