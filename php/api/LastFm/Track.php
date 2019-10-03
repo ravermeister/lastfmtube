@@ -157,7 +157,6 @@ class Track
 
     public function normalize()
     {
-        Functions::getInstance()->logMessage("inside normlize Track!");
         $replacements = Db::getInstance()->getReplaceTrackMap();
     
         foreach ($replacements as $row) {
@@ -166,18 +165,8 @@ class Track
             $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
             $repl_artist = str_replace(DB::$TRACK_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
             $repl_title = str_replace(DB::$TRACK_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
-            Functions::getInstance()->logMessage($this->artist . ' - ' . $this->title);
-            Functions::getInstance()->logMessage('orig_artist_expr '.$orig_artist_expr);
-            Functions::getInstance()->logMessage('repl_artist '.$repl_artist);
-            Functions::getInstance()->logMessage('orig_title_expr '.$orig_title_expr);
-            Functions::getInstance()->logMessage('repl_title '.$repl_title);
-            
-            Functions::getInstance()->logMessage('preg_match '.print_r(preg_match($orig_artist_expr, $this->artist), true));
-            Functions::getInstance()->logMessage('preg_match2 '.print_r(preg_match($orig_artist_expr, $this->artist), true));
-            Functions::getInstance()->logMessage('preg_repl '.print_r(preg_replace($orig_artist_expr, $repl_artist, $this->artist), true));
-            Functions::getInstance()->logMessage('preg_repl 2'.print_r(preg_replace($orig_title_expr, $repl_title, $this->title), true));
-  
-            if (preg_match($orig_artist_expr, $this->artist) !== false && preg_match($orig_title_expr, $this->title) !== false) {
+
+            if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
                 preg_replace($orig_artist_expr, $repl_artist, $this->artist);
                 preg_replace($orig_title_expr, $repl_title, $this->title);
             }
