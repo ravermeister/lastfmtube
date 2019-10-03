@@ -102,11 +102,10 @@ class Playlist extends DefaultJson {
 
         for($cnt = 0; $cnt < sizeof ( $tracks ); $cnt ++) {
 
-            /** @var Track $track */
             $track = $tracks [$cnt];
-
-            $track->setArtist ( $db->normalizeArtist ( $track->getArtist () ) );
-            $track->setTitle ( $db->normalizeTitle ( $track->getTitle () ) );
+            Functions::getInstance()->logMessage("before normalize");
+            $track->normalize();
+            Functions::getInstance()->logMessage('after normalize');
 
             $videoId = $db->query ( 'GET_VIDEO', array (
                     'artist' => $track->getArtist (),
@@ -211,8 +210,7 @@ class Playlist extends DefaultJson {
         $uniqueTracks = array ();
         for($cnt = 0; $cnt < sizeof ( $topsongs ); $cnt ++) {
             $track = $topsongs [$cnt];
-            $track ['artist'] = $db->normalizeArtist ( $track ['artist'] );
-            $track ['title'] = $db->normalizeTitle ( $track ['title'] );
+            $track->normalize();
 
             $trackId = $track ['artist'] . '-' . $track ['title'];
             if (array_key_exists ( $trackId, $uniqueTracks )) {
