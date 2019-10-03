@@ -11,7 +11,9 @@ use LastFmTube\Util\Functions;
 $settings = Functions::getInstance ()->getSettings ();
 $locale = Functions::getInstance ()->getLocale ();
 $themeFile = $settings ['general'] ['theme'];
-$baseURL = $settings ['general'] ['baseurl'];
+
+// unused
+//$baseURL = $settings ['general'] ['baseurl'];
 
 $themeData = file_get_contents ( 'themes/' . $themeFile . '/' . $themeFile . '.html' );
 $themeData = str_replace ( '{{PHP_LANG}}', $locale ['code'], $themeData );
