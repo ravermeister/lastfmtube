@@ -35,7 +35,7 @@ class Db {
      *  
      * @var array
      */
-    private $replaceTrackMap = array();
+    private $replaceTrackMap = null;
     
     /**
      * Db constructor.
@@ -261,7 +261,7 @@ class Db {
         while ( ($row = fgetcsv ( $csvf, 10000 )) !== false ) {
             
             if (Functions::startsWith($row[0], '#')) {
-                $funcs->logMessage ( 'skip row ' . ($rcnt + 1) . ' is a comment row' );                
+                $funcs->logMessage ( 'skip row ' . ($rcnt + 1) . ' as it is a comment row' );                
                 $rcnt ++;
                 continue; // ignore comment rows
             }
