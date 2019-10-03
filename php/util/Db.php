@@ -29,9 +29,14 @@ class Db {
      * @var array|\PDOStatement
      */
     private $statements = false;
-    private $replaceTitleMap = null;
-    private $replaceArtistMap = null;
 
+    /**
+     * replacement map from db (hold in ram for perfomance)
+     *  
+     * @var array
+     */
+    private $replaceTrackMap = array();
+    
     /**
      * Db constructor.
      *
@@ -205,9 +210,8 @@ class Db {
 			',
 
                 'LOAD_REPLACEMENTS' => '
-                SELECT orig, repl 
-                FROM replacement 
-                WHERE repltyp = :repltyp;
+                SELECT orig_artist_expr, orig_title_expr, repl_artist, repl_title  
+                FROM replacement
             ',
 
                 'INSERT_REPLACEMENT' => '
@@ -252,24 +256,28 @@ class Db {
             return;
         }
 
-        $this->pdo->query ( 'DELETE FROM replacement WHERE repltyp IN ("ARTIST","TITLE")' );
+        $this->pdo->query ( 'DELETE FROM replacement' );
         $rcnt = 0;
         while ( ($row = fgetcsv ( $csvf, 10000 )) !== false ) {
-            if ($rcnt === 0) {
+            if (Functions::startsWith($row, '#')) {
                 $rcnt ++;
-                continue; // ignore header row
+                continue; // ignore comment rows
             }
-            if (sizeof ( $row ) < 3) {
+            if (sizeof ( $row ) < 4) {
                 $funcs->logMessage ( 'skip row ' . ($rcnt + 1) . ' insufficient data' );
                 continue;
             }
-            $typ = $row [0];
-            $orig = $row [1];
-            $repl = $row [2];
+            
+            $orig_artist_expr = $row [0];
+            $orig_title_expr = $row [1];
+            $repl_artist = $row [2];
+            $repl_title = $row[3];
+            
             $this->query ( 'INSERT_REPLACEMENT', array (
-                    'repltyp' => $typ,
-                    'orig' => $orig,
-                    'repl' => $repl
+                'orig_artist_expr' => $orig_artist_expr,
+                'orig_title_expr' => $orig_title_expr,
+                'repl_artist' => $repl_artist,
+                'repl_title' => $repl_title                
             ) );
 
             $rcnt ++;
@@ -401,60 +409,10 @@ class Db {
         if (sizeof ( $data ) < 1) return - 1;
         return $data [0];
     }
-    public function getReplaceTitleMap() {
-        if ($this->replaceTitleMap === null) {
-            $this->replaceTitleMap = $this->query ( 'LOAD_REPLACEMENTS', array (
-                    'repltyp' => 'TITLE'
-            ) );
+    public function getReplaceTrackMap() {
+        if ($this->replaceTrackMap === null) {
+            $this->replaceTrackMap = $this->query ( 'LOAD_REPLACEMENTS');
         }
-        return $this->replaceTitleMap;
-    }
-    public function getReplaceArtistMap() {
-        if ($this->replaceArtistMap === null) {
-            $this->replaceArtistMap = $this->query ( 'LOAD_REPLACEMENTS', array (
-                    'repltyp' => 'ARTIST'
-            ) );
-        }
-        return $this->replaceArtistMap;
-    }
-
-    /**
-     *
-     * @param
-     *            $string
-     * @return string
-     */
-    public function normalizeTitle($string) {
-        $this->getReplaceTitleMap ();
-        if (! is_array ( $this->replaceTitleMap )) {
-            return $string;
-        }
-
-        for($rcnt = 0; $rcnt < sizeof ( $this->replaceTitleMap ); $rcnt ++) {
-            $row = $this->replaceTitleMap [$rcnt];
-            $string = (trim ( str_replace ( $row ['orig'], $row ['repl'], $string ) ));
-        }
-
-        return $string;
-    }
-
-    /**
-     *
-     * @param
-     *            $string
-     * @return string
-     */
-    public function normalizeArtist($string) {
-        $this->getReplaceArtistMap ();
-        if (! is_array ( $this->replaceArtistMap )) {
-            return $string;
-        }
-
-        for($rcnt = 0; $rcnt < sizeof ( $this->replaceArtistMap ); $rcnt ++) {
-            $row = $this->replaceArtistMap [$rcnt];
-            $string = (trim ( str_replace ( $row ['orig'], $row ['repl'], $string ) ));
-        }
-
-        return $string;
+        return $this->replaceTrackMap;
     }
 }

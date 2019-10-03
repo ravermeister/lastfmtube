@@ -2,6 +2,7 @@
 
 namespace LastFmTube\Api\LastFm;
 
+use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
 class Track {
@@ -133,5 +134,14 @@ class Track {
     }
     public function setPlayCount($playount) {
         $this->playcount = $playount;
+    }
+    
+    
+    public function normalize() {        
+        $replacements = Db::getInstance ()->getReplaceTrackMap();
+        
+        foreach($replacements as $row) {
+            Functions::getInstance()->log(print_r($row, true));
+        }
     }
 }

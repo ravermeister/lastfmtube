@@ -41,12 +41,12 @@ DROP TABLE IF EXISTS replacement
 ;
 
 CREATE TABLE replacement (
-  repltyp VARCHAR(10) DEFAULT ('TITLE'),
-  orig    VARCHAR(500),
-  repl    VARCHAR(500),
+  orig_artist_expr  VARCHAR(500),
+  orig_title_expr   VARCHAR(500),
+  repl_artist       VARCHAR(500),
+  repl_title        VARCHAR(500),
 
-  PRIMARY KEY (repltyp, orig),
-  CHECK (repltyp IN ('ARTIST', 'TITLE'))
+  PRIMARY KEY (orig_artist_expr, orig_title_expr),
 )
 ;
 
