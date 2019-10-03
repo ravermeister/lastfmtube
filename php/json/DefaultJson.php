@@ -68,7 +68,7 @@ abstract class DefaultJson implements JsonInterface {
         $json ['method'] = $this->currentMethod;
         $json ['data'] ['type'] = $dataType;
         $json ['data'] ['value'] = $data;
-        return json_encode ( $json );
+        return json_encode ( $json, JSON_INVALID_UTF8_IGNORE );
     }
     protected final function handleRequest() {
         try {
