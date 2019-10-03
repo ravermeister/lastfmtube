@@ -1,2 +1,10 @@
-# "Original Artist (regex)", "Original Title (regex)", "Replacement Artist", "Replacement Title (use __REGEX1 for regex replacement group 1)"
-"Unbekannter Interpret", "Coccolino Deep - (.*)", "Coccolino Deep", "__REGEX1"
+# note, you can use regular expressions in "oiginal Artist" and "original title" column
+# in the "Replacement Artist" and "Replacement Title" columns use '__TITLE_REGEX1' __ARTIST_REGEX1
+# for acessing the first group of the artist or title regex. you can youse multiple groups,
+# simply increase the trailing number to 2 for second group and so on.
+# e.g
+# "Unbekannter Interpret", "(.*) - (.*)", "__TITLE_REGEX1", "__TITLE_REGEX2"
+# empty lines are ignored too
+
+# "Original Artist (regex)", "Original Title (regex)", "Replacement Artist", "Replacement Title"
+"Unbekannter Interpret", "(.*) ◆ (.*) \(Electro Junkie Mix\) \(152kbit_Opus\)", "__TITLE_REGEX1", "__TITLE_REGEX2"
