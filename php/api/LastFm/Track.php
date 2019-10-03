@@ -167,16 +167,13 @@ class Track
             $repl_title = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
 
             if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
-
-                $orig_artist = $this->artist;
-                $orig_title = $this->title;
                 
                 $this->artist = preg_replace($orig_artist_expr, $repl_artist, $this->artist);
                 //Functions::getInstance()->logMessage('artist replacement: '.$this->artist);
                 
                 $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->artist);
                 //Functions::getInstance()->logMessage('repl artist: '.$repl_artist);                
-                $repl_title_artist = preg_replace($orig_title_expr, $repl_artist, $orig_title);
+                $repl_title_artist = preg_replace($orig_title_expr, $repl_artist, $this->title);
                 //Functions::getInstance()->logMessage('artist after title: '.$this->artist);
                 if (strpos($this->artist, DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_title_artist, $this->title) !== 0*/) {
                     $this->artist = $repl_title_artist;
@@ -188,8 +185,8 @@ class Track
                 Functions::getInstance()->logMessage('title replacement: '.$this->title);
                 
                 $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->title);
-                Functions::getInstance()->logMessage('repl_title: '.$repl_title.'|Orig Artist: '.$orig_artist);          
-                $repl_artist_title = preg_replace($orig_artist_expr, $repl_title, $orig_artist);
+                Functions::getInstance()->logMessage('repl_title: '.$repl_title.'|Orig Artist: '.$this->artist);          
+                $repl_artist_title = preg_replace($orig_artist_expr, $repl_title, $this->artist);
                 Functions::getInstance()->logMessage('title after artist: '.$this->title);                
                 if (strpos($this->artist, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
                     $this->title = $repl_artist_title;
