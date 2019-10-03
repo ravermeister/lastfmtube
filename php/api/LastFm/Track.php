@@ -163,29 +163,29 @@ class Track
             $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
             $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
             
+            $orig_artist = $this->artist;
+            $orig_title = $this->title;
             
-            if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
+            if (preg_match($orig_artist_expr, $orig_artist) === 1 && preg_match($orig_title_expr, $orig_title) === 1) {
 
-                $orig_artist = $this->artist;
-                $orig_title = $this->title;
                 
-                $repl_artist = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
+                $repl_artist = str_replace(Db::$ARTIST_REGEX, '$', $row['repl_artist']);
                 $repl_artist = preg_replace($orig_artist_expr, $repl_artist, $orig_artist);
                 //Functions::getInstance()->logMessage('artist>artist replacement: '.$repl_artist);
                 //artist with artist regex replaced                
                 
-                $repl_title = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
+                $repl_title = str_replace(Db::$TITLE_REGEX, '$', $row['repl_title']);
                 $repl_title = preg_replace($orig_title_expr, $repl_title, $orig_title);
                 //Functions::getInstance()->logMessage('title>title replacement: '.$repl_title);
                 //title with title regex replaced
                 
                 
-                $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_artist);
+                $repl_artist = str_replace(Db::$TITLE_REGEX, '$', $repl_artist);
                 $repl_artist = preg_replace($orig_title_expr, $repl_artist, $orig_title);
                 //Functions::getInstance()->logMessage('artist>title replacement: '.$repl_artist);
                 //artist with title replaced
                                 
-                $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_title);
+                $repl_title = str_replace(Db::$ARTIST_REGEX, '$', $repl_title);
                 $repl_title = preg_replace($orig_artist_expr, $repl_title, $orig_artist);
                 //Functions::getInstance()->logMessage('title>artist replacement: '.$repl_title);
                 //title with artist replaced
