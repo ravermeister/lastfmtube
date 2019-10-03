@@ -1,2 +1,2 @@
-# "Original Artist (regex)", "Original Title (regex)", "Replacement Artist", "Replacement Title (use __REGEX__ for regex replacement)"
-"Unbekannter Interpret", "Coccolino Deep - (.*)", "Coccolino Deep", "__REGEX__"
+# "Original Artist (regex)", "Original Title (regex)", "Replacement Artist", "Replacement Title (use __REGEX1 for regex replacement group 1)"
+"Unbekannter Interpret", "Coccolino Deep - (.*)", "Coccolino Deep", "__REGEX1"

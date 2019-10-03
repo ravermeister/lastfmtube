@@ -13,6 +13,12 @@ use PDO;
 class Db {
 
     /**
+     * 
+     * @var string
+     */
+    public static $TRACK_REPLACEMENT_REGEX_IDENTIFIER = "__REGEX";
+
+    /**
      *
      * @var Db
      */
@@ -30,6 +36,7 @@ class Db {
      */
     private $statements = false;
 
+    
     /**
      * replacement map from db (hold in ram for perfomance)
      *  
