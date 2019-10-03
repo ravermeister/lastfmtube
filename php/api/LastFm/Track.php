@@ -170,12 +170,11 @@ class Track
             $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_title);
 
             if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
-                $this->artist = preg_replace($orig_artist_expr, $repl_artist, $this->artist);
-                
-                $this->artist = preg_replace($orig_title_expr, $repl_title, $this->title);
+                $this->artist = preg_replace($orig_artist_expr, $repl_artist, $this->artist);                
+                $this->artist = preg_replace($orig_title_expr, $repl_artist, $this->title);
 
                 $this->title = preg_replace($orig_title_expr, $repl_title, $this->title);
-                $this->title = preg_replace($orig_artist_expr, $repl_artist, $this->artist);
+                $this->title = preg_replace($orig_artist_expr, $repl_title, $this->artist);
             }
         }
     }
