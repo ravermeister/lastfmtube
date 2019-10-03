@@ -104,14 +104,14 @@ class Playlist extends DefaultJson {
 
             $track = $tracks [$cnt];
             
-            $lgartist = $track->artist;
-            $lgtitle = $track->title;
+            $lgartist = $track->getArtist();
+            $lgtitle = $track->getTitle();
             Functions::getInstance()->logMessage('Artist: '.$lgartist);
             Functions::getInstance()->logMessage('Title: '.$lgtitle);
             $track->normalize();
             
-            $lgartist = $track->artist;
-            $lgtitle = $track->title;
+            $lgartist = $track->getArtist();
+            $lgtitle = $track->getTitle();
             Functions::getInstance()->logMessage('Artist2: '.$lgartist);
             Functions::getInstance()->logMessage('Title2: '.$lgtitle);
 
