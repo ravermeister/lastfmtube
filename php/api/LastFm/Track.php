@@ -158,7 +158,9 @@ class Track
     public function normalize()
     {
         $replacements = Db::getInstance()->getReplaceTrackMap();
-
+        Functions::getInstance()->logMessage('Artist: '.$this->artist);
+        Functions::getInstance()->logMessage('Artist: '.$this->title);
+        
         foreach ($replacements as $row) {
 
             $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
