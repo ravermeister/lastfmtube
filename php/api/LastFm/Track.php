@@ -188,7 +188,7 @@ class Track
                 Functions::getInstance()->logMessage('title replacement: '.$this->title);
                 
                 $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->title);
-                Functions::getInstance()->logMessage('repl_title: '.$repl_title);                
+                Functions::getInstance()->logMessage('repl_title: '.$repl_title.'|Orig Artist: '.$orig_artist);          
                 $repl_artist_title = preg_replace($orig_artist_expr, $repl_title, $orig_artist);
                 Functions::getInstance()->logMessage('title after artist: '.$this->title);                
                 if (strpos($this->artist, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
