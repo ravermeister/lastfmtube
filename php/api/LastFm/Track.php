@@ -138,7 +138,6 @@ class Track {
     
     
     public function normalize() {     
-        Functions::getInstance()->logMessage("normalize Track");
         $replacements = Db::getInstance ()->getReplaceTrackMap();
         
         foreach($replacements as $row) {

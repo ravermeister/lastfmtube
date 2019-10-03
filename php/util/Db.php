@@ -46,7 +46,7 @@ class Db {
     private function __construct($file = false) {
         $this->connect ();
         $this->prepareQueries ();
-        $this->loadReplacements ();
+        $this->initReplacements ();
     }
     public function connect() {
         if ($this->isConnected ()) return;
@@ -235,7 +235,7 @@ class Db {
             }
         }
     }
-    private function loadReplacements() {
+    private function initReplacements() {
         $funcs = Functions::getInstance ();
         $csvfn = $funcs->getSettings () ['database'] ['replacement_csv'];
         if (! file_exists ( $csvfn )) return;
@@ -260,6 +260,7 @@ class Db {
         $rcnt = 0;
         while ( ($row = fgetcsv ( $csvf, 10000 )) !== false ) {
             if (Functions::startsWith($row, '#')) {
+                $funcs->logMessage ( 'skip row ' . ($rcnt + 1) . ' is a comment row' );                
                 $rcnt ++;
                 continue; // ignore comment rows
             }
