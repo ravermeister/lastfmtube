@@ -164,7 +164,10 @@ class Track
             $repl_artist = str_replace(DB::$TRACK_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
             $repl_title = str_replace(DB::$TRACK_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
             Functions::getInstance()->logMessage($this->artist . ' - ' . $this->title);
-
+            Functions::getInstance()->logMessage(preg_replace($orig_artist_expr, $repl_artist, $this->artist));
+            Functions::getInstance()->logMessage(preg_replace($orig_title_expr, $repl_title, $this->title));
+            
+            
             if (preg_match($orig_artist_expr, $this->artist) !== false && preg_match($orig_title_expr, $this->title) !== false) {
                 preg_replace($orig_artist_expr, $repl_artist, $this->artist);
                 preg_replace($orig_title_expr, $repl_title, $this->title);
