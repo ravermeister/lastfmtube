@@ -259,7 +259,8 @@ class Db {
         $this->pdo->query ( 'DELETE FROM replacement' );
         $rcnt = 0;
         while ( ($row = fgetcsv ( $csvf, 10000 )) !== false ) {
-            if (Functions::startsWith($row, '#')) {
+            
+            if (Functions::startsWith($row[0], '#')) {
                 $funcs->logMessage ( 'skip row ' . ($rcnt + 1) . ' is a comment row' );                
                 $rcnt ++;
                 continue; // ignore comment rows
