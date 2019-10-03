@@ -191,7 +191,7 @@ class Track
         
         $lgartist = $this->artist;
         $lgtitle = $this->title;
-        Functions::getInstance()->logMessage('Artist: '.$lgartist);
-        Functions::getInstance()->logMessage('Title: '.$lgtitle);
+        Functions::getInstance()->logMessage('Artist2: '.$lgartist);
+        Functions::getInstance()->logMessage('Title2: '.$lgtitle);
     }
 }
