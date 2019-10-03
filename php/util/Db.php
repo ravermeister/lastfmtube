@@ -294,7 +294,7 @@ class Db
                 $rcnt ++;
                 continue; // ignore comment rows
             }
-            if (sizeof($row) == 0) {
+            if (sizeof($row) == 0 || strlen($row[0] === 0)) {
                 $funcs->logMessage('skip row ' . ($rcnt + 1) . ' empty row');
                 $rcnt ++;
                 continue; // ignore empty rows
