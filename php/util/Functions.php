@@ -72,7 +72,6 @@ class Functions {
     }
     private function initLogFile() {
         $this->logFile = fopen ( $this->settings ['general'] ['logfile'], 'a+' );
-        $this->logMessage("Log started");
     }
     private function initLocale() {
         $this->localeMap ['en'] = json_decode ( file_get_contents ( $this->basedir . '/locale/locale.json' ), true );
