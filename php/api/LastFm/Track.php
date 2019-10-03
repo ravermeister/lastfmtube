@@ -182,7 +182,7 @@ class Track
                 
                 $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->title);
                 $repl_artist_title = preg_replace($orig_artist_expr, $repl_title, $this->artist);
-                Functions::getInstance()->logMessage('title after artist: '.$this->artist);
+                Functions::getInstance()->logMessage('title after artist: '.$this->title);
                 
                 if (strpos($this->artist, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
                     $this->title = $repl_artist_title;
