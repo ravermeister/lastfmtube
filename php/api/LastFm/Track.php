@@ -158,11 +158,7 @@ class Track
     public function normalize()
     {
         $replacements = Db::getInstance()->getReplaceTrackMap();
-        $lgartist = $this->artist;
-        $lgtitle = $this->title;
-        Functions::getInstance()->logMessage('Artist: '.$lgartist);
-        Functions::getInstance()->logMessage('Title: '.$lgtitle);
-        
+
         foreach ($replacements as $row) {
 
             $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
@@ -188,10 +184,5 @@ class Track
                 }
             }
         }
-        
-        $lgartist = $this->artist;
-        $lgtitle = $this->title;
-        Functions::getInstance()->logMessage('Artist2: '.$lgartist);
-        Functions::getInstance()->logMessage('Title2: '.$lgtitle);
     }
 }
