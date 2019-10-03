@@ -102,18 +102,8 @@ class Playlist extends DefaultJson {
 
         for($cnt = 0; $cnt < sizeof ( $tracks ); $cnt ++) {
 
-            $track = $tracks [$cnt];
-            
-            $lgartist = $track->getArtist();
-            $lgtitle = $track->getTitle();
-            Functions::getInstance()->logMessage('Artist: '.$lgartist);
-            Functions::getInstance()->logMessage('Title: '.$lgtitle);
-            $track->normalize();
-            
-            $lgartist = $track->getArtist();
-            $lgtitle = $track->getTitle();
-            Functions::getInstance()->logMessage('Artist2: '.$lgartist);
-            Functions::getInstance()->logMessage('Title2: '.$lgtitle);
+            $track = $tracks [$cnt];            
+            $track->normalize();            
 
             $videoId = $db->query ( 'GET_VIDEO', array (
                     'artist' => $track->getArtist (),

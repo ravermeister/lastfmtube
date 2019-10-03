@@ -182,6 +182,9 @@ class Track
                 if(strcmp($repl_artist_title, $this->artist) !== 0) {
                     $this->title = $repl_artist_title;
                 }
+                
+                //stop prcessing when pattern matched
+                break;
             }
         }
     }
