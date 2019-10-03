@@ -185,14 +185,16 @@ class Track
                 
 
                 if (strpos($this->artist, DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_title_artist, $this->title) !== 0*/) {
-                    $this->artist = $repl_title_artist;
+                    $repl_artist = $repl_title_artist;
                 }
+                $this->artist = $repl_artist;
                 //artist replaced
 
                 
                 if (strpos($this->artist, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
-                    $this->title = $repl_artist_title;
+                    $repl_title = $repl_artist_title;
                 }
+                $this->title = $repl_title;
                 //title replaced
                 
                 // stop prcessing when pattern matched
