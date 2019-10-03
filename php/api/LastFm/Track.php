@@ -159,6 +159,9 @@ class Track
     {
         $replacements = Db::getInstance()->getReplaceTrackMap();
         foreach ($replacements as $row) {
+            Functions::getInstance()->logMessage($this->artist . ' - ' . $this->title);
+            continue; 
+            
             $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
             $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
             $repl_artist = str_replace(DB::$TRACK_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
