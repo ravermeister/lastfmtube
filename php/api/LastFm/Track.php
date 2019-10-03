@@ -169,8 +169,9 @@ class Track
             if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
                 $this->artist = preg_replace($orig_artist_expr, $repl_artist, $this->artist);
                 $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_artist);
+                Functions::getInstance()->logMessage('repl artist: '.$repl_artist);
                 $repl_title_artist = preg_replace($orig_title_expr, $repl_artist, $this->title);
-                if (strpos($repl_artist, DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_title_artist, $this->title) !== 0*/) {
+                if (strpos($this->artist, DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_title_artist, $this->title) !== 0*/) {
                     Functions::getInstance()->logMessage('Artist before: '.$this->artist);
                     $this->artist = $repl_title_artist;
                     Functions::getInstance()->logMessage('Artist after: '.$this->artist);
@@ -179,9 +180,9 @@ class Track
                 $this->title = preg_replace($orig_title_expr, $repl_title, $this->title);
                 $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_title);
                 $repl_artist_title = preg_replace($orig_artist_expr, $repl_title, $this->artist);
-                Functions::getInstance()->logMessage('!!!Artist after title: '.$this->artist);
+                Functions::getInstance()->logMessage('Artist after title: '.$this->artist);
                 
-                if (strpos($repl_title, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
+                if (strpos($this->artist, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
                     $this->title = $repl_artist_title;
                 }
 
