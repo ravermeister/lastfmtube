@@ -173,13 +173,9 @@ class Track
                 
                 $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $this->artist);
                 //Functions::getInstance()->logMessage('repl artist: '.$repl_artist);                
-                $repl_title_artist = preg_replace($orig_title_expr, $repl_artist, $orig_title_expr);
+                $repl_title_artist = preg_replace($orig_title_expr, $repl_artist, $this->title);
                 //Functions::getInstance()->logMessage('artist after title: '.$this->artist);
-                if (strpos($this->artist, DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_title_artist, $this->title) !== 0*/) {
-                    $this->artist = $repl_title_artist;
-                }
-                //artist replaced
-                
+
                 
                 $this->title = preg_replace($orig_title_expr, $repl_title, $this->title);
                 Functions::getInstance()->logMessage('title replacement: '.$this->title);
@@ -188,11 +184,18 @@ class Track
                 Functions::getInstance()->logMessage('repl_title: '.$repl_title.'|Orig Artist: '.$orig_artist_expr);          
                 $repl_artist_title = preg_replace($orig_artist_expr, $repl_title, $this->artist);
                 Functions::getInstance()->logMessage('title after artist: '.$this->title);                
+                
+
+                if (strpos($this->artist, DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_title_artist, $this->title) !== 0*/) {
+                    $this->artist = $repl_title_artist;
+                }
+                //artist replaced
+
+                
                 if (strpos($this->artist, DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER) !== false /*&& strcmp($repl_artist_title, $this->artist) !== 0*/) {
                     $this->title = $repl_artist_title;
                 }
                 //title replaced
-                
                 
                 // stop prcessing when pattern matched
                 break;
