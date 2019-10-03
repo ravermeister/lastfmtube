@@ -61,6 +61,7 @@ Directory Structure:
 +- js/lib/libvue -> all Vuejs instances
 +- js -> all js Controller (player,page,playlist)
 +- php/json -> all required php json handler
++- php/api -> all API handlers (youtube/last.fm API)
 +- php/util -> all required php libs youtube/last.fm
 +- tmp -> temp folder for generated templates
 ```

@@ -63,7 +63,12 @@
 	font-weight: bold;
 }
 .comments-container .btn-loadmore {
-	width: 100%;
+	width: 45%;
+	
+}
+.comments-container .btn-jump {
+	width: 45%;
+	float: right;
 }
 
 .dialogbox-user {
@@ -85,7 +90,7 @@
 	font-size: smaller;
 }
 .dialogbox-footer .dialogbox-likes {
-	float: inline-end;
+	float: right;
 	display: inline;
 }
 .dialogbox-footer .dialogbox-likes span{	

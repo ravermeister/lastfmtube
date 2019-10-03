@@ -50,7 +50,7 @@ class YouTube extends DefaultJson {
      *
      * @return array|void
      */
-    private function loadVideoComments($videoId = '', $page = false, $limit = 25) {
+    private function loadVideoComments($videoId = '', $page = false, $limit = 7) {
         if (strlen ( $videoId ) == 0) return;
 
         $searcher = $this->funcs->getYtApi ();

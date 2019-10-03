@@ -146,8 +146,12 @@
 					<h4>Comments</h4>
 
 					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load
-							More</button>
+							<button id="comment-top"
+								class="btn-loadmore"
+								@click="loadMore();">Load More</button>
+							<button
+								class="btn-jump" 
+								onclick="location.href='#comment-bottom';">∇ Down</button>
 					</span>
 
 					<template v-for="comment in commentData">
@@ -185,8 +189,12 @@
 					</template>
 
 					<span v-if="showLoadMore">
-						<button class="btn-loadmore" @click="loadMore();">Load
-							More</button>
+							<button id="comment-bottom"
+								class="btn-loadmore"
+								@click="loadMore();">Load More</button>
+							<button
+								class="btn-jump" 
+								onclick="location.href='#comment-top';">∆ Up</button>
 					</span>
 				</div>
 
@@ -259,12 +267,10 @@
 
 							<div v-if="PLAYLIST === 'topsongs'"
 								class="field third btn-page-nav">
-								<label>{{SORTBY.LABEL}}</label>
-								 <select id="topsong-sortby"
-								 v-model="SORTBY.SELECTED"
-								 @change="sortBy(event)">
-									<template v-for="VALUE in SORTBY.VALUES">										
-										<option>{{VALUE}}</option>
+								<label>{{SORTBY.LABEL}}</label> <select id="topsong-sortby"
+									v-model="SORTBY.SELECTED" @change="sortBy(event)">
+									<template v-for="VALUE in SORTBY.VALUES">
+									<option>{{VALUE}}</option>
 									</template>
 								</select>
 							</div>
