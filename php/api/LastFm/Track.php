@@ -157,9 +157,9 @@ class Track
 
     public function normalize()
     {
-        Functions::getInstance()->logMessage("normlize Track!");
-        $replacements = Db::getInstance()->getReplaceTrackMap();
-        Functions::getInstance()->logMessage(print_r($replacements, true));
+        Functions::getInstance()->logMessage("inside normlize Track!");
+//         $replacements = Db::getInstance()->getReplaceTrackMap();
+//         Functions::getInstance()->logMessage(print_r($replacements, true));
         
        
         
