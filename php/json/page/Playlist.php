@@ -225,15 +225,15 @@ class Playlist extends DefaultJson
             $normalizedArtist = $track['artist'];
             $normalizedTitle = $track['title'];
 
-            if (strcmp($normalizedArtist, 'Solomun') == 0 && strcmp($normalizedTitle, 'Boris Brejcha - Maceo Plex - Tale Of Us ◆ New Life (Electro Junkie Mix)') == 0) {
+            if (strcmp($track['artist'], 'Solomun') == 0 && strcmp($track['title'], 'Boris Brejcha - Maceo Plex - Tale Of Us ◆ New Life (Electro Junkie Mix)') == 0) {
                 Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >' . $normalizedArtist . '<, title: >' . $normalizedTitle . '<');
             }
             Functions::normalizeTrack($normalizedArtist, $normalizedTitle);
-            if (strcmp($normalizedArtist, 'Solomun') == 0 && strcmp($normalizedTitle, 'Boris Brejcha - Maceo Plex - Tale Of Us ◆ New Life (Electro Junkie Mix)') == 0) {
+            if (strcmp($track['artist'], 'Solomun') == 0 && strcmp($track['title'], 'Boris Brejcha - Maceo Plex - Tale Of Us ◆ New Life (Electro Junkie Mix)') == 0) {
                 Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $normalizedArtist . '<, title: >' . $normalizedTitle . '<');
                 Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
             }
-
+            
             $trackId = $track['artist'] . '-' . $track['title'];
             if (array_key_exists($trackId, $uniqueTracks)) {
                 $uniqueTrack = $uniqueTracks[$trackId];
