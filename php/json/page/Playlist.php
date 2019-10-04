@@ -227,8 +227,8 @@ class Playlist extends DefaultJson
 
             // Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
             Functions::normalizeTrack($normalizedArtist, $normalizedTitle);
-            $track['artist'] = $normalizedArtist;
-            $track['title'] = $normalizedTitle;
+            //$track['artist'] = $normalizedArtist;
+            //$track['title'] = $normalizedTitle;
             // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
             // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
 
