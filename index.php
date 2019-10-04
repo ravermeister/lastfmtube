@@ -15,9 +15,11 @@ $themeFile = $settings ['general'] ['theme'];
 // unused
 //$baseURL = $settings ['general'] ['baseurl'];
 
+//prepare theme
 $themeData = file_get_contents ( 'themes/' . $themeFile . '/' . $themeFile . '.html' );
 $themeData = str_replace ( '{{PHP_LANG}}', $locale ['code'], $themeData );
 $themeData = str_replace ( '{{PHP_TITLE}}', $locale ['site'] ['title'], $themeData );
+$themeData = str_replace ( '{{PHP_HEADER}}', $locale ['site'] ['header'], $themeData );
 
 // header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
 // header("Pragma: no-cache"); // HTTP 1.0.
@@ -26,7 +28,6 @@ $themeData = str_replace ( '{{PHP_TITLE}}', $locale ['site'] ['title'], $themeDa
 header ( "Content-Type: text/html" ); // html content
 
 Functions::getInstance ()->startSession ();
-// we need postgres or sqlite 3.25.2 (Window function --> RANK())
 // Functions::getInstance()->logMessage('SQLite Version: '.\LastFmTube\Util\Db::getVersion());
 
 die ( $themeData );

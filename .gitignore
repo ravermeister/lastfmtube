@@ -1,5 +1,6 @@
 vendor
 conf/settings.ini
+conf/init.replacement.csv
 conf/*.db
 conf/*.log
 .buildpath

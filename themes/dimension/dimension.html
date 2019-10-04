@@ -52,8 +52,12 @@
 
 			<div class="content">
 				<div class="inner">
+					<h1>{{PHP_TITLE}}</h1>
+					<p>{{PHP_HEADER}}</p>
+					<!-- 
 					<h1>{{PAGE_HEADER}}</h1>
 					<p>{{PAGE_WELCOME}}</p>
+				-->
 				</div>
 			</div>
 
@@ -146,12 +150,10 @@
 					<h4>Comments</h4>
 
 					<span v-if="showLoadMore">
-							<button id="comment-top"
-								class="btn-loadmore"
-								@click="loadMore();">Load More</button>
-							<button
-								class="btn-jump" 
-								onclick="location.href='#comment-bottom';">∇ Down</button>
+						<button id="comment-top" class="btn-loadmore" @click="loadMore();">Load
+							More</button>
+						<button class="btn-jump"
+							onclick="location.href='#comment-bottom';">∇ Down</button>
 					</span>
 
 					<template v-for="comment in commentData">
@@ -189,12 +191,10 @@
 					</template>
 
 					<span v-if="showLoadMore">
-							<button id="comment-bottom"
-								class="btn-loadmore"
-								@click="loadMore();">Load More</button>
-							<button
-								class="btn-jump" 
-								onclick="location.href='#comment-top';">∆ Up</button>
+						<button id="comment-bottom" class="btn-loadmore"
+							@click="loadMore();">Load More</button>
+						<button class="btn-jump" onclick="location.href='#comment-top';">∆
+							Up</button>
 					</span>
 				</div>
 
