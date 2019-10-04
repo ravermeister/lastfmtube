@@ -23,7 +23,7 @@ You can send any title to your personal song list (will be stored in browser cac
 which is saved during a browser restart.
 
 ## Listen to other Last.fm User's Song Timeline
-You can sarch any last.fm [User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
+You can sarch any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
 
 ## replacements.csv
 you can use Regular Expressions for Replacing artist and title information if the Song information is messy, 
@@ -47,13 +47,13 @@ Translate all Strings and add it to the locale.info file in the format: nl nethe
   - __js__ all js Controller (player,page,playlist)  
   - __js/lib__ all required js dependecies e.g jquery/vuejs files
   - __js/lib/libvue__ all Vuejs instances
-  - __php/json__ all required php json handler
+  - __php/json__ all required php json h3ndler
   - __php/api__ all API handlers (youtube/last.fm API)
   - __php/util__ all required php libs youtube/last.fm
   - __tmp__ temp folder for generated templates
 
 # requirements
-* PHP >= 5.6
+* PHP >= 5.6 (last test with 7.3)
 * PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
 * Composer (See [composer.json](file://./composer.json]))
 * [Lastf.fm](https://last.fm) Account with [Api Support](https://www.last.fm/api/)
