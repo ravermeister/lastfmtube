@@ -4,6 +4,22 @@ Website | https://www.rimkus.it
 License | http://www.wtfpl.net/
 Demo | https://lastfm.rimkus.it
 
+# requirements
+* PHP >= 5.6 (last test with 7.3)
+* PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
+* Composer (See [composer.json](file://./composer.json]))
+* [Lastf.fm](https://last.fm) Account with [Api Support](https://www.last.fm/api/)
+* [Youtube](https://youtube.com) Account with [Api Supprt](https://developers.google.com/youtube/v3/)
+
+# Installation
+1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
+2. run composer install
+3. copy the file conf/example.settings.json to conf/settings.json
+4. create a last.fm user with a Developer API key
+5. create a youtube user with a Developer API Key
+6. enter the API keys in the settings.json
+7. open http://example.com/lfmtube and enjoy
+
 # About
 The last.fm Youtube Radio searches and plays the listened tracks of a given last.fm user on YouTube.
 It is possible to search for alternative Youtube Videos or enter a video url directly.
@@ -51,19 +67,3 @@ Translate all Strings and add it to the locale.info file in the format: nl nethe
   - __php/api__ all API handlers (youtube/last.fm API)
   - __php/util__ all required php libs youtube/last.fm
   - __tmp__ temp folder for generated templates
-
-# requirements
-* PHP >= 5.6 (last test with 7.3)
-* PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
-* Composer (See [composer.json](file://./composer.json]))
-* [Lastf.fm](https://last.fm) Account with [Api Support](https://www.last.fm/api/)
-* [Youtube](https://youtube.com) Account with [Api Supprt](https://developers.google.com/youtube/v3/)
-
-# Installation
-1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
-2. run composer install
-3. copy the file conf/example.settings.json to conf/settings.json
-4. create a last.fm user with a Developer API key
-5. create a youtube user with a Developer API Key
-6. enter the API keys in the settings.json
-7. open http://example.com/lfmtube and enjoy
