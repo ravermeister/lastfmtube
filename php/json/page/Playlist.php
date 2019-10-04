@@ -11,9 +11,9 @@ require_once dirname ( __FILE__ ) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use LastFmTube\Util\Functions;
 use DateTime;
 use Exception;
-use LastFmTube\Util\Functions;
 
 class Playlist extends DefaultJson {
     public static function process($returnOutput = false) {
@@ -208,8 +208,11 @@ class Playlist extends DefaultJson {
         $uniqueTracks = array ();
         for($cnt = 0; $cnt < sizeof ( $topsongs ); $cnt ++) {
             $track = $topsongs [$cnt];
-            $track->normalize();
-
+            Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >'.$track['artist'].'<, title: >'.$track['title'].'<');
+            Functions::normalizeTrack($track['artist'], $track['title']);
+            Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >'.$track['artist'].'<, title: >'.$track['title'].'<');
+            
+            
             $trackId = $track ['artist'] . '-' . $track ['title'];
             if (array_key_exists ( $trackId, $uniqueTracks )) {
                 $uniqueTrack = $uniqueTracks [$trackId];
