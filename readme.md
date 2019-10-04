@@ -3,7 +3,7 @@ Author | Jonny Rimkus &lt;jonny@rimkus.it&gt;
 Website | https://www.rimkus.it
 License | http://www.wtfpl.net/
 
-
+Demo: http://lastfm.rimkus.it
 
 # About
 
@@ -27,7 +27,26 @@ sothat the search string that is send to youtube can be corrected in an efficien
 The csv is stored in a database after first load, and re-imported automoically if changed. 
 See the `init.replacement.example.csv` for more details 
 
-Demo: http://lastfm.rimkus.it
+## Directory Structure:
+  - __conf__ Configuration Files and sqlite Database
+  - __conf/settings.json__ copy from settings.example.json, here you have to adjust the Youtube/Last.fm settings for the player.
+  - __conf/init.replacements.csv__ copy from `init.replacements.example.csv`, this file is checked when parsing the Song Title and Artist for searching the Song on YouTube. 
+You can define replacements for a specific part of a song here, 
+e.g. remove [unnknown] from all Song Titles.
+  - __conf/lasttube.db__ this is the sqlite Database (will be created automatically)
+  - __themes__ place new themes into this directory. (theming is untested)
+simply copy an existing theme directory and rename it to your new theme name (and adjust settings.ini as needed)
+  - __locale__ here you can localize the Strings. currently supported langs: english and german
+to create a new language, copy an existing language file and 
+rename it to the country specific code, e.g. locale_nl.properties for netherland. 
+Translate all Strings and add it to the locale.info file in the format: nl netherlands
+  - __js__ all js Controller (player,page,playlist)  
+  - __js/lib__ all required js dependecies e.g jquery/vuejs files
+  - __js/lib/libvue__ all Vuejs instances
+  - __php/json__ all required php json handler
+  - __php/api__ all API handlers (youtube/last.fm API)
+  - __php/util__ all required php libs youtube/last.fm
+  - __tmp__ temp folder for generated templates
 
 # requirements
 
@@ -44,31 +63,3 @@ Demo: http://lastfm.rimkus.it
 5. create a youtube user with a Developer API Key
 6. enter the API keys in the settings.json
 7. open http://example.com/lfmtube and enjoy
-
-# Directory Structure:
-```
-|
-+- conf -> Configuration Files and sqlite Database
-|   |
-|   +- settings.json -> copy from settings.example.json, 
-|   |                   here you have to adjust the Youtube/Last.fm settings for the player.
-|   +- init.replacements.csv -> copy from init.replacements.example.csv, 
-|   |                           this file is checked when parsing the Song Title and Artist 
-|   |                           for searching the Song on YouTube. You can define replacements 
-|   |                           for a specific part of a song here 
-|   |                           e.g. remove [unnknown] from all Song Titles.
-|   +- lasttube.db -> this is the sqlite Database (will be created automatically)
-+- themes -> place new themes into this directory. (theming is untested)
-|            simply copy an existing theme directory and rename it to your new theme name (and adjust settings.ini as needed)
-+- locale -> here you can localize the Strings. currently supported langs: english and german
-|            to create a new language, copy an existing language file and 
-|            rename it to the country specific code, e.g. locale_nl.properties for netherland. 
-|            Translate all Strings and add it to the locale.info file in the format: nl netherlands
-+- js/lib -> all required js dependecies e.g jquery/vuejs files
-+- js/lib/libvue -> all Vuejs instances
-+- js -> all js Controller (player,page,playlist)
-+- php/json -> all required php json handler
-+- php/api -> all API handlers (youtube/last.fm API)
-+- php/util -> all required php libs youtube/last.fm
-+- tmp -> temp folder for generated templates
-```
