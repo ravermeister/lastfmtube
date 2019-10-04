@@ -222,8 +222,8 @@ class Playlist extends DefaultJson
         $uniqueTracks = array();
         for ($cnt = 0; $cnt < sizeof($topsongs); $cnt ++) {
             $track = $topsongs[$cnt];
-            $normalizedArtist = $track['artist'];
-            $normalizedTitle = $track['title'];
+            $normalizedArtist = &$track['artist'];
+            $normalizedTitle = &$track['title'];
 
             if (strcmp($track['artist'], 'Solomun') == 0 && strcmp($track['title'], 'Boris Brejcha - Maceo Plex - Tale Of Us ◆ New Life (Electro Junkie Mix)') == 0) {
                 Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >' . $normalizedArtist . '<, title: >' . $normalizedTitle . '<');
