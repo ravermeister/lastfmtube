@@ -13,39 +13,31 @@ Demo | https://lastfm.rimkus.it
 
 # Installation
 1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
-2. run composer install
-3. copy the file conf/example.settings.json to conf/settings.json
-4. create a last.fm user with a Developer API key
-5. create a youtube user with a Developer API Key
+2. run `composer install`
+3. copy the file `conf/example.settings.json` to `conf/settings.json`
+4. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API](https://www.last.fm/api/) key
+5. create a [Youtube User](https://www.youtube.com) with a [Developer API](https://developers.google.com/youtube/v3) Key
 6. enter the API keys in the settings.json
 7. open http://example.com/lfmtube and enjoy
 
 # About
-The last.fm Youtube Radio searches and plays the listened tracks of a given last.fm user on YouTube.
-It is possible to search for alternative Youtube Videos or enter a video url directly.
-You can create your own playlist via menu 'Add to playlist'.
-additionally there is a Chart list which will be updated each time a song is heared.
+The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the listened tracks of a given [Last.fm User](https://www.last.fm/user/ravermeister)  on [YouTube](https://youtube.com). It is possible to search for alternative Youtube Videos or enter a video url directly. You can create your own playlist via menu 'Add to playlist'. additionally there is a Chart list which will be updated each time a song is heared.
 
   * get the length of the Song divided by 2. 
   if it is greater than 2 minutes use 2 minutes as timeout, 
   otherwise use calculated length. 
   * when Timeout is reached, increase playcount for Song.
 
-The Timer is designed to stop when player is paused,
-and will continue when the player continues to play. 
+The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
 ## Personal Songlist
-You can send any title to your personal song list (will be stored in browser cache),
-which is saved during a browser restart.
+You can send any title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
 
 ## Listen to other Last.fm User's Song Timeline
 You can sarch any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
 
 ## replacements.csv
-You can use Regular Expressions for Replacing artist and title information if the Song information is messy, 
-sothat the search string that is send to youtube can be corrected in an efficient way. 
-The csv is stored in a database after first load, and re-imported automoically if changed. 
-See the `init.replacement.example.csv` for more details 
+You can use Regular Expressions for Replacing artist and title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in a database after first load, and re-imported automoically if changed. See the `init.replacement.example.csv` for more details.
 
 ## Directory Structure:
   - __conf__ Configuration Files and sqlite Database
