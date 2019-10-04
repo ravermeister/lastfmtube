@@ -35,7 +35,7 @@ You can define replacements for a specific part of a song here,
 e.g. remove [unnknown] from all Song Titles.
   - __conf/lasttube.db__ this is the sqlite Database (will be created automatically)
   - __themes__ place new themes into this directory. (theming is untested)
-simply copy an existing theme directory and rename it to your new theme name (and adjust settings.ini as needed)
+simply copy an existing theme directory and rename it to your new theme name (and adjust `settings.json` as needed)
   - __locale__ here you can localize the Strings. currently supported langs: english and german
 to create a new language, copy an existing language file and 
 rename it to the country specific code, e.g. locale_nl.properties for netherland. 
