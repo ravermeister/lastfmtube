@@ -1,10 +1,12 @@
-# note, you can use regular expressions in "oiginal Artist" and "original title" column
+# note, you can use regular expressions in the "oiginal Artist" and "original title" column.
 # in the "Replacement Artist" and "Replacement Title" columns use '__TITLE_REGEX1' __ARTIST_REGEX1
-# for acessing the first group of the artist or title regex. you can youse multiple groups,
-# simply increase the trailing number to 2 for second group and so on.
+# for acessing the first regex group of the artist or title regex pattern. You can youse as many groups as you like,
+# simply increase the trailing number to 2 for the second group and so on.
 # e.g
 # "Unbekannter Interpret", "(.*) - (.*)", "__TITLE_REGEX1", "__TITLE_REGEX2"
-# empty lines are ignored too
+# The CSV is parsed as described in RFC180 https://tools.ietf.org/html/rfc4180 plus the following additions
+# - lines begining with '#' are ignored
+# - empty lines are ignored
 
 # "Original Artist (regex)", "Original Title (regex)", "Replacement Artist", "Replacement Title"
 "Unbekannter Interpret", "(.*) ◆ (.*) \(Electro Junkie Mix\) \(152kbit_Opus\)", "__TITLE_REGEX1", "__TITLE_REGEX2"
