@@ -10,7 +10,7 @@
 # This file is imported into the sqlite database each time it is changed. 
 # Former rules in the db are removed.
 # you can however add rules directly to the sqlite 'replacement' table
-
-
+#
+#
 # "Original Artist (regex)", "Original Title (regex)", "Replacement Artist", "Replacement Title"
 "Unbekannter Interpret", "(.*) ◆ (.*) \(Electro Junkie Mix\) \(152kbit_Opus\)", "__TITLE_REGEX1", "__TITLE_REGEX2"
