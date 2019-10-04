@@ -42,6 +42,7 @@ class Functions {
     
     public static function normalizeTrack(&$artist, &$title) {
         $replacements = Db::getInstance()->getReplaceTrackMap();
+        Functions::getInstance()->logMessage('before function normalize, artist: >'.$artist.'<, title: >'.$title.'<');
         
         foreach ($replacements as $row) {
             $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
@@ -81,6 +82,9 @@ class Functions {
                 break;
             }
         }
+        
+        Functions::getInstance()->logMessage('after function normalize, artist: >'.$artist.'<, title: >'.$title.'<');
+        
     }
     
     private static function normalizePath($basedir, $path) {
