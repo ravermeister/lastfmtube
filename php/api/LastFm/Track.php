@@ -156,8 +156,8 @@ class Track
 
     public function normalize()
     {
-        Functions::getInstance()->logMessage('before normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
+//         Functions::getInstance()->logMessage('before normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
         Functions::normalizeTrack($this->artist, $this->title);
-        Functions::getInstance()->logMessage('after normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
+//         Functions::getInstance()->logMessage('after normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
     }
 }

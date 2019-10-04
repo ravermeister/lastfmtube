@@ -211,10 +211,10 @@ class Playlist extends DefaultJson {
             $normalizedArtist = $track['artist'];
             $normalizedTitle = $track['title'];
             
-            Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >'.$normalizedArtist.'<, title: >'.$normalizedTitle.'<');            
+//             Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >'.$normalizedArtist.'<, title: >'.$normalizedTitle.'<');            
             Functions::normalizeTrack($normalizedArtist, $normalizedTitle);
-            Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >'.$normalizedArtist.'<, title: >'.$normalizedTitle.'<');
-            Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >'.$track['artist'].'<, title: >'.$track['title'].'<');
+//             Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >'.$normalizedArtist.'<, title: >'.$normalizedTitle.'<');
+//             Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >'.$track['artist'].'<, title: >'.$track['title'].'<');
             
             $trackId = $track ['artist'] . '-' . $track ['title'];
             if (array_key_exists ( $trackId, $uniqueTracks )) {
