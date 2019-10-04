@@ -5,7 +5,7 @@ License | http://www.wtfpl.net/
 
 
 
-About:
+# About
 
 The last.fm Youtube Radio searches and plays the listened tracks of a given last.fm user on YouTube.
 It is possible to search for alternative Youtube Videos or enter a video url directly.
@@ -20,17 +20,22 @@ additionally there is a Chart list which will be updated each time a song is hea
 The Timer is designed to stop when player is paused,
 and will continue when the player continues to play. 
 
+## replacements.csv
+
+you can use Regular Expressions for Replacing artist and title information if the Song information is messy, 
+sothat the search string that is send to youtube can be corrected in an efficient way. 
+The csv is stored in a database after first load, and re-imported automoically if changed. 
+See the `init.replacement.example.csv` for more details 
 
 Demo: http://lastfm.rimkus.it
 
-
-requirements:
+# requirements
 
 * PHP >= 5.6
 * PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
 * Composer (See [composer.json](file://./composer.json]))
 
-Installation:
+# Installation
 
 1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
 2. run composer install
@@ -40,7 +45,7 @@ Installation:
 6. enter the API keys in the settings.json
 7. open http://example.com/lfmtube and enjoy
 
-Directory Structure:
+# Directory Structure:
 ```
 |
 +- conf -> Configuration Files and sqlite Database
@@ -67,11 +72,3 @@ Directory Structure:
 +- php/util -> all required php libs youtube/last.fm
 +- tmp -> temp folder for generated templates
 ```
-
-replacements.csv:
-
-you can use Regular Expressions for Replacing artist and title information if the Song information is messy, 
-sothat the search string that is send to youtube can be corrected in an efficient way. 
-The csv is stored in a database after first load, and re-imported automoically if changed. 
-See the `init.replacement.example.csv` for more details 
-
