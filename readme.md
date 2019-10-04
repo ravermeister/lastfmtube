@@ -53,5 +53,5 @@ to create a new language, copy an existing language file and rename it to the co
   - __js/lib/libvue__ all [Vuejs](https://vuejs.org/) instances
   - __php/json__ all required php json handler
   - __php/api__ all API handlers (youtube/last.fm API)
-  - __php/util__ all required php libs youtube/last.fm
+  - __php/util__ all other php libs
   - __tmp__ temp folder for generated templates
