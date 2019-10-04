@@ -1,7 +1,6 @@
 <?php
 namespace LastFmTube\Api\LastFm;
 
-use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
 class Track
@@ -89,7 +88,7 @@ class Track
 
         return new Track(Functions::getInstance()->decodeHTML($trackxml->children(0)->innertext), Functions::getInstance()->decodeHTML($trackxml->children(1)->innertext), Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext), $lastplay, $isPlaying);
     }
-
+    
     /**
      *
      * @return bool
@@ -157,45 +156,8 @@ class Track
 
     public function normalize()
     {
-        $replacements = Db::getInstance()->getReplaceTrackMap();
-
-        foreach ($replacements as $row) {
-            $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
-            $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
-            
-            
-            if (preg_match($orig_artist_expr, $this->artist) === 1 && preg_match($orig_title_expr, $this->title) === 1) {
-
-                $orig_artist = $this->artist;
-                $orig_title = $this->title;
-                
-                $repl_artist = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_artist']);
-                $repl_artist = preg_replace($orig_artist_expr, $repl_artist, $orig_artist);
-                //Functions::getInstance()->logMessage('artist>artist replacement: '.$repl_artist);
-                //artist with artist regex replaced                
-                
-                $repl_title = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $row['repl_title']);
-                $repl_title = preg_replace($orig_title_expr, $repl_title, $orig_title);
-                //Functions::getInstance()->logMessage('title>title replacement: '.$repl_title);
-                //title with title regex replaced
-                
-                
-                $repl_artist = str_replace(DB::$TITLE_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_artist);
-                $repl_artist = preg_replace($orig_title_expr, $repl_artist, $orig_title);
-                //Functions::getInstance()->logMessage('artist>title replacement: '.$repl_artist);
-                //artist with title replaced
-                                
-                $repl_title = str_replace(DB::$ARTIST_REPLACEMENT_REGEX_IDENTIFIER, '$', $repl_title);
-                $repl_title = preg_replace($orig_artist_expr, $repl_title, $orig_artist);
-                //Functions::getInstance()->logMessage('title>artist replacement: '.$repl_title);
-                //title with artist replaced
-                
-                $this->artist = $repl_artist;
-                $this->title = $repl_title;
-                
-                // stop prcessing when pattern matched
-                break;
-            }
-        }
+//         Functions::getInstance()->logMessage('before normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
+        Functions::normalizeTrack($this->artist, $this->title);
+//         Functions::getInstance()->logMessage('after normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
     }
 }

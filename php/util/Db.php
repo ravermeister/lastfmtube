@@ -16,13 +16,13 @@ class Db
      *
      * @var string
      */
-    public static $ARTIST_REPLACEMENT_REGEX_IDENTIFIER = "__ARTIST_REGEX";
+    public static $ARTIST_REGEX = "__ARTIST_REGEX";
 
     /**
      *
      * @var string
      */
-    public static $TITLE_REPLACEMENT_REGEX_IDENTIFIER = "__TITLE_REGEX";
+    public static $TITLE_REGEX = "__TITLE_REGEX";
 
     /**
      *
