@@ -7,7 +7,7 @@ Demo | https://lastfm.rimkus.it
 # Requirements
 * PHP >= 5.6 (last test with 7.3)
 * PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
-* Composer (See [composer.json](file://./composer.json]))
+* Composer (See `composer.json`)
 * [Lastf.fm](https://last.fm) Account with [Api Support](https://www.last.fm/api/)
 * [Youtube](https://youtube.com) Account with [Api Supprt](https://developers.google.com/youtube/v3/)
 
