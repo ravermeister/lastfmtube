@@ -4,7 +4,7 @@ Website | https://www.rimkus.it
 License | http://www.wtfpl.net/
 Demo | https://lastfm.rimkus.it
 
-# requirements
+# Requirements
 * PHP >= 5.6 (last test with 7.3)
 * PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
 * Composer (See [composer.json](file://./composer.json]))
