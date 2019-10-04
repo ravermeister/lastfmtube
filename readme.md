@@ -7,9 +7,9 @@ Demo | https://lastfm.rimkus.it
 # Requirements
 * PHP >= 5.6 (last test with 7.3)
 * PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
-* Composer (See [composer.json](file://./composer.json]))
-* [Lastf.fm](https://last.fm) Account with [Api Support](https://www.last.fm/api/)
-* [Youtube](https://youtube.com) Account with [Api Supprt](https://developers.google.com/youtube/v3/)
+* Composer (See `composer.json`)
+* [Lastf.fm](https://last.fm) Account with [API Support](https://www.last.fm/api/)
+* [Youtube](https://youtube.com) Account with [API Supprt](https://developers.google.com/youtube/v3/)
 
 # Installation
 1. Place this folder somewhere under your document Root e.g.: http://example.com/lfmtube
@@ -31,13 +31,13 @@ The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the lis
 The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
 ## Personal Songlist
-You can send any title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
+You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
 
 ## Listen to other Last.fm User's Song Timeline
 You can sarch any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
 
 ## replacements.csv
-You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing artist and title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in a database after first load, and re-imported automoically if changed. See the `init.replacement.example.csv` for more details.
+You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing Artist and Title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in a database after first load, and re-imported automoically if changed. See the `init.replacement.example.csv` for more details.
 
 ## Directory Structure:
   - __conf__ Configuration Files and [SQLite Database](https://sqlite.org)
@@ -53,5 +53,5 @@ to create a new language, copy an existing language file and rename it to the co
   - __js/lib/libvue__ all [Vuejs](https://vuejs.org/) instances
   - __php/json__ all required php json handler
   - __php/api__ all API handlers (youtube/last.fm API)
-  - __php/util__ all required php libs youtube/last.fm
+  - __php/util__ all other php libs
   - __tmp__ temp folder for generated templates
