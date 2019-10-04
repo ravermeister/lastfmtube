@@ -12,5 +12,5 @@
 # you can however add rules directly to the sqlite 'replacement' table
 #
 #
-# "Original Artist (regex)", "Original Title (regex)", "Replacement Artist", "Replacement Title"
+# original Artist (regex), original Title (regex), replacement Artist, Replacement Title
 "Unbekannter Interpret", "(.*) ◆ (.*) \(Electro Junkie Mix\) \(152kbit_Opus\)", "__TITLE_REGEX1", "__TITLE_REGEX2"
