@@ -31,13 +31,13 @@ The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the lis
 The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
 ## Personal Songlist
-You can send any title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
+You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
 
 ## Listen to other Last.fm User's Song Timeline
 You can sarch any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
 
 ## replacements.csv
-You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing artist and title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in a database after first load, and re-imported automoically if changed. See the `init.replacement.example.csv` for more details.
+You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing Artist and Title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in a database after first load, and re-imported automoically if changed. See the `init.replacement.example.csv` for more details.
 
 ## Directory Structure:
   - __conf__ Configuration Files and [SQLite Database](https://sqlite.org)
