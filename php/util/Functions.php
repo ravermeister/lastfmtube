@@ -1,7 +1,6 @@
 <?php
 namespace LastFmTube\Util;
 
-use LastFmLastFmTube\Util\SiteMap;
 use LastFmTube\Api\LastFm\LastFm;
 use LastFmTube\Api\YouTube\YouTubeSearch;
 use DateTime;

@@ -1,5 +1,5 @@
 <?php
-namespace LastFmLastFmTube\Util;
+namespace LastFmTube\Util;
 
 use Icamys\SitemapGenerator\SitemapGenerator;
 use DateTime;
