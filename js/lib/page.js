@@ -259,15 +259,15 @@ class PageController {
 		console.log('>>> href: >' + location.href + '<');
 		
 		switch (location.pathname) {
-			case 'topsongs':
+			case '/topsongs':
 				$page.load('topsongs');
 			break;
-			case 'video':
+			case '/video':
 				$page.load('video');
-			case 'users':
+			case '/users':
 				$page.load('topuser');
 				break;
-			case 'personal':
+			case '/personal':
 				$page.load('userlist');
 				break;
 			break;
