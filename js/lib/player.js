@@ -279,6 +279,7 @@ class PlayerController {
             let onReady = function (event) {
                 $player.isReady = true;
                 if ($player.autoPlay && $page.isReady) {
+                	console.log('play next song');
                     $player.loadNextSong();
                 }
                 console.log('youtube player ready');
