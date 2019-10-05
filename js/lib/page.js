@@ -512,7 +512,7 @@ class PageController {
             $page.menu.updateData(json.data.value);
 
             
-                       
+            $page.setMainPageLoading();           
             $page.isReady = true;
             if(typeof initReadyCallBack === 'function') {
             	initReadyCallBack();
