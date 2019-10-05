@@ -6,6 +6,7 @@ use Exception;
 use LastFmTube\Api\LastFm\LastFm;
 use LastFmTube\Api\YouTube\YouTubeSearch;
 use Locale;
+use php\util\SiteMap;
 
 class Functions {
 
@@ -32,6 +33,16 @@ class Functions {
           $this->initLogFile();
           $this->initLocale();
           $this->initInstances();
+          $this->initSiteMapGenerator();
+     }
+
+     private function initSiteMapGenerator() {
+          SiteMap::init($this->getSettins()['general']['sitemap_file']);
+          SiteMap::getInstance()->addURL('/lastfm')
+               ->addURL('/topsongs')
+               ->addURL('/personal')
+               ->addURL('/users')
+               ->addURL('/video');
      }
 
      private function initSettings($force = false) {

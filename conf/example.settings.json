@@ -8,7 +8,8 @@
 		"theme": "dimension",
 		"lastfm_defaultuser": "lastfm default user",
 		"adminpw": "shasum of password token",
-		"tracks_perpage": 25
+		"tracks_perpage": 25,
+		"sitemap_file": "/sitemap.xml"
 	},
 	"database": {
 		"dsn": "database dsn",

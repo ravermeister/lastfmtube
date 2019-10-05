@@ -31,6 +31,13 @@ class SiteMap {
      private $domain;
 
      /**
+      * a singleton instance for the application
+      *
+      * @var SiteMap
+      */
+     private static  $instance;
+
+     /**
       *
       * @return string the current url
       */
@@ -46,23 +53,22 @@ class SiteMap {
           return $link;
      }
 
-
-     public function __construct($domain) {
+     private function __construct($domain, $file = 'sitemap.xml', $indexfile = 'sitemap-index.xml', $compress = true) {
           $this->domain = $domain;
           $this->generator = new SitemapGenerator($this->domain);
 
           // will create also compressed (gzipped) sitemap
-          $this->generator->createGZipFile = true;
+          $this->generator->createGZipFile = $compress;
 
           // determine how many urls should be put into one file
           // according to standard protocol 50000 is maximum value (see http://www.sitemaps.org/protocol.html)
           $this->generator->maxURLsPerSitemap = 10000;
 
           // sitemap file name
-          $this->generator->sitemapFileName = "sitemap.xml";
+          $this->generator->sitemapFileName = $file;
 
           // sitemap index file name
-          $this->generator->sitemapIndexFileName = "sitemap-index.xml";
+          $this->generator->sitemapIndexFileName = $indexfile;
      }
 
      /**
@@ -82,7 +88,7 @@ class SiteMap {
       *
       * @return SiteMap for better chaining
       */
-     public function addURL($url, $lastmod = null, $changeFreq = 'always', $prio = 0.5, $altLangs = null) {
+     private function addURL($url, $lastmod = null, $changeFreq = 'always', $prio = 0.5, $altLangs = null) {
           $this->generator->addUrl($url, $lastmod, $changeFreq, $prio, $altLangs);
           return $this;
      }
@@ -95,17 +101,17 @@ class SiteMap {
       *
       * @return \php\util\SiteMap for better chaining
       */
-     public function addURL($changeFreq = 'always', $lastmod = null, $prio = 0.5, $altLangs = null) {
+     private function addURL($changeFreq = 'always', $lastmod = null, $prio = 0.5, $altLangs = null) {
           if (is_null($lastmod)) $lastmod = new DateTime();
           return $this->addURL(SiteMap::trackURL(), $lastmod, $changeFreq, $prio, $altLangs);
      }
 
      /**
-      * 
+      *
       * @param boolean $submit
       * @return \php\util\SiteMap for better chaining
       */
-     public function create($submit = false) {
+     private function create($submit = false) {
           $this->generator->createSitemap();
           $this->generator->writeSitemap();
           if ($submit) $this->submitSiteMap();
@@ -113,13 +119,26 @@ class SiteMap {
      }
 
      /**
-      * 
+      *
       * @return \php\util\SiteMap for better chaining
       */
-     public function submitSiteMap() {
-          $this->generator->submitSitemap();  
+     private function submitSiteMap() {
+          $this->generator->submitSitemap();
           $this->generator->updateRobots();
           return $this;
+     }
+
+     public static function createSiteMap($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {          
+               self::getInstance()->create($submitSiteMap);
+     }
+
+     public static function init($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {
+          self::$instance = new SiteMap($_SERVER['HTTP_HOST'], $outfile, $compress);          
+          return self::$instance;
+     }
+     
+     public static function getInstance() {          
+          return self::$instance;
      }
 }
 

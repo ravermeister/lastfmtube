@@ -491,7 +491,8 @@ class PageController {
             $page.menu.updateData(json.data.value);
 
             $page.setMainPageLoading();
-
+            
+            
             $page.isReady = true;
 
             if ($player.autoPlay && $player.isReady &&
