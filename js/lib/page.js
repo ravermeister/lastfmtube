@@ -255,6 +255,9 @@ class PageController {
     }
     
     initURL(){
+    	console.log('>>> path: >' + location.pathname + '<');
+		console.log('>>> href: >' + location.href + '<');
+		
 		switch (location.pathname) {
 			case 'topsongs':
 				$page.load('topsongs');
