@@ -6,7 +6,7 @@ Demo | https://lastfm.rimkus.it
 
 # Requirements
 * PHP >= 5.6 (last test with 7.3)
-* PHP PDO SQLite or Mysql (any PDO DB should work, but untested)
+* PHP PDO SQLite or PostgreSQL/Mysql (any PDO DB should work, but untested)
 * Composer (See `composer.json`)
 * [Lastf.fm](https://last.fm) Account with [API Support](https://www.last.fm/api/)
 * [Youtube](https://youtube.com) Account with [API Supprt](https://developers.google.com/youtube/v3/)
@@ -17,7 +17,7 @@ Demo | https://lastfm.rimkus.it
 3. copy the file `conf/example.settings.json` to `conf/settings.json`
 4. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API](https://www.last.fm/api/) key
 5. create a [Youtube User](https://www.youtube.com) with a [Developer API](https://developers.google.com/youtube/v3) Key
-6. enter the API keys in the settings.json
+6. enter the API keys in the `settings.json`
 7. open http://example.com/lfmtube and enjoy
 
 # About
