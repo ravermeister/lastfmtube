@@ -36,9 +36,6 @@ class Functions {
      }
 
      private function initSiteMapGenerator() {
-          if (! isset($this->settings['general']['sitemap_file'])) {
-               $this->settings['general']['sitemap_file'] = 'sitemap.xml';
-          }
           SiteMap::init($this->settings['general']['sitemap_file']);
           SiteMap::getInstance()->addURL('/lastfm')
                ->addURL('/topsongs')
@@ -52,7 +49,9 @@ class Functions {
 
           if ($this->settingsFile === false) $this->settingsFile = $this->basedir . '/conf/settings.json';
           $this->settings = json_decode(file_get_contents($this->settingsFile), true);
-          if (! $this->settings || $this->settings === null) {throw new exception('Unable to open ' . $this->settingsFile . '.');}
+          if (! $this->settings || $this->settings === null) {
+               throw new exception('Unable to open ' . $this->settingsFile . '.');
+          }
 
           $this->settings['general']['logfile'] = self::normalizePath($this->basedir, $this->settings['general']['logfile']);
           $this->settings['database']['dbinit_file'] = self::normalizePath($this->basedir, $this->settings['database']['dbinit_file']);
@@ -106,7 +105,9 @@ class Functions {
      }
 
      private static function normalizePath($basedir, $path) {
-          if (! self::isAbsolutePath($path)) {return $basedir . '/' . $path;}
+          if (! self::isAbsolutePath($path)) {
+               return $basedir . '/' . $path;
+          }
           return $path;
      }
 
@@ -130,7 +131,9 @@ class Functions {
                $mess = sprintf('Path is NOT valid, was given %s', $path);
                throw new \DomainException($mess);
           }
-          if ('' !== $parts['root']) {return true;}
+          if ('' !== $parts['root']) {
+               return true;
+          }
           return false;
      }
 
@@ -190,7 +193,9 @@ class Functions {
 
      public static function endsWith($haystack, $needle) {
           $length = strlen($needle);
-          if ($length == 0) {return true;}
+          if ($length == 0) {
+               return true;
+          }
           return (substr($haystack, - $length) === $needle);
      }
 

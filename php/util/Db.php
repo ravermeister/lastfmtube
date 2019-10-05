@@ -253,63 +253,68 @@ class Db {
 
      private function initReplacements() {
           $funcs = Functions::getInstance();
-          $csvfn = $funcs->getSettings()['database']['replacement_csv'];
-          if (! file_exists($csvfn)) return;
+          $csvGlob = $funcs->getSettings()['database']['replacement_csv'];
 
-          $csvsha = sha1_file($csvfn);
-          $saved_sha = $this->query('SELECT_FIMPORT_SHA', array(
-               'fname' => basename($csvfn)
-          ));
-          $saved_sha = is_array($saved_sha) && isset($saved_sha['shasum']) ? $saved_sha['shasum'] : '';
-          if (strcmp($csvsha, $saved_sha) === 0) {return; // file has not changed
-          }
-          Functions::getInstance()->logMessage($csvfn . ' has changed importing new data.');
+          $csvFiles = glob($csvGlob);
+          foreach ($csvFiles as $csvFile) {               
+               if (! file_exists($csvFile)) continue;
 
-          $csvf = fopen($csvfn, 'r');
-          if ($csvf === false) {
-               $funcs->logMessage('initial replacement csv file ' . $csvfn . ' not found');
-               return;
-          }
-
-          $this->pdo->query('DELETE FROM replacement');
-          $rcnt = 0;
-          while (($row = fgetcsv($csvf, 10000)) !== false) {
-
-               if (Functions::startsWith($row[0], '#')) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' as it is a comment row');
-                    $rcnt ++;
-                    continue; // ignore comment rows
-               }
-               if (sizeof($row) == 0 || strlen($row[0] === 0)) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' empty row');
-                    $rcnt ++;
-                    continue; // ignore empty rows
-               }
-               if (sizeof($row) < 4) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' insufficient data');
-                    continue;
-               }
-
-               $orig_artist_expr = $row[0];
-               $orig_title_expr = $row[1];
-               $repl_artist = $row[2];
-               $repl_title = $row[3];
-
-               $this->query('INSERT_REPLACEMENT', array(
-                    'orig_artist_expr' => $orig_artist_expr,
-                    'orig_title_expr' => $orig_title_expr,
-                    'repl_artist' => $repl_artist,
-                    'repl_title' => $repl_title
+               $csvsha = sha1_file($csvFile);
+               $saved_sha = $this->query('SELECT_FIMPORT_SHA', array(
+                    'fname' => basename($csvFile)
                ));
+               $saved_sha = is_array($saved_sha) && isset($saved_sha['shasum']) ? $saved_sha['shasum'] : '';
+               if (strcmp($csvsha, $saved_sha) === 0) {
+                    return; // file has not changed
+               }
+               Functions::getInstance()->logMessage($csvFile . ' has changed importing new data.');
 
-               $rcnt ++;
+               $csvf = fopen($csvFile, 'r');
+               if ($csvf === false) {
+                    $funcs->logMessage('initial replacement csv file ' . $csvFile . ' not found');
+                    return;
+               }
+
+               $this->pdo->query('DELETE FROM replacement');
+               $rcnt = 0;
+               while (($row = fgetcsv($csvf, 10000)) !== false) {
+
+                    if (Functions::startsWith($row[0], '#')) {
+                         $funcs->logMessage('skip row ' . ($rcnt + 1) . ' as it is a comment row');
+                         $rcnt ++;
+                         continue; // ignore comment rows
+                    }
+                    if (sizeof($row) == 0 || strlen($row[0] === 0)) {
+                         $funcs->logMessage('skip row ' . ($rcnt + 1) . ' empty row');
+                         $rcnt ++;
+                         continue; // ignore empty rows
+                    }
+                    if (sizeof($row) < 4) {
+                         $funcs->logMessage('skip row ' . ($rcnt + 1) . ' insufficient data');
+                         continue;
+                    }
+
+                    $orig_artist_expr = $row[0];
+                    $orig_title_expr = $row[1];
+                    $repl_artist = $row[2];
+                    $repl_title = $row[3];
+
+                    $this->query('INSERT_REPLACEMENT', array(
+                         'orig_artist_expr' => $orig_artist_expr,
+                         'orig_title_expr' => $orig_title_expr,
+                         'repl_artist' => $repl_artist,
+                         'repl_title' => $repl_title
+                    ));
+
+                    $rcnt ++;
+               }
+
+               $this->query('SET_FIMPORT_SHA', array(
+                    'fname' => basename($csvFile),
+                    'shasum' => $csvsha
+               ));
+               $funcs->logMessage(($rcnt - 1) . ' rows imported');
           }
-
-          $this->query('SET_FIMPORT_SHA', array(
-               'fname' => basename($csvfn),
-               'shasum' => $csvsha
-          ));
-          $funcs->logMessage(($rcnt - 1) . ' rows imported');
      }
 
      public function query($queryName, $namedParms = array()) {
@@ -329,7 +334,9 @@ class Db {
           $data = $this->statements[$queryName]->fetchAll(PDO::FETCH_ASSOC);
           if (sizeof($data) <= 0) {
                return $this->statements[$queryName]->rowCount();
-          } else if (sizeof($data) === 1 && Strings::endsWith($queryName, '_NUM_ROWS') || strcmp($queryName, 'SELECT_FIMPORT_SHA') === 0) {return $data[0];}
+          } else if (sizeof($data) === 1 && Strings::endsWith($queryName, '_NUM_ROWS') || strcmp($queryName, 'SELECT_FIMPORT_SHA') === 0) {
+               return $data[0];
+          }
           return $data;
      }
 
@@ -357,7 +364,9 @@ class Db {
                'lastplayed' => $curvisit,
                'lfmuser' => $user
           ));
-          if ($upres !== false && $this->statements['UPDATE_LASTFM_USER_VISIT']->rowCount() == 1) {return $this->readLastFMUserVisitForUpdate($origUser);}
+          if ($upres !== false && $this->statements['UPDATE_LASTFM_USER_VISIT']->rowCount() == 1) {
+               return $this->readLastFMUserVisitForUpdate($origUser);
+          }
           $this->statements['INSERT_LASTFM_USER_VISIT']->execute(array(
                'lfmuser' => $user,
                'lastplayed' => $curvisit
@@ -377,10 +386,12 @@ class Db {
                'user' => $user
           ));
           $data = Db::getInstance()->statements['SELECT_LASTFM_USER_VISIT']->fetchAll(PDO::FETCH_ASSOC);
-          if (sizeof($data) < 1) {return array(
+          if (sizeof($data) < 1) {
+               return array(
                     'playcount' => - 1,
                     'lastplayed' => ''
-               );}
+               );
+          }
 
           return $data[0];
      }
@@ -406,7 +417,9 @@ class Db {
                'artist' => $artist,
                'title' => $title
           ));
-          if ($upres !== false && $this->statements['UPDATE_TRACKPLAY']->rowCount() == 1) {return $this->readChartForUpdate($artist, $title);}
+          if ($upres !== false && $this->statements['UPDATE_TRACKPLAY']->rowCount() == 1) {
+               return $this->readChartForUpdate($artist, $title);
+          }
 
           $this->statements['INSERT_TRACKPLAY']->execute(array(
                'artist' => $artist,

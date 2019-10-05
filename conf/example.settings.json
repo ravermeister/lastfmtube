@@ -16,7 +16,7 @@
 		"username": "lastuser",
 		"password": "l4stp4$$",
 		"dbinit_file": "conf/init.db.sql",
-		"replacement_csv": "conf/init.replacement.csv"
+		"replacement_csv": "conf/*.replacement.csv"
 	},
 	"api": {
 		"lastfm": {

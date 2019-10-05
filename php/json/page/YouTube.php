@@ -72,7 +72,9 @@ class YouTube extends DefaultJson {
       */
      private function searchVideo() {
           $needle = self::getVar('needle', '');
-          if (strlen(trim($needle)) == 0) {return $this->jsonError('invalid search criteria!');}
+          if (strlen(trim($needle)) == 0) {
+               return $this->jsonError('invalid search criteria!');
+          }
 
           $size = self::getVar('size', 1);
           if ($size > YouTube::MAX_YT_SEARCH_SIZE) {
