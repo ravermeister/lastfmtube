@@ -9,8 +9,12 @@
 namespace LastFmTube\Json;
 
 interface JsonInterface {
-    public function get();
-    public function delete();
-    public function post();
-    public function put();
+
+     public function get();
+
+     public function delete();
+
+     public function post();
+
+     public function put();
 }

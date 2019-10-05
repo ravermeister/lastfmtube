@@ -8,26 +8,26 @@ require_once 'vendor/autoload.php';
 
 use LastFmTube\Util\Functions;
 
-$settings = Functions::getInstance ()->getSettings ();
-$locale = Functions::getInstance ()->getLocale ();
-$themeFile = $settings ['general'] ['theme'];
+$settings = Functions::getInstance()->getSettings();
+$locale = Functions::getInstance()->getLocale();
+$themeFile = $settings['general']['theme'];
 
 // unused
-//$baseURL = $settings ['general'] ['baseurl'];
+// $baseURL = $settings ['general'] ['baseurl'];
 
-//prepare theme
-$themeData = file_get_contents ( 'themes/' . $themeFile . '/' . $themeFile . '.html' );
-$themeData = str_replace ( '{{PHP_LANG}}', $locale ['code'], $themeData );
-$themeData = str_replace ( '{{PHP_TITLE}}', $locale ['site'] ['title'], $themeData );
-$themeData = str_replace ( '{{PHP_HEADER}}', $locale ['site'] ['header'], $themeData );
+// prepare theme
+$themeData = file_get_contents('themes/' . $themeFile . '/' . $themeFile . '.html');
+$themeData = str_replace('{{PHP_LANG}}', $locale['code'], $themeData);
+$themeData = str_replace('{{PHP_TITLE}}', $locale['site']['title'], $themeData);
+$themeData = str_replace('{{PHP_HEADER}}', $locale['site']['header'], $themeData);
 
 // header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
 // header("Pragma: no-cache"); // HTTP 1.0.
 // header("Expires: 0"); // Proxies.
 
-header ( "Content-Type: text/html" ); // html content
+header("Content-Type: text/html"); // html content
 
-Functions::getInstance ()->startSession ();
+Functions::getInstance()->startSession();
 // Functions::getInstance()->logMessage('SQLite Version: '.\LastFmTube\Util\Db::getVersion());
 
-die ( $themeData );
+die($themeData);

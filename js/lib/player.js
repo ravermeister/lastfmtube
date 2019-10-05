@@ -77,15 +77,16 @@ class ChartTimer {
 
 
     createTimer(track) {
-        //duration is send when metadata arrives from youtube,
+        // duration is send when metadata arrives from youtube,
         // so delay max. 5 a second before checking duration
-        let delay = 500; //ms
-        let maxDelayCnt = 10; //10x500 ms
+        let delay = 500; // ms
+        let maxDelayCnt = 10; // 10x500 ms
         let delayCnt = 0;
         let durationTimer = setInterval(function () {
             if (delayCnt >= maxDelayCnt) {
                 clearInterval(durationTimer);
-                //console.error('can not start timer, no duration received from youtube');
+                // console.error('can not start timer, no duration received from
+				// youtube');
                 return;
             }
 
@@ -95,7 +96,8 @@ class ChartTimer {
 
                 let lfmScrobbleDuration = (track.duration / 2) | 0;
                 if (lfmScrobbleDuration > 120) lfmScrobbleDuration = 120;
-                //last.fm scrobble rule: half length of song or 2 min. if greater
+                // last.fm scrobble rule: half length of song or 2 min. if
+				// greater
 
                 $player.chartTimer.clearTimer();
                 $player.chartTimer.timerStart = new Date();
@@ -104,8 +106,8 @@ class ChartTimer {
                 $player.chartTimer.timer = setTimeout(
                     $player.chartTimer.handleTimerEvent,
                     (lfmScrobbleDuration * 1000)
-                    /** debug **/
-                    /**10000**/
+                    /** debug * */
+                    /** 10000* */
                 );
                 if ($player.chartTimer.log)
                     console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
@@ -265,7 +267,7 @@ class PlayerController {
 
     initPlayer() {
 
-        //$.getScript('//www.youtube.com/iframe_api');
+        // $.getScript('//www.youtube.com/iframe_api');
         let tag = document.createElement('script');
         tag.src = '//www.youtube.com/iframe_api';
         let firstScriptTag = document.getElementsByTagName('script')[0];
@@ -305,7 +307,7 @@ class PlayerController {
                     return ((abs / 100) * val) | 0;
                 };
 
-                let startvideo = '';//'9RMHHwJ9Eqk';
+                let startvideo = '';// '9RMHHwJ9Eqk';
                 let ytplayerwidth = '100%';
                 let ytplayerheight = percentHeight($(document).height(), 55) + 'px';
 
@@ -452,7 +454,7 @@ class PlayerController {
 
     loadSong(track) {
 
-        //console.log(this.ytPlayer);
+        // console.log(this.ytPlayer);
         if (this.ytPlayer === null) return;
 
         this.setCurrentTrack(track);
