@@ -259,7 +259,9 @@ class Functions {
           if (is_array($msg)) {
                foreach ($msg as $item) {
                     $item = self::br2nl($item);
-                    if(is_array($item)) $this->logMessage($item);                    
+                    if(is_array($item)) $this->logMessage($item);
+                    continue;
+                    
                     $msgArr = explode("\n", $item);
                     if (! is_array($msgArr)) {
                          if (strlen($msgArr) > 0) fwrite($this->logFile, $prefix . "\t" . $msgArr . "\r\n");
