@@ -13,8 +13,9 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 	
 	$player.autoPlay = true;
 	$page.init(function() {		
-		$playlist.loadLastFmList();
-		$player.initPlayer();
+		$playlist.loadLastFmList(1, null, function(){			
+			$player.initPlayer();
+		});
 	});	
 
 
