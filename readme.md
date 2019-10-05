@@ -17,7 +17,7 @@ Demo | https://lastfm.rimkus.it
 3. copy the file `conf/example.settings.json` to `conf/settings.json`
 4. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API](https://www.last.fm/api/) key
 5. create a [Youtube User](https://www.youtube.com) with a [Developer API](https://developers.google.com/youtube/v3) Key
-6. enter the API keys in the settings.json
+6. enter the API keys in the `settings.json`
 7. open http://example.com/lfmtube and enjoy
 
 # About
