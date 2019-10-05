@@ -95,19 +95,6 @@ class SiteMap {
 
      /**
       *
-      * @param string $changeFreq
-      * @param double $prio
-      * @param array $altLangs
-      *
-      * @return SiteMap for better chaining
-      */
-     private function addURL($changeFreq = 'always', $lastmod = null, $prio = 0.5, $altLangs = null) {
-          if (is_null($lastmod)) $lastmod = new DateTime();
-          return $this->addURL(SiteMap::trackURL(), $lastmod, $changeFreq, $prio, $altLangs);
-     }
-
-     /**
-      *
       * @param boolean $submit
       * @return SiteMap for better chaining
       */
