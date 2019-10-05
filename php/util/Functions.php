@@ -1,12 +1,12 @@
 <?php
 namespace LastFmTube\Util;
 
-use DateTime;
-use Exception;
+use LastFmLastFmTube\Util\SiteMap;
 use LastFmTube\Api\LastFm\LastFm;
 use LastFmTube\Api\YouTube\YouTubeSearch;
+use DateTime;
+use Exception;
 use Locale;
-use php\util\SiteMap;
 
 class Functions {
 
