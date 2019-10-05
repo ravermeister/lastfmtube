@@ -36,7 +36,7 @@ class Functions {
      }
 
      private function initSiteMapGenerator() {
-          SiteMap::init($this->getSettins()['general']['sitemap_file']);
+          SiteMap::init($this->settings['general']['sitemap_file']);
           SiteMap::getInstance()->addURL('/lastfm')
                ->addURL('/topsongs')
                ->addURL('/personal')
