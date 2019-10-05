@@ -12,9 +12,10 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 	console.log('>>> path: >'+location.pathname+'<');
 	
 	$player.autoPlay = true;
-	$page.init();	
-	$player.initPlayer();
-	$playlist.loadLastFmList();
+	$page.init(function() {		
+		$playlist.loadLastFmList();
+		$player.initPlayer();
+	});	
 
 
 	
