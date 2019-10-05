@@ -4,16 +4,16 @@
 </IfModule>
 
 <IfModule mod_rewrite>
-    RewriteCond %{QUERY_STRING} .+
-    RewriteRule ^(.*)$ /$1? [R=301,L]
+    //RewriteCond %{QUERY_STRING} .+
+    //RewriteRule ^(.*)$ /$1? [R=301,L]
 
     //page navigation for better url for better crawling results
 
-    //RewriteRule ^/video(.*) /index.php?nav=video&urldata=$1
-    //RewriteRule ^/topsongs(.*) /index.php?nav=topsongs&urldata=$1
-    //RewriteRule ^/users(.*) /index.php?nav=users&urldata=$1
-    //RewriteRule ^/lastfm(.*) /index.php?nav=lastfm&urldata=$1
-    //RewriteRule ^/personal(.*) /index.php?nav=personal&urldata=$1
+    RewriteRule ^/video(.*) /index.php?nav=video&urldata=$1
+    RewriteRule ^/topsongs(.*) /index.php?nav=topsongs&urldata=$1
+    RewriteRule ^/users(.*) /index.php?nav=users&urldata=$1
+    RewriteRule ^/lastfm(.*) /index.php?nav=lastfm&urldata=$1
+    RewriteRule ^/personal(.*) /index.php?nav=personal&urldata=$1
 
 </IfModule>
 
