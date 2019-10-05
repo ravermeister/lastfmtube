@@ -260,12 +260,12 @@ class PageController {
 		
 		switch (location.pathname) {
 			case '/topsongs':
-				$page.load('topsongs');
+				$page.load('playlist-container' ,'topsongs');
 			break;
 			case '/video':
 				$page.load('video');
 			case '/users':
-				$page.load('topuser');
+				$page.load('playlist-container', 'topuser');
 				break;
 			case '/personal':
 				$page.load('userlist');
