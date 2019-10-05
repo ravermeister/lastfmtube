@@ -232,8 +232,7 @@ class PageController {
         let pageLoaded = function (success) {
             $page.setMainPageLoading();
             if (ldata !== false) $page.setCurrentPlaylist(ldata);
-            location.href = '#' + (ldata === false ? page : ldata);
-        };
+        }
 
         $page.setMainPageLoading(true);
 
@@ -428,13 +427,8 @@ class PageController {
                         }
                         $(playlistArticle).attr('id', menu.LDATA);
                     }
-
-                    if (forceReload) {
-                        location.href = '#' + menu.LDATA;
-                    }
                 } else {
                     $page.setLoading(curArticle);
-                    location.href = '#' + menu.PAGE;
                 }
             };
 
