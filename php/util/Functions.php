@@ -258,6 +258,8 @@ class Functions {
           $prefix = date('d.m.Y H:i:s');
           if (is_array($msg)) {
                foreach ($msg as $item) {
+                    if(is_array($item)) $this->logMessage($item);
+                    
                     $msgArr = explode("\n", self::br2nl($item));
                     if (! is_array($msgArr)) {
                          if (strlen($msgArr) > 0) fwrite($this->logFile, $prefix . "\t" . $msgArr . "\r\n");
