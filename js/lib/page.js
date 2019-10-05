@@ -511,13 +511,13 @@ class PageController {
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value);
 
-//            $page.setMainPageLoading();
             
-            
+                       
             $page.isReady = true;
             if(typeof initReadyCallBack === 'function') {
             	initReadyCallBack();
             }          
+                        
             console.log('init page success');
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
