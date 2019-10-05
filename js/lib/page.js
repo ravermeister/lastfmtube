@@ -477,7 +477,7 @@ class PageController {
         };
     }
 
-    init() {
+    init(initReadyCallBack) {
 
         this.initMyVues();
         $page.setMainPageLoading(true);
@@ -494,11 +494,9 @@ class PageController {
             
             
             $page.isReady = true;
-
-            if ($player.autoPlay && $player.isReady &&
-                !$player.isPlaying() && !$player.isPaused()) {
-                $player.loadNextSong();
-            }
+            if(typeof initReadyCallBack === 'function') {
+            	initReadyCallBack();
+            }          
             console.log('init page success');
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
