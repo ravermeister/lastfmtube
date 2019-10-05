@@ -11,11 +11,12 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 	console.log('>>> href: >'+location.href+'<');
 	console.log('>>> path: >'+location.pathname+'<');
 	
+	$player.autoPlay = true;
 	$page.init();	
 	$player.initPlayer();
 	$playlist.loadLastFmList();
 
-	$player.loadNextSong();
+
 	
 	// maybe set it to page...
 	require([ 'analytics' ], function(analytics) {
