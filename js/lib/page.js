@@ -253,6 +253,23 @@ class PageController {
 
         pageLoaded(true);
     }
+    
+    initURL(){
+		switch (location.pathname) {
+			case 'topsongs':
+				$page.load('topsongs');
+			break;
+			case 'video':
+				$page.load('video');
+			case 'users':
+				$page.load('topuser');
+				break;
+			case 'personal':
+				$page.load('userlist');
+				break;
+			break;
+		}
+    }
 
     trackPlaylist(playlist) {
 
