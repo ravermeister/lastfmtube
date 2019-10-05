@@ -260,6 +260,7 @@ class PageController {
 		
 		switch (location.pathname) {
 			case '/topsongs':
+				console.log('load topsongs...');
 				$page.load('topsongs');
 			break;
 			case '/video':
@@ -510,7 +511,7 @@ class PageController {
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value);
 
-            $page.setMainPageLoading();
+//            $page.setMainPageLoading();
             
             
             $page.isReady = true;
