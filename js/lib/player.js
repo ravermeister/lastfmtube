@@ -265,7 +265,7 @@ class PlayerController {
         });
     }
 
-    initPlayer() {
+    initPlayer(initReadyCallback) {
 
         // $.getScript('//www.youtube.com/iframe_api');
         let tag = document.createElement('script');
@@ -277,11 +277,10 @@ class PlayerController {
 
 
             let onReady = function (event) {
-                $player.isReady = true;
-                if ($player.autoPlay && $page.isReady) {
-                    $player.loadNextSong();
-                }
-                console.log('youtube player ready');
+            	console.log('youtube player ready');
+            	if(typeof initReadyCallback === 'function') {
+            		initReadyCallback();
+            	}
             };
 
             let onStateChange = function (event) {
