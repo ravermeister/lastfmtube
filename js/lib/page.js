@@ -260,9 +260,7 @@ class PageController {
 		
 		switch (location.pathname) {
 			case '/topsongs':
-				console.log('load topsongs...');
 				$page.load('topsongs');
-				console.log('done');
 			break;
 			case '/video':
 				$page.load('video');
