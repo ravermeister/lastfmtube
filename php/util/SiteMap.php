@@ -1,5 +1,5 @@
 <?php
-namespace php\util;
+namespace LastFmLastFmTube\Util;
 
 use Icamys\SitemapGenerator\SitemapGenerator;
 use DateTime;
@@ -35,7 +35,7 @@ class SiteMap {
       *
       * @var SiteMap
       */
-     private static  $instance;
+     private static $instance;
 
      /**
       *
@@ -99,7 +99,7 @@ class SiteMap {
       * @param double $prio
       * @param array $altLangs
       *
-      * @return \php\util\SiteMap for better chaining
+      * @return SiteMap for better chaining
       */
      private function addURL($changeFreq = 'always', $lastmod = null, $prio = 0.5, $altLangs = null) {
           if (is_null($lastmod)) $lastmod = new DateTime();
@@ -109,7 +109,7 @@ class SiteMap {
      /**
       *
       * @param boolean $submit
-      * @return \php\util\SiteMap for better chaining
+      * @return SiteMap for better chaining
       */
      private function create($submit = false) {
           $this->generator->createSitemap();
@@ -120,7 +120,7 @@ class SiteMap {
 
      /**
       *
-      * @return \php\util\SiteMap for better chaining
+      * @return SiteMap for better chaining
       */
      private function submitSiteMap() {
           $this->generator->submitSitemap();
@@ -128,18 +128,16 @@ class SiteMap {
           return $this;
      }
 
-     public static function createSiteMap($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {          
-               self::getInstance()->create($submitSiteMap);
+     public static function createSiteMap($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {
+          self::getInstance()->create($submitSiteMap);
      }
 
      public static function init($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {
-          self::$instance = new SiteMap($_SERVER['HTTP_HOST'], $outfile, $compress);          
+          self::$instance = new SiteMap($_SERVER['HTTP_HOST'], $outfile, $compress);
           return self::$instance;
      }
-     
-     public static function getInstance() {          
+
+     public static function getInstance() {
           return self::$instance;
      }
 }
-
-
