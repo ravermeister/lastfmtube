@@ -282,19 +282,19 @@ class PageController {
 			case '/video':
 			case '#video':
 				$page.load('video-container', 'video', function(){					
-//					$page.changeUrl('Video', '/#video');
+					$page.changeUrl('Video', '/#video');
 				});
 				break;
 			case '/users':
 			case '#topuser':
 				$page.load('playlist-container', 'topuser', function(){					
-//					$page.changeUrl('Top User', '/#topuser');
+					$page.changeUrl('Top User', '/#topuser');
 				});
 				break;
 			case '/personal':
 			case '#userlist':
 				$page.load('userlist', '', function(){					
-//					$page.changeUrl('Userlist', '/#userlist');
+					$page.changeUrl('Userlist', '/#userlist');
 				});
 				break;
 			break;
