@@ -233,6 +233,9 @@ class PageController {
             $page.setMainPageLoading();
             if (ldata !== false) $page.setCurrentPlaylist(ldata);
             location.href = '#' + (ldata === false ? page : ldata);
+            if(typeof callBack === 'function') {
+            	callBack();
+            }
         };
 
         $page.setMainPageLoading(true);
@@ -248,13 +251,9 @@ class PageController {
             }
 
             $page.loadList(1, lfmuser, pageLoaded, ldata);
-            return;
         }
 
         pageLoaded(true);
-        if(typeof callBack === 'function') {
-        	callBack();
-        }
     }
 
 	changeUrl(title, url) {
@@ -274,26 +273,22 @@ class PageController {
 		
 		switch (location.pathname) {
 			case '/topsongs':
-			case '#topsongs':
 				$page.load('playlist-container' ,'topsongs', function(){	
 					console.log('change url');
 					$page.changeUrl('Top Songs', '/#topsongs');
 				});
 			break;
 			case '/video':
-			case '#video':
 				$page.load('video-container', 'video', function(){					
 					$page.changeUrl('Video', '/#video');
 				});
 				break;
 			case '/users':
-			case '#topuser':
 				$page.load('playlist-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
 				});
 				break;
 			case '/personal':
-			case '#userlist':
 				$page.load('userlist', '', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 				});
