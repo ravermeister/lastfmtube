@@ -276,21 +276,33 @@ class PageController {
 			case '/topsongs':
 				$page.load('playlist-container' ,'topsongs', function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
 				});
 			break;
 			case '/video':
 				$page.load('video-container', 'video', function(){					
 					$page.changeUrl('Video', '/#video');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
 				});
 				break;
 			case '/users':
 				$page.load('playlist-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
 				});
 				break;
 			case '/personal':
 				$page.load('userlist', '', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
 				});
 				break;
 			break;

@@ -7,7 +7,8 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 	$player = new PlayerController(Storages);
 	$playlist = new PlaylistController();
 	$page = new PageController();
-
+	
+	$player.autoPlay = true;
 	$page.init();
 	$playlist.loadLastFmList(1, null, function() {
 
