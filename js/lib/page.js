@@ -233,9 +233,6 @@ class PageController {
             $page.setMainPageLoading();
             if (ldata !== false) $page.setCurrentPlaylist(ldata);
             location.href = '#' + (ldata === false ? page : ldata);
-            if(typeof callBack === 'function') {
-            	callBack();
-            }
         };
 
         $page.setMainPageLoading(true);
