@@ -298,13 +298,22 @@ class PageController {
 				});
 				break;
 			case '/personal':
-				$page.load('userlist', '', function(){					
+				$page.load('user-container', 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
 				});
 				break;
+			case '/lastfm':
+			default:
+				$page.load('playlist-container', 'lastfm', function(){					
+					$page.changeUrl('Userlist', '/#userlist');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});					
+			break;
 			break;
 		}
     }
