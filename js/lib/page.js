@@ -276,7 +276,7 @@ class PageController {
 			case '/topsongs':
 			case '#topsongs':
 				$page.load('playlist-container' ,'topsongs', function(){					
-//					$page.changeUrl('Top Songs', '/#topsongs');
+					$page.changeUrl('Top Songs', '/#topsongs');
 				});
 			break;
 			case '/video':
