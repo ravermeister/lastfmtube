@@ -274,7 +274,7 @@ class PageController {
 		switch (location.pathname) {
 			case '/topsongs':
 				$page.load('playlist-container' ,'topsongs', function(){	
-					console.log('change url1');
+					console.log('change url1 ', initURL.caller);
 					$page.changeUrl('Top Songs', '/#topsongs');
 				});
 			break;
