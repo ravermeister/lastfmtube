@@ -17,13 +17,8 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 			PageController.analytics = analytics;
 		});
 
-		$player.initPlayer(function() {
-			// TODO: implement proper url handling
-			//$page.initURL();
-			$page.changeUrl('Last.fm', '/');
-			if($player.autoPlay) {
-				$player.loadNextSong();
-			}
+		$player.initPlayer(function() {			
+			$page.initURL();			
 		});
 
 	});
