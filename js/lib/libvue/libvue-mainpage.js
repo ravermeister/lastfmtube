@@ -33,6 +33,7 @@ class LibvueMainpage {
 
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
+                	console.log(menu);
                     $page.load(menu.PAGE, menu.LDATA);
                 }
             }

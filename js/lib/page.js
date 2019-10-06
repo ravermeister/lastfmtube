@@ -320,7 +320,7 @@ class PageController {
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
-        console.log(playlist);
+
         let curArticle = PageController.article.playlist.dom;
         let isPlaylist = false;
         let loadComplete = function (success) {
