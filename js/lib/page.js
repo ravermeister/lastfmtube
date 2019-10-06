@@ -258,7 +258,7 @@ class PageController {
     	console.log('>>> path: >' + location.pathname + '<');
 		console.log('>>> href: >' + location.href + '<');
 		
-		changeUrl = function (title, url) {
+		var changeUrl = function (title, url) {
 		    if (typeof (history.pushState) != "undefined") {
 		        var obj = { Title: title, Url: url };
 		        history.pushState(obj, obj.Title, obj.Url);
