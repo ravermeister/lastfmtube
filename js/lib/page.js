@@ -281,6 +281,7 @@ class PageController {
 					}
 				});
 			break;
+			
 			case '/video':
 				$page.load('video-container', 'video', function(){					
 					$page.changeUrl('Video', '/#video');
@@ -289,6 +290,7 @@ class PageController {
 					}
 				});
 			break;
+			
 			case '/users':
 				$page.load('playlist-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
@@ -297,6 +299,7 @@ class PageController {
 					}
 				});
 			break;
+			
 			case '/personal':
 				$page.load('user-container', 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
@@ -305,10 +308,11 @@ class PageController {
 					}
 				});
 			break;
+			
 			case '/lastfm':
 			default:
 				$page.load('playlist-container', 'lastfm', function(){					
-					$page.changeUrl('Userlist', '/');
+					$page.changeUrl('Last.fm', '/');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
