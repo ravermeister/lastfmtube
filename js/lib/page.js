@@ -233,6 +233,9 @@ class PageController {
             $page.setMainPageLoading();
             if (ldata !== false) $page.setCurrentPlaylist(ldata);
             location.href = '#' + (ldata === false ? page : ldata);
+            if(typeof callBack === 'function') {
+            	callBack();
+            }
         };
 
         $page.setMainPageLoading(true);
@@ -262,7 +265,7 @@ class PageController {
 	    }
 	}
     
-    initURL(){
+    initURL() {
     	console.log('>>> path: >' + location.pathname + '<');
 		console.log('>>> href: >' + location.href + '<');
 		
@@ -271,7 +274,7 @@ class PageController {
 		switch (location.pathname) {
 			case '/topsongs':
 				$page.load('playlist-container' ,'topsongs', function(){	
-					console.log('change url');
+					console.log('change url1');
 					$page.changeUrl('Top Songs', '/#topsongs');
 				});
 			break;
