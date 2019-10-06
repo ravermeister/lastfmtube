@@ -253,40 +253,42 @@ class PageController {
 
         pageLoaded(true);
     }
+
+	changeUrl(title, url) {
+	    if (typeof (history.pushState) != "undefined") {
+	        var obj = { Title: title, Url: url };
+	        history.pushState(obj, obj.Title, obj.Url);
+	    } else {
+	        alert("Browser does not support HTML5.");
+	    }
+	}
     
     initURL(){
     	console.log('>>> path: >' + location.pathname + '<');
 		console.log('>>> href: >' + location.href + '<');
 		
-		var changeUrl = function (title, url) {
-		    if (typeof (history.pushState) != "undefined") {
-		        var obj = { Title: title, Url: url };
-		        history.pushState(obj, obj.Title, obj.Url);
-		    } else {
-		        alert("Browser does not support HTML5.");
-		    }
-		}
+
 		
 		switch (location.pathname) {
 			case '/topsongs':
 			case '/#topsongs':
 				$page.load('playlist-container' ,'topsongs');
-				changeUrl('Top Songs', '/#topsongs');
+//				$page.changeUrl('Top Songs', '/#topsongs');
 			break;
 			case '/video':
 			case '#video':
 				$page.load('video-container', 'video');
-				changeUrl('Video', '/#video');
+//				$page.changeUrl('Video', '/#video');
 				break;
 			case '/users':
 			case '#topuser':
 				$page.load('playlist-container', 'topuser');
-				changeUrl('Top User', '/#topuser');
+//				$page.changeUrl('Top User', '/#topuser');
 				break;
 			case '/personal':
 			case '#userlist':
 				$page.load('userlist');
-				changeUrl('Userlist', '/#userlist');
+//				$page.changeUrl('Userlist', '/#userlist');
 				break;
 			break;
 		}
