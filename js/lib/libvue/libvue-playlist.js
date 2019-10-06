@@ -367,7 +367,6 @@ class LibvuePlaylist {
         this.content.update(json);
         this.menu.update(json);
         this.header.title.update(json);
-        $page.changeURL('playlist', '#topsongs');
     }
 
 }

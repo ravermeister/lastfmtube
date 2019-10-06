@@ -225,7 +225,7 @@ class PageController {
         this.applyJQueryMethods();
     }
 
-    load(page = '', ldata = '') {
+    load(page = '', ldata = '', callBack) {
 
         let article = $('article[name=' + page + ']');
 
@@ -252,6 +252,9 @@ class PageController {
         }
 
         pageLoaded(true);
+        if(typeof callBack === 'function') {
+        	callBack();
+        }
     }
 
 	changeUrl(title, url) {
@@ -267,28 +270,32 @@ class PageController {
     	console.log('>>> path: >' + location.pathname + '<');
 		console.log('>>> href: >' + location.href + '<');
 		
-
+		
 		
 		switch (location.pathname) {
 			case '/topsongs':
-			case '/#topsongs':
-				$page.load('playlist-container' ,'topsongs');
-//				$page.changeUrl('Top Songs', '/#topsongs');
+			case '#topsongs':
+				$page.load('playlist-container' ,'topsongs', function(){					
+//					$page.changeUrl('Top Songs', '/#topsongs');
+				});
 			break;
 			case '/video':
 			case '#video':
-				$page.load('video-container', 'video');
-//				$page.changeUrl('Video', '/#video');
+				$page.load('video-container', 'video', function(){					
+//					$page.changeUrl('Video', '/#video');
+				});
 				break;
 			case '/users':
 			case '#topuser':
-				$page.load('playlist-container', 'topuser');
-//				$page.changeUrl('Top User', '/#topuser');
+				$page.load('playlist-container', 'topuser', function(){					
+//					$page.changeUrl('Top User', '/#topuser');
+				});
 				break;
 			case '/personal':
 			case '#userlist':
-				$page.load('userlist');
-//				$page.changeUrl('Userlist', '/#userlist');
+				$page.load('userlist', '', function(){					
+//					$page.changeUrl('Userlist', '/#userlist');
+				});
 				break;
 			break;
 		}
