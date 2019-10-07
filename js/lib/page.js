@@ -453,9 +453,7 @@ class PageController {
             let curArticle = $(event.target).closest('article');
             let playlistArticle = $('article[name=' + menu.PAGE + ']');
             let forceReload = !$(playlistArticle).is(curArticle);
-            
-            console.log('load list menu, Playlist', $page.PLAYLIST, 'list menu', menu);
-            
+                        
             if (!$player.isReady || !forceReload &&
                 typeof menu.LDATA !== 'undefined' &&
                 menu.LDATA === $page.PLAYLIST
