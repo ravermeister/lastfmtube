@@ -290,7 +290,7 @@ class PageController {
 			break;
 			
 			case '/users':
-				$page.load('playlist-container', 'topuser', function(){					
+				$page.load('user-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
 //					if($player.autoPlay) {
 //						$player.loadNextSong();
