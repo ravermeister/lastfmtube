@@ -267,7 +267,8 @@ class PageController {
 	}
     
     initURL() {
-    	console.log('>>> path: >' + location.pathname + '<');
+
+    	// console.log('>>> path: >' + location.pathname + '<');
 		
 		switch (location.pathname) {
 			case '/topsongs':
