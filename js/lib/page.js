@@ -462,9 +462,10 @@ class PageController {
                 typeof menu.LDATA !== 'undefined' &&
                 menu.LDATA === $page.PLAYLIST
             ) {
+            	console.log('abort page load');
                 return;
             }
-
+            console.log('load page!!');
             let showPage = function (success) {
 
                 // DOM updated
