@@ -292,9 +292,9 @@ class PageController {
 			case '/users':
 				$page.load('user-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
-//					if($player.autoPlay) {
-//						$player.loadNextSong();
-//					}
+// if($player.autoPlay) {
+// $player.loadNextSong();
+// }
 				});
 			break;
 			
@@ -308,13 +308,18 @@ class PageController {
 			break;
 			
 			case '/lastfm':
-			default:
 				$page.load('playlist-container', 'lastfm', function(){					
 					$page.changeUrl('Last.fm', '/#lastfm');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				});					
+				});	
+			break;
+				default:
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+					break;
 			break;
 		}
     }
