@@ -13,3 +13,4 @@ lastfmtube.iml
 conf/settings\.json
 composer\.lock
 /composer.phar
+/sitemap.xml

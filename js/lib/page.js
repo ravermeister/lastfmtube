@@ -225,7 +225,7 @@ class PageController {
         this.applyJQueryMethods();
     }
 
-    load(page = '', ldata = '') {
+    load(page = '', ldata = '', callBack) {
 
         let article = $('article[name=' + page + ']');
 
@@ -233,6 +233,9 @@ class PageController {
             $page.setMainPageLoading();
             if (ldata !== false) $page.setCurrentPlaylist(ldata);
             location.href = '#' + (ldata === false ? page : ldata);
+            if(typeof callBack === 'function') {
+            	callBack();
+            }
         };
 
         $page.setMainPageLoading(true);
@@ -252,6 +255,73 @@ class PageController {
         }
 
         pageLoaded(true);
+    }
+
+	changeUrl(title, url) {
+	    if (typeof (history.pushState) != "undefined") {
+	        var obj = { Title: title, Url: url };
+	        history.pushState(obj, obj.Title, obj.Url);
+	    } else {
+	        alert("Browser does not support HTML5.");
+	    }
+	}
+    
+    initURL() {
+
+    	// console.log('>>> path: >' + location.pathname + '<');
+		
+		switch (location.pathname) {
+			case '/topsongs':
+				$page.load('playlist-container' ,'topsongs', function(){	
+					$page.changeUrl('Top Songs', '/#topsongs');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});
+			break;
+			
+			case '/video':
+				$page.load('video-container', 'video', function(){					
+					$page.changeUrl('Video', '/#video');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});
+			break;
+			
+			case '/users':
+				$page.load('user-container', 'topuser', function(){					
+					$page.changeUrl('Top User', '/#topuser');
+// if($player.autoPlay) {
+// $player.loadNextSong();
+// }
+				});
+			break;
+			
+			case '/personal':
+				$page.load('user-container', 'userlist', function(){					
+					$page.changeUrl('Userlist', '/#userlist');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});
+			break;
+			
+			case '/lastfm':
+				$page.load('playlist-container', 'lastfm', function(){					
+					$page.changeUrl('Last.fm', '/#lastfm');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});	
+			break;
+				default:
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+					break;
+			break;
+		}
     }
 
     trackPlaylist(playlist) {
@@ -277,7 +347,7 @@ class PageController {
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
-        
+
         let curArticle = PageController.article.playlist.dom;
         let isPlaylist = false;
         let loadComplete = function (success) {
@@ -388,14 +458,15 @@ class PageController {
             let curArticle = $(event.target).closest('article');
             let playlistArticle = $('article[name=' + menu.PAGE + ']');
             let forceReload = !$(playlistArticle).is(curArticle);
-
+                        
             if (!$player.isReady || !forceReload &&
                 typeof menu.LDATA !== 'undefined' &&
                 menu.LDATA === $page.PLAYLIST
             ) {
+            	console.log('abort page load');
                 return;
             }
-
+            console.log('load page!!');
             let showPage = function (success) {
 
                 // DOM updated
@@ -477,7 +548,7 @@ class PageController {
         };
     }
 
-    init() {
+    init(initReadyCallBack) {
 
         this.initMyVues();
         $page.setMainPageLoading(true);
@@ -490,14 +561,13 @@ class PageController {
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value);
 
-            $page.setMainPageLoading();
-
+            
+            $page.setMainPageLoading();           
             $page.isReady = true;
-
-            if ($player.autoPlay && $player.isReady &&
-                !$player.isPlaying() && !$player.isPaused()) {
-                $player.loadNextSong();
-            }
+            if(typeof initReadyCallBack === 'function') {
+            	initReadyCallBack();
+            }          
+                        
             console.log('init page success');
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {

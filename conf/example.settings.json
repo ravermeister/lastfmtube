@@ -8,14 +8,15 @@
 		"theme": "dimension",
 		"lastfm_defaultuser": "lastfm default user",
 		"adminpw": "shasum of password token",
-		"tracks_perpage": 25
+		"tracks_perpage": 25,
+		"sitemap_file": "/sitemap.xml"
 	},
 	"database": {
 		"dsn": "database dsn",
 		"username": "lastuser",
 		"password": "l4stp4$$",
 		"dbinit_file": "conf/init.db.sql",
-		"replacement_csv": "conf/init.replacement.csv"
+		"replacement_csv": "conf/*.replacement.csv"
 	},
 	"api": {
 		"lastfm": {
