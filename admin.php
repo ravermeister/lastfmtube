@@ -21,7 +21,7 @@ class AdminControl {
           global $argv;
           for ($cnt = 0; $cnt < sizeof($argv); $cnt ++) {
                if (Strings::startsWith($argv[$cnt], $arg)) {
-                    return $argv[$cnt];
+                    return substr($argv[cnt], strlen($arg));
                }
           }
 
