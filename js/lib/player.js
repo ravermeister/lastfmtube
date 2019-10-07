@@ -277,6 +277,7 @@ class PlayerController {
 
 
             let onReady = function (event) {
+            	$player.isReady = true;
             	console.log('youtube player ready');
             	if(typeof initReadyCallback === 'function') {
             		initReadyCallback();
