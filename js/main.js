@@ -8,8 +8,8 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 	$playlist = new PlaylistController();
 	$page = new PageController();
 	
-	$player.autoPlay = true;
 	$page.init();
+
 	$playlist.loadLastFmList(1, null, function() {
 
 		// maybe set it to page...
@@ -17,7 +17,8 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 			PageController.analytics = analytics;
 		});
 
-		$player.initPlayer(function() {			
+		$player.initPlayer(function() {		
+			$player.autoPlay = true;
 			$page.initURL();			
 		});
 
