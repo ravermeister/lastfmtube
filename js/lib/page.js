@@ -310,7 +310,7 @@ class PageController {
 			case '/lastfm':
 			default:
 				$page.load('playlist-container', 'lastfm', function(){					
-					$page.changeUrl('Last.fm', '/');
+					$page.changeUrl('Last.fm', '/#lastfm');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
