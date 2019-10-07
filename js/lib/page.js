@@ -268,9 +268,6 @@ class PageController {
     
     initURL() {
     	console.log('>>> path: >' + location.pathname + '<');
-		console.log('>>> href: >' + location.href + '<');
-		
-		
 		
 		switch (location.pathname) {
 			case '/topsongs':
@@ -311,7 +308,7 @@ class PageController {
 			
 			case '/lastfm':
 			default:
-				$page.load('playlist-container', '', function(){					
+				$page.load('playlist-container', 'lastfm', function(){					
 					$page.changeUrl('Last.fm', '/');
 					if($player.autoPlay) {
 						$player.loadNextSong();
