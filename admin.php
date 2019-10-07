@@ -33,7 +33,7 @@ class AdminControl {
      }
 
      public function process() {
-          if ($this->hasArg('generateSiteMap')) {
+          if ($this->hasArg('-generateSiteMap')) {
                $outfile = $this->argVal('file=');
                if (is_null($outfile)) $outfile = 'sitemap.xml';
                echo 'generating sitemap...';
