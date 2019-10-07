@@ -89,6 +89,9 @@ class SiteMap {
       * @return SiteMap for better chaining
       */
      public function addURL($url, $lastmod = null, $changeFreq = 'always', $prio = 0.5, $altLangs = null) {
+          if(is_null($lastmod)) {
+               $lastmod = new DateTime();
+          }
           $this->generator->addUrl($url, $lastmod, $changeFreq, $prio, $altLangs);
           return $this;
      }
