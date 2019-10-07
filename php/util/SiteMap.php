@@ -53,7 +53,7 @@ class SiteMap {
           return $link;
      }
 
-     private function __construct($domain, $file = 'sitemap.xml', $indexfile = 'sitemap-index.xml', $compress = true) {
+     public function __construct($domain, $file = 'sitemap.xml', $indexfile = 'sitemap-index.xml', $compress = true) {
           $this->domain = $domain;
           $this->generator = new SitemapGenerator($this->domain);
 
@@ -89,6 +89,9 @@ class SiteMap {
       * @return SiteMap for better chaining
       */
      public function addURL($url, $lastmod = null, $changeFreq = 'always', $prio = 0.5, $altLangs = null) {
+          if(is_null($lastmod)) {
+               $lastmod = new DateTime();
+          }
           $this->generator->addUrl($url, $lastmod, $changeFreq, $prio, $altLangs);
           return $this;
      }
@@ -98,7 +101,7 @@ class SiteMap {
       * @param boolean $submit
       * @return SiteMap for better chaining
       */
-     private function create($submit = false) {
+     public function create($submit = false) {
           $this->generator->createSitemap();
           $this->generator->writeSitemap();
           if ($submit) $this->submitSiteMap();
@@ -113,18 +116,5 @@ class SiteMap {
           $this->generator->submitSitemap();
           $this->generator->updateRobots();
           return $this;
-     }
-
-     public static function createSiteMap($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {
-          self::getInstance()->create($submitSiteMap);
-     }
-
-     public static function init($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {
-          self::$instance = new SiteMap($_SERVER['HTTP_HOST'], $outfile, $compress);
-          return self::$instance;
-     }
-
-     public static function getInstance() {
-          return self::$instance;
      }
 }

@@ -25,6 +25,12 @@ class Functions {
 
      private $logFile = null;
 
+     /**
+      *
+      * @var SiteMap
+      */
+     private $sitemap = null;
+
      private function __construct($file = false) {
           $this->settingsFile = $file;
           $this->basedir = dirname(__FILE__) . '/../..';
@@ -36,8 +42,8 @@ class Functions {
      }
 
      private function initSiteMapGenerator() {
-          SiteMap::init($this->settings['general']['sitemap_file']);
-          SiteMap::getInstance()->addURL('/lastfm')
+          $this->sitemap = new SiteMap($_SERVER['HOST'], $this->settings['general']['sitemap_file']);
+          $this->sitemap->addURL('/lastfm')
                ->addURL('/topsongs')
                ->addURL('/personal')
                ->addURL('/users')
@@ -259,9 +265,9 @@ class Functions {
           if (is_array($msg)) {
                foreach ($msg as $item) {
                     $item = self::br2nl($item);
-                    if(is_array($item)) $this->logMessage($item);
+                    if (is_array($item)) $this->logMessage($item);
                     continue;
-                    
+
                     $msgArr = explode("\n", $item);
                     if (! is_array($msgArr)) {
                          if (strlen($msgArr) > 0) fwrite($this->logFile, $prefix . "\t" . $msgArr . "\r\n");
