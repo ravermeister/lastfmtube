@@ -28,20 +28,32 @@ class AdminControl {
           return null;
      }
 
+     private function generateSiteMap($outfile){
+          echo 'generating sitemap...';
+          
+          $sitemap = new SiteMap('https://lastfm.rimkus.it', $outfile, 'sitemap-index.xml', true);
+          $sitemap->addURL('/topsongs');
+          $sitemap->addURL('/lastfm');
+          $sitemap->addURL('/users');
+          $sitemap->addURL('/videos');
+          $sitemap->addURL('/personal');
+          $sitemap->create(true);
+          
+          echo "finished\n";
+     }
+     
      public function printHelp() {
           echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n";
      }
-
+    
      public function process() {
           if ($this->hasArg('-generateSiteMap')) {
                $outfile = $this->argVal('file=');
                if (is_null($outfile)) $outfile = 'sitemap.xml';
-               echo 'generating sitemap...';
-               SiteMap::createSiteMap($outfile, true, true);
-               echo "finished\n";
+               $this->generateSiteMap();
                return 0;
           }
-          
+
           return 1;
      }
 }
