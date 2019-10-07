@@ -279,16 +279,7 @@ class PageController {
 					}
 				});
 			break;
-			
-			case '/video':
-				$page.load('video-container', 'video', function(){					
-					$page.changeUrl('Video', '/#video');
-					if($player.autoPlay) {
-						$player.loadNextSong();
-					}
-				});
-			break;
-			
+						
 			case '/users':
 				$page.load('user-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
@@ -315,11 +306,15 @@ class PageController {
 					}
 				});	
 			break;
-				default:
+			
+			case '/video':
+			default:
+				$page.load('video-container', 'video', function(){					
+					$page.changeUrl('Video', '/#video');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-					break;
+				});
 			break;
 		}
     }
