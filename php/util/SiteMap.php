@@ -116,10 +116,10 @@ class SiteMap {
      }
 
      public static function createSiteMap($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {
-          self::getInstance()->create($submitSiteMap);
+          self::init($outfile, $compress, $submitSiteMap)->create($submitSiteMap);
      }
 
-     public static function init($outfile = 'sitemap.xml', $compress = true, $submitSiteMap = false) {
+     public static function init($outfile = 'sitemap.xml', $compress = true) {
           self::$instance = new SiteMap($_SERVER['HTTP_HOST'], $outfile, $compress);
           return self::$instance;
      }
