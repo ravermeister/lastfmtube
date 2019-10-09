@@ -74,8 +74,8 @@ class Functions {
                $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
                $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
 
-               $artist = trim($artist);
-               $title = trim($title);
+               trim($artist);
+               trim($title);
 
                $orig_artist = $artist;
                $orig_title = $title;
