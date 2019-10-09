@@ -74,6 +74,9 @@ class Functions {
                $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
                $orig_title_expr = '/' . $row['orig_title_expr'] . '/';
 
+               $artist = trim($artist);
+               $title = trim($title);
+
                $orig_artist = $artist;
                $orig_title = $title;
 
@@ -99,8 +102,8 @@ class Functions {
                     // self::getInstance()->logMessage('title>artist replacement: '.$repl_title);
                     // title with artist replaced
 
-                    $artist = trim($repl_artist);
-                    $title = trim($repl_title);
+                    $artist = $repl_artist;
+                    $title = $repl_title;
 
                     // stop prcessing when pattern matched
                     break;
@@ -382,7 +385,7 @@ class Functions {
           $aCnt = isset($trackA['PLAYCOUNT']) ? $trackA['PLAYCOUNT'] : 0;
           $bCnt = isset($trackB['PLAYCOUNT']) ? $trackB['PLAYCOUNT'] : 0;
           $cmpVal = (($aCnt > $bCnt) ? 1 : (($aCnt < $bCnt) ? - 1 : 0));
-          if($cmpVal == 0) {
+          if ($cmpVal == 0) {
                $cmpVal = self::sortArrayByDateAsc($trackA, $trackB);
           }
           return $cmpVal;
@@ -396,7 +399,7 @@ class Functions {
           $aDate = isset($trackA['LASTPLAY']) ? new DateTime($trackA['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');
           $bDate = isset($trackB['LASTPLAY']) ? new DateTime($trackB['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');
           $cmpVal = (($aDate > $bDate) ? 1 : (($aDate < $bDate) ? - 1 : 0));
-          if($cmpVal == 0) {
+          if ($cmpVal == 0) {
                $cmpVal = self::sortArrayByPlayCountAsc($trackA, $trackB);
           }
           return $cmpVal;
