@@ -99,8 +99,8 @@ class Functions {
                     // self::getInstance()->logMessage('title>artist replacement: '.$repl_title);
                     // title with artist replaced
 
-                    $artist = $repl_artist;
-                    $title = $repl_title;
+                    $artist = trim($repl_artist);
+                    $title = trim($repl_title);
 
                     // stop prcessing when pattern matched
                     break;
