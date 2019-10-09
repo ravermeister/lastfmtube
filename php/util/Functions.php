@@ -68,7 +68,7 @@ class Functions {
      public static function normalizeTrack(&$artist, &$title) {
           $replacements = Db::getInstance()->getReplaceTrackMap();
 
-          // Functions::getInstance()->logMessage('before function normalize, artist: >'.$artist.'<, title: >'.$title.'<');
+          // self::getInstance()->logMessage('before function normalize, artist: >'.$artist.'<, title: >'.$title.'<');
 
           foreach ($replacements as $row) {
                $orig_artist_expr = '/' . $row['orig_artist_expr'] . '/';
@@ -81,22 +81,22 @@ class Functions {
 
                     $repl_artist = str_replace(Db::$ARTIST_REGEX, '$', $row['repl_artist']);
                     $repl_artist = preg_replace($orig_artist_expr, $repl_artist, $orig_artist);
-                    // Functions::getInstance()->logMessage('artist>artist replacement: '.$repl_artist);
+                    // self::getInstance()->logMessage('artist>artist replacement: '.$repl_artist);
                     // artist with artist regex replaced
 
                     $repl_title = str_replace(Db::$TITLE_REGEX, '$', $row['repl_title']);
                     $repl_title = preg_replace($orig_title_expr, $repl_title, $orig_title);
-                    // Functions::getInstance()->logMessage('title>title replacement: '.$repl_title);
+                    // self::getInstance()->logMessage('title>title replacement: '.$repl_title);
                     // title with title regex replaced
 
                     $repl_artist = str_replace(Db::$TITLE_REGEX, '$', $repl_artist);
                     $repl_artist = preg_replace($orig_title_expr, $repl_artist, $orig_title);
-                    // Functions::getInstance()->logMessage('artist>title replacement: '.$repl_artist);
+                    // self::getInstance()->logMessage('artist>title replacement: '.$repl_artist);
                     // artist with title replaced
 
                     $repl_title = str_replace(Db::$ARTIST_REGEX, '$', $repl_title);
                     $repl_title = preg_replace($orig_artist_expr, $repl_title, $orig_artist);
-                    // Functions::getInstance()->logMessage('title>artist replacement: '.$repl_title);
+                    // self::getInstance()->logMessage('title>artist replacement: '.$repl_title);
                     // title with artist replaced
 
                     $artist = $repl_artist;
@@ -107,7 +107,7 @@ class Functions {
                }
           }
 
-          // Functions::getInstance()->logMessage('after function normalize, artist: >'.$artist.'<, title: >'.$title.'<');
+          // self::getInstance()->logMessage('after function normalize, artist: >'.$artist.'<, title: >'.$title.'<');
      }
 
      private static function normalizePath($basedir, $path) {
@@ -342,11 +342,11 @@ class Functions {
           $sorted = false;
           if ($asc) {
                $sorted = usort($tracks, function ($trackA, $trackB) {
-                    return Functions::sortArrayByDateAsc($trackA, $trackB);
+                    return self::sortArrayByDateAsc($trackA, $trackB);
                });
           } else {
                $sorted = usort($tracks, function ($trackA, $trackB) {
-                    return Functions::sortArrayByDateDesc($trackA, $trackB);
+                    return self::sortArrayByDateDesc($trackA, $trackB);
                });
           }
 
@@ -358,13 +358,13 @@ class Functions {
 
      public function sortTracksByPlayCount(&$tracks, $offset = 0, $asc = false) {
           $sorted = false;
-          if ($asc) {
+          if ($asc === true) {
                $sorted = usort($tracks, function ($trackA, $trackB) {
-                    return Functions::sortArrayByPlayCountAsc($trackA, $trackB);
+                    return self::sortArrayByPlayCountAsc($trackA, $trackB);
                });
           } else {
                $sorted = usort($tracks, function ($trackA, $trackB) {
-                    return Functions::sortArrayByPlayCountDesc($trackA, $trackB);
+                    return self::sortArrayByPlayCountDesc($trackA, $trackB);
                });
           }
 
@@ -375,24 +375,30 @@ class Functions {
      }
 
      private static function sortArrayByPlayCountDesc($trackA, $trackB) {
-          return Functions::sortArrayByPlayCountAsc($trackA, $trackB) * - 1;
+          return self::sortArrayByPlayCountAsc($trackA, $trackB) * - 1;
      }
 
      private static function sortArrayByPlayCountAsc($trackA, $trackB) {
           $aCnt = isset($trackA['PLAYCOUNT']) ? $trackA['PLAYCOUNT'] : 0;
           $bCnt = isset($trackB['PLAYCOUNT']) ? $trackB['PLAYCOUNT'] : 0;
           $cmpVal = (($aCnt > $bCnt) ? 1 : (($aCnt < $bCnt) ? - 1 : 0));
+          if($cmpVal == 0) {
+               $cmpVal = self::sortArrayByDateAsc($trackA, $trackB);
+          }
           return $cmpVal;
      }
 
      private static function sortArrayByDateDesc($trackA, $trackB) {
-          return Functions::sortArrayByDateAsc($trackA, $trackB) * - 1;
+          return self::sortArrayByDateAsc($trackA, $trackB) * - 1;
      }
 
      private static function sortArrayByDateAsc($trackA, $trackB) {
           $aDate = isset($trackA['LASTPLAY']) ? new DateTime($trackA['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');
           $bDate = isset($trackB['LASTPLAY']) ? new DateTime($trackB['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');
           $cmpVal = (($aDate > $bDate) ? 1 : (($aDate < $bDate) ? - 1 : 0));
+          if($cmpVal == 0) {
+               $cmpVal = self::sortArrayByPlayCountAsc($trackA, $trackB);
+          }
           return $cmpVal;
      }
 }

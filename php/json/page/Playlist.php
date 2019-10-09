@@ -149,8 +149,8 @@ class Playlist extends DefaultJson {
           $trackCnt = (int) ($trackCnt === false ? 1 : $trackCnt['cnt']);
           $offset = ($pageNum - 1) * $limit;
 
-          $orderby = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) == 0 ? 'lastplayed' : 'playcount';
-          $orderbysecond = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) == 0 ? 'playcount' : 'lastplayed';
+          $orderby = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'lastplayed' : 'playcount';
+          $orderbysecond = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'playcount' : 'lastplayed';
 
           $topsongs = $db->query('SELECT_TRACKPLAY', array(
                /**
@@ -170,7 +170,7 @@ class Playlist extends DefaultJson {
                'orderbysecond' => $orderbysecond,
                'offset' => $offset
           ));
-          Functions::getInstance()->logMessage($topsongs);
+//           Functions::getInstance()->logMessage($topsongs);
           $maxpages = ((int) ($trackCnt / $limit));
           if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
@@ -226,13 +226,14 @@ class Playlist extends DefaultJson {
                if (array_key_exists($trackId, $uniqueTracks)) {
                     $uniqueTrack = $uniqueTracks[$trackId];
                     $uniqueTrack['PLAYCOUNT'] = ((int) $uniqueTrack['PLAYCOUNT']) + ((int) $track['playcount']);
-                    $uniqueTracks[$trackId] = $uniqueTrack;
 
                     $date1 = new DateTime($uniqueTrack['LASTPLAY']);
                     $date2 = new DateTime($this->funcs->formatDate($track['lastplayed']));
                     if ($date2 > $date1) {
                          $uniqueTrack['LASTPLAY'] = $track['lastplayed'];
                     }
+                 
+                    $uniqueTracks[$trackId] = $uniqueTrack;                    
                     continue;
                }
 
