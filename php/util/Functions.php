@@ -42,7 +42,7 @@ class Functions {
      }
 
      private function initSiteMapGenerator() {
-          $this->sitemap = new SiteMap($_SERVER['HOST'], $this->settings['general']['sitemap_file']);
+          $this->sitemap = new SiteMap($_SERVER['HTTP_HOST'], $this->settings['general']['sitemap_file']);
           $this->sitemap->addURL('/lastfm')
                ->addURL('/topsongs')
                ->addURL('/personal')
