@@ -251,7 +251,7 @@ class Db {
           }
      }
 
-     private function importCSV($csvFile) {
+     public function importReplacementCSV($csvFile) {
           $funcs = Functions::getInstance();
           $csvsha = sha1_file($csvFile);
           $saved_sha = $this->query('SELECT_FIMPORT_SHA', array(
@@ -259,14 +259,14 @@ class Db {
           ));
           $saved_sha = is_array($saved_sha) && isset($saved_sha['shasum']) ? $saved_sha['shasum'] : '';
           if (strcmp($csvsha, $saved_sha) === 0) {
-               return; // file has not changed
+               return - 1; // file has not changed
           }
           Functions::getInstance()->logMessage($csvFile . ' has changed importing new data.');
 
           $csvf = fopen($csvFile, 'r');
           if ($csvf === false) {
                $funcs->logMessage('initial replacement csv file ' . $csvFile . ' not found');
-               return;
+               return false;
           }
 
           $this->pdo->query('DELETE FROM replacement');
@@ -307,18 +307,10 @@ class Db {
                'fname' => basename($csvFile),
                'shasum' => $csvsha
           ));
-          $funcs->logMessage(($rcnt - 1) . ' rows imported');
-     }
 
-     private function initReplacements() {
-          $funcs = Functions::getInstance();
-          $csvGlob = $funcs->getSettings()['database']['replacement_csv'];
-
-          $csvFiles = glob($csvGlob);
-          foreach ($csvFiles as $csvFile) {
-               if (! file_exists($csvFile)) continue;
-               $this->importCSV($csvFile);
-          }
+          $rowsImported = $rcnt - 1;
+          $funcs->logMessage($rowsImported . ' rows imported');
+          return $rowsImported;
      }
 
      public function query($queryName, $namedParms = array()) {

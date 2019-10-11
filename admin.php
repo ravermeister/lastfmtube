@@ -1,4 +1,5 @@
 <?php
+use LastFmTube\Util\Db;
 use LastFmTube\Util\SiteMap;
 use LastFmTube\Util\Strings;
 
@@ -41,9 +42,31 @@ class AdminControl {
 
           echo "finished\n";
      }
+     
+     
+     private function initReplacements($csvGlob) {          
+          $csvFiles = glob($csvGlob);
+          echo 'initalize Database connection...';
+          $db = Db::getInstance();
+          echo "Done\n";
+          foreach ($csvFiles as $csvFile) {
+               if (! file_exists($csvFile)) continue;
+               echo "Importing Replacement CSV >$csvFile<...";
+               $result = $db->importReplacementCSV($csvFile);
+               if($result===false) {
+                    echo "error\n";
+               } else if($result < 0) {
+                    echo "not changed\n";
+               } else {                    
+                    echo "$result rows imported\n";
+               }
+          }
+     }
+     
 
      public function printHelp() {
-          echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n";
+          echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n"
+               ."-importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";
      }
 
      public function process() {
@@ -51,6 +74,16 @@ class AdminControl {
                $outfile = $this->argVal('file=');
                if (is_null($outfile)) $outfile = 'sitemap.xml';
                $this->generateSiteMap($outfile);
+               return 0;
+          }
+          
+          if($this->hasArg('-importReplacements')) {
+               $csvglob = $this->argVal('glob=');
+               if(is_null($csvglob)) {
+                    $this->printHelp();
+                    return 1;
+               }
+               
                return 0;
           }
 
