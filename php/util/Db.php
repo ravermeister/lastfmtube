@@ -285,7 +285,11 @@ class Db {
                     'shasum' => $saved_sha
                ));
           }
-
+          
+          $this->query('INSERT_FIMPORT', array(
+               'fname' => basename($csvFile),
+               'shasum' => $csvsha
+          ));
           $rowsImported = 0;
           $rowsProcessed = 0;
 
@@ -327,10 +331,6 @@ class Db {
                $rowsImported ++;
           }
 
-          $this->query('INSERT_FIMPORT', array(
-               'fname' => basename($csvFile),
-               'shasum' => $csvsha
-          ));
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
           $this->pdo->commit();
 
