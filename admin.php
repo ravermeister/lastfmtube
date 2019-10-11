@@ -48,19 +48,20 @@ class AdminControl {
           $csvFiles = glob($csvGlob);
           echo 'initalize Database connection...';
           $db = Db::getInstance();
-          echo "Done\n";
+          echo " done\n";
           foreach ($csvFiles as $csvFile) {
                if (! file_exists($csvFile)) continue;
                echo "Importing Replacement CSV >$csvFile<...";
                $result = $db->importReplacementCSV($csvFile);
                if($result===false) {
-                    echo "error\n";
+                    echo " error\n";
                } else if($result < 0) {
-                    echo "not changed\n";
+                    echo " not changed\n";
                } else {                    
-                    echo "$result rows imported\n";
+                    echo " ($result == 1 ? row : rows) imported\n";
                }
           }
+          
      }
      
 
