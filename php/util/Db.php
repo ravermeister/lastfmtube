@@ -58,6 +58,8 @@ class Db {
      private function __construct($file = false) {
           $this->connect();
           $this->prepareQueries();
+          // activate use of foreign key constraints
+          $this->pdo->exec('PRAGMA foreign_keys = ON;');
      }
 
      public function connect() {
@@ -65,9 +67,6 @@ class Db {
           $settings = Functions::getInstance()->getSettings();
           $this->pdo = new PDO($settings['database']['dsn'], $settings['database']['username'], $settings['database']['password']);
           $this->createdb();
-
-          // activate use of foreign key constraints
-          $this->pdo->exec('PRAGMA foreign_keys = ON;');
      }
 
      public function isConnected() {
@@ -279,17 +278,16 @@ class Db {
 
           $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          $this->pdo->beginTransaction();          
-          // activate use of foreign key constraints
-          $this->pdo->exec('PRAGMA foreign_keys = ON;');
-          
+          $this->pdo->beginTransaction();
+
           $this->query('SET_FIMPORT', array(
                'fname' => basename($csvFile),
                'shasum' => $csvsha
           ));
-          
+
           $rowsImported = 0;
           $rowsProcessed = 0;
+          /**
           while (($row = fgetcsv($csvf, 10000)) !== false) {
 
                $rowsProcessed ++;
@@ -327,7 +325,7 @@ class Db {
 
                $rowsImported ++;
           }
-                    
+          **/
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
           $this->pdo->commit();
 
