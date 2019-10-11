@@ -65,8 +65,8 @@ class Db {
           $settings = Functions::getInstance()->getSettings();
           $this->pdo = new PDO($settings['database']['dsn'], $settings['database']['username'], $settings['database']['password']);
           $this->createdb();
-          
-          // activate use of foreign key constraints          
+
+          // activate use of foreign key constraints
           $this->pdo->exec('PRAGMA foreign_keys = ON;');
      }
 
@@ -277,20 +277,17 @@ class Db {
                return false;
           }
 
+          $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
+          $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           $this->pdo->beginTransaction();
-          $this->query('DELETE_FIMPORT', array(
-               'shasum' => $saved_sha
+          
+          $this->query('SET_FIMPORT_SHA', array(
+               'fname' => basename($csvFile),
+               'shasum' => $csvsha
           ));
-
-          // $this->query('SET_FIMPORT_SHA', array(
-          // 'fname' => basename($csvFile),
-          // 'shasum' => $csvsha
-          // ));
 
           $rowsImported = 0;
           $rowsProcessed = 0;
-          $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
-          $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           while (($row = fgetcsv($csvf, 10000)) !== false) {
 
                $rowsProcessed ++;
@@ -329,10 +326,6 @@ class Db {
                $rowsImported ++;
           }
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
-          $this->query('INSERT_FIMPORT', array(
-               'fname' => basename($csvFile),
-               'shasum' => $csvsha
-          ));
           $this->pdo->commit();
 
           $funcs->logMessage($rowsImported . ' rows imported');
