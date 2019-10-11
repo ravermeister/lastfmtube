@@ -62,7 +62,7 @@ class AdminControl {
           }
           echo 'reload replacement map...';
           $db->getReplaceTrackMap(true);
-          echo ' done';
+          echo " done\n";
      }
 
      public function printHelp() {
