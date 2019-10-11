@@ -280,7 +280,6 @@ class Db {
           $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           $this->pdo->beginTransaction();
-          $this->pdo->exec('PRAGMA foreign_keys = ON;');
           
           $this->query('SET_FIMPORT', array(
                'fname' => basename($csvFile),

@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS fimport
 CREATE TABLE fimport (
   fname  VARCHAR(50),
   shasum VARCHAR(50),
-  PRIMARY KEY (shasum)
+  PRIMARY KEY (fname, shasum)
 )
 ;
 
