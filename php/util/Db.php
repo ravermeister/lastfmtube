@@ -245,7 +245,7 @@ class Db {
                 INSERT INTO fimport VALUES(:fname, :shasum)
             ',
 
-               'SET_FIMPORT_SHA' => '
+               'SET_FIMPORT' => '
                 REPLACE INTO fimport VALUES(:fname, :shasum)
             '
           );
@@ -281,7 +281,14 @@ class Db {
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           $this->pdo->beginTransaction();
           
-          $this->query('SET_FIMPORT_SHA', array(
+//           $this->query('SET_FIMPORT', array(
+//                'fname' => basename($csvFile),
+//                'shasum' => $csvsha
+//           ));
+          $this->query('DELETE_FIMPORT', array(
+               'shasum' => $csvsha
+          ));
+          $this->query('INSERT_FIMPORT', array(
                'fname' => basename($csvFile),
                'shasum' => $csvsha
           ));
