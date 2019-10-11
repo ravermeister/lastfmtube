@@ -540,13 +540,26 @@ class PageController {
             }
         };
     }
+    
+    toggleNavigationPrompt(enable) {
+    	if(enable) {
+    	     // Enable navigation prompt
+            window.onbeforeunload = function() {
+                return true;
+            };    		
+    	} else {
+            // Remove navigation prompt
+            window.onbeforeunload = null;    		
+    	}
+    }
 
     init(initReadyCallBack) {
 
         this.initMyVues();
         $page.setMainPageLoading(true);
         location.hash = '';
-
+        $page.toggleNavigationPrompt(true);
+        
         let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
