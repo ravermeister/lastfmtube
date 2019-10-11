@@ -3,6 +3,10 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 
 	window.Storages = Storages;
 	window.Vue = Vue;
+    // Enable navigation prompt, set to null to disable
+    window.onbeforeunload = function() {
+        return true;
+    };  
 
 	$player = new PlayerController(Storages);
 	$playlist = new PlaylistController();
