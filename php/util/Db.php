@@ -288,6 +288,8 @@ class Db {
 
           $rowsImported = 0;
           $rowsProcessed = 0;
+          $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
+          $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           while (($row = fgetcsv($csvf, 10000)) !== false) {
 
                $rowsProcessed ++;
@@ -325,7 +327,7 @@ class Db {
 
                $rowsImported ++;
           }
-
+          $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
           $this->query('INSERT_FIMPORT', array(
                'fname' => basename($csvFile),
                'shasum' => $csvsha
