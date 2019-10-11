@@ -42,9 +42,8 @@ class AdminControl {
 
           echo "finished\n";
      }
-     
-     
-     private function initReplacements($csvGlob) {          
+
+     private function initReplacements($csvGlob) {
           $csvFiles = glob($csvGlob);
           echo 'initalize Database connection...';
           $db = Db::getInstance();
@@ -53,21 +52,18 @@ class AdminControl {
                if (! file_exists($csvFile)) continue;
                echo "Importing Replacement CSV >$csvFile<...";
                $result = $db->importReplacementCSV($csvFile);
-               if($result===false) {
+               if ($result === false) {
                     echo " error\n";
-               } else if($result < 0) {
+               } else if ($result < 0) {
                     echo " not changed\n";
-               } else {                    
-                    echo " ($result == 1 ? row : rows) imported\n";
+               } else {
+                    echo ($result == 1 ? ' row' : ' rows') . " imported\n";
                }
           }
-          
      }
-     
 
      public function printHelp() {
-          echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n"
-               ." -importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";
+          echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n" . " -importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";
      }
 
      public function process() {
@@ -77,14 +73,14 @@ class AdminControl {
                $this->generateSiteMap($outfile);
                return 0;
           }
-          
-          if($this->hasArg('-importReplacements')) {
+
+          if ($this->hasArg('-importReplacements')) {
                $csvGlob = $this->argVal('glob=');
-               if(is_null($csvGlob)) {
+               if (is_null($csvGlob)) {
                     $this->printHelp();
                     return 1;
                }
-               
+
                $this->initReplacements($csvGlob);
                return 0;
           }
