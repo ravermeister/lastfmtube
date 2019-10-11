@@ -92,6 +92,10 @@ class AdminControl {
      }
 }
 
+if (strcmp(php_sapi_name(), 'cli') !== 0) {
+     die('Only cli mode is allowed!');
+}
+
 $control = new AdminControl();
 $exitCode = $control->process();
 if ($exitCode != 0) {
