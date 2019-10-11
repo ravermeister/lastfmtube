@@ -79,7 +79,7 @@ class AdminControl {
           
           if($this->hasArg('-importReplacements')) {
                $csvGlob = $this->argVal('glob=');
-               if(is_null($$csvGlob)) {
+               if(is_null($csvGlob)) {
                     $this->printHelp();
                     return 1;
                }
