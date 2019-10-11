@@ -241,7 +241,6 @@ class Db {
                'DELETE_FIMPORT' => '
                 DELETE FROM fimport WHERE shasum = :shasum
             ',
-               
                'INSERT_FIMPORT' => '
                 INSERT INTO fimport VALUES(:fname, :shasum)
             ',
@@ -280,10 +279,13 @@ class Db {
 
           $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          $this->pdo->beginTransaction();
+          $this->pdo->beginTransaction();          
+          // activate use of foreign key constraints
+          $this->pdo->exec('PRAGMA foreign_keys = ON;');
           
-          $this->query('DELETE_FIMPORT', array(
-               'shasum' => $saved_sha
+          $this->query('SET_FIMPORT', array(
+               'fname' => basename($csvFile),
+               'shasum' => $csvsha
           ));
           
           $rowsImported = 0;
@@ -325,12 +327,7 @@ class Db {
 
                $rowsImported ++;
           }
-          
-          $this->query('INSERT_FIMPORT', array(
-               'fname' => basename($csvFile),
-               'shasum' => $csvsha
-          ));
-          
+                    
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
           $this->pdo->commit();
 
