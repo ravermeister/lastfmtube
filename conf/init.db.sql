@@ -32,7 +32,7 @@ DROP TABLE IF EXISTS fimport
 CREATE TABLE fimport (
   fname  VARCHAR(50),
   shasum VARCHAR(50),
-  PRIMARY KEY (fname)
+  PRIMARY KEY (shasum)
 )
 ;
 
@@ -41,12 +41,14 @@ DROP TABLE IF EXISTS replacement
 ;
 
 CREATE TABLE replacement (
+  import_file_sha   VARCHAR(50),
   orig_artist_expr  VARCHAR(500),
   orig_title_expr   VARCHAR(500),
   repl_artist       VARCHAR(500),
   repl_title        VARCHAR(500),
 
   PRIMARY KEY (orig_artist_expr, orig_title_expr),
+  FOREIGN KEY (import_file_sha) REFERENCES fimport(shasum) ON DELETE CASCADE
 )
 ;
 

@@ -229,7 +229,7 @@ class Db {
             ',
 
                'INSERT_REPLACEMENT' => '
-                REPLACE INTO replacement(orig_artist_expr, orig_title_expr, repl_artist, repl_title) VALUES (:orig_artist_expr, :orig_title_expr, :repl_artist, :repl_title);
+                INSERT INTO replacement(import_file_sha, orig_artist_expr, orig_title_expr, repl_artist, repl_title) VALUES (:import_file_sha, :orig_artist_expr, :orig_title_expr, :repl_artist, :repl_title);
             ',
 
                'SELECT_FIMPORT_SHA' => '
@@ -260,15 +260,19 @@ class Db {
           if (strcmp($csvsha, $saved_sha) === 0) {
                return - 1; // file has not changed
           }
-          Functions::getInstance()->logMessage($csvFile . ' has changed importing new data.');
 
+          Functions::getInstance()->logMessage($csvFile . ' has changed importing new data.');
           $csvf = fopen($csvFile, 'r');
           if ($csvf === false) {
-               $funcs->logMessage('initial replacement csv file ' . $csvFile . ' not found');
+               $funcs->logMessage('replacement csv file ' . $csvFile . ' not found');
                return false;
           }
 
-          $this->pdo->query('DELETE FROM replacement');
+          $this->query('SET_FIMPORT_SHA', array(
+               'fname' => basename($csvFile),
+               'shasum' => $csvsha
+          ));
+
           $rowsImported = 0;
           $rowsProcessed = 0;
           while (($row = fgetcsv($csvf, 10000)) !== false) {
@@ -293,6 +297,7 @@ class Db {
                $repl_title = $row[3];
 
                $this->query('INSERT_REPLACEMENT', array(
+                    'import_file_sha' => $csvsha,
                     'orig_artist_expr' => $orig_artist_expr,
                     'orig_title_expr' => $orig_title_expr,
                     'repl_artist' => $repl_artist,
@@ -301,11 +306,6 @@ class Db {
 
                $rowsImported ++;
           }
-
-          $this->query('SET_FIMPORT_SHA', array(
-               'fname' => basename($csvFile),
-               'shasum' => $csvsha
-          ));
 
           $funcs->logMessage($rowsImported . ' rows imported');
           return $rowsImported;
