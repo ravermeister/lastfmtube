@@ -236,6 +236,13 @@ class Db {
                 SELECT shasum FROM fimport WHERE fname = :fname
             ',
 
+               'DELETE_FIMPORT' => '
+                DELETE FROM fimport WHERE shasum = :shasum
+            ',
+               'INSERT_FIMPORT' => '
+                INSERT INTO fimport VALUES(:fname, :shasum)
+            ',
+
                'SET_FIMPORT_SHA' => '
                 REPLACE INTO fimport VALUES(:fname, :shasum)
             '
@@ -268,10 +275,17 @@ class Db {
                return false;
           }
 
-          $this->query('SET_FIMPORT_SHA', array(
+          $this->query('DELETE_FIMPORT', array(
+               'shasum' => $csvsha
+          ));
+          $this->query('INSERT_FIMPORT', array(
                'fname' => basename($csvFile),
                'shasum' => $csvsha
           ));
+          // $this->query('SET_FIMPORT_SHA', array(
+          // 'fname' => basename($csvFile),
+          // 'shasum' => $csvsha
+          // ));
 
           $rowsImported = 0;
           $rowsProcessed = 0;
