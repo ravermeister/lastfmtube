@@ -278,9 +278,8 @@ class Db {
 
           $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-          $this->pdo->beginTransaction();          
-          // activate use of foreign key constraints
-          $this->pdo->exec('PRAGMA foreign_keys = ON;');
+          $this->pdo->beginTransaction();
+
           $this->query('DELETE_FIMPORT', array(
                'shasum' => $saved_sha
           ));
@@ -354,7 +353,7 @@ class Db {
           $data = $this->statements[$queryName]->fetchAll(PDO::FETCH_ASSOC);
           if (sizeof($data) <= 0) {
                return $this->statements[$queryName]->rowCount();
-          } else if (sizeof($data) === 1 && Strings::endsWith($queryName, '_NUM_ROWS') || strcmp($queryName, 'SELECT_FIMPORT_SHA') === 0) {
+          } else if (sizeof($data) === 1 && (Strings::endsWith($queryName, '_NUM_ROWS') || strcmp($queryName, 'SELECT_FIMPORT_SHA') === 0) ) {
                return $data[0];
           }
           return $data;
