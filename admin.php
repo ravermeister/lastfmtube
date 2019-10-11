@@ -60,6 +60,9 @@ class AdminControl {
                     echo ($result == 1 ? " $result row " : "$result rows ") . "imported\n";
                }
           }
+          echo 'reload replacement map...';
+          $db->getReplaceTrackMap(true);
+          echo ' done';
      }
 
      public function printHelp() {
