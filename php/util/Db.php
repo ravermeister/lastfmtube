@@ -3,6 +3,7 @@ namespace LastFmTube\Util;
 
 use Exception;
 use PDO;
+use PDOException;
 
 /**
  * Class Db
@@ -284,7 +285,7 @@ class Db {
           // 'fname' => basename($csvFile),
           // 'shasum' => $csvsha
           // ));
-          
+
           $rowsImported = 0;
           $rowsProcessed = 0;
           while (($row = fgetcsv($csvf, 10000)) !== false) {
@@ -308,13 +309,19 @@ class Db {
                $repl_artist = $row[2];
                $repl_title = $row[3];
 
-               $this->query('INSERT_REPLACEMENT', array(
-                    'import_file_sha' => $csvsha,
-                    'orig_artist_expr' => $orig_artist_expr,
-                    'orig_title_expr' => $orig_title_expr,
-                    'repl_artist' => $repl_artist,
-                    'repl_title' => $repl_title
-               ));
+               try {
+                    $this->query('INSERT_REPLACEMENT', array(
+                         'import_file_sha' => $csvsha,
+                         'orig_artist_expr' => $orig_artist_expr,
+                         'orig_title_expr' => $orig_title_expr,
+                         'repl_artist' => $repl_artist,
+                         'repl_title' => $repl_title
+                    ));
+               } catch (PDOException $error) {
+                    $funcs->logMessage('Error inserting replacement in db');
+                    $funcs->logMessage($error->getMessage());
+                    continue;
+               }
 
                $rowsImported ++;
           }
@@ -324,7 +331,7 @@ class Db {
                'shasum' => $csvsha
           ));
           $this->pdo->commit();
-          
+
           $funcs->logMessage($rowsImported . ' rows imported');
           return $rowsImported;
      }
