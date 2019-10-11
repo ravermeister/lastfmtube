@@ -57,7 +57,7 @@ class AdminControl {
                } else if ($result < 0) {
                     echo " not changed\n";
                } else {
-                    echo ($result == 1 ? ' row' : ' rows') . " imported\n";
+                    echo ($result == 1 ? " $result row " : "$result rows ") . "imported\n";
                }
           }
      }
