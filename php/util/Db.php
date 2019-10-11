@@ -288,45 +288,45 @@ class Db {
 
           $rowsImported = 0;
           $rowsProcessed = 0;
-          /**
-           * while (($row = fgetcsv($csvf, 10000)) !== false) {
-           *
-           * $rowsProcessed ++;
-           * if (Functions::startsWith($row[0], '#')) {
-           * $funcs->logMessage('skip row ' . $rowsProcessed . ' as it is a comment row');
-           * continue; // ignore comment rows
-           * }
-           * if (sizeof($row) == 0 || strlen($row[0] === 0)) {
-           * $funcs->logMessage('skip row ' . $rowsProcessed . ' empty row');
-           * continue; // ignore empty rows
-           * }
-           * if (sizeof($row) < 4) {
-           * $funcs->logMessage('skip row ' . $rowsProcessed . ' insufficient data');
-           * continue;
-           * }
-           *
-           * $orig_artist_expr = $row[0];
-           * $orig_title_expr = $row[1];
-           * $repl_artist = $row[2];
-           * $repl_title = $row[3];
-           *
-           * try {
-           * $this->query('INSERT_REPLACEMENT', array(
-           * 'import_file_sha' => $csvsha,
-           * 'orig_artist_expr' => $orig_artist_expr,
-           * 'orig_title_expr' => $orig_title_expr,
-           * 'repl_artist' => $repl_artist,
-           * 'repl_title' => $repl_title
-           * ));
-           * } catch (PDOException $error) {
-           * $funcs->logMessage('Error inserting replacement in db');
-           * $funcs->logMessage($error->getMessage());
-           * continue;
-           * }
-           *
-           * $rowsImported ++;
-           * }
-           */
+
+          while (($row = fgetcsv($csvf, 10000)) !== false) {
+
+               $rowsProcessed ++;
+               if (Functions::startsWith($row[0], '#')) {
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' as it is a comment row');
+                    continue; // ignore comment rows
+               }
+               if (sizeof($row) == 0 || strlen($row[0] === 0)) {
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' empty row');
+                    continue; // ignore empty rows
+               }
+               if (sizeof($row) < 4) {
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' insufficient data');
+                    continue;
+               }
+
+               $orig_artist_expr = $row[0];
+               $orig_title_expr = $row[1];
+               $repl_artist = $row[2];
+               $repl_title = $row[3];
+
+               try {
+                    $this->query('INSERT_REPLACEMENT', array(
+                         'import_file_sha' => $csvsha,
+                         'orig_artist_expr' => $orig_artist_expr,
+                         'orig_title_expr' => $orig_title_expr,
+                         'repl_artist' => $repl_artist,
+                         'repl_title' => $repl_title
+                    ));
+               } catch (PDOException $error) {
+                    $funcs->logMessage('Error inserting replacement in db');
+                    $funcs->logMessage($error->getMessage());
+                    continue;
+               }
+
+               $rowsImported ++;
+          }
+
           $this->query('INSERT_FIMPORT', array(
                'fname' => basename($csvFile),
                'shasum' => $csvsha
