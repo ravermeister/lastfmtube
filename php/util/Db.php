@@ -275,18 +275,16 @@ class Db {
                return false;
           }
 
+          $this->pdo->beginTransaction();
           $this->query('DELETE_FIMPORT', array(
                'shasum' => $csvsha
           ));
-          $this->query('INSERT_FIMPORT', array(
-               'fname' => basename($csvFile),
-               'shasum' => $csvsha
-          ));
+
           // $this->query('SET_FIMPORT_SHA', array(
           // 'fname' => basename($csvFile),
           // 'shasum' => $csvsha
           // ));
-
+          
           $rowsImported = 0;
           $rowsProcessed = 0;
           while (($row = fgetcsv($csvf, 10000)) !== false) {
@@ -321,6 +319,12 @@ class Db {
                $rowsImported ++;
           }
 
+          $this->query('INSERT_FIMPORT', array(
+               'fname' => basename($csvFile),
+               'shasum' => $csvsha
+          ));
+          $this->pdo->commit();
+          
           $funcs->logMessage($rowsImported . ' rows imported');
           return $rowsImported;
      }
