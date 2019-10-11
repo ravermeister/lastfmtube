@@ -277,7 +277,7 @@ class Db {
 
           $this->pdo->beginTransaction();
           $this->query('DELETE_FIMPORT', array(
-               'shasum' => $csvsha
+               'shasum' => $saved_sha
           ));
 
           // $this->query('SET_FIMPORT_SHA', array(
