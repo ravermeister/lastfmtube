@@ -280,9 +280,8 @@ class Db {
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
           $this->pdo->beginTransaction();
 
-          $this->query('SET_FIMPORT', array(
-               'fname' => basename($csvFile),
-               'shasum' => $csvsha
+          $this->query('DELETE_FIMPORT', array(
+               'shasum' => $saved_sha
           ));
 
           $rowsImported = 0;
@@ -326,6 +325,10 @@ class Db {
                $rowsImported ++;
           }
           **/
+          $this->query('INSERT_FIMPORT', array(
+               'fname' => basename($csvFile),
+               'shasum' => $csvsha
+          ));
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
           $this->pdo->commit();
 
