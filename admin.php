@@ -66,7 +66,7 @@ class AdminControl {
 
      public function printHelp() {
           echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n"
-               ."-importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";
+               ." -importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";
      }
 
      public function process() {
