@@ -65,7 +65,7 @@ class Db {
           $settings = Functions::getInstance()->getSettings();
           $this->pdo = new PDO($settings['database']['dsn'], $settings['database']['username'], $settings['database']['password']);
           $this->createdb();
-          $this->pdo->query('PRAGMA foreign_keys = ON');
+          $this->pdo->query('PRAGMA foreign_keys = ON;');
      }
 
      public function isConnected() {
