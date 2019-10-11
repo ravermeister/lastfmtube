@@ -282,18 +282,11 @@ class Db {
           $this->pdo->beginTransaction();
           $this->pdo->exec('PRAGMA foreign_keys = ON;');
           
-//           $this->query('SET_FIMPORT', array(
-//                'fname' => basename($csvFile),
-//                'shasum' => $csvsha
-//           ));
-          $this->query('DELETE_FIMPORT', array(
-               'shasum' => $csvsha
-          ));
-          $this->query('INSERT_FIMPORT', array(
+          $this->query('SET_FIMPORT', array(
                'fname' => basename($csvFile),
                'shasum' => $csvsha
           ));
-
+          
           $rowsImported = 0;
           $rowsProcessed = 0;
           while (($row = fgetcsv($csvf, 10000)) !== false) {
@@ -333,6 +326,7 @@ class Db {
 
                $rowsImported ++;
           }
+                    
           $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
           $this->pdo->commit();
 
