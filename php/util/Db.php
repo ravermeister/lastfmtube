@@ -57,7 +57,6 @@ class Db {
      private function __construct($file = false) {
           $this->connect();
           $this->prepareQueries();
-          $this->initReplacements();
      }
 
      public function connect() {
@@ -437,8 +436,8 @@ class Db {
           return $data[0];
      }
 
-     public function getReplaceTrackMap() {
-          if ($this->replaceTrackMap === null) {
+     public function getReplaceTrackMap($reload=false) {
+          if ($this->replaceTrackMap === null || $reload) {
                $this->replaceTrackMap = $this->query('LOAD_REPLACEMENTS');
           }
           return $this->replaceTrackMap;
