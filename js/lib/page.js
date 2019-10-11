@@ -540,13 +540,13 @@ class PageController {
             }
         };
     }
-
+    
     init(initReadyCallBack) {
 
         this.initMyVues();
         $page.setMainPageLoading(true);
         location.hash = '';
-
+        
         let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;

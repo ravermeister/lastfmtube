@@ -30,6 +30,9 @@ The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the lis
 
 The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
+## Admin interface
+There is a php cli interface for importing the replacement.csv files and generating the sitemap.xml file. call `php admin.php` inside the lastfmtube folder for more info.
+
 ## Personal Songlist
 You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
 

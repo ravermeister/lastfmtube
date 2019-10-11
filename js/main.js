@@ -1,3 +1,8 @@
+// Enable navigation prompt, set to null to disable
+window.onbeforeunload = function() {
+	return true;
+};  
+
 require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 		Storages) {
 

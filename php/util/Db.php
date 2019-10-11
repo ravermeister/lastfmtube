@@ -3,6 +3,7 @@ namespace LastFmTube\Util;
 
 use Exception;
 use PDO;
+use PDOException;
 
 /**
  * Class Db
@@ -57,15 +58,14 @@ class Db {
      private function __construct($file = false) {
           $this->connect();
           $this->prepareQueries();
-          $this->initReplacements();
+          // activate use of foreign key constraints
+          $this->pdo->exec('PRAGMA foreign_keys = ON;');
      }
 
      public function connect() {
           if ($this->isConnected()) return;
-
           $settings = Functions::getInstance()->getSettings();
           $this->pdo = new PDO($settings['database']['dsn'], $settings['database']['username'], $settings['database']['password']);
-
           $this->createdb();
      }
 
@@ -230,14 +230,21 @@ class Db {
             ',
 
                'INSERT_REPLACEMENT' => '
-                REPLACE INTO replacement(orig_artist_expr, orig_title_expr, repl_artist, repl_title) VALUES (:orig_artist_expr, :orig_title_expr, :repl_artist, :repl_title);
+                INSERT INTO replacement(import_file_sha, orig_artist_expr, orig_title_expr, repl_artist, repl_title) VALUES (:import_file_sha, :orig_artist_expr, :orig_title_expr, :repl_artist, :repl_title);
             ',
 
                'SELECT_FIMPORT_SHA' => '
                 SELECT shasum FROM fimport WHERE fname = :fname
             ',
 
-               'SET_FIMPORT_SHA' => '
+               'DELETE_FIMPORT' => '
+                DELETE FROM fimport WHERE shasum = :shasum
+            ',
+               'INSERT_FIMPORT' => '
+                INSERT INTO fimport VALUES(:fname, :shasum)
+            ',
+
+               'SET_FIMPORT' => '
                 REPLACE INTO fimport VALUES(:fname, :shasum)
             '
           );
@@ -251,7 +258,7 @@ class Db {
           }
      }
 
-     private function importCSV($csvFile) {
+     public function importReplacementCSV($csvFile) {
           $funcs = Functions::getInstance();
           $csvsha = sha1_file($csvFile);
           $saved_sha = $this->query('SELECT_FIMPORT_SHA', array(
@@ -259,32 +266,46 @@ class Db {
           ));
           $saved_sha = is_array($saved_sha) && isset($saved_sha['shasum']) ? $saved_sha['shasum'] : '';
           if (strcmp($csvsha, $saved_sha) === 0) {
-               return; // file has not changed
+               return - 1; // file has not changed
           }
-          Functions::getInstance()->logMessage($csvFile . ' has changed importing new data.');
 
+          Functions::getInstance()->logMessage($csvFile . ' has changed importing new data.');
           $csvf = fopen($csvFile, 'r');
           if ($csvf === false) {
-               $funcs->logMessage('initial replacement csv file ' . $csvFile . ' not found');
-               return;
+               $funcs->logMessage('replacement csv file ' . $csvFile . ' not found');
+               return false;
           }
 
-          $this->pdo->query('DELETE FROM replacement');
-          $rcnt = 0;
+          $pdoErrorMode = $this->pdo->getAttribute(PDO::ATTR_ERRMODE);
+          $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $this->pdo->beginTransaction();
+
+          if (strlen($saved_sha) > 0) {
+               $this->query('DELETE_FIMPORT', array(
+                    'shasum' => $saved_sha
+               ));
+          }
+          
+          $this->query('INSERT_FIMPORT', array(
+               'fname' => basename($csvFile),
+               'shasum' => $csvsha
+          ));
+          $rowsImported = 0;
+          $rowsProcessed = 0;
+
           while (($row = fgetcsv($csvf, 10000)) !== false) {
 
+               $rowsProcessed ++;
                if (Functions::startsWith($row[0], '#')) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' as it is a comment row');
-                    $rcnt ++;
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' as it is a comment row');
                     continue; // ignore comment rows
                }
                if (sizeof($row) == 0 || strlen($row[0] === 0)) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' empty row');
-                    $rcnt ++;
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' empty row');
                     continue; // ignore empty rows
                }
                if (sizeof($row) < 4) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' insufficient data');
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' insufficient data');
                     continue;
                }
 
@@ -293,32 +314,28 @@ class Db {
                $repl_artist = $row[2];
                $repl_title = $row[3];
 
-               $this->query('INSERT_REPLACEMENT', array(
-                    'orig_artist_expr' => $orig_artist_expr,
-                    'orig_title_expr' => $orig_title_expr,
-                    'repl_artist' => $repl_artist,
-                    'repl_title' => $repl_title
-               ));
+               try {
+                    $this->query('INSERT_REPLACEMENT', array(
+                         'import_file_sha' => $csvsha,
+                         'orig_artist_expr' => $orig_artist_expr,
+                         'orig_title_expr' => $orig_title_expr,
+                         'repl_artist' => $repl_artist,
+                         'repl_title' => $repl_title
+                    ));
+               } catch (PDOException $error) {
+                    $funcs->logMessage('Error inserting replacement in db');
+                    $funcs->logMessage($error->getMessage());
+                    continue;
+               }
 
-               $rcnt ++;
+               $rowsImported ++;
           }
 
-          $this->query('SET_FIMPORT_SHA', array(
-               'fname' => basename($csvFile),
-               'shasum' => $csvsha
-          ));
-          $funcs->logMessage(($rcnt - 1) . ' rows imported');
-     }
+          $this->pdo->setAttribute(PDO::ATTR_ERRMODE, $pdoErrorMode);
+          $this->pdo->commit();
 
-     private function initReplacements() {
-          $funcs = Functions::getInstance();
-          $csvGlob = $funcs->getSettings()['database']['replacement_csv'];
-
-          $csvFiles = glob($csvGlob);
-          foreach ($csvFiles as $csvFile) {
-               if (! file_exists($csvFile)) continue;
-               $this->importCSV($csvFile);
-          }
+          $funcs->logMessage($rowsImported . ' rows imported');
+          return $rowsImported;
      }
 
      public function query($queryName, $namedParms = array()) {
@@ -338,7 +355,7 @@ class Db {
           $data = $this->statements[$queryName]->fetchAll(PDO::FETCH_ASSOC);
           if (sizeof($data) <= 0) {
                return $this->statements[$queryName]->rowCount();
-          } else if (sizeof($data) === 1 && Strings::endsWith($queryName, '_NUM_ROWS') || strcmp($queryName, 'SELECT_FIMPORT_SHA') === 0) {
+          } else if (sizeof($data) === 1 && (Strings::endsWith($queryName, '_NUM_ROWS') || strcmp($queryName, 'SELECT_FIMPORT_SHA') === 0)) {
                return $data[0];
           }
           return $data;
@@ -445,8 +462,8 @@ class Db {
           return $data[0];
      }
 
-     public function getReplaceTrackMap() {
-          if ($this->replaceTrackMap === null) {
+     public function getReplaceTrackMap($reload = false) {
+          if ($this->replaceTrackMap === null || $reload) {
                $this->replaceTrackMap = $this->query('LOAD_REPLACEMENTS');
           }
           return $this->replaceTrackMap;
