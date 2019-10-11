@@ -269,21 +269,21 @@ class Db {
           }
 
           $this->pdo->query('DELETE FROM replacement');
-          $rcnt = 0;
+          $rowsImported = 0;
+          $rowsProcessed = 0;
           while (($row = fgetcsv($csvf, 10000)) !== false) {
 
+               $rowsProcessed ++;
                if (Functions::startsWith($row[0], '#')) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' as it is a comment row');
-                    $rcnt ++;
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' as it is a comment row');
                     continue; // ignore comment rows
                }
                if (sizeof($row) == 0 || strlen($row[0] === 0)) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' empty row');
-                    $rcnt ++;
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' empty row');
                     continue; // ignore empty rows
                }
                if (sizeof($row) < 4) {
-                    $funcs->logMessage('skip row ' . ($rcnt + 1) . ' insufficient data');
+                    $funcs->logMessage('skip row ' . $rowsProcessed . ' insufficient data');
                     continue;
                }
 
@@ -299,7 +299,7 @@ class Db {
                     'repl_title' => $repl_title
                ));
 
-               $rcnt ++;
+               $rowsImported ++;
           }
 
           $this->query('SET_FIMPORT_SHA', array(
@@ -307,7 +307,6 @@ class Db {
                'shasum' => $csvsha
           ));
 
-          $rowsImported = $rcnt - 1;
           $funcs->logMessage($rowsImported . ' rows imported');
           return $rowsImported;
      }
@@ -436,7 +435,7 @@ class Db {
           return $data[0];
      }
 
-     public function getReplaceTrackMap($reload=false) {
+     public function getReplaceTrackMap($reload = false) {
           if ($this->replaceTrackMap === null || $reload) {
                $this->replaceTrackMap = $this->query('LOAD_REPLACEMENTS');
           }
