@@ -26,12 +26,12 @@ The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the lis
   * get the length of the Song divided by 2. 
   if it is greater than 2 minutes use 2 minutes as timeout, 
   otherwise use calculated length. 
-  * when Timeout is reached, increase playcount for Song.
+  * when the Timeout is reached, increase playcount for Song.
 
 The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
 ## Admin interface
-There is a php cli interface for importing the replacement.csv files and generating the sitemap.xml file. call `php admin.php` inside the lastfmtube folder for more info.
+There is an admin php cli Interface for Importing the replacement.csv Files and generating the sitemap.xml file. call `php admin.php` inside the lastfmtube Folder for more info.
 
 ## Personal Songlist
 You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
@@ -40,7 +40,7 @@ You can send any Title to your personal song list (will be stored in browser cac
 You can sarch any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
 
 ## replacements.csv
-You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing Artist and Title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in a database after first load, and re-imported automoically if changed. See the `init.replacement.example.csv` for more details.
+You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing Artist and Title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in the database after importing through the admin cli Interface. New- and Changed Files can be (re-)Imported with the admin interface at any time. See the `init.replacement.example.csv` for more details.
 
 ## Directory Structure:
   - __conf__ Configuration Files and [SQLite Database](https://sqlite.org)
