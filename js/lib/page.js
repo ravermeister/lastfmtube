@@ -215,6 +215,7 @@ class PageController {
 
         this.isReady = false;
         this.PLAYLIST = null;
+        this.SEARCH_RETURN_PLAYLIST = null;
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
 
@@ -228,42 +229,29 @@ class PageController {
     load(page = '', ldata = null, callBack = null) {
     	let pageLoaded = function (success) {
     		$page.setMainPageLoading();
-    		if(page !== 'search') {    			
-    			location.href = '#' + (ldata === null ? page : ldata);
-    		}
+    		location.href = '#' + (ldata === null ? page : ldata);
     		if(typeof callBack === 'function') {
     			callBack(success);
     		}
     	};
-    	
-    	if(page === 'search') {
-            let article = $('article[name=lastfm]');
-            $page.setMainPageLoading(true);
-            $(article).attr('id', 'lastfm');            
-            $page.loadList(1, null, pageLoaded, 'lastfm');
-            return;
 
-            		
-    	} else {
-            let article = $('article[name=' + page + ']');
-            $page.setMainPageLoading(true);
-            $(article).attr('id', ldata);
-            
-            if (!$page.isCurrentPlaylist(ldata)) {
-                let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
-                if (typeof lfmuser === 'undefined' || lfmuser === null) {
-                    try {
-                        lfmuser = $(article).find('#playlist_lastfmuser').val();
-                    } catch (e) {
-                    }
+        let article = $('article[name=' + page + ']');
+        $page.setMainPageLoading(true);
+        $(article).attr('id', ldata);
+        
+        if (!$page.isCurrentPlaylist(ldata)) {
+            let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            if (typeof lfmuser === 'undefined' || lfmuser === null) {
+                try {
+                    lfmuser = $(article).find('#playlist_lastfmuser').val();
+                } catch (e) {
                 }
-                $page.loadList(1, lfmuser, pageLoaded, ldata);
-                return;
             }
+            $page.loadList(1, lfmuser, pageLoaded, ldata);
+            return;
+        }
 
-            pageLoaded(true);
-    	}
-
+        pageLoaded(true);
     }
 
 	changeUrl(title, url) {
@@ -590,8 +578,15 @@ class PageController {
 
     	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
-        if(playlist !== 'search') $page.PLAYLIST = playlist;
+    	
+        if(playlist === 'search') {
+        	$page.SEARCH_RETURN_PLAYLIST = $page.PLAYLIST;
+        	if($page.SEARCH_RETURN_PLAYLIST === null) {
+        		$page.SEARCH_RETURN_PLAYLIST = 'lastfm';	
+        	}
+        }
         
+        $page.PLAYLIST = playlist;
         $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = $page.PLAYLIST;

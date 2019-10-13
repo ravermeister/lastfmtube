@@ -13,7 +13,7 @@ class LibvuePlaylist {
                 },
                 computed: {
                     LOGO: function () {
-                        let icon = PageController.icons.getPlaylistIcon(this.$data.PLAYLIST);
+                        let icon = PageController.icons.getPlaylistIcon($page.PLAYLIST);
                         return this.LOADING ? icon.animatedBig : icon.big;
                     }
                 },
@@ -34,11 +34,7 @@ class LibvuePlaylist {
 
                 computed: {
                     MENUS: function () {
-                    	if(this.$data.PLAYLIST === 'search') {
-                    		return this.$getMenuForPlaylist($page.PLAYLIST);
-                    	} else {                    		
-                    		return this.$getMenuForPlaylist(this.$data.PLAYLIST);
-                    	}
+                    	return this.$getMenuForPlaylist(this.$data.PLAYLIST);
                     }
                 }
             })
