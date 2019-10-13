@@ -237,7 +237,9 @@ class PageController {
 
         let article = $('article[name=' + page + ']');
         if( page === 'search') {
+        	console.log('article before', article);
         	article = $('article[name=playlist-container]');
+        	console.log('article after', article);
         }
         $page.setMainPageLoading(true);
         $(article).attr('id', ldata);
