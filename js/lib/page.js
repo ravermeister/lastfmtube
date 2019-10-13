@@ -358,6 +358,7 @@ class PageController {
         };
 
         $page.setLoading(curArticle, true);
+        console.log('load list', playlist);
         switch (playlist) {
             case 'userlist':
                 $playlist.loadCustomerList(pageNum, loadComplete);
