@@ -107,6 +107,9 @@ class Menu {
             case 'userlist':
                 return this.userlist;
             case 'search':
+            	if(this.SEARCH_RETURN_PLAYLIST !== null) {
+            		return getMenuItem(this.SEARCH_RETURN_PLAYLIST);
+            	}
                 return this.search;
             default:
             case 'lastfm':
