@@ -509,9 +509,11 @@ class PlayerController {
         	console.log('result ',result, 'loadpage', loadPage);
         	
         	if(result && loadPage) {        		
-        		location.href = '#' + $page.PLAYLIST;
-        	}
-    		if (typeof callBack === 'function') {
+        		// location.href = '#' + $page.PLAYLIST;
+        		$page.loadPage();
+        	} 
+        	
+        	if (typeof callBack === 'function') {
     			callBack(result);
     		}
     	};
