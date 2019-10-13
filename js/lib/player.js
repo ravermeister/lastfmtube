@@ -511,6 +511,7 @@ class PlayerController {
         	if(result && loadPage) {        		
         		// location.href = '#' + $page.PLAYLIST;
         		$page.load();
+        		console.log('after page load')
         	} 
         	
         	if (typeof callBack === 'function') {
