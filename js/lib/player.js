@@ -508,7 +508,7 @@ class PlayerController {
             'php/json/page/YouTube.php?action=search' +
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
-            PlaylistController.loadSearchResult(needle, json, 1, callBack);
+        	$playlist.loadSearchResult(needle, json, 1, callBack);
             if (loadPage) location.href = '#' + $page.PLAYLIST;
             if (typeof callBack === 'function') {
                 callBack(true);

@@ -27,7 +27,7 @@ class PlaylistController {
         });
     }
 
-    static loadSearchResult(needle, result, pageNum = 1, callBack = null) {
+    loadSearchResult(needle, result, pageNum = 1, callBack = null) {
 
         let trackCnt = result.data.value.length;
         let maxPages = 1;
@@ -58,7 +58,7 @@ class PlaylistController {
             }
         }
 
-        $page.setCurrentPlaylist('search');
+//        $page.setCurrentPlaylist('search');
         let playlistArticle = $('article[name=playlist-container]');
         $(playlistArticle).attr('id', 'search');
         $page.myVues.playlist.update({
