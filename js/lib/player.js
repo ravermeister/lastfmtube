@@ -509,8 +509,7 @@ class PlayerController {
        	
         	if(result && loadPage) {  		
         		console.log('before page load', $page.PLAYLIST);
-//        		location.href = '#' + $page.PLAYLIST;
-        		$page.load($page.PLAYLIST, $page.PLAYLIST);
+        		$page.load('search');
         		console.log('after page load')
         	} 
         	

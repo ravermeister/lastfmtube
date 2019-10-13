@@ -226,34 +226,44 @@ class PageController {
     }
 
     load(page = '', ldata = null, callBack = null) {
+    	let pageLoaded = function (success) {
+    		$page.setMainPageLoading();
+//    		location.href = '#' + (ldata === null ? page : ldata);
+    		pageLoaded(success);    
+    		if(typeof callBack === 'function') {
+    			callBack();
+    		}
+    	};
+    	
+    	if(page === 'search') {
+            let article = $('article[name=lastfm]');
+            $page.setMainPageLoading(true);
 
-        let article = $('article[name=' + page + ']');
-        
-        let pageLoaded = function (success) {
-            $page.setMainPageLoading();
-            if (ldata !== null) $page.setCurrentPlaylist(ldata);
-            location.href = '#' + (ldata === null ? page : ldata);
-            if(typeof callBack === 'function') {
-            	callBack();
-            }
-        };
-
-        $page.setMainPageLoading(true);
-
-        $(article).attr('id', ldata);
-        if (!$page.isCurrentPlaylist(ldata)) {
-            let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
-            if (typeof lfmuser === 'undefined' || lfmuser === null) {
-                try {
-                    lfmuser = $(article).find('#playlist_lastfmuser').val();
-                } catch (e) {
-                }
-            }
-            $page.loadList(1, lfmuser, pageLoaded, ldata);
+//            $(article).attr('id', 'lastfm');            
+            $page.loadList(1, null, pageLoaded, 'lastfm');
             return;
-        }
 
-        pageLoaded(true);
+            		
+    	} else {
+            let article = $('article[name=' + page + ']');
+            $page.setMainPageLoading(true);
+            $(article).attr('id', ldata);
+            
+            if (!$page.isCurrentPlaylist(ldata)) {
+                let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+                if (typeof lfmuser === 'undefined' || lfmuser === null) {
+                    try {
+                        lfmuser = $(article).find('#playlist_lastfmuser').val();
+                    } catch (e) {
+                    }
+                }
+                $page.loadList(1, lfmuser, pageLoaded, ldata);
+                return;
+            }
+
+            pageLoaded(true);
+    	}
+
     }
 
 	changeUrl(title, url) {
