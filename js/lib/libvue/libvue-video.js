@@ -66,7 +66,7 @@ class LibvueVideo {
                     
                     if ('video' === playlist) playlist = $page.PLAYLIST;
                     if (playlist === null) playlist = 'lastfm';
-                    if(!$page.searchActive && playlist === $page.PLAYLIST) {
+                    if(playlist === $page.PLAYLIST) {
                         location.href = '#' + playlist;
                     } else {
                         let menu = $page.menu.getMenuItem(playlist);

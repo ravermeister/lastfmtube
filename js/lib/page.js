@@ -241,7 +241,7 @@ class PageController {
         $page.setMainPageLoading(true);
 
         $(article).attr('id', ldata);
-        if ($page.searchActive || !$page.isCurrentPlaylist(ldata)) {
+        if (!$page.isCurrentPlaylist(ldata)) {
             let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
             if (typeof lfmuser === 'undefined' || lfmuser === null) {
                 try {
@@ -249,7 +249,6 @@ class PageController {
                 } catch (e) {
                 }
             }
-            console.log('load playlist: ',ldata);
             $page.loadList(1, lfmuser, pageLoaded, ldata);
             return;
         }
@@ -580,8 +579,7 @@ class PageController {
     setCurrentPlaylist(playlist = null) {
     	if(playlist === 'search') {
     		$page.searchActive = true;
-    		$page.PLAYLIST = 'lastfm';
-    	
+    		if($page.PLAYLIST === null) $page.PLAYLIST = 'lastfm';    	
     		return;
     	}    	
         
