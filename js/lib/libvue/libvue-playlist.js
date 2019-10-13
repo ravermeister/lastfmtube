@@ -13,6 +13,7 @@ class LibvuePlaylist {
                 },
                 computed: {
                     LOGO: function () {
+                    	console.log('playlist', $page.PLAYLIST);
                         let icon = PageController.icons.getPlaylistIcon($page.PLAYLIST);
                         return this.LOADING ? icon.animatedBig : icon.big;
                     }
