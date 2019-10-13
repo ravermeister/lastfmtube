@@ -505,7 +505,7 @@ class PlayerController {
             return;
         }
 
-        let myCallback = function(result) {
+        let myCallBack = function(result) {
         	if(result) {        		
         		if (loadPage) location.href = '#' + $page.PLAYLIST;
 
@@ -515,7 +515,7 @@ class PlayerController {
     		if (typeof callBack === 'function') {
     			callBack(result);
     		}
-    	}
+    	};
         
         let request =
             'php/json/page/YouTube.php?action=search' +
