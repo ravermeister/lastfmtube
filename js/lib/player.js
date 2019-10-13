@@ -547,15 +547,11 @@ class PlayerController {
         } else {
             if ($player.errorLoopCount > $player.maxErrorLoop) {
                 console.error('maximum error loop reached');
-                if(this.loopError !== null) {                	
-                	alert("Error, couldn't find any Songs on Youtube.\n\n" 
-                			+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
-                			+ "e.g at YouTube you only have 10000 Requests per day for free. " 
-                			+ "If you know what to to get a higher limit (for personal use) let me know :)"
-                		);
-                	this.loopError = null;
-                }
-                
+                alert("Error, couldn't find any Songs on Youtube.\n\n" 
+                		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
+                		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
+                		+ "If you know what to to get a higher Limit let me know :)"
+                );
                 return;
             }
             $player.errorLoopCount++;
