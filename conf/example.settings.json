@@ -2,13 +2,12 @@
 	"general": {
 		"domain" : "https://lfmtube.domain",
 		"baseurl": "/path/to/project/root/dir",
-		"lang": "en|de",
+		"lang": "en",
 		"logfile": "conf/logs/lastfmtube.log",
 		"playerwidth": "100%",
 		"playerheight": "500px",
 		"theme": "dimension",
 		"lastfm_defaultuser": "lastfm default user",
-		"adminpw": "shasum of password token",
 		"tracks_perpage": 25,
 		"sitemap_file": "/sitemap.xml"
 	},
