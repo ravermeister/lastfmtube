@@ -13,7 +13,7 @@ class LibvuePlaylist {
                 },
                 computed: {
                     LOGO: function () {
-                        let icon = PageController.icons.getPlaylistIcon(this.$data.PLAYLIST);
+                        let icon = PageController.icons.getPlaylistIcon($page.PLAYLIST);
                         return this.LOADING ? icon.animatedBig : icon.big;
                     }
                 },
@@ -34,7 +34,7 @@ class LibvuePlaylist {
 
                 computed: {
                     MENUS: function () {
-                        return this.$getMenuForPlaylist(this.$data.PLAYLIST);
+                    	return this.$getMenuForPlaylist(this.$data.PLAYLIST);
                     }
                 }
             })
@@ -50,7 +50,7 @@ class LibvuePlaylist {
                 MAX_PAGES: 0,
                 CUR_PAGE: 0,
                 PLAYLIST_LOAD: 'Load',
-                PLAYLIST: 'undefined',
+                PLAYLIST: '',
                 SORTBY: {
                 	LABEL: 'Sort by',
                 	VALUES: ['Playcount', 'Date'],

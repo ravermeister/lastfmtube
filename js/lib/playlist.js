@@ -27,7 +27,7 @@ class PlaylistController {
         });
     }
 
-    static loadSearchResult(needle, result, pageNum = 1, callBack = null) {
+    loadSearchResult(needle, result, pageNum = 1, callBack = null) {
 
         let trackCnt = result.data.value.length;
         let maxPages = 1;

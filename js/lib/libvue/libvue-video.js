@@ -16,7 +16,9 @@ class LibvueVideo {
                 TEXT: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    let menu = $page.menu.getMenuItem(playlist);
+                    let menu = null;
+                    
+                    menu = $page.menu.getMenuItem(playlist);
                     return menu.TEXT;
                 },
                 LOGO: function () {
@@ -29,7 +31,8 @@ class LibvueVideo {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
                     if ((this.CURRENT_TRACK === null ||
-                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== playlist)) {
+                        this.PLAYLIST !== null && this.PLAYLIST !== 'search' 
+                        	&& this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
                     }
 
@@ -54,14 +57,23 @@ class LibvueVideo {
                 loadMenu: function (playlist, event) {
 
                     if ('search' === playlist) {
-                        let vue = this;
-                        this.$data.LOADING = true;
-                        let callback = function (success) {
-                            vue.$data.LOADING = false;
-                            location.href = '#' + menu.PLAYLIST;
-                        };
-                        $player.searchSong(this.$data.SEARCH_TRACK, callback);
-                        return;
+                    	/**
+						 * menu typeof undefined is a dirty hack we should find
+						 * a better way to prevent the search result from
+						 * showing up again...
+						 */
+                    	if((typeof menu) === 'undefined') {
+                    		playlist = $page.SEARCH_RETURN_PLAYLIST;
+                    	} else {                    		
+                    		let vue = this;
+                    		this.$data.LOADING = true;
+                    		let callback = function (success) {
+                    			vue.$data.LOADING = false;
+                    			location.href = '#' + menu.PLAYLIST;
+                    		};
+                    		$player.searchSong(this.$data.SEARCH_TRACK, callback);
+                    		return;
+                    	}
                     }
                     
                     if ('video' === playlist) playlist = $page.PLAYLIST;

@@ -107,6 +107,9 @@ class Menu {
             case 'userlist':
                 return this.userlist;
             case 'search':
+            	if($page.SEARCH_RETURN_PLAYLIST !== null) {
+            		return this.getMenuItem($page.SEARCH_RETURN_PLAYLIST);
+            	}
                 return this.search;
             default:
             case 'lastfm':
@@ -215,6 +218,7 @@ class PageController {
 
         this.isReady = false;
         this.PLAYLIST = null;
+        this.SEARCH_RETURN_PLAYLIST = null;
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
 
@@ -225,22 +229,23 @@ class PageController {
         this.applyJQueryMethods();
     }
 
-    load(page = '', ldata = '', callBack) {
+    load(page = '', ldata = null, callBack = null) {
+    	let pageLoaded = function (success) {
+    		$page.setMainPageLoading();
+    		location.href = '#' + (ldata === null ? page : ldata);
+    		if(typeof callBack === 'function') {
+    			callBack(success);
+    		}
+    	};
 
         let article = $('article[name=' + page + ']');
-
-        let pageLoaded = function (success) {
-            $page.setMainPageLoading();
-            if (ldata !== false) $page.setCurrentPlaylist(ldata);
-            location.href = '#' + (ldata === false ? page : ldata);
-            if(typeof callBack === 'function') {
-            	callBack();
-            }
-        };
-
+        if( page === 'search') {
+        	article = $('article[name=playlist-container]');
+        	ldata = 'search';
+        }
         $page.setMainPageLoading(true);
-
         $(article).attr('id', ldata);
+        
         if (!$page.isCurrentPlaylist(ldata)) {
             let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
             if (typeof lfmuser === 'undefined' || lfmuser === null) {
@@ -249,7 +254,6 @@ class PageController {
                 } catch (e) {
                 }
             }
-
             $page.loadList(1, lfmuser, pageLoaded, ldata);
             return;
         }
@@ -579,14 +583,21 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
-        if (playlist === null || playlist === 'video' || this.isCurrentPlaylist(playlist))
+    	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
-
-        this.PLAYLIST = playlist;
-        $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
+    	
+        if(playlist === 'search') {
+        	$page.SEARCH_RETURN_PLAYLIST = $page.PLAYLIST;
+        	if($page.SEARCH_RETURN_PLAYLIST === null) {
+        		$page.SEARCH_RETURN_PLAYLIST = 'lastfm';	
+        	}
+        }
+        
+        $page.PLAYLIST = playlist;
+        $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
+        $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;
+        $page.myVues.playlist.header.title.$data.PLAYLIST = $page.PLAYLIST;
+        $page.myVues.youtube.header.$data.PLAYLIST = $page.PLAYLIST;
 
         if (!$player.isPlaying() ||
             'undefined' === typeof $player.currentTrackData.track ||
@@ -727,6 +738,9 @@ class PageController {
                 case 'youtube':
                     return this.youtube;
                 case 'search':
+                	if($page.SEARCH_RETURN_PLAYLIST !== null) {
+                		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
+                	}
                     return this.search;
                 default:
                     return this.headphones;
