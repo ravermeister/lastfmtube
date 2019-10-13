@@ -538,7 +538,6 @@ class PlayerController {
     }
 
     loadVideo(videoId = '') {
-    	console.log('load video', this.caller);
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             $player.ytPlayer.loadVideoById(videoId);
             $playlist.loadVideoCommentList(videoId);
@@ -548,6 +547,13 @@ class PlayerController {
         } else {
             if ($player.errorLoopCount > $player.maxErrorLoop) {
                 console.error('maximum error loop reached');
+                if(this.loopError !== null) {                	
+                	alert("Error, couldn't find any Songs on Youtube.\n" 
+                			+ "probably the API Limits for Youtube/Last.fm are exceeded."
+                		);
+                	this.loopError = null;
+                }
+                
                 return;
             }
             $player.errorLoopCount++;
