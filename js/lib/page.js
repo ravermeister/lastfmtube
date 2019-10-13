@@ -376,6 +376,7 @@ class PageController {
                 }
                 break;
             case 'lastfm':
+            case 'search':
                 $playlist.loadLastFmList(pageNum, user, loadComplete);
                 isPlaylist = true;
                 break;
