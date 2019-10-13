@@ -738,6 +738,9 @@ class PageController {
                 case 'youtube':
                     return this.youtube;
                 case 'search':
+                	if($page.SEARCH_RETURN_PLAYLIST !== null) {
+                		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
+                	}
                     return this.search;
                 default:
                     return this.headphones;

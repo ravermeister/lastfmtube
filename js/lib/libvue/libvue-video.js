@@ -24,7 +24,7 @@ class LibvueVideo {
                 LOGO: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    let icon = PageController.icons.getPlaylistIcon(playlist);
+                    let icon = $page.icons.getPlaylistIcon(playlist);
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 TRACK_NR: function () {
