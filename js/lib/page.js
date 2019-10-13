@@ -577,17 +577,10 @@ class PageController {
     }
 
     setCurrentPlaylist(playlist = null) {
-    	if(playlist === 'search') {
-    		$page.searchActive = true;
-    		if($page.PLAYLIST === null) $page.PLAYLIST = 'lastfm';    	
-    		return;
-    	}    	
-        
-    	if (playlist === null || playlist === 'video' || 
-        		(!$page.searchActive && $page.isCurrentPlaylist(playlist)))
+
+    	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
         
-        $page.searchActive = false;
         $page.PLAYLIST = playlist;
         $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;
