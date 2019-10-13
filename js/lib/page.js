@@ -578,15 +578,21 @@ class PageController {
     }
 
     setCurrentPlaylist(playlist = null) {
-
-        if (playlist === null || playlist === 'video' || this.isCurrentPlaylist(playlist))
+    	if(playlist === 'search') {
+    		$page.searchActive = true;
+    		if($page.PLAYLIST == null) $page.PLAYLIST = 'lastfm';
+    		else return;
+    	}    	
+        if (playlist === null || playlist === 'video' || 
+        		(!$page.searchActive && $page.isCurrentPlaylist(playlist)))
             return;
-
-        this.PLAYLIST = playlist;
-        $page.myVues.playlist.menu.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.playlist.header.menu.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.playlist.header.title.$data.PLAYLIST = this.PLAYLIST;
-        $page.myVues.youtube.header.$data.PLAYLIST = this.PLAYLIST;
+        
+        $page.searchActive = false;
+        $page.PLAYLIST = playlist;
+        $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
+        $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;
+        $page.myVues.playlist.header.title.$data.PLAYLIST = $page.PLAYLIST;
+        $page.myVues.youtube.header.$data.PLAYLIST = $page.PLAYLIST;
 
         if (!$player.isPlaying() ||
             'undefined' === typeof $player.currentTrackData.track ||
