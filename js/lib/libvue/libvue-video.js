@@ -56,14 +56,23 @@ class LibvueVideo {
                 loadMenu: function (playlist, event) {
 
                     if ('search' === playlist) {
-                        let vue = this;
-                        this.$data.LOADING = true;
-                        let callback = function (success) {
-                            vue.$data.LOADING = false;
-                            location.href = '#' + menu.PLAYLIST;
-                        };
-                        $player.searchSong(this.$data.SEARCH_TRACK, callback);
-                        return;
+                    	/**
+						 * menu typeof undefined is a dirty hack we should find
+						 * a better way to prevent the search result from
+						 * showing up again...
+						 */
+                    	if((typeof menu) === 'undefined') {
+                    		playlist = $page.SEARCH_RETURN_PLAYLIST;
+                    	} else {                    		
+                    		let vue = this;
+                    		this.$data.LOADING = true;
+                    		let callback = function (success) {
+                    			vue.$data.LOADING = false;
+                    			location.href = '#' + menu.PLAYLIST;
+                    		};
+                    		$player.searchSong(this.$data.SEARCH_TRACK, callback);
+                    		return;
+                    	}
                     }
                     
                     if ('video' === playlist) playlist = $page.PLAYLIST;
