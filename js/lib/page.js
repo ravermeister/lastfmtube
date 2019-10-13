@@ -578,10 +578,10 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
-    	if (playlist === null || playlist === 'search' || playlist === 'video' || $page.isCurrentPlaylist(playlist))
+    	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
+        if(playlist !== 'search') $page.PLAYLIST = playlist;
         
-        $page.PLAYLIST = playlist;
         $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;
         $page.myVues.playlist.header.title.$data.PLAYLIST = $page.PLAYLIST;

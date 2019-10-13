@@ -16,7 +16,14 @@ class LibvueVideo {
                 TEXT: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    let menu = $page.menu.getMenuItem(playlist);
+                    
+                    let menu = null;
+                    if(this.PLAYLIST === 'search') {
+                    	menu = $page.menu.getMenuItem($page.PLAYLIST); 
+                    } else {                    	
+                    	menu = $page.menu.getMenuItem(playlist); 
+                    }
+                    
                     return menu.TEXT;
                 },
                 LOGO: function () {
