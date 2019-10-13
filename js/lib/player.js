@@ -508,9 +508,7 @@ class PlayerController {
         let myCallBack = function(result) {
        	
         	if(result && loadPage) {  		
-        		console.log('before page load', $page.PLAYLIST);
         		$page.load('search');
-        		console.log('after page load')
         	} 
         	
         	if (typeof callBack === 'function') {

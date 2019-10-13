@@ -239,8 +239,7 @@ class PageController {
     	if(page === 'search') {
             let article = $('article[name=lastfm]');
             $page.setMainPageLoading(true);
-
-//            $(article).attr('id', 'lastfm');            
+            $(article).attr('id', 'lastfm');            
             $page.loadList(1, null, pageLoaded, 'lastfm');
             return;
 
@@ -367,7 +366,7 @@ class PageController {
             $page.setLoading(curArticle);
             $page.trackPlaylist($page.PLAYLIST);
         };
-
+        console.log('load playlist', playlist);
         $page.setLoading(curArticle, true);
         switch (playlist) {
             case 'userlist':
