@@ -550,7 +550,7 @@ class PlayerController {
                 alert("Error, couldn't find any Songs on Youtube.\n\n" 
                 		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
                 		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
-                		+ "If you know what to to get a higher Limit let me know :)"
+                		+ "If you know what to do, to get a higher Limit let me know :)"
                 );
                 return;
             }
