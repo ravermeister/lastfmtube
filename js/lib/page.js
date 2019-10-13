@@ -229,9 +229,8 @@ class PageController {
     	let pageLoaded = function (success) {
     		$page.setMainPageLoading();
 //    		location.href = '#' + (ldata === null ? page : ldata);
-    		pageLoaded(success);    
     		if(typeof callBack === 'function') {
-    			callBack();
+    			callBack(success);
     		}
     	};
     	
