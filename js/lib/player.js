@@ -510,6 +510,9 @@ class PlayerController {
         $.getJSON(request, function (json) {
             PlaylistController.loadSearchResult(needle, json, 1, callBack);
             if (loadPage) location.href = '#' + $page.PLAYLIST;
+            if (typeof callBack === 'function') {
+                callBack(true);
+            }
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -526,7 +529,6 @@ class PlayerController {
             if (typeof callBack === 'function') {
                 callBack(false);
             }
-
         });
     }
 
