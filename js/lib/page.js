@@ -361,7 +361,7 @@ class PageController {
             $page.setLoading(curArticle);
             $page.trackPlaylist($page.PLAYLIST);
         };
-        console.log('load playlist', playlist);
+
         $page.setLoading(curArticle, true);
         switch (playlist) {
             case 'userlist':
