@@ -236,6 +236,9 @@ class PageController {
     	};
 
         let article = $('article[name=' + page + ']');
+        if( page === 'search') {
+        	article = $('article[name=playlist-container]');
+        }
         $page.setMainPageLoading(true);
         $(article).attr('id', ldata);
         
