@@ -510,7 +510,7 @@ class PlayerController {
         	
         	if(result && loadPage) {        		
         		// location.href = '#' + $page.PLAYLIST;
-        		$page.load($page.PLAYLIST, $PAGE.PLAYLIST);
+        		$page.load($page.PLAYLIST, $page.PLAYLIST);
         		console.log('after page load')
         	} 
         	

@@ -228,12 +228,11 @@ class PageController {
     load(page = '', ldata = null, callBack = null) {
 
         let article = $('article[name=' + page + ']');
-        if(ldata == null) ldata = page;
         
         let pageLoaded = function (success) {
             $page.setMainPageLoading();
-            if (ldata !== false) $page.setCurrentPlaylist(ldata);
-            location.href = '#' + (ldata === false ? page : ldata);
+            if (ldata !== null) $page.setCurrentPlaylist(ldata);
+            location.href = '#' + (ldata === null ? page : ldata);
             if(typeof callBack === 'function') {
             	callBack();
             }
