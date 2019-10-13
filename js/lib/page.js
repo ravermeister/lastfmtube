@@ -249,7 +249,7 @@ class PageController {
                 } catch (e) {
                 }
             }
-
+            console.log('load playlist: ',ldata);
             $page.loadList(1, lfmuser, pageLoaded, ldata);
             return;
         }
