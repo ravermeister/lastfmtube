@@ -225,10 +225,11 @@ class PageController {
         this.applyJQueryMethods();
     }
 
-    load(page = '', ldata = '', callBack) {
+    load(page = '', ldata = null, callBack = null) {
 
         let article = $('article[name=' + page + ']');
-
+        if(ldata == null) ldata = page;
+        
         let pageLoaded = function (success) {
             $page.setMainPageLoading();
             if (ldata !== false) $page.setCurrentPlaylist(ldata);
