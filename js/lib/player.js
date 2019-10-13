@@ -538,6 +538,7 @@ class PlayerController {
     }
 
     loadVideo(videoId = '') {
+    	console.log('load video', this.caller);
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             $player.ytPlayer.loadVideoById(videoId);
             $playlist.loadVideoCommentList(videoId);
