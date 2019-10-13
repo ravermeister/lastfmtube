@@ -506,11 +506,10 @@ class PlayerController {
         }
 
         let myCallBack = function(result) {
-        	if(result) {        		
-        		if (loadPage) location.href = '#' + $page.PLAYLIST;
-
-        	} else {
-        		
+        	console.log('result ',result, 'loadpage', loadPage);
+        	
+        	if(result && loadPage) {        		
+        		location.href = '#' + $page.PLAYLIST;
         	}
     		if (typeof callBack === 'function') {
     			callBack(result);
