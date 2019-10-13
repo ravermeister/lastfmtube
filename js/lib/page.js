@@ -578,7 +578,7 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
-    	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
+    	if (playlist === null || playlist === 'search' || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
         
         $page.PLAYLIST = playlist;
