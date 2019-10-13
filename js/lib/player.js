@@ -278,7 +278,7 @@ class PlayerController {
 
             let onReady = function (event) {
             	$player.isReady = true;
-//            	console.log('youtube player ready');
+// console.log('youtube player ready');
             	if(typeof initReadyCallback === 'function') {
             		initReadyCallback();
             	}
@@ -499,20 +499,29 @@ class PlayerController {
 
     searchSong(track, callBack = null, loadPage = false) {
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+        
         if (!needle.isValid()) {
             console.error('needle is invalid exit search');
             return;
         }
 
+        let myCallback = function(result) {
+        	if(result) {        		
+        		if (loadPage) location.href = '#' + $page.PLAYLIST;
+
+        	} else {
+        		
+        	}
+    		if (typeof callBack === 'function') {
+    			callBack(result);
+    		}
+    	}
+        
         let request =
             'php/json/page/YouTube.php?action=search' +
             '&size=50&needle=' + needle.asVar();
         $.getJSON(request, function (json) {
-        	$playlist.loadSearchResult(needle, json, 1, callBack);
-            if (loadPage) location.href = '#' + $page.PLAYLIST;
-            if (typeof callBack === 'function') {
-                callBack(true);
-            }
+        	$playlist.loadSearchResult(needle, json, 1, myCallBack);            
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -524,11 +533,8 @@ class PlayerController {
             } else {
                 console.log('request: ', request, 'error');
             }
-
-
-            if (typeof callBack === 'function') {
-                callBack(false);
-            }
+            
+            myCallBack(false);
         });
     }
 
