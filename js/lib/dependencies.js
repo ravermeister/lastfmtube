@@ -14,19 +14,19 @@ requirejs
 						'requirejs/domReady' ],
 
 				// jquery
-				jquery : [ '//unpkg.com/jquery@3.3.1/dist/jquery.min',
+				jquery : [ '//unpkg.com/jquery@3.4.1/dist/jquery.min',
 						'jquery/jquery' ],
 
 				// the Vue lib
-				Vue : [ '//unpkg.com/vue@2.5.17/dist/vue.min', 'vue/vue.min' ],
+				Vue : [ '//unpkg.com/vue@2.6.10/dist/vue.min', 'vue/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
 				vue : [
-						'//cdn.rawgit.com/edgardleal/require-vuejs/aeaff6db/dist/require-vuejs.min',
+						'unpkg.com/browse/require-vuejs@1.1.3/dist/require-vuejs.min.js',
 						'vue/vue-requirejs.min' ],
 
 				// Storage js
-				Storages : [ '//unpkg.com/js-storage@1.0.4/js.storage.min',
+				Storages : [ '//unpkg.com/js-storage@1.1.0/js.storage.min',
 						'jstorage/js.storage.min' ],
 
 				themes : [ '../../themes/dimension/assets/js' ]
