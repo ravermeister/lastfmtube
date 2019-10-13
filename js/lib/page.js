@@ -580,12 +580,8 @@ class PageController {
     setCurrentPlaylist(playlist = null) {
     	if(playlist === 'search') {
     		$page.searchActive = true;
-<<<<<<< HEAD
-    		return;
-=======
     		if($page.PLAYLIST == null) $page.PLAYLIST = 'lastfm';
     		else return;
->>>>>>> f1d509fb8dd1133186b48ec87b553a9e92533a00
     	}    	
         if (playlist === null || playlist === 'video' || 
         		(!$page.searchActive && $page.isCurrentPlaylist(playlist)))
