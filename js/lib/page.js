@@ -241,7 +241,7 @@ class PageController {
         $page.setMainPageLoading(true);
 
         $(article).attr('id', ldata);
-        if (!$page.isCurrentPlaylist(ldata)) {
+        if ($page.searchActive || !$page.isCurrentPlaylist(ldata)) {
             let lfmuser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
             if (typeof lfmuser === 'undefined' || lfmuser === null) {
                 try {
