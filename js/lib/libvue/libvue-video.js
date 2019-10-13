@@ -31,7 +31,8 @@ class LibvueVideo {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
                     if ((this.CURRENT_TRACK === null ||
-                        this.PLAYLIST !== null && this.CURRENT_TRACK.PLAYLIST !== playlist)) {
+                        this.PLAYLIST !== null && this.PLAYLIST !== 'search' 
+                        	&& this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
                     }
 
