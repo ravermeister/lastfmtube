@@ -58,7 +58,7 @@ class PlaylistController {
             }
         }
 
-//        $page.setCurrentPlaylist('search');
+        $page.setCurrentPlaylist('search');
         let playlistArticle = $('article[name=playlist-container]');
         $(playlistArticle).attr('id', 'search');
         $page.myVues.playlist.update({
