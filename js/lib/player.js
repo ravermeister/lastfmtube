@@ -510,7 +510,7 @@ class PlayerController {
         	
         	if(result && loadPage) {        		
         		// location.href = '#' + $page.PLAYLIST;
-        		$page.loadPage();
+        		$page.load();
         	} 
         	
         	if (typeof callBack === 'function') {
