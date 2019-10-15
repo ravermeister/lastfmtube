@@ -15,7 +15,6 @@ class LibvuePlaylist {
                     LOGO: function () {
                     	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
                         let icon = PageController.icons.getPlaylistIcon(playlist);
-                        console.log('p1', playlist, 'p2', $page.SEARCH_RETURN_PLAYLIST, 'icon', icon);
                         return this.LOADING ? icon.animatedBig : icon.big;
                     }
                 },
