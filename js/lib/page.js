@@ -353,10 +353,10 @@ class PageController {
             let parentCallBack = callBack;
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
-            } else /*if (isPlaylist)*/ {            
-                $page.setCurrentPlaylist(playlist);
+            } else if (isPlaylist) {
             }
 
+            $page.setCurrentPlaylist(playlist);
             $page.setLoading(curArticle);
             $page.trackPlaylist($page.PLAYLIST);
         };
