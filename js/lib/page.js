@@ -351,14 +351,18 @@ class PageController {
         let isPlaylist = false;
         let loadComplete = function (success) {
             let parentCallBack = callBack;
-            if (typeof parentCallBack === 'function') {
-                parentCallBack(success);
-            } else if (isPlaylist) {
+             
+            if (isPlaylist) {
+            	console.log('setcurrent', playlist);
+            	$page.setCurrentPlaylist(playlist);
             }
-            console.log('setcurrent', playlist);
-            $page.setCurrentPlaylist(playlist);
             $page.setLoading(curArticle);
             $page.trackPlaylist($page.PLAYLIST);
+            
+            if (typeof parentCallBack === 'function') {
+            	console.log('setcurrent callback!!', parentCallBack);
+                parentCallBack(success);
+            }
         };
 
         $page.setLoading(curArticle, true);
