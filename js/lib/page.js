@@ -582,7 +582,6 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
-    	console.log('setcurrent ', playlist, 'page playlist', $page.PLAYLIST);
     	
     	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
@@ -593,6 +592,8 @@ class PageController {
         		$page.SEARCH_RETURN_PLAYLIST = 'lastfm';	
         	}
         }
+
+        console.log('setcurrent ', playlist, 'page playlist', $page.PLAYLIST);
         
         $page.PLAYLIST = playlist;
         $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
