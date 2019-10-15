@@ -726,7 +726,7 @@ class PageController {
         };
         icons.getPlaylistIcon = function (playlist = null) {
             if (playlist === null) return this.diamond.big;
-
+            console.log('get icon for playlist ', playlist);
             switch (playlist) {
                 case 'topsongs':
                     return this.star;
