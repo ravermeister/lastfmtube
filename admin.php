@@ -36,7 +36,7 @@ class AdminControl {
           $sitemap->addURL('/topsongs');
           $sitemap->addURL('/lastfm');
           $sitemap->addURL('/users');
-          $sitemap->addURL('/videos');
+          $sitemap->addURL('/video');
           $sitemap->addURL('/personal');
           $sitemap->create(true);
 
