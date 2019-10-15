@@ -726,7 +726,6 @@ class PageController {
         };
         icons.getPlaylistIcon = function (playlist = null) {
             if (playlist === null) return this.diamond.big;
-            console.log('get icon for playlist ', playlist);
             switch (playlist) {
                 case 'topsongs':
                     return this.star;
@@ -739,6 +738,7 @@ class PageController {
                     return this.youtube;
                 case 'search':
                 	if($page.SEARCH_RETURN_PLAYLIST !== null) {
+                		console.log('return search result playlist');
                 		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
                 	}
                     return this.search;
