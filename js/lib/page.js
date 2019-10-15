@@ -464,7 +464,6 @@ class PageController {
                 return;
             }
             let showPage = function (success) {
-            	console.log('success');
                 // DOM updated
                 if (typeof menu.LDATA !== 'undefined') {
                     $page.setLoading(curArticle);

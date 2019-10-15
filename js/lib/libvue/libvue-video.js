@@ -78,7 +78,6 @@ class LibvueVideo {
                     
                     if ('video' === playlist) playlist = $page.PLAYLIST;
                     if (playlist === null) playlist = 'lastfm';
-                    console.log('playlist',playlist,'<>',$page.PLAYLIST, 'page_playlist');
                     if(playlist === $page.PLAYLIST) {
                         location.href = '#' + playlist;
                     } else {
