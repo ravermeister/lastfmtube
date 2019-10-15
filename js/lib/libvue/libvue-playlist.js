@@ -13,7 +13,7 @@ class LibvuePlaylist {
                 },
                 computed: {
                     LOGO: function () {
-                    	let playlist = $page.PLAYLIST === null ? 'lastfm' : $page.PLAYLIST;
+                    	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
                         let icon = PageController.icons.getPlaylistIcon(playlist);
                         return this.LOADING ? icon.animatedBig : icon.big;
                     }

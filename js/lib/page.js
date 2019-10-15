@@ -347,19 +347,18 @@ class PageController {
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
 
+        let isPlaylist = false;        
         let curArticle = PageController.article.playlist.dom;
-        let isPlaylist = false;
         let loadComplete = function (success) {
             let parentCallBack = callBack;
-
+            curArticle = PageController.article.playlist.dom;
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
             } else if (isPlaylist) {
-                $page.setCurrentPlaylist(playlist);
+            	$page.setCurrentPlaylist(playlist);
+            	$page.trackPlaylist($page.PLAYLIST);
+            	$page.setLoading(curArticle); 
             }
-
-            $page.setLoading(curArticle);
-            $page.trackPlaylist($page.PLAYLIST);
         };
 
         $page.setLoading(curArticle, true);
@@ -465,7 +464,6 @@ class PageController {
                 return;
             }
             let showPage = function (success) {
-
                 // DOM updated
                 if (typeof menu.LDATA !== 'undefined') {
                     $page.setLoading(curArticle);
@@ -583,6 +581,7 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
+    	
     	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
     	
@@ -592,7 +591,7 @@ class PageController {
         		$page.SEARCH_RETURN_PLAYLIST = 'lastfm';	
         	}
         }
-        
+
         $page.PLAYLIST = playlist;
         $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;
@@ -726,7 +725,6 @@ class PageController {
         };
         icons.getPlaylistIcon = function (playlist = null) {
             if (playlist === null) return this.diamond.big;
-
             switch (playlist) {
                 case 'topsongs':
                     return this.star;
