@@ -37,7 +37,6 @@ class LibvueVideo {
                     		return;
                     	}
                     }
-                    console.log('curtrack', this.CURRENT_TRACK, 'playlist', playlist);
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
                     }
