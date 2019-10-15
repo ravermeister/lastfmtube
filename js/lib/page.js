@@ -593,8 +593,6 @@ class PageController {
         	}
         }
 
-        console.log('setcurrent ', playlist, 'page playlist', $page.PLAYLIST);
-        
         $page.PLAYLIST = playlist;
         $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
         $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;

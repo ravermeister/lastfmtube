@@ -13,7 +13,7 @@ class LibvuePlaylist {
                 },
                 computed: {
                     LOGO: function () {
-                    	let playlist = $page.PLAYLIST === null ? 'lastfm' : $page.PLAYLIST;
+                    	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
                         let icon = PageController.icons.getPlaylistIcon(playlist);
                         console.log('p1', playlist, 'p2', $page.SEARCH_RETURN_PLAYLIST, 'icon', icon);
                         return this.LOADING ? icon.animatedBig : icon.big;
@@ -24,7 +24,6 @@ class LibvuePlaylist {
                         if ('undefined' !== typeof json.HEADER) {
                             this.$applyData(json.HEADER);
                         }
-                        console.log('PLAYLIST: ', this.PLAYLIST);
                     }
                 }
             }),
