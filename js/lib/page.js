@@ -582,6 +582,8 @@ class PageController {
 
     setCurrentPlaylist(playlist = null) {
 
+    	console.log('setcurrent ', playlist, 'page playlist', $page.PLAYLIST);
+    	
     	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
             return;
     	
