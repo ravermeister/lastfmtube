@@ -351,10 +351,9 @@ class PageController {
         let isPlaylist = false;
         let loadComplete = function (success) {
             let parentCallBack = callBack;
-            console.log('load complete isPlaylist', isPlaylist, 'pl', playlist);
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
-            } else if (isPlaylist) {
+            } else /*if (isPlaylist)*/ {            
                 $page.setCurrentPlaylist(playlist);
             }
 
