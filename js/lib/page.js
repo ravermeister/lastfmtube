@@ -355,7 +355,7 @@ class PageController {
                 parentCallBack(success);
             } else if (isPlaylist) {
             }
-
+            console.log('setcurrent', playlist);
             $page.setCurrentPlaylist(playlist);
             $page.setLoading(curArticle);
             $page.trackPlaylist($page.PLAYLIST);
