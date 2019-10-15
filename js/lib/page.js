@@ -361,7 +361,7 @@ class PageController {
             
             if (typeof parentCallBack === 'function') {
             	console.log('setcurrent callback!!', parentCallBack);
-                parentCallBack(success);
+//                parentCallBack(success);
             }
         };
 
