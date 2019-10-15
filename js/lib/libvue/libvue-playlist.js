@@ -24,6 +24,7 @@ class LibvuePlaylist {
                         if ('undefined' !== typeof json.HEADER) {
                             this.$applyData(json.HEADER);
                         }
+                        console.log('PLAYLIST: ', this.PLAYLIST);
                     }
                 }
             }),
