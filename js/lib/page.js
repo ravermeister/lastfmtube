@@ -347,21 +347,17 @@ class PageController {
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
 
+        let isPlaylist = false;        
         let curArticle = PageController.article.playlist.dom;
-        let isPlaylist = false;
         let loadComplete = function (success) {
             let parentCallBack = callBack;
-             
-            if (isPlaylist) {
-            	console.log('setcurrent', playlist);
+            curArticle = PageController.article.playlist.dom;
+            if (typeof parentCallBack === 'function') {
+                parentCallBack(success);
+            } else if (isPlaylist) {
             	$page.setCurrentPlaylist(playlist);
             	$page.trackPlaylist($page.PLAYLIST);
-            }
-            $page.setLoading(curArticle);
-            
-            if (typeof parentCallBack === 'function') {
-            	console.log('setcurrent callback!!', parentCallBack.name);
-//                parentCallBack(success);
+            	$page.setLoading(curArticle); 
             }
         };
 
