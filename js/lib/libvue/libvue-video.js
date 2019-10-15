@@ -30,9 +30,9 @@ class LibvueVideo {
                 TRACK_NR: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    if ((this.CURRENT_TRACK === null ||
-                        this.PLAYLIST !== null && this.PLAYLIST !== 'search' 
-                        	&& this.CURRENT_TRACK.PLAYLIST !== playlist)) {
+                    if(this.PLAYLIST === 'search') return;
+                    console.log('curtrack', this.CURRENT_TRACK, 'playlist', playlist);
+                    if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
                     }
 
