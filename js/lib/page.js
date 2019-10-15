@@ -738,7 +738,6 @@ class PageController {
                     return this.youtube;
                 case 'search':
                 	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-                		console.log('return search result playlist');
                 		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
                 	}
                     return this.search;
