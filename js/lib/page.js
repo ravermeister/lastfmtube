@@ -360,7 +360,7 @@ class PageController {
             $page.setLoading(curArticle);
             
             if (typeof parentCallBack === 'function') {
-            	console.log('setcurrent callback!!', parentCallBack);
+            	console.log('setcurrent callback!!', parentCallBack.name);
 //                parentCallBack(success);
             }
         };
@@ -468,7 +468,7 @@ class PageController {
                 return;
             }
             let showPage = function (success) {
-
+            	console.log('success');
                 // DOM updated
                 if (typeof menu.LDATA !== 'undefined') {
                     $page.setLoading(curArticle);
