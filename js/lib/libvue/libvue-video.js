@@ -30,9 +30,14 @@ class LibvueVideo {
                 TRACK_NR: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    if ((this.CURRENT_TRACK === null ||
-                        this.PLAYLIST !== null && this.PLAYLIST !== 'search' 
-                        	&& this.CURRENT_TRACK.PLAYLIST !== playlist)) {
+                    if(this.PLAYLIST === 'search') {
+                    	if($page.SEARCH_RETURN_PLAYLIST !== null) {
+                    		playlist = $page.SEARCH_RETURN_PLAYLIST;
+                    	} else {
+                    		return;
+                    	}
+                    }
+                    if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
                     }
 
