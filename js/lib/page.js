@@ -313,6 +313,7 @@ class PageController {
 			
 			case '/video':
 			default:
+				console.log('init video');
 				$page.loadList(1, null, 'video', function(){					
 					$page.changeUrl('Video', '/#video');
 					if($player.autoPlay) {
