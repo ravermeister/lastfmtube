@@ -355,6 +355,7 @@ class PageController {
             $page.setCurrentPlaylist(playlist);
             $page.trackPlaylist($page.PLAYLIST);
             $page.setLoading(curArticle); 
+            location.href = '#' + playlist;
 
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
