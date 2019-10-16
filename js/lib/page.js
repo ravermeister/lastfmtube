@@ -276,53 +276,49 @@ class PageController {
 		
 		switch (location.pathname) {
 			case '/topsongs':
-				$page.loadList(1 ,null, function(){	
+				$page.load('playlist-container' ,'topsongs', function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				}, 'topsongs');
+				});
 			break;
 						
 			case '/users':
-				$page.loadList(1, null, function(){					
+				$page.load('user-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
 // if($player.autoPlay) {
 // $player.loadNextSong();
 // }
-				}, 'topuser');
+				});
 			break;
 			
 			case '/personal':
-				$page.loadList(1, null, function(){					
+				$page.load('user-container', 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				}, 'userlist');
+				});
 			break;
 			
 			case '/lastfm':
-				$page.loadList(1, null, function(){					
+				$page.load('playlist-container', 'lastfm', function(){					
 					$page.changeUrl('Last.fm', '/#lastfm');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				}, 'lastfm');	
+				});	
 			break;
 			
 			case '/video':
 			default:
-				console.log('init video');
-				$page.loadList(1, null, function(){			
-					$page.load('video', function(){
-						console.log('after page.load()');
-						$page.changeUrl('Video', '/#video');
-						if($player.autoPlay) {
-							$player.loadNextSong();
-						}
-					});
-				}, 'video');
+				$page.load('video-container', 'video', function(){					
+					$page.changeUrl('Video', '/#video');
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});
 			break;
 		}
     }
