@@ -316,6 +316,7 @@ class PageController {
 				console.log('init video');
 				$page.loadList(1, null, function(){			
 					$page.load('video', function(){
+						console.log('after page.load()');
 						$page.changeUrl('Video', '/#video');
 						if($player.autoPlay) {
 							$player.loadNextSong();
