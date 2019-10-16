@@ -276,7 +276,7 @@ class PageController {
 		
 		switch (location.pathname) {
 			case '/topsongs':
-				$page.load('playlist-container' ,'topsongs', function(){	
+				$page.loadList(1 ,null, 'topsongs', function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');
 					if($player.autoPlay) {
 						$player.loadNextSong();
@@ -285,7 +285,7 @@ class PageController {
 			break;
 						
 			case '/users':
-				$page.load('user-container', 'topuser', function(){					
+				$page.loadList(1, null, 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
 // if($player.autoPlay) {
 // $player.loadNextSong();
@@ -294,7 +294,7 @@ class PageController {
 			break;
 			
 			case '/personal':
-				$page.load('user-container', 'userlist', function(){					
+				$page.loadList(1, null, 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 					if($player.autoPlay) {
 						$player.loadNextSong();
@@ -303,7 +303,7 @@ class PageController {
 			break;
 			
 			case '/lastfm':
-				$page.load('playlist-container', 'lastfm', function(){					
+				$page.loadList(1, null, 'lastfm', function(){					
 					$page.changeUrl('Last.fm', '/#lastfm');
 					if($player.autoPlay) {
 						$player.loadNextSong();
@@ -313,7 +313,7 @@ class PageController {
 			
 			case '/video':
 			default:
-				$page.load('video-container', 'video', function(){					
+				$page.loadList(1, null, 'video', function(){					
 					$page.changeUrl('Video', '/#video');
 					if($player.autoPlay) {
 						$player.loadNextSong();
