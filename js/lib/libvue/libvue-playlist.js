@@ -35,7 +35,6 @@ class LibvuePlaylist {
 
                 computed: {
                     MENUS: function () {
-                    	console.log('get menu for ', this.PLAYLIST);
                     	return this.$getMenuForPlaylist(this.$data.PLAYLIST);
                     }
                 }
