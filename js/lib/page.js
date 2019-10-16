@@ -385,6 +385,7 @@ class PageController {
                 break;
             case 'lastfm':
                 $playlist.loadLastFmList(pageNum, user, loadComplete);
+                console.log('lfm');
                 isPlaylist = true;
                 break;
             default:
