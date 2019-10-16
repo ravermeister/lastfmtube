@@ -314,11 +314,13 @@ class PageController {
 			case '/video':
 			default:
 				console.log('init video');
-				$page.loadList(1, null, function(){					
-					$page.changeUrl('Video', '/#video');
-					if($player.autoPlay) {
-						$player.loadNextSong();
-					}
+				$page.loadList(1, null, function(){			
+					$page.load('video', function(){
+						$page.changeUrl('Video', '/#video');
+						if($player.autoPlay) {
+							$player.loadNextSong();
+						}
+					});
 				}, 'video');
 			break;
 		}
