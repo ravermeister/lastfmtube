@@ -358,6 +358,8 @@ class PageController {
 
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
+            } else {
+        		location.href = '#' + playlist;
             }
         };
 
