@@ -352,12 +352,12 @@ class PageController {
         let loadComplete = function (success) {
             let parentCallBack = callBack;
             curArticle = PageController.article.playlist.dom;
+            $page.setCurrentPlaylist(playlist);
+            $page.trackPlaylist($page.PLAYLIST);
+            $page.setLoading(curArticle); 
+
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
-            } else if (isPlaylist) {
-            	$page.setCurrentPlaylist(playlist);
-            	$page.trackPlaylist($page.PLAYLIST);
-            	$page.setLoading(curArticle); 
             }
         };
 
