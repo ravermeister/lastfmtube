@@ -359,7 +359,8 @@ class PageController {
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
             } else {
-        		location.href = '#' + playlist;
+            	console.log('loadlist.href');
+            	location.href = '#' + playlist;
             }
         };
 
@@ -385,7 +386,6 @@ class PageController {
                 break;
             case 'lastfm':
                 $playlist.loadLastFmList(pageNum, user, loadComplete);
-                console.log('lfm');
                 isPlaylist = true;
                 break;
             default:
