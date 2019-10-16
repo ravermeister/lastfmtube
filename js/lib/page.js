@@ -276,50 +276,50 @@ class PageController {
 		
 		switch (location.pathname) {
 			case '/topsongs':
-				$page.loadList(1 ,null, 'topsongs', function(){	
+				$page.loadList(1 ,null, function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				});
+				}, 'topsongs');
 			break;
 						
 			case '/users':
-				$page.loadList(1, null, 'topuser', function(){					
+				$page.loadList(1, null, function(){					
 					$page.changeUrl('Top User', '/#topuser');
 // if($player.autoPlay) {
 // $player.loadNextSong();
 // }
-				});
+				}, 'topuser');
 			break;
 			
 			case '/personal':
-				$page.loadList(1, null, 'userlist', function(){					
+				$page.loadList(1, null, function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				});
+				}, 'userlist');
 			break;
 			
 			case '/lastfm':
-				$page.loadList(1, null, 'lastfm', function(){					
+				$page.loadList(1, null, function(){					
 					$page.changeUrl('Last.fm', '/#lastfm');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				});	
+				}, 'lastfm');	
 			break;
 			
 			case '/video':
 			default:
 				console.log('init video');
-				$page.loadList(1, null, 'video', function(){					
+				$page.loadList(1, null, function(){					
 					$page.changeUrl('Video', '/#video');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				});
+				}, 'video');
 			break;
 		}
     }
