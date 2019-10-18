@@ -170,9 +170,71 @@ class Playlist extends DefaultJson {
                'orderbysecond' => $orderbysecond,
                'offset' => $offset
           ));
-//           Functions::getInstance()->logMessage($topsongs);
-          $maxpages = ((int) ($trackCnt / $limit));
-          if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
+
+          $maxpages = 0;
+          if (! is_array($topsongs)) {
+               $topsongs = array();
+          }
+
+          $uniqueTracks = array();
+          for ($cnt = 0; $cnt < sizeof($topsongs); $cnt ++) {
+               $track = $topsongs[$cnt];
+               $normalizedArtist = &$track['artist'];
+               $normalizedTitle = &$track['title'];
+
+               // Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
+               Functions::normalizeTrack($normalizedArtist, $normalizedTitle);
+               // $track['artist'] = $normalizedArtist;
+               // $track['title'] = $normalizedTitle;
+               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
+               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
+
+               $trackId = $track['artist'] . '-' . $track['title'];
+               if (array_key_exists($trackId, $uniqueTracks)) {
+                    $uniqueTrack = $uniqueTracks[$trackId];
+                    $uniqueTrack['PLAYCOUNT'] = ((int) $uniqueTrack['PLAYCOUNT']) + ((int) $track['playcount']);
+
+                    $date1 = new DateTime($uniqueTrack['LASTPLAY']);
+                    $date2 = new DateTime($this->funcs->formatDate($track['lastplayed']));
+                    if ($date2 > $date1) {
+                         $uniqueTrack['LASTPLAY'] = $track['lastplayed'];
+                    }
+
+                    $uniqueTracks[$trackId] = $uniqueTrack;
+                    continue;
+               }
+
+               $videoId = $db->query('GET_VIDEO', array(
+                    'artist' => $track['artist'],
+                    'title' => $track['title']
+               ));
+               $videoId = is_array($videoId) && isset($videoId[0]['url']) ? $videoId[0]['url'] : '';
+
+               $pTrack = array(
+                    'NR' => ($offset + $cnt + 1),
+                    'ARTIST' => $track['artist'],
+                    'TITLE' => $track['title'],
+                    'LASTPLAY' => $this->funcs->formatDate($track['lastplayed']),
+                    'LASTFM_ISPLAYING' => false,
+                    'PLAYCOUNT' => $track['playcount'],
+                    'VIDEO_ID' => $videoId,
+                    'PLAY_CONTROL' => false,
+                    'PLAYLIST' => 'topsongs',
+                    'PLAYSTATE' => ''
+               );
+               $uniqueTracks[$trackId] = $pTrack;
+          }
+          $uniqueTracks = array_values($uniqueTracks);
+          if (strcmp($sortby, $sort_bydate) == 0) {
+               $this->funcs->sortTracksByDate($uniqueTracks, $offset);
+          } else {
+               $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
+          }
+
+          if (is_array($uniqueTracks) || sizeof($uniqueTracks) >= 0) {
+               $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
+               if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
+          }
 
           $page = array(
 
@@ -209,61 +271,6 @@ class Playlist extends DefaultJson {
 
           $page['TRACKS'] = array();
           if ($topsongs === 0 || ! is_array($topsongs)) return $page;
-          $uniqueTracks = array();
-          for ($cnt = 0; $cnt < sizeof($topsongs); $cnt ++) {
-               $track = $topsongs[$cnt];
-               $normalizedArtist = &$track['artist'];
-               $normalizedTitle = &$track['title'];
-
-               // Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
-               Functions::normalizeTrack($normalizedArtist, $normalizedTitle);
-               // $track['artist'] = $normalizedArtist;
-               // $track['title'] = $normalizedTitle;
-               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
-               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
-
-               $trackId = $track['artist'] . '-' . $track['title'];
-               if (array_key_exists($trackId, $uniqueTracks)) {
-                    $uniqueTrack = $uniqueTracks[$trackId];
-                    $uniqueTrack['PLAYCOUNT'] = ((int) $uniqueTrack['PLAYCOUNT']) + ((int) $track['playcount']);
-
-                    $date1 = new DateTime($uniqueTrack['LASTPLAY']);
-                    $date2 = new DateTime($this->funcs->formatDate($track['lastplayed']));
-                    if ($date2 > $date1) {
-                         $uniqueTrack['LASTPLAY'] = $track['lastplayed'];
-                    }
-                 
-                    $uniqueTracks[$trackId] = $uniqueTrack;                    
-                    continue;
-               }
-
-               $videoId = $db->query('GET_VIDEO', array(
-                    'artist' => $track['artist'],
-                    'title' => $track['title']
-               ));
-               $videoId = is_array($videoId) && isset($videoId[0]['url']) ? $videoId[0]['url'] : '';
-
-               $pTrack = array(
-                    'NR' => ($offset + $cnt + 1),
-                    'ARTIST' => $track['artist'],
-                    'TITLE' => $track['title'],
-                    'LASTPLAY' => $this->funcs->formatDate($track['lastplayed']),
-                    'LASTFM_ISPLAYING' => false,
-                    'PLAYCOUNT' => $track['playcount'],
-                    'VIDEO_ID' => $videoId,
-                    'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'topsongs',
-                    'PLAYSTATE' => ''
-               );
-               $uniqueTracks[$trackId] = $pTrack;
-          }
-
-          $uniqueTracks = array_values($uniqueTracks);
-          if (strcmp($sortby, $sort_bydate) == 0) {
-               $this->funcs->sortTracksByDate($uniqueTracks, $offset);
-          } else {
-               $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
-          }
 
           $page['TRACKS'] = array_slice($uniqueTracks, $offset, $limit);
           return $page;
