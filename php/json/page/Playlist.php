@@ -146,7 +146,9 @@ class Playlist extends DefaultJson {
           $db = Db::getInstance();
           $limit = $settings['general']['tracks_perpage'];
           $offset = ($pageNum - 1) * $limit;
-
+          $trackCnt = $db->query('SELECT_TRACKPLAY_NUM_ROWS');
+          $trackCnt = (int) ($trackCnt === false ? 1 : $trackCnt['cnt']);
+          
           $orderby = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'lastplayed' : 'playcount';
           $orderbysecond = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'playcount' : 'lastplayed';
 
@@ -163,6 +165,7 @@ class Playlist extends DefaultJson {
                 * add the commented limit if performance is worse!
                 */
                /* 'limit' => $limit * 3, */
+               'limit' => $trackCnt,
                'orderby' => $orderby,
                'orderbysecond' => $orderbysecond,
                'offset' => $offset
