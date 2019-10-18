@@ -168,7 +168,7 @@ class Playlist extends DefaultJson {
                'limit' => $trackCnt,
                'orderby' => $orderby,
                'orderbysecond' => $orderbysecond,
-               'offset' => $offset
+               'offset' => 0
           ));
 
           $maxpages = 0;
