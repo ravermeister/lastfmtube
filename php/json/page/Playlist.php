@@ -231,11 +231,11 @@ class Playlist extends DefaultJson {
                $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
           }
 
-          if (is_array($uniqueTracks) || sizeof($uniqueTracks) >= 0) {
+          if (is_array($uniqueTracks) && sizeof($uniqueTracks) >= 0) {
                $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
                if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
           }
-          $maxpages += ((int)$offset/$limit);
+         
 
           $page = array(
 
