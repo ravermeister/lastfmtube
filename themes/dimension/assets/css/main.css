@@ -1644,10 +1644,14 @@ body {
 /************************************************************/
 #main #video-container, #main #video {
 	padding: 0.5rem 0.5rem 0 0.5rem;
+}
+#main #video-container, #main #video h2,
+#main #video-container, #main #video h2.major {	
 	margin: 0;
 	margin-block-start: 0;
 	margin-block-end: 0;
 }
+
 
 #main article .page-header-title {
 	clear: both;
