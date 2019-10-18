@@ -1470,7 +1470,7 @@ body.is-preload #header .content .inner {
 	-ms-transition: opacity 0.325s ease-in-out, -ms-transform 0.325s
 		ease-in-out;
 	transition: opacity 0.325s ease-in-out, transform 0.325s ease-in-out;
-	padding: 1.5rem;
+	padding: 2.5rem 2.5rem 1.5rem 2.5rem;
 	position: relative;
 	width: 60rem;
 	max-width: 100%;
