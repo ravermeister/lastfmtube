@@ -226,9 +226,9 @@ class Playlist extends DefaultJson {
           }
           $uniqueTracks = array_values($uniqueTracks);
           if (strcmp($sortby, $sort_bydate) == 0) {
-               $this->funcs->sortTracksByDate($uniqueTracks, $offset);
+               $this->funcs->sortTracksByDate($uniqueTracks);
           } else {
-               $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
+               $this->funcs->sortTracksByPlayCount($uniqueTracks);
           }
 
           if (is_array($uniqueTracks) || sizeof($uniqueTracks) >= 0) {
