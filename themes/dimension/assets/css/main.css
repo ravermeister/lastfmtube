@@ -1651,9 +1651,6 @@ body {
 	margin-block-start: 0;
 	margin-block-end: 1rem;
 }
-#main #video-container iframe {
-	height: 100%;
-}
 
 #main article .page-header-title {
 	clear: both;

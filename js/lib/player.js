@@ -309,9 +309,10 @@ class PlayerController {
 
                 let startvideo = '';// '9RMHHwJ9Eqk';
                 let ytplayerwidth = '100%';
+                console.log($(document).height(),'55%', percentHeight($(document).height(), 55));
                 let ytplayerheight = percentHeight($(document).height(), 55) + 'px';
 
-                $player.ytPlayer = new YT.Player('player', {
+                $player.ytPlayer = new YT.Player('player-container', {
 
                     height: ytplayerheight,
                     width: ytplayerwidth,
