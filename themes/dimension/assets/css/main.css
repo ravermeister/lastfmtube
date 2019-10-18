@@ -1593,7 +1593,8 @@ body {
 
 /************************************************************/
 
-#main #video-container {
+#main #video-container,
+#main #video {
 	padding: 0.5rem 0.5rem 0 0.5rem;
 }
 
