@@ -148,7 +148,7 @@ class Playlist extends DefaultJson {
           $offset = ($pageNum - 1) * $limit;
           $trackCnt = $db->query('SELECT_TRACKPLAY_NUM_ROWS');
           $trackCnt = (int) ($trackCnt === false ? 1 : $trackCnt['cnt']);
-          
+
           $orderby = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'lastplayed' : 'playcount';
           $orderbysecond = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'playcount' : 'lastplayed';
 
@@ -231,11 +231,8 @@ class Playlist extends DefaultJson {
                $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
           }
 
-          if (is_array($uniqueTracks) && sizeof($uniqueTracks) >= 0) {
-               $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
-               if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
-          }
-         
+          $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
+          if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
           $page = array(
 
