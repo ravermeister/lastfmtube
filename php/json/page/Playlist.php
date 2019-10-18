@@ -235,7 +235,7 @@ class Playlist extends DefaultJson {
                $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
                if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
           }
-          $maxpages += $offset;
+          $maxpages += ((int)$offset/$limit);
 
           $page = array(
 
