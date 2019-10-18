@@ -168,6 +168,12 @@ class Playlist extends DefaultJson {
                'limit' => $trackCnt,
                'orderby' => $orderby,
                'orderbysecond' => $orderbysecond,
+               
+               /**
+                * we need offset 0, becaus we calculate
+                * the finaly result of songs (merging duplicates)
+                * and recalculate the total page count
+                */
                'offset' => 0
           ));
 
