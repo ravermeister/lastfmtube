@@ -797,45 +797,95 @@ ul.actions.fit.stacked {
 }
 
 @media screen and (max-width: 480px) {
-	ul.actions:not (.fixed ) {
-		-moz-flex-direction: column;
-		-webkit-flex-direction: column;
-		-ms-flex-direction: column;
-		flex-direction: column;
-		margin-left: 0;
-		width: 100% !important;
-	}
-	ul.actions:not (.fixed ) li {
-		-moz-flex-grow: 1;
-		-webkit-flex-grow: 1;
-		-ms-flex-grow: 1;
-		flex-grow: 1;
-		-moz-flex-shrink: 1;
-		-webkit-flex-shrink: 1;
-		-ms-flex-shrink: 1;
-		flex-shrink: 1;
-		padding: 1rem 0 0 0;
-		text-align: center;
-		width: 100%;
-	}
-	ul.actions:not (.fixed ) li>* {
-		width: 100%;
-	}
-	ul.actions:not (.fixed ) li:first-child {
-		padding-top: 0;
-	}
-	ul.actions:not (.fixed ) li input[type="submit"], ul.actions:not (.fixed
-		) li input[type="reset"], ul.actions:not (.fixed ) li input[type="button"],
-		ul.actions:not (.fixed ) li button, ul.actions:not (.fixed ) li .button
-		{
-		width: 100%;
-	}
-	ul.actions:not (.fixed ) li input[type="submit"].icon:before, ul.actions:not
-		(.fixed ) li input[type="reset"].icon:before, ul.actions:not (.fixed ) li input[type="button"].icon:before,
-		ul.actions:not (.fixed ) li button.icon:before, ul.actions:not (.fixed
-		) li .button.icon:before {
-		margin-left: -0.5em;
-	}
+	ul
+	.actions
+	:not
+	 
+	(
+	.fixed
+	 
+	)
+	{
+	-moz-flex-direction
+	:
+	 
+	column
+	;
+	
+		
+	-webkit-flex-direction
+	:
+	 
+	column
+	;
+	
+		
+	-ms-flex-direction
+	:
+	 
+	column
+	;
+	
+		
+	flex-direction
+	:
+	 
+	column
+	;
+	
+		
+	margin-left
+	:
+	 
+	0;
+	width
+	:
+	 
+	100%
+	!
+	important
+	;
+	
+	
+}
+
+ul.actions:not (.fixed ) li {
+	-moz-flex-grow: 1;
+	-webkit-flex-grow: 1;
+	-ms-flex-grow: 1;
+	flex-grow: 1;
+	-moz-flex-shrink: 1;
+	-webkit-flex-shrink: 1;
+	-ms-flex-shrink: 1;
+	flex-shrink: 1;
+	padding: 1rem 0 0 0;
+	text-align: center;
+	width: 100%;
+}
+
+ul.actions:not (.fixed ) li>* {
+	width: 100%;
+}
+
+ul.actions:not (.fixed ) li:first-child {
+	padding-top: 0;
+}
+
+ul.actions:not (.fixed ) li input[type="submit"], ul.actions:not (.fixed
+		 ) li input[type="reset"], ul.actions:not (.fixed ) li input[type="button"],
+	ul.actions:not (.fixed ) li button, ul.actions:not (.fixed ) li .button
+	{
+	width: 100%;
+}
+
+ul.actions:not (.fixed ) li input[type="submit"].icon:before, ul.actions:not
+		 (.fixed ) li input[type="reset"].icon:before, ul.actions:not (.fixed 
+	) li input[type="button"].icon:before, ul.actions:not (.fixed ) li button.icon:before,
+	ul.actions:not (.fixed
+		 ) li .button.icon:before {
+	margin-left: -0.5em;
+}
+
 }
 
 /* Icons */
@@ -1592,12 +1642,11 @@ body {
 }
 
 /************************************************************/
-
-#main #video-container,
-#main #video {
+#main #video-container, #main #video {
 	padding: 0.5rem 0.5rem 0 0.5rem;
-	margin-block-start: /*0.83em*/ 0;
-    margin-block-end: /*0.83em*/ 0;
+	margin: 0;
+	margin-block-start: 0;
+	margin-block-end: 0;
 }
 
 #main article .page-header-title {
