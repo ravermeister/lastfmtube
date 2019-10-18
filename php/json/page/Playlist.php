@@ -226,15 +226,16 @@ class Playlist extends DefaultJson {
           }
           $uniqueTracks = array_values($uniqueTracks);
           if (strcmp($sortby, $sort_bydate) == 0) {
-               $this->funcs->sortTracksByDate($uniqueTracks);
+               $this->funcs->sortTracksByDate($uniqueTracks, $offset);
           } else {
-               $this->funcs->sortTracksByPlayCount($uniqueTracks);
+               $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
           }
 
           if (is_array($uniqueTracks) || sizeof($uniqueTracks) >= 0) {
                $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
                if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
           }
+          $maxpages += $offset;
 
           $page = array(
 
