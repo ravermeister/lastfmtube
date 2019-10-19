@@ -175,7 +175,6 @@ class PlayerController {
         this.isReady = false;
         this.autoPlay = false;
         this.loadNextOnError = true;
-        this.errorVideo = 'nN7oJuz_KH8';
         this.maxErrorLoop = 5;
         this.lfmUser = '';
         this.errorLoopCount = 0;
@@ -537,6 +536,33 @@ class PlayerController {
             myCallBack(false);
         });
     }
+    
+    loadDefaultVideo() {
+    	
+    	let videoId = 'nN7oJuz_KH8';
+    		
+        $.ajax('php/json/page/Page.php?action=config', {
+            dataType: 'json',
+            method: 'GET'
+        }).done(function (config) {
+        	if(config && config.general && config.general.errorVideo) {
+        		videoId = config.general.errorVideo;
+        	}
+        }).fail(function (xhr) {
+            if (typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ', request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }            
+        });
+        
+        $player.loadVideo(errorVideo);
+    }
 
     loadVideo(videoId = '') {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
@@ -553,8 +579,9 @@ class PlayerController {
                 		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
                 		+ "If you know what to do, to get a higher Limit let me know :)"
                 );
-                //load a default video
-                $player.loadVideo($player.errorVideo);
+                
+                //load the default video
+                $player.loadDefaultVideo();
                 return;
             }
             $player.errorLoopCount++;
