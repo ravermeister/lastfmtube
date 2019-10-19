@@ -1190,7 +1190,7 @@ body.is-preload #bg:before {
 	position: relative;
 	min-height: 100vh;
 	width: 100%;
-	padding: 4rem 2rem;
+	padding: 1rem 2rem;
 	z-index: 3;
 }
 
@@ -1201,7 +1201,7 @@ body.is-preload #bg:before {
 
 @media screen and (max-width: 1680px) {
 	#wrapper {
-		padding: 3rem 2rem;
+		padding: 1rem 2rem;
 	}
 }
 
@@ -1520,7 +1520,7 @@ body.is-preload #header .content .inner {
 	-ms-transition: opacity 0.325s ease-in-out, -ms-transform 0.325s
 		ease-in-out;
 	transition: opacity 0.325s ease-in-out, transform 0.325s ease-in-out;
-	padding: 4.5rem 2.5rem 1.5rem 2.5rem;
+	padding: 3.5rem 1.5rem 0.5rem 1.5rem;	
 	position: relative;
 	width: 60rem;
 	max-width: 100%;
@@ -1650,6 +1650,7 @@ body {
 	margin: 0;
 	margin-block-start: 0;
 	margin-block-end: 1rem;
+	padding: 0 0 0.5rem 0.5rem;
 }
 
 #main article .page-header-title {
@@ -1660,6 +1661,10 @@ body {
 	position: relative;
 	top: -2rem;
 	left: -0.5rem;
+}
+
+#main article .page-content {
+	padding: 
 }
 
 #main article .btn-nav {
