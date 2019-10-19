@@ -561,7 +561,7 @@ class PlayerController {
             }            
         });
         
-        $player.loadVideo(errorVideo);
+        $player.loadVideo(videoId);
     }
 
     loadVideo(videoId = '') {
