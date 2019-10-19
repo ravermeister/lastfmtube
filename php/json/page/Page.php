@@ -11,6 +11,7 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
+use LastFmTube\Util\Functions;
 
 class Page extends DefaultJson {
 
@@ -31,10 +32,23 @@ class Page extends DefaultJson {
                          'basemenu' => $this->getBaseMenu(),
                          'listmenu' => $this->getListMenu()
                     );
+               case 'config':
+                    return $this->getWebConfig();
                default:
                     $this->jsonError('invalid arguments');
           }
           return array();
+     }
+
+     private function getWebConfig() {
+          $webconfig = array();
+          $settings = Functions::getInstance()->getSettings();
+
+          $webconfig['general']['lang'] = $settings['general']['lang'];
+          $webconfig['general']['tracksPerPage'] = $settings['general']['tracks_perpage'];
+          $webconfig['general']['errorVideo'] = $settings['general']['error_video'];
+
+          return $webconfig;
      }
 
      private function getBase() {

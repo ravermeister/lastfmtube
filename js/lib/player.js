@@ -536,6 +536,26 @@ class PlayerController {
             myCallBack(false);
         });
     }
+    
+    loadDefaultVideo() {
+    	
+    	let videoId = 'nN7oJuz_KH8';
+    	
+        $.getJSON('php/json/page/Page.php?action=config', function (json) {
+			if(json && json.data && json.data.value) {
+				let conf = json.data.value;				
+				videoId = conf.general.errorVideo;
+				
+	            console.log('load default video', videoId);
+	            $player.loadVideo(videoId);	            
+			}
+        }).fail(function (xhr) {
+            $.logXhr(xhr);
+            console.log('load default video', videoId);
+            $player.loadVideo(videoId);
+        });
+    	        
+    }
 
     loadVideo(videoId = '') {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
@@ -552,6 +572,9 @@ class PlayerController {
                 		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
                 		+ "If you know what to do, to get a higher Limit let me know :)"
                 );
+                
+                // load the default video
+                $player.loadDefaultVideo();
                 return;
             }
             $player.errorLoopCount++;
