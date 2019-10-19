@@ -561,6 +561,7 @@ class PlayerController {
             }            
         });
         
+        console.log('load default video', videoId);
         $player.loadVideo(videoId);
     }
 
