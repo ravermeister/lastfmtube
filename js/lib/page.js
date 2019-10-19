@@ -322,13 +322,9 @@ class PageController {
 			break;
 		}
     }
-
-    isFunction(functionToCheck) {
-    	 return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
-    }
     
     trackPlaylist(playlist) {
-        if (!isFunction(PageController.analytics)) return;
+        if (!PageController.isFunction(PageController.analytics)) return;
         PageController.analytics('send', {
             'hitType': 'event',
             'eventCategory': playlist,
@@ -338,7 +334,7 @@ class PageController {
     }
 
     trackSongPlay(track) {
-    	if (!isFunction(PageController.analytics)) return;
+    	if (!PageController.isFunction(PageController.analytics)) return;
     	PageController.analytics('send', {
             'hitType': 'event',
             'eventCategory': (track.artist + ' ' + track.title),
@@ -764,6 +760,10 @@ class PageController {
         track.LOADING = false;
     }
 
+    static isFunction(functionToCheck) {
+    	 return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+    }
+    
     saveChartUser(lfmuser = null) {
         if (typeof lfmuser === 'undefined' || lfmuser === null) return;
 
