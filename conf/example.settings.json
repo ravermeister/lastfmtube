@@ -9,7 +9,8 @@
 		"theme": "dimension",
 		"lastfm_defaultuser": "lastfm default user",
 		"tracks_perpage": 25,
-		"sitemap_file": "/sitemap.xml"
+		"sitemap_file": "/sitemap.xml",
+		"error_video": "nN7oJuz_KH8"
 	},
 	"database": {
 		"dsn": "database dsn",

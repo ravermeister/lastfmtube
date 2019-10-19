@@ -175,6 +175,7 @@ class PlayerController {
         this.isReady = false;
         this.autoPlay = false;
         this.loadNextOnError = true;
+        this.errorVideo = 'nN7oJuz_KH8';
         this.maxErrorLoop = 5;
         this.lfmUser = '';
         this.errorLoopCount = 0;
@@ -552,6 +553,8 @@ class PlayerController {
                 		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
                 		+ "If you know what to do, to get a higher Limit let me know :)"
                 );
+                //load a default video
+                $player.loadVideo($player.errorVideo);
                 return;
             }
             $player.errorLoopCount++;
