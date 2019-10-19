@@ -45,8 +45,8 @@ class Page extends DefaultJson {
           $settings = Functions::getInstance()->getSettings();
 
           $webconfig['general']['lang'] = $settings['general']['lang'];
-          $webconfig['general']['tracks_perpage'] = $settings['general']['tracks_perpage'];
-          $webconfig['general']['error_video'] = $settings['general']['error_video'];
+          $webconfig['general']['tracksPerPage'] = $settings['general']['tracks_perpage'];
+          $webconfig['general']['errorVideo'] = $settings['general']['error_video'];
 
           return $webconfig;
      }
