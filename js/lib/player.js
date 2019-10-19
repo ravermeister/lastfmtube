@@ -545,6 +545,7 @@ class PlayerController {
             dataType: 'json',
             method: 'GET'
         }).done(function (config) {
+        	console.log('>>>>conf', config);
         	if(config && config.general && config.general.errorVideo) {
         		videoId = config.general.errorVideo;
         	}
