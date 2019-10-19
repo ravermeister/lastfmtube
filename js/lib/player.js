@@ -540,28 +540,16 @@ class PlayerController {
     loadDefaultVideo() {
     	
     	let videoId = 'nN7oJuz_KH8';
-    		
-        $.ajax('php/json/page/Page.php?action=config', {
-            dataType: 'json',
-            method: 'GET'
-        }).done(function (config) {
-        	console.log('>>>>conf', config);
-        	if(config && config.general && config.general.errorVideo) {
-        		videoId = config.general.errorVideo;
-        	}
+    	
+        $.getJSON('php/json/page/Page.php?action=config', function (json) {
+			console.log('>>>>conf', config);
+			if(config && config.general && config.general.errorVideo) {
+				videoId = config.general.errorVideo;
+			}
         }).fail(function (xhr) {
-            if (typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ', request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ', xhr.status,
-                    '\n\nerror: ', xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }            
+            $.logXhr(xhr);
         });
-        
+    	        
         console.log('load default video', videoId);
         $player.loadVideo(videoId);
     }
@@ -582,7 +570,7 @@ class PlayerController {
                 		+ "If you know what to do, to get a higher Limit let me know :)"
                 );
                 
-                //load the default video
+                // load the default video
                 $player.loadDefaultVideo();
                 return;
             }
