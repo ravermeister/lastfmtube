@@ -543,7 +543,7 @@ class PlayerController {
     	
         $.getJSON('php/json/page/Page.php?action=config', function (json) {
 			if(json && json.data && json.data.value) {
-				conf = json.data.value;
+				let conf = json.data.value;
 				videoId = conf.general.errorVideo;
 			}
         }).fail(function (xhr) {
