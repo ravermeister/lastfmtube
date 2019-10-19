@@ -1190,7 +1190,7 @@ body.is-preload #bg:before {
 	position: relative;
 	min-height: 100vh;
 	width: 100%;
-	padding: 4rem 2rem;
+	padding: 1rem 2rem;
 	z-index: 3;
 }
 
@@ -1201,7 +1201,7 @@ body.is-preload #bg:before {
 
 @media screen and (max-width: 1680px) {
 	#wrapper {
-		padding: 3rem 2rem;
+		padding: 1rem 2rem;
 	}
 }
 
