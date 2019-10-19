@@ -545,6 +545,7 @@ class PlayerController {
 			if(json && json.data && json.data.value) {
 				let conf = json.data.value;				
 				videoId = conf.general.errorVideo;
+				console.log('>>>>', videoId);
 			}
         }).fail(function (xhr) {
             $.logXhr(xhr);
