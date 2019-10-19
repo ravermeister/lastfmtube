@@ -545,14 +545,16 @@ class PlayerController {
 			if(json && json.data && json.data.value) {
 				let conf = json.data.value;				
 				videoId = conf.general.errorVideo;
-				console.log('>>>>', videoId);
+				
+	            console.log('load default video', videoId);
+	            $player.loadVideo(videoId);	            
 			}
         }).fail(function (xhr) {
             $.logXhr(xhr);
+            console.log('load default video', videoId);
+            $player.loadVideo(videoId);
         });
     	        
-        console.log('load default video', videoId);
-        $player.loadVideo(videoId);
     }
 
     loadVideo(videoId = '') {
