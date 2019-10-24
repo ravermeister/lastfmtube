@@ -6,7 +6,7 @@ Demo | https://lastfm.rimkus.it
 
 # Requirements
 * PHP >= 5.6 (last test with 7.3)
-* PHP PDO SQLite or PostgreSQL/Mysql (any PDO DB should work, but untested)
+* PHP PDO SQLite tested (any PDO DB should work, but untested)
 * Composer (See `composer.json`)
 * [Lastf.fm](https://last.fm) Account with [API Support](https://www.last.fm/api/)
 * [Youtube](https://youtube.com) Account with [API Supprt](https://developers.google.com/youtube/v3/)
@@ -21,7 +21,7 @@ Demo | https://lastfm.rimkus.it
 7. open http://example.com/lfmtube and enjoy
 
 # About
-The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the listened tracks of a given [Last.fm User](https://www.last.fm/user/ravermeister)  on [YouTube](https://youtube.com). It is possible to search for alternative Youtube Videos or enter a video url directly. You can create your own playlist via menu 'Add to playlist'. additionally there is a Chart list which will be updated each time a song is heared.
+The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the listened tracks of a given [Last.fm User](https://www.last.fm/user/ravermeister)  on [YouTube](https://youtube.com). It is possible to search for alternative Youtube Videos or enter a video url directly. The Tracks which have a fixed Video Id will have a **'*'** prefixed. You can create your own playlist via menu 'add to playlist'. Additionally there is a Chart list which will be updated each time a song is heared. The Chart Counter works as follows:
 
   * get the length of the Song divided by 2. 
   if it is greater than 2 minutes use 2 minutes as timeout, 
@@ -31,7 +31,8 @@ The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the lis
 The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
 ## Admin interface
-There is an admin php cli Interface for Importing the replacement.csv Files and generating the sitemap.xml file. call `php admin.php` inside the lastfmtube Folder for more info.
+There is an admin php cli Interface for Importing the replacement.csv Files and generating the sitemap.xml file.  
+Call `php admin.php` inside the lastfmtube Folder for more info.
 
 ## Personal Songlist
 You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
