@@ -1693,7 +1693,7 @@ body {
 	float: left;
 }
 #footer .a2a_kit {
-	display:inherit;
+	display:inline-block;
 }
 
 /* Hide HTML5 Up and Down arrows. */
