@@ -153,7 +153,7 @@ a {
 		ease-in-out, border-bottom-color 0.2s ease-in-out;
 	transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out,
 		border-bottom-color 0.2s ease-in-out;
-	border-bottom: dotted 1px rgba(255, 255, 255, 0.5);
+	/*border-bottom: dotted 1px rgba(255, 255, 255, 0.5);*/
 	text-decoration: none;
 	color: inherit;
 }
@@ -1691,6 +1691,12 @@ body {
 #main article .btn-page-nav input[type=submit] {
 	margin: 0 0.5rem 0 0.5rem;
 	float: left;
+}
+#footer .a2a_kit {
+	display:inline-block;
+}
+#footer .a2a_kit a {
+	text-decoration: none;
 }
 
 /* Hide HTML5 Up and Down arrows. */

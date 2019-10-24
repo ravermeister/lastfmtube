@@ -60,12 +60,15 @@ class Db {
           $this->prepareQueries();
           // activate use of foreign key constraints
           $this->pdo->exec('PRAGMA foreign_keys = ON;');
+          
+          // activate timeout for parallel use
+          $this->pdo->exec('PRAGMA busy_timeout = 200');
      }
 
      public function connect() {
           if ($this->isConnected()) return;
           $settings = Functions::getInstance()->getSettings();
-          $this->pdo = new PDO($settings['database']['dsn'], $settings['database']['username'], $settings['database']['password']);
+          $this->pdo = new PDO($settings['database']['dsn']);
           $this->createdb();
      }
 
