@@ -1692,6 +1692,9 @@ body {
 	margin: 0 0.5rem 0 0.5rem;
 	float: left;
 }
+#footer .a2a_kit {
+	display:inherit;
+}
 
 /* Hide HTML5 Up and Down arrows. */
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
