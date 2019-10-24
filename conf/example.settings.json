@@ -14,8 +14,6 @@
 	},
 	"database": {
 		"dsn": "database dsn",
-		"username": "lastuser",
-		"password": "l4stp4$$",
 		"dbinit_file": "conf/init.db.sql"
 	},
 	"api": {
