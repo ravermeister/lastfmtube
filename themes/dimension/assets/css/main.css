@@ -1695,6 +1695,9 @@ body {
 #footer .a2a_kit {
 	display:inline-block;
 }
+#footer .a2a_kit a {
+	text-decoration: none;
+}
 
 /* Hide HTML5 Up and Down arrows. */
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
