@@ -343,9 +343,8 @@ class PlayerController {
                 $.getJSON('php/json/page/Page.php?action=config', function (json) {
         			if(json && json.data && json.data.value) {
         				let conf = json.data.value;				
-        				playerHeight = conf.general.playerheight;
-        				if(playerHeight !== 'auto') {
-        					ytplayerheight = playerHeight;
+        				if(conf.general.playerheight !== 'auto') {
+        					ytplayerheight = conf.general.playerheight;
         				}	            
         			}
         			
