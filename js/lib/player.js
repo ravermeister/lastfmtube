@@ -301,7 +301,7 @@ class PlayerController {
                 }
             };
             
-            let createPlayer = function() {
+            let createPlayer = function(ytplayerwidth, ytplayerwidth, startvideo) {
             	console.log('w', ytplayerwidth, 'h', ytplayerwidth);
                 $player.ytPlayer = new YT.Player('player-container', {
 
