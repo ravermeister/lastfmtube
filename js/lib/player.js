@@ -301,33 +301,33 @@ class PlayerController {
                 }
             };
             
-            let createPlayer = function(ytplayerwidth, ytplayerheight, startvideo) {
-            	console.log('w', ytplayerwidth, 'h', ytplayerheight);
-//                $player.ytPlayer = new YT.Player('player-container', {
-//
-//                    height: ytplayerheight,
-//                    width: ytplayerwidth,
-//                    videoId: startvideo,
-//                    crossDomain: true,
-//
-//                    playerVars: {
-//                        'allowfullscreen': 1,
-//                        'allowscriptaccess': 'always',
-//                        'webkitallowfullscreen': 1,
-//                        'mozallowfullscreen': 1,
-//                        'autoplay': 1,
-//                        'html5': 1,
-//                        'enablejsapi': 1,
-//                        'fs': 1,
-//                        'playerapiid': 'lastfmtube'
-//                    },
-//
-//                    events: {
-//                        'onReady': onReady,
-//                        'onStateChange': onStateChange,
-//                        'onError': onError
-//                    }
-//                });
+            let createPlayer = function(width, height, video) {
+            	console.log('w', width, 'h', height, 'vid', video);
+                $player.ytPlayer = new YT.Player('player-container', {
+
+                    height: height,
+                    width: width,
+                    videoId: video,
+                    crossDomain: true,
+
+                    playerVars: {
+                        'allowfullscreen': 1,
+                        'allowscriptaccess': 'always',
+                        'webkitallowfullscreen': 1,
+                        'mozallowfullscreen': 1,
+                        'autoplay': 1,
+                        'html5': 1,
+                        'enablejsapi': 1,
+                        'fs': 1,
+                        'playerapiid': 'lastfmtube'
+                    },
+
+                    events: {
+                        'onReady': onReady,
+                        'onStateChange': onStateChange,
+                        'onError': onError
+                    }
+                });
             };
 
             $(document).ready(function () {
