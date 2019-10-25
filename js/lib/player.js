@@ -303,31 +303,31 @@ class PlayerController {
             
             let createPlayer = function(ytplayerwidth, ytplayerwidth, startvideo) {
             	console.log('w', ytplayerwidth, 'h', ytplayerwidth);
-                $player.ytPlayer = new YT.Player('player-container', {
-
-                    height: ytplayerheight,
-                    width: ytplayerwidth,
-                    videoId: startvideo,
-                    crossDomain: true,
-
-                    playerVars: {
-                        'allowfullscreen': 1,
-                        'allowscriptaccess': 'always',
-                        'webkitallowfullscreen': 1,
-                        'mozallowfullscreen': 1,
-                        'autoplay': 1,
-                        'html5': 1,
-                        'enablejsapi': 1,
-                        'fs': 1,
-                        'playerapiid': 'lastfmtube'
-                    },
-
-                    events: {
-                        'onReady': onReady,
-                        'onStateChange': onStateChange,
-                        'onError': onError
-                    }
-                });
+//                $player.ytPlayer = new YT.Player('player-container', {
+//
+//                    height: ytplayerheight,
+//                    width: ytplayerwidth,
+//                    videoId: startvideo,
+//                    crossDomain: true,
+//
+//                    playerVars: {
+//                        'allowfullscreen': 1,
+//                        'allowscriptaccess': 'always',
+//                        'webkitallowfullscreen': 1,
+//                        'mozallowfullscreen': 1,
+//                        'autoplay': 1,
+//                        'html5': 1,
+//                        'enablejsapi': 1,
+//                        'fs': 1,
+//                        'playerapiid': 'lastfmtube'
+//                    },
+//
+//                    events: {
+//                        'onReady': onReady,
+//                        'onStateChange': onStateChange,
+//                        'onError': onError
+//                    }
+//                });
             };
 
             $(document).ready(function () {
