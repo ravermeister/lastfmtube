@@ -300,22 +300,14 @@ class PlayerController {
                     listener(event);
                 }
             };
-
-            $(document).ready(function () {
-
-                let percentHeight = function (abs, val) {
-                    return ((abs / 100) * val) | 0;
-                };
-
-                let startvideo = '';// '9RMHHwJ9Eqk';
-                let ytplayerwidth = '100%';
-                let ytplayerheight = percentHeight($(document).height(), 70) + 'px';
-
+            
+            let createPlayer = function(width, height, video) {
+//            	console.log('player: w', width, 'h', height, 'vid', video);
                 $player.ytPlayer = new YT.Player('player-container', {
 
-                    height: ytplayerheight,
-                    width: ytplayerwidth,
-                    videoId: startvideo,
+                    height: height,
+                    width: width,
+                    videoId: video,
                     crossDomain: true,
 
                     playerVars: {
@@ -336,6 +328,36 @@ class PlayerController {
                         'onError': onError
                     }
                 });
+            };
+
+            $(document).ready(function () {
+
+                let percentHeight = function (abs, val) {
+                    return ((abs / 100) * val) | 0;
+                };
+
+                // '9RMHHwJ9Eqk';
+                let startVideo = '';
+                let ytPlayerWidth = '100%';
+                let ytPlayerHeight = percentHeight($(document).height(), 70) + 'px';
+
+                $.getJSON('php/json/page/Page.php?action=config', function (json) {
+        			if(json && json.data && json.data.value) {
+        				let conf = json.data.value;	
+        				if(conf.general.playerHeight !== 'auto') {
+        					ytPlayerHeight = conf.general.playerHeight;
+        				}	    
+        				if(conf.general.playerWidth !== 'auto') {
+        					ytPlayerWidth = conf.general.playerWidth;
+        				}
+        			}
+        			
+        			createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);
+                }).fail(function (xhr) {
+                    $.logXhr(xhr);
+        			createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);
+                });
+                
             });
         };
     }

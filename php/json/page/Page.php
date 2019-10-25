@@ -47,6 +47,8 @@ class Page extends DefaultJson {
           $webconfig['general']['lang'] = $settings['general']['lang'];
           $webconfig['general']['tracksPerPage'] = $settings['general']['tracks_perpage'];
           $webconfig['general']['errorVideo'] = $settings['general']['error_video'];
+          $webconfig['general']['playerHeight'] = $settings['general']['playerheight'];
+          $webconfig['general']['playerWidth'] = $settings['general']['playerwidth'];
 
           return $webconfig;
      }

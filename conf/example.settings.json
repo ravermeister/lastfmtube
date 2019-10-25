@@ -5,7 +5,7 @@
 		"lang": "en",
 		"logfile": "conf/logs/lastfmtube.log",
 		"playerwidth": "100%",
-		"playerheight": "500px",
+		"playerheight": "auto",
 		"theme": "dimension",
 		"lastfm_defaultuser": "lastfm default user",
 		"tracks_perpage": 25,
