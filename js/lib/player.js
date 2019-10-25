@@ -300,17 +300,8 @@ class PlayerController {
                     listener(event);
                 }
             };
-
-            $(document).ready(function () {
-
-                let percentHeight = function (abs, val) {
-                    return ((abs / 100) * val) | 0;
-                };
-
-                let startvideo = '';// '9RMHHwJ9Eqk';
-                let ytplayerwidth = '100%';
-                let ytplayerheight = percentHeight($(document).height(), 70) + 'px';
-
+            
+            let createPlayer = function() {
                 $player.ytPlayer = new YT.Player('player-container', {
 
                     height: ytplayerheight,
@@ -336,6 +327,34 @@ class PlayerController {
                         'onError': onError
                     }
                 });
+            };
+
+            $(document).ready(function () {
+
+                let percentHeight = function (abs, val) {
+                    return ((abs / 100) * val) | 0;
+                };
+
+                // '9RMHHwJ9Eqk';
+                let startvideo = '';
+                let ytplayerwidth = '100%';
+                let ytplayerheight = percentHeight($(document).height(), 70) + 'px';
+
+                $.getJSON('php/json/page/Page.php?action=config', function (json) {
+        			if(json && json.data && json.data.value) {
+        				let conf = json.data.value;				
+        				playerHeight = conf.general.playerheight;
+        				if(playerHeight !== 'auto') {
+        					ytplayerheight = playerHeight;
+        				}	            
+        			}
+        			
+        			createPlayer(ytplayerwidth, ytplayerheight, startvideo);
+                }).fail(function (xhr) {
+                    $.logXhr(xhr);
+        			createPlayer(ytplayerwidth, ytplayerheight, startvideo);
+                });
+                
             });
         };
     }
