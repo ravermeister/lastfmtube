@@ -337,23 +337,25 @@ class PlayerController {
                 };
 
                 // '9RMHHwJ9Eqk';
-                let startvideo = '';
-                let ytplayerwidth = '100%';
-                let ytplayerheight = percentHeight($(document).height(), 70) + 'px';
+                let startVideo = '';
+                let ytPlayerWidth = '100%';
+                let ytPlayerHeight = percentHeight($(document).height(), 70) + 'px';
 
                 $.getJSON('php/json/page/Page.php?action=config', function (json) {
         			if(json && json.data && json.data.value) {
         				let conf = json.data.value;	
-        				console.log('>>>', conf);
-        				if(conf.general.playerheight !== 'auto') {
-        					ytplayerheight = conf.general.playerheight;
-        				}	            
+        				if(conf.general.playerHeight !== 'auto') {
+        					ytPlayerHeight = conf.general.playerHeight;
+        				}	    
+        				if(conf.general.playerWidth !== 'auto') {
+        					ytPlayerWidth = conf.general.playerWidth;
+        				}
         			}
         			
-        			createPlayer(ytplayerwidth, ytplayerheight, startvideo);
+        			createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);
                 }).fail(function (xhr) {
                     $.logXhr(xhr);
-        			createPlayer(ytplayerwidth, ytplayerheight, startvideo);
+        			createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);
                 });
                 
             });
