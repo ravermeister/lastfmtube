@@ -302,6 +302,7 @@ class PlayerController {
             };
             
             let createPlayer = function() {
+            	console.log('w', ytplayerwidth, 'h', ytplayerwidth);
                 $player.ytPlayer = new YT.Player('player-container', {
 
                     height: ytplayerheight,
