@@ -160,14 +160,12 @@ class PlaylistController {
 
     loadVideoCommentList(videoId, pagetoken=false) {
     	let request = null;    	
-    	if(pagetoken===false &&
-    			'' !== $page.myVues.youtube.comments.$data.videoId &&
-    			$page.myVues.youtube.comments.$data.videoId === videoId) {
+    	if(pagetoken===false && !commentsLoaded &&
+    			$player.currentTrackData.videoId === videoId) {
     		console.log('Comments for Video {} %s already loaded', videoId);
     		return;
     	}
     	
-    	$page.myVues.youtube.comments.$data.videoId = videoId;
     	
     	request = 'php/json/page/YouTube.php?action=videoComments' + 
         		'&videoId=' + videoId;
@@ -181,6 +179,9 @@ class PlaylistController {
     		} else {
     			$page.myVues.youtube.comments.append(json.data.value);
     		}
+    		
+    		commentsLoaded = true;
+    		
     	}).fail(function (xhr) {
     		console.error('request failed');
             $.logXhr(xhr);

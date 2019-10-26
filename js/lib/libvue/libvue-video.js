@@ -140,7 +140,6 @@ class LibvueVideo {
         this.comments = new Vue({
             el: '#video-container>#video-comments',
             data: {
-            	commentsLoaded: false,
             	showComments: false,
             	showLoadMore: false,
             	videoId: '',

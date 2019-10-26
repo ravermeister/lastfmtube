@@ -409,6 +409,9 @@ class PlayerController {
                     if (!success) return;
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
                     $player.loadSong(tracks[0]);
+                    if($page.myVues.youtube.comments.showComments) {
+                    	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+                    }
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
                 }
@@ -419,7 +422,10 @@ class PlayerController {
             nextIndex = 0;
         }
 
-        this.loadSong(tracks[nextIndex]);
+        $player.loadSong(tracks[nextIndex]);
+        if($page.myVues.youtube.comments.showComments) {
+        	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+        }
     }
 
     loadPreviousSong() {
@@ -446,11 +452,17 @@ class PlayerController {
                 if (!success) return;
                 tracks = $page.myVues.playlist.content.$data.TRACKS;
                 $player.loadSong(tracks[tracks.length - 1]);
+                if($page.myVues.youtube.comments.showComments) {
+                	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+                }
             });
             return;
         }
 
         this.loadSong(tracks[prevIndex]);
+        if($page.myVues.youtube.comments.showComments) {
+        	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+        }
     }
 
     setCurrentTrack(track, force = false) {
