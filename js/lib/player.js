@@ -410,7 +410,7 @@ class PlayerController {
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
                     $player.loadSong(tracks[0]);
                     if($page.myVues.youtube.comments.showComments) {
-                    	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+                    	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
                     }
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
@@ -424,7 +424,7 @@ class PlayerController {
 
         $player.loadSong(tracks[nextIndex]);
         if($page.myVues.youtube.comments.showComments) {
-        	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+        	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
         }
     }
 
