@@ -28,7 +28,6 @@ requirejs
 				// Storage js
 				Storages : [
 						'//unpkg.com/js-storage/dist/js.storage.min',
-						'//raw.githubusercontent.com/julien-maurel/js-storage/master/js.storage.min',
 						'jstorage/js.storage.min' ],
 
 				// share buttons
