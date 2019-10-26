@@ -551,9 +551,54 @@ class PageController {
 		a2a_config.locale = "en";
     }
     
+    initHotKeys() {
+    	    	
+    	hotkeys('left', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.rewind();    		
+    	});
+    	
+    	hotkeys('ctrl+left', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadPreviousSong();    		
+    	});
+    	
+    	hotkeys('right', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.fastForward();    		
+    	});
+    	
+    	hotkeys('ctrl+right', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadNextSong();    		
+    	});
+    	
+    	hotkeys('space', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.togglePlay();    		
+    	});
+
+    	hotkeys('enter', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.togglePlay();    		
+    	});
+
+    	/**
+		 * TODO: add hotkeys for page navigation and search
+		 */
+    	
+    }
+    
     init(initReadyCallBack) {
-    	this.initShareButtons();
-        this.initMyVues();
+    	$page.initShareButtons();
+    	$page.initHotKeys();
+    	$page.initMyVues();
         $page.setMainPageLoading(true);
         location.hash = '';
         

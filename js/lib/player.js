@@ -645,4 +645,34 @@ class PlayerController {
     isPaused() {
         return this.ytPlayer.getPlayerState() === this.ytStatus.PAUSED.ID;
     }
+    
+    togglePlay(play = false){
+        if (play === true && !$player.isPlaying()) {
+            $player.ytPlayer.playVideo();
+        } else if (play === false && !$player.isPaused()) {
+            $player.ytPlayer.pauseVideo();
+        } else if ($player.isPlaying()) {
+            $player.ytPlayer.pauseVideo();
+        } else {
+            $player.ytPlayer.playVideo();
+        }
+    }
+    
+    fastForward(interValSec = 5) {
+    	let tracklen = $player.ytPlayer.getDuration();
+    	let curtime = $player.ytPlayer.getCurrentTime();
+    	let newtime = curtime + interValSec;
+    	if(tracklen <= 0) return;
+    	else if(newtime > tracklen) newtime = tracklen;
+    	$player.ytPlayer.seekTo(newtime, true);	
+    }
+    
+    rewind(interValSec = 5) {
+    	let tracklen = $player.ytPlayer.getDuration();
+    	let curtime = $player.ytPlayer.getCurrentTime();
+    	let newtime = curtime - interValSec;
+    	if(tracklen <= 0) return;
+    	else if(newtime < 0) newtime = 0;
+    	$player.ytPlayer.seekTo(newtime, true);
+    }
 }
