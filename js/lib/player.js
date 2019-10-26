@@ -653,7 +653,8 @@ class PlayerController {
         } else if($player.ytPlayer.getPlayerState() === $player.ytStatus.ENDED.ID ) {
         	$player.ytPlayer.playVideo();
         } else {
-        	$player.loadNextSong();
+        	console.log('player not loaded');
+//        	$player.loadNextSong();
         	$player.ytPlayer.playVideo();
         }
         
