@@ -141,6 +141,7 @@ class LibvueVideo {
         this.comments = new Vue({
             el: '#video-container>#video-comments',
             data: {
+            	commentsLoaded: false,
             	showComments: false,
             	showLoadMore: false,
             	videoId: '',
@@ -182,6 +183,9 @@ class LibvueVideo {
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
                 	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT;
+                	if(this.$data.showComments && ! commentsLoaded) {
+                		$playlist.loadVideoCommentList(this.$data.videoId);
+                	}
                 },
                 loadMore: function() {
                 	let pinfo = this.$data.pageinfo;
