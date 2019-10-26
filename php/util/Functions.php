@@ -62,7 +62,6 @@ class Functions {
 
           $this->settings['general']['logfile'] = self::normalizePath($this->basedir, $this->settings['general']['logfile']);
           $this->settings['database']['dbinit_file'] = self::normalizePath($this->basedir, $this->settings['database']['dbinit_file']);
-          $this->settings['database']['replacement_csv'] = self::normalizePath($this->basedir, $this->settings['database']['replacement_csv']);
           $this->settings['general']['lang'] = 'en';
      }
 
