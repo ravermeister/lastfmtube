@@ -650,9 +650,10 @@ class PlayerController {
     	console.log('toggle play');
         if ($player.isPlaying()) {
         	$player.ytPlayer.pauseVideo();
-        } else if($player.ytPlayer.getPlayerState() <= $player.ytStatus.ENDED.ID ) {
-        	$player.loadNextSong();
+        } else if($player.ytPlayer.getPlayerState() === $player.ytStatus.ENDED.ID ) {
+        	$player.ytPlayer.playVideo();
         } else {
+        	$player.loadNextSong();
         	$player.ytPlayer.playVideo();
         }
         
