@@ -162,11 +162,11 @@ class PlaylistController {
     	let request = null;    	
     	if(pagetoken===false && $player.commentsLoaded &&
     			$player.currentTrackData.videoId === videoId) {
-    		console.log('Comments for Video {} %s already loaded', videoId);
+//    		console.log('Comments for Video {} %s already loaded', videoId);
     		return;
-    	}
+    	}    	
+//    	console.log('load comments for video', videoId);
     	
-    	console.log('load comments for video', videoId);
     	request = 'php/json/page/YouTube.php?action=videoComments' + 
         		'&videoId=' + videoId;
     	if(pagetoken!==false) {
