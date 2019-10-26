@@ -1,6 +1,5 @@
 class LibvueVideo {
 
-
     constructor() {
 
         // noinspection JSUnusedGlobalSymbols
@@ -182,13 +181,16 @@ class LibvueVideo {
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
                 	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT;
+                	if(this.$data.showComments) {
+                		$playlist.loadVideoCommentList($player.currentTrackData.videoId);
+                	}
                 },
                 loadMore: function() {
                 	let pinfo = this.$data.pageinfo;
                 	if(undefined === pinfo.NEXT || false === pinfo.NEXT) {
                 		return;
                 	} 
-                	$playlist.loadVideoCommentList(this.$data.videoId, pinfo.NEXT);
+                	$playlist.loadVideoCommentList($player.currentTrackData.videoId, pinfo.NEXT);
                 }
             }
         });

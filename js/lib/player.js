@@ -181,6 +181,7 @@ class PlayerController {
         this.errorListeners = [];
         this.stateChangeListeners = [];
         this.ytStatus = {};
+        this.commentsLoaded = false;
         this.currentTrackData = {
             track: null,
             videoId: null,
@@ -302,7 +303,7 @@ class PlayerController {
             };
             
             let createPlayer = function(width, height, video) {
-//            	console.log('player: w', width, 'h', height, 'vid', video);
+// console.log('player: w', width, 'h', height, 'vid', video);
                 $player.ytPlayer = new YT.Player('player-container', {
 
                     height: height,
@@ -408,6 +409,9 @@ class PlayerController {
                     if (!success) return;
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
                     $player.loadSong(tracks[0]);
+                    if($page.myVues.youtube.comments.showComments) {
+                    	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+                    }
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
                 }
@@ -418,7 +422,10 @@ class PlayerController {
             nextIndex = 0;
         }
 
-        this.loadSong(tracks[nextIndex]);
+        $player.loadSong(tracks[nextIndex]);
+        if($page.myVues.youtube.comments.showComments) {
+        	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+        }
     }
 
     loadPreviousSong() {
@@ -445,11 +452,17 @@ class PlayerController {
                 if (!success) return;
                 tracks = $page.myVues.playlist.content.$data.TRACKS;
                 $player.loadSong(tracks[tracks.length - 1]);
+                if($page.myVues.youtube.comments.showComments) {
+                	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+                }
             });
             return;
         }
 
         this.loadSong(tracks[prevIndex]);
+        if($page.myVues.youtube.comments.showComments) {
+        	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
+        }
     }
 
     setCurrentTrack(track, force = false) {
@@ -582,7 +595,7 @@ class PlayerController {
     loadVideo(videoId = '') {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             $player.ytPlayer.loadVideoById(videoId);
-            $playlist.loadVideoCommentList(videoId);
+            $player.commentsLoaded = false;
             
             $player.currentTrackData.videoId = videoId;
             $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
