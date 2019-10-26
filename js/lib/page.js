@@ -543,8 +543,16 @@ class PageController {
         };
     }
     
-    init(initReadyCallBack) {
+    initShareButtons() {
+		var a2a_config = a2a_config || {};
 
+		a2a_config.linkname = "Last.fm YouTube Radio";
+		a2a_config.linkurl = "https://lastfm.rimkus.it";
+		a2a_config.locale = "en";
+    }
+    
+    init(initReadyCallBack) {
+    	this.initShareButtons();
         this.initMyVues();
         $page.setMainPageLoading(true);
         location.hash = '';
