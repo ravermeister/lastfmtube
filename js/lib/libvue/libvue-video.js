@@ -98,16 +98,8 @@ class LibvueVideo {
                 PLAYSTATE: ''
             },
             methods: {
-                togglePlay(play = null) {
-                    if (play === true && !$player.isPlaying()) {
-                        $player.ytPlayer.playVideo();
-                    } else if (play === false && !$player.isPaused()) {
-                        $player.ytPlayer.pauseVideo();
-                    } else if ($player.isPlaying()) {
-                        $player.ytPlayer.pauseVideo();
-                    } else {
-                        $player.ytPlayer.playVideo();
-                    }
+                togglePlay(play = false) {
+                	$player.togglePlay(play);
                 },
 
                 prev: function () {

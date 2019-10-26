@@ -14,23 +14,30 @@ requirejs
 						'requirejs/domReady' ],
 
 				// jquery
-				jquery : [ '//unpkg.com/jquery@3.4.1/dist/jquery.min',
+				jquery : [ '//unpkg.com/jquery/dist/jquery.min',
 						'jquery/jquery' ],
 
 				// the Vue lib
-				Vue : [ '//unpkg.com/vue@2.6.10/dist/vue.min', 'vue/vue.min' ],
+				Vue : [ '//unpkg.com/vue/dist/vue.min', 'vue/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
 				vue : [
-						'unpkg.com/browse/require-vuejs@1.1.3/dist/require-vuejs.min.js',
+						'//unpkg.com/require-vuejs/dist/require-vuejs.min',
 						'vue/vue-requirejs.min' ],
 
 				// Storage js
-				Storages : [ '//unpkg.com/js-storage@1.1.0/js.storage.min',
+				Storages : [
+						'//unpkg.com/js-storage/js.storage.min',
 						'jstorage/js.storage.min' ],
 
-				//share buttons
-				add2any : ['//static.addtoany.com/menu/page', 'add2any/add2any.min'],
+				// share buttons
+				add2any : [ '//static.addtoany.com/menu/page',
+						'add2any/add2any.min' ],
+
+				// hotkeys
+				hotkeys : [ '//unpkg.com/hotkeys-js/dist/hotkeys.min',
+						'hotkeys/hotkeys.min' ],
+
 				// themes
 				themes : [ '../../themes/dimension/assets/js' ]
 			},
@@ -50,7 +57,7 @@ requirejs
 				// html5 theme dependencies
 
 				'page' : {
-					deps : [ 'libvue', 'add2any' ]
+					deps : [ 'libvue', 'add2any', 'hotkeys' ]
 				}
 			}
 		});
