@@ -179,6 +179,8 @@ class PlaylistController {
     		} else {
     			$page.myVues.youtube.comments.append(json.data.value);
     		}
+    		
+    		$player.commentsLoaded = true;
     	}).fail(function (xhr) {
     		console.error('request failed');
             $.logXhr(xhr);
@@ -187,7 +189,9 @@ class PlaylistController {
                 callBack(false);
             }
         });
-    	$player.commentsLoaded = true;
+    	
+//    	treat error as if the comment list were loaded
+//    	$player.commentsLoaded = true;
     }
     
     isValidUser(user = null) {
