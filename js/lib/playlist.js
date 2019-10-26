@@ -160,7 +160,7 @@ class PlaylistController {
 
     loadVideoCommentList(videoId, pagetoken=false) {
     	let request = null;    	
-    	if(pagetoken===false && !$player.commentsLoaded &&
+    	if(pagetoken===false && $player.commentsLoaded &&
     			$player.currentTrackData.videoId === videoId) {
     		console.log('Comments for Video {} %s already loaded', videoId);
     		return;
