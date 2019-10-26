@@ -159,6 +159,7 @@ class PlaylistController {
     
 
     loadVideoCommentList(videoId, pagetoken=false) {
+    	console.log('load comments');
     	
     	let request = null;    	
     	if(pagetoken===false &&
