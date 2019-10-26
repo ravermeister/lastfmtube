@@ -3,6 +3,8 @@ conf/settings.ini
 conf/init.replacement.csv
 conf/*.db
 conf/*.log
+conf/*.dump
+conf/settings.json.*
 .buildpath
 .project
 .settings/
