@@ -649,7 +649,7 @@ class PlayerController {
     togglePlay(play = false){
     	
         if (play === false && $player.isPlaying) {
-        	$player.pauseVideo();
+        	$player.ytPlayer.pauseVideo();
         	return;
         }
         
