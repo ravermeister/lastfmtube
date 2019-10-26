@@ -562,7 +562,6 @@ class PageController {
     	hotkeys('ctrl+left', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		console.log('load prev song');
     		$player.loadPreviousSong();    		
     	});
     	
@@ -575,7 +574,6 @@ class PageController {
     	hotkeys('ctrl+right', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		console.log('load next song');
     		$player.loadNextSong();    		
     	});
     	
