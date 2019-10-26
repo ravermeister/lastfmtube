@@ -50,7 +50,7 @@ requirejs
 				// html5 theme dependencies
 
 				'page' : {
-					deps : [ 'libvue' ]
+					deps : [ 'libvue', 'add2any' ]
 				}
 			}
 		});
