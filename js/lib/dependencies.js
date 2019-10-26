@@ -26,15 +26,19 @@ requirejs
 						'vue/vue-requirejs.min' ],
 
 				// Storage js
-				Storages : [ '//unpkg.com/js-storage/dist/js.storage.min',
+				Storages : [
+						'//unpkg.com/js-storage/dist/js.storage.min',
+						'//raw.githubusercontent.com/julien-maurel/js-storage/master/js.storage.min',
 						'jstorage/js.storage.min' ],
 
-				//share buttons
-				add2any : ['//static.addtoany.com/menu/page', 'add2any/add2any.min'],
-				
-				//hotkeys
-				hotkeys : ['//unpkg.com/hotkeys-js/dist/hotkeys.min', 'hotkeys/hotkeys.min'],
-				
+				// share buttons
+				add2any : [ '//static.addtoany.com/menu/page',
+						'add2any/add2any.min' ],
+
+				// hotkeys
+				hotkeys : [ '//unpkg.com/hotkeys-js/dist/hotkeys.min',
+						'hotkeys/hotkeys.min' ],
+
 				// themes
 				themes : [ '../../themes/dimension/assets/js' ]
 			},
