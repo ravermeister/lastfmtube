@@ -647,15 +647,22 @@ class PlayerController {
     }
     
     togglePlay(play = false){
-        if (play === true && !$player.isPlaying()) {
-            $player.ytPlayer.playVideo();
-        } else if (play === false && !$player.isPaused()) {
-            $player.ytPlayer.pauseVideo();
-        } else if ($player.isPlaying()) {
-            $player.ytPlayer.pauseVideo();
-        } else {
-            $player.ytPlayer.playVideo();
+    	
+        if (play === false && $player.isPlaying) {
+        	$player.pauseVideo();
+        	return;
         }
+        
+        if(play === true && $player.ytPlayer.getPlayerState <= $player.ytStatus.ENDED.ID ) {
+        	loadNextSong();
+        	return;
+        }
+        
+        if (play === true && !$player.isPlaying()) {
+        	$player.ytPlayer.playVideo();
+        	return;
+        }
+        
     }
     
     fastForward(interValSec = 10) {
