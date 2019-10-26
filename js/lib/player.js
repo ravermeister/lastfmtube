@@ -171,6 +171,15 @@ class ChartTimer {
 class PlayerController {
 
     constructor() {
+    	
+    	// increase seek value after repeatable seek with
+    	// same steps
+    	this.seekTimeout = {    			
+    			counter: 0,
+    			limit: 5,
+    			timeoutMilis: 200,
+    			lastOccur: null
+    	};
         this.ytPlayer = null;
         this.isReady = false;
         this.autoPlay = false;
@@ -655,7 +664,39 @@ class PlayerController {
         }        
     }
     
+    calculateSeekInterVal(interVal) {
+    	let now = new Date().getTime();
+    	if($player.seekTimeout.lastOccur === null) {
+    		$player.seekTimeout.lastOccur = now;
+    	}
+    	
+    	let timeDiff = now - $player.seekTimeout.lastOccur;
+    	let timeValid = timeDiff <= $player.seekTimeout.timeoutMilis; 
+
+    	if(timeValid) {
+			if($player.seekTimeout.counter >= $player.seekTimeout.limit) {
+	    		let mult = $player.seekTimeout.counter / $player.seekTimeout.limit;
+	    		mult = mult | 0;
+	    		if(( $player.seekTimeout.counter % $player.seekTimeout.limit ) > 0) {
+	    			mult++;
+	    		}
+	    		
+	    		interVal = interVal + (mult * interVal) 
+	    	}
+			$player.seekTimeout.counter++;
+    	} else {
+    		$player.seekTimeout.counter = 0;
+    	}
+    	
+		$player.seekTimeout.lastOccur = now;
+		
+    	return interVal;
+    }
+    
     fastForward(interValSec = 10) {
+    	
+    	interValSec = $player.calculateSeekInterVal(interValSec);
+    	
     	let tracklen = $player.ytPlayer.getDuration();
     	let curtime = $player.ytPlayer.getCurrentTime();
     	let newtime = curtime + interValSec;
@@ -665,6 +706,9 @@ class PlayerController {
     }
     
     rewind(interValSec = 10) {
+    	
+    	interValSec = $player.calculateSeekInterVal(interValSec);
+    	
     	let tracklen = $player.ytPlayer.getDuration();
     	let curtime = $player.ytPlayer.getCurrentTime();
     	let newtime = curtime - interValSec;
