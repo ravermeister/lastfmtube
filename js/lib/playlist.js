@@ -166,7 +166,7 @@ class PlaylistController {
     		return;
     	}
     	
-    	
+    	console.log('load comments for video', videoId);
     	request = 'php/json/page/YouTube.php?action=videoComments' + 
         		'&videoId=' + videoId;
     	if(pagetoken!==false) {
@@ -190,8 +190,8 @@ class PlaylistController {
             }
         });
     	
-//    	treat error as if the comment list were loaded
-//    	$player.commentsLoaded = true;
+// treat error as if the comment list were loaded
+// $player.commentsLoaded = true;
     }
     
     isValidUser(user = null) {
