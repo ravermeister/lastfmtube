@@ -181,6 +181,7 @@ class PlayerController {
         this.errorListeners = [];
         this.stateChangeListeners = [];
         this.ytStatus = {};
+        this.commentsLoaded = false;
         this.currentTrackData = {
             track: null,
             videoId: null,

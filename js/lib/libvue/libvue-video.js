@@ -1,6 +1,5 @@
 class LibvueVideo {
 
-
     constructor() {
 
         // noinspection JSUnusedGlobalSymbols
@@ -184,7 +183,7 @@ class LibvueVideo {
                 	this.$data.showComments = !this.$data.showComments;
                 	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT;
                 	if(this.$data.showComments) {
-                		$playlist.loadVideoCommentList(this.$data.videoId);
+                		$playlist.loadVideoCommentList($player.currentTrackData.videoId);
                 	}
                 },
                 loadMore: function() {
@@ -192,7 +191,7 @@ class LibvueVideo {
                 	if(undefined === pinfo.NEXT || false === pinfo.NEXT) {
                 		return;
                 	} 
-                	$playlist.loadVideoCommentList(this.$data.videoId, pinfo.NEXT);
+                	$playlist.loadVideoCommentList($player.currentTrackData.videoId, pinfo.NEXT);
                 }
             }
         });
