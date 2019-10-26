@@ -651,7 +651,7 @@ class PlayerController {
         if ($player.isPlaying()) {
         	$player.ytPlayer.pauseVideo();
         } else if($player.ytPlayer.getPlayerState() <= $player.ytStatus.ENDED.ID ) {
-        	loadNextSong();
+        	$player.loadNextSong();
         } else {
         	$player.ytPlayer.playVideo();
         }
