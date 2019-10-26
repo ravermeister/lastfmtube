@@ -181,6 +181,7 @@ class PlayerController {
         this.errorListeners = [];
         this.stateChangeListeners = [];
         this.ytStatus = {};
+        this.commentsLoaded = false;
         this.currentTrackData = {
             track: null,
             videoId: null,
@@ -302,7 +303,7 @@ class PlayerController {
             };
             
             let createPlayer = function(width, height, video) {
-//            	console.log('player: w', width, 'h', height, 'vid', video);
+// console.log('player: w', width, 'h', height, 'vid', video);
                 $player.ytPlayer = new YT.Player('player-container', {
 
                     height: height,
@@ -582,8 +583,7 @@ class PlayerController {
     loadVideo(videoId = '') {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             $player.ytPlayer.loadVideoById(videoId);
-//            do not load comments by default
-//            $playlist.loadVideoCommentList(videoId);
+            $player.commentsLoaded = false;
             
             $player.currentTrackData.videoId = videoId;
             $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;

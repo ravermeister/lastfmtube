@@ -183,8 +183,9 @@ class LibvueVideo {
                 toggleVisibility: function() {
                 	this.$data.showComments = !this.$data.showComments;
                 	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT;
-                	if(this.$data.showComments && ! commentsLoaded) {
+                	if(this.$data.showComments && !$player.commentsLoaded) {
                 		$playlist.loadVideoCommentList(this.$data.videoId);
+                		$player.commentsLoaded = true;
                 	}
                 },
                 loadMore: function() {
