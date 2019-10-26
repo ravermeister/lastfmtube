@@ -656,7 +656,6 @@ class PlayerController {
     }
     
     togglePlay(){
-    	console.log('toggle play');
         if ($player.isPlaying()) {
         	$player.ytPlayer.pauseVideo();
         } else {
