@@ -29,6 +29,9 @@ requirejs
 				Storages : [ '//unpkg.com/js-storage@1.1.0/js.storage.min',
 						'jstorage/js.storage.min' ],
 
+				//share buttons
+				add2any ['//static.addtoany.com/menu/page.js', 'add2any/add2any.min'],
+				// themes
 				themes : [ '../../themes/dimension/assets/js' ]
 			},
 
