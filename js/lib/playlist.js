@@ -160,7 +160,7 @@ class PlaylistController {
 
     loadVideoCommentList(videoId, pagetoken=false) {
     	let request = null;    	
-    	if(pagetoken===false && !commentsLoaded &&
+    	if(pagetoken===false && !$player.commentsLoaded &&
     			$player.currentTrackData.videoId === videoId) {
     		console.log('Comments for Video {} %s already loaded', videoId);
     		return;
@@ -180,7 +180,7 @@ class PlaylistController {
     			$page.myVues.youtube.comments.append(json.data.value);
     		}
     		
-    		commentsLoaded = true;
+    		$player.commentsLoaded = true;
     		
     	}).fail(function (xhr) {
     		console.error('request failed');
