@@ -579,12 +579,6 @@ class PageController {
     		$player.loadNextSong();    		
     	});
     	
-//    	hotkeys('space', function(event, handler){
-//    		// Prevent the default refresh event under WINDOWS system
-//    		event.preventDefault(); 
-//    		$player.togglePlay();    		
-//    	});
-
     	hotkeys('enter', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
