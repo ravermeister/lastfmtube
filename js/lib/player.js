@@ -646,21 +646,14 @@ class PlayerController {
         return this.ytPlayer.getPlayerState() === this.ytStatus.PAUSED.ID;
     }
     
-    togglePlay(play = false){
-    	console.log('toggle play', play);
-        if (play === false && $player.isPlaying) {
+    togglePlay(){
+    	console.log('toggle play');
+        if ($player.isPlaying()) {
         	$player.ytPlayer.pauseVideo();
-        	return;
-        }
-        
-        if(play === true && $player.ytPlayer.getPlayerState <= $player.ytStatus.ENDED.ID ) {
+        } else if($player.ytPlayer.getPlayerState() <= $player.ytStatus.ENDED.ID ) {
         	loadNextSong();
-        	return;
-        }
-        
-        if (play === true && !$player.isPlaying()) {
+        } else {
         	$player.ytPlayer.playVideo();
-        	return;
         }
         
     }
