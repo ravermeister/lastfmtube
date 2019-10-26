@@ -658,7 +658,7 @@ class PlayerController {
         }
     }
     
-    fastForward(interValSec = 5) {
+    fastForward(interValSec = 10) {
     	let tracklen = $player.ytPlayer.getDuration();
     	let curtime = $player.ytPlayer.getCurrentTime();
     	let newtime = curtime + interValSec;
@@ -667,7 +667,7 @@ class PlayerController {
     	$player.ytPlayer.seekTo(newtime, true);	
     }
     
-    rewind(interValSec = 5) {
+    rewind(interValSec = 10) {
     	let tracklen = $player.ytPlayer.getDuration();
     	let curtime = $player.ytPlayer.getCurrentTime();
     	let newtime = curtime - interValSec;
