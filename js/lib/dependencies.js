@@ -22,13 +22,12 @@ requirejs
 				// Vue RequireJS loader
 				// required for using vue components
 				vue : [
-						'unpkg.com/browse/require-vuejs/dist/require-vuejs.min.js',
+						'//unpkg.com/require-vuejs/dist/require-vuejs.min',
 						'vue/vue-requirejs.min' ],
 
 				// Storage js
 				Storages : [
-						'//unpkg.com/js-storage/dist/js.storage.min',
-						'//raw.githubusercontent.com/julien-maurel/js-storage/master/js.storage.min',
+						'//unpkg.com/js-storage/js.storage.min',
 						'jstorage/js.storage.min' ],
 
 				// share buttons
