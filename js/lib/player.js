@@ -409,9 +409,6 @@ class PlayerController {
                     if (!success) return;
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
                     $player.loadSong(tracks[0]);
-                    if($page.myVues.youtube.comments.showComments) {
-                    	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
-                    }
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
                 }
@@ -423,9 +420,6 @@ class PlayerController {
         }
 
         $player.loadSong(tracks[nextIndex]);
-        if($page.myVues.youtube.comments.showComments) {
-        	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
-        }
     }
 
     loadPreviousSong() {
@@ -599,6 +593,9 @@ class PlayerController {
             
             $player.currentTrackData.videoId = videoId;
             $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            if($page.myVues.youtube.comments.showComments) {
+            	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
+            }
         } else {
             if ($player.errorLoopCount > $player.maxErrorLoop) {
                 console.error('maximum error loop reached');
@@ -610,8 +607,13 @@ class PlayerController {
                 
                 // load the default video
                 $player.loadDefaultVideo();
+                if(loadComments) {
+                	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
+                }
                 return;
             }
+            
+            
             $player.errorLoopCount++;
             if ($player.loadNextOnError) {
                 $player.loadNextSong();
