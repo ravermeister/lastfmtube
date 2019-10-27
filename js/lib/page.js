@@ -639,7 +639,7 @@ class PageController {
     		$page.loadPage('lastfm');
     	});
     	
-    	hotkeys('ctrl+3', function(event, handler){
+    	hotkeys('ctrl+8', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
     		$page.loadPage('personal');    		
