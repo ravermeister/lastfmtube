@@ -323,24 +323,24 @@ class PageController {
     initURL() {
 		switch (location.pathname) {
 			case '/topsongs':
-				loadPage('topsongs');
+				$page.loadPage('topsongs');
 			break;
 						
 			case '/users':
-				loadPage('users');
+				$page.loadPage('users');
 			break;
 			
 			case '/personal':
-				loadPage('personal');
+				$page.loadPage('personal');
 			break;
 			
 			case '/lastfm':
-				loadPage('lastfm');
+				$page.loadPage('lastfm');
 			break;
 			
 			case '/video':
 			default:
-				loadPage('video');
+				$page.loadPage('video');
 			break;
 		}
     }
@@ -626,19 +626,19 @@ class PageController {
     	hotkeys('ctrl+3', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$player.loadPage('personal');    		
+    		$page.loadPage('personal');    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$player.loadPage('topsongs');    		
+    		$page.loadPage('topsongs');    		
     	});
     	
     	hotkeys('ctrl+5', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$player.loadPage('users');    		
+    		$page.loadPage('users');    		
     	});
     	
     	/**
