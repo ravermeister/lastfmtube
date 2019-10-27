@@ -35,7 +35,7 @@ The Timer is designed to stop when player is paused, and will continue when the 
 The following global Shortcut keys are supported:
 
 Key binding | Command | Window |  Key binding | Command | Window 
------------ | ------- | ------ | -.---------- | ------- | -------- | 
+----------- | ------- | ------ | ------------ | ------- | -------- | 
 enter | Play/Pause | Youtube Player | ctrl+1 | Player Window | Page Navigation
 space | Play/Pause | Youtube Player | ctrl+2 | Last.fm Playlist | Page Navigation
 left | *Rewind Track | Youtube Player | ctrl+3 | Custom User Playlist | Page Navigation
