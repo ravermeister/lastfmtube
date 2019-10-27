@@ -216,12 +216,13 @@ class PageController {
         PageController.icons = PageController.initIcons();
         PageController.analytics = null;
 
+        this.settings = {};
         this.isReady = false;
         this.PLAYLIST = null;
         this.SEARCH_RETURN_PLAYLIST = null;
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
-
+        
         this.menu = new Menu(PageController.icons);
         this.myVues = {};
         this.menuData = [];
@@ -588,8 +589,36 @@ class PageController {
 		 */
     	
     }
+
+    initSettings() {
+    	
+		$.ajax({
+			url: 'php/json/page/Page.php?action=config',
+			dataType: 'json',
+			async: false,
+			success: function(json) {
+				if(json && json.data && json.data.value) {
+					let conf = json.data.value;				
+					$player.settings = conf;         
+				}
+			},
+			error: function(xhr) {
+	            $.logXhr(xhr);
+			}
+		});
+    	
+//        $.getJSON('php/json/page/Page.php?action=config', function (json) {
+//			if(json && json.data && json.data.value) {
+//				let conf = json.data.value;				
+//				$player.settings = conf;         
+//			}
+//        }).fail(function (xhr) {
+//            $.logXhr(xhr);
+//        });
+    }
     
     init(initReadyCallBack) {
+    	$page.initSettings();
     	$page.initShareButtons();
     	$page.initHotKeys();
     	$page.initMyVues();
