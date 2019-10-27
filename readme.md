@@ -30,6 +30,18 @@ The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the lis
 
 The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
+## Hotkeys
+
+The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards. Currently following Hotkeys are supported:
+
+Key binding | Command 
+----------- | --------
+enter | Play/Pause
+left | Rewind Track 
+right | Fast Forward Track 
+ctrl+left | Previous Track 
+ctrl+right | Next Track 
+
 ## Admin interface
 There is an admin php cli Interface for Importing the replacement.csv Files and generating the sitemap.xml file.  
 Call `php admin.php` inside the lastfmtube Folder for more info.

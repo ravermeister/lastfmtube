@@ -177,7 +177,7 @@ class PlayerController {
     	this.seekTimeout = {    			
     			counter: 0,
     			limit: 5,
-    			timeoutMilis: 200,
+    			timeoutMilis: 500,
     			lastOccur: null
     	};
         this.ytPlayer = null;
@@ -692,7 +692,7 @@ class PlayerController {
     	return interVal;
     }
     
-    fastForward(interValSec = 10) {
+    fastForward(interValSec = 5) {
     	
     	interValSec = $player.calculateSeekInterVal(interValSec);
     	
@@ -704,7 +704,7 @@ class PlayerController {
     	$player.ytPlayer.seekTo(newtime, true);	
     }
     
-    rewind(interValSec = 10) {
+    rewind(interValSec = 5) {
     	
     	interValSec = $player.calculateSeekInterVal(interValSec);
     	
