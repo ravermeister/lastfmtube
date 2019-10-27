@@ -350,8 +350,8 @@ class PlayerController {
                 let startVideo = '';
                 let ytPlayerWidth = '100%';
                 let ytPlayerHeight = percentHeight($(document).height(), 70) + 'px';
-                console.log('test setting loading', $player.settings.general.playerHeight);
-				if($player.settings.general.playerHeight !== 'auto') {
+
+                if($player.settings.general.playerHeight !== 'auto') {
 					ytPlayerHeight = $player.settings.general.playerHeight;
 				}	    
 				if($player.settings.general.playerWidth !== 'auto') {
