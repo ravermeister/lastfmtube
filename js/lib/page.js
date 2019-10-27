@@ -675,8 +675,7 @@ class PageController {
     	
     }
 
-    initSettings() {
-    	
+    initSettings() {    	
 		$.ajax({
 			url: 'php/json/page/Page.php?action=config',
 			dataType: 'json',
@@ -691,15 +690,6 @@ class PageController {
 	            $.logXhr(xhr);
 			}
 		});
-    	
-// $.getJSON('php/json/page/Page.php?action=config', function (json) {
-// if(json && json.data && json.data.value) {
-// let conf = json.data.value;
-// $player.settings = conf;
-// }
-// }).fail(function (xhr) {
-// $.logXhr(xhr);
-// });
     }
     
     init(initReadyCallBack) {
