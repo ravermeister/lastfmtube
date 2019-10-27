@@ -270,13 +270,11 @@ class PageController {
 	        alert("Browser does not support HTML5.");
 	    }
 	}
-    
-    initURL() {
-
-    	// console.log('>>> path: >' + location.pathname + '<');
+	
+	loadPage(page) {
 		
-		switch (location.pathname) {
-			case '/topsongs':
+		switch(page) {
+			case 'topsongs':
 				$page.load('playlist-container' ,'topsongs', function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');
 					if($player.autoPlay) {
@@ -284,17 +282,15 @@ class PageController {
 					}
 				});
 			break;
-						
-			case '/users':
+			case 'users':
 				$page.load('user-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
-// if($player.autoPlay) {
-// $player.loadNextSong();
-// }
+	// if($player.autoPlay) {
+	// $player.loadNextSong();
+	// }
 				});
 			break;
-			
-			case '/personal':
+			case 'personal':
 				$page.load('user-container', 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 					if($player.autoPlay) {
@@ -302,8 +298,7 @@ class PageController {
 					}
 				});
 			break;
-			
-			case '/lastfm':
+			case 'lastfm':
 				$page.load('playlist-container', 'lastfm', function(){					
 					$page.changeUrl('Last.fm', '/#lastfm');
 					if($player.autoPlay) {
@@ -311,15 +306,41 @@ class PageController {
 					}
 				});	
 			break;
-			
-			case '/video':
-			default:
+			case 'video':
 				$page.load('video-container', 'video', function(){					
 					$page.changeUrl('Video', '/#video');
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
 				});
+			break;
+		}
+		
+		
+		
+	}
+    
+    initURL() {
+		switch (location.pathname) {
+			case '/topsongs':
+				loadPage('topsongs');
+			break;
+						
+			case '/users':
+				loadPage('users');
+			break;
+			
+			case '/personal':
+				loadPage('personal');
+			break;
+			
+			case '/lastfm':
+				loadPage('lastfm');
+			break;
+			
+			case '/video':
+			default:
+				loadPage('video');
 			break;
 		}
     }
@@ -590,8 +611,38 @@ class PageController {
     		$player.togglePlay();    		
     	});
 
+    	hotkeys('ctrl+1', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('video')
+    	});
+    	
+    	hotkeys('ctrl+2', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('lastfm');
+    	});
+    	
+    	hotkeys('ctrl+3', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadPage('personal');    		
+    	});
+    	
+    	hotkeys('ctrl+4', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadPage('topsongs');    		
+    	});
+    	
+    	hotkeys('ctrl+5', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadPage('users');    		
+    	});
+    	
     	/**
-		 * TODO: add hotkeys for page navigation and search
+		 * TODO: add hotkeys for search
 		 */
     	
     }
@@ -613,14 +664,14 @@ class PageController {
 			}
 		});
     	
-//        $.getJSON('php/json/page/Page.php?action=config', function (json) {
-//			if(json && json.data && json.data.value) {
-//				let conf = json.data.value;				
-//				$player.settings = conf;         
-//			}
-//        }).fail(function (xhr) {
-//            $.logXhr(xhr);
-//        });
+// $.getJSON('php/json/page/Page.php?action=config', function (json) {
+// if(json && json.data && json.data.value) {
+// let conf = json.data.value;
+// $player.settings = conf;
+// }
+// }).fail(function (xhr) {
+// $.logXhr(xhr);
+// });
     }
     
     init(initReadyCallBack) {
