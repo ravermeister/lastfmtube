@@ -41,6 +41,7 @@ ctrl+3 | Custom User Playlist | Page Navigation |  | left | *Rewind Track | Play
 ctrl+4 | Topsongs Playlist | Page Navigation |     | right | *Fast Forward Track | Player
 ctrl+5 | Last.fm Users | Page Navigation |         | ctrl+right | Next Track | Player
  | | | | | ctrl+left | Previous Track | Player
+ 
 *The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards.
 
 ## Personal Songlist
