@@ -34,19 +34,19 @@ The Timer is designed to stop when player is paused, and will continue when the 
 
 The following global Shortcut keys are supported:
 
-Key binding | Command | Window 
------------ | ------- | --------
-enter | Play/Pause | Youtube Player
-space | Play/Pause | Youtube Player
-left | *Rewind Track | Youtube Player
-right | *Fast Forward Track | Youtube Player
-ctrl+left | Previous Track | Youtube Player
-ctrl+right | Next Track | Youtube Player
-ctrl+1 | Player Window (Page Navigation
-ctrl+2 | Last.fm Playlist | Page Navigation
-ctrl+3 | Custom User Playlist | Page Navigation
-ctrl+4 | Topsongs Playlist | Page Navigation
-ctrl+5 | Last.fm Users | Page Navigation
+Key binding | Command | Window |  Key binding | Command | Window 
+----------- | ------- | ------ | -.---------- | ------- | -------- | 
+enter | Play/Pause | Youtube Player | ctrl+1 | Player Window | Page Navigation
+space | Play/Pause | Youtube Player | ctrl+2 | Last.fm Playlist | Page Navigation
+left | *Rewind Track | Youtube Player | ctrl+3 | Custom User Playlist | Page Navigation
+right | *Fast Forward Track | Youtube Player | ctrl+4 | Topsongs Playlist | Page Navigation
+ctrl+left | Previous Track | Youtube Player | ctrl+5 | Last.fm Users | Page Navigation
+ctrl+right | Next Track | Youtube Player |||
+
+
+
+
+
 
 *The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards.
 
