@@ -42,15 +42,15 @@ right | Fast Forward Track
 ctrl+left | Previous Track 
 ctrl+right | Next Track 
 
-## Admin interface
-There is an admin php cli Interface for Importing the replacement.csv Files and generating the sitemap.xml file.  
-Call `php admin.php` inside the lastfmtube Folder for more info.
-
 ## Personal Songlist
 You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
 
 ## Listen to other Last.fm User's Song Timeline
 You can sarch any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
+
+## Admin interface
+There is an admin php cli Interface for Importing the replacement.csv Files and generating the sitemap.xml file.  
+Call `php admin.php` inside the lastfmtube Folder for more info.
 
 ## replacements.csv
 You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing Artist and Title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in the database after importing through the admin cli Interface. New- and Changed Files can be (re-)Imported with the admin interface at any time. See the `init.replacement.example.csv` for more details.
