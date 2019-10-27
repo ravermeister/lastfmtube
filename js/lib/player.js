@@ -616,7 +616,7 @@ class PlayerController {
                 
                 // load the default video
                 $player.loadDefaultVideo();
-                if(loadComments) {
+                if($page.myVues.youtube.comments.showComments) {
                 	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
                 }
                 return;
