@@ -31,22 +31,15 @@ The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the lis
 The Timer is designed to stop when player is paused, and will continue when the player continues to play. 
 
 ## Hotkeys
-
 The following global Shortcut keys are supported:
 
-Key binding | Command | Window |  Key binding | Command | Window 
------------ | ------- | ------ | -.---------- | ------- | -------- | 
-enter | Play/Pause | Youtube Player | ctrl+1 | Player Window | Page Navigation
-space | Play/Pause | Youtube Player | ctrl+2 | Last.fm Playlist | Page Navigation
-left | *Rewind Track | Youtube Player | ctrl+3 | Custom User Playlist | Page Navigation
-right | *Fast Forward Track | Youtube Player | ctrl+4 | Topsongs Playlist | Page Navigation
-ctrl+left | Previous Track | Youtube Player | ctrl+5 | Last.fm Users | Page Navigation
-ctrl+right | Next Track | Youtube Player |||
-
-
-
-
-
+Key binding | Command | Control |   | Key binding | Command | Control  
+----------- | ------- | ------- | - | ----------- | ------- | ----- |  
+ctrl+1 | Player Window | Page Navigation |         | enter | Play/Pause | Player
+ctrl+2 | Last.fm Playlist | Page Navigation |      | space | Play/Pause | Player
+ctrl+3 | Custom User Playlist | Page Navigation |  | left | *Rewind Track | Player
+ctrl+4 | Topsongs Playlist | Page Navigation |     | right | *Fast Forward Track | Player
+ctrl+5 | Last.fm Users | Page Navigation |         | ctrl+right | Next Track | Player
 
 *The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards.
 
