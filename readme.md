@@ -61,7 +61,7 @@ You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-ma
 # Directory Structure:
   - __conf__ Configuration Files and [SQLite Database](https://sqlite.org)
   - __conf/settings.json__ copy from `settings.example.json`, here you have to adjust the Youtube/Last.fm settings for the player.
-  - __conf/init.replacements_example.csv__ This is  an example file for the Track correction CSV files which you can import them via the Admin-cli interface. Regular Expression Groups can be used to define replacements for a specific part of a track to e.g. remove *[unnknown]* from the Song Titles, extract the artist name from the title etc.
+  - __conf/init.replacements_example.csv__ This is  an example file for the Track correction CSV files which you can import via the Admin-cli interface. Regular Expression Groups can be used to define replacements for a specific part of a track to e.g. remove *[unnknown]* from the Song Titles, extract the artist name from the title etc.
   - __conf/lasttube.db__ this is the sqlite Database (will be created automatically)
   - __themes__ place new themes into this directory. (theming is untested)
 simply copy an existing theme directory and rename it to your new theme name (and adjust `settings.json` as needed)
