@@ -319,7 +319,7 @@ class PlayerController {
                     width: width,
                     videoId: video,
                     crossDomain: true,
-
+                    origin: '',
                     playerVars: {
                         'allowfullscreen': 1,
                         'allowscriptaccess': 'always',
@@ -351,23 +351,14 @@ class PlayerController {
                 let ytPlayerWidth = '100%';
                 let ytPlayerHeight = percentHeight($(document).height(), 70) + 'px';
 
-                $.getJSON('php/json/page/Page.php?action=config', function (json) {
-        			if(json && json.data && json.data.value) {
-        				let conf = json.data.value;	
-        				if(conf.general.playerHeight !== 'auto') {
-        					ytPlayerHeight = conf.general.playerHeight;
-        				}	    
-        				if(conf.general.playerWidth !== 'auto') {
-        					ytPlayerWidth = conf.general.playerWidth;
-        				}
-        			}
-        			
-        			createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);
-                }).fail(function (xhr) {
-                    $.logXhr(xhr);
-        			createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);
-                });
-                
+				if($player.settings.general.playerHeight !== 'auto') {
+					ytPlayerHeight = $player.settings.general.playerHeight;
+				}	    
+				if($player.settings.general.playerWidth !== 'auto') {
+					ytPlayerWidth = $player.settings.general.playerWidth;
+				}
+
+				createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);                
             });
         };
     }
@@ -579,20 +570,12 @@ class PlayerController {
     	
     	let videoId = 'nN7oJuz_KH8';
     	
-        $.getJSON('php/json/page/Page.php?action=config', function (json) {
-			if(json && json.data && json.data.value) {
-				let conf = json.data.value;				
-				videoId = conf.general.errorVideo;
-				
-	            console.log('load default video', videoId);
-	            $player.loadVideo(videoId);	            
-			}
-        }).fail(function (xhr) {
-            $.logXhr(xhr);
-            console.log('load default video', videoId);
-            $player.loadVideo(videoId);
-        });
-    	        
+    	if($player.settings.general.errorVideo !== '') {
+    		videoId = $player.settings.general.errorVideo;
+    	}
+		
+        console.log('load default video', videoId);
+        $player.loadVideo(videoId);	   
     }
 
     loadVideo(videoId = '') {
