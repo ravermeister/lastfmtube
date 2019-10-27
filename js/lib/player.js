@@ -645,7 +645,23 @@ class PlayerController {
         	$player.ytPlayer.playVideo();
         }        
     }
-        
+    
+    volumeUp(interVal = 5) {
+    	let curVol = $player.ytPlayer.getVolume();
+    	let newVol = curVol + interVal;
+    	if(newVol > 100) newVol = 100;
+    	
+    	$player.ytPlayer.setVolume(newVol);
+    }
+    
+    volumeDown(interVal = 5) {
+    	let curVol = $player.ytPlayer.getVolume();
+    	let newVol = curVol - interVal;
+    	if(newVol < 0) newVol = 0;
+    	
+    	$player.ytPlayer.setVolume(newVol);   	
+    }
+    
     calculateSeekInterVal(interVal) {
     	let now = new Date().getTime();
     	if($player.seekTimeout.lastOccur === null) {

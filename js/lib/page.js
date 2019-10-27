@@ -621,6 +621,18 @@ class PageController {
     		$player.togglePlay();    		
     	});
     	
+    	hotkeys('up', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.volumeUp();    		
+    	});
+    	
+    	hotkeys('down', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.volumeDown();    		
+    	});
+    	
     	hotkeys('space', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
