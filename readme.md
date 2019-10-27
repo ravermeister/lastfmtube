@@ -32,16 +32,18 @@ The Timer is designed to stop when player is paused, and will continue when the 
 
 ## Hotkeys
 
-The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards. Currently following Hotkeys are supported:
+supported:
 
 Key binding | Command 
 ----------- | --------
 enter | Play/Pause
 space | Play/Pause
-left | Rewind Track 
-right | Fast Forward Track 
+left | *Rewind Track 
+right | *Fast Forward Track 
 ctrl+left | Previous Track 
 ctrl+right | Next Track 
+
+*The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards. Currently following Hotkeys are 
 
 ## Personal Songlist
 You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
