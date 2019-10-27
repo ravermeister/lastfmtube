@@ -271,46 +271,46 @@ class PageController {
 	    }
 	}
 	
-	loadPage(page) {
+	loadPage(page, callBack = null) {
 		
 		switch(page) {
 			case 'topsongs':
 				$page.load('playlist-container' ,'topsongs', function(){	
-					$page.changeUrl('Top Songs', '/#topsongs');
-					if($player.autoPlay) {
-						$player.loadNextSong();
+					$page.changeUrl('Top Songs', '/#topsongs');	
+					if('function' === typeof callBack) {
+						callBack();
 					}
 				});
 			break;
 			case 'users':
 				$page.load('user-container', 'topuser', function(){					
 					$page.changeUrl('Top User', '/#topuser');
-	// if($player.autoPlay) {
-	// $player.loadNextSong();
-	// }
+					if('function' === typeof callBack) {
+						callBack();
+					}
 				});
 			break;
 			case 'personal':
 				$page.load('user-container', 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
-					if($player.autoPlay) {
-						$player.loadNextSong();
+					if('function' === typeof callBack) {
+						callBack();
 					}
 				});
 			break;
 			case 'lastfm':
 				$page.load('playlist-container', 'lastfm', function(){					
 					$page.changeUrl('Last.fm', '/#lastfm');
-					if($player.autoPlay) {
-						$player.loadNextSong();
+					if('function' === typeof callBack) {
+						callBack();
 					}
 				});	
 			break;
 			case 'video':
 				$page.load('video-container', 'video', function(){					
 					$page.changeUrl('Video', '/#video');
-					if($player.autoPlay) {
-						$player.loadNextSong();
+					if('function' === typeof callBack) {
+						callBack();
 					}
 				});
 			break;
@@ -323,7 +323,11 @@ class PageController {
     initURL() {
 		switch (location.pathname) {
 			case '/topsongs':
-				$page.loadPage('topsongs');
+				$page.loadPage('topsongs', function(){					
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});
 			break;
 						
 			case '/users':
@@ -331,16 +335,28 @@ class PageController {
 			break;
 			
 			case '/personal':
-				$page.loadPage('personal');
+				$page.loadPage('personal', function(){
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}					
+				});
 			break;
 			
 			case '/lastfm':
-				$page.loadPage('lastfm');
+				$page.loadPage('lastfm', function(){
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});
 			break;
 			
 			case '/video':
 			default:
-				$page.loadPage('video');
+				$page.loadPage('video', function(){
+					if($player.autoPlay) {
+						$player.loadNextSong();
+					}
+				});
 			break;
 		}
     }
