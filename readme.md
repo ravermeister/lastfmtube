@@ -32,7 +32,7 @@ The Timer is designed to stop when player is paused, and will continue when the 
 
 ## Hotkeys
 
-supported:
+The following Shortcut keys are currently supported:
 
 Key binding | Command 
 ----------- | --------
