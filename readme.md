@@ -32,27 +32,14 @@ The Timer is designed to stop when player is paused, and will continue when the 
 
 ## Hotkeys
 The following global Shortcut keys are supported:
-
-Key binding | Command | Control |   | Key binding | Command | Control  
------------ | ------- | ------- | - | ----------- | ------- | -----   
-ctrl+1 | Player Window | Page Navigation |        | enter | Play/Pause | Player
-ctrl+2 | Last.fm Playlist | Page Navigation |     | space | Play/Pause | Player
-ctrl+3 | Custom User Playlist | Page Navigation | | left | *Rewind Track | Player
-ctrl+4 | Topsongs Playlist | Page Navigation |    | right | *Fast Forward Track | Player
-ctrl+5 | Last.fm Users | Page Navigation |        | up | Volume Up | Player
- | |  |  |  | down | Volume Down | Player
- | |  |  |  | ctrl+right | Next Track | Player
- | |  |  |  | ctrl+left | Previous Track | Player
- 
- 
  
 Key binding | Command | Control |   | Key binding | Command | Control  
 ----------- | ------- | ------- | - | ----------- | ------- | -----   
-enter | Play/Pause | Player |        | ctrl+1 | Player Window | Page Navigation
-space | Play/Pause | Player |     | ctrl+2 | Last.fm Playlist | Page Navigation
+enter | Play/Pause | Player | | ctrl+1 | Player Window | Page Navigation
+space | Play/Pause | Player | | ctrl+2 | Last.fm Playlist | Page Navigation
 left | *Rewind Track | Player | | ctrl+3 | Custom User Playlist | Page Navigation
-right | *Fast Forward Track | Player |    | ctrl+4 | Topsongs Playlist | Page Navigation
-up | Volume Up | Player |        | ctrl+5 | Last.fm Users | Page Navigation
+right | *Fast Forward Track | Player | | ctrl+4 | Topsongs Playlist | Page Navigation
+up | Volume Up | Player | | ctrl+5 | Last.fm Users | Page Navigation
 down | Volume Down | Player | |  |  |  | 
 ctrl+right | Next Track | Player  | |  |  |  | 
 ctrl+left | Previous Track | Player  | |  |  |  | 
