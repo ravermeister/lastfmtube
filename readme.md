@@ -34,6 +34,7 @@ The Timer is designed to stop when player is paused, and will continue when the 
 The following global Shortcut keys are supported:
 
 __Page Navigation Controls__:
+
 Key binding | Command   
 ----------- | ------- 
 ctrl+1 | Player Window
@@ -43,6 +44,7 @@ ctrl+4 | Topsongs Playlist
 ctrl+5 | Last.fm Users
 
 __Player Controls__:
+
 Key binding | Command   
 ----------- | ------- 
 enter | Play/Pause 
