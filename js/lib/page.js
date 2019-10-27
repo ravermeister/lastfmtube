@@ -291,7 +291,7 @@ class PageController {
 				});
 			break;
 			case 'personal':
-				$page.load('user-container', 'userlist', function(){					
+				$page.load('playlist-container', 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 					if('function' === typeof callBack) {
 						callBack();
