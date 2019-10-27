@@ -42,6 +42,12 @@ left | *Rewind Track
 right | *Fast Forward Track 
 ctrl+left | Previous Track 
 ctrl+right | Next Track 
+------- | -------------
+ctrl+1 | Player Window 
+ctrl+2 | Last.fm Playlist Window
+ctrl+3 | Custom User Playlist Window
+ctrl+4 | Topsongs Playlist Window
+ctrl+5 | Last.fm Users Window
 
 *The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards.
 
