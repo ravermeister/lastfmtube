@@ -42,7 +42,6 @@ left | *Rewind Track
 right | *Fast Forward Track 
 ctrl+left | Previous Track 
 ctrl+right | Next Track 
-------- | -------------
 ctrl+1 | Player Window 
 ctrl+2 | Last.fm Playlist Window
 ctrl+3 | Custom User Playlist Window
