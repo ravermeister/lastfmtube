@@ -55,7 +55,7 @@ Call `php admin.php` inside the lastfmtube Folder for more info.
 ## replacements.csv
 You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-match.php) for Replacing Artist and Title information if the Song information is messy, sothat the search string that is send to youtube can be corrected in an efficient way. The csv is stored in the database after importing through the admin cli Interface. New- and Changed Files can be (re-)Imported with the admin interface at any time. See the `init.replacement.example.csv` for more details.
 
-## Directory Structure:
+# Directory Structure:
   - __conf__ Configuration Files and [SQLite Database](https://sqlite.org)
   - __conf/settings.json__ copy from `settings.example.json`, here you have to adjust the Youtube/Last.fm settings for the player.
   - __conf/init.replacements.csv__ copy from `init.replacements.example.csv`, this file is checked when parsing the Song Title and Artist for searching the Song on YouTube. You can define replacements for a specific part of a song e.g. remove [unnknown] from all Song Titles.
