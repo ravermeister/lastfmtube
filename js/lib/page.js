@@ -270,15 +270,60 @@ class PageController {
 	        alert("Browser does not support HTML5.");
 	    }
 	}
+	
+	loadPage(page, callBack = null) {
+		
+		switch(page) {
+			case 'topsongs':
+				$page.load('playlist-container' ,'topsongs', function(){	
+					$page.changeUrl('Top Songs', '/#topsongs');	
+					if('function' === typeof callBack) {
+						callBack();
+					}
+				});
+			break;
+			case 'users':
+				$page.load('user-container', 'topuser', function(){					
+					$page.changeUrl('Top User', '/#topuser');
+					if('function' === typeof callBack) {
+						callBack();
+					}
+				});
+			break;
+			case 'personal':
+				$page.load('playlist-container', 'userlist', function(){					
+					$page.changeUrl('Userlist', '/#userlist');
+					if('function' === typeof callBack) {
+						callBack();
+					}
+				});
+			break;
+			case 'lastfm':
+				$page.load('playlist-container', 'lastfm', function(){					
+					$page.changeUrl('Last.fm', '/#lastfm');
+					if('function' === typeof callBack) {
+						callBack();
+					}
+				});	
+			break;
+			case 'video':
+				$page.load('video-container', 'video', function(){					
+					$page.changeUrl('Video', '/#video');
+					if('function' === typeof callBack) {
+						callBack();
+					}
+				});
+			break;
+		}
+		
+		
+		
+	}
     
     initURL() {
-
-    	// console.log('>>> path: >' + location.pathname + '<');
-		
 		switch (location.pathname) {
 			case '/topsongs':
-				$page.load('playlist-container' ,'topsongs', function(){	
-					$page.changeUrl('Top Songs', '/#topsongs');
+				$page.loadPage('topsongs', function(){					
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
@@ -286,36 +331,28 @@ class PageController {
 			break;
 						
 			case '/users':
-				$page.load('user-container', 'topuser', function(){					
-					$page.changeUrl('Top User', '/#topuser');
-// if($player.autoPlay) {
-// $player.loadNextSong();
-// }
-				});
+				$page.loadPage('users');
 			break;
 			
 			case '/personal':
-				$page.load('user-container', 'userlist', function(){					
-					$page.changeUrl('Userlist', '/#userlist');
+				$page.loadPage('personal', function(){
 					if($player.autoPlay) {
 						$player.loadNextSong();
-					}
+					}					
 				});
 			break;
 			
 			case '/lastfm':
-				$page.load('playlist-container', 'lastfm', function(){					
-					$page.changeUrl('Last.fm', '/#lastfm');
+				$page.loadPage('lastfm', function(){
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
-				});	
+				});
 			break;
 			
 			case '/video':
 			default:
-				$page.load('video-container', 'video', function(){					
-					$page.changeUrl('Video', '/#video');
+				$page.loadPage('video', function(){
 					if($player.autoPlay) {
 						$player.loadNextSong();
 					}
@@ -590,8 +627,38 @@ class PageController {
     		$player.togglePlay();    		
     	});
 
+    	hotkeys('ctrl+1', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('video')
+    	});
+    	
+    	hotkeys('ctrl+2', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('lastfm');
+    	});
+    	
+    	hotkeys('ctrl+3', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('personal');    		
+    	});
+    	
+    	hotkeys('ctrl+4', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('topsongs');    		
+    	});
+    	
+    	hotkeys('ctrl+5', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('users');    		
+    	});
+    	
     	/**
-		 * TODO: add hotkeys for page navigation and search
+		 * TODO: add hotkeys for search
 		 */
     	
     }
@@ -613,14 +680,14 @@ class PageController {
 			}
 		});
     	
-//        $.getJSON('php/json/page/Page.php?action=config', function (json) {
-//			if(json && json.data && json.data.value) {
-//				let conf = json.data.value;				
-//				$player.settings = conf;         
-//			}
-//        }).fail(function (xhr) {
-//            $.logXhr(xhr);
-//        });
+// $.getJSON('php/json/page/Page.php?action=config', function (json) {
+// if(json && json.data && json.data.value) {
+// let conf = json.data.value;
+// $player.settings = conf;
+// }
+// }).fail(function (xhr) {
+// $.logXhr(xhr);
+// });
     }
     
     init(initReadyCallBack) {

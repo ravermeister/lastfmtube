@@ -645,7 +645,7 @@ class PlayerController {
         	$player.ytPlayer.playVideo();
         }        
     }
-    
+        
     calculateSeekInterVal(interVal) {
     	let now = new Date().getTime();
     	if($player.seekTimeout.lastOccur === null) {
