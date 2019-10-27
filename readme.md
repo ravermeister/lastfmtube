@@ -37,6 +37,7 @@ The forward/rewind amount of time is increased when the functions is called fast
 Key binding | Command 
 ----------- | --------
 enter | Play/Pause
+space | Play/Pause
 left | Rewind Track 
 right | Fast Forward Track 
 ctrl+left | Previous Track 

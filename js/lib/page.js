@@ -583,6 +583,12 @@ class PageController {
     		event.preventDefault(); 
     		$player.togglePlay();    		
     	});
+    	
+    	hotkeys('space', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.togglePlay();    		
+    	});
 
     	/**
 		 * TODO: add hotkeys for page navigation and search
