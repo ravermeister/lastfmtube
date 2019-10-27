@@ -596,7 +596,7 @@ class PageController {
 			url: 'php/json/page/Page.php?action=config',
 			dataType: 'json',
 			async: false,
-			success: function(data) {
+			success: function(json) {
 				if(json && json.data && json.data.value) {
 					let conf = json.data.value;				
 					$player.settings = conf;         
