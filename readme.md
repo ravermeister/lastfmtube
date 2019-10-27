@@ -43,7 +43,7 @@ right | *Fast Forward Track
 ctrl+left | Previous Track 
 ctrl+right | Next Track 
 
-*The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards. Currently following Hotkeys are 
+*The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards.
 
 ## Personal Songlist
 You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
