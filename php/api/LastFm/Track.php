@@ -80,9 +80,8 @@ class Track {
 
           if ($date !== null) {
                $timestamp = $date->uts;
-
                // timestamp 0 or attribute nowplaying=true means currently playing!
-               if ($timestamp <= 0 || $trackxml->nowplaying === true) {
+               if ($timestamp <= 0 || 'true' === $trackxml->nowplaying) {
                     $lastplay = Functions::getInstance()->getLocale()['playlist.nowplaying'];
                     $isPlaying = true;
                } else {
