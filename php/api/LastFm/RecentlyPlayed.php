@@ -3,7 +3,6 @@ namespace LastFmTube\Api\LastFm;
 
 use simple_html_dom\simple_html_dom;
 
-
 class RecentlyPlayed {
 
      private $page;
@@ -21,18 +20,18 @@ class RecentlyPlayed {
       */
      function __construct(&$html) {
           /**
-           * 
+           *
            * @var simple_html_dom $elem
            */
           $elem = $html->find('recenttracks ', 0);
 
-          $this->page = $elem->getAttribute('page');
-          $this->totalPages = $elem->getAttribute('totalpages');
-          $this->itemsPerPage = $elem->getAttribute('perPage');
+          $this->page = $elem->page;
+          $this->totalPages = $elem->totalpages;
+          $this->itemsPerPage = $elem->perPage;
 
           $tracks = $elem->find('track');
-          
-          foreach ($tracks as $track) {               
+
+          foreach ($tracks as $track) {
                $this->items[] = Track::fromXML($track);
           }
 
