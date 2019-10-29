@@ -180,12 +180,6 @@ class LibvueVideo {
                 			|| null === this.$data.pageinfo.NEXT 
                 			|| 'null' === this.$data.pageinfo.NEXT;
                 	}
-
-                	this.$data.showComments = !this.$data.showComments;
-                	this.$data.showLoadMore = 
-                		undefined !== this.$data.pageinfo.NEXT 
-                		|| null === this.$data.pageinfo.NEXT 
-                		|| 'null' === this.$data.pageinfo.NEXT;
                 },
                 loadMore: function() {
                 	let pinfo = this.$data.pageinfo;
