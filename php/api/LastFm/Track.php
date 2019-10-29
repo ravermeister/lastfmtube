@@ -64,7 +64,7 @@ class Track {
      }
 
      /**
-      * 
+      *
       * @param simple_html_dom $trackxml
       * @return \LastFmTube\Api\LastFm\Track
       */
@@ -72,17 +72,17 @@ class Track {
 
           // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
           $isPlaying = false;
-          
+
           $artist = $trackxml->find('artist', 0);
           $title = $trackxml->find('name', 0);
           $album = $trackxml->find('album', 0);
           $date = $trackxml->find('date', 0);
-          
+
           if ($date !== null) {
                $timestamp = $date->uts;
 
-               if ($timestamp <= 0) {
-                    // timestamp 0 means currently playing!
+               // timestamp 0 or attribute nowplaying=true means currently playing!
+               if ($timestamp <= 0 || $trackxml->nowplaying === true) {
                     $lastplay = Functions::getInstance()->getLocale()['playlist.nowplaying'];
                     $isPlaying = true;
                } else {
