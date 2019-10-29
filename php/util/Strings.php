@@ -1,10 +1,11 @@
 <?php
-
-/**
- * User: ravermeister
- * Date: 11.09.2018
- * Time: 22:16
- */
+/*******************************************************************************
+ * Created 2017, 2019 by Jonny Rimkus <jonny@rimkus.it>.
+ * Hope you like it :)
+ *
+ * Contributors:
+ *     Jonny Rimkus - initial API and implementation
+ *******************************************************************************/
 namespace LastFmTube\Util;
 
 class Strings {

@@ -1,10 +1,11 @@
 <?php
-
-/**
- * User: ravermeister
- * Date: 03.10.2018
- * Time: 04:08
- */
+/*******************************************************************************
+ * Created 2017, 2019 by Jonny Rimkus <jonny@rimkus.it>.
+ * Hope you like it :)
+ *
+ * Contributors:
+ *     Jonny Rimkus - initial API and implementation
+ *******************************************************************************/
 namespace LastFmTube\Json\Page;
 
 require_once dirname(__FILE__) . '/../DefaultJson.php';
