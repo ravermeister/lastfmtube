@@ -2,6 +2,7 @@
 namespace LastFmTube\Api\LastFm;
 
 use LastFmTube\Util\Functions;
+use simple_html_dom\simple_html_dom;
 
 class Track {
 
@@ -62,10 +63,17 @@ class Track {
           $this->isPlaying = $isPlaying;
      }
 
+     /**
+      * 
+      * @param simple_html_dom $trackxml
+      * @return \LastFmTube\Api\LastFm\Track
+      */
      public static function fromXML($trackxml) {
 
           // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
           $isPlaying = false;
+          die($trackxml->children(10));
+          
           if ($trackxml->children(10) !== null) {
                $timestamp = $trackxml->children(10)->uts;
 
