@@ -72,7 +72,6 @@ class Track {
 
           // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
           $isPlaying = false;
-          die($trackxml->children(10));
           
           if ($trackxml->children(10) !== null) {
                $timestamp = $trackxml->children(10)->uts;
