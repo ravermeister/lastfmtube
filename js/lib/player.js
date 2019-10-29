@@ -5,6 +5,7 @@
  * Contributors:
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
+/***/
 class ChartTimer {
     constructor(player) {
 
