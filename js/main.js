@@ -5,11 +5,12 @@
  * Contributors:
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
+/***/
 
 // Enable navigation prompt, set to null to disable
 window.onbeforeunload = function() {
 	return true;
-};  
+};
 
 require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 		Storages) {
@@ -20,7 +21,7 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 	$player = new PlayerController(Storages);
 	$playlist = new PlaylistController();
 	$page = new PageController();
-	
+
 	$page.init();
 
 	$playlist.loadLastFmList(1, null, function() {
@@ -30,9 +31,9 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 			PageController.analytics = analytics;
 		});
 
-		$player.initPlayer(function() {		
+		$player.initPlayer(function() {
 			$player.autoPlay = true;
-			$page.initURL();			
+			$page.initURL();
 		});
 
 	});

@@ -5,6 +5,7 @@
  * Contributors:
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
+/***/
 requirejs
 		.config({
 			// By default load any module IDs from js/lib
@@ -28,13 +29,11 @@ requirejs
 				Vue : [ '//unpkg.com/vue/dist/vue.min', 'vue/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
-				vue : [
-						'//unpkg.com/require-vuejs/dist/require-vuejs.min',
+				vue : [ '//unpkg.com/require-vuejs/dist/require-vuejs.min',
 						'vue/vue-requirejs.min' ],
 
 				// Storage js
-				Storages : [
-						'//unpkg.com/js-storage/js.storage.min',
+				Storages : [ '//unpkg.com/js-storage/js.storage.min',
 						'jstorage/js.storage.min' ],
 
 				// share buttons
