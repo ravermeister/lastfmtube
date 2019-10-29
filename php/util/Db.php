@@ -132,7 +132,6 @@ class Db {
      private function prepareQueries() {
           if ($this->statements !== false) return;
           $this->statements = array(
-
                'SELECT_ALL_LASTFM_USER' => '
 				SELECT lfmuser, lastplayed, playcount						
 				FROM lfmuserplay
@@ -143,120 +142,125 @@ class Db {
 			',
 
                'SELECT_ALL_LASTFM_USER_NUM_ROWS' => '
-				SELECT COUNT(*)	AS cnt					
+				SELECT COUNT(*) AS cnt					
 				FROM lfmuserplay;
 			',
 
                'SELECT_LASTFM_USER_VISIT' => '
-                WITH chart_user AS (
-                    SELECT * FROM lfmuserplay
-                    WHERE lfmuser = :user
-                ), chart_count AS (
-                    SELECT * 
-                    FROM lfmuserplay mc, chart_user cu
-                        WHERE mc.playcount < cu.playcount OR (
-                        mc.playcount = cu.playcount AND 
-                        mc.lastplayed < cu.lastplayed
-                    )
-                )
-                SELECT ((SELECT COUNT(*) 
-                        FROM lfmuserplay) - COUNT(*)
-                    ) AS pos, cu.*
-                FROM chart_count ck, chart_user cu
+                     WITH chart_user AS (
+                         SELECT * FROM lfmuserplay
+                         WHERE lfmuser = :user
+                     ), chart_count AS (
+                         SELECT * 
+                         FROM lfmuserplay mc, chart_user cu
+                         WHERE mc.playcount < cu.playcount OR (
+                              mc.playcount = cu.playcount AND 
+                              mc.lastplayed < cu.lastplayed
+                         )
+                     )
+     
+                     SELECT ((SELECT COUNT(*) 
+                         FROM lfmuserplay) - COUNT(*)
+                     ) AS pos, cu.*
+                     FROM chart_count ck, chart_user cu;
 			',
 
                'UPDATE_LASTFM_USER_VISIT' => '
-				UPDATE lfmuserplay 
-				SET
-				  playcount = playcount + 1,
-				  lastplayed = :lastplayed
-				WHERE lfmuser = :lfmuser;
+     			UPDATE lfmuserplay 
+     			SET
+                         playcount = playcount + 1,
+                         lastplayed = :lastplayed
+                         WHERE lfmuser = :lfmuser;
 			',
 
                'INSERT_LASTFM_USER_VISIT' => '
-				INSERT INTO lfmuserplay 
-				(lfmuser, lastplayed, playcount) 
-				VALUES(:lfmuser, :lastplayed, 1);
+     			INSERT INTO lfmuserplay 
+                    (lfmuser, lastplayed, playcount) 
+     			VALUES(:lfmuser, :lastplayed, 1);
 			',
 
                'UPDATE_TRACKPLAY' => '
-			    UPDATE trackplay
-			    SET
-				  playcount = playcount + 1,
-				  lastplayed = :lastplayed,
-				  lastplay_ip = :lastplay_ip
-			    WHERE
-				  artist = :artist 
-				  AND title = :title;
+                    UPDATE trackplay
+     			SET
+                         playcount = playcount + 1,
+                         lastplayed = :lastplayed,
+                         lastplay_ip = :lastplay_ip
+                    WHERE
+                         artist = :artist 
+                         AND title = :title;
 			',
 
                'INSERT_TRACKPLAY' => '
-			    INSERT INTO trackplay
-			    (artist, title, playcount, lastplayed, lastplay_ip)
-			    VALUES(:artist, :title, 1, :lastplayed, :lastplay_ip)
+                    INSERT INTO trackplay
+                    (artist, title, playcount, lastplayed, lastplay_ip)
+                    VALUES(:artist, :title, 1, :lastplayed, :lastplay_ip)
 			',
 
                'SELECT_TRACKPLAY' => '
-				SELECT artist, title, playcount, lastplayed, lastplay_ip, url
-				FROM trackplay
-			    WHERE playcount > 0
-			    ORDER BY :orderby DESC, :orderbysecond DESC
-			    LIMIT :limit OFFSET :offset;
+                    SELECT artist, title, playcount, lastplayed, lastplay_ip, url
+                    FROM trackplay
+                    WHERE playcount > 0
+                    ORDER BY :orderby DESC, :orderbysecond DESC
+                    LIMIT :limit OFFSET :offset;
 			',
+
                'SELECT_TRACKPLAY_NUM_ROWS' => '
-                SELECT COUNT(*) AS cnt FROM trackplay;
-            ',
+                    SELECT COUNT(*) AS cnt FROM trackplay;
+               ',
 
                'SELECT_TRACKPLAY_BY_TRACK' => '
-                 SELECT artist, title, playcount, lastplayed, lastplay_ip, url 
-                 FROM trackplay
-                 WHERE artist =:artist AND title = :title;
-            ',
+                    SELECT artist, title, playcount, lastplayed, lastplay_ip, url 
+                    FROM trackplay
+                    WHERE artist =:artist AND title = :title;
+               ',
 
                'GET_VIDEO' => '
 				SELECT url FROM trackplay 
-				WHERE artist = :artist AND title = :title
+				WHERE artist = :artist AND title = :title;
 			',
 
                'EDIT_VIDEO' => '
 				UPDATE trackplay 
 				SET url = :url
-				WHERE artist = :artist AND title = :title
+				WHERE artist = :artist AND title = :title;
 			',
 
                'DELETE_VIDEO' => '
-                UPDATE trackplay
-                SET url = NULL 
-                WHERE artist = :artist AND title = :title
-            ',
+                     UPDATE trackplay
+                     SET url = NULL 
+                     WHERE artist = :artist AND title = :title;
+               ',
 
                'ADD_VIDEO' => '
-				INSERT INTO trackplay (artist, title, url) VALUES (:artist, :title, :url);
+				INSERT INTO trackplay (artist, title, url) 
+                    VALUES (:artist, :title, :url);
 			',
 
                'LOAD_REPLACEMENTS' => '
-                SELECT orig_artist_expr, orig_title_expr, repl_artist, repl_title  
-                FROM replacement
-            ',
+                    SELECT orig_artist_expr, orig_title_expr, repl_artist, repl_title  
+                    FROM replacement;
+               ',
 
                'INSERT_REPLACEMENT' => '
-                INSERT INTO replacement(import_file_sha, orig_artist_expr, orig_title_expr, repl_artist, repl_title) VALUES (:import_file_sha, :orig_artist_expr, :orig_title_expr, :repl_artist, :repl_title);
-            ',
+                    INSERT INTO replacement(import_file_sha, orig_artist_expr, orig_title_expr, repl_artist, repl_title) 
+                    VALUES (:import_file_sha, :orig_artist_expr, :orig_title_expr, :repl_artist, :repl_title);
+               ',
 
                'SELECT_FIMPORT_SHA' => '
                 SELECT shasum FROM fimport WHERE fname = :fname
-            ',
+               ',
 
                'DELETE_FIMPORT' => '
                 DELETE FROM fimport WHERE shasum = :shasum
-            ',
+               ',
+               
                'INSERT_FIMPORT' => '
                 INSERT INTO fimport VALUES(:fname, :shasum)
-            ',
+               ',
 
                'SET_FIMPORT' => '
                 REPLACE INTO fimport VALUES(:fname, :shasum)
-            '
+               '               
           );
 
           foreach ($this->statements as $prefix => $query) {
