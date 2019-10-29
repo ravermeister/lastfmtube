@@ -171,14 +171,16 @@ class LibvueVideo {
                     }       
                 },                    
                 toggleVisibility: function() {
-
+                	
                 	if(this.$data.showComments) {
-                		$playlist.loadVideoCommentList($player.currentTrackData.videoId);
-                    	this.$data.showComments = !this.$data.showComments;
-                    	this.$data.showLoadMore = undefined !== this.$data.pageinfo.NEXT 
-                    								|| null === this.$data.pageinfo.NEXT 
-                    								|| 'null' === this.$data.pageinfo.NEXT;
+                		$playlist.loadVideoCommentList($player.currentTrackData.videoId);                		
                 	}
+
+                	this.$data.showComments = !this.$data.showComments;
+                	this.$data.showLoadMore = 
+                		undefined !== this.$data.pageinfo.NEXT 
+                		|| null === this.$data.pageinfo.NEXT 
+                		|| 'null' === this.$data.pageinfo.NEXT;
                 },
                 loadMore: function() {
                 	let pinfo = this.$data.pageinfo;
