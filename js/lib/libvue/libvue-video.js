@@ -133,10 +133,16 @@ class LibvueVideo {
             el: '#video-container>#video-comments',
             data: {
             	showComments: false,
-            	showLoadMore: false,
             	videoId: '',
             	pageinfo: [],
             	commentData: [],
+            },
+            computed: {
+        		showLoadMore: function() {
+        			return undefined !== this.$data.pageinfo.NEXT 
+        			|| null === this.$data.pageinfo.NEXT 
+        			|| 'null' === this.$data.pageinfo.NEXT;
+        		}
             },
             methods: {
             	normalizeMessage: function(comments) {
@@ -170,15 +176,10 @@ class LibvueVideo {
                     	this.$data.pageinfo = json.pageinfo;
                     }       
                 },                    
-                toggleVisibility: function() {
-                	
+                toggleVisibility: function() {                	
                 	this.$data.showComments = !this.$data.showComments;
                 	if(this.$data.showComments) {
-                		$playlist.loadVideoCommentList($player.currentTrackData.videoId);                		                		
-                		this.$data.showLoadMore = 
-                			undefined !== this.$data.pageinfo.NEXT 
-                			|| null === this.$data.pageinfo.NEXT 
-                			|| 'null' === this.$data.pageinfo.NEXT;
+                		$playlist.loadVideoCommentList($player.currentTrackData.videoId);
                 	}
                 },
                 loadMore: function() {
