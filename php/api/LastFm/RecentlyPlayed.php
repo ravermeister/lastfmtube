@@ -20,15 +20,18 @@ class RecentlyPlayed {
       * @param simple_html_dom $html
       */
      function __construct(&$html) {
+          /**
+           * 
+           * @var simple_html_dom $elem
+           */
           $elem = $html->find('recenttracks ', 0);
 
           $this->page = $elem->getAttribute('page');
           $this->totalPages = $elem->getAttribute('totalpages');
           $this->itemsPerPage = $elem->getAttribute('perPage');
 
-          $tracks = $elem->find('track');
-          $track = $tracks[0]->children(0);
-          die($track);
+          $tracks = $elem->find('track', 0);
+          die($tracks);
           
           foreach ($tracks as $track) {               
                $this->items[] = Track::fromXML($track);
