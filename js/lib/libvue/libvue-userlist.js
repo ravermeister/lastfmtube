@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * Created 2017, 2018 by Jonny Rimkus <jonny@rimkus.it>.
+ * Hope you like it :)
+ *
+ * Contributors:
+ *     Jonny Rimkus - initial API and implementation
+ *******************************************************************************/
 class LibvueUser {
 
     constructor() {

@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Created 2017, 2019 by Jonny Rimkus <jonny@rimkus.it>.
+ * Hope you like it :)
+ *
+ * Contributors:
+ *     Jonny Rimkus - initial API and implementation
+ *******************************************************************************/
+
 // Enable navigation prompt, set to null to disable
 window.onbeforeunload = function() {
 	return true;

@@ -1,4 +1,11 @@
 <?php
+/*******************************************************************************
+ * Created 2017, 2019 by Jonny Rimkus <jonny@rimkus.it>.
+ * Hope you like it :)
+ *
+ * Contributors:
+ *     Jonny Rimkus - initial API and implementation
+ *******************************************************************************/
 namespace LastFmTube\Util;
 
 use Icamys\SitemapGenerator\SitemapGenerator;
@@ -89,7 +96,7 @@ class SiteMap {
       * @return SiteMap for better chaining
       */
      public function addURL($url, $lastmod = null, $changeFreq = 'always', $prio = 0.5, $altLangs = null) {
-          if(is_null($lastmod)) {
+          if (is_null($lastmod)) {
                $lastmod = new DateTime();
           }
           $this->generator->addUrl($url, $lastmod, $changeFreq, $prio, $altLangs);

@@ -1,9 +1,11 @@
 <?php
-/**
- * User: ravermeister
- * Date: 10.09.2018
- * Time: 01:19
- */
+/*******************************************************************************
+ * Created 2017, 2019 by Jonny Rimkus <jonny@rimkus.it>.
+ * Hope you like it :)
+ *
+ * Contributors:
+ *     Jonny Rimkus - initial API and implementation
+ *******************************************************************************/
 require_once 'vendor/autoload.php';
 
 use LastFmTube\Util\Functions;

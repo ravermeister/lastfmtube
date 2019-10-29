@@ -1,4 +1,11 @@
 <?php
+/*******************************************************************************
+ * Created 2017, 2019 by Jonny Rimkus <jonny@rimkus.it>.
+ * Hope you like it :)
+ *
+ * Contributors:
+ *     Jonny Rimkus - initial API and implementation
+ *******************************************************************************/
 namespace LastFmTube\Util;
 
 use LastFmTube\Api\LastFm\LastFm;
@@ -42,7 +49,6 @@ class Functions {
      }
 
      private function initSiteMapGenerator() {
-
           $this->sitemap = new SiteMap($this->settings['general']['domain'], $this->settings['general']['sitemap_file']);
           $this->sitemap->addURL('/lastfm')
                ->addURL('/topsongs')
