@@ -17,8 +17,8 @@
 	"autoload" : {
 		"psr-4" : {
 			"LastFmTube\\Api\\" : "php/api",
-			"LastFmTube\\Util\\" : "php/util/",
-			"LastFmTube\\Json\\" : "php/json/"
+			"LastFmTube\\Util\\" : "php/util",
+			"LastFmTube\\Json\\" : "php/json"
 		}
 	},
 	"description" : "Lastfm YouTube Radio",

@@ -446,17 +446,11 @@ class PlayerController {
                 if (!success) return;
                 tracks = $page.myVues.playlist.content.$data.TRACKS;
                 $player.loadSong(tracks[tracks.length - 1]);
-                if($page.myVues.youtube.comments.showComments) {
-                	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
-                }
             });
             return;
         }
 
         this.loadSong(tracks[prevIndex]);
-        if($page.myVues.youtube.comments.showComments) {
-        	$playlist.loadVideoCommentList($page.currentTrackData.videoId);
-        }
     }
 
     setCurrentTrack(track, force = false) {

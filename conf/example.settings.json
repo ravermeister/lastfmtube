@@ -10,7 +10,8 @@
 		"lastfm_defaultuser": "lastfm default user",
 		"tracks_perpage": 25,
 		"sitemap_file": "/sitemap.xml",
-		"error_video": "qPg6GL6wuHE"
+		"error_video": "qPg6GL6wuHE",
+		"autosave_videos": "true"
 	},
 	"database": {
 		"dsn": "database dsn",
