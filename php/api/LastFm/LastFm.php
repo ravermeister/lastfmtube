@@ -1,8 +1,9 @@
 <?php
 namespace LastFmTube\Api\LastFm;
 
+use KubAT\PhpSimple\HtmlDomParser;
 use LastFmTube\Util\Functions;
-use Sunra\PhpSimple\HtmlDomParser;
+use simple_html_dom\simple_html_dom;
 
 class LastFm {
 
@@ -197,7 +198,7 @@ class LastFm {
 
      /**
       *
-      * @return \simplehtmldom_1_5\simple_html_dom
+      * @return simple_html_dom
       */
      function getDOM() {
           $url = $this->base_url . '?method=' . $this->method . '&api_key=' . $this->apikey;
