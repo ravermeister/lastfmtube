@@ -73,15 +73,20 @@ class Track {
           // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
           $isPlaying = false;
           
-          if ($trackxml->children(10) !== null) {
-               $timestamp = $trackxml->children(10)->uts;
+          $artist = $trackxml->find('artist', 0);
+          $title = $trackxml->find('name', 0);
+          $album = $trackxml->find('album', 0);
+          $date = $trackxml->find('date', 0);
+          
+          if ($date !== null) {
+               $timestamp = $date->uts;
 
                if ($timestamp <= 0) {
                     // timestamp 0 means currently playing!
                     $lastplay = Functions::getInstance()->getLocale()['playlist.nowplaying'];
                     $isPlaying = true;
                } else {
-                    $lastplay = date('Y-m-d H:i:s', $trackxml->children(10)->uts);
+                    $lastplay = date('Y-m-d H:i:s', $date->uts);
                     $isPlaying = false;
                }
           } else {
@@ -90,7 +95,7 @@ class Track {
                $isPlaying = true;
           }
 
-          return new Track(Functions::getInstance()->decodeHTML($trackxml->children(0)->innertext), Functions::getInstance()->decodeHTML($trackxml->children(1)->innertext), Functions::getInstance()->decodeHTML($trackxml->children(4)->innertext), $lastplay, $isPlaying);
+          return new Track(Functions::getInstance()->decodeHTML($artist->innertext), Functions::getInstance()->decodeHTML($title->innertext), Functions::getInstance()->decodeHTML($album->innertext), $lastplay, $isPlaying);
      }
 
      /**

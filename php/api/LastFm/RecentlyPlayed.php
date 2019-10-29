@@ -30,8 +30,7 @@ class RecentlyPlayed {
           $this->totalPages = $elem->getAttribute('totalpages');
           $this->itemsPerPage = $elem->getAttribute('perPage');
 
-          $tracks = $elem->find('track', 0);
-          die($tracks);
+          $tracks = $elem->find('track');
           
           foreach ($tracks as $track) {               
                $this->items[] = Track::fromXML($track);
