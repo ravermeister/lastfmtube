@@ -1,7 +1,8 @@
 <?php
 namespace LastFmTube\Api\LastFm;
 
-use simplehtmldom_1_5\simple_html_dom;
+use simple_html_dom\simple_html_dom;
+
 
 class RecentlyPlayed {
 
