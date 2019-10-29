@@ -1,6 +1,6 @@
 {
 	"general": {
-		"domain" : "https://lfmtube.domain",
+		"domain": "https://lfmtube.domain",
 		"baseurl": "/path/to/project/root/dir",
 		"lang": "en",
 		"logfile": "conf/logs/lastfmtube.log",
