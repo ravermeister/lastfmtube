@@ -138,10 +138,12 @@ class LibvueVideo {
             	commentData: [],
             },
             computed: {
-        		showLoadMore: function() {
-        			return undefined !== this.$data.pageinfo.NEXT 
+        		showLoadMore: function() {        			
+        			let load = undefined !== this.$data.pageinfo.NEXT 
         			|| null === this.$data.pageinfo.NEXT 
         			|| 'null' === this.$data.pageinfo.NEXT;
+        			console.log('load!!', load);
+        			return load;
         		}
             },
             methods: {
