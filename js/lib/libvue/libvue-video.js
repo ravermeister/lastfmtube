@@ -139,11 +139,9 @@ class LibvueVideo {
             },
             computed: {
         		showLoadMore: function() {        			
-        			let load = undefined !== this.$data.pageinfo.NEXT 
+        			return undefined !== this.$data.pageinfo.NEXT 
         			&& null !== this.$data.pageinfo.NEXT 
         			&& 'null' !== this.$data.pageinfo.NEXT;
-        			console.log('load!!', load, this.$data.pageinfo.NEXT);
-        			return load;
         		}
             },
             methods: {
