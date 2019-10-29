@@ -7,7 +7,7 @@
 		"ext-curl" : "*",
 		"ext-intl" : "*",
 		"google/apiclient" : "~2.4",
-		"sunra/php-simple-html-dom-parser" : "~1.5",
+		"Kub-AT/php-simple-html-dom-parser" : "~1.8.1",
 		"icamys/php-sitemap-generator" : "~1.2"
 	},
 	"support" : {
