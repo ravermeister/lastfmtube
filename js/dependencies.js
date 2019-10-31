@@ -76,8 +76,6 @@ define('theme', [
 ]);
 
 define ('vuedata', [
-	'vueimpl/page/icons',
-	'vueimpl/page/menu',
 	'vueimpl/page/page',
 	'vueimpl/player/header',
 	'vueimpl/player/menu',
@@ -91,6 +89,8 @@ define ('vuedata', [
 ]);
 
 define('page', [
+	'control/page/icons',
+	'control/page/menu',
 	'control/page/page',
 	'control/player/player',
 	'control/playlist/playlist'
