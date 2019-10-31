@@ -28,26 +28,26 @@ requirejs
 					'jquery/jquery' 
 				],
 
+				// Vue instance Page
+				vuePage: ['vuejs/instances/page'],
+				
+				// Vue instance playlist
+				vuePlaylist: ['vuejs/instances/playlist'],
+				
+				// Vue instance userlist
+				vueUserlist: ['vuejs/instances/userlist'],
+				
+				//Vue instance video
+				vueVideo: ['vuejs/instances/video'],
+				
 				// the Vue lib
-				Vue : [ '//unpkg.com/vue/dist/vue.min', 'vue/vue.min' ],
+				Vue : [ '//unpkg.com/vue/dist/vue.min', 'vuejs/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
 				vue : [ 
 					'//unpkg.com/require-vuejs/dist/require-vuejs.min',
-					'vue/vue-requirejs.min' 
+					'vuejs/vue-requirejs.min' 
 				],
-
-				// Vue instance Page
-				vuePage: ['vue/instances/page'],
-				
-				// Vue instance playlist
-				vuePlaylist: ['vue/instances/playlist'],
-				
-				// Vue instance userlist
-				vueUserlist: ['vue/instances/userlist'],
-				
-				//Vue instance video
-				vueVideo: ['vue/instances/video'],
 				
 				// Storage js
 				Storages : [ 
