@@ -18,12 +18,15 @@ class PlayerWindow {
 		
 		this.ytPlayer = null;
 		this.createPlayer(initReadyCallback);
+		this.isReady = false;
 	}
 	
 	initYtPlayer(width, height, video, initReadyCallback) {
 		
+		let playerWindow = this;
+		
         let onReady = function (event) {
-        	this.isReady = true;
+        	$player.isReady = true;
 // console.log('youtube player ready');
         	if(typeof initReadyCallback === 'function') {
         		initReadyCallback();
@@ -32,22 +35,22 @@ class PlayerWindow {
 
         let onStateChange = function (event) {
 
-            for (let cnt in this.stateChangeListeners) {
-                let listener = this.stateChangeListeners[cnt];
+            for (let cnt in $player.stateChangeListeners) {
+                let listener = $player.stateChangeListeners[cnt];
                 if ('function' !== typeof listener) continue;
                 listener(event);
             }
         };
         let onError = function (event) {
             console.error('youtube player error', event);
-            for (let cnt in this.errorListeners) {
-                let listener = this.errorListeners[cnt];
+            for (let cnt in $player.errorListeners) {
+                let listener = $player.errorListeners[cnt];
                 if ('function' !== typeof listener) continue;
                 listener(event);
             }
         };
 		
-		 console.log('player: w', width, 'h', height, 'vid', video);
+		//console.log('player: w', width, 'h', height, 'vid', video);
 	    this.ytPlayer = new YT.Player('player-container', {
 	
 	        height: height,
