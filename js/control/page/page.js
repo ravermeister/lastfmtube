@@ -502,15 +502,14 @@ class PageController {
     }
 
     initSettings() {    
-    	let settings = this.settings
-		$.ajax({
+
+    	$.ajax({
 			url: 'php/json/page/Page.php?action=config',
 			dataType: 'json',
 			async: false,
 			success: function(json) {
 				if(json && json.data && json.data.value) {
-					settings = json.data.value;				
-					console.log('>>>>', $page.settings, '<><>', this.settings);
+					$page.settings = json.data.value;				
 				}
 			},
 			error: function(xhr) {
