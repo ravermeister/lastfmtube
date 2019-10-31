@@ -64,6 +64,10 @@ requirejs
 				'control/page/page' : {
 					deps : [ 'hotkeys', 'add2any', 'vuedata' ]
 				},
+				
+				'control/player/timer' : {
+					deps: ['control/player/window']
+				}
 			}
 		});
 
@@ -92,8 +96,8 @@ define('page', [
 	'control/page/menu',
 	'control/page/page',
 	'control/player/track',
-	'control/player/window',
 	'control/player/timer',
+	'control/player/window',
 	'control/player/player',
 	'control/playlist/playlist'
 ]);
