@@ -75,13 +75,13 @@ define('themeLibs', [
 ]);
 
 define ('theme', [
-	'vue/page/page',
-	'vue/player/player',
-	'vue/playlist/header',
-	'vue/playlist/menu',
-	'vue/playlist/content',
-	'vue/playlist/playlist',
-	'vue/userlist/userlist'
+	'vueimpl/page/page',
+	'vueimpl/player/player',
+	'vueimpl/playlist/header',
+	'vueimpl/playlist/menu',
+	'vueimpl/playlist/content',
+	'vueimpl/playlist/playlist',
+	'vueimpl/userlist/userlist'
 ]);
 
 define('page', [
