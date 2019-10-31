@@ -509,7 +509,8 @@ class PageController {
 			success: function(json) {
 				if(json && json.data && json.data.value) {
 					let conf = json.data.value;				
-					this.settings = conf;         
+					this.settings = conf;    
+					console.log('>>>>', $page.settings)
 				}
 			},
 			error: function(xhr) {
