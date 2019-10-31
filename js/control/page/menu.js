@@ -36,13 +36,13 @@ class Menu {
         };
 
         this.topsongs = {
-            LOGO: Icons.star.big,
+            LOGO: icons.star.big,
             TEXT: 'Top Songs',
             PAGE: 'playlist'
         };
 
         this.topuser = {
-            LOGO: Icons.trophy.big,
+            LOGO: icons.trophy.big,
             TEXT: 'Top User',
             PAGE: 'playlist'
         };
