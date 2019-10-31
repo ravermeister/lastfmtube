@@ -15,27 +15,26 @@ class ChartTimer {
         this.timer = null;
         this.log = false;
         this.lastChartLfmUser = null;
-
-        this.init(player);
+        this.playerControl = player;
+        this.init();
     }
 
 
-    init(player = null) {
-        if (player === null) {
+    init() {
+        if (this.playerControl === null) {
             if (this.log) console.error('cannot initialize Timer, invalid player instance!');
             return;
         }
 
-        let control = this;
-
-        player.addStateChangeListener(function (event) {
+        let self = this;
+        this.playerControl.addStateChangeListener(function (event) {
         	
             switch (event.data) {            	
                 case player.playerWindow.status.PLAYING.ID:
-                    control.start();
+                	self.start();
                     break;
                 default:
-                    control.stop();
+                	self.stop();
                     break;
             }
         });
@@ -99,7 +98,7 @@ class ChartTimer {
                 return;
             }
 
-            let vidDuration = $player.ytPlayer.getDuration();
+            let vidDuration = $player.playerWindow.ytPlayer.getDuration();
             if (vidDuration > 0) {
                 track.duration = vidDuration;
 
