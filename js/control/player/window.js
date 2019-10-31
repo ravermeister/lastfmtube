@@ -7,7 +7,7 @@
 class PlayerWindow {
 
 	constructor(initReadyCallback){
-		const status = {
+		this.status = {
 			UNSTARTED: { ID: -1, NAME: 'unstarted' },
 			ENDED: { ID: 0, NAME: 'ended' },
 			PLAYING: { ID: 1, NAME: 'playing' },

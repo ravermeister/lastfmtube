@@ -33,7 +33,7 @@ class ChartTimer {
         	console.log(PlayerWindow.status);
         	console.log(new PlayerWindow());
             switch (event.data) {            	
-                case PlayerWindow.status.PLAYING.ID:
+                case player.playerWindow.status.PLAYING.ID:
                     control.start();
                     break;
                 default:
