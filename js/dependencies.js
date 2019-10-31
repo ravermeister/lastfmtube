@@ -61,9 +61,14 @@ requirejs
 				},
 				// html5 theme dependencies
 
-				'page' : {
-					deps : [ 'add2any', 'hotkeys', 'theme' ]
+				'theme' : {
+					deps: ['themeLibs']
 				},
+				
+				'page' : {
+					deps : [ 'jquery', 'add2any', 'hotkeys', 'theme' ]
+				},
+				
 			}
 		});
 
