@@ -29,7 +29,7 @@ class ChartTimer {
         let control = this;
 
         player.addStateChangeListener(function (event) {
-        	console.log(player.playerWindow);
+        	console.log(player.playerWindow.status);
         	console.log(PlayerWindow.status)
             switch (event.data) {            	
                 case PlayerWindow.status.PLAYING.ID:
