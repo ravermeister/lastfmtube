@@ -47,7 +47,7 @@ class PlayerWindow {
             }
         };
 		
-		// console.log('player: w', width, 'h', height, 'vid', video);
+		 console.log('player: w', width, 'h', height, 'vid', video);
 	    this.ytPlayer = new YT.Player('player-container', {
 	
 	        height: height,
