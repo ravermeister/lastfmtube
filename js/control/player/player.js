@@ -96,7 +96,7 @@ class PlayerController {
 
     loadNextSong() {
 
-    	console.log('!!!!', $page.settings.general.tracks_perpage);
+    	console.log('!!!!', $page.settings);
     	
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
