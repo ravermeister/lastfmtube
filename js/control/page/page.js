@@ -6,186 +6,6 @@
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
 /***/
-class Icon {
-    constructor(name) {
-
-        this.name = name;
-        this.big = this.name + ' fa-2x';
-        this.bigger = this.name + ' fa-3x';
-
-        this.animated = this.name + ' faa-flash animated';
-        this.animatedBig = this.animated + ' fa-2x';
-        this.animatedBigger = this.animated + ' fa-3x';
-
-    }
-
-    isIcon(elem, big = false) {
-        return $(elem).hasClass(big ? this.big : this.name);
-    }
-}
-
-class Menu {
-
-    constructor(icons) {
-
-        this.youtube = {
-            LOGO: icons.youtube.big,
-            TEXT: 'YouTube',
-            PAGE: 'video'
-        };
-
-        this.search = {
-            LOGO: icons.search.big,
-            TEXT: 'Search',
-            PAGE: 'playlist',
-            LDATA: 'search'
-        };
-
-        this.lastfm = {
-            LOGO: icons.headphones.big,
-            TEXT: 'Last.fm',
-            PAGE: 'playlist'
-        };
-
-        this.userlist = {
-            LOGO: icons.user.big,
-            TEXT: 'My Songs',
-            PAGE: 'playlist'
-        };
-
-        this.topsongs = {
-            LOGO: icons.star.big,
-            TEXT: 'Top Songs',
-            PAGE: 'playlist'
-        };
-
-        this.topuser = {
-            LOGO: icons.trophy.big,
-            TEXT: 'Top User',
-            PAGE: 'playlist'
-        };
-        
-        this.live
-
-        this.defaultMenu = [
-            this.youtube,
-            this.lastfm,
-            this.userlist,
-            this.topsongs,
-            this.topuser
-        ];
-
-    }
-
-    updateData(json) {
-        if ('undefined' !== typeof json.listmenu) json = json.listmenu;
-
-        if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
-        if ('undefined' !== typeof json.YTPLAYER.PAGE) this.youtube.PAGE = json.YTPLAYER.PAGE;
-        if ('undefined' !== typeof json.YTPLAYER.LDATA) this.youtube.LDATA = json.YTPLAYER.LDATA;
-
-        if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
-        if ('undefined' !== typeof json.LASTFM.PAGE) this.lastfm.PAGE = json.LASTFM.PAGE;
-        if ('undefined' !== typeof json.LASTFM.LDATA) this.lastfm.LDATA = json.LASTFM.LDATA;
-
-        if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
-        if ('undefined' !== typeof json.USERLIST.PAGE) this.userlist.PAGE = json.USERLIST.PAGE;
-        if ('undefined' !== typeof json.USERLIST.LDATA) this.userlist.LDATA = json.USERLIST.LDATA;
-
-        if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
-        if ('undefined' !== typeof json.TOPSONGS.PAGE) this.topsongs.PAGE = json.TOPSONGS.PAGE;
-        if ('undefined' !== typeof json.TOPSONGS.LDATA) this.topsongs.LDATA = json.TOPSONGS.LDATA;
-
-        if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
-        if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;
-        if ('undefined' !== typeof json.TOPUSER.LDATA) this.topuser.LDATA = json.TOPUSER.LDATA;
-
-    }
-
-    getMenuItem(playlist) {
-        switch (playlist) {
-            case 'youtube':
-            case 'video':
-            case 'video-container':
-                return this.youtube;
-            case 'topuser':
-                return this.topuser;
-            case 'topsongs':
-                return this.topsongs;
-            case 'userlist':
-                return this.userlist;
-            case 'search':
-            	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-            		return this.getMenuItem($page.SEARCH_RETURN_PLAYLIST);
-            	}
-                return this.search;
-            default:
-            case 'lastfm':
-            case 'default':
-            case 'playlist-container':
-                return this.lastfm;
-        }
-    }
-
-    getMenu(playlist) {
-
-        let list = [];
-        switch (playlist) {
-            case 'youtube':
-            case 'video':
-            case 'video-container':
-                list = [
-                    this.lastfm,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-                break;
-            case 'lastfm':
-            case 'default':
-            case 'playlist-container':
-                list = [
-                    this.youtube,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-                break;
-            case 'topuser':
-            case 'search':
-                list = [
-                    this.youtube,
-                    this.lastfm,
-                    this.topsongs,
-                    this.userlist
-                ];
-                break;
-            case 'topsongs':
-                list = [
-                    this.youtube,
-                    this.lastfm,
-                    this.userlist,
-                    this.topuser
-                ];
-                break;
-            case 'userlist':
-                list = [
-                    this.youtube,
-                    this.lastfm,
-                    this.topsongs,
-                    this.topuser
-                ];
-                break;
-            default:
-                list = [];
-                break;
-        }
-
-        return list;
-    }
-}
-
-
 class PageController {
 
     constructor() {
@@ -220,8 +40,7 @@ class PageController {
             }
         };
 
-        PageController.TRACKS_PER_PAGE = 25; // in settings.ini
-        PageController.icons = PageController.initIcons();
+        PageController.TRACKS_PER_PAGE = 25; // in settings.ini        
         PageController.analytics = null;
 
         this.settings = {};
@@ -231,7 +50,7 @@ class PageController {
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
         
-        this.menu = new Menu(PageController.icons);
+        this.menu = new Menu();
         this.myVues = {};
         this.menuData = [];
         this.applyVueMethods();
@@ -785,7 +604,7 @@ class PageController {
 
     setMainPageLoading(active = false) {
         this.myVues.base.logo.$data.PAGE_LOADER = active ?
-            PageController.icons.loader.bigger : PageController.icons.diamond.bigger;
+            Icons.loader.bigger : Icons.diamond.bigger;
     }
 
     createNeedle(artist = '', title = '', videoId = '') {
@@ -832,80 +651,6 @@ class PageController {
                 }
             }
         };
-    }
-
-
-    static initIcons() {
-        let icons = {};
-        icons.play = new Icon('fa-play');
-        icons.pause = new Icon('fa-pause');
-        icons.stop = new Icon('fa-stop');
-        icons.youtube = new Icon('fa fa-youtube');
-        icons.search = new Icon('fa fa-search');
-        icons.plus = new Icon('fa-plus');
-        icons.minus = new Icon('fa-minus');
-        icons.diamond = new Icon('fa fa-diamond');
-        icons.headphones = new Icon('fas fa-headphones');
-        icons.check = new Icon('fas fa-check');
-        icons.loader = new Icon('fa fa-spinner faa-spin animated');
-        icons.star = new Icon('fas fa-star');
-        icons.trophy = new Icon('fas fa-trophy');
-        icons.user = new Icon('fas fa-user');
-        icons.trash = new Icon('fas fa-trash-alt');
-        icons.save = new Icon('fas fa-save');
-
-
-        icons.list = [
-            icons.play,
-            icons.pause,
-            icons.stop,
-            icons.youtube,
-            icons.search,
-            icons.plus,
-            icons.minus,
-            icons.diamond,
-            icons.headphones,
-            icons.check,
-            icons.loader,
-            icons.star,
-            icons.trophy,
-            icons.user,
-            icons.trash,
-            icons.save
-        ];
-
-        icons.getIcon = function (elem, big) {
-            for (let cnt = 0; cnt < this.list.length; cnt++) {
-                if (this.list[cnt].isIcon(elem, big)) {
-                    return this.list[cnt];
-                }
-            }
-            return null;
-        };
-        icons.getPlaylistIcon = function (playlist = null) {
-            if (playlist === null) return this.diamond.big;
-            switch (playlist) {
-                case 'topsongs':
-                    return this.star;
-                case 'topuser':
-                case 'user-container':
-                    return this.trophy;
-                case 'userlist':
-                    return this.user;
-                case 'youtube':
-                    return this.youtube;
-                case 'search':
-                	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-                		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
-                	}
-                    return this.search;
-                default:
-                    return this.headphones;
-            }
-
-        };
-
-        return icons;
     }
 
     static clone(src) {

@@ -76,6 +76,8 @@ define('theme', [
 ]);
 
 define ('vuedata', [
+	'vueimpl/page/icons',
+	'vueimpl/page/menu',
 	'vueimpl/page/page',
 	'vueimpl/player/header',
 	'vueimpl/player/menu',
