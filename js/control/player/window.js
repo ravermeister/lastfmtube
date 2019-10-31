@@ -94,12 +94,11 @@ class PlayerWindow {
                 let startVideo = '';
                 let ytPlayerWidth = '100%';
                 let ytPlayerHeight = percentHeight($(document).height(), 70) + 'px';
-                console.log($page, $page.settings);
                 if($page.settings.general.playerHeight !== 'auto') {
-					ytPlayerHeight = this.settings.general.playerHeight;
+					ytPlayerHeight = $page.settings.general.playerHeight;
 				}	    
 				if($page.settings.general.playerWidth !== 'auto') {
-					ytPlayerWidth = this.settings.general.playerWidth;
+					ytPlayerWidth = $page.settings.general.playerWidth;
 				}
 
 				initYtPlayer(ytPlayerWidth, ytPlayerHeight, startVideo, initReadyCallback);                
