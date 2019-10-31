@@ -18,7 +18,6 @@ class PlayerWindow {
 		
 		this.ytPlayer = null;
 		this.createPlayer(initReadyCallback);
-		this.isReady = false;
 	}
 	
 	initYtPlayer(width, height, video, initReadyCallback) {
