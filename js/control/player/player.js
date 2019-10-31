@@ -97,13 +97,15 @@ class PlayerController {
     loadNextSong() {
 
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
-
         if (tracks.length === 0) return;
+        
         let curTrack = this.currentTrackData.track;
-        let nextIndex = curTrack !== null ?
-            (parseInt(curTrack.NR) % parseInt($page.settings.general.tracksPerPage) ) : 0;
-        let isLast = curTrack !== null && ($page.myVues.playlist.menu.$data.CUR_PAGE *
-            $page.settings.general.tracks_perpage) === parseInt(curTrack.NR);
+        let tracksPerPage = parseInt($page.settings.general.tracks_perpage);
+        let curNr = parseInt(curTrack.NR);
+        let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
+        
+        let nextIndex = curTrack !== null ? (curNr % tracks_perpage) : 0;
+        let isLast = curTrack !== null &&  (curPage * tracks_perpage) === curNr;
 
         if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
@@ -129,6 +131,7 @@ class PlayerController {
             nextIndex = 0;
         }
 
+        console.log(tracks[nextIndex], '<<<<< index >>>>', nextIndex);
         this.loadSong(tracks[nextIndex]);
     }
 
