@@ -97,6 +97,7 @@ class PlayerController {
     loadNextSong() {
 
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
+        console.log('>>>>', tracks);
         if (tracks.length === 0) return;
         let curTrack = this.currentTrackData.track;
 
@@ -129,6 +130,7 @@ class PlayerController {
             nextIndex = 0;
         }
 
+        
         this.loadSong(tracks[nextIndex]);
     }
 
@@ -325,8 +327,6 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null) return false;        
         let checkNr = curTrack.PLAYLIST !== 'topsongs';
-        
-        console.log('curTrack', curTrack, '<>track', track);
         
         let isEqual = curTrack !== null && (
 
