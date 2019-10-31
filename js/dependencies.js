@@ -45,20 +45,7 @@ requirejs
 						'lib/hotkeys/hotkeys.min' ],
 
 				// theme dependencies
-				theme : [ '../themes/dimension/assets/js/browser.min',
-						'../themes/dimension/assets/js/breakpoints.min',
-						'../themes/dimension/assets/js/util',
-						'../themes/dimension/assets/js/main' ],
-
-				// vue instances
-				vueInstances : [ 'vue/page/page', 'vue/player/player',
-						'vue/playlist/header', 'vue/playlist/menu',
-						'vue/playlist/content', 'vue/playlist/playlist',
-						'vue/userlist/userlist' ],
-
-				// Control Instancescontrol/playlist/playlist
-				page : [ 'control/page/page', 'control/player/player',
-						'control/playlist/playlist' ]
+				themeDir : [ '../themes/dimension/assets/js' ]
 			},
 
 			shim : {
@@ -71,14 +58,30 @@ requirejs
 				},
 				// html5 theme dependencies
 
-				'vueInstances' : {
+				'theme' : {
 					deps : [ 'jquery', 'Vue' ]
 				},
 
 				'page' : {
-					deps : [ 'add2any', 'hotkeys', 'vueInstances' ]
+					deps : [ 'add2any', 'hotkeys', 'theme' ]
 				},
 			}
 		});
+
+define('theme', [
+	'vue/page/page',
+	'vue/player/player',
+	'vue/playlist/header',
+	'vue/playlist/menu',
+	'vue/playlist/content',
+	'vue/playlist/playlist',
+	'vue/userlist/userlist'
+]);
+
+define('page', [
+	'page/page',
+	'player/player',
+	'playlist/playlist'
+]);
 
 require([ 'theme' ]);
