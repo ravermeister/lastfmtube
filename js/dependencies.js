@@ -54,11 +54,6 @@ requirejs
 				},
 
 				'theme' : {
-					deps : [ 'jquery' ]
-				},
-				// html5 theme dependencies
-
-				'theme' : {
 					deps : [ 'jquery', 'Vue' ]
 				},
 
