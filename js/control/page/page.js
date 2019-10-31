@@ -510,7 +510,7 @@ class PageController {
 				if(json && json.data && json.data.value) {
 					let conf = json.data.value;				
 					this.settings = conf;    
-					console.log('>>>>', $page.settings)
+					console.log('>>>>', $page.settings, '<><>', this.settings);
 				}
 			},
 			error: function(xhr) {
