@@ -57,7 +57,7 @@ requirejs
 						'vue/userlist/userlist' ],
 
 				// Control Instancescontrol/playlist/playlist
-				ctrlInstances : [ 'control/page/page', 'control/player/player',
+				page : [ 'control/page/page', 'control/player/player',
 						'control/playlist/playlist' ]
 			},
 
@@ -75,7 +75,7 @@ requirejs
 					deps : [ 'jquery', 'Vue' ]
 				},
 
-				'ctrlInstances' : {
+				'page' : {
 					deps : [ 'add2any', 'hotkeys', 'vueInstances' ]
 				},
 			}
