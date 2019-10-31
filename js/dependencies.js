@@ -44,25 +44,21 @@ requirejs
 				hotkeys : [ '//unpkg.com/hotkeys-js/dist/hotkeys.min',
 						'lib/hotkeys/hotkeys.min' ],
 
-				// theme JS Dir
-				themeJsDir : [ '../themes/dimension/assets/js' ],
+				// theme dependencies
+				themeDeps : [ '../themes/dimension/assets/js/browser.min',
+						'../themes/dimension/assets/js/breakpoints.min',
+						'../themes/dimension/assets/js/util',
+						'../themes/dimension/assets/js/main' ],
 
-				// vue instance page
-				vuePage : [ 'vue/page/page' ],
-				// vue instance player
-				vuePlayer : [ 'vue/player/player' ],
-				// vue instance playlist
-				vuePlaylist : [ 'vue/playlist/header', 'vue/playlist/menu',
-						'vue/playlist/content', 'vue/playlist/playlist' ],
-				// vue instance userlist
-				vueUserlist : [ 'vue/userlist/userlist' ],
+				// vue instances
+				vueInstances : [ 'vue/page/page', 'vue/player/player',
+						'vue/playlist/header', 'vue/playlist/menu',
+						'vue/playlist/content', 'vue/playlist/playlist',
+						'vue/userlist/userlist' ],
 
-				// control instance page dir
-				ctrlPage : [ 'control/page/page' ],
-				// control instance player dir
-				ctrlPlayer : [ 'control/player/player' ],
-				// control instance playlist dir
-				ctrlPlaylist : [ 'control/playlist/playlist' ],
+				// Control Instancescontrol/playlist/playlist
+				ctrlInstances : [ 'control/page/page', 'control/player/player',
+						'control/playlist/playlist' ]
 			},
 
 			shim : {
@@ -79,19 +75,15 @@ requirejs
 				// html5 theme dependencies
 
 				'theme' : {
-					deps : [ 'themeJsDir/browser.min',
-							'themeJsDir/breakpoints.min', 'themeJsDir/util',
-							'themeJsDir/main' ]
+					deps : [ 'themeDeps' ]
 				},
 
 				'libvue' : {
-					deps : [ 'jquery', 'Vue', 'vuePageDir/page.js',
-							'vuePlayer', 'vuePlaylist', 'vueUserlist' ]
+					deps : [ 'jquery', 'Vue', 'vueInstances' ]
 				},
 
 				'page' : {
-					deps : [ 'libvue', 'add2any', 'hotkeys', 'ctrlPage',
-							'ctrlPlayer', 'ctrlPlaylist' ]
+					deps : [ 'add2any', 'hotkeys', 'libvue', 'ctrlInstances' ]
 				},
 			}
 		});
