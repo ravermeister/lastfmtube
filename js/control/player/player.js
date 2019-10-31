@@ -95,23 +95,18 @@ class PlayerController {
     }
 
     loadNextSong() {
-
-    	console.log('!!!!', $page.settings);
     	
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
         
         let curTrack = this.currentTrackData.track;
-        let tracksPerPage = parseInt($page.settings.general.tracks_perpage);
+        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
         let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
         
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
-        if(curNr!==null) {
-        	console.log(curNr,'<<< curnr perpage >>>', tracksPerPage, 'raw per page', $page.settings.general.tracks_perpage);
-        }
-        console.log('>>> next', nextIndex);
+
         if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
             let curPage = playlist.$data.CUR_PAGE;
@@ -146,8 +141,8 @@ class PlayerController {
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
         let isLast = curTrack !== null && ($page.myVues.playlist.menu.$data.CUR_PAGE *
-            $page.settings.general.tracks_perpage) === parseInt(curTrack.NR);
-        let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracks_perpage) - 2;
+        		$page.settings.general.tracksPerPage) === parseInt(curTrack.NR);
+        let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracksPerPage) - 2;
 
         if (isLast) {
             prevIndex = tracks.length - 2;
