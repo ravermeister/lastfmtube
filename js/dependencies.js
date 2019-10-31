@@ -44,7 +44,7 @@ requirejs
 				hotkeys : [ '//unpkg.com/hotkeys-js/dist/hotkeys.min',
 						'lib/hotkeys/hotkeys.min' ],
 
-				// theme dependencies
+				// theme dir
 				themeDir : [ '../themes/dimension/assets/js' ]
 			},
 
@@ -53,9 +53,13 @@ requirejs
 					exports : [ 'Vue' ]
 				},
 
-				'theme' : {
-					deps : [ 'jquery', 'Vue' ]
+				'themeDir/main' : {
+					deps : [ 'jquery' ]
 				},
+				'themeDir/util' : {
+					deps : [ 'jquery' ]
+				},
+				// html5 theme dependencies
 
 				'page' : {
 					deps : [ 'add2any', 'hotkeys', 'theme' ]
