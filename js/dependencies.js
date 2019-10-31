@@ -45,7 +45,7 @@ requirejs
 						'lib/hotkeys/hotkeys.min' ],
 
 				// theme dependencies
-				themeDeps : [ '../themes/dimension/assets/js/browser.min',
+				theme : [ '../themes/dimension/assets/js/browser.min',
 						'../themes/dimension/assets/js/breakpoints.min',
 						'../themes/dimension/assets/js/util',
 						'../themes/dimension/assets/js/main' ],
@@ -66,14 +66,10 @@ requirejs
 					exports : [ 'Vue' ]
 				},
 
-				'themeDeps' : {
+				'theme' : {
 					deps : [ 'jquery' ]
 				},
 				// html5 theme dependencies
-
-				'theme' : {
-					deps : [ 'themeDeps' ]
-				},
 
 				'libvue' : {
 					deps : [ 'jquery', 'Vue', 'vueInstances' ]
