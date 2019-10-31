@@ -101,11 +101,11 @@ class PlayerController {
         
         let curTrack = this.currentTrackData.track;
         let tracksPerPage = parseInt($page.settings.general.tracks_perpage);
-        let curNr = parseInt(curTrack.NR);
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
         let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
         
-        let nextIndex = curTrack !== null ? (curNr % tracks_perpage) : 0;
-        let isLast = curTrack !== null &&  (curPage * tracks_perpage) === curNr;
+        let nextIndex = curNr !== null ? (curNr % tracks_perpage) : 0;
+        let isLast = curNr !== null &&  (curPage * tracks_perpage) === curNr;
 
         if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
