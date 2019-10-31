@@ -15,7 +15,7 @@ class ChartTimer {
         this.timer = null;
         this.log = false;
         this.lastChartLfmUser = null;
-        this.playerControl = player;
+        this.player = player;
         this.init();
     }
 
@@ -27,10 +27,10 @@ class ChartTimer {
         }
 
         let self = this;
-        this.playerControl.addStateChangeListener(function (event) {
+        this.player.addStateChangeListener(function (event) {
         	
             switch (event.data) {            	
-                case self.playerWindow.status.PLAYING.ID:
+                case self.player.playerWindow.status.PLAYING.ID:
                 	self.start();
                     break;
                 default:
