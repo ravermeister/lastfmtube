@@ -48,8 +48,8 @@ class LibvuePlaylistHeader {
 	
 	static createVue() {
 		return {
-				title = LibvuePlaylistHeader.createTitleVue(),			
-				menu = LibvuePlaylistHeader.createMenuVue() 
+				title :  LibvuePlaylistHeader.createTitleVue(),			
+				menu : LibvuePlaylistHeader.createMenuVue() 
 		};
 	}
 }
