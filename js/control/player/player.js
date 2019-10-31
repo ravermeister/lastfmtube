@@ -101,7 +101,7 @@ class PlayerController {
         if (tracks.length === 0) return;
         let curTrack = this.currentTrackData.track;
         if(curTrack !== null) {
-        	console.log('!!!!', parseInt(curTrack.NR), $page.settings);
+        	console.log('!!!!', parseInt(curTrack.NR), $page.settings.general.tracksPerPage);
         }
         
         let nextIndex = curTrack !== null ?
