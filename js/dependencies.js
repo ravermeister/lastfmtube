@@ -60,26 +60,22 @@ requirejs
 					deps : [ 'jquery' ]
 				},
 				// html5 theme dependencies
-
-				'theme' : {
-					deps: ['themeLibs']
-				},
 				
 				'page' : {
-					deps : [ 'jquery', 'add2any', 'hotkeys', 'theme' ]
+					deps : [ 'jquery', 'add2any', 'hotkeys', 'vuedata' ]
 				},
 				
 			}
 		});
 
-define('themeLibs', [
+define('theme', [
 	'themeDir/browser.min',
 	'themeDir/breakpoints.min',
 	'themeDir/util',
 	'themeDir/main'
 ]);
 
-define ('theme', [
+define ('vuedata', [
 	'vueimpl/page/page',
 	'vueimpl/player/player',
 	'vueimpl/playlist/header',
