@@ -59,19 +59,19 @@ requirejs
 				themeJsDir : [ '../../themes/dimension/assets/js' ],
 				
 				// vue instance page dir
-				vuePlayerDir: ['vue/page'],
+				vuePageDir: ['vue/page'],
+				// vue instance player dir
+				vuePlayerDir: ['vue/player'],
 				// vue instance playlist dir
 				vuePlaylistDir: ['vue/playlist'],
 				// vue instance userlist dir
 				vueUserlistDir: ['vue/userlist'],
-				// vue instance video dir
-				vueVideoDir: ['vue/video'],
 				
 				// control instance page dir
 				ctrlPageDir: ['control/page'],
 				// control instance player dir
 				ctrlPlayerDir: ['control/player'],
-				// control instance player dir
+				// control instance playlist dir
 				ctrlPlaylistDir: ['control/playlist'],
 			},
 
@@ -101,12 +101,12 @@ requirejs
 					deps: [
 						'jquery', 'Vue', 
 						'vuePageDir/page.js',
+						'vuePlayerDir/player',
 						'vuePlaylistDir/header',
 						'vuePlaylistDir/menu',
 						'vuePlaylistDir/content',
 						'vuePlaylistDir/playlist',						
-						'vueUserlistDir/userlist',
-						'vueVideoDir/video'
+						'vueUserlistDir/userlist'
 					]
 				},
 				
