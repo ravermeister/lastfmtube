@@ -9,69 +9,93 @@
 requirejs
 		.config({
 			// By default load any module IDs from js/lib
-			baseUrl : 'js/lib',
+			baseUrl : 'js',
 
 			paths : {
 
 				// Google analytics
-				analytics : [ 'analytics/analytics' ],
+				analytics : [ 'lib/analytics/analytics' ],
 
 				// requirejs addon
 				domReady : [
 						'//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
-						'requirejs/domReady' ],
+						'lib/requirejs/domReady' ],
 
 				// jquery
 				jquery : [ '//unpkg.com/jquery/dist/jquery.min',
-						'jquery/jquery' ],
+						'lib/jquery/jquery' ],
 
 				// the Vue lib
-				Vue : [ '//unpkg.com/vue/dist/vue.min', 'vue/vue.min' ],
+				Vue : [ '//unpkg.com/vue/dist/vue.min', 'lib/vuejs/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
 				vue : [ '//unpkg.com/require-vuejs/dist/require-vuejs.min',
-						'vue/vue-requirejs.min' ],
+						'lib/vuejs/vue-requirejs.min' ],
 
 				// Storage js
 				Storages : [ '//unpkg.com/js-storage/js.storage.min',
-						'jstorage/js.storage.min' ],
+						'lib/jstorage/js.storage.min' ],
 
 				// share buttons
 				add2any : [ '//static.addtoany.com/menu/page',
-						'add2any/add2any.min' ],
+						'lib/add2any/add2any.min' ],
 
 				// hotkeys
 				hotkeys : [ '//unpkg.com/hotkeys-js/dist/hotkeys.min',
-						'hotkeys/hotkeys.min' ],
+						'lib/hotkeys/hotkeys.min' ],
 
-				// themes
-				themes : [ '../../themes/dimension/assets/js' ]
+				// theme dir
+				themeDir : [ '../themes/dimension/assets/js' ]
 			},
 
 			shim : {
-
 				'Vue' : {
 					exports : [ 'Vue' ]
 				},
 
-				'themes/main' : {
+				'themeDir/main' : {
 					deps : [ 'jquery' ]
 				},
-				'themes/util' : {
+				'themeDir/util' : {
 					deps : [ 'jquery' ]
 				},
 				// html5 theme dependencies
-
-				'page' : {
-					deps : [ 'libvue', 'add2any', 'hotkeys' ]
-				}
+				
+				'control/page/page' : {
+					deps : [ 'jquery', 'hotkeys', 'add2any', 'vuedata' ]
+				},
 			}
 		});
 
-define('theme', [ 'themes/browser.min', 'themes/breakpoints.min',
-		'themes/util', 'themes/main' ]);
-define('libvue', [ 'jquery', 'Vue', 'libvue/libvue-mainpage',
-		'libvue/libvue-playlist', 'libvue/libvue-video',
-		'libvue/libvue-userlist' ]);
+define('theme', [
+	'themeDir/browser.min',
+	'themeDir/breakpoints.min',
+	'themeDir/util',
+	'themeDir/main'
+]);
+
+define ('vuedata', [
+	'vueimpl/page/page',
+	'vueimpl/player/header',
+	'vueimpl/player/menu',
+	'vueimpl/player/comments',
+	'vueimpl/player/player',
+	'vueimpl/playlist/header',
+	'vueimpl/playlist/menu',
+	'vueimpl/playlist/content',
+	'vueimpl/playlist/playlist',
+	'vueimpl/userlist/userlist'
+]);
+
+define('page', [
+	'control/page/icons',
+	'control/page/menu',
+	'control/page/page',
+	'control/player/track',
+	'control/player/timer',
+	'control/player/window',
+	'control/player/player',
+	'control/playlist/playlist'
+]);
 
 require([ 'theme' ]);
