@@ -26,71 +26,71 @@ class Icon {
 
 class Icons {
 	constructor(){
-        const play = new Icon('fa-play');
-        const pause = new Icon('fa-pause');
-        const stop = new Icon('fa-stop');
-        const youtube = new Icon('fa fa-youtube');
-        const search = new Icon('fa fa-search');
-        const plus = new Icon('fa-plus');
-        const minus = new Icon('fa-minus');
-        const diamond = new Icon('fa fa-diamond');
-        const headphones = new Icon('fas fa-headphones');
-        const check = new Icon('fas fa-check');
-        const loader = new Icon('fa fa-spinner faa-spin animated');
-        const star = new Icon('fas fa-star');
-        const trophy = new Icon('fas fa-trophy');
-        const user = new Icon('fas fa-user');
-        const trash = new Icon('fas fa-trash-alt');
-        const save = new Icon('fas fa-save');
+        this.play = new Icon('fa-play');
+        this.pause = new Icon('fa-pause');
+        this.stop = new Icon('fa-stop');
+        this.youtube = new Icon('fa fa-youtube');
+        this.search = new Icon('fa fa-search');
+        this.plus = new Icon('fa-plus');
+        this.minus = new Icon('fa-minus');
+        this.diamond = new Icon('fa fa-diamond');
+        this.headphones = new Icon('fas fa-headphones');
+        this.check = new Icon('fas fa-check');
+        this.loader = new Icon('fa fa-spinner faa-spin animated');
+        this.star = new Icon('fas fa-star');
+        this.trophy = new Icon('fas fa-trophy');
+        this.user = new Icon('fas fa-user');
+        this.trash = new Icon('fas fa-trash-alt');
+        this.save = new Icon('fas fa-save');
         
-        const list = [
-            Icons.play,
-            Icons.pause,
-            Icons.stop,
-            Icons.youtube,
-            Icons.search,
-            Icons.plus,
-            Icons.minus,
-            Icons.diamond,
-            Icons.headphones,
-            Icons.check,
-            Icons.loader,
-            Icons.star,
-            Icons.trophy,
-            Icons.user,
-            Icons.trash,
-            Icons.save
+        this.list = [
+            this.play,
+            this.pause,
+            this.stop,
+            this.youtube,
+            this.search,
+            this.plus,
+            this.minus,
+            this.diamond,
+            this.headphones,
+            this.check,
+            this.loader,
+            this.star,
+            this.trophy,
+            this.user,
+            this.trash,
+            this.save
         ];
 	}
 	
 	static getIcon (elem, big) {
-        for (let cnt = 0; cnt < Icons.list.length; cnt++) {
-            if (Icons.list[cnt].isIcon(elem, big)) {
-                return Icons.list[cnt];
+        for (let cnt = 0; cnt < this.list.length; cnt++) {
+            if (this.list[cnt].isIcon(elem, big)) {
+                return this.list[cnt];
             }
         }
         return null;
     }
 	
 	static getPlaylistIcon(playlist = null) {
-        if (playlist === null) return Icons.diamond.big;
+        if (playlist === null) return this.diamond.big;
         switch (playlist) {
             case 'topsongs':
-                return Icons.star;
+                return this.star;
             case 'topuser':
             case 'user-container':
-                return Icons.trophy;
+                return this.trophy;
             case 'userlist':
-                return Icons.user;
+                return this.user;
             case 'youtube':
-                return Icons.youtube;
+                return this.youtube;
             case 'search':
             	if($page.SEARCH_RETURN_PLAYLIST !== null) {
             		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
             	}
-                return Icons.search;
+                return this.search;
             default:
-                return Icons.headphones;
+                return this.headphones;
         }
 
     }

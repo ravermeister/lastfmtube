@@ -64,10 +64,6 @@ requirejs
 				'control/page/page' : {
 					deps : [ 'hotkeys', 'add2any', 'vuedata' ]
 				},
-				
-				'control/page/menu' : {
-					deps : [ 'control/page/icons' ]
-				},
 			}
 		});
 

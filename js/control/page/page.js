@@ -42,7 +42,7 @@ class PageController {
 
         PageController.TRACKS_PER_PAGE = 25; // in settings.ini        
         PageController.analytics = null;
-
+        PageController.icons = new Icons();
         this.settings = {};
         this.isReady = false;
         this.PLAYLIST = null;
@@ -50,7 +50,7 @@ class PageController {
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
         
-        this.menu = new Menu();
+        this.menu = new Menu(PageController.icons);
         this.myVues = {};
         this.menuData = [];
         this.applyVueMethods();
@@ -604,7 +604,7 @@ class PageController {
 
     setMainPageLoading(active = false) {
         this.myVues.base.logo.$data.PAGE_LOADER = active ?
-            Icons.loader.bigger : Icons.diamond.bigger;
+            PageController.icons.loader.bigger : PageController.icons.diamond.bigger;
     }
 
     createNeedle(artist = '', title = '', videoId = '') {
