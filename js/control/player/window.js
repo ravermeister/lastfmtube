@@ -83,6 +83,8 @@ class PlayerWindow {
         let firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         
+        let window = this;
+        
         window.onYouTubeIframeAPIReady = function () {            
         	$(document).ready(function () {
         		
@@ -101,7 +103,7 @@ class PlayerWindow {
 					ytPlayerWidth = $page.settings.general.playerWidth;
 				}
 
-				initYtPlayer(ytPlayerWidth, ytPlayerHeight, startVideo, initReadyCallback);                
+				window.initYtPlayer(ytPlayerWidth, ytPlayerHeight, startVideo, initReadyCallback);                
             });
         };
 	}
