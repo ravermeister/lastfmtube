@@ -18,7 +18,7 @@ class PlayerController {
     			timeoutMilis: 500,
     			lastOccur: null
     	};
-        this.window = null;
+        this.playerWindow = null;
         this.isReady = false;
         this.autoPlay = false;
         this.loadNextOnError = true;
@@ -68,7 +68,7 @@ class PlayerController {
     }
 
     initWindow(callBack) {
-    	this.window = new PlayerWindow(callBack);
+    	this.playerWindow = new PlayerWindow(callBack);
     } 
     
     addErrorListener(l = null) {
@@ -185,8 +185,8 @@ class PlayerController {
 
     loadSong(track) {
 
-        // console.log(this.window.ytPlayer);
-        if (this.window === null || this.window.ytPlayer === null) 
+        // console.log(this.playerWindow.ytPlayer);
+        if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
 
         this.setCurrentTrack(track);
@@ -283,7 +283,7 @@ class PlayerController {
 
     loadVideo(videoId = '') {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
-            this.window.ytPlayer.loadVideoById(videoId);
+            this.playerWindow.ytPlayer.loadVideoById(videoId);
             this.commentsLoaded = false;
             
             this.currentTrackData.videoId = videoId;
@@ -334,35 +334,35 @@ class PlayerController {
     }
 
     isPlaying() {
-        return this.window.ytPlayer.getPlayerState() === PlayerWindow.status.PLAYING.ID;
+        return this.playerWindow.ytPlayer.getPlayerState() === PlayerWindow.status.PLAYING.ID;
     }
 
     isPaused() {
-        return this.window.ytPlayer.getPlayerState() === PlayerWindow.status.PAUSED.ID;
+        return this.playerWindow.ytPlayer.getPlayerState() === PlayerWindow.status.PAUSED.ID;
     }
     
     togglePlay(){
         if (this.isPlaying()) {
-        	this.window.ytPlayer.pauseVideo();
+        	this.playerWindow.ytPlayer.pauseVideo();
         } else {
-        	this.window.ytPlayer.playVideo();
+        	this.playerWindow.ytPlayer.playVideo();
         }        
     }
     
     volumeUp(interVal = 5) {
-    	let curVol = this.window.ytPlayer.getVolume();
+    	let curVol = this.playerWindow.ytPlayer.getVolume();
     	let newVol = curVol + interVal;
     	if(newVol > 100) newVol = 100;
     	
-    	this.window.ytPlayer.setVolume(newVol);
+    	this.playerWindow.ytPlayer.setVolume(newVol);
     }
     
     volumeDown(interVal = 5) {
-    	let curVol = this.window.ytPlayer.getVolume();
+    	let curVol = this.playerWindow.ytPlayer.getVolume();
     	let newVol = curVol - interVal;
     	if(newVol < 0) newVol = 0;
     	
-    	this.window.ytPlayer.setVolume(newVol);   	
+    	this.playerWindow.ytPlayer.setVolume(newVol);   	
     }
     
     calculateSeekInterVal(interVal) {
@@ -398,23 +398,23 @@ class PlayerController {
     	
     	interValSec = this.calculateSeekInterVal(interValSec);
     	
-    	let tracklen = this.window.ytPlayer.getDuration();
-    	let curtime = this.window.ytPlayer.getCurrentTime();
+    	let tracklen = this.playerWindow.ytPlayer.getDuration();
+    	let curtime = this.playerWindow.ytPlayer.getCurrentTime();
     	let newtime = curtime + interValSec;
     	if(tracklen <= 0) return;
     	else if(newtime > tracklen) newtime = tracklen;
-    	this.window.ytPlayer.seekTo(newtime, true);	
+    	this.playerWindow.ytPlayer.seekTo(newtime, true);	
     }
     
     rewind(interValSec = 5) {
     	
     	interValSec = this.calculateSeekInterVal(interValSec);
     	
-    	let tracklen = this.window.ytPlayer.getDuration();
-    	let curtime = this.window.ytPlayer.getCurrentTime();
+    	let tracklen = this.playerWindow.ytPlayer.getDuration();
+    	let curtime = this.playerWindow.ytPlayer.getCurrentTime();
     	let newtime = curtime - interValSec;
     	if(tracklen <= 0) return;
     	else if(newtime < 0) newtime = 0;
-    	this.window.ytPlayer.seekTo(newtime, true);
+    	this.playerWindow.ytPlayer.seekTo(newtime, true);
     }
 }
