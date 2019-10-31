@@ -66,10 +66,7 @@ requirejs
 					exports : [ 'Vue' ]
 				},
 
-				'themeJsDir/main' : {
-					deps : [ 'jquery' ]
-				},
-				'themeJsDir/util' : {
+				'themeDeps' : {
 					deps : [ 'jquery' ]
 				},
 				// html5 theme dependencies
