@@ -12,6 +12,7 @@ class LibvuePlaylist {
         LibvuePlaylist.YOUTUBE_URL_REGEX = /^http(s?):\/\/(www\.)?(m\.)?youtu(\.be|be\.com)\//g;
 
         this.header = LibvuePlaylistHeader.createVue();
+        this.menu = LibvuePlaylistMenu.createVue();
         this.content = LibvuePlaylistContent.createVue();
     }
 
