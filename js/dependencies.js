@@ -62,11 +62,7 @@ requirejs
 				// html5 theme dependencies
 				
 				'control/page/page' : {
-					deps: ['jqury', 'hotkeys']
-				},
-					
-				'page' : {
-					deps : [ 'jquery', 'hotkeys', 'add2any', 'vuedata' ]
+					deps : [ 'hotkeys', 'add2any', 'vuedata' ]
 				},
 				
 			}
