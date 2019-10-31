@@ -30,7 +30,7 @@ class ChartTimer {
 
         player.addStateChangeListener(function (event) {
             switch (event.data) {
-                case $player.playerWindow.status.PLAYING.ID:
+                case PlayerWindow.status.PLAYING.ID:
                     control.start();
                     break;
                 default:
