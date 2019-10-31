@@ -56,8 +56,23 @@ requirejs
 				],
 				
 				// theme JS Dir
-				themeJsDir : [ '../../themes/dimension/assets/js' ],			
+				themeJsDir : [ '../../themes/dimension/assets/js' ],
 				
+				// vue instance page dir
+				vuePlayerDir: ['vue/page'],
+				// vue instance playlist dir
+				vuePlaylistDir: ['vue/playlist'],
+				// vue instance userlist dir
+				vueUserlistDir: ['vue/userlist'],
+				// vue instance video dir
+				vueVideoDir: ['vue/video'],
+				
+				// control instance page dir
+				ctrlPageDir: ['control/page'],
+				// control instance player dir
+				ctrlPlayerDir: ['control/player'],
+				// control instance player dir
+				ctrlPlaylistDir: ['control/playlist'],
 			},
 
 			shim : {
@@ -85,26 +100,24 @@ requirejs
 				'libvue': {
 					deps: [
 						'jquery', 'Vue', 
-						'vue/page/mainpage.js',
-						'vue/playlist/header',
-						'vue/playlist/menu',
-						'vue/playlist/content',
-						'vue/playlist/playlist',						
-						'vue/userlist/userlist',
-						'vue/video/video'
+						'vuePageDir/page.js',
+						'vuePlaylistDir/header',
+						'vuePlaylistDir/menu',
+						'vuePlaylistDir/content',
+						'vuePlaylistDir/playlist',						
+						'vueUserlistDir/userlist',
+						'vueVideoDir/video'
 					]
 				},
 				
 				'page' : {
 					deps : [ 
 						'libvue', 'add2any', 'hotkeys', 
-						'control/player/player', 
-						'control/playlist/playlist',
-						'control/page/page'
+						'ctrlPageDir/page', 
+						'ctrlPlayerDir/player',
+						'ctrlPlaylistDir/playlist'
 					]
-				}, 
-				
-
+				},	
 			}
 		});
 
