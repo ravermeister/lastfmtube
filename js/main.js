@@ -12,7 +12,7 @@ window.onbeforeunload = function() {
 	return true;
 };
 
-require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
+require([ 'Vue', 'Storages', 'page' ], function(Vue,
 		Storages) {
 
 	window.Storages = Storages;

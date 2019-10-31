@@ -9,7 +9,7 @@
 requirejs
 		.config({
 			// By default load any module IDs from js/lib
-			baseUrl : 'js/lib',
+			baseUrl : 'js',
 
 			paths : {
 
@@ -19,56 +19,57 @@ requirejs
 				// requirejs addon
 				domReady : [
 					'//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
-					'requirejs/domReady' 
+					'lib/requirejs/domReady' 
 				],
 
 				// jquery
 				jquery : [ 
 					'//unpkg.com/jquery/dist/jquery.min',
-					'jquery/jquery' 
+					'lib/jquery/jquery' 
 				],
-
-				// Vue instance Page
-				vuePage: ['vuejs/instances/page'],
-				
-				// Vue instance playlist
-				vuePlaylist: ['vuejs/instances/playlist'],
-				
-				// Vue instance userlist
-				vueUserlist: ['vuejs/instances/userlist'],
-				
-				//Vue instance video
-				vueVideo: ['vuejs/instances/video'],
 				
 				// the Vue lib
-				Vue : [ '//unpkg.com/vue/dist/vue.min', 'vuejs/vue.min' ],
+				Vue : [ '//unpkg.com/vue/dist/vue.min', 'lib/vuejs/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
 				vue : [ 
 					'//unpkg.com/require-vuejs/dist/require-vuejs.min',
-					'vuejs/vue-requirejs.min' 
+					'lib/vuejs/vue-requirejs.min' 
 				],
 				
 				// Storage js
 				Storages : [ 
 					'//unpkg.com/js-storage/js.storage.min',
-					'jstorage/js.storage.min' 
+					'lib/jstorage/js.storage.min' 
 				],
 
 				// share buttons
 				add2any : [ 
 					'//static.addtoany.com/menu/page',
-					'add2any/add2any.min'
+					'lib/add2any/add2any.min'
 				],
 
 				// hotkeys
 				hotkeys : [ 
 					'//unpkg.com/hotkeys-js/dist/hotkeys.min',
-					'hotkeys/hotkeys.min' 
+					'lib/hotkeys/hotkeys.min' 
 				],
 
+				
 				// themes
-				themes : [ '../../themes/dimension/assets/js' ]
+				themes : [ '../../themes/dimension/assets/js' ],
+				
+				// Vue instance Page
+				vuePage: ['vue/page'],
+				
+				// Vue instance playlist
+				vuePlaylist: ['vue/playlist'],
+				
+				// Vue instance userlist
+				vueUserlist: ['vue/userlist'],
+				
+				//Vue instance video
+				vueVideo: ['vue/video'],
 			},
 
 			shim : {
@@ -86,7 +87,12 @@ requirejs
 				// html5 theme dependencies
 
 				'page' : {
-					deps : [ 'libvue', 'add2any', 'hotkeys' ]
+					deps : [ 
+						'libvue', 'add2any', 'hotkeys', 
+						'control/player', 
+						'control/page', 
+						'control/playlist'
+					]
 				}
 			}
 		});
