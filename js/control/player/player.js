@@ -100,7 +100,8 @@ class PlayerController {
 
         if (tracks.length === 0) return;
         let curTrack = this.currentTrackData.track;
-
+        console.log('!!!!', curTrack);
+        
         let nextIndex = curTrack !== null ?
             (parseInt(curTrack.NR) % $page.settings.general.tracks_perpage) : 0;
         let isLast = curTrack !== null && ($page.myVues.playlist.menu.$data.CUR_PAGE *
