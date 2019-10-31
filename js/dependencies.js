@@ -14,7 +14,7 @@ requirejs
 			paths : {
 
 				// Google analytics
-				analytics : [ 'analytics/analytics' ],
+				analytics : [ 'lib/analytics/analytics' ],
 
 				// requirejs addon
 				domReady : [
