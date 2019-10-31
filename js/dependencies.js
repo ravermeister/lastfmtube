@@ -71,12 +71,12 @@ requirejs
 				},
 				// html5 theme dependencies
 
-				'libvue' : {
-					deps : [ 'jquery', 'Vue', 'vueInstances' ]
+				'vueInstances' : {
+					deps : [ 'jquery', 'Vue' ]
 				},
 
 				'page' : {
-					deps : [ 'add2any', 'hotkeys', 'libvue', 'ctrlInstances' ]
+					deps : [ 'add2any', 'hotkeys', 'vueInstances', 'ctrlInstances' ]
 				},
 			}
 		});
