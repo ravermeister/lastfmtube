@@ -104,8 +104,8 @@ class PlayerController {
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
         let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
         
-        let nextIndex = curNr !== null ? (curNr % tracks_perpage) : 0;
-        let isLast = curNr !== null &&  (curPage * tracks_perpage) === curNr;
+        let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
+        let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
 
         if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
