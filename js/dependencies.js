@@ -75,8 +75,8 @@ requirejs
 					deps : [ 'jquery', 'Vue' ]
 				},
 
-				'page' : {
-					deps : [ 'add2any', 'hotkeys', 'vueInstances', 'ctrlInstances' ]
+				'ctrlInstances' : {
+					deps : [ 'add2any', 'hotkeys', 'vueInstances' ]
 				},
 			}
 		});

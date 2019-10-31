@@ -12,7 +12,7 @@ window.onbeforeunload = function() {
 	return true;
 };
 
-require([ 'Vue', 'Storages', 'page' ], function(Vue,
+require([ 'Vue', 'Storages', 'ctrlInstances' ], function(Vue,
 		Storages) {
 
 	window.Storages = Storages;
