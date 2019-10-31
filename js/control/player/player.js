@@ -97,7 +97,7 @@ class PlayerController {
     loadNextSong() {
 
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
-        console.log('>>>>', tracks);
+
         if (tracks.length === 0) return;
         let curTrack = this.currentTrackData.track;
 
@@ -130,7 +130,7 @@ class PlayerController {
             nextIndex = 0;
         }
 
-        
+        console.log(tracks[nextIndex], '<<<<<');
         this.loadSong(tracks[nextIndex]);
     }
 
