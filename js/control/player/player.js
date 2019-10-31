@@ -106,7 +106,10 @@ class PlayerController {
         
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
-
+        if(curNr!==null) {
+        	console.log(curNr,'<<< curnr perpage >>>', tracksPerPage);
+        }
+        console.log('>>> next', nextIndex);
         if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
             let curPage = playlist.$data.CUR_PAGE;
@@ -131,7 +134,6 @@ class PlayerController {
             nextIndex = 0;
         }
 
-        console.log(tracks[nextIndex], '<<<<< index >>>>', nextIndex);
         this.loadSong(tracks[nextIndex]);
     }
 
