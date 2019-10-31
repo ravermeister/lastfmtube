@@ -95,10 +95,10 @@ class PlayerWindow {
                 let ytPlayerWidth = '100%';
                 let ytPlayerHeight = percentHeight($(document).height(), 70) + 'px';
 
-                if(this.settings.general.playerHeight !== 'auto') {
+                if($page.settings.general.playerHeight !== 'auto') {
 					ytPlayerHeight = this.settings.general.playerHeight;
 				}	    
-				if(this.settings.general.playerWidth !== 'auto') {
+				if($page.settings.general.playerWidth !== 'auto') {
 					ytPlayerWidth = this.settings.general.playerWidth;
 				}
 
