@@ -56,7 +56,7 @@ requirejs
 				],
 				
 				// theme JS Dir
-				themeJsDir : [ '../../themes/dimension/assets/js' ],
+				themeJsDir : [ '../themes/dimension/assets/js' ],
 				
 				// vue instance page dir
 				vuePageDir : ['vue/page'],
