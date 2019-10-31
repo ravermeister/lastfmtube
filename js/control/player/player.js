@@ -130,7 +130,7 @@ class PlayerController {
             nextIndex = 0;
         }
 
-        console.log(tracks[nextIndex], '<<<<<');
+        console.log(tracks[nextIndex], '<<<<< index >>>>', nextIndex);
         this.loadSong(tracks[nextIndex]);
     }
 
