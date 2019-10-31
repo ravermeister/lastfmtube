@@ -77,6 +77,9 @@ define('theme', [
 
 define ('vuedata', [
 	'vueimpl/page/page',
+	'vueimpl/player/header',
+	'vueimpl/player/menu',
+	'vueimpl/player/comments',
 	'vueimpl/player/player',
 	'vueimpl/playlist/header',
 	'vueimpl/playlist/menu',
