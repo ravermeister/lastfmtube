@@ -54,63 +54,58 @@ requirejs
 					'//unpkg.com/hotkeys-js/dist/hotkeys.min',
 					'lib/hotkeys/hotkeys.min' 
 				],
-
 				
-				// themes
-				themes : [ '../../themes/dimension/assets/js' ],
+				// theme JS Dir
+				themeJsDir : [ '../../themes/dimension/assets/js' ],			
 				
-				// Vue instance Page
-				vuePage: ['vue/page'],
-				
-				// Vue instance playlist
-				vuePlaylist: ['vue/playlist'],
-				
-				// Vue instance userlist
-				vueUserlist: ['vue/userlist'],
-				
-				//Vue instance video
-				vueVideo: ['vue/video'],
 			},
 
 			shim : {
-
 				'Vue' : {
 					exports : [ 'Vue' ]
 				},
 
-				'themes/main' : {
+				'themeJsDir/main' : {
 					deps : [ 'jquery' ]
 				},
-				'themes/util' : {
+				'themeJsDir/util' : {
 					deps : [ 'jquery' ]
 				},
 				// html5 theme dependencies
-
+				
+				'theme': {
+					deps: [
+						'themeJsDir/browser.min', 
+						'themeJsDir/breakpoints.min',
+						'themeJsDir/util', 
+						'themeJsDir/main' 
+					]
+				},
+				
+				'libvue': {
+					deps: [
+						'jquery', 'Vue', 
+						'vue/page/mainpage.js',
+						'vue/playlist/header',
+						'vue/playlist/menu',
+						'vue/playlist/content',
+						'vue/playlist/playlist',						
+						'vue/userlist/userlist',
+						'vue/video/video'
+					]
+				},
+				
 				'page' : {
 					deps : [ 
 						'libvue', 'add2any', 'hotkeys', 
-						'control/player', 
-						'control/page', 
-						'control/playlist'
+						'control/player/player', 
+						'control/playlist/playlist',
+						'control/page/page'
 					]
-				}
+				}, 
+				
+
 			}
 		});
-
-define('theme', [ 
-	'themes/browser.min', 
-	'themes/breakpoints.min',
-	'themes/util', 
-	'themes/main' 
-]);
-define('libvue', [ 
-	'jquery', 
-	'Vue', 
-	'vueVideo',
-	'vuePage',
-	'vuePlaylist',
-	'vueUserlist',
-	''
-]);
 
 require([ 'theme' ]);
