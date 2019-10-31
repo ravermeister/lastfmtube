@@ -6,176 +6,6 @@
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
 /***/
-class ChartTimer {
-    constructor(player) {
-
-        this.timerStart = null;
-        this.timerRemaining = null;
-        this.timerTrack = null;
-        this.timer = null;
-        this.log = false;
-        this.lastChartLfmUser = null;
-
-        this.init(player);
-    }
-
-
-    init(player = null) {
-        if (player === null) {
-            if (this.log) console.error('cannot initialize Timer, invalid player instance!');
-            return;
-        }
-
-        let control = this;
-
-        player.addStateChangeListener(function (event) {
-            switch (event.data) {
-                case $player.ytStatus.PLAYING.ID:
-                    control.start();
-                    break;
-                default:
-                    control.stop();
-                    break;
-            }
-        });
-    }
-
-    handleTimerEvent() {
-
-        let track = $player.chartTimer.timerTrack;
-        if ('undefined' === typeof track || track === null) {
-            if ($player.chartTimer.log) console.log('timer event invalid track', track);
-            return;
-        }
-
-        if ($player.chartTimer.log) console.log('handle timer event create needle from track');
-
-        let needle = $page.createNeedle(
-            track.artist,
-            track.title,
-            track.video
-        );
-
-        $player.chartTimer.clearTimer();
-        $page.saveChartTrack(needle);
-        if ('undefined' !== typeof track.lfmuser &&
-            track.lfmuser !== '' &&
-            $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
-            if ($player.chartTimer.log) console.log('handle save user chart');
-            $page.saveChartUser(track.lfmuser);
-            $player.chartTimer.lastChartLfmUser = track.lfmuser;
-        } else if ($player.chartTimer.log) {
-            console.log(
-                'wont save user chart', track.lfmuser,
-                '<-track timer->', $player.chartTimer.lastChartLfmUser
-            );
-        }
-
-    }
-
-    clearTimer() {
-        if (this.timer === null) return;
-
-        clearTimeout(this.timer);
-        this.timerStart = null;
-        this.timerRemaining = null;
-        this.timerTrack = null;
-        this.timer = null;
-    }
-
-
-    createTimer(track) {
-        // duration is send when metadata arrives from youtube,
-        // so delay max. 5 a second before checking duration
-        let delay = 500; // ms
-        let maxDelayCnt = 10; // 10x500 ms
-        let delayCnt = 0;
-        let durationTimer = setInterval(function () {
-            if (delayCnt >= maxDelayCnt) {
-                clearInterval(durationTimer);
-                // console.error('can not start timer, no duration received from
-				// youtube');
-                return;
-            }
-
-            let vidDuration = $player.ytPlayer.getDuration();
-            if (vidDuration > 0) {
-                track.duration = vidDuration;
-
-                let lfmScrobbleDuration = (track.duration / 2) | 0;
-                if (lfmScrobbleDuration > 120) lfmScrobbleDuration = 120;
-                // last.fm scrobble rule: half length of song or 2 min. if
-				// greater
-
-                $player.chartTimer.clearTimer();
-                $player.chartTimer.timerStart = new Date();
-                $player.chartTimer.timerRemaining = lfmScrobbleDuration;
-                $player.chartTimer.timerTrack = track;
-                $player.chartTimer.timer = setTimeout(
-                    $player.chartTimer.handleTimerEvent,
-                    (lfmScrobbleDuration * 1000)
-                    /** debug * */
-                    /** 10000* */
-                );
-                if ($player.chartTimer.log)
-                    console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
-
-                if ($player.chartTimer.log) clearInterval(durationTimer);
-            }
-            delayCnt++;
-        }, delay);
-    }
-
-    resume(track) {
-        if (!this.timerTrack.equals(track)) {
-            if (this.log) console.log('timer track not current track, create new timer');
-            this.createTimer(track);
-            return;
-        }
-
-        if (this.log) console.log('resume timer with remaining time: ', this.timerRemaining);
-
-        this.timerStart = new Date();
-        this.timer = setTimeout(this.handleTimerEvent, (this.timerRemaining * 1000));
-    }
-
-    start() {
-        if (!$player.currentTrackData.validTrack() && $player.currentTrackData.validVideo()) return;
-        let curTrack = $player.currentTrackData.track;
-        let track = {
-            artist: curTrack.ARTIST,
-            title: curTrack.TITLE,
-            video: $player.currentTrackData.videoId,
-            lfmuser: $player.currentTrackData.lfmUser,
-            duration: 0,
-            equals: function (other) {
-                return (
-                    'undefined' !== typeof other &&
-                    other !== null &&
-                    this.artist === other.artist &&
-                    this.title === other.title &&
-                    this.video === other.video
-                );
-            }
-        };
-        if (this.timerStart === null) {
-            this.createTimer(track);
-        } else {
-            this.resume(track);
-        }
-    }
-
-    stop() {
-        if (this.timer === null) return;
-        let timeRun = ((new Date() - this.timerStart) / 1000) | 0;
-        this.timerRemaining -= timeRun;
-        clearTimeout(this.timer);
-        this.timer = null;
-        if (this.log) console.log('timer stopped, timer run: ', timeRun, ' remaining: ', this.timerRemaining);
-    }
-
-}
-
 class PlayerController {
 
     constructor() {
@@ -188,7 +18,7 @@ class PlayerController {
     			timeoutMilis: 500,
     			lastOccur: null
     	};
-        this.ytPlayer = null;
+        this.window = null;
         this.isReady = false;
         this.autoPlay = false;
         this.loadNextOnError = true;
@@ -199,178 +29,48 @@ class PlayerController {
         this.stateChangeListeners = [];
         this.ytStatus = {};
         this.commentsLoaded = false;
-        this.currentTrackData = {
-            track: null,
-            videoId: null,
-            playlistTitle: null,
+        this.currentTrackData = new TrackData();
 
-            validTrack: function () {
-                return (
-                    this.track !== null && ((
-                        'undefined' !== typeof this.track.TITLE &&
-                        this.track.TITLE !== null &&
-                        this.track.TITLE.length > 0
-                    ) || (
-                        'undefined' !== typeof this.track.ARTIST &&
-                        this.track.ARTIST !== null &&
-                        this.track.ARTIST.length > 0
-                    ))
-                );
-            },
-
-            validVideo: function () {
-                return this.videoId !== null && this.videoId.length > 0;
-            }
-        };
-
-
-        this.ytStatus.UNSTARTED = {};
-        this.ytStatus.UNSTARTED.ID = -1;
-        this.ytStatus.UNSTARTED.NAME = 'unstarted';
-
-        this.ytStatus.ENDED = {};
-        this.ytStatus.ENDED.ID = 0;
-        this.ytStatus.ENDED.NAME = 'ended';
-
-        this.ytStatus.PLAYING = {};
-        this.ytStatus.PLAYING.ID = 1;
-        this.ytStatus.PLAYING.NAME = 'playing';
-
-        this.ytStatus.PAUSED = {};
-        this.ytStatus.PAUSED.ID = 2;
-        this.ytStatus.PAUSED.NAME = 'paused';
-
-        this.ytStatus.BUFFERING = {};
-        this.ytStatus.BUFFERING.ID = 3;
-        this.ytStatus.BUFFERING.NAME = 'buffering';
-
-        this.ytStatus.CUED = {};
-        this.ytStatus.CUED.ID = 5;
-        this.ytStatus.CUED.NAME = 'video cued';
 
         this.chartTimer = new ChartTimer(this);
         this.addStateChangeListener(function (event) {
             switch (event.data) {
-                case $player.ytStatus.PLAYING.ID:
-                    $player.errorLoopCount = 0;
-                    $player.setCurrentState('play');
+                case this.ytStatus.PLAYING.ID:
+                    this.errorLoopCount = 0;
+                    this.setCurrentState('play');
                     break;
-                case $player.ytStatus.PAUSED.ID:
-                    $player.setCurrentState('pause');
+                case this.ytStatus.PAUSED.ID:
+                    this.setCurrentState('pause');
                     break;
-                case $player.ytStatus.BUFFERING.ID:
-                    $player.setCurrentState('load');
+                case this.ytStatus.BUFFERING.ID:
+                    this.setCurrentState('load');
                     break;
-                case $player.ytStatus.ENDED.ID:
-                    $player.setCurrentState('stop');
-                    $player.loadNextSong();
+                case this.ytStatus.ENDED.ID:
+                    this.setCurrentState('stop');
+                    this.loadNextSong();
                     break;
             }
         });
         this.addErrorListener(function (event) {
-            $player.errorLoopCount++;
+            this.errorLoopCount++;
 
             if ($page.myVues.playlist.menu.$data.PLAYLIST === 'search') {
                 $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = '';
             }
 
-            if ($player.errorLoopCount >= $player.maxErrorLoop) {
+            if (this.errorLoopCount >= this.maxErrorLoop) {
                 console.error('maximum error loop reached');
                 return;
             }
-            $player.setCurrentState('stop');
-            $player.loadNextSong();
+            this.setCurrentState('stop');
+            this.loadNextSong();
         });
     }
 
-    initPlayer(initReadyCallback) {
-
-        // $.getScript('//www.youtube.com/iframe_api');
-        let tag = document.createElement('script');
-        tag.src = '//www.youtube.com/iframe_api';
-        let firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        window.onYouTubeIframeAPIReady = function () {
-
-
-            let onReady = function (event) {
-            	$player.isReady = true;
-// console.log('youtube player ready');
-            	if(typeof initReadyCallback === 'function') {
-            		initReadyCallback();
-            	}
-            };
-
-            let onStateChange = function (event) {
-
-                for (let cnt in $player.stateChangeListeners) {
-                    let listener = $player.stateChangeListeners[cnt];
-                    if ('function' !== typeof listener) continue;
-                    listener(event);
-                }
-            };
-            let onError = function (event) {
-                console.error('youtube player error', event);
-                for (let cnt in $player.errorListeners) {
-                    let listener = $player.errorListeners[cnt];
-                    if ('function' !== typeof listener) continue;
-                    listener(event);
-                }
-            };
-            
-            let createPlayer = function(width, height, video) {
-// console.log('player: w', width, 'h', height, 'vid', video);
-                $player.ytPlayer = new YT.Player('player-container', {
-
-                    height: height,
-                    width: width,
-                    videoId: video,
-                    crossDomain: true,
-                    origin: '',
-                    playerVars: {
-                        'allowfullscreen': 1,
-                        'allowscriptaccess': 'always',
-                        'webkitallowfullscreen': 1,
-                        'mozallowfullscreen': 1,
-                        'autoplay': 1,
-                        'html5': 1,
-                        'enablejsapi': 1,
-                        'fs': 1,
-                        'playerapiid': 'lastfmtube'
-                    },
-
-                    events: {
-                        'onReady': onReady,
-                        'onStateChange': onStateChange,
-                        'onError': onError
-                    }
-                });
-            };
-
-            $(document).ready(function () {
-
-                let percentHeight = function (abs, val) {
-                    return ((abs / 100) * val) | 0;
-                };
-
-                // '9RMHHwJ9Eqk';
-                let startVideo = '';
-                let ytPlayerWidth = '100%';
-                let ytPlayerHeight = percentHeight($(document).height(), 70) + 'px';
-
-                if($player.settings.general.playerHeight !== 'auto') {
-					ytPlayerHeight = $player.settings.general.playerHeight;
-				}	    
-				if($player.settings.general.playerWidth !== 'auto') {
-					ytPlayerWidth = $player.settings.general.playerWidth;
-				}
-
-				createPlayer(ytPlayerWidth, ytPlayerHeight, startVideo);                
-            });
-        };
-    }
-
+    initWindow(callBack) {
+    	this.window = new PlayerWindow(callBack);
+    } 
+    
     addErrorListener(l = null) {
         if ('function' !== typeof l || this.errorListeners.indexOf(l) !== -1) return;
         this.errorListeners.push(l);
@@ -416,7 +116,7 @@ class PlayerController {
                 try {
                     if (!success) return;
                     let tracks = $page.myVues.playlist.content.$data.TRACKS;
-                    $player.loadSong(tracks[0]);
+                    this.loadSong(tracks[0]);
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
                 }
@@ -427,7 +127,7 @@ class PlayerController {
             nextIndex = 0;
         }
 
-        $player.loadSong(tracks[nextIndex]);
+        this.loadSong(tracks[nextIndex]);
     }
 
     loadPreviousSong() {
@@ -453,7 +153,7 @@ class PlayerController {
             $page.loadList(curPage, user, function (success) {
                 if (!success) return;
                 tracks = $page.myVues.playlist.content.$data.TRACKS;
-                $player.loadSong(tracks[tracks.length - 1]);
+                this.loadSong(tracks[tracks.length - 1]);
             });
             return;
         }
@@ -485,24 +185,25 @@ class PlayerController {
 
     loadSong(track) {
 
-        // console.log(this.ytPlayer);
-        if (this.ytPlayer === null) return;
+        // console.log(this.window.ytPlayer);
+        if (this.window === null || this.window.ytPlayer === null) 
+        	return;
 
         this.setCurrentTrack(track);
 
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         if (needle.isValid(true)) {
-            $player.loadVideo(needle.videoId);
+            this.loadVideo(needle.videoId);
             return;
         }
 
         if (!needle.isValid()) {
-            if ($player.errorLoopCount > $player.maxErrorLoop) {
+            if (this.errorLoopCount > this.maxErrorLoop) {
                 console.error('maximum error loop reached');
                 return;
             }
-            $player.errorLoopCount++;
-            if ($player.loadNextOnError) $player.loadNextSong();
+            this.errorLoopCount++;
+            if (this.loadNextOnError) this.loadNextSong();
             return;
         }
 
@@ -513,7 +214,7 @@ class PlayerController {
             method: 'GET'
         }).done(function (search) {
             needle.applyData(search);
-            $player.loadVideo(needle.videoId);
+            this.loadVideo(needle.videoId);
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
@@ -572,26 +273,26 @@ class PlayerController {
     	
     	let videoId = 'nN7oJuz_KH8';
     	
-    	if($player.settings.general.errorVideo !== '') {
-    		videoId = $player.settings.general.errorVideo;
+    	if($page.settings.general.errorVideo !== '') {
+    		videoId = $page.settings.general.errorVideo;
     	}
 		
         console.log('load default video', videoId);
-        $player.loadVideo(videoId);	   
+        this.loadVideo(videoId);	   
     }
 
     loadVideo(videoId = '') {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
-            $player.ytPlayer.loadVideoById(videoId);
-            $player.commentsLoaded = false;
+            this.window.ytPlayer.loadVideoById(videoId);
+            this.commentsLoaded = false;
             
-            $player.currentTrackData.videoId = videoId;
-            $player.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            this.currentTrackData.videoId = videoId;
+            this.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
             if($page.myVues.youtube.comments.showComments) {
-            	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
+            	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
             }
         } else {
-            if ($player.errorLoopCount > $player.maxErrorLoop) {
+            if (this.errorLoopCount > this.maxErrorLoop) {
                 console.error('maximum error loop reached');
                 alert("Error, couldn't find any Songs on Youtube.\n\n" 
                 		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
@@ -600,17 +301,17 @@ class PlayerController {
                 );
                 
                 // load the default video
-                $player.loadDefaultVideo();
+                this.loadDefaultVideo();
                 if($page.myVues.youtube.comments.showComments) {
-                	$playlist.loadVideoCommentList($player.currentTrackData.videoId);
+                	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
                 }
                 return;
             }
             
             
-            $player.errorLoopCount++;
-            if ($player.loadNextOnError) {
-                $player.loadNextSong();
+            this.errorLoopCount++;
+            if (this.loadNextOnError) {
+                this.loadNextSong();
             }
         }
     }
@@ -633,87 +334,87 @@ class PlayerController {
     }
 
     isPlaying() {
-        return this.ytPlayer.getPlayerState() === this.ytStatus.PLAYING.ID;
+        return this.window.ytPlayer.getPlayerState() === PlayerWindow.status.PLAYING.ID;
     }
 
     isPaused() {
-        return this.ytPlayer.getPlayerState() === this.ytStatus.PAUSED.ID;
+        return this.window.ytPlayer.getPlayerState() === PlayerWindow.status.PAUSED.ID;
     }
     
     togglePlay(){
-        if ($player.isPlaying()) {
-        	$player.ytPlayer.pauseVideo();
+        if (this.isPlaying()) {
+        	this.window.ytPlayer.pauseVideo();
         } else {
-        	$player.ytPlayer.playVideo();
+        	this.window.ytPlayer.playVideo();
         }        
     }
     
     volumeUp(interVal = 5) {
-    	let curVol = $player.ytPlayer.getVolume();
+    	let curVol = this.window.ytPlayer.getVolume();
     	let newVol = curVol + interVal;
     	if(newVol > 100) newVol = 100;
     	
-    	$player.ytPlayer.setVolume(newVol);
+    	this.window.ytPlayer.setVolume(newVol);
     }
     
     volumeDown(interVal = 5) {
-    	let curVol = $player.ytPlayer.getVolume();
+    	let curVol = this.window.ytPlayer.getVolume();
     	let newVol = curVol - interVal;
     	if(newVol < 0) newVol = 0;
     	
-    	$player.ytPlayer.setVolume(newVol);   	
+    	this.window.ytPlayer.setVolume(newVol);   	
     }
     
     calculateSeekInterVal(interVal) {
     	let now = new Date().getTime();
-    	if($player.seekTimeout.lastOccur === null) {
-    		$player.seekTimeout.lastOccur = now;
+    	if(this.seekTimeout.lastOccur === null) {
+    		this.seekTimeout.lastOccur = now;
     	}
     	
-    	let timeDiff = now - $player.seekTimeout.lastOccur;
-    	let timeValid = timeDiff <= $player.seekTimeout.timeoutMilis; 
+    	let timeDiff = now - this.seekTimeout.lastOccur;
+    	let timeValid = timeDiff <= this.seekTimeout.timeoutMilis; 
 
     	if(timeValid) {
-			if($player.seekTimeout.counter >= $player.seekTimeout.limit) {
-	    		let mult = $player.seekTimeout.counter / $player.seekTimeout.limit;
+			if(this.seekTimeout.counter >= this.seekTimeout.limit) {
+	    		let mult = this.seekTimeout.counter / this.seekTimeout.limit;
 	    		mult = mult | 0;
-	    		if(( $player.seekTimeout.counter % $player.seekTimeout.limit ) > 0) {
+	    		if(( this.seekTimeout.counter % this.seekTimeout.limit ) > 0) {
 	    			mult++;
 	    		}
 	    		
 	    		interVal = interVal + (mult * interVal) 
 	    	}
-			$player.seekTimeout.counter++;
+			this.seekTimeout.counter++;
     	} else {
-    		$player.seekTimeout.counter = 0;
+    		this.seekTimeout.counter = 0;
     	}
     	
-		$player.seekTimeout.lastOccur = now;
+		this.seekTimeout.lastOccur = now;
 		
     	return interVal;
     }
     
     fastForward(interValSec = 5) {
     	
-    	interValSec = $player.calculateSeekInterVal(interValSec);
+    	interValSec = this.calculateSeekInterVal(interValSec);
     	
-    	let tracklen = $player.ytPlayer.getDuration();
-    	let curtime = $player.ytPlayer.getCurrentTime();
+    	let tracklen = this.window.ytPlayer.getDuration();
+    	let curtime = this.window.ytPlayer.getCurrentTime();
     	let newtime = curtime + interValSec;
     	if(tracklen <= 0) return;
     	else if(newtime > tracklen) newtime = tracklen;
-    	$player.ytPlayer.seekTo(newtime, true);	
+    	this.window.ytPlayer.seekTo(newtime, true);	
     }
     
     rewind(interValSec = 5) {
     	
-    	interValSec = $player.calculateSeekInterVal(interValSec);
+    	interValSec = this.calculateSeekInterVal(interValSec);
     	
-    	let tracklen = $player.ytPlayer.getDuration();
-    	let curtime = $player.ytPlayer.getCurrentTime();
+    	let tracklen = this.window.ytPlayer.getDuration();
+    	let curtime = this.window.ytPlayer.getCurrentTime();
     	let newtime = curtime - interValSec;
     	if(tracklen <= 0) return;
     	else if(newtime < 0) newtime = 0;
-    	$player.ytPlayer.seekTo(newtime, true);
+    	this.window.ytPlayer.seekTo(newtime, true);
     }
 }

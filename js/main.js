@@ -31,7 +31,7 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue,
 			PageController.analytics = analytics;
 		});
 
-		$player.initPlayer(function() {
+		$player.initWindow(function() {
 			$player.autoPlay = true;
 			$page.initURL();
 		});

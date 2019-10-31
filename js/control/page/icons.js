@@ -16,7 +16,6 @@ class Icon {
         this.animated = this.name + ' faa-flash animated';
         this.animatedBig = this.animated + ' fa-2x';
         this.animatedBigger = this.animated + ' fa-3x';
-
     }
 
     isIcon(elem, big = false) {
