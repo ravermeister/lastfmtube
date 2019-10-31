@@ -65,6 +65,9 @@ requirejs
 					deps : [ 'hotkeys', 'add2any', 'vuedata' ]
 				},
 				
+				'control/page/menu' : {
+					deps : [ 'icons' ]
+				},
 			}
 		});
 
