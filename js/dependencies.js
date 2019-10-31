@@ -67,12 +67,14 @@ requirejs
 			}
 		});
 
-define('theme', [
+define('themeLibs', [
 	'themeDir/browser.min',
 	'themeDir/breakpoints.min',
 	'themeDir/util',
-	'themeDir/main',
-	
+	'themeDir/main'
+]);
+
+define ('theme', [
 	'vue/page/page',
 	'vue/player/player',
 	'vue/playlist/header',
