@@ -107,7 +107,7 @@ class PlayerController {
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
         if(curNr!==null) {
-        	console.log(curNr,'<<< curnr perpage >>>', tracksPerPage);
+        	console.log(curNr,'<<< curnr perpage >>>', tracksPerPage, 'raw per page', $page.settings.general.tracks_perpage);
         }
         console.log('>>> next', nextIndex);
         if (isLast || nextIndex >= tracks.length) {
