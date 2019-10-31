@@ -79,9 +79,9 @@ requirejs
 				// html5 theme dependencies
 
 				'theme' : {
-//					deps : [ 'themeJsDir/browser.min',
-//							'themeJsDir/breakpoints.min', 'themeJsDir/util',
-//							'themeJsDir/main' ]
+					deps : [ 'themeJsDir/browser.min',
+							'themeJsDir/breakpoints.min', 'themeJsDir/util',
+							'themeJsDir/main' ]
 				},
 
 				'libvue' : {
