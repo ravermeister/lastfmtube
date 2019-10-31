@@ -69,6 +69,11 @@ requirejs
 		});
 
 define('theme', [
+	'themeDir/browser.min',
+	'themeDir/breakpoints.min',
+	'themeDir/util',
+	'themeDir/main',
+	
 	'vue/page/page',
 	'vue/player/player',
 	'vue/playlist/header',
@@ -79,9 +84,9 @@ define('theme', [
 ]);
 
 define('page', [
-	'page/page',
-	'player/player',
-	'playlist/playlist'
+	'control/page/page',
+	'control/player/player',
+	'control/playlist/playlist'
 ]);
 
 require([ 'theme' ]);
