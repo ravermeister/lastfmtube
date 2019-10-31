@@ -8,29 +8,29 @@
 /***/
 class Menu {
 
-    constructor() {
+    constructor(icons) {
 
         this.youtube = {
-            LOGO: Icons.youtube.big,
+            LOGO: icons.youtube.big,
             TEXT: 'YouTube',
             PAGE: 'video'
         };
 
         this.search = {
-            LOGO: Icons.search.big,
+            LOGO: icons.search.big,
             TEXT: 'Search',
             PAGE: 'playlist',
             LDATA: 'search'
         };
 
         this.lastfm = {
-            LOGO: Icons.headphones.big,
+            LOGO: icons.headphones.big,
             TEXT: 'Last.fm',
             PAGE: 'playlist'
         };
 
         this.userlist = {
-            LOGO: Icons.user.big,
+            LOGO: icons.user.big,
             TEXT: 'My Songs',
             PAGE: 'playlist'
         };
