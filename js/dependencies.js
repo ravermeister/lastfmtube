@@ -92,8 +92,8 @@ define('page', [
 	'control/page/menu',
 	'control/page/page',
 	'control/player/track',
-	'control/player/timer',
 	'control/player/window',
+	'control/player/timer',
 	'control/player/player',
 	'control/playlist/playlist'
 ]);
