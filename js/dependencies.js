@@ -64,10 +64,6 @@ requirejs
 				'control/page/page' : {
 					deps : [ 'hotkeys', 'add2any', 'vuedata' ]
 				},
-				
-				'control/player/timer' : {
-					deps: ['control/player/window']
-				}
 			}
 		});
 

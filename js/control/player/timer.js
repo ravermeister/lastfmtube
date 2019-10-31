@@ -29,7 +29,9 @@ class ChartTimer {
         let control = this;
 
         player.addStateChangeListener(function (event) {
-            switch (event.data) {
+        	console.log(player.playerWindow);
+        	console.log(PlayerWindow.status)
+            switch (event.data) {            	
                 case PlayerWindow.status.PLAYING.ID:
                     control.start();
                     break;
