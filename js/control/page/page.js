@@ -40,7 +40,6 @@ class PageController {
             }
         };
 
-        PageController.TRACKS_PER_PAGE = 25; // in settings.ini        
         PageController.analytics = null;
         PageController.icons = new Icons();
         this.settings = {};
@@ -367,8 +366,8 @@ class PageController {
                             curNr = parseInt(curNr) - parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE);
                         }
 
-                        let curPage = (curNr / PageController.TRACKS_PER_PAGE) | 0;
-                        if ((curNr % PageController.TRACKS_PER_PAGE) > 0) curPage++;
+                        let curPage = (curNr / $page.settings.general.tracks_perpage) | 0;
+                        if ((curNr % $page.settings.general.tracks_perpage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
                     }
 
@@ -510,7 +509,7 @@ class PageController {
 			success: function(json) {
 				if(json && json.data && json.data.value) {
 					let conf = json.data.value;				
-					$player.settings = conf;         
+					this.settings = conf;         
 				}
 			},
 			error: function(xhr) {
@@ -765,9 +764,9 @@ class PageController {
                         }
                     }
 
-                    if ($page.myVues.playlist.content.$data.TRACKS.length > PageController.TRACKS_PER_PAGE) {
+                    if ($page.myVues.playlist.content.$data.TRACKS.length > $page.settings.general.tracks_perpage) {
                         $page.myVues.playlist.content.$data.TRACKS.splice(
-                            PageController.TRACKS_PER_PAGE,
+                        	$page.settings.general.tracks_perpage,
                             $page.myVues.playlist.content.$data.TRACKS.length
                         );
 
