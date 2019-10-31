@@ -341,11 +341,11 @@ class PlayerController {
     }
 
     isPlaying() {
-        return this.playerWindow.ytPlayer.getPlayerState() === this.playerWindow.PLAYING.ID;
+        return this.playerWindow.ytPlayer.getPlayerState() === this.playerWindow.status.PLAYING.ID;
     }
 
     isPaused() {
-        return this.playerWindow.ytPlayer.getPlayerState() === this.playerWindow.PAUSED.ID;
+        return this.playerWindow.ytPlayer.getPlayerState() === this.playerWindow.status.PAUSED.ID;
     }
     
     togglePlay(){
