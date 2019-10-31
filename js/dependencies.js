@@ -55,7 +55,7 @@ requirejs
 				vuePlaylist : [ 'vue/playlist/header', 'vue/playlist/menu',
 						'vue/playlist/content', 'vue/playlist/playlist' ],
 				// vue instance userlist
-				vueUserlistDir : [ 'vue/userlist/userlist' ],
+				vueUserlist : [ 'vue/userlist/userlist' ],
 
 				// control instance page dir
 				ctrlPage : [ 'control/page/page' ],
@@ -79,9 +79,9 @@ requirejs
 				// html5 theme dependencies
 
 				'theme' : {
-					deps : [ 'themeJsDir/browser.min',
-							'themeJsDir/breakpoints.min', 'themeJsDir/util',
-							'themeJsDir/main' ]
+//					deps : [ 'themeJsDir/browser.min',
+//							'themeJsDir/breakpoints.min', 'themeJsDir/util',
+//							'themeJsDir/main' ]
 				},
 
 				'libvue' : {
