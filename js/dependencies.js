@@ -66,7 +66,7 @@ requirejs
 				},
 				
 				'control/page/menu' : {
-					deps : [ 'icons' ]
+					deps : [ 'control/page/icons' ]
 				},
 			}
 		});
