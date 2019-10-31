@@ -36,17 +36,17 @@ class PlayerController {
         
         this.addStateChangeListener(function (event) {
             switch (event.data) {
-                case player.ytStatus.PLAYING.ID:
+                case player.playerWindow.status.PLAYING.ID:
                     player.errorLoopCount = 0;
                     player.setCurrentState('play');
                     break;
-                case player.ytStatus.PAUSED.ID:
+                case player.playerWindow.status.PAUSED.ID:
                 	player.setCurrentState('pause');
                     break;
-                case player.ytStatus.BUFFERING.ID:
+                case player.playerWindow.status.BUFFERING.ID:
                 	player.setCurrentState('load');
                     break;
-                case player.ytStatus.ENDED.ID:
+                case player.playerWindow.status.ENDED.ID:
                 	player.setCurrentState('stop');
                 	player.loadNextSong();
                     break;
