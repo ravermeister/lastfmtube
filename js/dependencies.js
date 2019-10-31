@@ -18,31 +18,54 @@ requirejs
 
 				// requirejs addon
 				domReady : [
-						'//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
-						'requirejs/domReady' ],
+					'//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
+					'requirejs/domReady' 
+				],
 
 				// jquery
-				jquery : [ '//unpkg.com/jquery/dist/jquery.min',
-						'jquery/jquery' ],
+				jquery : [ 
+					'//unpkg.com/jquery/dist/jquery.min',
+					'jquery/jquery' 
+				],
 
 				// the Vue lib
 				Vue : [ '//unpkg.com/vue/dist/vue.min', 'vue/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
-				vue : [ '//unpkg.com/require-vuejs/dist/require-vuejs.min',
-						'vue/vue-requirejs.min' ],
+				vue : [ 
+					'//unpkg.com/require-vuejs/dist/require-vuejs.min',
+					'vue/vue-requirejs.min' 
+				],
 
+				// Vue instance Page
+				vuePage: ['vue/instances/page'],
+				
+				// Vue instance playlist
+				vuePlaylist: ['vue/instances/playlist'],
+				
+				// Vue instance userlist
+				vueUserlist: ['vue/instances/userlist'],
+				
+				//Vue instance video
+				vueVideo: ['vue/instances/video'],
+				
 				// Storage js
-				Storages : [ '//unpkg.com/js-storage/js.storage.min',
-						'jstorage/js.storage.min' ],
+				Storages : [ 
+					'//unpkg.com/js-storage/js.storage.min',
+					'jstorage/js.storage.min' 
+				],
 
 				// share buttons
-				add2any : [ '//static.addtoany.com/menu/page',
-						'add2any/add2any.min' ],
+				add2any : [ 
+					'//static.addtoany.com/menu/page',
+					'add2any/add2any.min'
+				],
 
 				// hotkeys
-				hotkeys : [ '//unpkg.com/hotkeys-js/dist/hotkeys.min',
-						'hotkeys/hotkeys.min' ],
+				hotkeys : [ 
+					'//unpkg.com/hotkeys-js/dist/hotkeys.min',
+					'hotkeys/hotkeys.min' 
+				],
 
 				// themes
 				themes : [ '../../themes/dimension/assets/js' ]
@@ -68,10 +91,20 @@ requirejs
 			}
 		});
 
-define('theme', [ 'themes/browser.min', 'themes/breakpoints.min',
-		'themes/util', 'themes/main' ]);
-define('libvue', [ 'jquery', 'Vue', 'libvue/libvue-mainpage',
-		'libvue/libvue-playlist', 'libvue/libvue-video',
-		'libvue/libvue-userlist' ]);
+define('theme', [ 
+	'themes/browser.min', 
+	'themes/breakpoints.min',
+	'themes/util', 
+	'themes/main' 
+]);
+define('libvue', [ 
+	'jquery', 
+	'Vue', 
+	'vueVideo',
+	'vuePage',
+	'vuePlaylist',
+	'vueUserlist',
+	''
+]);
 
 require([ 'theme' ]);
