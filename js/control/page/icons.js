@@ -63,7 +63,7 @@ class Icons {
         ];
 	}
 	
-	static getIcon (elem, big) {
+	getIcon (elem, big) {
         for (let cnt = 0; cnt < this.list.length; cnt++) {
             if (this.list[cnt].isIcon(elem, big)) {
                 return this.list[cnt];
@@ -72,7 +72,7 @@ class Icons {
         return null;
     }
 	
-	static getPlaylistIcon(playlist = null) {
+	 getPlaylistIcon(playlist = null) {
         if (playlist === null) return this.diamond.big;
         switch (playlist) {
             case 'topsongs':
