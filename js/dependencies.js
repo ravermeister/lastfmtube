@@ -18,61 +18,51 @@ requirejs
 
 				// requirejs addon
 				domReady : [
-					'//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
-					'lib/requirejs/domReady' 
-				],
+						'//cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min',
+						'lib/requirejs/domReady' ],
 
 				// jquery
-				jquery : [ 
-					'//unpkg.com/jquery/dist/jquery.min',
-					'lib/jquery/jquery' 
-				],
-				
+				jquery : [ '//unpkg.com/jquery/dist/jquery.min',
+						'lib/jquery/jquery' ],
+
 				// the Vue lib
 				Vue : [ '//unpkg.com/vue/dist/vue.min', 'lib/vuejs/vue.min' ],
 				// Vue RequireJS loader
 				// required for using vue components
-				vue : [ 
-					'//unpkg.com/require-vuejs/dist/require-vuejs.min',
-					'lib/vuejs/vue-requirejs.min' 
-				],
-				
+				vue : [ '//unpkg.com/require-vuejs/dist/require-vuejs.min',
+						'lib/vuejs/vue-requirejs.min' ],
+
 				// Storage js
-				Storages : [ 
-					'//unpkg.com/js-storage/js.storage.min',
-					'lib/jstorage/js.storage.min' 
-				],
+				Storages : [ '//unpkg.com/js-storage/js.storage.min',
+						'lib/jstorage/js.storage.min' ],
 
 				// share buttons
-				add2any : [ 
-					'//static.addtoany.com/menu/page',
-					'lib/add2any/add2any.min'
-				],
+				add2any : [ '//static.addtoany.com/menu/page',
+						'lib/add2any/add2any.min' ],
 
 				// hotkeys
-				hotkeys : [ 
-					'//unpkg.com/hotkeys-js/dist/hotkeys.min',
-					'lib/hotkeys/hotkeys.min' 
-				],
-				
+				hotkeys : [ '//unpkg.com/hotkeys-js/dist/hotkeys.min',
+						'lib/hotkeys/hotkeys.min' ],
+
 				// theme JS Dir
 				themeJsDir : [ '../themes/dimension/assets/js' ],
-				
-				// vue instance page dir
-				vuePageDir : ['vue/page'],
-				// vue instance player dir
-				vuePlayerDir : ['vue/player'],
-				// vue instance playlist dir
-				vuePlaylistDir : ['vue/playlist'],
-				// vue instance userlist dir
-				vueUserlistDir : ['vue/userlist'],
-				
+
+				// vue instance page
+				vuePage : [ 'vue/page/page' ],
+				// vue instance player
+				vuePlayer : [ 'vue/player/player' ],
+				// vue instance playlist
+				vuePlaylist : [ 'vue/playlist/header', 'vue/playlist/menu',
+						'vue/playlist/content', 'vue/playlist/playlist' ],
+				// vue instance userlist
+				vueUserlistDir : [ 'vue/userlist/userlist' ],
+
 				// control instance page dir
-				ctrlPageDir : ['control/page'],
+				ctrlPage : [ 'control/page/page' ],
 				// control instance player dir
-				ctrlPlayerDir : ['control/player'],
+				ctrlPlayer : [ 'control/player/player' ],
 				// control instance playlist dir
-				ctrlPlaylistDir : ['control/playlist'],
+				ctrlPlaylist : [ 'control/playlist/playlist' ],
 			},
 
 			shim : {
@@ -87,37 +77,22 @@ requirejs
 					deps : [ 'jquery' ]
 				},
 				// html5 theme dependencies
-				
-				'theme': {
-					deps: [
-						'themeJsDir/browser.min', 
-						'themeJsDir/breakpoints.min',
-						'themeJsDir/util', 
-						'themeJsDir/main' 
-					]
+
+				'theme' : {
+					deps : [ 'themeJsDir/browser.min',
+							'themeJsDir/breakpoints.min', 'themeJsDir/util',
+							'themeJsDir/main' ]
 				},
-				
+
 				'libvue' : {
-					deps : [
-						'jquery', 'Vue', 
-						'vuePageDir/page.js',
-						'vuePlayerDir/player',
-						'vuePlaylistDir/header',
-						'vuePlaylistDir/menu',
-						'vuePlaylistDir/content',
-						'vuePlaylistDir/playlist',						
-						'vueUserlistDir/userlist'
-					]
+					deps : [ 'jquery', 'Vue', 'vuePageDir/page.js',
+							'vuePlayer', 'vuePlaylist', 'vueUserlist' ]
 				},
-				
+
 				'page' : {
-					deps : [ 
-						'libvue', 'add2any', 'hotkeys', 
-						'ctrlPageDir/page', 
-						'ctrlPlayerDir/player',
-						'ctrlPlaylistDir/playlist'
-					]
-				},	
+					deps : [ 'libvue', 'add2any', 'hotkeys', 'ctrlPage',
+							'ctrlPlayer', 'ctrlPlaylist' ]
+				},
 			}
 		});
 
