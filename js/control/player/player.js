@@ -325,7 +325,6 @@ class PlayerController {
             
             
             this.errorLoopCount++;
-            console.log(this.loadDirectionOnError);
             
             if ('next' === this.loadDirectionOnError) {
                 this.loadNextSong();
