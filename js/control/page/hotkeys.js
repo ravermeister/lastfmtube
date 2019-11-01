@@ -14,7 +14,7 @@ class HotKeys {
 	
 	static init() {
 		
-		if(Hotkeys.initialized === true) return;
+		if(HotKeys.initialized === true) return;
 		
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
