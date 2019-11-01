@@ -8,7 +8,14 @@
 /***/
 class HotKeys {
 	
+	constructor(){
+		const initialized = false;
+	}
+	
 	static init() {
+		
+		if(Hotkeys.initialized === true) return;
+		
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
 		hotkeys.filter = function(event){
@@ -90,5 +97,8 @@ class HotKeys {
     	/**
 		 * TODO: add hotkeys for search
 		 */
+    	
+    	
+		HotKeys.initialized = true;
 	}
 }
