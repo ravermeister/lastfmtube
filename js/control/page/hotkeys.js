@@ -15,6 +15,11 @@ class HotKeys {
 		this.ytPlayerInit = false;
 	}
 	
+	static init(){
+		HotKeys.initGlobal();
+		HotKeys.initYtPlayer();
+	}
+	
 	static initGlobal() {
 		
 		if(HotKeys.globalInit === true) return;
