@@ -108,6 +108,10 @@ class PlayerController {
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
 
+        if(this.loadNextOnError) {
+        	this.loadDirectionOnError = 'next';
+        }
+        
         if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
             let curPage = playlist.$data.CUR_PAGE;
@@ -116,10 +120,6 @@ class PlayerController {
             if ((curPage + 1) > maxPages) curPage = 1;
             else curPage++;
 
-            if(this.loadNextOnError) {
-            	this.loadDirectionOnError = 'next';
-            }
-            
             let self = this;
             $page.loadList(curPage, user, function (success) {
                 try {
