@@ -6,6 +6,79 @@
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
 class HotKeys {
+	
+	static initPlayerWindow(){
+		let ytplayer = $('#player-container');
+    	
+    	hotkeys('enter', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.togglePlay();    		
+    	});
+		
+    	hotkeys('ctrl+1', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('video')
+    	});
+    	
+    	hotkeys('ctrl+2', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('lastfm');
+    	});
+    	
+    	hotkeys('ctrl+3', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('personal');    		
+    	});
+    	
+    	hotkeys('ctrl+4', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('topsongs');    		
+    	});
+    	
+    	hotkeys('ctrl+5', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('users');    		
+    	});
+    	
+    	hotkeys('ctrl+left', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadPreviousSong();    		
+    	});
+    	
+    	hotkeys('ctrl+right', {
+    		element: ytPlayer
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadNextSong();    		
+    	}); 
+    	
+    	/**
+		 * TODO: add hotkeys for search
+		 */
+	}
+	
 	static init() {
 		
 		// always use hotkeys for all elements.
