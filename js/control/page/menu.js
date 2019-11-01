@@ -46,8 +46,6 @@ class Menu {
             TEXT: 'Top User',
             PAGE: 'playlist'
         };
-        
-        this.live
 
         this.defaultMenu = [
             this.youtube,
