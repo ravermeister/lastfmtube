@@ -8,7 +8,7 @@
 /***/
 class HotKeys {
 	
-	static initGlobal(){
+	static initGlobal() {
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
 		hotkeys.filter = function(event){
@@ -165,7 +165,7 @@ class HotKeys {
 	}
 	
 	static init() {
-		initGlobal();
-		initPlayerWindow();
+		Hotkeys.initGlobal();
+		Hotkeys.initPlayerWindow();
 	}
 }
