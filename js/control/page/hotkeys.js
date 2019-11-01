@@ -8,13 +8,16 @@
 /***/
 class HotKeys {
 	
+	
+	
 	constructor(){
-		const initialized = false;
+		this.globalInit = false;
+		this.ytPlayerInit = false;
 	}
 	
-	static init() {
+	static initGlobal() {
 		
-		if(HotKeys.initialized === true) return;
+		if(HotKeys.globalInit === true) return;
 		
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
@@ -99,6 +102,64 @@ class HotKeys {
 		 */
     	
     	
-		HotKeys.initialized = true;
+		HotKeys.globalInit = true;
+	}
+	
+	static initYtPlayer(){
+		
+		if(HotKeys.ytPlayerInit == true) return;
+		
+		let ytelem = $('player-container');
+		console.log('>>>',ytelem);
+		
+    	hotkeys('ctrl+left', {
+    		element: ytelem
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadPreviousSong();    		
+    	});
+
+    	hotkeys('ctrl+right', {
+    		element: ytelem
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$player.loadNextSong();    		
+    	});   
+		
+    	hotkeys('ctrl+2', {
+    		element: ytelem
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('lastfm');
+    	});
+    	
+    	hotkeys('ctrl+3', {
+    		element: ytelem
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('personal');    		
+    	});
+    	
+    	hotkeys('ctrl+4', {
+    		element: ytelem
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('topsongs');    		
+    	});
+    	
+    	hotkeys('ctrl+5', {
+    		element: ytelem
+    	}, function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		$page.loadPage('users');    		
+    	});
+		
+		HotKeys.ytPlayerInit = true;
 	}
 }
