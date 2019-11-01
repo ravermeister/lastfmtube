@@ -30,6 +30,7 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 			});
 
 			$player.initWindow(function() {
+				HotKeys.init();
 				$player.autoPlay = true;
 				$page.initURL();
 			});

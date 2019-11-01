@@ -22,6 +22,7 @@ class PlayerController {
         this.isReady = false;
         this.autoPlay = false;
         this.loadNextOnError = true;
+        this.loadDirectionOnError = null;
         this.maxErrorLoop = 5;
         this.lfmUser = '';
         this.errorLoopCount = 0;
@@ -107,6 +108,10 @@ class PlayerController {
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
 
+        if(this.loadNextOnError) {
+        	this.loadDirectionOnError = 'next';
+        }
+        
         if (isLast || nextIndex >= tracks.length) {
             let playlist = $page.myVues.playlist.menu;
             let curPage = playlist.$data.CUR_PAGE;
@@ -144,6 +149,10 @@ class PlayerController {
         		$page.settings.general.tracksPerPage) === parseInt(curTrack.NR);
         let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracksPerPage) - 2;
 
+        if(this.loadNextOnError) {
+        	this.loadDirectionOnError = 'previous';
+        }
+        
         if (isLast) {
             prevIndex = tracks.length - 2;
         } else if (prevIndex < 0) {
@@ -316,8 +325,11 @@ class PlayerController {
             
             
             this.errorLoopCount++;
-            if (this.loadNextOnError) {
+            
+            if ('next' === this.loadDirectionOnError) {
                 this.loadNextSong();
+            } else if('previous' === this.loadDirectionOnError) {
+            	this.loadPreviousSong();
             }
         }
     }
