@@ -8,8 +8,6 @@
 /***/
 class HotKeys {
 	
-	
-	
 	constructor(){
 		this.globalInit = false;
 	}
@@ -99,14 +97,6 @@ class HotKeys {
     	/**
 		 * TODO: add hotkeys for search
 		 */
-    	
-    	$(document).ready(function(){
-        	let ytelem = $('#player-container');
-        	console.log(ytelem);
-            $(ytelem).on("mousedown, mouseup, click", function(){
-            	alert("Click detected inside iframe.");
-            });
-    	});
     	
 		HotKeys.globalInit = true;
 	}
