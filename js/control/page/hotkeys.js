@@ -165,7 +165,7 @@ class HotKeys {
 	}
 	
 	static init() {
-		Hotkeys.initGlobal();
-		Hotkeys.initPlayerWindow();
+		HotKeys.initGlobal();
+		HotKeys.initPlayerWindow();
 	}
 }
