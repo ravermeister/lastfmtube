@@ -100,13 +100,15 @@ class HotKeys {
 		 * TODO: add hotkeys for search
 		 */
     	
-    	let ytelem = $('#player-container');
-    	console.log(ytelem);
-        $(ytelem).load(function(){
-            $(this).contents().on("mousedown, mouseup, click", function(){
-                alert("Click detected inside iframe.");
+    	$(document).ready(function(){
+        	let ytelem = $('#player-container');
+        	console.log(ytelem);
+            $(ytelem).load(function(){
+                $(this).contents().on("mousedown, mouseup, click", function(){
+                    alert("Click detected inside iframe.");
+                });
             });
-        });
+    	});
     	
 		HotKeys.globalInit = true;
 	}
