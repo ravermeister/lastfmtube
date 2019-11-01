@@ -100,8 +100,9 @@ class HotKeys {
 		 * TODO: add hotkeys for search
 		 */
     	
-    	
-        $("#player-container").load(function(){
+    	let ytelem = $('#player-container');
+    	console.log(ytelem);
+        $(ytelem).load(function(){
             $(this).contents().on("mousedown, mouseup, click", function(){
                 alert("Click detected inside iframe.");
             });
