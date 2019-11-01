@@ -114,7 +114,7 @@ class HotKeys {
 		
 		if(HotKeys.ytPlayerInit == true) return;
 		
-		let ytelem = $('player-container');
+		let ytelem = $('#player-container');
 		console.log('>>>',ytelem);
 		
     	hotkeys('ctrl+left', {
