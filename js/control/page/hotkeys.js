@@ -9,12 +9,12 @@
 class HotKeys {
 	
 	constructor(){
-		const initialized = false;
+		this.globalInit = false;
 	}
-	
+		
 	static init() {
 		
-		if(HotKeys.initialized === true) return;
+		if(HotKeys.globalInit === true) return;
 		
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
@@ -98,7 +98,6 @@ class HotKeys {
 		 * TODO: add hotkeys for search
 		 */
     	
-    	
-		HotKeys.initialized = true;
+		HotKeys.globalInit = true;
 	}
 }
