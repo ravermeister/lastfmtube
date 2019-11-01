@@ -94,6 +94,7 @@ class HotKeys {
 	
 	static initPlayerWindow(){
 		let ytPlayer = $('#player-container');
+    	console.log(ytPlayer);
     	
     	hotkeys('enter', {
     		element: ytPlayer
