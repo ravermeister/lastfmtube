@@ -101,6 +101,12 @@ class HotKeys {
 		 */
     	
     	
+        $("#player-container").load(function(){
+            $(this).contents().on("mousedown, mouseup, click", function(){
+                alert("Click detected inside iframe.");
+            });
+        });
+    	
 		HotKeys.globalInit = true;
 	}
 }
