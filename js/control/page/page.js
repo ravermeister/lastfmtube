@@ -436,7 +436,7 @@ class PageController {
     init(initReadyCallBack) {
     	this.initSettings();
     	this.initShareButtons();
-    	Hotkeys.init();
+    	HotKeys.init();
     	this.initMyVues();
         this.setMainPageLoading(true);
         
