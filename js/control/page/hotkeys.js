@@ -103,7 +103,7 @@ class HotKeys {
     	$(document).ready(function(){
         	let ytelem = $('#player-container');
         	console.log(ytelem);
-            $(ytelem).contents().on("mousedown, mouseup, click", function(){
+            $(ytelem).on("mousedown, mouseup, click", function(){
             	alert("Click detected inside iframe.");
             });
     	});
