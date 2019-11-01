@@ -12,7 +12,6 @@ class HotKeys {
 	
 	constructor(){
 		this.globalInit = false;
-		this.ytPlayerInit = false;
 	}
 		
 	static init() {
