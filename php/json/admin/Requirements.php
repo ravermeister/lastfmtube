@@ -8,6 +8,7 @@
  *******************************************************************************/
 namespace LastFmTube\Json\Admin;
 
+use Exception;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
@@ -15,10 +16,10 @@ use LastFmTube\Util\Functions;
 class Requirements extends DefaultJson {
 
      public function __construct() {
-          parent::__construct('requirements');
+          parent::__construct();
      }
 
-     public function get($getvars) {
+     public function get() {
           $settings = Functions::getInstance()->getSettings();
           $data = array();
           $data['req_php_version'] = version_compare(phpversion(), '5.6.0');
@@ -26,9 +27,14 @@ class Requirements extends DefaultJson {
 
           $data['req_yt_api'] = strlen(trim($settings['youtube']['apikey'])) > 0;
           $data['req_lfm_api'] = (strlen(trim($settings['lastfm']['apikey'])) > 0) && (strlen(trim($settings['lastfm']['user'])) > 0);
-          $data['req_db_con'] = Db::getInstance()->isConnected();
+         try {
+             $data['req_db_con'] = Db::getInstance()->isConnected();
+         } catch (Exception $e) {
+             $data['req_db_con'] = false;
+             Functions::getInstance()->logMessage('Error creating db Connection: '. $e->getMessage());
+         }
 
-          return $this->jsonData($data, 'requirements_check');
+         return $this->jsonData($data, 'requirements_check');
      }
 
      public static function process($returnOutput = false) {}

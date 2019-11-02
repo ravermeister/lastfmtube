@@ -1,35 +1,37 @@
 {
-	"name": "ravermeister/lastfm-tube",
-	"require": {
-		"php": ">=5.6",
-		"ext-pdo": "*",
-		"ext-json": "*",
-		"ext-curl": "*",
-		"ext-intl": "*",
-		"google/apiclient": "~2.4",
-		"kub-at/php-simple-html-dom-parser": "~1.9",
-		"icamys/php-sitemap-generator": "~1.2"
+	"name" : "ravermeister/lastfm-tube",
+	"require" : {
+		"php" : ">=5.6",
+		"ext-pdo" : "*",
+		"ext-json" : "*",
+		"ext-curl" : "*",
+		"ext-intl" : "*",
+		"ext-ctype": "*",
+		"google/apiclient" : "~2.4",
+		"kub-at/php-simple-html-dom-parser" : "~1.9",
+		"icamys/php-sitemap-generator" : "~1.2"
+    },
+	"support" : {
+		"email" : "jonny@rimkus.it",
+		"forum" : "https://rimkus.it",
+		"source" : "https://github.com/ravermeister/lastfmtube"
 	},
-	"support": {
-		"email": "jonny@rimkus.it",
-		"forum": "http://www.rimkus.it"
-	},
-	"autoload": {
-		"psr-4": {
-			"LastFmTube\\Api\\" : "php/api","LastFmTube\\Util\\":"php/util",
+	"autoload" : {
+		"psr-4" : {
+			"LastFmTube\\Api\\" : "php/api",
+			"LastFmTube\\Util\\" : "php/util",
 			"LastFmTube\\Json\\" : "php/json"
 		}
 	},
-	"description": "Lastfm YouTube Radio",
-	"homepage": "http://lastfm.rimkus.it",
-	"license": "http://www.wtfpl.net",
-	"minimum-stability": "stable",
-	"authors": [
-		{
-			"name": "Jonny Rimkus",
-			"email": "jonny@rimkus.it",
-			"homepage": "https://rimkus.it",
-			"role": "Software Developer"
+	"description" : "Lastfm YouTube Radio",
+	"homepage" : "http://lastfm.rimkus.it",
+	"license" : "http://www.wtfpl.net",
+	"minimum-stability" : "stable",
+	"authors" : [{
+			"name" : "Jonny Rimkus",
+			"email" : "jonny@rimkus.it",
+			"homepage" : "https://rimkus.it",
+			"role" : "Software Developer"
 		}
 	]
 }

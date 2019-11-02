@@ -7,13 +7,16 @@
  *******************************************************************************/
 /***/
 
+let $player = null;
+let $playlist = null;
+let $page = null;
+
 // Enable navigation prompt, set to null to disable
 window.onbeforeunload = function() {
 	return true;
 };
 
-require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
-		Storages) {
+require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 
 	window.Storages = Storages;
 	window.Vue = Vue;
@@ -22,19 +25,19 @@ require([ 'Vue', 'Storages', 'player', 'page', 'playlist' ], function(Vue,
 	$playlist = new PlaylistController();
 	$page = new PageController();
 
-	$page.init();
+	$page.init(function() {
+		$playlist.loadLastFmList(1, null, function() {
 
-	$playlist.loadLastFmList(1, null, function() {
+			// maybe set it to page...
+			require([ 'analytics' ], function(analytics) {
+				PageController.analytics = analytics;
+			});
 
-		// maybe set it to page...
-		require([ 'analytics' ], function(analytics) {
-			PageController.analytics = analytics;
+			$player.initWindow(function() {
+				HotKeys.init();
+				$player.autoPlay = true;
+				$page.initURL();
+			});
 		});
-
-		$player.initPlayer(function() {
-			$player.autoPlay = true;
-			$page.initURL();
-		});
-
 	});
 });

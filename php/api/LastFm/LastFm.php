@@ -199,8 +199,8 @@ class LastFm {
 
      function getData() {
           $html = $this->getDOM();
-          if (empty($html)) return null;
-          return $html->outertext;
+          if (empty($html) ) return null;
+          else return $html->outertext;
      }
 
      /**

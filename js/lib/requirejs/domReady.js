@@ -12,21 +12,21 @@
 define(function () {
     'use strict';
 
-    var isTop, testDiv, scrollIntervalId,
+    let isTop, testDiv, scrollIntervalId,
         isBrowser = typeof window !== "undefined" && window.document,
         isPageLoaded = !isBrowser,
         doc = isBrowser ? document : null,
         readyCalls = [];
 
     function runCallbacks(callbacks) {
-        var i;
+        let i;
         for (i = 0; i < callbacks.length; i += 1) {
             callbacks[i](doc);
         }
     }
 
     function callReady() {
-        var callbacks = readyCalls;
+        let callbacks = readyCalls;
 
         if (isPageLoaded) {
             //Call the DOM ready callbacks

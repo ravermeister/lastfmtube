@@ -21,7 +21,7 @@ abstract class DefaultJson implements JsonInterface {
 
      private $currentMethod = 'unknown';
 
-     protected function __construct($returnOutput = false) {
+     protected function __construct() {
           $this->apiName = get_class($this);
           $this->funcs = Functions::getInstance();
           $this->funcs->startSession();
@@ -105,6 +105,7 @@ abstract class DefaultJson implements JsonInterface {
                return null;
           }
      }
+
 
      public function get() {}
 

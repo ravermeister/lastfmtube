@@ -11,6 +11,7 @@ namespace LastFmTube\Util;
 use Exception;
 use PDO;
 use PDOException;
+use PDOStatement;
 
 /**
  * Class Db
@@ -45,7 +46,7 @@ class Db {
 
      /**
       *
-      * @var array|\PDOStatement
+      * @var array|PDOStatement
       */
      private $statements = false;
 
@@ -58,11 +59,9 @@ class Db {
 
      /**
       * Db constructor.
-      *
-      * @param bool $file
       * @throws Exception
       */
-     private function __construct($file = false) {
+     private function __construct() {
           $this->connect();
           $this->prepareQueries();
           // activate use of foreign key constraints
@@ -253,14 +252,14 @@ class Db {
                'DELETE_FIMPORT' => '
                 DELETE FROM fimport WHERE shasum = :shasum
                ',
-               
+
                'INSERT_FIMPORT' => '
                 INSERT INTO fimport VALUES(:fname, :shasum)
                ',
 
                'SET_FIMPORT' => '
                 REPLACE INTO fimport VALUES(:fname, :shasum)
-               '               
+               '
           );
 
           foreach ($this->statements as $prefix => $query) {

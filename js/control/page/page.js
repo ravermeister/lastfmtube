@@ -6,186 +6,6 @@
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
 /***/
-class Icon {
-    constructor(name) {
-
-        this.name = name;
-        this.big = this.name + ' fa-2x';
-        this.bigger = this.name + ' fa-3x';
-
-        this.animated = this.name + ' faa-flash animated';
-        this.animatedBig = this.animated + ' fa-2x';
-        this.animatedBigger = this.animated + ' fa-3x';
-
-    }
-
-    isIcon(elem, big = false) {
-        return $(elem).hasClass(big ? this.big : this.name);
-    }
-}
-
-class Menu {
-
-    constructor(icons) {
-
-        this.youtube = {
-            LOGO: icons.youtube.big,
-            TEXT: 'YouTube',
-            PAGE: 'video'
-        };
-
-        this.search = {
-            LOGO: icons.search.big,
-            TEXT: 'Search',
-            PAGE: 'playlist',
-            LDATA: 'search'
-        };
-
-        this.lastfm = {
-            LOGO: icons.headphones.big,
-            TEXT: 'Last.fm',
-            PAGE: 'playlist'
-        };
-
-        this.userlist = {
-            LOGO: icons.user.big,
-            TEXT: 'My Songs',
-            PAGE: 'playlist'
-        };
-
-        this.topsongs = {
-            LOGO: icons.star.big,
-            TEXT: 'Top Songs',
-            PAGE: 'playlist'
-        };
-
-        this.topuser = {
-            LOGO: icons.trophy.big,
-            TEXT: 'Top User',
-            PAGE: 'playlist'
-        };
-        
-        this.live
-
-        this.defaultMenu = [
-            this.youtube,
-            this.lastfm,
-            this.userlist,
-            this.topsongs,
-            this.topuser
-        ];
-
-    }
-
-    updateData(json) {
-        if ('undefined' !== typeof json.listmenu) json = json.listmenu;
-
-        if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
-        if ('undefined' !== typeof json.YTPLAYER.PAGE) this.youtube.PAGE = json.YTPLAYER.PAGE;
-        if ('undefined' !== typeof json.YTPLAYER.LDATA) this.youtube.LDATA = json.YTPLAYER.LDATA;
-
-        if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
-        if ('undefined' !== typeof json.LASTFM.PAGE) this.lastfm.PAGE = json.LASTFM.PAGE;
-        if ('undefined' !== typeof json.LASTFM.LDATA) this.lastfm.LDATA = json.LASTFM.LDATA;
-
-        if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
-        if ('undefined' !== typeof json.USERLIST.PAGE) this.userlist.PAGE = json.USERLIST.PAGE;
-        if ('undefined' !== typeof json.USERLIST.LDATA) this.userlist.LDATA = json.USERLIST.LDATA;
-
-        if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
-        if ('undefined' !== typeof json.TOPSONGS.PAGE) this.topsongs.PAGE = json.TOPSONGS.PAGE;
-        if ('undefined' !== typeof json.TOPSONGS.LDATA) this.topsongs.LDATA = json.TOPSONGS.LDATA;
-
-        if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
-        if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;
-        if ('undefined' !== typeof json.TOPUSER.LDATA) this.topuser.LDATA = json.TOPUSER.LDATA;
-
-    }
-
-    getMenuItem(playlist) {
-        switch (playlist) {
-            case 'youtube':
-            case 'video':
-            case 'video-container':
-                return this.youtube;
-            case 'topuser':
-                return this.topuser;
-            case 'topsongs':
-                return this.topsongs;
-            case 'userlist':
-                return this.userlist;
-            case 'search':
-            	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-            		return this.getMenuItem($page.SEARCH_RETURN_PLAYLIST);
-            	}
-                return this.search;
-            default:
-            case 'lastfm':
-            case 'default':
-            case 'playlist-container':
-                return this.lastfm;
-        }
-    }
-
-    getMenu(playlist) {
-
-        let list = [];
-        switch (playlist) {
-            case 'youtube':
-            case 'video':
-            case 'video-container':
-                list = [
-                    this.lastfm,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-                break;
-            case 'lastfm':
-            case 'default':
-            case 'playlist-container':
-                list = [
-                    this.youtube,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-                break;
-            case 'topuser':
-            case 'search':
-                list = [
-                    this.youtube,
-                    this.lastfm,
-                    this.topsongs,
-                    this.userlist
-                ];
-                break;
-            case 'topsongs':
-                list = [
-                    this.youtube,
-                    this.lastfm,
-                    this.userlist,
-                    this.topuser
-                ];
-                break;
-            case 'userlist':
-                list = [
-                    this.youtube,
-                    this.lastfm,
-                    this.topsongs,
-                    this.topuser
-                ];
-                break;
-            default:
-                list = [];
-                break;
-        }
-
-        return list;
-    }
-}
-
-
 class PageController {
 
     constructor() {
@@ -220,10 +40,8 @@ class PageController {
             }
         };
 
-        PageController.TRACKS_PER_PAGE = 25; // in settings.ini
-        PageController.icons = PageController.initIcons();
         PageController.analytics = null;
-
+        PageController.icons = new Icons();
         this.settings = {};
         this.isReady = false;
         this.PLAYLIST = null;
@@ -272,7 +90,7 @@ class PageController {
 
 	changeUrl(title, url) {
 	    if (typeof (history.pushState) != "undefined") {
-	        var obj = { Title: title, Url: url };
+	        let obj = { Title: title, Url: url };
 	        history.pushState(obj, obj.Title, obj.Url);
 	    } else {
 	        alert("Browser does not support HTML5.");
@@ -389,6 +207,7 @@ class PageController {
         });
     }
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
+       
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
 
@@ -439,7 +258,7 @@ class PageController {
     applyJQueryMethods() {
         $.urlParam = function (name, url = null) {
             let theUrl = url !== null ? url : window.location.href;
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
+            let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
             return results === null ? null : results[1] || null;
         };
         $.logXhr = function (xhr) {
@@ -454,7 +273,7 @@ class PageController {
     }
 
     applyVueMethods() {
-
+    	
         Vue.prototype.$applyData = function (json, log = false) {
 
             if (typeof this === 'undefined' || this === null) {
@@ -488,14 +307,12 @@ class PageController {
             return url;
         };
         Vue.prototype.$url = function (menu, log = false) {
-            let url = this.$url2(menu.PAGE, menu.PLAYLIST, log);
+            return this.$url2(menu.PAGE, menu.PLAYLIST, log);
             // console.log('for menu', menu);
-            return url;
         };
 
         Vue.prototype.$getMenuForPlaylist = function (playlist, json = null) {
-            let menu = $page.menu.getMenu(playlist);
-            return menu;
+            return $page.menu.getMenu(playlist);
         };
 
         Vue.prototype.$loadListMenu = function (menu, event) {
@@ -548,8 +365,8 @@ class PageController {
                             curNr = parseInt(curNr) - parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE);
                         }
 
-                        let curPage = (curNr / PageController.TRACKS_PER_PAGE) | 0;
-                        if ((curNr % PageController.TRACKS_PER_PAGE) > 0) curPage++;
+                        let curPage = (curNr / $page.settings.general.tracksPerPage) | 0;
+                        if ((curNr % $page.settings.general.tracksPerPage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
                     }
 
@@ -590,108 +407,23 @@ class PageController {
     }
     
     initShareButtons() {
-		var a2a_config = a2a_config || {};
-
+		// let a2a_config = a2a_config || {};
+    	let a2a_config = {};
 		a2a_config.linkname = "Last.fm YouTube Radio";
 		a2a_config.linkurl = "https://lastfm.rimkus.it";
 		a2a_config.locale = "en";
     }
     
-    initHotKeys() {
-    	    	
-    	hotkeys('left', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault();     		
-    		$player.rewind();    		
-    	});
+    initSettings() {    
+    	let page = this;
     	
-    	hotkeys('ctrl+left', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$player.loadPreviousSong();    		
-    	});
-    	
-    	hotkeys('right', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$player.fastForward();    		
-    	});
-    	
-    	hotkeys('ctrl+right', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$player.loadNextSong();    		
-    	});
-    	
-    	hotkeys('enter', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$player.togglePlay();    		
-    	});
-    	
-    	hotkeys('up', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$player.volumeUp();    		
-    	});
-    	
-    	hotkeys('down', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$player.volumeDown();    		
-    	});
-    	
-    	hotkeys('space', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$player.togglePlay();    		
-    	});
-
-    	hotkeys('ctrl+1', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$page.loadPage('video')
-    	});
-    	
-    	hotkeys('ctrl+2', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$page.loadPage('lastfm');
-    	});
-    	
-    	hotkeys('ctrl+3', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$page.loadPage('personal');    		
-    	});
-    	
-    	hotkeys('ctrl+4', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$page.loadPage('topsongs');    		
-    	});
-    	
-    	hotkeys('ctrl+5', function(event, handler){
-    		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$page.loadPage('users');    		
-    	});
-    	
-    	/**
-		 * TODO: add hotkeys for search
-		 */
-    	
-    }
-
-    initSettings() {    	
-		$.ajax({
+    	$.ajax({
 			url: 'php/json/page/Page.php?action=config',
 			dataType: 'json',
 			async: false,
 			success: function(json) {
 				if(json && json.data && json.data.value) {
-					let conf = json.data.value;				
-					$player.settings = conf;         
+					page.settings = json.data.value;				
 				}
 			},
 			error: function(xhr) {
@@ -701,11 +433,11 @@ class PageController {
     }
     
     init(initReadyCallBack) {
-    	$page.initSettings();
-    	$page.initShareButtons();
-    	$page.initHotKeys();
-    	$page.initMyVues();
-        $page.setMainPageLoading(true);
+    	this.initSettings();
+    	this.initShareButtons();
+    	this.initMyVues();
+        this.setMainPageLoading(true);
+        
         location.hash = '';
         
         let request = 'php/json/page/Page.php?action=init';
@@ -834,80 +566,6 @@ class PageController {
         };
     }
 
-
-    static initIcons() {
-        let icons = {};
-        icons.play = new Icon('fa-play');
-        icons.pause = new Icon('fa-pause');
-        icons.stop = new Icon('fa-stop');
-        icons.youtube = new Icon('fa fa-youtube');
-        icons.search = new Icon('fa fa-search');
-        icons.plus = new Icon('fa-plus');
-        icons.minus = new Icon('fa-minus');
-        icons.diamond = new Icon('fa fa-diamond');
-        icons.headphones = new Icon('fas fa-headphones');
-        icons.check = new Icon('fas fa-check');
-        icons.loader = new Icon('fa fa-spinner faa-spin animated');
-        icons.star = new Icon('fas fa-star');
-        icons.trophy = new Icon('fas fa-trophy');
-        icons.user = new Icon('fas fa-user');
-        icons.trash = new Icon('fas fa-trash-alt');
-        icons.save = new Icon('fas fa-save');
-
-
-        icons.list = [
-            icons.play,
-            icons.pause,
-            icons.stop,
-            icons.youtube,
-            icons.search,
-            icons.plus,
-            icons.minus,
-            icons.diamond,
-            icons.headphones,
-            icons.check,
-            icons.loader,
-            icons.star,
-            icons.trophy,
-            icons.user,
-            icons.trash,
-            icons.save
-        ];
-
-        icons.getIcon = function (elem, big) {
-            for (let cnt = 0; cnt < this.list.length; cnt++) {
-                if (this.list[cnt].isIcon(elem, big)) {
-                    return this.list[cnt];
-                }
-            }
-            return null;
-        };
-        icons.getPlaylistIcon = function (playlist = null) {
-            if (playlist === null) return this.diamond.big;
-            switch (playlist) {
-                case 'topsongs':
-                    return this.star;
-                case 'topuser':
-                case 'user-container':
-                    return this.trophy;
-                case 'userlist':
-                    return this.user;
-                case 'youtube':
-                    return this.youtube;
-                case 'search':
-                	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-                		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
-                	}
-                    return this.search;
-                default:
-                    return this.headphones;
-            }
-
-        };
-
-        return icons;
-    }
-
     static clone(src) {
         return Object.assign({}, src);
     }
@@ -959,6 +617,7 @@ class PageController {
     }
 
     saveChartTrack(needle, callback = null) {
+    	    	
         if (!needle.isValid()) {
             if (callback !== null) {
                 callback(false);
@@ -1020,9 +679,9 @@ class PageController {
                         }
                     }
 
-                    if ($page.myVues.playlist.content.$data.TRACKS.length > PageController.TRACKS_PER_PAGE) {
+                    if ($page.myVues.playlist.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
                         $page.myVues.playlist.content.$data.TRACKS.splice(
-                            PageController.TRACKS_PER_PAGE,
+                        	$page.settings.general.tracksPerPage,
                             $page.myVues.playlist.content.$data.TRACKS.length
                         );
 

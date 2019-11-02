@@ -35,12 +35,11 @@ The following global Shortcut keys are supported:
  
 Key binding | Command | Control |   | Key binding | Command | Control  
 ----------- | ------- | ------- | - | ----------- | ------- | -----   
-enter | Play/Pause | Player | | ctrl+1 | Player Window | Page Navigation
-space | Play/Pause | Player | | ctrl+2 | Last.fm Playlist | Page Navigation
-up | Volume Up | Player | | ctrl+3 | Custom User Playlist | Page Navigation
-down | Volume Down | Player | | ctrl+4 | Topsongs Playlist | Page Navigation
-left | *Rewind Track | Player | | ctrl+5 | Last.fm Users | Page Navigation
-right | *Fast Forward Track | Player | | | | | 
+space | Play/Pause | Player | | ctrl+1 | Player Window | Page Navigation
+up | Volume Up | Player | | ctrl+2 | Last.fm Playlist | Page Navigation
+down | Volume Down | Player | | ctrl+3 | Custom User Playlist | Page Navigation 
+left | *Rewind Track | Player | | ctrl+4 | Topsongs Playlist | Page Navigation 
+right | *Fast Forward Track | Player | | ctrl+5 | Last.fm Users | Page Navigation
 ctrl+left | Previous Track | Player | | | | | 
 ctrl+right | Next Track | Player | | | | | 
  
@@ -68,9 +67,17 @@ You can use [Regular Expressions](https://www.php.net/manual/de/function.preg-ma
 simply copy an existing theme directory and rename it to your new theme name (and adjust `settings.json` as needed)
   - __locale__ here you can localize the Strings. currently supported langs: english and german
 to create a new language, copy an existing language file and rename it to the country specific code, e.g. `locale_nl.json` for netherland. 
-  - __js__ all js Controller (player,page,playlist)  
+  - __js__ main js and dependency config. Tie all js stuff together
+  - __js/control__ all js Controller (player,page,playlist)  
+  - __js/control/page__ js Page Controller (navigation etc.)
+  - __js/control/player__ js Player Controller (including chart timer)
+  - __js/control/playlist__ js Playlist Controller (actions in the playlist view)
   - __js/lib__ all required js dependecies e.g [JQuery](https://jquery.com/)/[Vuejs](https://vuejs.org/) files
-  - __js/lib/libvue__ all [Vuejs](https://vuejs.org/) instances
+  - __js/vueimpl__ all [Vuejs](https://vuejs.org/) instances
+  - __js/vueimpl/page__ Vue bindings for welcome page
+  - __js/vueimpl/player__ Vue bindings for the player page
+  - __js/vueimpl/playlist__ Vue bindings for the playlist page
+  - __js/vueimpl/userlist__ Vue bindings for the userlist page
   - __php/json__ all required php json handler
   - __php/api__ all API handlers (youtube/last.fm API)
   - __php/util__ all other php libs
