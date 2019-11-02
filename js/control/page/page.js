@@ -368,10 +368,10 @@ class PageController {
                             curNr = parseInt(curNr) - parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE);
                         }
 
-                        let curPage = (curNr / $page.settings.general.tracks_perpage) | 0;
-                        if ((curNr % $page.settings.general.tracks_perpage) > 0) curPage++;
+                        let curPage = (curNr / $page.settings.general.tracksPerPage) | 0;
+                        if ((curNr % $page.settings.general.tracksPerPage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
-                        console.log('curNr', curNr, 'curPage', curPage,'calculated page>>', pageNum, 'modulo', (curNr % $page.settings.general.tracks_perpage));
+                        console.log('curNr', curNr, 'curPage', curPage,'calculated page>>', pageNum, 'modulo', (curNr % $page.settings.general.tracksPerPage));
                     }
 
                     $page.loadList(pageNum, null, showPage, menu.LDATA);
@@ -682,9 +682,9 @@ class PageController {
                         }
                     }
 
-                    if ($page.myVues.playlist.content.$data.TRACKS.length > $page.settings.general.tracks_perpage) {
+                    if ($page.myVues.playlist.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
                         $page.myVues.playlist.content.$data.TRACKS.splice(
-                        	$page.settings.general.tracks_perpage,
+                        	$page.settings.general.tracksPerPage,
                             $page.myVues.playlist.content.$data.TRACKS.length
                         );
 
