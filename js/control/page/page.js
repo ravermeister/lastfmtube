@@ -312,7 +312,7 @@ class PageController {
         };
 
         Vue.prototype.$getMenuForPlaylist = function (playlist, json = null) {
-            return page.menu.getMenu(playlist);
+            return $page.menu.getMenu(playlist);
         };
 
         Vue.prototype.$loadListMenu = function (menu, event) {
