@@ -1,20 +1,11 @@
--- this commands exports the data for the new db structure
+-- this commands exports the data for the new db table tracks
 
-SELECT
-	interpret AS artist,
+INSERT INTO tracks
+SELECT 
+	trackid,
+	artist,
 	title,
-	playcount,
-	DATETIME(lastplay_time) AS lastplayed,
-	lastplay_ip,
-	env.value AS url
+	url
 FROM
-	music_charts
-LEFT JOIN music_envvars env ON
-	env."key" = TRIM(interpret)|| ' ' || TRIM(title);
-
-SELECT
-	lastfm_user AS lfmuser,
-	DATETIME(last_played) AS lastplayed,
-	playcount
-FROM
-	music_charts_lastfm_user;
+	trackplay
+;
