@@ -60,9 +60,9 @@ static createVue(){
 
                     if ($player.isCurrentTrack(track)) {
                         if ($player.isPlaying()) {
-                            $player.ytPlayer.pauseVideo();
+                            $player.playerWindow.ytPlayer.pauseVideo();
                         } else if ($player.isPaused()) {
-                            $player.ytPlayer.playVideo();
+                            $player.playerWindow.ytPlayer.playVideo();
                         } else {
                             console.log('unbekannter zustand für play/pause');
                         }
