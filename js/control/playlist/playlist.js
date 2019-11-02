@@ -146,6 +146,8 @@ class PlaylistController {
 
         for (let cnt = 0; cnt < tracks.length; cnt++) {
             let track = tracks[cnt];
+            
+            console.log('pnum', pageNum, 'perpage', tracksPerPage);            
             track.NR = ((pageNum - 1) * tracksPerPage) + (cnt + 1);
         }
 
