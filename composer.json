@@ -6,10 +6,11 @@
 		"ext-json" : "*",
 		"ext-curl" : "*",
 		"ext-intl" : "*",
+		"ext-ctype": "*",
 		"google/apiclient" : "~2.4",
 		"kub-at/php-simple-html-dom-parser" : "~1.9",
 		"icamys/php-sitemap-generator" : "~1.2"
-	},
+    },
 	"support" : {
 		"email" : "jonny@rimkus.it",
 		"forum" : "https://rimkus.it",

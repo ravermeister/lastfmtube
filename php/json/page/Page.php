@@ -10,6 +10,7 @@ namespace LastFmTube\Json\Page;
 
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
+use Exception;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
@@ -25,6 +26,9 @@ class Page extends DefaultJson {
           die($data);
      }
 
+    /**
+     * @return array|mixed|void
+     */
      public function get() {
           switch (self::getVar('action', '')) {
                case 'init':
@@ -37,8 +41,8 @@ class Page extends DefaultJson {
                     return $this->getWebConfig();
                default:
                     $this->jsonError('invalid arguments');
+                    break;
           }
-          return array();
      }
 
      private function getWebConfig() {
@@ -117,6 +121,10 @@ class Page extends DefaultJson {
           );
      }
 
+    /**
+     * @return array|int|mixed|void
+     * @throws Exception
+     */
      public function post() {
           switch (self::getVar('action', '')) {
                case 'save-trackplay':
@@ -124,12 +132,15 @@ class Page extends DefaultJson {
                case 'save-userplay':
                     return $this->saveUserPlay();
                     break;
+              default:
+                  $this->jsonError('invalid arguments');
+                  break;
           }
      }
 
      /**
       *
-      * @throws \Exception
+      * @throws Exception
       */
      private function saveTrackPlay() {
           $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
@@ -146,7 +157,7 @@ class Page extends DefaultJson {
      /**
       *
       * @return array
-      * @throws \Exception
+      * @throws Exception
       */
      private function saveUserPlay() {
           $user = self::getVar('user', '', $_POST);

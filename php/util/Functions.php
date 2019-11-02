@@ -8,6 +8,8 @@
  *******************************************************************************/
 namespace LastFmTube\Util;
 
+use DomainException;
+use InvalidArgumentException;
 use LastFmTube\Api\LastFm\LastFm;
 use LastFmTube\Api\YouTube\YouTubeSearch;
 use DateTime;
@@ -24,6 +26,9 @@ class Functions {
 
      private $settingsFile = false;
 
+    /**
+     * @var LastFm
+     */
      private $lfmapi = null;
 
      private $ytapi = null;
@@ -41,13 +46,21 @@ class Functions {
      private function __construct($file = false) {
           $this->settingsFile = $file;
           $this->basedir = dirname(__FILE__) . '/../..';
-          $this->initSettings();
-          $this->initLogFile();
-          $this->initLocale();
-          $this->initInstances();
-          $this->initSiteMapGenerator();
+         try {
+             $this->initSettings();
+             $this->initLogFile();
+             $this->initLocale();
+             $this->initInstances();
+             $this->initSiteMapGenerator();
+         } catch (Exception $e) {
+             //$e->getMessage();
+         }
+
      }
 
+    /**
+     * @throws Exception
+     */
      private function initSiteMapGenerator() {
           $this->sitemap = new SiteMap($this->settings['general']['domain'], $this->settings['general']['sitemap_file']);
           $this->sitemap->addURL('/lastfm')
@@ -57,6 +70,10 @@ class Functions {
                ->addURL('/video');
      }
 
+    /**
+     * @param bool $force
+     * @throws Exception
+     */
      private function initSettings($force = false) {
           if (! $force && is_array($this->settings)) return;
 
@@ -71,6 +88,11 @@ class Functions {
           $this->settings['general']['lang'] = 'en';
      }
 
+    /**
+     * @param $artist
+     * @param $title
+     * @throws Exception
+     */
      public static function normalizeTrack(&$artist, &$title) {
           $replacements = Db::getInstance()->getReplaceTrackMap();
 
@@ -129,11 +151,11 @@ class Functions {
      private static function isAbsolutePath($path) {
           if (! is_string($path)) {
                $mess = sprintf('String expected but was given %s', gettype($path));
-               throw new \InvalidArgumentException($mess);
+               throw new InvalidArgumentException($mess);
           }
           if (! ctype_print($path)) {
                $mess = 'Path can NOT have non-printable characters or be empty';
-               throw new \DomainException($mess);
+               throw new DomainException($mess);
           }
           // Optional wrapper(s).
           $regExp = '%^(?<wrappers>(?:[[:print:]]{2,}://)*)';
@@ -144,7 +166,7 @@ class Functions {
           $parts = [];
           if (! preg_match($regExp, $path, $parts)) {
                $mess = sprintf('Path is NOT valid, was given %s', $path);
-               throw new \DomainException($mess);
+               throw new DomainException($mess);
           }
           if ('' !== $parts['root']) {
                return true;
@@ -274,11 +296,13 @@ class Functions {
           if (is_array($msg)) {
                foreach ($msg as $item) {
                     $item = self::br2nl($item);
-                    if (is_array($item)) $this->logMessage($item);
-                    continue;
+                    if (is_array($item)) {
+                        $this->logMessage($item);
+                        continue;
+                    }
 
                     $msgArr = explode("\n", $item);
-                    if (! is_array($msgArr)) {
+                    if ($msgArr === false || sizeof($msgArr) == 1) {
                          if (strlen($msgArr) > 0) fwrite($this->logFile, $prefix . "\t" . $msgArr . "\r\n");
                          continue;
                     }
@@ -340,6 +364,10 @@ class Functions {
           return filter_var($val, FILTER_SANITIZE_FULL_SPECIAL_CHARS, ENT_QUOTES | ENT_HTML5);
      }
 
+    /**
+     * @param bool $config
+     * @throws Exception
+     */
      public function saveConfig($config = false) {
           $fh = fopen(dirname(__FILE__) . '/../../conf/settings.ini', 'w');
           fwrite($fh, "; you need to have a registered last.fm user with a developer API\n\n" . "['general']\n" . "baseurl = " . $config['general']['baseurl'] . "\n" . "; possible values = de,en\n" . "lang = " . $config['general']['lang'] . "\n" . ";path to log file\n" . "logpath = " . $config['general']['logpath'] . "\n" . ";youtube player width and height (relative or absolte)\n" . "playerwidth = " . $config['general']['playerwidth'] . "\n" . "playerheight = " . $config['general']['playerheight'] . "\n" . "; themes/mytheme must exist, possible values 'default','dark'\n" . "theme = " . $config['general']['theme'] . "\n" . ";Conext Menu Theme name. Included themes are: 'default','xp','vista','osx','human','gloss'\n" . ";Multiple themes may be applied with a comma-separated list.\n" . "cmenutheme = " . $config['general']['cmenutheme'] . "\n" . "; the default last.fm user when initally loading the playlist\n" . "lastfm_defaultuser = " . $config['general']['lastfm_defaultuser'] . "\n" . "; the Admin Password as sha1_value (default is lfmtube)\n" . "adminpw = " . $config['general']['adminpw'] . "\n" . ";[database]\n" . ";dsn = mysql:host=127.0.0.1;port=3306;dbname=lasttube;charset=UTF8;\n" . ";username = lastuser\n" . ";password = l4stp4$$\n" . "\n" . "[database]\n" . "dsn = " . $config['database']['dsn'] . "\n" . "username = " . $config['database']['username'] . "\n" . "password = " . $config['database']['password'] . "\n" . "\n" . "[lastfm]\n" . "; the lastfm user with the developer API Key\n" . "user = " . $config['lastfm']['user'] . "\n" . "; the lastfm user developer API Key\n" . "apikey = " . $config['lastfm']['apikey'] . "\n" . "\n" . "[youtube]\n" . "apikey = " . $config['youtube']['apikey'] . "\n" . "; required for OAuth Login (not yet supported)\n" . ";email = 755183333407-8a5huo8gk68uenschgvg1vpmdbj9c18r@developer.gserviceaccount.com\n" . ";keyfile = /home/ravermeister/lastfm.rimkus.it/conf/youtube.p12\n" . ";user = info@rimkus.it\n");
@@ -348,8 +376,7 @@ class Functions {
      }
 
      public function sortTracksByDate(&$tracks, $offset = 0, $asc = false) {
-          $sorted = false;
-          if ($asc) {
+         if ($asc) {
                $sorted = usort($tracks, function ($trackA, $trackB) {
                     return self::sortArrayByDateAsc($trackA, $trackB);
                });
@@ -366,8 +393,7 @@ class Functions {
      }
 
      public function sortTracksByPlayCount(&$tracks, $offset = 0, $asc = false) {
-          $sorted = false;
-          if ($asc === true) {
+         if ($asc === true) {
                $sorted = usort($tracks, function ($trackA, $trackB) {
                     return self::sortArrayByPlayCountAsc($trackA, $trackB);
                });
@@ -383,10 +409,22 @@ class Functions {
           return $sorted;
      }
 
+    /**
+     * @param $trackA
+     * @param $trackB
+     * @return float|int
+     * @throws Exception
+     */
      private static function sortArrayByPlayCountDesc($trackA, $trackB) {
           return self::sortArrayByPlayCountAsc($trackA, $trackB) * - 1;
      }
 
+    /**
+     * @param $trackA
+     * @param $trackB
+     * @return int
+     * @throws Exception
+     */
      private static function sortArrayByPlayCountAsc($trackA, $trackB) {
           $aCnt = isset($trackA['PLAYCOUNT']) ? $trackA['PLAYCOUNT'] : 0;
           $bCnt = isset($trackB['PLAYCOUNT']) ? $trackB['PLAYCOUNT'] : 0;
@@ -397,10 +435,22 @@ class Functions {
           return $cmpVal;
      }
 
+    /**
+     * @param $trackA
+     * @param $trackB
+     * @return float|int
+     * @throws Exception
+     */
      private static function sortArrayByDateDesc($trackA, $trackB) {
           return self::sortArrayByDateAsc($trackA, $trackB) * - 1;
      }
 
+    /**
+     * @param $trackA
+     * @param $trackB
+     * @return int
+     * @throws Exception
+     */
      private static function sortArrayByDateAsc($trackA, $trackB) {
           $aDate = isset($trackA['LASTPLAY']) ? new DateTime($trackA['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');
           $bDate = isset($trackB['LASTPLAY']) ? new DateTime($trackB['LASTPLAY']) : new DateTime('1970-01-01 00:00:00');

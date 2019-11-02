@@ -16,7 +16,7 @@ use LastFmTube\Util\Functions;
 class Requirements extends DefaultJson {
 
      public function __construct() {
-          parent::__construct('requirements');
+          parent::__construct();
      }
 
      public function get() {

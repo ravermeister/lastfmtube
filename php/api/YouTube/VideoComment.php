@@ -9,7 +9,6 @@
 namespace LastFmTube\Api\YouTube;
 
 use Google_Service_YouTube_Comment;
-use Google_Service_YouTube_CommentThreadReplies;
 use LastFmTube\Util\Functions;
 
 class VideoComment {
@@ -62,11 +61,11 @@ class VideoComment {
       */
      var $likeCount;
 
-     /**
-      *
-      * @param Google_Service_YouTube_Comment $comment
-      * @param Google_Service_YouTube_CommentThreadReplies $replies
-      */
+    /**
+     *
+     * @param Google_Service_YouTube_Comment $comment
+     * @param bool $replies
+     */
      public function __construct($comment, $replies = false) {
           $this->text = $comment->getSnippet()->getTextDisplay();
           $this->username = $comment->getSnippet()->getAuthorDisplayName();

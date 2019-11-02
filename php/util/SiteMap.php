@@ -8,6 +8,7 @@
  *******************************************************************************/
 namespace LastFmTube\Util;
 
+use Exception;
 use Icamys\SitemapGenerator\SitemapGenerator;
 use DateTime;
 
@@ -17,13 +18,13 @@ class SiteMap {
       *
       * @var double
       */
-     private static $DEF_PRIO = 0.5;
+     public static $DEF_PRIO = 0.5;
 
      /**
       *
       * @var string
       */
-     private static $DEF_FREQ = 'always';
+     public static $DEF_FREQ = 'always';
 
      /**
       *
@@ -38,18 +39,10 @@ class SiteMap {
      private $domain;
 
      /**
-      * a singleton instance for the application
-      *
-      * @var SiteMap
-      */
-     private static $instance;
-
-     /**
       *
       * @return string the current url
       */
-     private static function trackUrl() {
-          $link = 'https://lastfm.rimkus.it';
+     public function trackUrl() {
 
           if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') $link = "https";
           else $link = "http";
@@ -78,23 +71,24 @@ class SiteMap {
           $this->generator->sitemapIndexFileName = $indexfile;
      }
 
-     /**
-      * // alternate languages
-      * $alternates = [
-      * ['hreflang' => 'de', 'href' => "http://www.example.com/de"],
-      * ['hreflang' => 'fr', 'href' => "http://www.example.com/fr"],
-      * ];
-      *
-      * adding url `loc`, `lastmodified`, `changefreq`, `priority`, `alternates`
-      *
-      * @param string $url
-      * @param DateTime $lastmod
-      * @param string $changeFreq
-      * @param double $prio
-      * @param array $altLangs
-      *
-      * @return SiteMap for better chaining
-      */
+    /**
+     * // alternate languages
+     * $alternates = [
+     * ['hreflang' => 'de', 'href' => "http://www.example.com/de"],
+     * ['hreflang' => 'fr', 'href' => "http://www.example.com/fr"],
+     * ];
+     *
+     * adding url `loc`, `lastmodified`, `changefreq`, `priority`, `alternates`
+     *
+     * @param string $url
+     * @param DateTime $lastmod
+     * @param string $changeFreq
+     * @param double $prio
+     * @param array $altLangs
+     *
+     * @return SiteMap for better chaining
+     * @throws Exception
+     */
      public function addURL($url, $lastmod = null, $changeFreq = 'always', $prio = 0.5, $altLangs = null) {
           if (is_null($lastmod)) {
                $lastmod = new DateTime();
