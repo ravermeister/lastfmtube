@@ -66,37 +66,52 @@ class HotKeys {
 
     	hotkeys('ctrl+1', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		$page.loadPage('video')
+    		event.preventDefault();
+    		$page.setLoading(PageController.article.playlist.dom, true);
+    		$page.loadPage('video', null, function(){
+    			$page.setLoading(PageController.article.playlist.dom);
+    		});
     	});
     	
     	hotkeys('ctrl+2', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.loadPage('lastfm');
+    		$page.setLoading(PageController.article.playlist.dom, true);
+    		$page.loadPage('lastfm', null, function(){
+    			$page.setLoading(PageController.article.playlist.dom);
+    		});
     	});
     	
     	hotkeys('ctrl+3', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.loadPage('personal');    		
+    		$page.setLoading(PageController.article.playlist.dom, true);
+    		$page.loadPage('personal', null, function(){
+    			$page.setLoading(PageController.article.playlist.dom);
+    		});    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.loadPage('topsongs');    		
+    		$page.setLoading(PageController.article.playlist.dom, true);
+    		$page.loadPage('topsongs', null, function(){
+    			$page.setLoading(PageController.article.playlist.dom);
+    		});    		
     	});
     	
     	hotkeys('ctrl+5', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.loadPage('users');    		
+    		$page.setLoading(PageController.article.playlist.dom, true);
+    		$page.loadPage('users', null, function(){
+    			$page.setLoading(PageController.article.playlist.dom);
+    		});    		
     	});
     	
     	/**
-		 * TODO: add hotkeys for search, 
-		 * and find out how to override youtube iframe key capturing
+		 * TODO: add hotkeys for search, and find out how to override youtube
+		 * iframe key capturing
 		 */
     	
 		HotKeys.globalInit = true;
