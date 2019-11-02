@@ -16,6 +16,12 @@ class HotKeys {
 		
 		if(HotKeys.globalInit === true) return;
 		
+		let toggleLoading = function(loading = false) {
+    		$page.setLoading(PageController.article.user.dom(), loading);
+    		$page.setLoading(PageController.article.playlist.dom(), loading);
+    		$page.setLoading(PageController.article.video.dom(), loading);
+		}
+		
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
 		hotkeys.filter = function(event){
@@ -67,45 +73,50 @@ class HotKeys {
     	hotkeys('ctrl+1', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault();    		
-    		$page.setLoading(PageController.article.playlist.dom(), true);
+
+    		toggleLoading(true);    		
     		$page.loadPage('video', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom());
+    			toggleLoading();
     		});
     	});
     	
     	hotkeys('ctrl+2', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.setLoading(PageController.article.playlist.dom(), true);
+
+    		toggleLoading(true);
     		$page.loadPage('lastfm', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom());
+    			toggleLoading();
     		});
     	});
     	
     	hotkeys('ctrl+3', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.setLoading(PageController.article.playlist.dom(), true);
+    		
+    		toggleLoading(true);
     		$page.loadPage('personal', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom());
+    			toggleLoading();
     		});    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.setLoading(PageController.article.playlist.dom(), true);
+    		
+    		toggleLoading(true);
     		$page.loadPage('topsongs', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom());
+    			toggleLoading();
     		});    		
     	});
     	
     	hotkeys('ctrl+5', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.setLoading(PageController.article.playlist.dom, true);
+
+    		toggleLoading(true);
     		$page.loadPage('users', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom);
+    			toggleLoading();
     		});    		
     	});
     	
