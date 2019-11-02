@@ -16,8 +16,7 @@ class HotKeys {
 		
 		if(HotKeys.globalInit === true) return;
 		
-		let toggleLoading = function(loading = false) {
-			console.log('loading', loading);
+		let toggleLoading = function(loading = false) {			
     		$page.setLoading(PageController.article.user.dom(), loading);
     		$page.setLoading(PageController.article.playlist.dom(), loading);
     		$page.setLoading(PageController.article.video.dom(), loading);

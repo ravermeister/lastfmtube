@@ -509,16 +509,11 @@ class PageController {
     setLoading(curArticle, active = false) {
 
         if ($(curArticle).is(PageController.article.user.dom())) {
-        	console.log('user');
             this.myVues.userlist.header.title.$data.LOADING = active;
         } else if ($(curArticle).is(PageController.article.playlist.dom())) {
-        	console.log('playlist')
             this.myVues.playlist.header.title.$data.LOADING = active;
         } else if ($(curArticle).is(PageController.article.video.dom())) {
-        	console.log('video');
             this.myVues.youtube.header.$data.LOADING = active;
-        } else {
-        	console.log('nothing');
         }
     }
 
