@@ -132,10 +132,7 @@ class PlaylistController {
     loadCustomerList(pageNum = 1, callBack = null) {
 
         let tracks = this.getUserTracks();
-        
-        console.log($page.settings.general.tracksPerPage);
         let tracksPerPage = $page.settings.general.tracksPerPage;
-        console.log('>>>', tracksPerPage);
         
         pageNum = this.updateUserListPages(pageNum, tracks);
         let endIndex = pageNum * tracksPerPage;
@@ -146,7 +143,8 @@ class PlaylistController {
         } else {
             tracks = tracks.slice(startIndex);
         }
-
+        console.log('>>>', pageNum, 'tracks:', tracks.length);
+        
         for (let cnt = 0; cnt < tracks.length; cnt++) {
             let track = tracks[cnt];
             
