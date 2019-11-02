@@ -40,16 +40,16 @@ class ChartTimer {
         });
     }
 
-    handleTimerEvent() {
-    	console.log('handle timer event!!');
+    handleTimerEvent(self) {
+    	console.log('handle timer event!!', this, '<>', self);
     	
-        let track = this.timerTrack;
+        let track = self.timerTrack;
         if ('undefined' === typeof track || track === null) {
-            if (this.log) console.log('timer event invalid track', track);
+            if (self.log) console.log('timer event invalid track', track);
             return;
         }
 
-        if (this.log) console.log('handle timer event create needle from track');
+        if (self.log) console.log('handle timer event create needle from track');
 
         let needle = $page.createNeedle(
             track.artist,
@@ -57,18 +57,18 @@ class ChartTimer {
             track.video
         );
 
-        this.clearTimer();
+        self.clearTimer();
         $page.saveChartTrack(needle);
         if ('undefined' !== typeof track.lfmuser &&
             track.lfmuser !== '' &&
-            this.lastChartLfmUser !== track.lfmuser) {
-            if (this.log) console.log('handle save user chart');
+            self.lastChartLfmUser !== track.lfmuser) {
+            if (self.log) console.log('handle save user chart');
             $page.saveChartUser(track.lfmuser);
-            this.lastChartLfmUser = track.lfmuser;
-        } else if (this.log) {
+            self.lastChartLfmUser = track.lfmuser;
+        } else if (self.log) {
             console.log(
                 'wont save user chart', track.lfmuser,
-                '<-track timer->', this.lastChartLfmUser
+                '<-track timer->', self.lastChartLfmUser
             );
         }
 
@@ -109,7 +109,7 @@ class ChartTimer {
                 // last.fm scrobble rule: half length of song or 2 min. if
 				// greater
                 
-                /** debug **/
+                /** debug * */
                 lfmScrobbleDuration = 3; 
                 
                 self.clearTimer();
@@ -117,7 +117,9 @@ class ChartTimer {
                 self.timerRemaining = lfmScrobbleDuration;
                 self.timerTrack = track;
                 self.timer = setTimeout(
-                	self.handleTimerEvent,
+                	function() {
+                		self.handleTimerEvent(self);
+					},
                     (lfmScrobbleDuration * 1000)
                 );
                 if (self.log)
