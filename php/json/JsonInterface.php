@@ -10,11 +10,23 @@ namespace LastFmTube\Json;
 
 interface JsonInterface {
 
+    /**
+     * @return array|mixed|void
+     */
      public function get();
 
+    /**
+     * @return array|mixed|void
+     */
      public function delete();
 
+    /**
+     * @return array|mixed|void
+     */
      public function post();
 
+    /**
+     * @return array|mixed|void
+     */
      public function put();
 }

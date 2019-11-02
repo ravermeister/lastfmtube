@@ -28,14 +28,11 @@ class ChartTimer {
 
         let self = this;
         this.player.addStateChangeListener(function (event) {
-        	
-            switch (event.data) {            	
-                case self.player.playerWindow.status.PLAYING.ID:
-                	self.start();
-                    break;
-                default:
-                	self.stop();
-                    break;
+
+            if (event.data === self.player.playerWindow.status.PLAYING.ID) {
+                self.start();
+            } else {
+                self.stop();
             }
         });
     }

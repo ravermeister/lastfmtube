@@ -90,7 +90,7 @@ class PageController {
 
 	changeUrl(title, url) {
 	    if (typeof (history.pushState) != "undefined") {
-	        var obj = { Title: title, Url: url };
+	        let obj = { Title: title, Url: url };
 	        history.pushState(obj, obj.Title, obj.Url);
 	    } else {
 	        alert("Browser does not support HTML5.");
@@ -258,7 +258,7 @@ class PageController {
     applyJQueryMethods() {
         $.urlParam = function (name, url = null) {
             let theUrl = url !== null ? url : window.location.href;
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
+            let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
             return results === null ? null : results[1] || null;
         };
         $.logXhr = function (xhr) {
@@ -273,7 +273,8 @@ class PageController {
     }
 
     applyVueMethods() {
-
+    	let self = this;
+    	
         Vue.prototype.$applyData = function (json, log = false) {
 
             if (typeof this === 'undefined' || this === null) {
@@ -307,14 +308,12 @@ class PageController {
             return url;
         };
         Vue.prototype.$url = function (menu, log = false) {
-            let url = this.$url2(menu.PAGE, menu.PLAYLIST, log);
+            return this.$url2(menu.PAGE, menu.PLAYLIST, log);
             // console.log('for menu', menu);
-            return url;
         };
 
         Vue.prototype.$getMenuForPlaylist = function (playlist, json = null) {
-            let menu = $page.menu.getMenu(playlist);
-            return menu;
+            return self.menu.getMenu(playlist);
         };
 
         Vue.prototype.$loadListMenu = function (menu, event) {
@@ -324,18 +323,18 @@ class PageController {
                         
             if (!$player.isReady || !forceReload &&
                 typeof menu.LDATA !== 'undefined' &&
-                menu.LDATA === $page.PLAYLIST
+                menu.LDATA === self.PLAYLIST
             ) {
                 return;
             }
             let showPage = function (success) {
                 // DOM updated
                 if (typeof menu.LDATA !== 'undefined') {
-                    $page.setLoading(curArticle);
+                    self.setLoading(curArticle);
                     if (success) {
 
                         if (menu.PAGE === 'playlist-container') {
-                            $page.setCurrentPlaylist(menu.LDATA);
+                            self.setCurrentPlaylist(menu.LDATA);
                         }
                         $(playlistArticle).attr('id', menu.LDATA);
                     }
@@ -344,13 +343,13 @@ class PageController {
                         location.href = '#' + menu.LDATA;
                     }
                 } else {
-                    $page.setLoading(curArticle);
+                    self.setLoading(curArticle);
                     location.href = '#' + menu.PAGE;
                 }
             };
 
             try {
-                $page.setLoading(curArticle, true);
+                self.setLoading(curArticle, true);
 
                 if (typeof menu.LDATA !== 'undefined') {
                     let pageNum = 1;
@@ -367,12 +366,12 @@ class PageController {
                             curNr = parseInt(curNr) - parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE);
                         }
 
-                        let curPage = (curNr / $page.settings.general.tracksPerPage) | 0;
-                        if ((curNr % $page.settings.general.tracksPerPage) > 0) curPage++;
+                        let curPage = (curNr / self.settings.general.tracksPerPage) | 0;
+                        if ((curNr % self.settings.general.tracksPerPage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
                     }
 
-                    $page.loadList(pageNum, null, showPage, menu.LDATA);
+                    self.loadList(pageNum, null, showPage, menu.LDATA);
                 } else {
                     showPage(true);
                 }
@@ -409,8 +408,8 @@ class PageController {
     }
     
     initShareButtons() {
-		var a2a_config = a2a_config || {};
-
+		//let a2a_config = a2a_config || {};
+    	let a2a_config = {};
 		a2a_config.linkname = "Last.fm YouTube Radio";
 		a2a_config.linkurl = "https://lastfm.rimkus.it";
 		a2a_config.locale = "en";
@@ -441,17 +440,18 @@ class PageController {
         this.setMainPageLoading(true);
         
         location.hash = '';
+        let self = this;
         
         let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
 
-            $page.myVues.updateAll(json.data.value);
-            $page.menu.updateData(json.data.value);
+            self.myVues.updateAll(json.data.value);
+            self.menu.updateData(json.data.value);
 
             
-            $page.setMainPageLoading();           
-            $page.isReady = true;
+            self.setMainPageLoading();           
+            self.isReady = true;
             if(typeof initReadyCallBack === 'function') {
             	initReadyCallBack();
             }          

@@ -8,6 +8,7 @@
  *******************************************************************************/
 namespace LastFmTube\Api\LastFm;
 
+use Exception;
 use LastFmTube\Util\Functions;
 use simple_html_dom\simple_html_dom;
 
@@ -35,7 +36,7 @@ class Track {
       *
       * @var bool
       */
-     private $isplaying;
+     private $isPlaying;
 
      /**
       *
@@ -49,18 +50,15 @@ class Track {
       */
      private $playcount;
 
-     /**
-      * Track constructor.
-      *
-      * @param
-      *             $artist
-      * @param
-      *             $title
-      * @param
-      *             $album
-      * @param string $lastplay
-      * @param bool $isPlaying
-      */
+    /**
+     * Track constructor.
+     *
+     * @param $artist
+     * @param $title
+     * @param string $album
+     * @param string $lastplay
+     * @param bool $isPlaying
+     */
      public function __construct($artist, $title, $album = '', $lastplay = '', $isPlaying = false) {
           $this->artist = $artist;
           $this->title = $title;
@@ -73,14 +71,13 @@ class Track {
      /**
       *
       * @param simple_html_dom $trackxml
-      * @return \LastFmTube\Api\LastFm\Track
+      * @return Track
       */
      public static function fromXML($trackxml) {
 
           // $this->dateofplay = date('d.m.Y H:i:s',$trackxml->children(10)->getAttribute('uts'));
-          $isPlaying = false;
 
-          $artist = $trackxml->find('artist', 0);
+         $artist = $trackxml->find('artist', 0);
           $title = $trackxml->find('name', 0);
           $album = $trackxml->find('album', 0);
           $date = $trackxml->find('date', 0);
@@ -162,7 +159,11 @@ class Track {
 
      public function normalize() {
           // Functions::getInstance()->logMessage('before normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
-          Functions::normalizeTrack($this->artist, $this->title);
-          // Functions::getInstance()->logMessage('after normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
+         try {
+             Functions::normalizeTrack($this->artist, $this->title);
+         } catch (Exception $e) {
+             Functions::getInstance()->logMessage('Error normalizing Track: '.$e->getMessage());
+         }
+         // Functions::getInstance()->logMessage('after normalize, artist: >'.$this->artist.'<, title: >'.$this->title.'<');
      }
 }

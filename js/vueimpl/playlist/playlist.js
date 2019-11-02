@@ -54,12 +54,11 @@ class LibvuePlaylist {
         let callback = function (success = false) {
             if (success) {
                 if (self.menu.$data.PLAYLIST !== 'search') {
-                    for (let cnt in self.content.$data.TRACKS) {
-                        let track = self.content.$data.TRACKS[cnt];
+                    self.content.$data.TRACKS.forEach(function (track) {
                         if (track.VIDEO_ID === needle.videoId) {
                             track.VIDEO_ID = '';
                         }
-                    }
+                    });
                 } else {
                     self.menu.SAVED_VIDEO_ID = '';
                 }
@@ -70,12 +69,13 @@ class LibvuePlaylist {
     }
 
     getTracks(json) {
-        let pdata = null;
+        let pdata = {};
         if ('undefined' !== typeof json.playlist.LIST.HEADER)
-            pdata = json.playlist.LIST.HEADER;
+            pdata.HEADER = json.playlist.LIST.HEADER;
         if ('undefined' !== typeof json.playlist.LIST.CONTENT)
             pdata.TRACKS = json.playlist.LIST.CONTENT;
-        return pdata === null ? {} : pdata;
+
+        return pdata;
     }
 
     update(json) {
