@@ -53,8 +53,8 @@ class LibvuePlaylist {
     	let self = this;
         let callback = function (success = false) {
             if (success) {
-                if (this.menu.$data.PLAYLIST !== 'search') {
-                    this.content.$data.TRACKS.forEach(function (track) {
+                if (self.menu.$data.PLAYLIST !== 'search') {
+                    self.content.$data.TRACKS.forEach(function (track) {
                         if (track.VIDEO_ID === needle.videoId) {
                             track.VIDEO_ID = '';
                         }
