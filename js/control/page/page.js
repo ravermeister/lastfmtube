@@ -509,7 +509,7 @@ class PageController {
     setLoading(curArticle, active = false) {
 
         if ($(curArticle).is(PageController.article.user.dom())) {
-        	console('user');
+        	console.log('user');
             this.myVues.userlist.header.title.$data.LOADING = active;
         } else if ($(curArticle).is(PageController.article.playlist.dom())) {
         	console.log('playlist')
