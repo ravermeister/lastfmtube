@@ -233,7 +233,6 @@ class PageController {
                 isPlaylist = true;
                 break;
             case 'topsongs':
-            	console.log('load list', pageNum);
                 $playlist.loadTopSongs(pageNum, null, loadComplete);
                 isPlaylist = true;
                 break;
@@ -371,7 +370,6 @@ class PageController {
                         let curPage = (curNr / $page.settings.general.tracksPerPage) | 0;
                         if ((curNr % $page.settings.general.tracksPerPage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
-                        console.log('curNr', curNr, 'curPage', curPage,'calculated page>>', pageNum, 'modulo', (curNr % $page.settings.general.tracksPerPage));
                     }
 
                     $page.loadList(pageNum, null, showPage, menu.LDATA);
