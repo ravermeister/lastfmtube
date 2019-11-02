@@ -117,7 +117,7 @@ class ChartTimer {
                 self.timerTrack = track;
                 self.timer = setTimeout(
                 	function() {
-                		self.handleTimerEvent(self);
+                		self.handleTimerEvent();
 					},
                     (lfmScrobbleDuration * 1000)
                 );
