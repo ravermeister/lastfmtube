@@ -41,7 +41,7 @@ class ChartTimer {
     }
 
     handleTimerEvent(self) {
-    	console.log('handle timer event!!', this, '<>', self);
+    	console.log('handle timer event!!', this, '<>', self, 'equal', self === this);
     	
         let track = self.timerTrack;
         if ('undefined' === typeof track || track === null) {
@@ -49,7 +49,7 @@ class ChartTimer {
             return;
         }
 
-        if (self.log) console.log('handle timer event create needle from track');
+        if (this.log) console.log('handle timer event create needle from track');
 
         let needle = $page.createNeedle(
             track.artist,
