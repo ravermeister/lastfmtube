@@ -42,8 +42,8 @@ class PlaylistController {
         let tracks = [];
         let savedVid = needle.videoId;
         if (trackCnt > 0) {
-            maxPages = trackCnt / PageController.TRACKS_PER_PAGE | 0;
-            if (trackCnt % PageController.TRACKS_PER_PAGE > 1) maxPages++;
+            maxPages = trackCnt / $page.settings.general.tracksPerPage | 0;
+            if (trackCnt % $page.settings.general.tracksPerPage > 1) maxPages++;
 
             for (let cnt = 0; cnt < trackCnt; cnt++) {
                 let ytvid = result.data.value[cnt];
@@ -303,7 +303,7 @@ class PlaylistController {
             return 1;
         }
 
-        let tracksPerPage = PageController.TRACKS_PER_PAGE;
+        let tracksPerPage = $page.settings.general.tracksPerPage;
 
         let pageCount = (tracks.length / tracksPerPage) | 0;
 
