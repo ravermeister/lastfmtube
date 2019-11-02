@@ -207,6 +207,7 @@ class PageController {
         });
     }
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
+       
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
 
@@ -232,6 +233,7 @@ class PageController {
                 isPlaylist = true;
                 break;
             case 'topsongs':
+            	console.log('load list', pageNum);
                 $playlist.loadTopSongs(pageNum, null, loadComplete);
                 isPlaylist = true;
                 break;
