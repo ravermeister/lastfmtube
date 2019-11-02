@@ -392,6 +392,7 @@ class PageController {
     }
 
     initMyVues() {
+    	console.log('>>>>>>>>>>>', $page);
         this.myVues = {
             base: new LibvueMainpage(),
             playlist: new LibvuePlaylist(),
