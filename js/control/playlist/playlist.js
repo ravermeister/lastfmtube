@@ -42,8 +42,8 @@ class PlaylistController {
         let tracks = [];
         let savedVid = needle.videoId;
         if (trackCnt > 0) {
-            maxPages = trackCnt / PageController.TRACKS_PER_PAGE | 0;
-            if (trackCnt % PageController.TRACKS_PER_PAGE > 1) maxPages++;
+            maxPages = trackCnt / $page.settings.general.tracksPerPage | 0;
+            if (trackCnt % $page.settings.general.tracksPerPage > 1) maxPages++;
 
             for (let cnt = 0; cnt < trackCnt; cnt++) {
                 let ytvid = result.data.value[cnt];
@@ -83,7 +83,7 @@ class PlaylistController {
                 SEARCH_RESULT: tracks
             },
 
-            TRACKS: tracks.slice(0, PageController.TRACKS_PER_PAGE)
+            TRACKS: tracks.slice(0, $page.settings.general.tracksPerPage)
         });
 
         if (typeof callBack === 'function') {
@@ -132,9 +132,9 @@ class PlaylistController {
     loadCustomerList(pageNum = 1, callBack = null) {
 
         let tracks = this.getUserTracks();
-
-        let tracksPerPage = PageController.TRACKS_PER_PAGE;
+        let tracksPerPage = $page.settings.general.tracksPerPage;
         pageNum = this.updateUserListPages(pageNum, tracks);
+                
         let endIndex = pageNum * tracksPerPage;
         let startIndex = endIndex - tracksPerPage;
 
@@ -143,9 +143,10 @@ class PlaylistController {
         } else {
             tracks = tracks.slice(startIndex);
         }
-
+        
+        
         for (let cnt = 0; cnt < tracks.length; cnt++) {
-            let track = tracks[cnt];
+            let track = tracks[cnt];            
             track.NR = ((pageNum - 1) * tracksPerPage) + (cnt + 1);
         }
 
@@ -283,7 +284,7 @@ class PlaylistController {
         if (index >= tracks.length || index < 0 || tracks.length === 0) return;
         
         let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
-        let offset = ((pageNum - 1) * PageController.TRACKS_PER_PAGE);
+        let offset = ((pageNum - 1) * $page.settings.general.tracksPerPage);
         tracks.splice(offset + index, 1);
         this.setUserTracks(tracks);
     }
@@ -300,7 +301,7 @@ class PlaylistController {
             return 1;
         }
 
-        let tracksPerPage = PageController.TRACKS_PER_PAGE;
+        let tracksPerPage = $page.settings.general.tracksPerPage;
 
         let pageCount = (tracks.length / tracksPerPage) | 0;
 
@@ -315,7 +316,6 @@ class PlaylistController {
         else if (pageNum < 1) pageNum = 1;
 
         $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
-
         return pageNum;
     }
 }

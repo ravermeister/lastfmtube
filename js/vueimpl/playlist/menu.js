@@ -56,8 +56,8 @@ class LibvuePlaylistMenu {
             	},
                 loadPage: function (user, pageNum) {
                     if (this.$data.PLAYLIST === 'search') {
-                        let start = (pageNum - 1) * PageController.TRACKS_PER_PAGE;
-                        let end = pageNum * PageController.TRACKS_PER_PAGE;
+                        let start = (pageNum - 1) * $page.settings.general.tracksPerPage;
+                        let end = pageNum * $page.settings.general.tracksPerPage;
                         let tracks = [];
                         if (this.$data.SEARCH_RESULT.length > start) {
                             tracks = this.$data.SEARCH_RESULT.slice(start, end);
