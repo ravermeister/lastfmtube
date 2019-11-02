@@ -13,7 +13,7 @@ class ChartTimer {
         this.timerRemaining = null;
         this.timerTrack = null;
         this.timer = null;
-        this.log = true;
+        this.log = false;
         this.lastChartLfmUser = null;
         this.player = player;
         this.init();
@@ -66,8 +66,8 @@ class ChartTimer {
             this.lastChartLfmUser = track.lfmuser;
         } else if (this.log) {
             console.log(
-                'wont save user chart', track.lfmuser,
-                '<-track timer->', this.lastChartLfmUser
+                'wont save user chart >', track.lfmuser,
+                '< <-track timer-> >', this.lastChartLfmUser, '<'
             );
         }
 
@@ -109,7 +109,7 @@ class ChartTimer {
 				// greater
                 
                 /** debug * */
-                lfmScrobbleDuration = 3; 
+                /** lfmScrobbleDuration = 3; * */ 
                 
                 self.clearTimer();
                 self.timerStart = new Date();
