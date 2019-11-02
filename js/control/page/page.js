@@ -273,7 +273,6 @@ class PageController {
     }
 
     applyVueMethods() {
-    	let self = this;
     	
         Vue.prototype.$applyData = function (json, log = false) {
 
@@ -313,7 +312,7 @@ class PageController {
         };
 
         Vue.prototype.$getMenuForPlaylist = function (playlist, json = null) {
-            return self.menu.getMenu(playlist);
+            return $page.menu.getMenu(playlist);
         };
 
         Vue.prototype.$loadListMenu = function (menu, event) {
@@ -323,18 +322,18 @@ class PageController {
                         
             if (!$player.isReady || !forceReload &&
                 typeof menu.LDATA !== 'undefined' &&
-                menu.LDATA === self.PLAYLIST
+                menu.LDATA === $page.PLAYLIST
             ) {
                 return;
             }
             let showPage = function (success) {
                 // DOM updated
                 if (typeof menu.LDATA !== 'undefined') {
-                    self.setLoading(curArticle);
+                    $page.setLoading(curArticle);
                     if (success) {
 
                         if (menu.PAGE === 'playlist-container') {
-                            self.setCurrentPlaylist(menu.LDATA);
+                            $page.setCurrentPlaylist(menu.LDATA);
                         }
                         $(playlistArticle).attr('id', menu.LDATA);
                     }
@@ -343,13 +342,13 @@ class PageController {
                         location.href = '#' + menu.LDATA;
                     }
                 } else {
-                    self.setLoading(curArticle);
+                    $page.setLoading(curArticle);
                     location.href = '#' + menu.PAGE;
                 }
             };
 
             try {
-                self.setLoading(curArticle, true);
+                $page.setLoading(curArticle, true);
 
                 if (typeof menu.LDATA !== 'undefined') {
                     let pageNum = 1;
@@ -366,12 +365,12 @@ class PageController {
                             curNr = parseInt(curNr) - parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE);
                         }
 
-                        let curPage = (curNr / self.settings.general.tracksPerPage) | 0;
-                        if ((curNr % self.settings.general.tracksPerPage) > 0) curPage++;
+                        let curPage = (curNr / $page.settings.general.tracksPerPage) | 0;
+                        if ((curNr % $page.settings.general.tracksPerPage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
                     }
 
-                    self.loadList(pageNum, null, showPage, menu.LDATA);
+                    $page.loadList(pageNum, null, showPage, menu.LDATA);
                 } else {
                     showPage(true);
                 }
@@ -409,7 +408,7 @@ class PageController {
     }
     
     initShareButtons() {
-		//let a2a_config = a2a_config || {};
+		// let a2a_config = a2a_config || {};
     	let a2a_config = {};
 		a2a_config.linkname = "Last.fm YouTube Radio";
 		a2a_config.linkurl = "https://lastfm.rimkus.it";
@@ -441,18 +440,17 @@ class PageController {
         this.setMainPageLoading(true);
         
         location.hash = '';
-        let self = this;
         
         let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
 
-            self.myVues.updateAll(json.data.value);
-            self.menu.updateData(json.data.value);
+            $page.myVues.updateAll(json.data.value);
+            $page.menu.updateData(json.data.value);
 
             
-            self.setMainPageLoading();           
-            self.isReady = true;
+            $page.setMainPageLoading();           
+            $page.isReady = true;
             if(typeof initReadyCallBack === 'function') {
             	initReadyCallBack();
             }          

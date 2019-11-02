@@ -7,6 +7,10 @@
  *******************************************************************************/
 /***/
 
+let $player = null;
+let $playlist = null;
+let $page = null;
+
 // Enable navigation prompt, set to null to disable
 window.onbeforeunload = function() {
 	return true;
@@ -17,9 +21,9 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 	window.Storages = Storages;
 	window.Vue = Vue;
 
-	let $player = new PlayerController(Storages);
-	let $playlist = new PlaylistController();
-	let $page = new PageController();
+	$player = new PlayerController(Storages);
+	$playlist = new PlaylistController();
+	$page = new PageController();
 
 	$page.init(function() {
 		$playlist.loadLastFmList(1, null, function() {
