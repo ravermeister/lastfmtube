@@ -107,8 +107,6 @@ class ChartTimer {
                 if (lfmScrobbleDuration > 120) lfmScrobbleDuration = 120;
                 // last.fm scrobble rule: half length of song or 2 min. if
 				// greater
-
-                console.log('>>>', lfmScrobbleDuration);
                 
                 self.clearTimer();
                 self.timerStart = new Date();
@@ -121,7 +119,7 @@ class ChartTimer {
                      10000 
                 );
                 if (self.log)
-                    console.log('timer created, remaining: ', this.timerRemaining);
+                    console.log('timer created, remaining: ', self.timerRemaining);
 
                 if (self.log) clearInterval(durationTimer);
             }
