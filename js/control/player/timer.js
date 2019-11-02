@@ -13,7 +13,7 @@ class ChartTimer {
         this.timerRemaining = null;
         this.timerTrack = null;
         this.timer = null;
-        this.log = false;
+        this.log = true;
         this.lastChartLfmUser = null;
         this.player = player;
         this.init();
@@ -42,13 +42,13 @@ class ChartTimer {
 
     handleTimerEvent() {
 
-        let track = $player.chartTimer.timerTrack;
+        let track = this.timerTrack;
         if ('undefined' === typeof track || track === null) {
-            if ($player.chartTimer.log) console.log('timer event invalid track', track);
+            if (this.log) console.log('timer event invalid track', track);
             return;
         }
 
-        if ($player.chartTimer.log) console.log('handle timer event create needle from track');
+        if (this.log) console.log('handle timer event create needle from track');
 
         let needle = $page.createNeedle(
             track.artist,
@@ -56,18 +56,18 @@ class ChartTimer {
             track.video
         );
 
-        $player.chartTimer.clearTimer();
+        this.clearTimer();
         $page.saveChartTrack(needle);
         if ('undefined' !== typeof track.lfmuser &&
             track.lfmuser !== '' &&
-            $player.chartTimer.lastChartLfmUser !== track.lfmuser) {
-            if ($player.chartTimer.log) console.log('handle save user chart');
+            this.lastChartLfmUser !== track.lfmuser) {
+            if (this.log) console.log('handle save user chart');
             $page.saveChartUser(track.lfmuser);
-            $player.chartTimer.lastChartLfmUser = track.lfmuser;
-        } else if ($player.chartTimer.log) {
+            this.lastChartLfmUser = track.lfmuser;
+        } else if (this.log) {
             console.log(
                 'wont save user chart', track.lfmuser,
-                '<-track timer->', $player.chartTimer.lastChartLfmUser
+                '<-track timer->', this.lastChartLfmUser
             );
         }
 
@@ -107,20 +107,20 @@ class ChartTimer {
                 // last.fm scrobble rule: half length of song or 2 min. if
 				// greater
 
-                $player.chartTimer.clearTimer();
-                $player.chartTimer.timerStart = new Date();
-                $player.chartTimer.timerRemaining = lfmScrobbleDuration;
-                $player.chartTimer.timerTrack = track;
-                $player.chartTimer.timer = setTimeout(
-                    $player.chartTimer.handleTimerEvent,
-                    (lfmScrobbleDuration * 1000)
-                    /** debug * */
-                    /** 10000* */
+                this.clearTimer();
+                this.timerStart = new Date();
+                this.timerRemaining = lfmScrobbleDuration;
+                this.timerTrack = track;
+                this.timer = setTimeout(
+                    this.handleTimerEvent,
+                    /**(lfmScrobbleDuration * 1000)**/
+                    /** debug **/
+                     10000 
                 );
-                if ($player.chartTimer.log)
-                    console.log('timer created, remaining: ', $player.chartTimer.timerRemaining);
+                if (this.log)
+                    console.log('timer created, remaining: ', this.timerRemaining);
 
-                if ($player.chartTimer.log) clearInterval(durationTimer);
+                if (this.log) clearInterval(durationTimer);
             }
             delayCnt++;
         }, delay);
