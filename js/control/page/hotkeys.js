@@ -66,38 +66,37 @@ class HotKeys {
 
     	hotkeys('ctrl+1', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault();
-    		$page.setLoading(PageController.article.playlist.dom, true);
+    		event.preventDefault();    		
+    		$page.setLoading(PageController.article.playlist.dom(), true);
     		$page.loadPage('video', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom);
+    			$page.setLoading(PageController.article.playlist.dom());
     		});
     	});
     	
     	hotkeys('ctrl+2', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.setLoading(PageController.article.playlist.dom, true);
-    		console.log('>>>', PageController.article.playlist.dom);
-    		//$page.loadPage('lastfm', null, function(){
-    		//	$page.setLoading(PageController.article.playlist.dom);
-    		//});
+    		$page.setLoading(PageController.article.playlist.dom(), true);
+    		$page.loadPage('lastfm', null, function(){
+    			$page.setLoading(PageController.article.playlist.dom());
+    		});
     	});
     	
     	hotkeys('ctrl+3', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.setLoading(PageController.article.playlist.dom, true);
+    		$page.setLoading(PageController.article.playlist.dom(), true);
     		$page.loadPage('personal', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom);
+    			$page.setLoading(PageController.article.playlist.dom());
     		});    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.setLoading(PageController.article.playlist.dom, true);
+    		$page.setLoading(PageController.article.playlist.dom(), true);
     		$page.loadPage('topsongs', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom);
+    			$page.setLoading(PageController.article.playlist.dom());
     		});    		
     	});
     	
