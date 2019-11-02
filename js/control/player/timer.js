@@ -90,6 +90,7 @@ class ChartTimer {
         let delay = 500; // ms
         let maxDelayCnt = 10; // 10x500 ms
         let delayCnt = 0;
+        let self = this;
         let durationTimer = setInterval(function () {
             if (delayCnt >= maxDelayCnt) {
                 clearInterval(durationTimer);
@@ -107,20 +108,20 @@ class ChartTimer {
                 // last.fm scrobble rule: half length of song or 2 min. if
 				// greater
 
-                this.clearTimer();
-                this.timerStart = new Date();
-                this.timerRemaining = lfmScrobbleDuration;
-                this.timerTrack = track;
-                this.timer = setTimeout(
-                    this.handleTimerEvent,
+                self.clearTimer();
+                self.timerStart = new Date();
+                self.timerRemaining = lfmScrobbleDuration;
+                self.timerTrack = track;
+                self.timer = setTimeout(
+                	self.handleTimerEvent,
                     /**(lfmScrobbleDuration * 1000)**/
                     /** debug **/
                      10000 
                 );
-                if (this.log)
+                if (self.log)
                     console.log('timer created, remaining: ', this.timerRemaining);
 
-                if (this.log) clearInterval(durationTimer);
+                if (self.log) clearInterval(durationTimer);
             }
             delayCnt++;
         }, delay);
