@@ -619,6 +619,9 @@ class PageController {
     }
 
     saveChartTrack(needle, callback = null) {
+    	
+    	console.log('save track chart, needle valid:', needle.isValid());
+    	
         if (!needle.isValid()) {
             if (callback !== null) {
                 callback(false);
