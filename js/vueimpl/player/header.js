@@ -21,9 +21,7 @@ class LibvuePlayerHeader {
                 TEXT: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    let menu = null;
-                    
-                    menu = $page.menu.getMenuItem(playlist);
+                    let menu = $page.menu.getMenuItem(playlist);
                     return menu.TEXT;
                 },
                 LOGO: function () {
@@ -32,6 +30,9 @@ class LibvuePlayerHeader {
                     let icon = PageController.icons.getPlaylistIcon(playlist);
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
+                /**
+                 * @return {string}
+                 */
                 TRACK_NR: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
@@ -39,7 +40,7 @@ class LibvuePlayerHeader {
                     	if($page.SEARCH_RETURN_PLAYLIST !== null) {
                     		playlist = $page.SEARCH_RETURN_PLAYLIST;
                     	} else {
-                    		return;
+                    		return '';
                     	}
                     }
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {

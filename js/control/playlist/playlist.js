@@ -168,7 +168,6 @@ class PlaylistController {
     
 
     loadVideoCommentList(videoId, pagetoken=false) {
-    	let request = null;    	
     	if(pagetoken===false && $player.commentsLoaded &&
     			$player.currentTrackData.videoId === videoId) {
 // console.log('Comments for Video {} %s already loaded', videoId);
@@ -176,7 +175,7 @@ class PlaylistController {
     	}    	
 // console.log('load comments for video', videoId);
     	
-    	request = 'php/json/page/YouTube.php?action=videoComments' + 
+    	let request = 'php/json/page/YouTube.php?action=videoComments' +
         		'&videoId=' + videoId;
     	if(pagetoken!==false) {
     		request += '&pageToken=' + pagetoken;
