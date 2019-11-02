@@ -31,17 +31,18 @@ class LibvuePlaylist {
     }
 
     setVideo(videoId = '') {
+    	let self = this;
         let callback = function (success) {
             if (success) {
-                this.menu.$data.SAVED_VIDEO_ID = videoId;
+                self.menu.$data.SAVED_VIDEO_ID = videoId;
                 return;
             }
             console.log('error saving video id');
         };
-
+        
         let needle = $page.createNeedle(
-            this.menu.$data.SEARCH_NEEDLE.artist,
-            this.menu.$data.SEARCH_NEEDLE.title,
+            self.menu.$data.SEARCH_NEEDLE.artist,
+            self.menu.$data.SEARCH_NEEDLE.title,
             videoId
         );
 
@@ -49,9 +50,10 @@ class LibvuePlaylist {
     }
 
     unsetVideo(needle = null) {
+    	let self = this;
         let callback = function (success = false) {
             if (success) {
-                if (this.menu.$data.PLAYLIST !== 'search') {
+                if (self.menu.$data.PLAYLIST !== 'search') {
                     for (let cnt in this.content.$data.TRACKS) {
                         let track = this.content.$data.TRACKS[cnt];
                         if (track.VIDEO_ID === needle.videoId) {
@@ -59,7 +61,7 @@ class LibvuePlaylist {
                         }
                     }
                 } else {
-                    this.menu.SAVED_VIDEO_ID = '';
+                    self.menu.SAVED_VIDEO_ID = '';
                 }
             }
         };
