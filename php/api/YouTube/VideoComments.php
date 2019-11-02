@@ -8,7 +8,9 @@
  *******************************************************************************/
 namespace LastFmTube\Api\YouTube;
 
+use Google_Service_YouTube_CommentThread;
 use Google_Service_YouTube_CommentThreadListResponse;
+use Google_Service_YouTube_CommentThreadSnippet;
 
 class VideoComments {
 
@@ -34,15 +36,14 @@ class VideoComments {
           'PER_PAGE' => 25
      );
 
-     /**
-      *
-      * @param string $videoId
-      * @param Google_Service_YouTube_CommentThreadListResponse $commentThreadResponse
-      * @param int $page
-      * @param int $limit
-      */
-     function __construct($videoId, $commentThreadResponse, $page = 1, $limit = 25) {
-          $this->video = $videoId;
+    /**
+     *
+     * @param string $videoId
+     * @param Google_Service_YouTube_CommentThreadListResponse $commentThreadResponse
+     * @param int $page
+     */
+     function __construct($videoId, $commentThreadResponse, $page = 1) {
+          $this->videoId = $videoId;
           $this->initList($commentThreadResponse->getItems());
 
           $this->pageinfo['CURRENT'] = $page;

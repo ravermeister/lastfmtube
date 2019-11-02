@@ -7,6 +7,7 @@
  *     Jonny Rimkus - initial API and implementation
  *******************************************************************************/
 use LastFmTube\Util\Db;
+use LastFmTube\Util\Functions;
 use LastFmTube\Util\SiteMap;
 use LastFmTube\Util\Strings;
 
@@ -38,18 +39,25 @@ class AdminControl {
 
      private function generateSiteMap($outfile) {
           echo 'generating sitemap...';
-
-          $sitemap = new SiteMap('https://lastfm.rimkus.it', $outfile);
-          $sitemap->addURL('/topsongs');
-          $sitemap->addURL('/lastfm');
-          $sitemap->addURL('/users');
-          $sitemap->addURL('/video');
-          $sitemap->addURL('/personal');
-          $sitemap->create(true);
+          try {
+              $sitemap = new SiteMap('https://lastfm.rimkus.it', $outfile);
+              $sitemap->addURL('/topsongs');
+              $sitemap->addURL('/lastfm');
+              $sitemap->addURL('/users');
+              $sitemap->addURL('/video');
+              $sitemap->addURL('/personal');
+              $sitemap->create(true);
+          } catch (Exception $err) {
+              Functions::getInstance()->logMessage('Error: '.$err->getMessage());
+          }
 
           echo "finished\n";
      }
 
+    /**
+     * @param $csvGlob
+     * @throws Exception
+     */
      private function initReplacements($csvGlob) {
           $csvFiles = glob($csvGlob);
           echo 'initalize Database connection...';
@@ -76,6 +84,10 @@ class AdminControl {
           echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n" . " -importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";
      }
 
+    /**
+     * @return int
+     * @throws Exception
+     */
      public function process() {
           if ($this->hasArg('-generateSiteMap')) {
                $outfile = $this->argVal('file=');
@@ -104,7 +116,14 @@ if (strcmp(php_sapi_name(), 'cli') !== 0) {
 }
 
 $control = new AdminControl();
-$exitCode = $control->process();
+try {
+    $exitCode = $control->process();
+} catch (Exception $e) {
+    echo 'Error occured: '.$e->getMessage();
+    $exitCode = -1;
+}
+
+
 if ($exitCode != 0) {
      $control->printHelp();
 }

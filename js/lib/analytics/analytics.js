@@ -1,7 +1,7 @@
 define(function (require) {
 
     try {
-        var module;
+        let module;
 
         // Setup temporary Google Analytics objects.
         window.GoogleAnalyticsObject = "ga";

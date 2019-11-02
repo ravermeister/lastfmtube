@@ -90,7 +90,7 @@ class PageController {
 
 	changeUrl(title, url) {
 	    if (typeof (history.pushState) != "undefined") {
-	        var obj = { Title: title, Url: url };
+	        let obj = { Title: title, Url: url };
 	        history.pushState(obj, obj.Title, obj.Url);
 	    } else {
 	        alert("Browser does not support HTML5.");
@@ -258,7 +258,7 @@ class PageController {
     applyJQueryMethods() {
         $.urlParam = function (name, url = null) {
             let theUrl = url !== null ? url : window.location.href;
-            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
+            let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(theUrl);
             return results === null ? null : results[1] || null;
         };
         $.logXhr = function (xhr) {
@@ -307,14 +307,12 @@ class PageController {
             return url;
         };
         Vue.prototype.$url = function (menu, log = false) {
-            let url = this.$url2(menu.PAGE, menu.PLAYLIST, log);
+            return this.$url2(menu.PAGE, menu.PLAYLIST, log);
             // console.log('for menu', menu);
-            return url;
         };
 
         Vue.prototype.$getMenuForPlaylist = function (playlist, json = null) {
-            let menu = $page.menu.getMenu(playlist);
-            return menu;
+            return page.menu.getMenu(playlist);
         };
 
         Vue.prototype.$loadListMenu = function (menu, event) {
@@ -409,7 +407,7 @@ class PageController {
     }
     
     initShareButtons() {
-		var a2a_config = a2a_config || {};
+		let a2a_config = a2a_config || {};
 
 		a2a_config.linkname = "Last.fm YouTube Radio";
 		a2a_config.linkurl = "https://lastfm.rimkus.it";

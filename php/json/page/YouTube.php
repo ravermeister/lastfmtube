@@ -10,6 +10,8 @@ namespace LastFmTube\Json\Page;
 
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
+use LastFmTube\Api\YouTube\VideoComments;
+use LastFmTube\Api\YouTube\YouTubeVideo;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
@@ -20,7 +22,7 @@ class YouTube extends DefaultJson {
      const MAX_YT_SEARCH_SIZE = 50;
 
      public function __construct() {
-          parent::__construct('youtube');
+          parent::__construct();
      }
 
      public static function process($returnOutput = false) {
@@ -31,6 +33,9 @@ class YouTube extends DefaultJson {
           die($data);
      }
 
+    /**
+     * @return array|mixed|void
+     */
      public function get() {
           try {
                switch (self::getVar('action', '')) {
@@ -50,10 +55,13 @@ class YouTube extends DefaultJson {
           }
      }
 
-     /**
-      *
-      * @return array|void
-      */
+    /**
+     *
+     * @param string $videoId
+     * @param bool $page
+     * @param int $limit
+     * @return array|void
+     */
      private function loadVideoComments($videoId = '', $page = false, $limit = 7) {
           if (strlen($videoId) == 0) return;
 
@@ -88,7 +96,7 @@ class YouTube extends DefaultJson {
 
           $videos = $searcher->searchVideo($size);
           if ($size == 1) {
-               if (sizeof($videos) <= 0) return '';
+               if (sizeof($videos) <= 0) return;
 
                /** @var YouTubeVideo $video */
                $video = $videos[0];
@@ -116,6 +124,10 @@ class YouTube extends DefaultJson {
           return $tracks;
      }
 
+    /**
+     * @return array|mixed|void
+     * @throws Exception
+     */
      public function post() {
           switch (self::getVar('action', '')) {
                case 'save-video':
@@ -127,13 +139,17 @@ class YouTube extends DefaultJson {
           }
      }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
      private function saveVideo() {
           $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
           $title = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));
           $video = trim($this->funcs->decodeHTML(self::getVar('videoId', '', $_POST)));
           if (strlen($video) === 0 || (strlen($title) === 0 && strlen($artist) === 0)) {
                $this->jsonError('invalid Arguments');
-               return;
+               return array();
           }
 
           $db = Db::getInstance();
@@ -149,12 +165,16 @@ class YouTube extends DefaultJson {
           return $track;
      }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
      private function deleteVideo() {
           $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
           $title = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));
           if (strlen($title) === 0 && strlen($artist) === 0) {
                $this->jsonError('invalid Arguments');
-               return;
+               return array();
           }
           $track = array(
                'artist' => $artist,

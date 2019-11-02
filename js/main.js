@@ -17,9 +17,9 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 	window.Storages = Storages;
 	window.Vue = Vue;
 
-	$player = new PlayerController(Storages);
-	$playlist = new PlaylistController();
-	$page = new PageController();
+	let $player = new PlayerController(Storages);
+	let $playlist = new PlaylistController();
+	let $page = new PageController();
 
 	$page.init(function() {
 		$playlist.loadLastFmList(1, null, function() {

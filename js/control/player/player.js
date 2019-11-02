@@ -53,7 +53,7 @@ class PlayerController {
                     break;
             }
         });
-        this.addErrorListener(function (event) {
+        this.addErrorListener(function () {
         	self.errorLoopCount++;
 
             if ($page.myVues.playlist.menu.$data.PLAYLIST === 'search') {
@@ -145,8 +145,8 @@ class PlayerController {
         if (curTrack === null) return;
         let tracks = $page.myVues.playlist.content.$data.TRACKS;
         if (tracks.length === 0) return;
-        let isLast = curTrack !== null && ($page.myVues.playlist.menu.$data.CUR_PAGE *
-        		$page.settings.general.tracksPerPage) === parseInt(curTrack.NR);
+        let isLast = ($page.myVues.playlist.menu.$data.CUR_PAGE *
+            $page.settings.general.tracksPerPage) === parseInt(curTrack.NR);
         let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracksPerPage) - 2;
 
         if(this.loadNextOnError) {
@@ -339,17 +339,15 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null) return false;        
         let checkNr = curTrack.PLAYLIST !== 'topsongs';
-        
-        let isEqual = curTrack !== null && (
 
+        //isEqual
+        return (
             curTrack === track || (
                 (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&
                 curTrack.PLAYLIST === track.PLAYLIST &&
                 curTrack.ARTIST === track.ARTIST &&
                 curTrack.TITLE === track.TITLE
             ));
-
-        return isEqual;
     }
 
     isPlaying() {
