@@ -253,14 +253,14 @@ class Db {
                'DELETE_FIMPORT' => '
                 DELETE FROM fimport WHERE shasum = :shasum
                ',
-               
+
                'INSERT_FIMPORT' => '
                 INSERT INTO fimport VALUES(:fname, :shasum)
                ',
 
                'SET_FIMPORT' => '
                 REPLACE INTO fimport VALUES(:fname, :shasum)
-               '               
+               '
           );
 
           foreach ($this->statements as $prefix => $query) {

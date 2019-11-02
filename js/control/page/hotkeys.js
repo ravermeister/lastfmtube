@@ -95,7 +95,8 @@ class HotKeys {
     	});
     	
     	/**
-		 * TODO: add hotkeys for search
+		 * TODO: add hotkeys for search, 
+		 * and find out how to override youtube iframe key capturing
 		 */
     	
 		HotKeys.globalInit = true;
