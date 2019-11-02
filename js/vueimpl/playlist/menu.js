@@ -121,7 +121,7 @@ class LibvuePlaylistMenu {
                     if (this.SEARCH_VIDEO_ID === videoId) this.$forceUpdate();
                     else this.SEARCH_VIDEO_ID = videoId;
                     $(field).trigger('blur');
-                    $player.ytPlayer.loadVideoById(videoId);
+                    $player.playerWindow.ytPlayer.loadVideoById(videoId);
                 },
 
                 setVideo: function (vid) {
