@@ -13,7 +13,7 @@ class ChartTimer {
         this.timerRemaining = null;
         this.timerTrack = null;
         this.timer = null;
-        this.log = true;
+        this.log = false;
         this.lastChartLfmUser = null;
         this.player = player;
         this.init();
