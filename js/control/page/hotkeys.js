@@ -77,9 +77,10 @@ class HotKeys {
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
     		$page.setLoading(PageController.article.playlist.dom, true);
-    		$page.loadPage('lastfm', null, function(){
-    			$page.setLoading(PageController.article.playlist.dom);
-    		});
+    		console.log('>>>', PageController.article.playlist.dom);
+    		//$page.loadPage('lastfm', null, function(){
+    		//	$page.setLoading(PageController.article.playlist.dom);
+    		//});
     	});
     	
     	hotkeys('ctrl+3', function(event, handler){
