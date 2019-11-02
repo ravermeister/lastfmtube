@@ -83,7 +83,7 @@ class PlaylistController {
                 SEARCH_RESULT: tracks
             },
 
-            TRACKS: tracks.slice(0, PageController.TRACKS_PER_PAGE)
+            TRACKS: tracks.slice(0, $page.settings.general.tracksPerPage)
         });
 
         if (typeof callBack === 'function') {
@@ -146,9 +146,7 @@ class PlaylistController {
         
         
         for (let cnt = 0; cnt < tracks.length; cnt++) {
-            let track = tracks[cnt];
-            
-            console.log('pnum', pageNum, 'perpage', tracksPerPage);            
+            let track = tracks[cnt];            
             track.NR = ((pageNum - 1) * tracksPerPage) + (cnt + 1);
         }
 
@@ -286,7 +284,7 @@ class PlaylistController {
         if (index >= tracks.length || index < 0 || tracks.length === 0) return;
         
         let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
-        let offset = ((pageNum - 1) * PageController.TRACKS_PER_PAGE);
+        let offset = ((pageNum - 1) * $page.settings.general.tracksPerPage);
         tracks.splice(offset + index, 1);
         this.setUserTracks(tracks);
     }
@@ -314,12 +312,10 @@ class PlaylistController {
             pageNum = ($page.myVues.playlist.menu.$data.CUR_PAGE) | 0;
         }
 
-        console.log('pnum1', pageNum);
         if (pageNum > pageCount) pageNum = pageCount;
         else if (pageNum < 1) pageNum = 1;
 
         $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
-        console.log('pnum1', pageNum);
         return pageNum;
     }
 }
