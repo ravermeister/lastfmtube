@@ -311,7 +311,7 @@ class PageController {
             // console.log('for menu', menu);
         };
 
-        Vue.prototype.$getMenuForPlaylist = function (playlist, json = null) {
+        Vue.prototype.$getMenuForPlaylist = function (playlist) {
             return $page.menu.getMenu(playlist);
         };
 

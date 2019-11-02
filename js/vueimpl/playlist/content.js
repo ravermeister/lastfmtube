@@ -65,7 +65,6 @@ static createVue(){
                             $player.ytPlayer.playVideo();
                         } else {
                             console.log('unbekannter zustand für play/pause');
-                            console.log(track_icon);
                         }
                     } else if ($page.QUICKPLAY_TRACK === track) {
                         $player.errorLoopCount = 0;

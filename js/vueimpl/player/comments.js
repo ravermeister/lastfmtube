@@ -14,7 +14,7 @@ class LibvuePlayerComments {
             data: {
             	showComments: false,
             	videoId: '',
-            	pageinfo: [],
+            	pageinfo: {},
             	commentData: [],
             },
             computed: {

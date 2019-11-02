@@ -23,9 +23,7 @@ class PlayerWindow {
 	}
 	
 	initYtPlayer(width, height, video, initReadyCallback) {
-		
-		let playerWindow = this;
-		
+
         let onReady = function (event) {
         	$player.isReady = true;
 // console.log('youtube player ready');

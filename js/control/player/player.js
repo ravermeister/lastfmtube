@@ -296,7 +296,7 @@ class PlayerController {
         this.loadVideo(videoId);	   
     }
 
-    loadVideo(videoId = '') {
+    loadVideo(videoId = null) {
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             this.playerWindow.ytPlayer.loadVideoById(videoId);
             this.commentsLoaded = false;
