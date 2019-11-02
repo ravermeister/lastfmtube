@@ -207,6 +207,7 @@ class PageController {
         });
     }
     loadList(pageNum = 1, user = null, callBack = null, playlist = null) {
+       
         if (playlist === null) playlist = $page.PLAYLIST;
         if (playlist === null) playlist = 'lastfm';
 
@@ -366,8 +367,8 @@ class PageController {
                             curNr = parseInt(curNr) - parseInt($player.currentTrackData.track.PLAYCOUNT_CHANGE);
                         }
 
-                        let curPage = (curNr / $page.settings.general.tracks_perpage) | 0;
-                        if ((curNr % $page.settings.general.tracks_perpage) > 0) curPage++;
+                        let curPage = (curNr / $page.settings.general.tracksPerPage) | 0;
+                        if ((curNr % $page.settings.general.tracksPerPage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
                     }
 
@@ -679,9 +680,9 @@ class PageController {
                         }
                     }
 
-                    if ($page.myVues.playlist.content.$data.TRACKS.length > $page.settings.general.tracks_perpage) {
+                    if ($page.myVues.playlist.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
                         $page.myVues.playlist.content.$data.TRACKS.splice(
-                        	$page.settings.general.tracks_perpage,
+                        	$page.settings.general.tracksPerPage,
                             $page.myVues.playlist.content.$data.TRACKS.length
                         );
 
