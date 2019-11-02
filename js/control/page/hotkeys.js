@@ -17,7 +17,7 @@ class HotKeys {
 		if(HotKeys.globalInit === true) return;
 		
 		let toggleLoading = function(loading = false) {
-			console.log('loading', false);
+			console.log('loading', loading);
     		$page.setLoading(PageController.article.user.dom(), loading);
     		$page.setLoading(PageController.article.playlist.dom(), loading);
     		$page.setLoading(PageController.article.video.dom(), loading);
@@ -76,7 +76,7 @@ class HotKeys {
     		event.preventDefault();    		
 
     		toggleLoading(true);    		
-    		$page.loadPage('video', null, function(){
+    		$page.loadPage('video', function(){
     			toggleLoading();
     		});
     	});
@@ -86,7 +86,7 @@ class HotKeys {
     		event.preventDefault(); 
 
     		toggleLoading(true);
-    		$page.loadPage('lastfm', null, function(){
+    		$page.loadPage('lastfm', function(){
     			toggleLoading();
     		});
     	});
@@ -96,7 +96,7 @@ class HotKeys {
     		event.preventDefault(); 
     		
     		toggleLoading(true);
-    		$page.loadPage('personal', null, function(){
+    		$page.loadPage('personal', function(){
     			toggleLoading();
     		});    		
     	});
@@ -106,7 +106,7 @@ class HotKeys {
     		event.preventDefault(); 
     		
     		toggleLoading(true);
-    		$page.loadPage('topsongs', null, function(){
+    		$page.loadPage('topsongs', function(){
     			toggleLoading();
     		});    		
     	});
@@ -116,7 +116,7 @@ class HotKeys {
     		event.preventDefault(); 
 
     		toggleLoading(true);
-    		$page.loadPage('users', null, function(){
+    		$page.loadPage('users', function(){
     			toggleLoading();
     		});    		
     	});
