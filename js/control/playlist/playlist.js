@@ -92,6 +92,7 @@ class PlaylistController {
     }
 
     loadTopSongs(pageNum = 1, sortBy = null, callBack = null) {
+    	console.log('load topsongs');
     	
     	if(sortBy === null) {
     		sortBy = $page.myVues.playlist.menu.$data.SORTBY.SELECTED;
