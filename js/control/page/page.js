@@ -371,7 +371,7 @@ class PageController {
                         let curPage = (curNr / $page.settings.general.tracks_perpage) | 0;
                         if ((curNr % $page.settings.general.tracks_perpage) > 0) curPage++;
                         if (!isNaN(curPage)) pageNum = curPage;
-                        console.log('curNr', curNr, 'curPate', curPage,'calculated page>>', pageNum);
+                        console.log('curNr', curNr, 'curPage', curPage,'calculated page>>', pageNum, 'modulo', (curNr % $page.settings.general.tracks_perpage));
                     }
 
                     $page.loadList(pageNum, null, showPage, menu.LDATA);
