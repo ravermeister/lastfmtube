@@ -58,7 +58,7 @@ class HotKeys {
     		$player.volumeDown();    		
     	});
     	
-    	hotkeys('space, enter', function(event, handler){
+    	hotkeys('space', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
     		$player.togglePlay();    		
