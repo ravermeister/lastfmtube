@@ -40,12 +40,11 @@ class ChartTimer {
         });
     }
 
-    handleTimerEvent(self) {
-    	console.log('handle timer event!!', this, '<>', self, 'equal', self === this);
-    	
-        let track = self.timerTrack;
+    handleTimerEvent() {
+   	
+        let track = this.timerTrack;
         if ('undefined' === typeof track || track === null) {
-            if (self.log) console.log('timer event invalid track', track);
+            if (this.log) console.log('timer event invalid track', track);
             return;
         }
 
@@ -57,18 +56,18 @@ class ChartTimer {
             track.video
         );
 
-        self.clearTimer();
+        this.clearTimer();
         $page.saveChartTrack(needle);
         if ('undefined' !== typeof track.lfmuser &&
             track.lfmuser !== '' &&
-            self.lastChartLfmUser !== track.lfmuser) {
-            if (self.log) console.log('handle save user chart');
+            this.lastChartLfmUser !== track.lfmuser) {
+            if (this.log) console.log('handle save user chart');
             $page.saveChartUser(track.lfmuser);
-            self.lastChartLfmUser = track.lfmuser;
-        } else if (self.log) {
+            this.lastChartLfmUser = track.lfmuser;
+        } else if (this.log) {
             console.log(
                 'wont save user chart', track.lfmuser,
-                '<-track timer->', self.lastChartLfmUser
+                '<-track timer->', this.lastChartLfmUser
             );
         }
 
