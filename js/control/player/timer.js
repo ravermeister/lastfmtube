@@ -41,7 +41,8 @@ class ChartTimer {
     }
 
     handleTimerEvent() {
-
+    	console.log('handle timer event!!');
+    	
         let track = this.timerTrack;
         if ('undefined' === typeof track || track === null) {
             if (this.log) console.log('timer event invalid track', track);
