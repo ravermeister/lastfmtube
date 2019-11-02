@@ -133,11 +133,8 @@ class PlaylistController {
 
         let tracks = this.getUserTracks();
         let tracksPerPage = $page.settings.general.tracksPerPage;
-        
-        console.log('>>>tracks1:', tracks.length);        
         pageNum = this.updateUserListPages(pageNum, tracks);
-        console.log('>>>tracks2:', tracks.length);
-        
+                
         let endIndex = pageNum * tracksPerPage;
         let startIndex = endIndex - tracksPerPage;
 
@@ -317,11 +314,12 @@ class PlaylistController {
             pageNum = ($page.myVues.playlist.menu.$data.CUR_PAGE) | 0;
         }
 
+        console.log('pnum1', pageNum);
         if (pageNum > pageCount) pageNum = pageCount;
         else if (pageNum < 1) pageNum = 1;
 
         $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
-
+        console.log('pnum1', pageNum);
         return pageNum;
     }
 }
