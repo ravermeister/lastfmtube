@@ -20,7 +20,7 @@ class HotKeys {
     		$page.setLoading(PageController.article.user.dom(), loading);
     		$page.setLoading(PageController.article.playlist.dom(), loading);
     		$page.setLoading(PageController.article.video.dom(), loading);
-		}
+		};
 		
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
