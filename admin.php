@@ -141,7 +141,7 @@ class AdminControl {
                return 0;
           }
 
-          if ($this->hasArg('-clearTempDir')) {
+          if ($this->hasArg('-cleanTempDir')) {
                $this->clearTempFiles();
                return 0;
           }
