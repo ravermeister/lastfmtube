@@ -30,11 +30,12 @@ class ThemeHandler {
           if ($tplStart === false) {
                return false;
           }
-          $tplEnd = strpos($themeData, '{{/TEMPLATE}}', $tplStart);
-
+          $tplEnd = strpos($themeData, '{{/TEMPLATE}}', $tplStart);          
           $templateFile = substr($themeData, $tplStart, ($tplEnd - $tplStart));
+          Functions::getInstance()->log('Template file: '. $templateFile);
           $templateData = file_get_contents($themeDir, $templateFile);
-
+          
+          $tplEnd += strlen('{{/TEMPLATE}}');
           return substr_replace($themeData, $templateData, $tplStart, ($tplEnd - $tplStart));
      }
 
