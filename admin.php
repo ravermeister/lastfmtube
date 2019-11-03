@@ -105,7 +105,7 @@ class AdminControl {
           
           echo 'clearing temp directory >' . $tmpdir . '< ...';          
           $this->deleteFiles($tmpdir);
-          mkdir($tmpdir);          
+          //mkdir($tmpdir);          
           echo "Done\n";
      }
 
