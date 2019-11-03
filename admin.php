@@ -109,7 +109,7 @@ class AdminControl {
           $tmpdir = dirname(__FILE__) . '/' . $settings['general']['tmpdir'];
           
           echo 'clearing temp directory >' . $tmpdir . '< ...';    
-          $this->deleteFiles($tmpdir);
+          $this->deleteFiles($tmpdir);          
           if (! is_dir($tmpdir)) {
                mkdir($tmpdir, 0777, true);
           }
