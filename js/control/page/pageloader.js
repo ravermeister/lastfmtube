@@ -76,15 +76,16 @@ class PageLoader {
 		
 	}
 	
-	setLoading(active = false) {
+	setLoading(currentPage = null, active = false) {
 		
-		if(this.currentPage === null || this.currentPage === this.pages.base) {			
-			$page.myVues.main.logo.$data.PAGE_LOADER = active ?
-					$page.icons.loader.bigger : $page.icons.diamond.bigger;
+		if(currentPage === null) {
+			currentPage = this.currentPage;
 		}
 		
-        
-        if ($(this.pages.userlist.topuser.element).is(currentPage.element)) {
+		if(currentPage === null || $(this.pages.base.element).is(currentPage.element)) {			
+			$page.myVues.main.logo.$data.PAGE_LOADER = active ?
+					$page.icons.loader.bigger : $page.icons.diamond.bigger;
+		} else if ($(this.pages.userlist.topuser.element).is(currentPage.element)) {
             this.myVues.userlist.topuser.header.title.$data.LOADING = active;
         } else if ($(this.pages.playlist.user.element).is(currentPage.element)) {
             this.myVues.playlist.user.header.title.$data.LOADING = active;
@@ -105,13 +106,19 @@ class PageLoader {
 	loadPage(page = 'video', callBack = null) {
 		
 		let thePage = this.pages.getByValue(page);
-		if(thePage === null) return;		
-        this.setLoading(true);
+		if(thePage === null) return;	
+		
+		let lastPage = this.currentPage;
+        this.setLoading(lastPage, true);
         
-		switch(page) {
-			case 'topsongs':
-
-				
+		switch(thePage.value) {
+			case 'playlist.topsongs':
+				let sortBy = $page.myVues.playlist.topsongs.menu.$data.SORTBY.SELECTED;
+				$playlist.loadTopSongs(1, function(result, data){
+					if(result) {						
+						$page.myVues.playlist.topsongs.update(json.data.value);
+					}
+				});
 				
 				$page.load('playlist-topsongs-container' ,'topsongs', function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');	
@@ -122,7 +129,7 @@ class PageLoader {
 			break;
 		}
 		
-		this.setLoading();
+		this.setLoading(lastPage);
 		if(typeof callBack === 'function') {
 			callBack(success);
 		}

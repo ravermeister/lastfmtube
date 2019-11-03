@@ -59,7 +59,7 @@
 			</div>
 
 			<div v-if="PLAYLIST === 'topsongs'" class="field third btn-page-nav">
-				<label>{{SORTBY.LABEL}}</label> <select id="topsong-sortby"
+				<label>{{SORTBY.LABEL}}</label> <select id="topsongs-sortby"
 					v-model="SORTBY.SELECTED" @change="sortBy(event)">
 					<template v-for="VALUE in SORTBY.VALUES">
 					<option>{{VALUE}}</option>
