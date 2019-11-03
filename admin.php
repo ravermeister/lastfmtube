@@ -101,7 +101,7 @@ class AdminControl {
 
      private function clearTempFiles() {
           $settings = Functions::getInstance()->getSettings();
-          $tmpdir = $settings['general']['basedir'] . '/' . $settings['general']['tmpdir'];
+          $tmpdir = $settings['general']['baseurl'] . '/' . $settings['general']['tmpdir'];
           
           echo 'clearing temp directory >' . $tmpdir . '< ...';          
           $this->deleteFiles($tmpdir);
