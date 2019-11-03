@@ -85,11 +85,15 @@ class PageLoader {
 		
         
         if ($(this.pages.userlist.topuser.element).is(currentPage.element)) {
-            this.myVues.userlist.header.title.$data.LOADING = active;
+            this.myVues.userlist.topuser.header.title.$data.LOADING = active;
         } else if ($(this.pages.playlist.user.element).is(currentPage.element)) {
-            this.myVues.playlist.header.title.$data.LOADING = active;
-        } else if ($(curArticle).is(PageController.article.video.dom())) {
-            this.myVues.youtube.header.$data.LOADING = active;
+            this.myVues.playlist.user.header.title.$data.LOADING = active;
+        } else if ($(this.pages.playlist.lastfm.element).is(currentPage.element)) {
+            this.myVues.playlist.lastfm.header.title.$data.LOADING = active;
+        } else if ($(this.pages.playlist.search.element).is(currentPage.element)) {
+            this.myVues.playlist.search.header.title.$data.LOADING = active;
+        } else if ($(this.pages.video.youtube.element).is(currentPage.element)) {
+            this.myVues.video.youtube.header.title.$data.LOADING = active;
         }
 	}
 

@@ -375,7 +375,7 @@ class PageController {
             	search: new LibvuePlaylist('playlist-search-container')
             },
             video: {
-            	youtube: new LibvueVideo('video-container'),
+            	youtube: new LibvueVideo('video-youtube-container'),
             },
             userlist: {
             	topuser: new LibvueUser('userlist-topuser-container'),
