@@ -36,12 +36,12 @@ class ThemeHandler {
           $fileEndPos = $tplEndPos - $fileStartPos;
 
           $templateFile = substr($themeData, $fileStartPos, $fileEndPos);
-          $templateData = file_get_contents($themeDir, ($themeDir . '/' . $templateFile));
+          $templateData = file_get_contents($themeDir . '/' . $templateFile);
 
           $mergedData = substr_replace($themeData, $templateData, $tplStartPos, ($tplEndPos - $tplStartPos));
-          
+
           die($mergedData);
-          
+
           return $mergedData;
      }
 
