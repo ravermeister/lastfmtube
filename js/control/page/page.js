@@ -401,10 +401,12 @@ class PageController {
             video: new LibvueVideo('video-container'),
             userlist: new LibvueUser('user-container'),
 
-            updateAll: function (json) {
-                this.base.update(json);
-                this.playlist.update(json);
-                this.youtube.update(json);
+            updateAll: function (json) {            	
+                this.base.update(json);                
+                this.playlist.lastfm.update(json);
+                this.playlist.user.update(json);
+                this.playlist.search.update(json);                
+                this.video.update(json);
                 this.userlist.update(json);
             }
         };
