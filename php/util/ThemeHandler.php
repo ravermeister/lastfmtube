@@ -10,45 +10,49 @@ namespace LastFmTube\Util;
 class ThemeHandler {
 
      private $cacheDir = null;
-     
+
      public function __construct($cacheDir = null) {
           $this->cacheDir = $cacheDir;
      }
 
-
      public function getTheme($file) {
           $themeData = $this->readFromCache($file);
-          if($themeData !== false) {
+          if ($themeData !== false) {
                return $themeData;
           }
-          
-          
-          $themeData = file_get_contents($file);          
+
+          $themeData = file_get_contents($file);
           while (($newData = $this->searchNestedThemes(dirname($file), $themeData)) !== false) {
                $themeData = $newData;
           }
-          
-          $themeData = $this->replaceVars($themeData);          
+
+          $themeData = $this->replaceVars($themeData);
           $this->saveToCache($file, $themeData);
-          
+
           return $themeData;
      }
-     
+
      private function readFromCache($file) {
-          if($this->cacheDir === null) return false;
-          
+          if ($this->cacheDir === null) return false;
+
           $hash = sha1_file($file);
-          $cacheFile = $this->cacheDir.'/'.$hash;
+          $absCacheDir = dirname(__FILE__) . '/../../' . $this->cacheDir;
+          $cacheFile = $absCacheDir . '/' . $hash;
           return file_get_contents($cacheFile);
      }
 
      private function saveToCache($file, $data) {
-          if($this->cacheDir === null) {
+          if ($this->cacheDir === null) {
                return true;
           }
-          
+
+          $absCacheDir = dirname(__FILE__) . '/../../' . $this->cacheDir;
+          if (! is_dir($absCacheDir)) {
+               mkdir($absCacheDir, null, true);
+          }
+
           $hash = sha1_file($file);
-          $cacheFile = $this->cacheDir.'/'.$hash;
+          $cacheFile = $absCacheDir . '/' . $hash;
           $result = file_put_contents($cacheFile, $data);
           return $result !== false;
      }
