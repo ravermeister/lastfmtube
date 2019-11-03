@@ -32,7 +32,7 @@ class ThemeHandler {
           }
           $tplEnd = strpos($themeData, '{{/TEMPLATE}}', $tplStart);          
           $templateFile = substr($themeData, $tplStart, ($tplEnd - $tplStart));
-          Functions::getInstance()->log('Template file: '. $templateFile);
+          Functions::getInstance()->logMessage('Template file: '. $templateFile);
           $templateData = file_get_contents($themeDir, $templateFile);
           
           $tplEnd += strlen('{{/TEMPLATE}}');
