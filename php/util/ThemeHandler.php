@@ -26,23 +26,23 @@ class ThemeHandler {
      }
 
      private function searchNestedThemes($themeDir, $themeData) {
-
           $tplStartPos = strpos($themeData, '{{TEMPLATE}}');
           if ($tplStartPos === false) {
                return false;
           }
           $tplEndPos = strpos($themeData, '{{/TEMPLATE}}', $tplStartPos);
-          
-          $fileStartPos = $tplStartPos+strlen('{{TEMPLATE}}');
+
+          $fileStartPos = $tplStartPos + strlen('{{TEMPLATE}}');
           $fileEndPos = $tplEndPos - $fileStartPos;
-          
+
           $templateFile = substr($themeData, $fileStartPos, $fileEndPos);
-          Functions::getInstance()->logMessage('Template file: ' . $themeDir.'/'.$templateFile);
+          $templateData = file_get_contents($themeDir, ($themeDir . '/' . $templateFile));
 
-          $templateData = file_get_contents($themeDir, $templateFile);
-
-          $tplEndPos += strlen('{{/TEMPLATE}}');
-          return substr_replace($themeData, $templateData, $tplStartPos, ($tplEndPos - $tplStartPos));
+          $mergedData = substr_replace($themeData, $templateData, $tplStartPos, ($tplEndPos - $tplStartPos));
+          
+          die($mergedData);
+          
+          return $mergedData;
      }
 
      private function replaceVars($themeData) {
