@@ -10,38 +10,8 @@ class PageController {
 
     constructor() {
 
-        PageController.article = {
-
-            user: {
-                dom: function () {
-                    // language=JQuery-CSS
-                    return $('article[name=user-container]');
-                },
-
-                name: 'user-container'
-            },
-
-            playlist: {
-                dom: function () {
-                    // language=JQuery-CSS
-                    return $('article[name=playlist-container]');
-                },
-
-                name: 'playlist-container'
-            },
-
-            video: {
-                dom: function () {
-                    // language=JQuery-CSS
-                    return $('article[name=video-container]');
-                },
-
-                name: 'video-container'
-            }
-        };
-
-        PageController.analytics = null;
-        PageController.icons = new Icons();
+        this.analytics = null;
+        this.icons = new Icons();
         this.settings = {};
         this.isReady = false;
         this.PLAYLIST = null;
@@ -397,22 +367,27 @@ class PageController {
 
     initMyVues() {
         this.myVues = {
-            base: new LibvueMainpage(),
+            main: new LibvueMainpage(),
+            
             playlist: {
             	lastfm: new LibvuePlaylist('playlist-lastfm-container'),
             	user: new LibvuePlaylist('playlist-user-container'),
             	search: new LibvuePlaylist('playlist-search-container')
             },
-            video: new LibvueVideo('video-container'),
-            userlist: new LibvueUser('user-container'),
+            video: {
+            	youtube: new LibvueVideo('video-container'),
+            },
+            userlist: {
+            	topuser: new LibvueUser('userlist-topuser-container'),
+            },
 
             updateAll: function (json) {            	
-                this.base.update(json);                
+                this.main.update(json);                
                 this.playlist.lastfm.update(json);
                 this.playlist.user.update(json);
                 this.playlist.search.update(json);                
-                this.video.update(json);
-                this.userlist.update(json);
+                this.video.youtube.update(json);
+                this.userlist.topuser.update(json);
             }
         };
     }
@@ -515,21 +490,6 @@ class PageController {
         );
     }
 
-    setLoading(curArticle, active = false) {
-
-        if ($(curArticle).is(PageController.article.user.dom())) {
-            this.myVues.userlist.header.title.$data.LOADING = active;
-        } else if ($(curArticle).is(PageController.article.playlist.dom())) {
-            this.myVues.playlist.header.title.$data.LOADING = active;
-        } else if ($(curArticle).is(PageController.article.video.dom())) {
-            this.myVues.youtube.header.$data.LOADING = active;
-        }
-    }
-
-    setMainPageLoading(active = false) {
-        this.myVues.base.logo.$data.PAGE_LOADER = active ?
-            PageController.icons.loader.bigger : PageController.icons.diamond.bigger;
-    }
 
     createNeedle(artist = '', title = '', videoId = '') {
         return {

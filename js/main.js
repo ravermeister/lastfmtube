@@ -26,10 +26,13 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 	$page = new PageController();
 
 	$page.init(function() {
-		// maybe set it to page...
-		require([ 'analytics' ], function(analytics) {
-			PageController.analytics = analytics;
-		});
+		try {
+			require([ 'analytics' ], function(analytics) {
+				$page.analytics = analytics;
+			});
+		} catch (error) {
+			console.log('error initializing Google analytics: ', error);
+		}
 
 		$player.initWindow(function() {
 			HotKeys.init();
