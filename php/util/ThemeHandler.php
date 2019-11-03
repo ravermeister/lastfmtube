@@ -1,6 +1,12 @@
 <?php
 namespace LastFmTube\Util;
 
+/**
+ * Merge Theme Tempplates together.
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ * 
+ */
 class ThemeHandler {
 
      private $themes = array();

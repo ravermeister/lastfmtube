@@ -8,10 +8,13 @@
 /***/
 class LibvueUser {
 
-    constructor() {
+    constructor(elementId) {
+    	
+    	this.elementId = elementId;
+    	
         this.header = {
             title: new Vue({
-                el: '#user-container>.page-header-title>h2',
+                el: '#'+elementId+'>.page-header-title>h2',
                 data: {
                     HEADER: '',
                     TEXT: '',
@@ -36,7 +39,7 @@ class LibvueUser {
             }),
 
             menu: new Vue({
-                el: '#user-container>.page-header-nav',
+                el: '#'+elementId+'>.page-header-nav',
                 data: {
                     TYPE: ''
                 },
@@ -58,7 +61,7 @@ class LibvueUser {
 
 
         this.content = new Vue({
-            el: '#user-container>.page-content',
+            el: '#'+elementId+'>.page-content',
             data: {
                 USER_NR: 'Nr',
                 USER_NAME: 'Name',

@@ -393,9 +393,13 @@ class PageController {
     initMyVues() {
         this.myVues = {
             base: new LibvueMainpage(),
-            playlist: new LibvuePlaylist(),
-            youtube: new LibvueVideo(),
-            userlist: new LibvueUser(),
+            playlist: {
+            	lastfm: new LibvuePlaylist('playlist-lastfm-container'),
+            	user: new LibvuePlaylist('playlist-user-container'),
+            	search: new LibvuePlaylist('playlist-search-container')
+            },
+            video: new LibvueVideo('video-container'),
+            userlist: new LibvueUser('user-container'),
 
             updateAll: function (json) {
                 this.base.update(json);

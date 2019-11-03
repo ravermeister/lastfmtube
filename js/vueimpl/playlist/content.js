@@ -8,9 +8,9 @@
 /***/
 class LibvuePlaylistContent {
 	
-static createVue(){
+static createVue(elementId){
 	return new Vue({
-            el: '#playlist-container>.page-content',
+            el: '#'+elementId+'>.page-content',
             data: {
                 TRACK_NR: 'Nr',
                 TRACK_ARTIST: 'Artist',
@@ -145,6 +145,5 @@ static createVue(){
                 }
             }
         });
-	}
-	
+	}	
 }

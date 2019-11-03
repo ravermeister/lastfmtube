@@ -8,9 +8,9 @@
 /***/
 class LibvuePlayerHeader {
 	
-	static createVue() {
+	static createVue(elementId) {
 		return new Vue({
-            el: '#video-container>h2',
+            el: '#'+elementId+'>h2',
             data: {
                 PLAYLIST: null,
                 CURRENT_TRACK: null,

@@ -8,9 +8,9 @@
 /***/
 class LibvuePlaylistHeader {
 	
-	static createTitleVue() {
+	static createTitleVue(elementId) {
 		return new Vue({
-		    el: '#playlist-container>.page-header-title>h2',
+		    el: '#'+elementId+'>.page-header-title>h2',
 		    data: {
 		        TEXT: '',
 		        PLAYLIST: '',
@@ -33,9 +33,9 @@ class LibvuePlaylistHeader {
 		});
 	}
 	
-	static createMenuVue(){
+	static createMenuVue(elementId){
 		return new Vue({
-		    el: '#playlist-container>.page-header-nav',
+		    el: '#'+elementId+'>.page-header-nav',
 	        data: {
 	            PLAYLIST: null
 	        },

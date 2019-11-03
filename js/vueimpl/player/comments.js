@@ -8,9 +8,9 @@
 /***/
 class LibvuePlayerComments {
 	
-	static createVue() {
+	static createVue(elementId) {
 		return new Vue({
-            el: '#video-container>#video-comments',
+            el: '#'+elementId+'>#video-comments',
             data: {
             	showComments: false,
             	videoId: '',

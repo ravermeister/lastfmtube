@@ -8,9 +8,9 @@
 /***/
 class LibvuePlayerMenu {
 	
-	static createVue(){
+	static createVue(elementId){
 		return new Vue({
-            el: '#video-container>#player-menu',
+            el: '#'+elementId+'>#player-menu',
             data: {
                 PLAYSTATE: ''
             },

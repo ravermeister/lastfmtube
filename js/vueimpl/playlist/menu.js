@@ -8,9 +8,9 @@
 /***/
 class LibvuePlaylistMenu {
 	
-	static createVue(){
+	static createVue(elementId){
 		return new Vue({
-            el: '#playlist-container>.page-nav',
+            el: '#'+elementId+'>.page-nav',
             data: {
                 LASTFM_USER_NAME_LABEL: 'User',
                 LASTFM_USER_NAME: '',
