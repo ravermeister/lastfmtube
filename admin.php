@@ -87,6 +87,7 @@ class AdminControl {
       */
      private function deleteFiles($target) {
           if (is_dir($target)) {
+               
                $files = glob($target . '*', GLOB_MARK); // GLOB_MARK adds a slash to directories returned
 
                foreach ($files as $file) {
@@ -104,11 +105,7 @@ class AdminControl {
           $tmpdir = dirname(__FILE__) . '/' . $settings['general']['tmpdir'];
           
           echo 'clearing temp directory >' . $tmpdir . '< ...';    
-          $tmpFiles = glob($tmpdir . '*', GLOB_MARK); 
-          // GLOB_MARK adds a slash to directories returned          
-          foreach ($tmpFiles as $tmpFile ){
-               $this->deleteFiles($tmpFile);
-          }          
+          $this->deleteFiles($tmpdir);
           echo "Done\n";
      }
 
