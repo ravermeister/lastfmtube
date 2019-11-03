@@ -30,9 +30,10 @@ class ThemeHandler {
           if ($tplStart === false) {
                return false;
           }
-          $tplStart+=strlen('{{TEMPLATE}}');
-          $tplEnd = strpos($themeData, '{{/TEMPLATE}}', $tplStart);          
-          $templateFile = substr($themeData, $tplStart, ($tplEnd - $tplStart));
+          $tplEnd = strpos($themeData, '{{/TEMPLATE}}', $tplStart);
+          
+          $fileStart = $tplStart+strlen('{{TEMPLATE}}'); 
+          $templateFile = substr($themeData, $fileStart, ($tplEnd - $tplStart));
           Functions::getInstance()->logMessage('Template file: '. $templateFile);
           $templateData = file_get_contents($themeDir, $templateFile);
           
