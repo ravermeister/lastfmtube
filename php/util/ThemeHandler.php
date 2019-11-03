@@ -48,7 +48,7 @@ class ThemeHandler {
 
           $absCacheDir = dirname(__FILE__) . '/../../' . $this->cacheDir;
           if (! is_dir($absCacheDir)) {
-               mkdir($absCacheDir, null, true);
+               mkdir($absCacheDir, 0777, true);
           }
 
           $hash = sha1_file($file);
