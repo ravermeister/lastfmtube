@@ -8,9 +8,8 @@
  *******************************************************************************/
 namespace LastFmTube\Api\YouTube;
 
-use Google_Service_YouTube_CommentThread;
 use Google_Service_YouTube_CommentThreadListResponse;
-use Google_Service_YouTube_CommentThreadSnippet;
+
 
 class VideoComments {
 

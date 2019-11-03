@@ -87,16 +87,16 @@ class AdminControl {
       */
      private function deleteFiles($target) {
           if (is_dir($target)) {
-               
+
                $files = glob($target . '*', GLOB_MARK); // GLOB_MARK adds a slash to directories returned
 
                foreach ($files as $file) {
                     $this->deleteFiles($file);
                }
-               
-               if(is_dir($target)) {                    
+
+               if (is_dir($target)) {
                     rmdir($target);
-               } else if(is_file($target)) {
+               } else if (is_file($target)) {
                     unlink($target);
                }
           } elseif (is_file($target)) {
@@ -107,11 +107,12 @@ class AdminControl {
      private function clearTempFiles() {
           $settings = Functions::getInstance()->getSettings();
           $tmpdir = dirname(__FILE__) . '/' . $settings['general']['tmpdir'];
-          
-          echo 'clearing temp directory >' . $tmpdir . '< ...';    
-          $this->deleteFiles($tmpdir);          
-          if (! is_dir($tmpdir)) {
-               mkdir($tmpdir, 0777, true);
+          echo 'clearing temp directory >' . $tmpdir . '< ...';
+          if (is_dir($tmpdir)) {
+               $this->deleteFiles($tmpdir);
+               if (! is_dir($tmpdir)) {
+                    mkdir($tmpdir, 0777, true);
+               }
           }
           echo "Done\n";
      }
