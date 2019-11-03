@@ -93,7 +93,7 @@ class AdminControl {
                     $this->deleteFiles($file);
                }
 
-               die('>>>'.$target);
+               die('>>>'.$target."<<<<\n");
                rmdir($target);
           } elseif (is_file($target)) {
                unlink($target);
