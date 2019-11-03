@@ -99,8 +99,13 @@ class PageController {
 	
 	loadPage(page, callBack = null) {
 		
+		$page.setMainPageLoading(true);
+		
 		switch(page) {
 			case 'topsongs':
+				
+				PageLoader.loadTopSongs();
+				
 				$page.load('playlist-topsongs-container' ,'topsongs', function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');	
 					if('function' === typeof callBack) {
@@ -142,7 +147,7 @@ class PageController {
 			break;
 		}
 		
-		
+		$page.setMainPageLoading();
 		
 	}
     
@@ -444,7 +449,7 @@ class PageController {
     	this.initMyVues();
         this.setMainPageLoading(true);
         
-        location.hash = '';
+        location.replace('');
         
         let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {

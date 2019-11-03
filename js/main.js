@@ -26,18 +26,15 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 	$page = new PageController();
 
 	$page.init(function() {
-		$playlist.loadLastFmList(1, null, function() {
+		// maybe set it to page...
+		require([ 'analytics' ], function(analytics) {
+			PageController.analytics = analytics;
+		});
 
-			// maybe set it to page...
-			require([ 'analytics' ], function(analytics) {
-				PageController.analytics = analytics;
-			});
-
-			$player.initWindow(function() {
-				HotKeys.init();
-				$player.autoPlay = true;
-				$page.initURL();
-			});
+		$player.initWindow(function() {
+			HotKeys.init();
+			$player.autoPlay = true;
+			$page.initURL();
 		});
 	});
 });
