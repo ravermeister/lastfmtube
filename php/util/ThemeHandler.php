@@ -15,7 +15,7 @@ class ThemeHandler {
      public function getTheme($name) {
           return $this->themes[$name];
      }
-
+     
      private function parseTheme($name, $file) {
           $themeData = file_get_contents($file);
           while (($newData = $this->searchNestedThemes(dirname($file), $themeData)) !== false) {
@@ -31,14 +31,12 @@ class ThemeHandler {
                return false;
           }
           $tplEnd = strpos($themeData, '{{/TEMPLATE}}', $tplStart);
-
-          $fileStart = $tplStart + strlen('{{TEMPLATE}}');
-          $fileEnd = $tplEnd - strlen('{{/TEMPLATE}}');
-
-          $templateFile = substr($themeData, $fileStart, $fileEnd);
-          Functions::getInstance()->logMessage('Template file: ' . $templateFile);
+          
+          $templateFile = substr($themeData, $tplStart, ($tplEnd - $tplStart));
+          Functions::getInstance()->logMessage('Template file: '. $templateFile);
+          
           $templateData = file_get_contents($themeDir, $templateFile);
-
+          
           $tplEnd += strlen('{{/TEMPLATE}}');
           return substr_replace($themeData, $templateData, $tplStart, ($tplEnd - $tplStart));
      }
