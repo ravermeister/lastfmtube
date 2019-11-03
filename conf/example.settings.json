@@ -4,6 +4,7 @@
 		"baseurl": "/path/to/project/root/dir",
 		"lang": "en",
 		"logfile": "conf/logs/lastfmtube.log",
+		"tmpdir" : "tmp",
 		"playerwidth": "100%",
 		"playerheight": "auto",
 		"theme": "dimension",

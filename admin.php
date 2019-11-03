@@ -79,6 +79,30 @@ class AdminControl {
           $db->getReplaceTrackMap(true);
           echo " done\n";
      }
+     
+     
+     /*
+      * php delete function that deals with directories recursively
+      */
+     private function deleteFiles($target) {
+          if(is_dir($target)){
+               $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+               
+               foreach( $files as $file ){
+                    $this->deleteFiles( $file );
+               }
+               
+               rmdir( $target );
+          } elseif(is_file($target)) {
+               unlink( $target );
+          }
+     }
+     
+     private function clearTempFiles() {
+          $settings = Functions::getInstance()->getSettings();
+          $this->deleteFiles($settings['general']['tmpdir']);
+          mkdir($settings['general']['tmpdir']);          
+     }
 
      public function printHelp() {
           echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n" . " -importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";

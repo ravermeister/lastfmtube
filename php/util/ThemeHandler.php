@@ -3,33 +3,54 @@ namespace LastFmTube\Util;
 
 /**
  * Merge Theme Tempplates together.
- * 
+ *
  * @author Jonny Rimkus<jonny@rimkus.it>
- * 
+ *        
  */
 class ThemeHandler {
 
-     private $themes = array();
-
-     private $locale = null;
-
-     public function __construct($name, $file) {
-          $this->locale = Functions::getInstance()->getLocale();
-          $themeData = $this->parseTheme($name, $file);
-          $this->themes[$name] = $themeData;          
+     private $cacheDir = null;
+     
+     public function __construct($cacheDir = null) {
+          $this->cacheDir = $cacheDir;
      }
 
-     public function getTheme($name) {
-          return $this->themes[$name];
-     }
 
-     private function parseTheme($name, $file) {
-          $themeData = file_get_contents($file);
+     public function getTheme($file) {
+          $themeData = $this->readFromCache($file);
+          if($themeData !== false) {
+               return $themeData;
+          }
+          
+          
+          $themeData = file_get_contents($file);          
           while (($newData = $this->searchNestedThemes(dirname($file), $themeData)) !== false) {
                $themeData = $newData;
           }
-          $themeData = $this->replaceVars($themeData);
+          
+          $themeData = $this->replaceVars($themeData);          
+          $this->saveToCache($file, $themeData);
+          
           return $themeData;
+     }
+     
+     private function readFromCache($file) {
+          if($this->cacheDir === null) return false;
+          
+          $hash = sha1_file($file);
+          $cacheFile = $this->cacheDir.'/'.$hash;
+          return file_get_contents($cacheFile);
+     }
+
+     private function saveToCache($file, $data) {
+          if($this->cacheDir === null) {
+               return true;
+          }
+          
+          $hash = sha1_file($file);
+          $cacheFile = $this->cacheDir.'/'.$hash;
+          $result = file_put_contents($cacheFile, $data);
+          return $result !== false;
      }
 
      private function searchNestedThemes($themeDir, $themeData) {
@@ -54,9 +75,10 @@ class ThemeHandler {
      }
 
      private function replaceVars($themeData) {
-          $themeData = str_replace('{{PHP_LANG}}', $this->locale['code'], $themeData);
-          $themeData = str_replace('{{PHP_TITLE}}', $this->locale['site']['title'], $themeData);
-          $themeData = str_replace('{{PHP_HEADER}}', $this->locale['site']['header'], $themeData);
+          $locale = Functions::getInstance()->getLocale();
+          $themeData = str_replace('{{PHP_LANG}}', $locale['code'], $themeData);
+          $themeData = str_replace('{{PHP_TITLE}}', $locale['site']['title'], $themeData);
+          $themeData = str_replace('{{PHP_HEADER}}', $locale['site']['header'], $themeData);
           return $themeData;
      }
 }
