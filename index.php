@@ -18,8 +18,8 @@ $themeFile = 'themes/' . $themeName . '/' . $themeName . '.html';
 // $baseURL = $settings ['general'] ['baseurl'];
 
 // prepare theme
-$theme = new ThemeHandler('dimension', $themeFile);
-Functions::getInstance()->logMessage("Theme File:\n" . $theme->getTheme('dimension'));
+$theme = new ThemeHandler($settings['general']['tmpdir']);
+
 // header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
 // header("Pragma: no-cache"); // HTTP 1.0.
 // header("Expires: 0"); // Proxies.
@@ -29,4 +29,4 @@ header("Content-Type: text/html"); // html content
 Functions::getInstance()->startSession();
 // Functions::getInstance()->logMessage('SQLite Version: '.\LastFmTube\Util\Db::getVersion());
 
-die($theme->getTheme('dimension'));
+die($theme->getTheme($themeFile));
