@@ -109,7 +109,8 @@ class AdminControl {
 
      public function printHelp() {
           //@formatter:off
-          echo "Usage:\n " . 
+          echo "\n==========\n" .
+               "Usage:\n" . 
                "-generateSiteMap file=sitemap.xml ===> create Sitemap.xml\n" . 
                "-importReplacements glob=/path/*/to/*.csv ===> import replacements from csv files\n" .
                "-cleanTempDir ===> clean Temporary files, such as generated templates etc.\n";
