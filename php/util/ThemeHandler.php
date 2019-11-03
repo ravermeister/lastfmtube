@@ -37,7 +37,7 @@ class ThemeHandler {
           $fileEndPos = $tplEndPos - $fileStartPos;
           
           $templateFile = substr($themeData, $fileStartPos, $fileEndPos);
-          Functions::getInstance()->logMessage('Template file: ' . $templateFile);
+          Functions::getInstance()->logMessage('Template file: ' . $themeDir.'/'.$templateFile);
 
           $templateData = file_get_contents($themeDir, $templateFile);
 
