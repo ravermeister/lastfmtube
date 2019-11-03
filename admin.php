@@ -103,10 +103,12 @@ class AdminControl {
           $settings = Functions::getInstance()->getSettings();
           $tmpdir = dirname(__FILE__) . '/' . $settings['general']['tmpdir'];
           
-          echo 'clearing temp directory >' . $tmpdir . '< ...';          
-          $this->deleteFiles($tmpdir);
-          
-          //mkdir($tmpdir, null, true);          
+          echo 'clearing temp directory >' . $tmpdir . '< ...';    
+          $tmpFiles = glob($tmpdir . '*', GLOB_MARK); 
+          // GLOB_MARK adds a slash to directories returned          
+          foreach ($tmpFiles as $tmpFile ){
+               $this->deleteFiles($tmpFile);
+          }          
           echo "Done\n";
      }
 
