@@ -94,7 +94,6 @@ class AdminControl {
                }
                
                rmdir($target);
-               die('>>>'.$target."<<<<\n");
           } elseif (is_file($target)) {
                unlink($target);
           }
