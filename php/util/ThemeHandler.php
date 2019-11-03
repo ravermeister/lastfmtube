@@ -18,10 +18,10 @@ class ThemeHandler {
      
      private function parseTheme($name, $file) {
           $themeData = file_get_contents($file);
-          while (($newData = $this->searchNestedThemes($themeData)) !== false) {
+          while (($newData = $this->searchNestedThemes(dirname($file), $themeData)) !== false) {
                $themeData = $newData;
           }
-          $themeData = $this->replaceVars(dirname($file), $themeData);
+          $themeData = $this->replaceVars($themeData);
           $this->themes[$name] = $themeData;
      }
 
