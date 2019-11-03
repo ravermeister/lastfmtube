@@ -69,7 +69,7 @@ class PlaylistController {
         $page.setCurrentPlaylist('search');
         let playlistArticle = $('article[name=playlist-container]');
         $(playlistArticle).attr('id', 'search');
-        $page.myVues.playlist.update({
+        $page.myVues.playlist.search.update({
             HEADER: {
                 TEXT: 'Search Results'
             },
@@ -101,7 +101,7 @@ class PlaylistController {
         		'&page=' + pageNum + 
         		'&sortby=' + sortBy, 
         		function (json) {
-					$page.myVues.playlist.update(json.data.value);
+					$page.myVues.playlist.topsongs.update(json.data.value);
 					
 					try {
 					    if (typeof callBack === 'function') {
@@ -224,7 +224,7 @@ class PlaylistController {
         $.getJSON(request, function (json) {
 
             try {
-                $page.myVues.playlist.update(json.data.value);
+                $page.myVues.playlist.lastfm.update(json.data.value);
 
                 /**
 				 * Vue.nextTick() .then(function () { // DOM updated
@@ -290,13 +290,13 @@ class PlaylistController {
 
     updateUserListPages(pageNum = null, tracks = null) {
 
-        $page.myVues.playlist.menu.$data.LASTFM_USER_NAME = '';
-        $page.myVues.playlist.menu.$data.PLAYLIST = 'userlist';
+        $page.myVues.playlist.user.menu.$data.LASTFM_USER_NAME = '';
+        $page.myVues.playlist.user.menu.$data.PLAYLIST = 'userlist';
 
         if (tracks === null) tracks = this.getUserTracks();
         if (tracks.length <= 0) {
-            $page.myVues.playlist.menu.$data.CUR_PAGE = 1;
-            $page.myVues.playlist.menu.$data.MAX_PAGES = 1;
+            $page.myVues.playlist.user.menu.$data.CUR_PAGE = 1;
+            $page.myVues.playlist.user.menu.$data.MAX_PAGES = 1;
             return 1;
         }
 
@@ -305,16 +305,16 @@ class PlaylistController {
         let pageCount = (tracks.length / tracksPerPage) | 0;
 
         if ((tracks.length % tracksPerPage) > 0) pageCount++;
-        $page.myVues.playlist.menu.$data.MAX_PAGES = pageCount;
+        $page.myVues.playlist.user.menu.$data.MAX_PAGES = pageCount;
 
         if (pageNum === null) {
-            pageNum = ($page.myVues.playlist.menu.$data.CUR_PAGE) | 0;
+            pageNum = ($page.myVues.playlist.user.menu.$data.CUR_PAGE) | 0;
         }
 
         if (pageNum > pageCount) pageNum = pageCount;
         else if (pageNum < 1) pageNum = 1;
 
-        $page.myVues.playlist.menu.$data.CUR_PAGE = pageNum;
+        $page.myVues.playlist.user.menu.$data.CUR_PAGE = pageNum;
         return pageNum;
     }
 }
