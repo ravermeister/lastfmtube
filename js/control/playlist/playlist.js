@@ -101,7 +101,7 @@ class PlaylistController {
         		function (json) {					
 					try {
 					    if (typeof callBack === 'function') {
-					        callBack(true, json);
+					        callBack(true, json.data.value);
 					    } else {
 							$page.myVues.playlist.topsongs.update(json.data.value);
 					    }
@@ -148,19 +148,20 @@ class PlaylistController {
             track.NR = ((pageNum - 1) * tracksPerPage) + (cnt + 1);
         }
 
-        $page.myVues.playlist.update({
-            HEADER: {
-                PLAYLIST: $page.menu.getMenuItem('userlist').PLAYLIST,
-                TEXT: $page.menu.getMenuItem('userlist').TEXT,
-                URL: $page.menu.getMenuItem('userlist').LDATA
-            },
-
-            TRACKS: tracks
-        });
-
-
+        let data = {
+	        HEADER: {
+	            PLAYLIST: $page.menu.getMenuItem('userlist').PLAYLIST,
+	            TEXT: $page.menu.getMenuItem('userlist').TEXT,
+	            URL: $page.menu.getMenuItem('userlist').LDATA
+	        },
+	
+	        TRACKS: tracks
+        };
+        
         if (typeof callBack === 'function') {
-            callBack(true);
+            callBack(true, data);
+        } else {
+            $page.myVues.playlist.update(data);
         }
     }
     

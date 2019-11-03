@@ -103,35 +103,40 @@ class PageLoader {
 		return this.currentPage === page;
 	}
 	
-	loadPage(page = 'video', callBack = null) {
+	loadPage(page = 'video') {
 		
 		let thePage = this.pages.getByValue(page);
 		if(thePage === null) return;	
-		
+
 		let lastPage = this.currentPage;
         this.setLoading(lastPage, true);
+        let self = this;
         
+		let finished = function(vue, data){
+			self.setLoading(lastPage);
+			location.href.replace('#'+thePage.selector);
+			vue.update(data);
+		};  
+		
 		switch(thePage.value) {
-			case 'playlist.topsongs':
-				let sortBy = $page.myVues.playlist.topsongs.menu.$data.SORTBY.SELECTED;
+			case this.pages.playlist.topsongs.value:
 				$playlist.loadTopSongs(1, function(result, data){
 					if(result) {						
-						$page.myVues.playlist.topsongs.update(json.data.value);
-					}
-				});
-				
-				$page.load('playlist-topsongs-container' ,'topsongs', function(){	
-					$page.changeUrl('Top Songs', '/#topsongs');	
-					if('function' === typeof callBack) {
-						callBack();
+						finished($page.myVues.playlist.topsongs, data);
 					}
 				});
 			break;
-		}
+			case this.pages.playlist.user.value:
+				$playlist.loadCustomerList(1, function(result, data){
+					if(result) {						
+						finished($page.myVues.playlist.user, data);
+					}
+				});
+			break;
+			
+		}	
 		
-		this.setLoading(lastPage);
-		if(typeof callBack === 'function') {
-			callBack(success);
-		}
+		
+		
 	}
 }
