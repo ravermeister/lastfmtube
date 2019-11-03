@@ -32,7 +32,7 @@ class ThemeHandler {
           return $themeData;
      }
 
-     private function searchNestedThemes($themeDir, $themeData, $replace = true) {
+     private function searchNestedThemes($themeDir, $themeData) {
           $tplStartPos = strpos($themeData, '{{TEMPLATE}}');
           if ($tplStartPos === false) {
                return false;
@@ -45,15 +45,10 @@ class ThemeHandler {
           $templateFile = substr($themeData, $fileStartPos, $fileEndPos);
           $templateFile = $themeDir . '/' . $templateFile;
           $templateData = file_get_contents($templateFile);
-          while (($newData = $this->searchNestedThemes(dirname($templateFile), $templateData, false)) !== false) {
-               die('>>>>>'. $newData);
-               $templateData = $newData;
+          while (($newData = $this->searchNestedThemes(dirname($templateFile), $templateData)) !== false) {
+               die('>>>>'.$newData);
           }
-          
-          if($replace === false) {
-               return $templateData;
-          }
-          
+
           $tplEndPos += strlen('{{/TEMPLATE}}');
           return substr_replace($themeData, $templateData, $tplStartPos, ($tplEndPos - $tplStartPos));
      }
