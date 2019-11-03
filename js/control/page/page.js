@@ -101,7 +101,7 @@ class PageController {
 		
 		switch(page) {
 			case 'topsongs':
-				$page.load('playlist-container' ,'topsongs', function(){	
+				$page.load('playlist-topsongs-container' ,'topsongs', function(){	
 					$page.changeUrl('Top Songs', '/#topsongs');	
 					if('function' === typeof callBack) {
 						callBack();
@@ -117,7 +117,7 @@ class PageController {
 				});
 			break;
 			case 'personal':
-				$page.load('playlist-container', 'userlist', function(){					
+				$page.load('playlist-user-container', 'userlist', function(){					
 					$page.changeUrl('Userlist', '/#userlist');
 					if('function' === typeof callBack) {
 						callBack();
@@ -125,7 +125,7 @@ class PageController {
 				});
 			break;
 			case 'lastfm':
-				$page.load('playlist-container', 'lastfm', function(){					
+				$page.load('playlist-lastfm-container', 'lastfm', function(){					
 					$page.changeUrl('Last.fm', '/#lastfm');
 					if('function' === typeof callBack) {
 						callBack();
