@@ -80,7 +80,7 @@ class LibvuePlayerHeader {
                     		this.$data.LOADING = true;
                     		let callback = function (success) {
                     			vue.$data.LOADING = false;
-                    			location.href = '#' + menu.PLAYLIST;
+                    			location.replace('#' + menu.PLAYLIST);
                     		};
                     		$player.searchSong(this.$data.SEARCH_TRACK, callback);
                     		return;
@@ -90,7 +90,7 @@ class LibvuePlayerHeader {
                     if ('video' === playlist) playlist = $page.PLAYLIST;
                     if (playlist === null) playlist = 'lastfm';
                     if(playlist === $page.PLAYLIST) {
-                        location.href = '#' + playlist;
+                        location.replace('#' + playlist);
                     } else {
                         let menu = $page.menu.getMenuItem(playlist);
                         this.$loadListMenu(menu, event);

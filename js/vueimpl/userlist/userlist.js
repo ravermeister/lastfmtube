@@ -94,7 +94,7 @@ class LibvueUser {
                             $page.setCurrentPlaylist('lastfm');
                             user.PLAY_CONTROL = '';
                             $page.myVues.userlist.header.title.$data.LOADING = false;
-                            location.href = '#' + $(article).attr('id');
+                            location.replace('#' + $(article).attr('id'));
                             return;
                         }
                         user.PLAY_CONTROL = '';

@@ -59,7 +59,7 @@ class PageController {
     load(page = '', ldata = null, callBack = null) {
     	let pageLoaded = function (success) {
     		$page.setMainPageLoading();
-    		location.href = '#' + (ldata === null ? page : ldata);
+    		location.replace('#' + (ldata === null ? page : ldata));
     		if(typeof callBack === 'function') {
     			callBack(success);
     		}
@@ -219,7 +219,7 @@ class PageController {
             $page.setCurrentPlaylist(playlist);
             $page.trackPlaylist($page.PLAYLIST);
             $page.setLoading(curArticle); 
-            location.href = '#' + playlist;
+            location.replace('#' + playlist);
 
             if (typeof parentCallBack === 'function') {
                 parentCallBack(success);
@@ -339,11 +339,11 @@ class PageController {
                     }
 
                     if (forceReload) {
-                        location.href = '#' + menu.LDATA;
+                        location.replace('#' + menu.LDATA);
                     }
                 } else {
                     $page.setLoading(curArticle);
-                    location.href = '#' + menu.PAGE;
+                    location.replace('#' + menu.PAGE);
                 }
             };
 

@@ -1,0 +1,201 @@
+<!-- Playlist Last.fm -->
+<article id="playlist-lastfm-container" name="playlist-lastfm-container">
+
+	<div class="page-header-nav">
+		<template v-for="MENU in MENUS">
+		<div class="btn-nav">
+			<a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
+				@click.prevent="$loadListMenu(MENU, $event);">
+				<div v-bind:class="MENU.LOGO"></div>
+			</a>
+		</div>
+		</template>
+	</div>
+
+	<div class="page-header-title">
+		<h2 class="major" style="vertical-align: middle;">
+			<span v-bind:class="LOGO"></span> <span>{{TEXT}}</span>
+		</h2>
+	</div>
+
+
+	<section class="page-nav">
+
+
+		<form v-if="PLAYLIST !== 'search'"
+			@submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
+			<div class="fields">
+
+				<div class="field third"
+					v-if="PLAYLIST === 'lastfm' || PLAYLIST === ''">
+					<label for="playlist_lastfmuser"> <a
+						v-bind:href="'//last.fm/user/' + LASTFM_USER_NAME" target="_blank">{{LASTFM_USER_NAME_LABEL}}</a>
+
+					</label> <input type="text" name="playlist_lastfmuser"
+						id="playlist_lastfmuser" v-bind:value="LASTFM_USER_NAME"
+						@mouseup="selectOnMouseUp($event)" />
+				</div>
+
+				<div class="field third">
+					<label for="playlist_page"> {{CUR_PAGE_LABEL}} </label> <input
+						type="number" name="playlist_page" id="playlist_page"
+						v-bind:value="CUR_PAGE" @mouseup="selectOnMouseUp($event)" />
+				</div>
+
+				<div class="field third btn-page-nav" style="width: initial;">
+					<label> {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}} </label>
+
+					<button type="button"
+						@click.prevent="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+						title="Previous Page">
+						<span class="fas fa-step-backward fa-2x"></span>
+					</button>
+
+					<input type="submit" name="playlist_load" id="playlist_load"
+						v-bind:value="PLAYLIST_LOAD" />
+
+					<button type="button"
+						@click.prevent="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+						title="Next Page">
+						<span class="fas fa-step-forward fa-2x"></span>
+					</button>
+				</div>
+
+				<div v-if="PLAYLIST === 'topsongs'" class="field third btn-page-nav">
+					<label>{{SORTBY.LABEL}}</label> <select id="topsong-sortby"
+						v-model="SORTBY.SELECTED" @change="sortBy(event)">
+						<template v-for="VALUE in SORTBY.VALUES">
+						<option>{{VALUE}}</option>
+						</template>
+					</select>
+				</div>
+			</div>
+
+		</form>
+
+		<!--// search navi //-->
+		<form v-else="v-else"
+			@submit.prevent="loadPage(null, $('#search_page').val())">
+			<div class="fields">
+
+				<div class="field third">
+					<label for="search_videourl"><a href="//youtube.com"
+						target="_blank">Youtube Video</a></label> <input type="text"
+						name="playlist_video" id="search_videourl"
+						@mouseup="selectOnMouseUp($event)"
+						v-on:input="normalizeYouTubeUrl($event)"
+						v-bind:value="SEARCH_VIDEO_ID" />
+				</div>
+
+				<div class="field third">
+					<label for="saveYouTubeSearch" v-html="SAVED_TITLE"></label>
+					<button @click.prevent="setVideo($('#search_videourl').val());"
+						id="saveYouTubeSearch" title="Save Video for Song"
+						style="padding-top: 5px;">
+						<span class="fas fa-save fa-2x"></span>
+					</button>
+				</div>
+
+				<div class="field third">
+					<label> {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}}
+						{{MAX_PAGES}} </label>
+					<button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
+						title="Previous Page" style="padding-top: 5px; float: left;">
+						<span class="fas fa-step-backward fa-2x"></span>
+					</button>
+
+					<button @click.prevent="loadNextPage(null, CUR_PAGE, MAX_PAGES)"
+						title="Next Page" style="padding-top: 5px; float: right;">
+						<span class="fas fa-step-forward fa-2x"></span>
+					</button>
+				</div>
+
+			</div>
+		</form>
+	</section>
+
+	<section class="page-content">
+		<div class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>{{TRACK_NR}}</th>
+						<th>{{TRACK_ARTIST}}</th>
+						<th>{{TRACK_TITLE}}</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<template inline-template="inline-template" v-for="TRACK in TRACKS">
+					<tr @mouseover="showPlay(TRACK, true)"
+						@mouseout="showPlay(TRACK, false);"
+						v-bind:title="trackInfo(TRACK)">
+						<td class="TRACK_NR" style="cursor: pointer;"
+							@click="togglePlay(TRACK)"><span
+							v-show="TRACK.PLAYSTATE === 'stop'" class="fa fa-play"></span> <span
+							v-show="TRACK.PLAYSTATE === 'pause'" class="fa fa-pause"></span>
+							<span v-show="TRACK.PLAYSTATE === 'play'"
+							class="fa fa-play faa-flash animated"></span> <span
+							v-show="TRACK.PLAYSTATE === 'load'"
+							class="fa fa-spinner faa-spin animated"></span> <span
+							v-show="TRACK.PLAYSTATE === ''"> {{TRACK.NR}}<span
+								v-show="'undefined' !== typeof TRACK.PLAYCOUNT && TRACK.PLAYCOUNT !== null">&nbsp;({{TRACK.PLAYCOUNT}})</span>
+						</span></td>
+						<td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"
+							style="cursor: pointer"><i
+							v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
+							v-bind:title="'Video: ' + TRACK.VIDEO_ID">* {{TRACK.ARTIST}}</i>
+							<span v-else="v-else">{{TRACK.ARTIST}}</span></td>
+						<td class="TRACK_TITLE" @click="togglePlayControl(TRACK);"
+							style="cursor: pointer"><i
+							v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
+							v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i> <span
+							v-else="v-else">{{TRACK.TITLE}}</span> <span
+							style="float: right;"
+							v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE"> <span
+								v-show="TRACK.PLAYCOUNT_CHANGE > 0">{{TRACK.PLAYCOUNT_CHANGE}}▲</span>
+								<span
+								v-show="TRACK.PLAYCOUNT_CHANGE <= 0 || TRACK.PLAYCOUNT_CHANGE == ''">▲</span>
+						</span></td>
+					</tr>
+
+					<transition name="fade">
+					<tr v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
+						<td colspan="3" style="vertical-align: middle; border: 0"><a
+							@click="playTrack(TRACK);" title="Play" class="button smaller">
+								<span class="fa fa-play"></span>
+						</a> <a @click="setVideo($('#search_videourl').val());"
+							v-if="TRACK.PLAYLIST === 'search'" title="set as Video"
+							class="button smaller"> <span class="fas fa-save"></span>
+						</a> <a @click="addToUserList($event, TRACK);" title="add to Playlist"
+							v-else-if="TRACK.PLAYLIST !== 'userlist'" class="button smaller">
+								<span class="fas fa-user-plus"></span>
+						</a> <a @click="removeFromUserList(TRACKS, TRACK);"
+							title="remove from Playlist" v-else="v-else"
+							class="button smaller"> <span class="fas fa-user-times"></span>
+						</a> <a @click="clearUserList();" title="clear Playlist"
+							v-if="TRACK.PLAYLIST === 'userlist'" class="button smaller">
+								<span class="fas fa-trash-alt"></span>
+						</a> <a @click="searchVideos($event, TRACK);"
+							v-if="TRACK.PLAYLIST !== 'search'"
+							title="search alternative Video" class="button smaller"> <span
+								class="fa fa-search"></span>
+						</a> <a @click="unsetVideo(TRACK);" title="delete alternative Video"
+							v-if="TRACK.VIDEO_ID !== ''" class="button smaller"> <span
+								class="fas fa-trash-alt"></span>
+						</a>
+
+							<div style="float: right">
+								<span v-show="TRACK.PLAYLIST !== 'search'"> <i
+									v-show="TRACK.LASTFM_ISPLAYING === true">{{TRACK.LASTPLAY}}</i>
+									<span v-show="TRACK.LASTFM_ISPLAYING !== true">{{TRACK.LASTPLAY}}</span>
+								</span> <span v-show="TRACK.PLAYLIST === 'search'">Video:
+									{{TRACK.VIDEO_ID}}</span>
+							</div></td>
+					</tr>
+					</transition> </template>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</article>
