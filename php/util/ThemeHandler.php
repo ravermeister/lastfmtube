@@ -46,7 +46,7 @@ class ThemeHandler {
           $templateData = file_get_contents($themeDir . '/' . $templateFile);
           
           while (($newData = $this->searchNestedThemes(dirname($templateFile), $templateData, false)) !== false) {
-               die($newData);
+               die('>>>>>'. $newData);
                $templateData = $newData;
           }
           
