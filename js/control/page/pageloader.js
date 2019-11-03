@@ -133,7 +133,13 @@ class PageLoader {
 					}
 				});
 			break;
-			
+			case this.pages.playlist.lastfm.value:
+				$playlist.loadLastFmList(1, function(result, data){
+					if(result) {						
+						finished($page.myVues.playlist.lastfm, data);
+					}
+				});
+			break;
 		}	
 		
 		

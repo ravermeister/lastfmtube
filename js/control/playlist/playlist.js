@@ -196,9 +196,6 @@ class PlaylistController {
                 callBack(false);
             }
         });
-    	
-// treat error as if the comment list were loaded
-// $player.commentsLoaded = true;
     }
     
     isValidUser(user = null) {
@@ -223,16 +220,10 @@ class PlaylistController {
         $.getJSON(request, function (json) {
 
             try {
-                $page.myVues.playlist.lastfm.update(json.data.value);
-
-                /**
-				 * Vue.nextTick() .then(function () { // DOM updated
-				 * $page.myVues.playlist.update(json.data.value, ignoreTitle);
-				 * });
-				 */
-
                 if (typeof callBack === 'function') {
-                    callBack(true);
+                    callBack(true, json.data.value);
+                } else {                	
+                	$page.myVues.playlist.lastfm.update(json.data.value);
                 }
             } catch (e) {
                 console.error('error in load default list callback function', e);
@@ -244,7 +235,7 @@ class PlaylistController {
             $.logXhr(xhr);
 
             if (typeof callBack === 'function') {
-                callBack(false);
+                callBack(false, null);
             }
         });
     }
