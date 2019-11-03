@@ -8,7 +8,6 @@
  *******************************************************************************/
 namespace LastFmTube\Api\YouTube;
 
-use Google_Service_YouTube_SearchListResponse;
 use LastFmTube\Util\Functions;
 use Exception;
 use Google_Client;
