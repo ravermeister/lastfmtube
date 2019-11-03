@@ -38,12 +38,8 @@ class ThemeHandler {
           $templateFile = substr($themeData, $fileStartPos, $fileEndPos);
           $templateData = file_get_contents($themeDir . '/' . $templateFile);
 
-          $tplEndPos+=strlen('{{/TEMPLATE}}');
-          $mergedData = substr_replace($themeData, $templateData, $tplStartPos, ($tplEndPos - $tplStartPos));
-
-          die($mergedData);
-
-          return $mergedData;
+          $tplEndPos += strlen('{{/TEMPLATE}}');
+          return substr_replace($themeData, $templateData, $tplStartPos, ($tplEndPos - $tplStartPos));
      }
 
      private function replaceVars($themeData) {
