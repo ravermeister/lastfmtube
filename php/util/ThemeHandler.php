@@ -15,7 +15,8 @@ class ThemeHandler {
 
      public function __construct($name, $file) {
           $this->locale = Functions::getInstance()->getLocale();
-          $this->parseTheme($name, $file);
+          $themeData = $this->parseTheme($name, $file);
+          $this->themes[$name] = $themeData;          
      }
 
      public function getTheme($name) {
@@ -28,7 +29,7 @@ class ThemeHandler {
                $themeData = $newData;
           }
           $themeData = $this->replaceVars($themeData);
-          $this->themes[$name] = $themeData;
+          return $themeData;
      }
 
      private function searchNestedThemes($themeDir, $themeData) {
@@ -44,6 +45,10 @@ class ThemeHandler {
           $templateFile = substr($themeData, $fileStartPos, $fileEndPos);
           $templateData = file_get_contents($themeDir . '/' . $templateFile);
 
+          while (($newData = $this->searchNestedThemes(dirname($templateFile), $templateData)) !== false) {
+               $templateData = $newData;
+          }
+          
           $tplEndPos += strlen('{{/TEMPLATE}}');
           return substr_replace($themeData, $templateData, $tplStartPos, ($tplEndPos - $tplStartPos));
      }
