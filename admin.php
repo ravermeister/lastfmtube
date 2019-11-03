@@ -94,7 +94,11 @@ class AdminControl {
                     $this->deleteFiles($file);
                }
                
-               rmdir($target);
+               if(is_dir($target)) {                    
+                    rmdir($target);
+               } else if(is_file($target)) {
+                    unlink($target);
+               }
           } elseif (is_file($target)) {
                unlink($target);
           }
