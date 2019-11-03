@@ -165,7 +165,7 @@ class YouTubeSearch {
                               $video->setVideoID($vid);
 
                               if (in_array($vid, $this->ignoreVids)) {
-                                   continue; // skip ignored video
+                                   continue 2; // skip ignored video
                               }
                               $video_list[] = $video;
                               break;
