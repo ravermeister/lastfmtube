@@ -16,9 +16,7 @@ class ThemeHandler {
      }
 
      public function getTheme($file) {
-          $themeData = $this->readFromCache($file);
-          die('>>'.$themeData);
-          
+          $themeData = $this->readFromCache($file);          
           if ($themeData !== false) {
                return $themeData;
           }
