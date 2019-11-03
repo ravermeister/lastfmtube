@@ -46,7 +46,7 @@ class ThemeHandler {
           $templateFile = $themeDir . '/' . $templateFile;
           $templateData = file_get_contents($templateFile);
           while (($newData = $this->searchNestedThemes(dirname($templateFile), $templateData)) !== false) {
-               $themeData = $newData;
+               $templateData = $newData;
           }
 
           $tplEndPos += strlen('{{/TEMPLATE}}');
