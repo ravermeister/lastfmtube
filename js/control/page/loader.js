@@ -159,7 +159,7 @@ class PageLoader {
         
 		let finished = function(vue, data){
 			self.setLoading(lastPage);
-			location.href.replace('#'+thePage.selector);
+			self.setLocation('#'+thePage.selector);
 			if(vue !== null && data !== null) {				
 				vue.update(data);
 			}
@@ -231,7 +231,10 @@ class PageLoader {
     	} else if(page === this.pages.base) {
     		page = this.pages.video.youtube;
     	}
-    	console.log('>>>', page.selector);
-    	location.href.replace('#'+page.selector);
+    	this.setLocation('#'+page.selector);
+    }
+    
+    setLocation(href) {
+    	location.href = href;
     }
 }
