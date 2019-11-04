@@ -20,7 +20,6 @@ class Menu {
             LOGO: icons.search.big,
             TEXT: 'Search',
             PAGE: 'playlist',
-            LDATA: 'search'
         };
 
         this.lastfm = {
