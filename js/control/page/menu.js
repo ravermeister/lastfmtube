@@ -11,59 +11,47 @@ class Menu {
     constructor(pageControl) {
     	
     	this.pageControl = pageControl;
-    	
-    	let href = function(menu) {
-    		console.log('>>>>', menu);
-    		let page = null;
-    		if(menu !== null && menu.PAGE !== null) {
-    			page = pageControl.loader.pages.getByValue(menu.PAGE);    			
-    		}else {
-    			page = pageControl.loader.pages.base;
-    		}
-    		
-    		return '#'+page.selector;
-    	};
-    	
+    	    	
         this.youtube = {
             LOGO: icons.youtube.big,
             TEXT: 'YouTube',
             PAGE: 'video',
-            HREF: href(this)
+            HREF: ''
         };
 
         this.search = {
             LOGO: icons.search.big,
             TEXT: 'Search',
             PAGE: 'playlist',
-            HREF: href(this)
+            HREF: ''
         };
 
         this.lastfm = {
             LOGO: icons.headphones.big,
             TEXT: 'Last.fm',
             PAGE: 'playlist',
-            HREF: href(this)
+            HREF: ''
         };
 
         this.userlist = {
             LOGO: icons.user.big,
             TEXT: 'My Songs',
             PAGE: 'playlist',
-            HREF: href(this)
+            HREF: ''
         };
 
         this.topsongs = {
             LOGO: icons.star.big,
             TEXT: 'Top Songs',
             PAGE: 'playlist',
-            HREF: href(this)
+            HREF: ''
         };
 
         this.topuser = {
             LOGO: icons.trophy.big,
             TEXT: 'Top User',
             PAGE: 'playlist',
-            HREF: href(this)
+            HREF: ''
         };
 
         this.defaultMenu = [
@@ -79,20 +67,51 @@ class Menu {
     updateData(json) {
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
 
+    	let createHref = function(menu) {
+    		console.log('>>>>', menu);
+    		let page = null;
+    		if(menu !== null && menu.PAGE !== null) {
+    			page = pageControl.loader.pages.getByValue(menu.PAGE);    			
+    		}else {
+    			page = pageControl.loader.pages.base;
+    		}
+    		
+    		return '#'+page.selector;
+    	};
+        
         if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
-        if ('undefined' !== typeof json.YTPLAYER.PAGE) this.youtube.PAGE = json.YTPLAYER.PAGE;
+        if ('undefined' !== typeof json.YTPLAYER.PAGE) {
+        	this.youtube.PAGE = json.YTPLAYER.PAGE;
+        	this.youtube.PAGE.HREF = createHref(this.youtube.PAGE);  
+        }
 
         if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
-        if ('undefined' !== typeof json.LASTFM.PAGE) this.lastfm.PAGE = json.LASTFM.PAGE;
+        if ('undefined' !== typeof json.LASTFM.PAGE) {
+        	this.lastfm.PAGE = json.LASTFM.PAGE;
+        	this.lastfm.PAGE.HREF = createHref(this.lastfm.PAGE);  
+
+        }
 
         if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
-        if ('undefined' !== typeof json.USERLIST.PAGE) this.userlist.PAGE = json.USERLIST.PAGE;
+        if ('undefined' !== typeof json.USERLIST.PAGE) {
+        	this.userlist.PAGE = json.USERLIST.PAGE;
+        	this.userlist.PAGE.HREF = createHref(this.userlist.PAGE);  
+
+        }
 
         if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
-        if ('undefined' !== typeof json.TOPSONGS.PAGE) this.topsongs.PAGE = json.TOPSONGS.PAGE;
+        if ('undefined' !== typeof json.TOPSONGS.PAGE) {
+        	this.topsongs.PAGE = json.TOPSONGS.PAGE;
+        	this.topsongs.PAGE.HREF = createHref(this.topsongs.PAGE);  
+
+        }
         
         if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
-        if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;        
+        if ('undefined' !== typeof json.TOPUSER.PAGE) {
+        	this.topuser.PAGE = json.TOPUSER.PAGE; 
+        	this.topuser.PAGE.HREF = createHref(this.topuser.PAGE);  
+
+        }
     }
 
     getMenuItem(playlist) {
