@@ -96,10 +96,8 @@ class PageController {
     	this.initShareButtons();
     	
         this.myVues = VueController.createVues();
-    	
-        let lastPage = this.loader.currentPage;
-    	this.loader.setLoading(curPage, true);
-    	
+        
+        let lastPage = this.loader.setLoading(null, true);    	
         let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
@@ -126,7 +124,6 @@ class PageController {
             } else {
                 console.log('request: ', request, 'error');
             }
-
         });
     }
 

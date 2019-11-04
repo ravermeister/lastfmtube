@@ -114,25 +114,31 @@ class PageLoader {
 		
 	}
 	
-	setLoading(currentPage = false, active = false) {
+	setLoading(currentPage = null, active = false) {
 		
-		if(currentPage === false) {
+		if(currentPage === null) {
 			currentPage = this.currentPage;
 		}
 		
 		if(currentPage === null || $(this.pages.base.element).is(currentPage.element)) {			
 			$page.myVues.main.logo.$data.PAGE_LOADER = active ?
 					$page.icons.loader.bigger : $page.icons.diamond.bigger;
+			return this.pages.base;
 		} else if ($(this.pages.userlist.topuser.element).is(currentPage.element)) {
             this.myVues.userlist.topuser.header.title.$data.LOADING = active;
+            return this.pages.userlist.topuser;
         } else if ($(this.pages.playlist.user.element).is(currentPage.element)) {
             this.myVues.playlist.user.header.title.$data.LOADING = active;
+            return this.pages.playlist.user;
         } else if ($(this.pages.playlist.lastfm.element).is(currentPage.element)) {
             this.myVues.playlist.lastfm.header.title.$data.LOADING = active;
+            return this.myVues.playlist.lastfm;
         } else if ($(this.pages.playlist.search.element).is(currentPage.element)) {
             this.myVues.playlist.search.header.title.$data.LOADING = active;
+            return this.myVues.playlist.search; 
         } else if ($(this.pages.video.youtube.element).is(currentPage.element)) {
             this.myVues.video.youtube.header.title.$data.LOADING = active;
+            return this.myVues.video.youtube; 
         }
 	}
 
