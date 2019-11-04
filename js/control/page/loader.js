@@ -18,7 +18,7 @@ class PageLoader {
 				value: 'base',
 				location: '',
 				selector: 'header',
-				element: $('header[id='+selector+']')
+				element: $('header[id='+this.selector+']')
 			},
 			
 			userlist: {
@@ -26,7 +26,7 @@ class PageLoader {
 					value: 'userlist.topuser',
 					location: '/topuser',
 					selector: 'userlist-topuser-container',
-					element: $('header[id='+selector+']')					
+					element: $('header[id='+this.selector+']')					
 				}
 			},
 			
@@ -35,7 +35,7 @@ class PageLoader {
 					value: 'video.youtube',
 					location: '/video',
 					selector: 'video-youtube-container',
-					element: $('header[id='+selector+']')		
+					element: $('header[id='+this.selector+']')		
 				}
 			},
 			
@@ -44,28 +44,28 @@ class PageLoader {
 					value: 'playlist.lastfm',
 					path: '/lastfm',
 					selector: 'playlist-lastfm-container',
-					element: $('article[id='+selector+']')
+					element: $('article[id='+this.selector+']')
 				},
 				
 				search: {
 					value: 'playlist.search',
 					path: '/search',
 					selector: 'playlist-search-container',
-					element: $('article[id='+selector+']')
+					element: $('article[id='+this.selector+']')
 				},
 					
 				topsongs: {
 					value: 'playlist.topsongs',
 					path: '/topsongs',
 					selector: 'playlist-topsongs-container',
-					element: $('article[id='+selector+']')
+					element: $('article[id='+this.selector+']')
 				},
 				
 				user: {
 					value: 'playlist.user',
 					path: '/userlist',
 					selector: 'playlist-user-container',
-					element: $('article[id='+selector+']')
+					element: $('article[id='+this.selector+']')
 				}
 			},
 			
