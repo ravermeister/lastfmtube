@@ -19,7 +19,7 @@ class PageController {
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
         
-        this.menu = new Menu(PageController.icons);
+        this.menu = new Menu(this.icons);
         this.loader = new PageLoader();
         this.myVues = {};
         this.menuData = [];
