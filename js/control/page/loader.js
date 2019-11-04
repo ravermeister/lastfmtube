@@ -231,6 +231,8 @@ class PageLoader {
     	} else if(page === this.pages.base) {
     		page = this.pages.video.youtube;
     	}
+
+    	this.setLoading();
     	this.setLocation('#'+page.selector);
     }
     
