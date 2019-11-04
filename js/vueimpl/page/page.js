@@ -31,7 +31,6 @@ class LibvueMainpage {
                 TITLE: '',
                 TEXT: '',
                 MENUS: [{
-                    NAME: '',
                     TEXT: '',
                     PAGE: ''
                 }]
@@ -55,6 +54,7 @@ class LibvueMainpage {
         }
 
         if ('undefined' !== typeof json.basemenu) {
+        	console.log('>>>', json.basemenu);
             this.menu.$data.MENUS = json.basemenu;
         }
     }

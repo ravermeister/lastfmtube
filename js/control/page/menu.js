@@ -68,7 +68,6 @@ class Menu {
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
         let self = this;
     	let createHref = function(menu) {
-    		console.log('>>>>', menu);
     		let page = null;
     		if(menu !== null && menu.PAGE !== null) {
     			page = self.pageControl.loader.pages.getByValue(menu.PAGE);    			
