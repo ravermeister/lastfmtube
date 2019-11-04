@@ -243,46 +243,6 @@ class PlayerController {
             }
         });
     }
-
-    searchSong(track, callBack = null, loadPage = false) {
-        let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
-        
-        if (!needle.isValid()) {
-            console.error('needle is invalid exit search');
-            return;
-        }
-
-        let myCallBack = function(result) {
-       	
-        	if(result && loadPage) {  		
-        		$page.load('search');
-        	} 
-        	
-        	if (typeof callBack === 'function') {
-    			callBack(result);
-    		}
-    	};
-        
-        let request =
-            'php/json/page/YouTube.php?action=search' +
-            '&size=50&needle=' + needle.asVar();
-        $.getJSON(request, function (json) {
-        	$playlist.loadSearchResult(needle, json, 1, myCallBack);            
-        }).fail(function (xhr) {
-            if (typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ', request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ', xhr.status,
-                    '\n\nerror: ', xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
-            
-            myCallBack(false);
-        });
-    }
     
     loadDefaultVideo() {
     	

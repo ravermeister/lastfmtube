@@ -90,6 +90,7 @@ define ('vuedata', [
 define('page', [
 	'control/page/icons',
 	'control/page/menu',
+	'control/page/loader',
 	'control/page/hotkeys',
 	'control/page/page',
 	'control/player/track',

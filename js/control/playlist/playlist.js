@@ -35,60 +35,81 @@ class PlaylistController {
         });
     }
 
-    loadSearchResult(needle, result, pageNum = 1, callBack = null) {
+    loadSearchResult(needle, callBack = null) {
 
-        let trackCnt = result.data.value.length;
-        let maxPages = 1;
-        let tracks = [];
-        let savedVid = needle.videoId;
-        if (trackCnt > 0) {
-            maxPages = trackCnt / $page.settings.general.tracksPerPage | 0;
-            if (trackCnt % $page.settings.general.tracksPerPage > 1) maxPages++;
+        let request =
+            'php/json/page/YouTube.php?action=search' +
+            '&size=50&needle=' + needle.asVar();
+        
+        $.getJSON(request, function (json) {
 
-            for (let cnt = 0; cnt < trackCnt; cnt++) {
-                let ytvid = result.data.value[cnt];
-                let track = {
-                    NR: (cnt + 1) + '',
-                    ARTIST: '',
-                    TITLE: ytvid.TITLE,
-                    VIDEO_ID: ytvid.VIDEO_ID,
-                    PLAYLIST: 'search',
-                    PLAYCOUNT: null,
-                    PLAYSTATE: '',
-                    PLAY_CONTROL: ''
-                };
-                if ($player.isCurrentTrack(track)) {
-                    track.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
-                    track.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
-                    $player.setCurrentTrack(track);
+            let trackCnt = json.data.value.length;
+            let maxPages = 1;
+            let tracks = [];
+            let savedVid = needle.videoId;
+            if (trackCnt > 0) {
+                maxPages = trackCnt / $page.settings.general.tracksPerPage | 0;
+                if (trackCnt % $page.settings.general.tracksPerPage > 1) maxPages++;
+
+                for (let cnt = 0; cnt < trackCnt; cnt++) {
+                    let ytvid = result.data.value[cnt];
+                    let track = {
+                        NR: (cnt + 1) + '',
+                        ARTIST: '',
+                        TITLE: ytvid.TITLE,
+                        VIDEO_ID: ytvid.VIDEO_ID,
+                        PLAYLIST: 'search',
+                        PLAYCOUNT: null,
+                        PLAYSTATE: '',
+                        PLAY_CONTROL: ''
+                    };
+                    if ($player.isCurrentTrack(track)) {
+                        track.PLAYSTATE = $player.currentTrackData.track.PLAYSTATE;
+                        track.PLAY_CONTROL = $player.currentTrackData.track.PLAY_CONTROL;
+                        $player.setCurrentTrack(track);
+                    }
+                    tracks[cnt] = track;
                 }
-                tracks[cnt] = track;
             }
-        }
+            
+            let searchData = {
+                HEADER: {
+                    TEXT: 'Search Results'
+                },
 
-        $page.setCurrentPlaylist('search');
-        let playlistArticle = $('article[name=playlist-container]');
-        $(playlistArticle).attr('id', 'search');
-        $page.myVues.playlist.search.update({
-            HEADER: {
-                TEXT: 'Search Results'
-            },
+                LIST_MENU: {
+                    CUR_PAGE: pageNum,
+                    MAX_PAGES: maxPages,
+                    PLAYLIST: 'search',
+                    SAVED_VIDEO_ID: savedVid,
+                    SEARCH_NEEDLE: needle,
+                    SEARCH_RESULT: tracks
+                },
 
-            LIST_MENU: {
-                CUR_PAGE: pageNum,
-                MAX_PAGES: maxPages,
-                PLAYLIST: 'search',
-                SAVED_VIDEO_ID: savedVid,
-                SEARCH_NEEDLE: needle,
-                SEARCH_RESULT: tracks
-            },
+                TRACKS: tracks.slice(0, $page.settings.general.tracksPerPage)
+            };
+           
+            
+            if (typeof callBack === 'function') {
+                callBack(true, searchData);
+            } else {
+            	$page.myVues.playlist.search.update(searchData);
+            }
 
-            TRACKS: tracks.slice(0, $page.settings.general.tracksPerPage)
+        }).fail(function (xhr) {
+            if (typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ', request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
+                );
+            } else {
+                console.log('request: ', request, 'error');
+            }
+            
+            callBack(false, null);
         });
-
-        if (typeof callBack === 'function') {
-            callBack(true);
-        }
     }
 
     loadTopSongs(pageNum = 1, callBack = null) {
@@ -104,8 +125,7 @@ class PlaylistController {
 					        callBack(true, json.data.value);
 					    } else {
 							$page.myVues.playlist.topsongs.update(json.data.value);
-					    }
-					
+					    }					
 					} catch (e) {
 					    console.error('error in load topsongs list callback function', e);
 					    console.error('Callback: ', callBack);
@@ -114,7 +134,7 @@ class PlaylistController {
             }).fail(function (xhr) {
 
             $.logXhr(xhr);
-
+            
             try {
                 if (typeof callBack === 'function') {
                     callBack(false, null);

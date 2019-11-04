@@ -103,14 +103,15 @@ class PageLoader {
 		return this.currentPage === page;
 	}
 	
-	loadPage(page = 'video') {
+	loadPage(page = 'video', pageNum = 1, searchNeedle = null) {
 		
 		let thePage = this.pages.getByValue(page);
 		if(thePage === null) return;	
 
 		let lastPage = this.currentPage;
-        this.setLoading(lastPage, true);
+		
         let self = this;
+        this.setLoading(lastPage, true);
         
 		let finished = function(vue, data){
 			self.setLoading(lastPage);
@@ -120,29 +121,50 @@ class PageLoader {
 		
 		switch(thePage.value) {
 			case this.pages.playlist.topsongs.value:
-				$playlist.loadTopSongs(1, function(result, data){
+				$playlist.loadTopSongs(pageNum, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.topsongs, data);
 					}
 				});
 			break;
 			case this.pages.playlist.user.value:
-				$playlist.loadCustomerList(1, function(result, data){
+				$playlist.loadCustomerList(pageNum, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.user, data);
 					}
 				});
 			break;
 			case this.pages.playlist.lastfm.value:
-				$playlist.loadLastFmList(1, function(result, data){
+				$playlist.loadLastFmList(pageNum, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.lastfm, data);
 					}
 				});
 			break;
+			case this.pages.playlist.search.value:
+				if(searchNeedle === null) {
+					console.log('no search needle provided, abort load search');
+					return;
+				}
+				
+				$playlist.loadSearchResult(searchNeedle, function(result, data){
+					if(result) {						
+						finished($page.myVues.playlist.search, data);
+					}
+				});
+			break;
 		}	
-		
-		
-		
 	}
+	
+    searchSong(track) {
+        let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+        
+        if (!needle.isValid()) {
+            console.error('needle is invalid exit search');
+            return;
+        }
+
+        
+        this.loadPage('search', null, needle);
+    }
 }
