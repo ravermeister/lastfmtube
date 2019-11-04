@@ -16,6 +16,7 @@ class PageLoader {
 			
 			base: {
 				value: 'base',
+				location: '',
 				selector: 'header',
 				element: $('header[id='+selector+']')
 			},
@@ -23,36 +24,52 @@ class PageLoader {
 			userlist: {
 				topuser: {
 					value: 'userlist.topuser',
+					location: '/topuser',
 					selector: 'userlist-topuser-container',
 					element: $('header[id='+selector+']')					
+				}
+			},
+			
+			video: {
+				youtube: {
+					value: 'video.youtube',
+					location: '/video',
+					selector: 'video-youtube-container',
+					element: $('header[id='+selector+']')		
 				}
 			},
 			
 			playlist: {
 				lastfm: {
 					value: 'playlist.lastfm',
+					path: '/lastfm',
 					selector: 'playlist-lastfm-container',
 					element: $('article[id='+selector+']')
 				},
 				
 				search: {
 					value: 'playlist.search',
+					path: '/search',
 					selector: 'playlist-search-container',
 					element: $('article[id='+selector+']')
 				},
 					
 				topsongs: {
 					value: 'playlist.topsongs',
+					path: '/topsongs',
 					selector: 'playlist-topsongs-container',
 					element: $('article[id='+selector+']')
 				},
 				
 				user: {
 					value: 'playlist.user',
+					path: '/userlist',
 					selector: 'playlist-user-container',
 					element: $('article[id='+selector+']')
 				}
 			},
+			
+			
 			
 			getByValue: function(aValue) {
 				switch(aValue) {
@@ -63,15 +80,36 @@ class PageLoader {
 					case 'playlist.topsongs':
 						return this.pages.playlist.topsongs;
 					case 'playlist.user':
-						return this.pages.playlist.topsongs;
+						return this.pages.playlist.user;
 					case 'userlist.topuser':
 						return this.pages.userlist.topuser;
+					case 'video.youtube':
+						return this.pages.video.youtube;
 					case 'base':
 						return this.pages.base;
 					default:
 						return null;
 				}
 			},
+			
+			getByLocation() {
+				switch(location.pathname) {
+					case this.pages.userlist.topuser.location:
+						return this.pages.userlist.topuser;
+					case this.pages.playlist.lastfm.location:
+						return this.pages.playlist.lastfm.location;
+					case this.pages.playlist.topsongs.location:
+						return this.pages.playlist.topsongs;
+					case this.pages.playlist.user.location:
+						return this.pages.playlist.user;
+					case this.pages.playlist.search.location:
+						return this.pages.search.topsongs;
+					case this.pages.video.youtube.location:
+						return this.pages.video.youtube;
+					default:
+						return null;
+				}
+			}
 		}
 		
 	}
@@ -116,10 +154,13 @@ class PageLoader {
 		let finished = function(vue, data){
 			self.setLoading(lastPage);
 			location.href.replace('#'+thePage.selector);
-			vue.update(data);
+			if(vue !== null && data !== null) {				
+				vue.update(data);
+			}
 		};  
 		
 		switch(thePage.value) {
+// Topsongs
 			case this.pages.playlist.topsongs.value:
 				$playlist.loadTopSongs(pageNum, function(result, data){
 					if(result) {						
@@ -127,6 +168,7 @@ class PageLoader {
 					}
 				});
 			break;
+// User Playlist
 			case this.pages.playlist.user.value:
 				$playlist.loadCustomerList(pageNum, function(result, data){
 					if(result) {						
@@ -134,6 +176,7 @@ class PageLoader {
 					}
 				});
 			break;
+// Last.fm Playlist
 			case this.pages.playlist.lastfm.value:
 				$playlist.loadLastFmList(pageNum, function(result, data){
 					if(result) {						
@@ -141,6 +184,7 @@ class PageLoader {
 					}
 				});
 			break;
+// Search Result List
 			case this.pages.playlist.search.value:
 				if(searchNeedle === null) {
 					console.log('no search needle provided, abort load search');
@@ -153,9 +197,13 @@ class PageLoader {
 					}
 				});
 			break;
+// YouTube Player View
+			case this.pages.video.youtube.value:				
+					finished();
+			break;
 		}	
 	}
-	
+
     searchSong(track) {
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         
@@ -166,5 +214,16 @@ class PageLoader {
 
         
         this.loadPage('search', null, needle);
+    }
+    
+    
+    initURL() {
+    	let page = this.pages.getByLocation();
+    	if(page === null) {
+    		console.log('unkown url: ', location.href);
+    		return;
+    	}
+    	
+    	this.loadPage(page);
     }
 }
