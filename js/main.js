@@ -11,7 +11,8 @@ let $player = null;
 let $playlist = null;
 let $page = null;
 
-// Enable navigation prompt, set to null to disable
+// Enable navigation prompt (warning before leaving page), set to null to
+// disable
 window.onbeforeunload = function() {
 	return true;
 };
