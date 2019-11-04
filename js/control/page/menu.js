@@ -13,6 +13,7 @@ class Menu {
     	this.pageControl = pageControl;
     	
     	let href = function(menu) {
+    		console.log('>>>>', menu);
     		let page = null;
     		if(menu !== null && menu.PAGE !== null) {
     			page = pageControl.loader.pages.getByValue(menu.PAGE);    			
