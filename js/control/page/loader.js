@@ -229,7 +229,7 @@ class PageLoader {
     		console.log('unkown url: ', location.href);
     		return;
     	} else if(page === this.pages.base) {
-    		page = this.page.video.youtube;
+    		page = this.pages.video.youtube;
     	}
     	
     	location.href.replace('#'+page.selector);
