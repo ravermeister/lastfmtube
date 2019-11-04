@@ -95,17 +95,14 @@ class PageController {
     	this.initSettings();
     	this.initShareButtons();    	
         this.myVues = VueController.createVues();
-        
-//        let lastPage = this.loader.setLoading(null, true);    	
-        let request = 'php/json/page/Page.php?action=init';
+                let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
 
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value);
 
-            
-//            $page.loader.setLoading(lastPage);           
+            $page.loader.setLoading();           
             $page.isReady = true;
 //            if(typeof initReadyCallBack === 'function') {
 //            	initReadyCallBack();
