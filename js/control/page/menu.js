@@ -13,42 +13,42 @@ class Menu {
     	this.pageControl = pageControl;
     	    	
         this.youtube = {
-            LOGO: icons.youtube.big,
+            LOGO: pageControl.icons.youtube.big,
             TEXT: 'YouTube',
             PAGE: 'video',
             HREF: ''
         };
 
         this.search = {
-            LOGO: icons.search.big,
+            LOGO: pageControl.icons.search.big,
             TEXT: 'Search',
             PAGE: 'playlist',
             HREF: ''
         };
 
         this.lastfm = {
-            LOGO: icons.headphones.big,
+            LOGO: pageControl.icons.headphones.big,
             TEXT: 'Last.fm',
             PAGE: 'playlist',
             HREF: ''
         };
 
         this.userlist = {
-            LOGO: icons.user.big,
+            LOGO: pageControl.icons.user.big,
             TEXT: 'My Songs',
             PAGE: 'playlist',
             HREF: ''
         };
 
         this.topsongs = {
-            LOGO: icons.star.big,
+            LOGO: pageControl.icons.star.big,
             TEXT: 'Top Songs',
             PAGE: 'playlist',
             HREF: ''
         };
 
         this.topuser = {
-            LOGO: icons.trophy.big,
+            LOGO: pageControl.icons.trophy.big,
             TEXT: 'Top User',
             PAGE: 'playlist',
             HREF: ''
