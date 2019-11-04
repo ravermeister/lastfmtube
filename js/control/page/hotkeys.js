@@ -15,19 +15,13 @@ class HotKeys {
 	static init() {
 		
 		if(HotKeys.globalInit === true) return;
-		
-		let toggleLoading = function(loading = false) {			
-    		$page.setLoading(PageController.article.user.dom(), loading);
-    		$page.setLoading(PageController.article.playlist.dom(), loading);
-    		$page.setLoading(PageController.article.video.dom(), loading);
-		};
-		
+
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
 		hotkeys.filter = function(event){
 			  return true;
 		};
-		
+
     	hotkeys('left', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault();     		
@@ -74,10 +68,8 @@ class HotKeys {
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault();    		
 
-    		toggleLoading(true);    		
-    		$page.loadPage('video', function(){
-    			toggleLoading();
-    		});
+    		$page.loader.setLoading(null, true);    		
+    		$page.loader.loadPage();
     	});
     	
     	hotkeys('ctrl+2', function(event, handler){
@@ -85,9 +77,7 @@ class HotKeys {
     		event.preventDefault(); 
 
     		toggleLoading(true);
-    		$page.loadPage('lastfm', function(){
-    			toggleLoading();
-    		});
+    		$page.loader.loadPage('lastfm');
     	});
     	
     	hotkeys('ctrl+3', function(event, handler){
@@ -95,9 +85,7 @@ class HotKeys {
     		event.preventDefault(); 
     		
     		toggleLoading(true);
-    		$page.loadPage('personal', function(){
-    			toggleLoading();
-    		});    		
+    		$page.loadPage('personal');    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
@@ -105,9 +93,7 @@ class HotKeys {
     		event.preventDefault(); 
     		
     		toggleLoading(true);
-    		$page.loadPage('topsongs', function(){
-    			toggleLoading();
-    		});    		
+    		$page.loadPage('topsongs');    		
     	});
     	
     	hotkeys('ctrl+5', function(event, handler){
@@ -115,9 +101,7 @@ class HotKeys {
     		event.preventDefault(); 
 
     		toggleLoading(true);
-    		$page.loadPage('users', function(){
-    			toggleLoading();
-    		});    		
+    		$page.loadPage('users');    		
     	});
     	
     	/**

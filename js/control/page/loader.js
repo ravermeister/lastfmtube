@@ -141,7 +141,11 @@ class PageLoader {
 		return this.currentPage === page;
 	}
 	
-	loadPage(page = 'video', pageNum = 1, searchNeedle = null) {
+	getCurrentPage(){
+		return this.currentPage;
+	}
+	
+	loadPage(page = 'video.youtube', pageNum = 1, searchNeedle = null) {
 		
 		let thePage = this.pages.getByValue(page);
 		if(thePage === null) return;	
