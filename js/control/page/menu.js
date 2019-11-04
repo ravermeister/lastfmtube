@@ -8,14 +8,16 @@
 /***/
 class Menu {
 
-    constructor(icons) {
-
+    constructor(pageControl) {
+    	
+    	this.pageControl = pageControl;
+    	
     	let href = function(menu) {
     		let page = null;
     		if(menu !== null && menu.PAGE !== null) {
-    			page = $page.loader.pages.getByValue(menu.PAGE);    			
+    			page = pageControl.loader.pages.getByValue(menu.PAGE);    			
     		}else {
-    			page = $page.loader.pages.base;
+    			page = pageControl.loader.pages.base;
     		}
     		
     		return '#'+page.selector;
@@ -105,8 +107,8 @@ class Menu {
             case 'userlist':
                 return this.userlist;
             case 'search':
-            	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-            		return this.getMenuItem($page.SEARCH_RETURN_PLAYLIST);
+            	if(this.pageControl.SEARCH_RETURN_PLAYLIST !== null) {
+            		return this.getMenuItem(this.pageControl.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
             default:
