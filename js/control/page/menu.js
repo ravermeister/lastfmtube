@@ -112,7 +112,8 @@ class Menu {
         switch (playlist) {
             case 'youtube':
             case 'video':
-            case 'video-container':
+            case 'video-youtube-container':
+            case 'video.youtube':
                 list = [
                     this.lastfm,
                     this.userlist,
@@ -122,7 +123,8 @@ class Menu {
                 break;
             case 'lastfm':
             case 'default':
-            case 'playlist-container':
+            case 'playlist-lastfm-container':
+            case 'playlist.lastfm':
                 list = [
                     this.youtube,
                     this.userlist,
@@ -131,6 +133,8 @@ class Menu {
                 ];
                 break;
             case 'topuser':
+            case 'user.topuser':
+            case 'user-topuser-container':
             case 'search':
                 list = [
                     this.youtube,

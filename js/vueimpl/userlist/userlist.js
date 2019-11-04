@@ -45,7 +45,7 @@ class LibvueUser {
                 },
                 computed: {
                     MENUS: function () {
-                        return this.$getMenuForPlaylist(this.TYPE);
+                        return $page.menu.getMenu(this.TYPE);
                     }
                 },
 

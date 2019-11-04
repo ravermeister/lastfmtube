@@ -109,6 +109,10 @@ class PageLoader {
 					default:
 						return this.base;
 				}
+			}, 
+			
+			getByMenu() {
+				
 			}
 		}
 		
