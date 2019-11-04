@@ -86,7 +86,7 @@ class Page extends DefaultJson {
           return array(
                'TOPUSER' => array(
                     'TEXT' => $locale['menu']['topuser'],
-                    'PAGE' => 'userlist.topuser'
+                    'PAGE' => 'userlist.topuser',
                ),
                'TOPSONGS' => array(
                     'TEXT' => $locale['menu']['topsongs'],

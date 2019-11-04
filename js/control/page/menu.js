@@ -10,40 +10,57 @@ class Menu {
 
     constructor(icons) {
 
+    	let href = function(menu) {
+    		let page = null;
+    		if(menu !== null && menu.PAGE !== null) {
+    			page = $page.loader.pages.getByValue(menu.PAGE);    			
+    		}else {
+    			page = $page.loader.pages.base;
+    		}
+    		
+    		return '#'+page.selector;
+    	};
+    	
         this.youtube = {
             LOGO: icons.youtube.big,
             TEXT: 'YouTube',
-            PAGE: 'video'
+            PAGE: 'video',
+            HREF: href(this)
         };
 
         this.search = {
             LOGO: icons.search.big,
             TEXT: 'Search',
             PAGE: 'playlist',
+            HREF: href(this)
         };
 
         this.lastfm = {
             LOGO: icons.headphones.big,
             TEXT: 'Last.fm',
-            PAGE: 'playlist'
+            PAGE: 'playlist',
+            HREF: href(this)
         };
 
         this.userlist = {
             LOGO: icons.user.big,
             TEXT: 'My Songs',
-            PAGE: 'playlist'
+            PAGE: 'playlist',
+            HREF: href(this)
         };
 
         this.topsongs = {
             LOGO: icons.star.big,
             TEXT: 'Top Songs',
-            PAGE: 'playlist'
+            PAGE: 'playlist',
+            HREF: href(this)
         };
 
         this.topuser = {
             LOGO: icons.trophy.big,
             TEXT: 'Top User',
-            PAGE: 'playlist'
+            PAGE: 'playlist',
+            HREF: href(this)
         };
 
         this.defaultMenu = [
@@ -61,24 +78,18 @@ class Menu {
 
         if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
         if ('undefined' !== typeof json.YTPLAYER.PAGE) this.youtube.PAGE = json.YTPLAYER.PAGE;
-        if ('undefined' !== typeof json.YTPLAYER.HREF) this.youtube.HREF = json.YTPLAYER.HREF;
 
         if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
         if ('undefined' !== typeof json.LASTFM.PAGE) this.lastfm.PAGE = json.LASTFM.PAGE;
-        if ('undefined' !== typeof json.LASTFM.HREF) this.lastfm.HREF = json.LASTFM.HREF;
 
         if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
         if ('undefined' !== typeof json.USERLIST.PAGE) this.userlist.PAGE = json.USERLIST.PAGE;
-        if ('undefined' !== typeof json.USERLIST.HREF) this.userlist.HREF = json.USERLIST.HREF;
 
         if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
         if ('undefined' !== typeof json.TOPSONGS.PAGE) this.topsongs.PAGE = json.TOPSONGS.PAGE;
-        if ('undefined' !== typeof json.TOPSONGS.HREF) this.topsongs.HREF = json.TOPSONGS.HREF;
         
         if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
-        if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;
-        if ('undefined' !== typeof json.TOPUSER.HREF) this.topuser.HREF = json.TOPUSER.HREF;
-        
+        if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;        
     }
 
     getMenuItem(playlist) {

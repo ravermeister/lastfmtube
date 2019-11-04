@@ -110,10 +110,6 @@ class PageLoader {
 						return this.base;
 				}
 			}, 
-			
-			getByMenu() {
-				
-			}
 		}
 		
 	}
