@@ -65,7 +65,12 @@ class Menu {
     }
 
     updateData(json) {
+
+    	if ('undefined' !== typeof json.basemenu) {
+    		this.pageControl.myVues.main.update(json);
+    	}    	
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
+
         let self = this;
     	let createHref = function(menu) {
     		let page = null;
@@ -109,8 +114,9 @@ class Menu {
         if ('undefined' !== typeof json.TOPUSER.PAGE) {
         	this.topuser.PAGE = json.TOPUSER.PAGE; 
         	this.topuser.HREF = createHref(this.topuser);  
-
         }
+        
+        
     }
 
     getMenuItem(playlist) {
