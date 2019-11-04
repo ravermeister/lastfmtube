@@ -32,7 +32,6 @@ class LibvueMainpage {
                 TEXT: '',
                 MENUS: [{
                     NAME: '',
-                    LDATA: '',
                     PAGE: ''
                 }]
             },
@@ -41,7 +40,7 @@ class LibvueMainpage {
 
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
-                    $page.load(menu.PAGE, menu.LDATA);
+                    $page.load(menu.PAGE);
                 }
             }
         });
