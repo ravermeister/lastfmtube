@@ -10,8 +10,6 @@ namespace LastFmTube\Json\Page;
 
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
-use LastFmTube\Api\YouTube\VideoComments;
-use LastFmTube\Api\YouTube\YouTubeVideo;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
