@@ -231,7 +231,7 @@ class PageLoader {
     	} else if(page === this.pages.base) {
     		page = this.pages.video.youtube;
     	}
-    	
+    	console.log('>>>', page);
     	location.href.replace('#'+page.selector);
     }
 }
