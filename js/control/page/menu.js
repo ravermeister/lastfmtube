@@ -62,23 +62,18 @@ class Menu {
 
         if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
         if ('undefined' !== typeof json.YTPLAYER.PAGE) this.youtube.PAGE = json.YTPLAYER.PAGE;
-        if ('undefined' !== typeof json.YTPLAYER.LDATA) this.youtube.LDATA = json.YTPLAYER.LDATA;
 
         if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
         if ('undefined' !== typeof json.LASTFM.PAGE) this.lastfm.PAGE = json.LASTFM.PAGE;
-        if ('undefined' !== typeof json.LASTFM.LDATA) this.lastfm.LDATA = json.LASTFM.LDATA;
 
         if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
         if ('undefined' !== typeof json.USERLIST.PAGE) this.userlist.PAGE = json.USERLIST.PAGE;
-        if ('undefined' !== typeof json.USERLIST.LDATA) this.userlist.LDATA = json.USERLIST.LDATA;
 
         if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
         if ('undefined' !== typeof json.TOPSONGS.PAGE) this.topsongs.PAGE = json.TOPSONGS.PAGE;
-        if ('undefined' !== typeof json.TOPSONGS.LDATA) this.topsongs.LDATA = json.TOPSONGS.LDATA;
 
         if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
         if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;
-        if ('undefined' !== typeof json.TOPUSER.LDATA) this.topuser.LDATA = json.TOPUSER.LDATA;
 
     }
 
