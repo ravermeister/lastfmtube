@@ -95,7 +95,7 @@ class PageController {
     	this.initSettings();
     	this.initShareButtons();
     	
-        this.myVues = new VueController().createVues();
+        this.myVues = VueController.createVues();
     	
     	this.loader.setLoading(null, true)
         let request = 'php/json/page/Page.php?action=init';
