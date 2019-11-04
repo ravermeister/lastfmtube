@@ -93,11 +93,10 @@ class PageController {
     
     init(initReadyCallBack) {
     	this.initSettings();
-    	this.initShareButtons();
-    	
+    	this.initShareButtons();    	
         this.myVues = VueController.createVues();
         
-        let lastPage = this.loader.setLoading(null, true);    	
+//        let lastPage = this.loader.setLoading(null, true);    	
         let request = 'php/json/page/Page.php?action=init';
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
@@ -106,12 +105,12 @@ class PageController {
             $page.menu.updateData(json.data.value);
 
             
-            $page.loader.setLoading(lastPage);           
+//            $page.loader.setLoading(lastPage);           
             $page.isReady = true;
-            if(typeof initReadyCallBack === 'function') {
-            	initReadyCallBack();
-            }          
-                        
+//            if(typeof initReadyCallBack === 'function') {
+//            	initReadyCallBack();
+//            }          
+//                        
             console.log('init page success');
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
