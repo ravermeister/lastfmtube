@@ -114,9 +114,9 @@ class PageLoader {
 		
 	}
 	
-	setLoading(currentPage = null, active = false) {
+	setLoading(currentPage = false, active = false) {
 		
-		if(currentPage === null) {
+		if(currentPage === false) {
 			currentPage = this.currentPage;
 		}
 		
@@ -139,10 +139,6 @@ class PageLoader {
 	isCurrentPage(page) {
 		if(page === null || page === '') return false;		
 		return this.currentPage === page;
-	}
-	
-	getCurrentPage(){
-		return this.currentPage;
 	}
 	
 	loadPage(page = 'video.youtube', pageNum = 1, searchNeedle = null) {
