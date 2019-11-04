@@ -66,14 +66,14 @@ class Menu {
 
     updateData(json) {
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
-
+        let self = this;
     	let createHref = function(menu) {
     		console.log('>>>>', menu);
     		let page = null;
     		if(menu !== null && menu.PAGE !== null) {
-    			page = pageControl.loader.pages.getByValue(menu.PAGE);    			
+    			page = self.pageControl.loader.pages.getByValue(menu.PAGE);    			
     		}else {
-    			page = pageControl.loader.pages.base;
+    			page = self.pageControl.loader.pages.base;
     		}
     		
     		return '#'+page.selector;
