@@ -32,6 +32,7 @@ class LibvueMainpage {
                 TEXT: '',
                 MENUS: [{
                     NAME: '',
+                    TEXT: '',
                     PAGE: ''
                 }]
             },
