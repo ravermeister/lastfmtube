@@ -107,7 +107,7 @@ class PageLoader {
 					case this.pages.video.youtube.location:
 						return this.pages.video.youtube;
 					default:
-						return null;
+						return this.pages.base;
 				}
 			}
 		}
@@ -228,8 +228,10 @@ class PageLoader {
     	if(page === null) {
     		console.log('unkown url: ', location.href);
     		return;
+    	} else if(page === this.pages.base) {
+    		page = this.pages.video.youtube;
     	}
     	
-    	this.loadPage(page);
+    	location.href.replace('#'+page.selector);
     }
 }

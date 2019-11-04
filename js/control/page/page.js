@@ -102,12 +102,13 @@ class PageController {
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value);
 
-//            $page.loader.setLoading();           
             $page.isReady = true;
-//            if(typeof initReadyCallBack === 'function') {
-//            	initReadyCallBack();
-//            }          
-//                        
+            if(typeof initReadyCallBack === 'function') {
+            	initReadyCallBack();
+            } else {
+            	$page.loader.initURL();
+            }       
+                        
             console.log('init page success');
         }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
