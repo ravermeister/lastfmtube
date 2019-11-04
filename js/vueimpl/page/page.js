@@ -54,6 +54,7 @@ class LibvueMainpage {
         }
 
         if ('undefined' !== typeof json.basemenu) {
+        	console.log('>>>>', json);
             this.menu.$data.MENUS = json.basemenu;
         }
     }
