@@ -50,8 +50,8 @@ class VueController {
             return url;
         };
         Vue.prototype.$url = function (menu, log = false) {
-        	 console.log('for menu', menu);
             return this.$url2(menu.PAGE, menu.PLAYLIST, log);
+            // console.log('for menu', menu);
         };
 
         Vue.prototype.$getMenuForPlaylist = function (playlist) {
