@@ -19,8 +19,8 @@ class PageController {
         this.PLAY_CONTROL = null;
         this.QUICKPLAY_TRACK = null;
         
-        this.menu = new Menu(this);
         this.loader = new PageLoader();
+        this.menu = new Menu(this);
         this.myVues = {};
         this.menuData = [];
 		VueController.applyVueMethods();
