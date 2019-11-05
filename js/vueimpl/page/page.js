@@ -36,11 +36,16 @@ class LibvueMainpage {
                 }]
             },
 
+
             methods: {
 
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
                     $page.load(menu.PAGE);
+                },
+                
+                menuHref(menu) {  
+                	return $page.menu.href(menu);
                 }
             }
         });
