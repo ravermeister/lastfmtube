@@ -63,7 +63,7 @@
 			<nav>
 				<ul>
 					<li ><a href="https://rimkus.it">rimkus.it</a></li>
-					<li v-for="MENU in MENUS"><a v-bind:href="">{{MENU.TEXT}}</a></li>
+					<li v-for="MENU in MENUS"><a v-bind:href="">{{MENU[0].TEXT}}</a></li>
 					<!-- 
 					<li v-for="MENU in MENUS"><a v-bind:href="menuHref(MENU);"
 						@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
