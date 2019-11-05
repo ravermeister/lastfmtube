@@ -22,7 +22,6 @@ class PageController {
         this.loader = new PageLoader();
         this.menu = new Menu(this);
         this.myVues = {};
-        this.menuData = [];
 		VueController.applyVueMethods();
         this.applyJQueryMethods();
     }
