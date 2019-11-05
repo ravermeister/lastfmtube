@@ -63,10 +63,11 @@
 			<nav>
 				<ul>
 					<li ><a href="https://rimkus.it">rimkus.it</a></li>
-
+					<li v-for="MENU in MENUS"><a v-bind:href="menuHref(MENU);">{{MENUS[0].TEXT}}</a></li>
+					<!-- 
 					<li v-for="MENU in MENUS"><a v-bind:href="menuHref(MENU);"
-						@click.prevent="loadMenu(MENU, $event);">{{MENUS[0].TEXT}}</a></li>
-					
+						@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
+					-->
 				</ul>
 			</nav>
 		</header>
