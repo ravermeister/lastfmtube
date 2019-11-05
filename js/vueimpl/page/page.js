@@ -42,7 +42,7 @@ class LibvueMainpage {
 
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
-                    $page.load(menu.PAGE);
+                    location.href = menu.HREF;
                 }
             }
         });
