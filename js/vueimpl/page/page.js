@@ -34,6 +34,7 @@ class LibvueMainpage {
 
             computed: {
             	MENUS: function(){
+            		console.log('>>>', $page.menu.getMenu('default'));
             		return $page.menu.getMenu('default');
             	}
             },
