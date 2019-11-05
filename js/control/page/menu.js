@@ -145,6 +145,16 @@ class Menu {
 
         let list = [];
         switch (menuId) {
+        	case 'all':
+            case 'default':
+        		list = [
+                    this.youtube,
+                    this.lastfm,
+                    this.userlist,
+                    this.topsongs,
+                    this.topuser
+        		];
+        		break;
             case 'youtube':
             case 'video':
             case 'video-youtube-container':
@@ -157,7 +167,6 @@ class Menu {
                 ];
                 break;
             case 'lastfm':
-            case 'default':
             case 'playlist-lastfm-container':
             case 'playlist.lastfm':
                 list = [
@@ -179,6 +188,8 @@ class Menu {
                 ];
                 break;
             case 'topsongs':
+            case 'playlist.topsongs':
+            case 'playlist-topsongs-container':
                 list = [
                     this.youtube,
                     this.lastfm,
@@ -187,6 +198,8 @@ class Menu {
                 ];
                 break;
             case 'userlist':
+            case 'playlist-user-container':
+            case 'playlist.user':
                 list = [
                     this.youtube,
                     this.lastfm,
