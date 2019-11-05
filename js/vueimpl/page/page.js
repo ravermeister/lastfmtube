@@ -43,11 +43,6 @@ class LibvueMainpage {
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
                     $page.load(menu.PAGE);
-                },
-                
-                menuHref(menu, event) {  
-                	console.log('href >>>>', menu);
-                	return $page.menu.href(menu);
                 }
             }
         });
