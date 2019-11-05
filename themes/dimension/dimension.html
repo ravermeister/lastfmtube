@@ -62,7 +62,8 @@
 
 			<nav>
 				<ul>
-					<li v-for="MENU in MENUS"><a >{{MENU.TEXT}}</a></li>
+					<li v-for="MENU in MENUS"><a 
+					@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
 					<!-- 
 					<li v-for="MENU in MENUS"><a v-bind:href="menuHref(MENU);"
 						@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
