@@ -66,9 +66,6 @@ class Menu {
 
     updateData(json) {
 
-    	if ('undefined' !== typeof json.basemenu) {
-    		this.pageControl.myVues.main.update(json);
-    	}    	
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
 
         let self = this;
