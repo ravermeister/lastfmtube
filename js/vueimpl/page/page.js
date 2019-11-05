@@ -29,13 +29,14 @@ class LibvueMainpage {
             el: '#header>nav',
             data: {
                 TITLE: '',
-                TEXT: '',
-                MENUS: [{
-                    TEXT: '',
-                    PAGE: ''
-                }]
+                TEXT: ''
             },
 
+            computed: {
+            	MENUS: function(){
+            		return $page.menu.getMenu('default');
+            	}
+            },
 
             methods: {
 

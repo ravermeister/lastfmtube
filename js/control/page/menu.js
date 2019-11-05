@@ -141,10 +141,10 @@ class Menu {
         }
     }
 
-    getMenu(playlist) {
+    getMenu(menuId) {
 
         let list = [];
-        switch (playlist) {
+        switch (menuId) {
             case 'youtube':
             case 'video':
             case 'video-youtube-container':
