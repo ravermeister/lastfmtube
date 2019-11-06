@@ -124,7 +124,7 @@ class Menu {
             case this.pageControl.loader.pages.video.youtube.value:
                 return this.youtube;
             case 'topuser':
-            case this.pageControl.loader.pages.user.topuser.value:
+            case this.pageControl.loader.pages.userlist.topuser.value:
                 return this.topuser;
             case 'topsongs':
             case this.pageControl.loader.pages.playlist.topsongs.value:
