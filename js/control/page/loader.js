@@ -174,13 +174,15 @@ class PageLoader {
         let self = this;
         this.setLoading(lastPage, true);
         
+        return ;
+        
 		let finished = function(vue, data){
 			self.setLoading(lastPage);
-			console.log('page loaded');
-//			self.setLocation('#'+thePage.selector);
-//			if(vue !== null && data !== null) {				
-//				vue.update(data);
-//			}
+			console.log('page loaded')
+			self.setLocation('#'+thePage.selector);
+			if(vue !== null && data !== null) {				
+				vue.update(data);
+			}
 		};  
 		
 		switch(thePage.value) {
@@ -202,11 +204,11 @@ class PageLoader {
 			break;
 // Last.fm Playlist
 			case this.pages.playlist.lastfm.value:
-//				$playlist.loadLastFmList(pageNum, null, function(result, data){
-//					if(result) {						
-						finished($page.myVues.playlist.lastfm, null);
-//					}
-//				});
+				$playlist.loadLastFmList(pageNum, null, function(result, data){
+					if(result) {						
+						finished($page.myVues.playlist.lastfm, data);
+					}
+				});
 			break;
 // Search Result List
 			case this.pages.playlist.search.value:
