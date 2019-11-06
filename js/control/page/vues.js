@@ -40,10 +40,6 @@ class VueController {
             if (log) console.log('after update: ', this.$data);
         };
 
-        
-        Vue.prototype.$url = function(url) {
-        	console.log('Vue.prototype.$url >>> ...ich weiß nicht von wo die aufgerufen wird...');
-        }
         VueController.vueMethodsApplied = true;
     }
 	
