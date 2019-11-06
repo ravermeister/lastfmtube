@@ -150,6 +150,7 @@ class Menu {
     getMenu(menuId) {
 
         let list = [];
+        console.log('menu >>>', menuId);
 //        switch (menuId) {
 //        	case 'all':
 //            case 'default':
