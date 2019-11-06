@@ -163,8 +163,9 @@ class PageLoader {
 	}
 	
 	loadMenu(menu = null, pageData) {
-		console.log(menu);
+		console.log(menu, 'menu == topuser >', (menu === $page.menu.topuser));
 		let page = this.pages.getByMenu(menu);
+		console.log(page);
 		if(page === null) return;
 		
 		this.loadPage(page, pageData);
