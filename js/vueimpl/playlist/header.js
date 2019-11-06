@@ -37,7 +37,7 @@ class LibvuePlaylistHeader {
 		return new Vue({
 		    el: '#'+elementId+'>.page-header-nav',
 	        data: {
-	            PLAYLIST: null
+	            PLAYLIST: 'lastfm'
 	        },
 	        computed: {
 	            MENUS: function () {
