@@ -36,7 +36,6 @@ class LibvuePlaylistHeader {
 	}
 	
 	static createMenuVue(elementId){
-		console.log('create playlist-header-menu vue for element ', elementId);
 		return new Vue({
 		    el: '#'+elementId+'>.page-header-nav',
 	        data: {
@@ -46,8 +45,8 @@ class LibvuePlaylistHeader {
 	            MENUS: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    
-                    //return $page.menu.getMenu('default');
+                    console.log('playlist header menu..');
+                    return $page.menu.getMenu(playlist);
 	            }
 	        },
 		    methods: {
