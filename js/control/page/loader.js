@@ -140,10 +140,24 @@ class PageLoader {
 		}
 		
 		console.log('loding page', currentPage, 'active', active);
+		
 		$page.myVues.main.logo.$data.PAGE_LOADER = active ?
-				$page.icons.loader.bigger : $page.icons.diamond.bigger;
+				$page.icons.loader.bigger : $page.icons.diamond.bigger;		
+		if(currentPage === null) {
+			return;
+		}
 		
-		
+		let vue = $page.myVues.forPage(currentPage);
+		console.log('vue >', vue);
+		if(vue !== null) {	
+			if('undefined' !== typeof vue.header.title) {				
+				vue.header.title.$data.LOADING = active;
+				//youtube
+			} else {
+				vue.header.title.$data.LOADING = active;
+				//playlist etc.
+			}
+		}
 	}
 
 	isCurrentPage(page) {

@@ -86,6 +86,8 @@ class VueController {
             			return this.playlist.search;
             		case $page.loader.pages.playlist.user:
             			return this.playlist.user;
+            		default:
+            			return null;
             	}
             }
         };
