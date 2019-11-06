@@ -182,13 +182,12 @@ class PageLoader {
         let self = this;
         this.setLoading(lastPage, true);
         
-		let finished = function(vue, data){
+		let finished = function(vue = null, data = null){
 			self.setLoading(lastPage);
 			
 			self.currentPage = page;
 			self.setLocation('#'+page.selector);
 			if(vue !== null && data !== null) {		
-				console.log(vue, '<<<');
 				vue.update(data);
 			}
 		};  
