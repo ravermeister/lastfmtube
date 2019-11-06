@@ -95,17 +95,17 @@ class PageLoader {
 			getByLocation: function() {
 				switch(location.pathname) {
 					case this.userlist.topuser.location:
-						return this.pages.userlist.topuser;
+						return this.userlist.topuser;
 					case this.playlist.lastfm.location:
-						return this.pages.playlist.lastfm.location;
+						return this.playlist.lastfm.location;
 					case this.playlist.topsongs.location:
-						return this.pages.playlist.topsongs;
+						return this.playlist.topsongs;
 					case this.playlist.user.location:
-						return this.pages.playlist.user;
+						return this.playlist.user;
 					case this.playlist.search.location:
-						return this.pages.playlist.search;
+						return this.playlist.search;
 					case this.video.youtube.location:
-						return this.pages.video.youtube;
+						return this.video.youtube;
 					default:
 						return this.base;
 				}
@@ -114,17 +114,17 @@ class PageLoader {
 			getByMenu: function(menu) {
 				switch(menu) {
 					case $page.menu.youtube:
-						return this.pages.video.youtube;
+						return this.video.youtube;
 					case $page.menu.search:
-						return this.pages.playlist.search;
+						return this.playlist.search;
 					case $page.menu.lastfm:
-						return this.pages.playlist.lastfm;
+						return this.playlist.lastfm;
 					case $page.menu.userlist:
-						return this.pages.playlist.user;
+						return this.playlist.user;
 					case $page.menu.topsongs:
-						return this.pages.playlist.topsongs;
+						return this.playlist.topsongs;
 					case $page.menu.topuser:
-						return this.pages.userlist.topuser;
+						return this.userlist.topuser;
 					default: 
 						return null;
 				}
