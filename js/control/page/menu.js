@@ -201,7 +201,7 @@ class Menu {
 //                    this.topuser
 //                ];
             default:
-                return [];
+                return this.defaultMenu;
         }
     }
 }
