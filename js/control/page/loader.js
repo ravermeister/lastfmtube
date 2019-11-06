@@ -174,8 +174,6 @@ class PageLoader {
         let self = this;
         this.setLoading(lastPage, true);
         
-        return ;
-        
 		let finished = function(vue, data){
 			self.setLoading(lastPage);
 			console.log('page loaded')

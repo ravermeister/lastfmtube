@@ -42,7 +42,6 @@ class LibvueMainpage {
 
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
-                    location.href = menu.HREF;
                     $page.loader.loadPage('playlist.lastfm');
                 }
             }
