@@ -143,26 +143,7 @@ class PageLoader {
 		$page.myVues.main.logo.$data.PAGE_LOADER = active ?
 				$page.icons.loader.bigger : $page.icons.diamond.bigger;
 		
-		if(currentPage === null || $(this.pages.base.element).is(currentPage.element)) {			
-			return this.pages.base;
-		} else if ($(this.pages.userlist.topuser.element).is(currentPage.element)) {
-            this.myVues.userlist.topuser.header.title.$data.LOADING = active;
-            return this.pages.userlist.topuser;
-        } else if ($(this.pages.playlist.user.element).is(currentPage.element)) {
-            this.myVues.playlist.user.header.title.$data.LOADING = active;
-            return this.pages.playlist.user;
-        } else if ($(this.pages.playlist.lastfm.element).is(currentPage.element)) {
-            this.myVues.playlist.lastfm.header.title.$data.LOADING = active;
-            return this.myVues.playlist.lastfm;
-        } else if ($(this.pages.playlist.search.element).is(currentPage.element)) {
-            this.myVues.playlist.search.header.title.$data.LOADING = active;
-            return this.myVues.playlist.search; 
-        } else if ($(this.pages.video.youtube.element).is($(currentPage.element))) {
-        	console.log('1>>>>', this.myVues.video.youtube.header.$data.LOADING);
-            this.myVues.video.youtube.header.$data.LOADING = active;
-            console.log('2>>>', this.myVues.video.youtube.header.$data.LOADING);
-            return this.myVues.video.youtube; 
-        }
+		
 	}
 
 	isCurrentPage(page) {

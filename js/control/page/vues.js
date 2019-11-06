@@ -68,6 +68,25 @@ class VueController {
                 this.playlist.search.update(json);                
                 this.video.youtube.update(json);
                 this.userlist.topuser.update(json);
+            },
+            
+            forPage: function(page) {
+            	switch(page) {
+            		case $page.loader.pages.base:
+            			return this.main;
+            		case $page.loader.pages.userlist.topuser:
+            			return this.userlist.topuser;
+            		case $page.loader.pages.video.youtube:
+            			return this.video.youtube;
+            		case $page.loader.pages.playlist.lastfm:
+            			return this.playlist.lastfm;
+            		case $page.loader.pages.playlist.topsongs:
+            			return this.playlist.topsongs;
+            		case $page.loader.pages.playlist.search:
+            			return this.playlist.search;
+            		case $page.loader.pages.playlist.user:
+            			return this.playlist.user;
+            	}
             }
         };
 	}
