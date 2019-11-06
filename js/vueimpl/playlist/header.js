@@ -53,7 +53,7 @@ class LibvuePlaylistHeader {
 		                this.$applyData(json.HEADER);
 		                console.log('>>>>', this.$data.PLAYLIST);
 		                console.log(this.$data.MENUS, '<<<<');
-		                console.log('======', $page.menu.getMenu(playlist));
+		                console.log('======', $page.menu.getMenu(this.$data.PLAYLIST));
 		            }
 		        }
 		    }
