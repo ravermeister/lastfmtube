@@ -69,39 +69,31 @@ class HotKeys {
     		event.preventDefault();    		
 
     		$page.loader.setLoading(null, true);    		
-    		$page.loader.loadPage();
+    		$page.loader.loadPage($page.loader.pages.base);
     	});
     	
     	hotkeys('ctrl+2', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-
-    		toggleLoading(true);
-    		$page.loader.loadPage('lastfm');
+    		$page.loader.loadPage($page.loader.pages.playlist.lastfm);
     	});
     	
     	hotkeys('ctrl+3', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		
-    		toggleLoading(true);
-    		$page.loadPage('personal');    		
+      		$page.loadPage($page.loader.pages.playlist.user);    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		
-    		toggleLoading(true);
-    		$page.loadPage('topsongs');    		
+    		event.preventDefault();     		
+    		$page.loadPage($page.loader.pages.playlist.topsongs);    		
     	});
     	
     	hotkeys('ctrl+5', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-
-    		toggleLoading(true);
-    		$page.loadPage('users');    		
+    		$page.loadPage($page.loader.pages.user.topuser);    		
     	});
     	
     	/**

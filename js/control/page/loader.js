@@ -170,12 +170,11 @@ class PageLoader {
 		let page = this.pages.getByMenu(menu);
 		if(page === null) return;
 		
-		this.loadPage(page.value, pageNum, searchNeedle);
+		this.loadPage(page, pageNum, searchNeedle);
 	}
 	
 	loadPage(page = null, pageNum = 1, searchNeedle = null) {
 
-		let thePage = this.pages.getByValue(page);
 		if(thePage === null) return;	
 
 		let lastPage = this.currentPage;
