@@ -83,7 +83,8 @@ class LibvuePlaylist {
     update(json) {
         this.content.update(json);
         this.menu.update(json);
-        this.header.update(json);
+        this.header.title.update(json);
+        this.header.menu.update(json);
     }
 
 }
