@@ -92,7 +92,7 @@ class PageLoader {
 				}
 			},
 			
-			getByLocation() {
+			getByLocation: function() {
 				switch(location.pathname) {
 					case this.userlist.topuser.location:
 						return this.pages.userlist.topuser;
@@ -111,7 +111,7 @@ class PageLoader {
 				}
 			}, 
 			
-			getByMenu(menu) {
+			getByMenu: function(menu) {
 				switch(menu) {
 					case $page.menu.youtube:
 						return this.pages.video.youtube;
