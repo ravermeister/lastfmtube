@@ -41,6 +41,7 @@ class LibvuePlaylistHeader {
 	        },
 	        computed: {
 	            MENUS: function () {
+	            	console.log('get menu for: ', this.$data.PLAYLIST);
 	            	return $page.menu.getMenu(this.$data.PLAYLIST);
 	            }
 	        },
