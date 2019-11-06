@@ -114,7 +114,7 @@ class PlaylistController {
 
     loadTopSongs(pageNum = 1, callBack = null) {
 
-    	sortBy = $page.myVues.playlist.topsongs.menu.$data.SORTBY.SELECTED;
+    	let tsortBy = $page.myVues.playlist.topsongs.menu.$data.SORTBY.SELECTED;
     	
         $.getJSON('php/json/page/Playlist.php?list=topsongs' + 
         		'&page=' + pageNum + 
