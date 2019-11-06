@@ -50,6 +50,7 @@ class LibvuePlaylistHeader {
 		            if ('undefined' !== typeof json.HEADER) {
 		                this.$applyData(json.HEADER);
 		                console.log('>>>>', this.$data.PLAYLIST);
+		                console.log(this.$data.MENUS, '<<<<');
 		            }
 		        }
 		    }
