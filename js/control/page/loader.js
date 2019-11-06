@@ -163,9 +163,7 @@ class PageLoader {
 	}
 	
 	loadMenu(menu = null, pageData) {
-		console.log(menu, 'menu == topuser >', (menu === $page.menu.topuser));
 		let page = this.pages.getByMenu(menu);
-		console.log(page);
 		if(page === null) return;
 		
 		this.loadPage(page, pageData);
@@ -174,7 +172,6 @@ class PageLoader {
 	loadPage(page = null, pageData = null) {
 
 		if(page === null) return;	
-
 		let lastPage = this.currentPage;
 		
         let self = this;
@@ -238,6 +235,14 @@ class PageLoader {
 					}
 				});
 			break;
+			case this.pages.playllist.topsongs.value:
+				$playlist.loadTopSongs(pageNum, function(result, data){
+					if(result) {						
+						finished($page.myVues.playlist.user, data);
+					}
+				});
+			break;
+//			Topsongs
 // YouTube Player View
 			case this.pages.video.youtube.value:				
 					finished();
