@@ -235,7 +235,7 @@ class PageLoader {
 					}
 				});
 			break;
-			case this.pages.playllist.topsongs.value:
+			case this.pages.playlist.topsongs.value:
 				$playlist.loadTopSongs(pageNum, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.user, data);
