@@ -21,6 +21,7 @@ class LibvuePlayerHeader {
                 TEXT: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
+                    console.log('playlist>>>', playlist);
                     let menu = $page.menu.getMenuItem(playlist);
                     return menu.TEXT;
                 },
