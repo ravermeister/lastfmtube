@@ -236,8 +236,10 @@ class PageLoader {
 				});
 			break;
 			case this.pages.playlist.topsongs.value:
+				console.log('load topsongs');
 				$playlist.loadTopSongs(pageNum, function(result, data){
-					if(result) {						
+					if(result) {			
+						console.log('result: ', result, 'data: ', data);
 						finished($page.myVues.playlist.user, data);
 					}
 				});
