@@ -65,54 +65,54 @@ class Menu {
     }
 
     updateData(json) {
-
+    	
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
 
-        let self = this;
-    	let createHref = function(menu) {
-    		return '';
-    		let page = null;
-    		if(menu !== null && menu.PAGE !== null) {
-    			page = self.pageControl.loader.pages.getByValue(menu.PAGE);    			
-    		}else {
-    			page = self.pageControl.loader.pages.base;
-    		}
-    		
-    		return '#'+page.selector;
-    	};
-        
-        if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
-        if ('undefined' !== typeof json.YTPLAYER.PAGE) {
-        	this.youtube.PAGE = json.YTPLAYER.PAGE;
-        	this.youtube.HREF = createHref(this.youtube);  
-        }
-
-        if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
-        if ('undefined' !== typeof json.LASTFM.PAGE) {
-        	this.lastfm.PAGE = json.LASTFM.PAGE;
-        	this.lastfm.HREF = createHref(this.lastfm);  
-
-        }
-
-        if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
-        if ('undefined' !== typeof json.USERLIST.PAGE) {
-        	this.userlist.PAGE = json.USERLIST.PAGE;
-        	this.userlist.HREF = createHref(this.userlist);  
-
-        }
-
-        if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
-        if ('undefined' !== typeof json.TOPSONGS.PAGE) {
-        	this.topsongs.PAGE = json.TOPSONGS.PAGE;
-        	this.topsongs.HREF = createHref(this.topsongs);  
-
-        }
-        
-        if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
-        if ('undefined' !== typeof json.TOPUSER.PAGE) {
-        	this.topuser.PAGE = json.TOPUSER.PAGE; 
-        	this.topuser.HREF = createHref(this.topuser);  
-        }
+//        let self = this;
+//    	let createHref = function(menu) {
+//
+//    		let page = null;
+//    		if(menu !== null && menu.PAGE !== null) {
+//    			page = self.pageControl.loader.pages.getByValue(menu.PAGE);    			
+//    		}else {
+//    			page = self.pageControl.loader.pages.base;
+//    		}
+//    		
+//    		return '#'+page.selector;
+//    	};
+//        
+//        if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
+//        if ('undefined' !== typeof json.YTPLAYER.PAGE) {
+//        	this.youtube.PAGE = json.YTPLAYER.PAGE;
+//        	this.youtube.HREF = createHref(this.youtube);  
+//        }
+//
+//        if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
+//        if ('undefined' !== typeof json.LASTFM.PAGE) {
+//        	this.lastfm.PAGE = json.LASTFM.PAGE;
+//        	this.lastfm.HREF = createHref(this.lastfm);  
+//
+//        }
+//
+//        if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
+//        if ('undefined' !== typeof json.USERLIST.PAGE) {
+//        	this.userlist.PAGE = json.USERLIST.PAGE;
+//        	this.userlist.HREF = createHref(this.userlist);  
+//
+//        }
+//
+//        if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
+//        if ('undefined' !== typeof json.TOPSONGS.PAGE) {
+//        	this.topsongs.PAGE = json.TOPSONGS.PAGE;
+//        	this.topsongs.HREF = createHref(this.topsongs);  
+//
+//        }
+//        
+//        if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
+//        if ('undefined' !== typeof json.TOPUSER.PAGE) {
+//        	this.topuser.PAGE = json.TOPUSER.PAGE; 
+//        	this.topuser.HREF = createHref(this.topuser);  
+//        }
         
         
     }
