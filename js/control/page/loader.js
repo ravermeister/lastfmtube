@@ -175,7 +175,7 @@ class PageLoader {
 	
 	loadPage(page = null, pageNum = 1, searchNeedle = null) {
 
-		if(thePage === null) return;	
+		if(page === null) return;	
 
 		let lastPage = this.currentPage;
 		
@@ -185,13 +185,13 @@ class PageLoader {
 		let finished = function(vue, data){
 			self.setLoading(lastPage);
 			console.log('page loaded')
-			self.setLocation('#'+thePage.selector);
+			self.setLocation('#'+page.selector);
 			if(vue !== null && data !== null) {				
 				vue.update(data);
 			}
 		};  
 		
-		switch(thePage.value) {
+		switch(page.value) {
 // Topsongs
 			case this.pages.playlist.topsongs.value:
 				$playlist.loadTopSongs(pageNum, function(result, data){
