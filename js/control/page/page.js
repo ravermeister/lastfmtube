@@ -94,8 +94,8 @@ class PageController {
     	this.initSettings();
     	this.initShareButtons();    	
         this.myVues = VueController.createVues();
-                let request = 'php/json/page/Page.php?action=init';
-        $.getJSON(request, function (json) {
+        
+        $.getJSON('php/json/page/Page.php?action=init', function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
 
             $page.menu.updateData(json.data.value);

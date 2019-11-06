@@ -18,7 +18,6 @@ class LibvuePlaylistHeader {
 		    },
 		    computed: {
 		        LOGO: function () {
-		        	console.log('get logo');
 		        	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
 		            let icon = $page.icons.getPlaylistIcon(playlist);
 		            return this.LOADING ? icon.animatedBig : icon.big;
@@ -28,6 +27,7 @@ class LibvuePlaylistHeader {
 		        update: function (json) {
 		            if ('undefined' !== typeof json.HEADER) {
 		                this.$applyData(json.HEADER);
+		                console.log(this.$data.TEXT);
 		            }
 		        }
 		    }
