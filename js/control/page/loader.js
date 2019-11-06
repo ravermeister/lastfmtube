@@ -163,6 +163,7 @@ class PageLoader {
 	}
 	
 	loadMenu(menu = null, pageData) {
+		console.log(menu);
 		let page = this.pages.getByMenu(menu);
 		if(page === null) return;
 		
