@@ -157,7 +157,7 @@ class PageLoader {
         } else if ($(this.pages.playlist.search.element).is(currentPage.element)) {
             this.myVues.playlist.search.header.title.$data.LOADING = active;
             return this.myVues.playlist.search; 
-        } else if ($(this.pages.video.youtube.element).is(currentPage.element)) {
+        } else if ($(this.pages.video.youtube.element).is($(currentPage.element))) {
         	console.log('1>>>>', this.myVues.video.youtube.header.$data.LOADING);
             this.myVues.video.youtube.header.$data.LOADING = active;
             console.log('2>>>', this.myVues.video.youtube.header.$data.LOADING);
