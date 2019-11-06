@@ -18,6 +18,7 @@ class LibvuePlaylistHeader {
 		    },
 		    computed: {
 		        LOGO: function () {
+		        	console.log('get logo');
 		        	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
 		            let icon = $page.icons.getPlaylistIcon(playlist);
 		            return this.LOADING ? icon.animatedBig : icon.big;
@@ -41,17 +42,14 @@ class LibvuePlaylistHeader {
 	        },
 	        computed: {
 	            MENUS: function () {
-		        	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
-	            	
-		        	console.log('get menu for: ', playlist);	            	
+		        	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;	            	
 	            	return $page.menu.getMenu(playlist);
 	            }
 	        },
 		    methods: {
 		        update: function (json) {
 		            if ('undefined' !== typeof json.HEADER) {
-		                this.$data.PLAYLIST = json.HEADER.PLAYLIST;
-		                console.log(this.$data.PLAYLIST)
+		                this.$applyData(json.HEADER);
 		            }
 		        }
 		    }
