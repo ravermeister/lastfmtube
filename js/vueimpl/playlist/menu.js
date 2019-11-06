@@ -70,9 +70,9 @@ class LibvuePlaylistMenu {
                         return;
                     }
 
-                    $page.setLoading(PageController.article.playlist.dom(), true);
+                    let curArticle = $page.setLoading(null, true);
                     $page.loadList(pageNum, user, function () {
-                        $page.setLoading(PageController.article.playlist.dom());
+                        $page.setLoading(curArticle);
                     });
                 },
 
