@@ -47,7 +47,7 @@ class VueController {
         		   var myNameInFF = new Error().stack.split("@")[0];
         	};
         		
-        	console.log('wofür brauch ich die?? wurde aufgerufen von: ', mystery);
+        	console.log('von wo wird $url aufgerufen? ', mystery.myNameInChrome);
         }
         VueController.vueMethodsApplied = true;
     }
