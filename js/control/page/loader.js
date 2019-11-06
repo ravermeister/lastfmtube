@@ -202,11 +202,11 @@ class PageLoader {
 			break;
 // Last.fm Playlist
 			case this.pages.playlist.lastfm.value:
-				$playlist.loadLastFmList(pageNum, null, function(result, data){
-					if(result) {						
+//				$playlist.loadLastFmList(pageNum, null, function(result, data){
+//					if(result) {						
 						finished($page.myVues.playlist.lastfm, data);
-					}
-				});
+//					}
+//				});
 			break;
 // Search Result List
 			case this.pages.playlist.search.value:
