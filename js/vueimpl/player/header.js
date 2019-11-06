@@ -67,7 +67,6 @@ class LibvuePlayerHeader {
 
                 loadMenu: function (playlist, event) {
                 	let page = $page.loader.pages.getByValue(playlist);
-                	console.log(page, '<<<< page | playlist >>>>', playlist);
                 	$page.loader.loadPage(page);
                 }
             }
