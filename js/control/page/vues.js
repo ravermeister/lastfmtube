@@ -42,7 +42,7 @@ class VueController {
 
         
         Vue.prototype.$url = function(url) {
-        	console.log('>>>', arguments.callee.caller);
+        	console.log('>>>', Vue.prototype.$url.caller);
         }
         VueController.vueMethodsApplied = true;
     }
