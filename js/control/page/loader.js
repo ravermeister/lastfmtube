@@ -174,7 +174,7 @@ class PageLoader {
 	}
 	
 	loadPage(page = null, pageNum = 1, searchNeedle = null) {
-		
+		console.log('load page >>', page);
 		let thePage = this.pages.getByValue(page);
 		if(thePage === null) return;	
 
