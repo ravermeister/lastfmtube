@@ -187,7 +187,8 @@ class PageLoader {
 			
 			self.currentPage = page;
 			self.setLocation('#'+page.selector);
-			if(vue !== null && data !== null) {				
+			if(vue !== null && data !== null) {		
+				console.log(vue, '<<<');
 				vue.update(data);
 			}
 		};  
