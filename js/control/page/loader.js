@@ -166,14 +166,14 @@ class PageLoader {
 		return this.currentPage === page;
 	}
 	
-	loadMenu(menu = null, pageNum = 1, searchNeedle = null) {
+	loadMenu(menu = null, pageData) {
 		let page = this.pages.getByMenu(menu);
 		if(page === null) return;
 		
-		this.loadPage(page, pageNum, searchNeedle);
+		this.loadPage(page, pageData);
 	}
 	
-	loadPage(page = null, pageNum = 1, searchNeedle = null) {
+	loadPage(page = null, pageData = null) {
 
 		if(page === null) return;	
 
@@ -189,6 +189,13 @@ class PageLoader {
 				vue.update(data);
 			}
 		};  
+		
+		let pageNum = pageData !== null && ('undefined' !== typeof pageData.pnum) ?
+				pageData.pnum : 1;
+		let needle = pageData !== null && ('undefined' !== typeof pageData.needle) ?
+				pageData.needle : null;
+		let lfmUser = pageData !== null && ('undefined' !== typeof pageData.lfmuser) ?
+				pageData.lfmuser : null;
 		
 		switch(page.value) {
 // Topsongs
@@ -209,7 +216,7 @@ class PageLoader {
 			break;
 // Last.fm Playlist
 			case this.pages.playlist.lastfm.value:
-				$playlist.loadLastFmList(pageNum, null, function(result, data){
+				$playlist.loadLastFmList(pageNum, lfmuser, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.lastfm, data);
 					}
@@ -217,12 +224,12 @@ class PageLoader {
 			break;
 // Search Result List
 			case this.pages.playlist.search.value:
-				if(searchNeedle === null) {
+				if(needle === null) {
 					console.log('no search needle provided, abort load search');
 					return;
 				}
 				
-				$playlist.loadSearchResult(searchNeedle, function(result, data){
+				$playlist.loadSearchResult(needle, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.search, data);
 					}

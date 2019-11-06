@@ -70,9 +70,10 @@ class LibvuePlaylistMenu {
                         return;
                     }
 
-                    let curArticle = $page.setLoading(null, true);
-                    $page.loadList(pageNum, user, function () {
-                        $page.setLoading(curArticle);
+                    
+                    $page.loader.loadPage($page.loader.currentPage, {
+                    	pnum: pageNum,
+                    	lfmuser: user
                     });
                 },
 
