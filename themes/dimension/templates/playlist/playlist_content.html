@@ -1,7 +1,7 @@
 <div class="page-header-nav">
 	<template v-for="MENU in MENUS">
 	<div class="btn-nav">
-		<a v-bind:href="$url(MENU)" v-bind:title="MENU.TEXT" class="button"
+		<a v-bind:title="MENU.TEXT" class="button"
 			@click.prevent="$loadListMenu(MENU, $event);">
 			<div v-bind:class="MENU.LOGO"></div>
 		</a>
