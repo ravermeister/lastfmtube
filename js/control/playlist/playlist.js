@@ -19,7 +19,7 @@ class PlaylistController {
 
         $.getJSON(request, function (json) {
 
-            $page.myVues.userlist.update(json.data.value);
+            $page.myVues.userlist.topuser.update(json.data.value);
 
             try {
                 if (typeof callBack === 'function') {
