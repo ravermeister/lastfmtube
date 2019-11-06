@@ -39,12 +39,18 @@ class LibvuePlaylistHeader {
 	        data: {
 	            PLAYLIST: null
 	        },
-	
 	        computed: {
 	            MENUS: function () {
 	            	return this.$getMenuForPlaylist(this.$data.PLAYLIST);
 	            }
-	        }
+	        },
+		    methods: {
+		        update: function (json) {
+		            if ('undefined' !== typeof json.HEADER) {
+		                this.$applyData(json.HEADER);
+		            }
+		        }
+		    }
 		});
 	}
 	
