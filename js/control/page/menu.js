@@ -116,8 +116,8 @@ class Menu {
         
     }
 
-    getMenuItem(playlist) {
-        switch (playlist) {
+    getMenuItem(menuId) {
+        switch (menuId) {
             case 'youtube':
             case 'video':
             case 'video-container':
@@ -133,11 +133,10 @@ class Menu {
             		return this.getMenuItem(this.pageControl.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
-            default:
             case 'lastfm':
-            case 'default':
-            case 'playlist-container':
                 return this.lastfm;
+        	default: 
+                return null;
         }
     }
 

@@ -41,14 +41,14 @@ class LibvuePlaylistHeader {
 	        },
 	        computed: {
 	            MENUS: function () {
-	            	return this.$getMenuForPlaylist(this.$data.PLAYLIST);
+	            	return $page.menu.getMenu(this.$data.PLAYLIST);
 	            }
 	        },
 		    methods: {
 		        update: function (json) {
 		            if ('undefined' !== typeof json.HEADER) {
-		            	console.log(json.HEADER.PLAYLIST, '<<<<');
 		                this.$applyData(json.HEADER);
+		                console.log('>>>>', this.$data.PLAYLIST);
 		            }
 		        }
 		    }
