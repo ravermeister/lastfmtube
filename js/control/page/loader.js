@@ -235,16 +235,16 @@ class PageLoader {
 					}
 				});
 			break;
-			case this.pages.playlist.topsongs.value:
+			case this.pages.userlist.topuser.value:
 				console.log('load topsongs');
-				$playlist.loadTopSongs(pageNum, function(result, data){
+				$playlist.loadTopUser(pageNum, function(result, data){
 					if(result) {			
 						console.log('result: ', result, 'data: ', data);
 						finished($page.myVues.playlist.user, data);
 					}
 				});
 			break;
-//			Topsongs
+//			Top Last.fm User
 // YouTube Player View
 			case this.pages.video.youtube.value:				
 					finished();
