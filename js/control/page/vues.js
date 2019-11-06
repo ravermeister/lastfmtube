@@ -41,7 +41,7 @@ class VueController {
         };
 
         Vue.prototype.$url = function(url) {
-        	console.log('wofür brauch ich die?? ', url);
+        	console.log('wofür brauch ich die?? wurde aufgerufen von: ', this.caller, url);
         }
         VueController.vueMethodsApplied = true;
     }
