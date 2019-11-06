@@ -98,6 +98,7 @@ class PageController {
         $.getJSON(request, function (json) {
             if ('undefined' === typeof json || 'undefined' === typeof json.data) return;
 
+            console.log('init data: ', json.data.value);
             $page.myVues.updateAll(json.data.value);
             $page.menu.updateData(json.data.value);
 
