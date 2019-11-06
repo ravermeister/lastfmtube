@@ -121,19 +121,25 @@ class Menu {
             case 'youtube':
             case 'video':
             case 'video-container':
+            case this.pageControl.loader.pages.video.youtube.value:
                 return this.youtube;
             case 'topuser':
+            case this.pageControl.loader.pages.user.topuser.value:
                 return this.topuser;
             case 'topsongs':
+            case this.pageControl.loader.pages.playlist.topsongs.value:
                 return this.topsongs;
             case 'userlist':
+            case this.pageControl.loader.pages.playlist.user.value:
                 return this.userlist;
             case 'search':
+            case this.pageControl.loader.pages.playlist.search.value:
             	if(this.pageControl.SEARCH_RETURN_PLAYLIST !== null) {
             		return this.getMenuItem(this.pageControl.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
             case 'lastfm':
+            case this.pageControl.loader.pages.playlist.lastfm.value:
                 return this.lastfm;
         	default: 
                 return null;
