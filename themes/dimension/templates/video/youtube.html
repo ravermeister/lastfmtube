@@ -1,7 +1,7 @@
 <article id="video-youtube-container" name="video-youtube-container">
 
 	<h2 class="major">
-		<a v-bind:href="'#' + PLAYLIST"
+		<a
 			@click.prevent="loadMenu(PLAYLIST, $event);" style="border: 0"> <i
 			v-bind:class="LOGO"></i>&nbsp;{{TEXT}} {{TRACK_NR}}
 		</a>
