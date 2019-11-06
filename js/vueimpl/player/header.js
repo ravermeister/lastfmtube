@@ -66,29 +66,8 @@ class LibvuePlayerHeader {
                 },
 
                 loadMenu: function (playlist, event) {
-
-                    if ('search' === playlist) {
-                    	/**
-						 * menu typeof undefined is a dirty hack we should find
-						 * a better way to prevent the search result from
-						 * showing up again...
-						 */
-                    	if(typeof menu === 'undefined') {
-                    		playlist = $page.SEARCH_RETURN_PLAYLIST;
-                    	} else {                    		
-                    		$page.loader.searchSong(this.$data.SEARCH_TRACK);
-                    		return;
-                    	}
-                    }
-                    
-                    if ('video' === playlist) playlist = $page.PLAYLIST;
-                    if (playlist === null) playlist = 'lastfm';
-                    if(playlist === $page.PLAYLIST) {
-                        location.replace('#' + playlist);
-                    } else {
-                        let menu = $page.menu.getMenuItem(playlist);
-                        this.$loadListMenu(menu, event);
-                    }
+                	let page = $page.loader.pages.getByValue(playlist);
+                	$page.loader.loadPage(page);
                 }
             }
         });

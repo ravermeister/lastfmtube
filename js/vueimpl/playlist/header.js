@@ -17,11 +17,12 @@ class LibvuePlaylistHeader {
 		        LOADING: false
 		    },
 		    computed: {
-		        LOGO: function () {
-		        	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
-		            let icon = $page.icons.getPlaylistIcon(playlist);
-		            return this.LOADING ? icon.animatedBig : icon.big;
-		        }
+                LOGO: function () {
+                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                        this.PLAYLIST;
+                    let icon = $page.icons.getPlaylistIcon(playlist);
+                    return this.LOADING ? icon.animatedBig : icon.big;
+                }
 		    },
 		    methods: {
 		        update: function (json) {
@@ -42,8 +43,9 @@ class LibvuePlaylistHeader {
 	        },
 	        computed: {
 	            MENUS: function () {
-		        	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;	            	
-	            	return $page.menu.getMenu(playlist);
+                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                        this.PLAYLIST;
+                    return $page.menu.getMenu(playlist);
 	            }
 	        },
 		    methods: {
