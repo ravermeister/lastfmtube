@@ -204,7 +204,7 @@ class PageLoader {
 			case this.pages.playlist.lastfm.value:
 //				$playlist.loadLastFmList(pageNum, null, function(result, data){
 //					if(result) {						
-						finished($page.myVues.playlist.lastfm, data);
+						finished($page.myVues.playlist.lastfm, null);
 //					}
 //				});
 			break;
