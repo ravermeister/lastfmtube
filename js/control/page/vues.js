@@ -45,9 +45,10 @@ class VueController {
         	var mystery = function() {
         		   var myNameInChrome = /.*Object\.(.*)\s\(/.exec(new Error().stack)[1];
         		   var myNameInFF = new Error().stack.split("@")[0];
+        		   console.log('von wo wird $url aufgerufen? ', mystery.myNameInChrome, '<>', myNameInFF);
         	};
-        		
-        	console.log('von wo wird $url aufgerufen? ', mystery.myNameInChrome);
+        	
+        	mystery();
         }
         VueController.vueMethodsApplied = true;
     }
