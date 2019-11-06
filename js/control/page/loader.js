@@ -139,6 +139,8 @@ class PageLoader {
 			currentPage = this.currentPage;
 		}
 		
+		console.log('loding page', currentPage, 'active', active);
+		
 		if(currentPage === null || $(this.pages.base.element).is(currentPage.element)) {			
 			$page.myVues.main.logo.$data.PAGE_LOADER = active ?
 					$page.icons.loader.bigger : $page.icons.diamond.bigger;
