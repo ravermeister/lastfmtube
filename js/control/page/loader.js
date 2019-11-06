@@ -170,7 +170,7 @@ class PageLoader {
 		let page = this.pages.getByMenu(menu);
 		if(page === null) return;
 		
-		loadPage(page, pageNum, searchNeedle);
+		this.loadPage(page, pageNum, searchNeedle);
 	}
 	
 	loadPage(page = null, pageNum = 1, searchNeedle = null) {
