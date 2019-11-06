@@ -60,10 +60,10 @@ class LibvuePlaylistHeader {
 		});
 	}
 	
-	static createVue() {
+	static createVue(elementId) {
 		return {
-				title :  LibvuePlaylistHeader.createTitleVue(),			
-				menu : LibvuePlaylistHeader.createMenuVue() 
+				title :  LibvuePlaylistHeader.createTitleVue(elementId),			
+				menu : LibvuePlaylistHeader.createMenuVue(elementId) 
 		};
 	}
 }
