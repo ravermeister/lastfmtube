@@ -21,14 +21,17 @@ class LibvuePlayerHeader {
                 TEXT: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    console.log('playlist>>>', playlist);
                     let menu = $page.menu.getMenuItem(playlist);
+                    if(menu === null) return '';
+                    	
                     return menu.TEXT;
                 },
                 LOGO: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
                     let icon = $page.icons.getPlaylistIcon(playlist);
+                    if(icon === null) return ''; 
+                    
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 /**
