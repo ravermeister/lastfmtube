@@ -183,9 +183,9 @@ class PageLoader {
         this.setLoading(lastPage, true);
         
 		let finished = function(vue, data){
-			self.currentPage = page;
-
 			self.setLoading(lastPage);
+			
+			self.currentPage = page;
 			self.setLocation('#'+page.selector);
 			if(vue !== null && data !== null) {				
 				vue.update(data);
