@@ -151,17 +151,17 @@ class Menu {
 
         let list = [];
         console.log('menu >>>', menuId);
-//        switch (menuId) {
-//        	case 'all':
-//            case 'default':
-//        		list = [
-//                    this.youtube,
-//                    this.lastfm,
-//                    this.userlist,
-//                    this.topsongs,
-//                    this.topuser
-//        		];
-//        		break;
+        switch (menuId) {
+        	case 'all':
+            case 'default':
+        		list = [
+                    this.youtube,
+                    this.lastfm,
+                    this.userlist,
+                    this.topsongs,
+                    this.topuser
+        		];
+        		break;
 //            case 'youtube':
 //            case 'video':
 //            case 'video-youtube-container':
@@ -214,10 +214,10 @@ class Menu {
 //                    this.topuser
 //                ];
 //                break;
-//            default:
-//                list = [];
-//                break;
-//        }
+            default:
+                list = [];
+                break;
+        }
 
         return list;
     }
