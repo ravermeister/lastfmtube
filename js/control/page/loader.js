@@ -152,10 +152,10 @@ class PageLoader {
 		if(vue !== null) {	
 			if('undefined' !== typeof vue.header.title) {				
 				vue.header.title.$data.LOADING = active;
-				//youtube
-			} else {
-				vue.header.title.$data.LOADING = active;
 				//playlist etc.
+			} else {
+				vue.header.$data.LOADING = active;
+				//youtube
 			}
 		}
 	}
