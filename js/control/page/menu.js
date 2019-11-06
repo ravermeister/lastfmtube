@@ -70,6 +70,7 @@ class Menu {
 
         let self = this;
     	let createHref = function(menu) {
+    		return '';
     		let page = null;
     		if(menu !== null && menu.PAGE !== null) {
     			page = self.pageControl.loader.pages.getByValue(menu.PAGE);    			
