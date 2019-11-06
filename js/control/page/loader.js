@@ -103,13 +103,30 @@ class PageLoader {
 					case this.playlist.user.location:
 						return this.pages.playlist.user;
 					case this.playlist.search.location:
-						return this.pages.search.topsongs;
+						return this.pages.playlist.search;
 					case this.video.youtube.location:
 						return this.pages.video.youtube;
 					default:
 						return this.base;
 				}
 			}, 
+			
+			getByMenu(menu) {
+				switch(menu) {
+					case $page.menu.youtube:
+						return this.pages.video.youtube;
+					case $page.menu.search:
+						return this.pages.playlist.search;
+					case $page.menu.lastfm:
+						return this.pages.playlist.lastfm;
+					case $page.menu.userlist:
+						return this.pages.playlist.user;
+					case $page.menu.topsongs:
+						return this.pages.playlist.topsongs;
+					case $page.menu.topuser:
+						return this.pages.userlist.topuser;
+				}
+			}
 		}
 		
 	}
