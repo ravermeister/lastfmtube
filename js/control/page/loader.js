@@ -125,6 +125,8 @@ class PageLoader {
 						return this.pages.playlist.topsongs;
 					case $page.menu.topuser:
 						return this.pages.userlist.topuser;
+					default: 
+						return null;
 				}
 			}
 		}
@@ -164,7 +166,14 @@ class PageLoader {
 		return this.currentPage === page;
 	}
 	
-	loadPage(page = 'video.youtube', pageNum = 1, searchNeedle = null) {
+	loadMenu(menu = null, pageNum = 1, searchNeedle = null) {
+		let page = this.pages.getByMenu(menu);
+		if(page === null) return;
+		
+		loadPage(page, pageNum, searchNeedle);
+	}
+	
+	loadPage(page = null, pageNum = 1, searchNeedle = null) {
 		
 		let thePage = this.pages.getByValue(page);
 		if(thePage === null) return;	

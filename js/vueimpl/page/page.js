@@ -42,7 +42,7 @@ class LibvueMainpage {
 
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
-                    $page.loader.loadPage('playlist.lastfm');
+                    $page.loader.loadMenu(menu);
                 }
             }
         });
