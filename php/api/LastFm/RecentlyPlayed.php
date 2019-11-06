@@ -31,7 +31,8 @@ class RecentlyPlayed {
            * @var simple_html_dom $elem
            */
           $elem = $html->find('recenttracks ', 0);
-
+          die($elem);
+          
           $this->page = $elem->page;
           $this->totalPages = $elem->totalpages;
           $this->itemsPerPage = $elem->perPage;
