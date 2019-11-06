@@ -201,7 +201,7 @@ class PageLoader {
 			break;
 // Last.fm Playlist
 			case this.pages.playlist.lastfm.value:
-				$playlist.loadLastFmList(pageNum, function(result, data){
+				$playlist.loadLastFmList(pageNum, null, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.lastfm, data);
 					}
