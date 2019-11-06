@@ -150,56 +150,56 @@ class Menu {
     getMenu(menuId) {
 
         switch (menuId) {
-        	case 'all':
-            case 'default':
-            	return this.defaultMenu;
-            case 'youtube':
-            case 'video':
-            case 'video-youtube-container':
-            case 'video.youtube':
-                return [
-                    this.lastfm,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-            case 'lastfm':
-            case 'playlist-lastfm-container':
-            case 'playlist.lastfm':
-            	return [
-                    this.youtube,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-            case 'topuser':
-            case 'user.topuser':
-            case 'user-topuser-container':
-            case 'search':
-            	return [
-                    this.youtube,
-                    this.lastfm,
-                    this.topsongs,
-                    this.userlist
-                ];
-            case 'topsongs':
-            case 'playlist.topsongs':
-            case 'playlist-topsongs-container':
-                return [
-                    this.youtube,
-                    this.lastfm,
-                    this.userlist,
-                    this.topuser
-                ];
-            case 'userlist':
-            case 'playlist-user-container':
-            case 'playlist.user':
-                return [
-                    this.youtube,
-                    this.lastfm,
-                    this.topsongs,
-                    this.topuser
-                ];
+//        	case 'all':
+//            case 'default':
+//            	return this.defaultMenu;
+//            case 'youtube':
+//            case 'video':
+//            case 'video-youtube-container':
+//            case 'video.youtube':
+//                return [
+//                    this.lastfm,
+//                    this.userlist,
+//                    this.topsongs,
+//                    this.topuser
+//                ];
+//            case 'lastfm':
+//            case 'playlist-lastfm-container':
+//            case 'playlist.lastfm':
+//            	return [
+//                    this.youtube,
+//                    this.userlist,
+//                    this.topsongs,
+//                    this.topuser
+//                ];
+//            case 'topuser':
+//            case 'user.topuser':
+//            case 'user-topuser-container':
+//            case 'search':
+//            	return [
+//                    this.youtube,
+//                    this.lastfm,
+//                    this.topsongs,
+//                    this.userlist
+//                ];
+//            case 'topsongs':
+//            case 'playlist.topsongs':
+//            case 'playlist-topsongs-container':
+//                return [
+//                    this.youtube,
+//                    this.lastfm,
+//                    this.userlist,
+//                    this.topuser
+//                ];
+//            case 'userlist':
+//            case 'playlist-user-container':
+//            case 'playlist.user':
+//                return [
+//                    this.youtube,
+//                    this.lastfm,
+//                    this.topsongs,
+//                    this.topuser
+//                ];
             default:
                 return [];
         }
