@@ -40,8 +40,14 @@ class VueController {
             if (log) console.log('after update: ', this.$data);
         };
 
+        
         Vue.prototype.$url = function(url) {
-        	console.log('wofür brauch ich die?? wurde aufgerufen von: ', this.caller, url);
+        	var mystery = function() {
+        		   var myNameInChrome = /.*Object\.(.*)\s\(/.exec(new Error().stack)[1];
+        		   var myNameInFF = new Error().stack.split("@")[0];
+        	};
+        		
+        	console.log('wofür brauch ich die?? wurde aufgerufen von: ', mystery);
         }
         VueController.vueMethodsApplied = true;
     }
