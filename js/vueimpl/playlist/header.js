@@ -45,8 +45,7 @@ class LibvuePlaylistHeader {
 	            MENUS: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    console.log('playlist header menu: ', playlist);
-                    return $page.menu.getMenu('default');
+                    return $page.menu.getMenu(playlist);
 	            }
 	        },
 		    methods: {

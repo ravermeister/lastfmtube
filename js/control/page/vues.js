@@ -42,7 +42,7 @@ class VueController {
 
         
         Vue.prototype.$url = function(url) {
-        	console.log('>>>', url, ' ...ich weiß nicht wo die aufgerufen wird...');
+        	console.log('Vue.prototype.$url >>> ...ich weiß nicht von wo die aufgerufen wird...');
         }
         VueController.vueMethodsApplied = true;
     }
