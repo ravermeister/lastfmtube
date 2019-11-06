@@ -40,6 +40,9 @@ class VueController {
             if (log) console.log('after update: ', this.$data);
         };
 
+        Vue.prototype.$url = function(url) {
+        	console.log('wofür brauch ich die?? ', url);
+        }
         VueController.vueMethodsApplied = true;
     }
 	
