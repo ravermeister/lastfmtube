@@ -70,7 +70,7 @@ class LibvuePlaylistMenu {
                         return;
                     }
 
-                    
+                    console.log('>>>', $page.loader.currentPage, 'user ', user);
                     $page.loader.loadPage($page.loader.currentPage, {
                     	pnum: pageNum,
                     	lfmuser: user
