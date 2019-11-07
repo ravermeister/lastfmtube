@@ -121,24 +121,30 @@ class Menu {
             case 'video':
             case 'video-container':
             case this.pageControl.loader.pages.video.youtube.value:
+            case this.pageControl.loader.pages.video.youtube.selector:
                 return this.youtube;
             case 'topuser':
             case this.pageControl.loader.pages.userlist.topuser.value:
+            case this.pageControl.loader.pages.userlist.topuser.selector:
                 return this.topuser;
             case 'topsongs':
             case this.pageControl.loader.pages.playlist.topsongs.value:
+            case this.pageControl.loader.pages.playlist.topsongs.selector:
                 return this.topsongs;
             case 'userlist':
             case this.pageControl.loader.pages.playlist.user.value:
+            case this.pageControl.loader.pages.playlist.user.selector:
                 return this.userlist;
             case 'search':
             case this.pageControl.loader.pages.playlist.search.value:
+            case this.pageControl.loader.pages.playlist.search.selector:
             	if(this.pageControl.SEARCH_RETURN_PLAYLIST !== null) {
             		return this.getMenuItem(this.pageControl.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
             case 'lastfm':
             case this.pageControl.loader.pages.playlist.lastfm.value:
+            case this.pageControl.loader.pages.playlist.lastfm.selector:
                 return this.lastfm;
         	default: 
                 return null;
@@ -153,19 +159,10 @@ class Menu {
             	return this.defaultMenu;
             case 'youtube':
             case 'video':
-            case 'video-youtube-container':
-            case 'video.youtube':
+            case this.pageControl.loader.pages.video.youtube.value:
+            case this.pageControl.loader.pages.video.youtube.selector:
                 return [
                     this.lastfm,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-            case 'lastfm':
-            case 'playlist-lastfm-container':
-            case 'playlist.lastfm':
-            	return [
-                    this.youtube,
                     this.userlist,
                     this.topsongs,
                     this.topuser
@@ -173,7 +170,8 @@ class Menu {
             case 'topuser':
             case 'user.topuser':
             case 'user-topuser-container':
-            case 'search':
+            case this.pageControl.loader.pages.user.topuser.value:
+            case this.pageControl.loader.pages.user.topuser.selecor:
             	return [
                     this.youtube,
                     this.lastfm,
@@ -183,6 +181,8 @@ class Menu {
             case 'topsongs':
             case 'playlist.topsongs':
             case 'playlist-topsongs-container':
+            case this.pageControl.loader.pages.playlist.topsongs.value:
+            case this.pageControl.loader.pages.playlist.topsongs.selecor:
                 return [
                     this.youtube,
                     this.lastfm,
@@ -192,6 +192,8 @@ class Menu {
             case 'userlist':
             case 'playlist-user-container':
             case 'playlist.user':
+            case this.pageControl.loader.pages.playlist.user.value:
+            case this.pageControl.loader.pages.playlist.user.selector:
                 return [
                     this.youtube,
                     this.lastfm,
