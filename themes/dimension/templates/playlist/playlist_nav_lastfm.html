@@ -1,7 +1,7 @@
 <section class="page-nav">
 
 	<form
-		@submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_page').val())">
+		@submit.prevent="loadPage($('#playlist_lastfmuser').val(), $('#playlist_curpage').val())">
 		<div class="fields">
 
 			<div class="field third">
@@ -15,7 +15,7 @@
 
 			<div class="field third">
 				<label for="playlist_page"> {{CUR_PAGE_LABEL}} </label> <input
-					type="number" name="playlist_page" id="playlist_page"
+					type="number" name="playlist_curpage" id="playlist_curpage"
 					v-bind:value="CUR_PAGE" @mouseup="selectOnMouseUp($event)" />
 			</div>
 
@@ -23,7 +23,7 @@
 				<label> {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}} </label>
 
 				<button type="button"
-					@click.prevent="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+					@click.prevent="loadPrevPage($('#playlist_lastfmuser').val(), $('#playlist_curpage').val(), MAX_PAGES)"
 					title="Previous Page">
 					<span class="fas fa-step-backward fa-2x"></span>
 				</button>
@@ -32,7 +32,7 @@
 					v-bind:value="PLAYLIST_LOAD" />
 
 				<button type="button"
-					@click.prevent="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_page').val(), MAX_PAGES)"
+					@click.prevent="loadNextPage($('#playlist_lastfmuser').val(), $('#playlist_curpage').val(), MAX_PAGES)"
 					title="Next Page">
 					<span class="fas fa-step-forward fa-2x"></span>
 				</button>
