@@ -4,7 +4,7 @@
 		<template v-for="MENU in MENUS">
 		<div class="btn-nav">
 			<a v-bind:title="MENU.TEXT" class="button"
-				@click.prevent="$loadListMenu(MENU, $event);">
+				@click.prevent="$page.loader.loadMenu(MENU, null);">
 				<div v-bind:class="MENU.LOGO"></div>
 			</a>
 		</div>
