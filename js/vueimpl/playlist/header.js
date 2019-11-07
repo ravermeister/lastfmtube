@@ -38,13 +38,13 @@ class LibvuePlaylistHeader {
 		return new Vue({
 		    el: '#'+elementId+'>.page-header-nav',
 	        data: {
-	            PLAYLIST: ''
+	            PLAYLIST: '',
 	        },
 	        computed: {
 	            MENUS: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    return $page.menu.getMenu(playlist);
+                    return $page.menu.getMenu(elementId);
 	            }
 	        },
 		    methods: {
@@ -52,6 +52,7 @@ class LibvuePlaylistHeader {
 		            if ('undefined' !== typeof json.HEADER) {
 		                this.$applyData(json.HEADER);
 		            }
+		            this.forceUpdate();
 		        }
 		    }
 		});
