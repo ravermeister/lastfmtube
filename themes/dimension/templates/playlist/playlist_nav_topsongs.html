@@ -3,8 +3,6 @@
 	<form @submit.prevent="loadPage(null, $('#playlist_page').val())">
 		<div class="fields">
 			
-			<div class="field third">>&nbsp;</div>
-			
 			<div class="field third">
 				<label for="playlist_page"> {{CUR_PAGE_LABEL}} </label> <input
 					type="number" name="playlist_page" id="playlist_page"
@@ -30,7 +28,7 @@
 				</button>
 			</div>
 
-			<div>
+			<div class="field third">
 				<label>{{SORTBY.LABEL}}</label> <select id="topsongs-sortby"
 					v-model="SORTBY.SELECTED" @change="sortBy(event)">
 					<template v-for="VALUE in SORTBY.VALUES">
