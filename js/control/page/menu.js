@@ -112,6 +112,8 @@ class Menu {
         	this.topuser.PAGE = json.TOPUSER.PAGE; 
         	this.topuser.HREF = createHref(this.topuser);  
         }        
+        
+        $page.myVues.base.$forceUpdate();
     }
 
     getMenuItem(menuId) {
