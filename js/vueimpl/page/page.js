@@ -51,7 +51,6 @@ class LibvueMainpage {
         }
 
         if ('undefined' !== typeof json.basemenu) {
-        	console.log('update menus');
         	this.menu.$data.MENUS = $page.menu.getMenu('default');
         }
         
