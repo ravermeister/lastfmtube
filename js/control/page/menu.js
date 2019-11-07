@@ -176,7 +176,7 @@ class Menu {
                     this.youtube,
                     this.lastfm,
                     this.userlist,
-                    this.topsongs
+                    this.topsongs,
                 ];
             case 'topsongs':
             case 'playlist.topsongs':
