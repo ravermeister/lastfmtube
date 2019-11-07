@@ -186,8 +186,8 @@ class PlayerController {
         }
 
         this.currentTrackData.track = track;
-        $page.myVues.youtube.header.$data.CURRENT_TRACK = track;
-        if (track.PLAYLIST !== 'search') $page.myVues.youtube.header.SEARCH_TRACK = track;
+        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
+        if (track.PLAYLIST !== 'search') $page.myVues.video.youtube.header.SEARCH_TRACK = track;
         this.setCurrentState('load');
     }
 
@@ -195,7 +195,7 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
         curTrack.PLAYSTATE = newState;
-        $page.myVues.youtube.menu.$data.PLAYSTATE = newState;
+        $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
     }
 
     loadSong(track) {
@@ -263,7 +263,7 @@ class PlayerController {
             
             this.currentTrackData.videoId = videoId;
             this.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
-            if($page.myVues.youtube.comments.showComments) {
+            if($page.myVues.video.youtube.comments.showComments) {
             	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
             }
         } else {
@@ -277,7 +277,7 @@ class PlayerController {
                 
                 // load the default video
                 this.loadDefaultVideo();
-                if($page.myVues.youtube.comments.showComments) {
+                if($page.myVues.video.youtube.comments.showComments) {
                 	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
                 }
                 return;

@@ -137,10 +137,9 @@ class PageController {
         }
 
         $page.PLAYLIST = playlist;
-        $page.myVues.playlist.menu.$data.PLAYLIST = $page.PLAYLIST;
-        $page.myVues.playlist.header.menu.$data.PLAYLIST = $page.PLAYLIST;
-        $page.myVues.playlist.header.title.$data.PLAYLIST = $page.PLAYLIST;
-        $page.myVues.youtube.header.$data.PLAYLIST = $page.PLAYLIST;
+        $page.myVues.updateAll({
+        		PLAYLIST: playlist
+        });
 
         if (!$player.isPlaying() ||
             'undefined' === typeof $player.currentTrackData.track ||
