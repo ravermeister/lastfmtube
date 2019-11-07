@@ -67,7 +67,6 @@ class Menu {
     updateData(json) {
     	
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
-        console.log(json, '<<<');
         let self = this;
     	let createHref = function(menu) {
 
@@ -114,7 +113,7 @@ class Menu {
         	this.topuser.HREF = createHref(this.topuser);  
         }
         
-        
+        console.log( this.topuser.TEXT, '<< top user');
     }
 
     getMenuItem(menuId) {
