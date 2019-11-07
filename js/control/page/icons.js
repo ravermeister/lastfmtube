@@ -73,7 +73,7 @@ class Icons {
 	
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
-        switch (playlist) {        	
+        switch (selector) {        	
             case 'topsongs':
             case 'playlist.topsongs':
             case 'playlist-topsongs-container':
