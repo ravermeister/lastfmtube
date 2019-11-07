@@ -170,13 +170,13 @@ class Menu {
             case 'topuser':
             case 'user.topuser':
             case 'user-topuser-container':
-            case this.pageControl.loader.pages.user.topuser.value:
-            case this.pageControl.loader.pages.user.topuser.selecor:
+            case this.pageControl.loader.pages.userlist.topuser.value:
+            case this.pageControl.loader.pages.userlist.topuser.selecor:
             	return [
                     this.youtube,
                     this.lastfm,
-                    this.topsongs,
-                    this.userlist
+                    this.userlist,
+                    this.topsongs
                 ];
             case 'topsongs':
             case 'playlist.topsongs':
@@ -197,6 +197,15 @@ class Menu {
                 return [
                     this.youtube,
                     this.lastfm,
+                    this.topsongs,
+                    this.topuser
+                ];
+            case 'lastfm':
+            case this.pageControl.loader.pages.playlist.lastfm.value:
+            case this.pageControl.loader.pages.playlist.lastfm.selector:
+                return [
+                    this.youtube,
+                    this.userlist,
                     this.topsongs,
                     this.topuser
                 ];
