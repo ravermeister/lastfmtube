@@ -24,7 +24,7 @@ class LibvueUser {
                 
                 computed: {
                     LOGO: function () {
-                        let icon = $page.icons.getPlaylistIcon(this.$data.TYPE);
+                        let icon = $page.icons.getPageIcon(this.$data.TYPE);
                         return this.$data.LOADING ? icon.animatedBig : icon.big;
                     }
                 },

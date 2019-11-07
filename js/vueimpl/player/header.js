@@ -27,7 +27,7 @@ class LibvuePlayerHeader {
                 LOGO: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
-                    let icon = $page.icons.getPlaylistIcon(playlist); 
+                    let icon = $page.icons.getPageIcon(playlist); 
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 /**
