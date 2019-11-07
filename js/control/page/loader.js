@@ -236,10 +236,8 @@ class PageLoader {
 				});
 			break;
 			case this.pages.userlist.topuser.value:
-				console.log('load topsongs');
 				$playlist.loadTopUser(pageNum, function(result, data){
 					if(result) {			
-						console.log('result: ', result, 'data: ', data);
 						finished($page.myVues.playlist.user, data);
 					}
 				});
