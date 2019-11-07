@@ -51,7 +51,7 @@ class LibvuePlaylistHeader {
 		            if ('undefined' !== typeof json.HEADER) {
 		                this.$applyData(json.HEADER);
 		            }
-		            this.forceUpdate();
+		            this.$forceUpdate();
 		        }
 		    }
 		});
