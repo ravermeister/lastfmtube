@@ -49,7 +49,7 @@ class LibvuePlaylistHeader {
 	        },
 		    methods: {
 		        update: function (json) {
-		        	console.log(elementId, '>>header update')
+		        	console.log(elementId, '>>header update', json);
 		            if ('undefined' !== typeof json.HEADER) {
 		                this.$applyData(json.HEADER);
 		            }
