@@ -67,6 +67,7 @@ class Menu {
     updateData(json) {
     	
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
+        console.log(json, '<<<');
         let self = this;
     	let createHref = function(menu) {
 
