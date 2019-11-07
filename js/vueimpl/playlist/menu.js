@@ -55,21 +55,6 @@ class LibvuePlaylistMenu {
             		
             	},
                 loadPage: function (user, pageNum) {
-                    if (this.$data.PLAYLIST === 'search') {
-                        let start = (pageNum - 1) * $page.settings.general.tracksPerPage;
-                        let end = pageNum * $page.settings.general.tracksPerPage;
-                        let tracks = [];
-                        if (this.$data.SEARCH_RESULT.length > start) {
-                            tracks = this.$data.SEARCH_RESULT.slice(start, end);
-                        }
-
-                        $page.myVues.playlist.content.update({
-                            TRACKS: tracks
-                        });
-                        this.$data.CUR_PAGE = pageNum;
-                        return;
-                    }
-
                     $page.loader.loadPage($page.loader.currentPage, {
                     	pnum: pageNum,
                     	lfmuser: user
