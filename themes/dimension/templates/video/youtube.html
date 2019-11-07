@@ -1,16 +1,5 @@
 <article id="video-youtube-container" name="video-youtube-container">
 
-	<div class="page-header-nav">
-		<template v-for="MENU in MENUS">
-		<div class="btn-nav">
-			<a v-bind:title="MENU.TEXT" class="button"
-				@click.prevent="$page.loader.loadMenu(MENU, null);">
-				<div v-bind:class="MENU.LOGO"></div>
-			</a>
-		</div>
-		</template>
-	</div>
-
 	<h2 class="major">
 		<a @click.prevent="loadMenu(PLAYLIST, $event);"
 			style="border: 0; cursor: pointer;"> <i v-bind:class="LOGO"></i>&nbsp;{{TEXT}}
