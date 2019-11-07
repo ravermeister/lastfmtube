@@ -111,9 +111,7 @@ class Menu {
         if ('undefined' !== typeof json.TOPUSER.PAGE) {
         	this.topuser.PAGE = json.TOPUSER.PAGE; 
         	this.topuser.HREF = createHref(this.topuser);  
-        }
-        
-        console.log( this.topuser.TEXT, '<< top user');
+        }        
     }
 
     getMenuItem(menuId) {
