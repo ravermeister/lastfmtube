@@ -1,8 +1,6 @@
 <section class="page-nav">
 	<form @submit.prevent="loadPage(null, $('#default_curpage').val())">
 		<div class="fields">
-		
-			<div class="field third">&nbsp;</div>
 
 			<div class="field third">
 				<label for="default_curpage"> {{CUR_PAGE_LABEL}} </label> <input
@@ -28,7 +26,11 @@
 					<span class="fas fa-step-forward fa-2x"></span>
 				</button>
 			</div>
-			
+
 		</div>
+
+		<div class="field third">&nbsp;</div>
+
+
 	</form>
 </section>
