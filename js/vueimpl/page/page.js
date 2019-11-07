@@ -29,13 +29,8 @@ class LibvueMainpage {
             el: '#header>nav',
             data: {
                 TITLE: '',
-                TEXT: ''
-            },
-
-            computed: {
-            	MENUS: function(){
-            		return $page.menu.getMenu('default');
-            	}
+                TEXT: '',
+                MENUS: []
             },
 
             methods: {
@@ -56,7 +51,12 @@ class LibvueMainpage {
         }
 
         if ('undefined' !== typeof json.basemenu) {
+        	console.log('update menus');
             this.menu.$data.MENUS = json.basemenu;
+        }
+        
+        if ('undefined' !== typeof json.listmenu) {
+        	json = json.listmenu;
         }
     }
 }
