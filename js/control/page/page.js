@@ -11,7 +11,7 @@ class PageController {
     constructor() {
 
         this.analytics = null;
-        this.icons = new Icons();
+        this.icons = new Icons(this);
         this.settings = {};
         this.isReady = false;
         this.PLAYLIST = null;

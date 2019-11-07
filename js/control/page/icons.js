@@ -24,7 +24,9 @@ class Icon {
 }
 
 class Icons {
-	constructor(){
+	constructor(pageController){	
+		this.pageControl = pageController;
+		
         this.play = new Icon('fa-play');
         this.pause = new Icon('fa-pause');
         this.stop = new Icon('fa-stop');
