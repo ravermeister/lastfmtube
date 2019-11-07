@@ -30,7 +30,7 @@ class LibvueMainpage {
             data: {
                 TITLE: '',
                 TEXT: '',
-                MENUS: $page.menu.getMenu('default')
+                MENUS: []
             },
 
             methods: {
@@ -52,7 +52,7 @@ class LibvueMainpage {
 
         if ('undefined' !== typeof json.basemenu) {
         	console.log('update menus');
-            this.menu.$data.MENUS = json.basemenu;
+        	this.menu.$data.MENUS = $page.menu.getMenu('default');
         }
         
         if ('undefined' !== typeof json.listmenu) {
