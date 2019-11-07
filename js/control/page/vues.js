@@ -51,7 +51,7 @@ class VueController {
             playlist: {
             	lastfm: new LibvuePlaylist('playlist-lastfm-container'),
             	user: new LibvuePlaylist('playlist-user-container'),
-            	topsongs: new LibvuePlaylist('playlist-search-container'),
+            	topsongs: new LibvuePlaylist('playlist-topsongs-container'),
             	search: new LibvuePlaylist('playlist-search-container')
             },
             video: {
