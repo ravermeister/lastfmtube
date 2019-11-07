@@ -30,7 +30,7 @@ class LibvueMainpage {
             data: {
                 TITLE: '',
                 TEXT: '',
-                MENUS: []
+                MENUS: $page.menu.getMenu('default')
             },
 
             methods: {
