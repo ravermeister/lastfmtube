@@ -42,7 +42,6 @@ class LibvuePlaylistHeader {
 	        },
 	        computed: {
 	            MENUS: function () {
-	            	console.log('get menu view for ', elementId);
                     return $page.menu.getMenu(elementId);
 	            }
 	        },
@@ -51,7 +50,6 @@ class LibvuePlaylistHeader {
 		            if ('undefined' !== typeof json.HEADER) {
 		                this.$applyData(json.HEADER);
 		            }
-//		            this.$forceUpdate();
 		        }
 		    }
 		});
