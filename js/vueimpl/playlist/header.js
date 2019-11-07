@@ -42,8 +42,7 @@ class LibvuePlaylistHeader {
 	        },
 	        computed: {
 	            MENUS: function () {
-                    let playlist = this.PLAYLIST === null ? 'lastfm' :
-                        this.PLAYLIST;
+	            	console.log('get menu view for ', elementId);
                     return $page.menu.getMenu(elementId);
 	            }
 	        },
