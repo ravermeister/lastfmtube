@@ -147,7 +147,7 @@ class PlaylistLoader {
         let request =
             'php/json/page/YouTube.php?action=search&size=50&needle='
         		+ needle.asVar();
-        
+        console.log('request', request);
         $.getJSON(request, function (json) {
 
             let trackCnt = json.data.value.length;
@@ -207,6 +207,7 @@ class PlaylistLoader {
            
             
             if (typeof callBack === 'function') {
+            	console.log('data', searchData);
                 callBack(true, searchData);
             } else {
             	$page.myVues.playlist.search.update(searchData);
