@@ -252,7 +252,6 @@ class PageLoader {
 						return;
 					}
 				}
-				console.log(needle);
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
