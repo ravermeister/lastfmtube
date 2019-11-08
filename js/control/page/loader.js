@@ -256,6 +256,7 @@ class PageLoader {
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
+						data.PLAYLIST = self.pageInfo.currentPage.value;
 						finished($page.myVues.playlist.search, data);												
 					}
 				});
