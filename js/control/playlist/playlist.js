@@ -90,7 +90,7 @@ class PlaylistController {
 
         if (needle === null || !needle.isValid()) return;
 
-        let updateVue = function (vue) {
+        let updateVue = function (vue, needle) {
             if (vue !== $page.myVues.playlist.search) {
             	if(vue.content.$data.TRACKS === null) return;
             	
@@ -129,8 +129,8 @@ class PlaylistController {
             $page.myVues.playlist.user.update({
                 TRACKS: userTracks
             });            
-            updateVue($page.myVues.playlist.lastfm);
-            updateVue($page.myVues.playlist.topsongs); 
+            updateVue($page.myVues.playlist.lastfm, needle);
+            updateVue($page.myVues.playlist.topsongs, needle); 
             
         }).fail(function (xhr) {
         	$page.loader.setLoading();
@@ -142,15 +142,15 @@ class PlaylistController {
 
         if (needle === null || !needle.isValid()) return;
 
-        let updateVue = function (vue) {
+        let updateVue = function (vue, needle) {
             if (vue !== $page.myVues.playlist.search) {
             	if(vue.content.$data.TRACKS === null) return;
                 vue.content.$data.TRACKS.forEach(function (track) {                	
-                	console.log(track, '<track 1');
+                	console.log(track.TITLE,'|', track.VIDEO_ID, '<track before needle >', needle);
                     if (track.VIDEO_ID === needle.videoId) {
                         track.VIDEO_ID = '';
                     }
-                	console.log(track, '<track 2');
+                	console.log(track.TITLE,'|', track.VIDEO_ID, '<track after needle >', needle);
                 });
             } else {
                 vue.menu.SAVED_VIDEO_ID = '';
@@ -186,8 +186,8 @@ class PlaylistController {
             $page.myVues.playlist.user.update({
                 TRACKS: userTracks
             });            
-            updateVue($page.myVues.playlist.lastfm);
-            updateVue($page.myVues.playlist.topsongs);            
+            updateVue($page.myVues.playlist.lastfm, needle);
+            updateVue($page.myVues.playlist.topsongs, needle);            
             
         }).fail(function (xhr) {
             $page.loader.setLoading();
