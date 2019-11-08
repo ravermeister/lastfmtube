@@ -146,7 +146,6 @@ static createVue(elementId){
                 	} else {
                 		needle = $page.createNeedle(track.ARTIST, track.TITLE);
                 	}
-                	console.log(needle);
                     $playlist.deleteVideo(needle);
                 }
             }
