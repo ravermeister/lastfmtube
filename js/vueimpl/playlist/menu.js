@@ -50,7 +50,7 @@ class LibvuePlaylistMenu {
             		console.log('sortby', event.selected);
                     $page.loader.loadPage($page.loader.currentPage, {
                     	pnum: this.$data.CUR_PAGE,
-                    	sortby: evetn.selected
+                    	sortby: event.selected
                     });         		
             		return true;
             		
