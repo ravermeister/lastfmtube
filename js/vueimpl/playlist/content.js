@@ -128,11 +128,13 @@ static createVue(elementId){
                 },
                 
                 setVideo(track, vid) {
+                	console.log('track', track, 'vid', vid);
                     let needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
                     $playlist.saveVideo(needle);
                 },
                 
                 unsetVideo(track) {
+                	console.log('track', track);
                     let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
                     $playlist.deleteVideo(needle);
                 }
