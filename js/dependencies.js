@@ -98,6 +98,7 @@ define('page', [
 	'control/player/timer',
 	'control/player/window',
 	'control/player/player',
+	'control/playlist/loader',
 	'control/playlist/playlist'
 ]);
 
