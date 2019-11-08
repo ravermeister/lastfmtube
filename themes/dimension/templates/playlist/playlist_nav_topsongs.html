@@ -30,7 +30,7 @@
 
 			<div class="field third">
 				<label>{{SORTBY.LABEL}}</label> <select id="topsongs-sortby"
-					v-model="SORTBY.SELECTED" @change="sortBy(event)">
+					v-model="SORTBY.SELECTED" @change="sortBy(SORTBY.SELECTED)">
 					<template v-for="VALUE in SORTBY.VALUES">
 					<option>{{VALUE}}</option>
 					</template>
