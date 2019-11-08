@@ -68,9 +68,9 @@ class PlaylistLoader {
     
     loadCustomerList(pageNum = 1, callBack = null) {
 
-        let tracks = playlistControl.getUserTracks();
+        let tracks = this.playlistControl.getUserTracks();
         let tracksPerPage = $page.settings.general.tracksPerPage;
-        pageNum = playlistControl.updateUserListPages(pageNum, tracks);
+        pageNum = this.playlistControl.updateUserListPages(pageNum, tracks);
                 
         let endIndex = pageNum * tracksPerPage;
         let startIndex = endIndex - tracksPerPage;
@@ -108,7 +108,7 @@ class PlaylistLoader {
 
         let request = null;
 
-        if (playlistControl.isValidUser(user)) {
+        if (this.playlistControl.isValidUser(user)) {
             request = 'php/json/page/Playlist.php?list=playlist' +
                 '&user=' + user +
                 '&page=' + pageNum
