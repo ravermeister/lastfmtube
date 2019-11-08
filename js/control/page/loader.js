@@ -240,6 +240,7 @@ class PageLoader {
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
 						data.PLAYLIST = self.currentPage.value;
+						console.log(data);
 						finished($page.myVues.playlist.search, data);
 						
 						
