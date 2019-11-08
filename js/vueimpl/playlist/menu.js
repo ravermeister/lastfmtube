@@ -47,6 +47,7 @@ class LibvuePlaylistMenu {
 
             methods: {
             	sortBy: function(sortBy) { 
+            		console.log('sortby', sortBy);
                     $page.loader.loadPage($page.loader.currentPage, {
                     	pnum: this.$data.CUR_PAGE,
                     	sortby: sortBy
