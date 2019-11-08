@@ -52,7 +52,7 @@ class PlaylistController {
                 if (trackCnt % $page.settings.general.tracksPerPage > 1) maxPages++;
 
                 for (let cnt = 0; cnt < trackCnt; cnt++) {
-                    let ytvid = result.data.value[cnt];
+                    let ytvid = json.data.value[cnt];
                     let track = {
                         NR: (cnt + 1) + '',
                         ARTIST: '',
