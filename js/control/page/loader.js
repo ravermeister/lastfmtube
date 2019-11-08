@@ -10,6 +10,7 @@ class PageLoader {
 
 	constructor() {
 		
+		this.lastPage = null;
 		this.currentPage = null;
 		
 		this.pages = {
@@ -180,7 +181,9 @@ class PageLoader {
 		let finished = function(vue = null, data = null){
 			self.setLoading(lastPage);
 			
+			self.lastPage = self.currentPage;
 			self.currentPage = page;
+			
 			self.setLocation('#'+page.selector);
 			if(vue !== null && data !== null) {		
 				vue.update(data);
