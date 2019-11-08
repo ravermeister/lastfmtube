@@ -237,14 +237,16 @@ class PageLoader {
 				}
 				
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
-					if(result) {						
+					if(result) {	
+						data.SEARCH_NEEDLE = needle;
 						finished($page.myVues.playlist.search, data);
+						
 					}
 				});
 			break;
 			case this.pages.userlist.topuser.value:
 				$playlist.loader.loadTopUser(pageNum, function(result, data){
-					if(result) {			
+					if(result) {						
 						finished($page.myVues.playlist.user, data);
 					}
 				});
