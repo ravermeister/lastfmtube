@@ -18,9 +18,7 @@
 					style="padding-top: 5px;">
 					<span class="fas fa-save fa-2x"></span>
 				</button>
-			</div>
-
-			<div class="field third">
+				
 				<label> {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}}
 					{{MAX_PAGES}} </label>
 				<button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
@@ -33,6 +31,7 @@
 					<span class="fas fa-step-forward fa-2x"></span>
 				</button>
 			</div>
+
 		</div>
 	</form>
 </section>
