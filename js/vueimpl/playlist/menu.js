@@ -56,7 +56,7 @@ class LibvuePlaylistMenu {
             		
             	},
                 loadPage: function (user, pageNum) {
-                	console.log($(this.$el).closest('article').children('#topsongs-sortby'));
+                	console.log($(this.$el).closest('article').find('#topsongs-sortby'));
             		let sortBy = $(this.$el).children('#topsongs-sortby')
             			.children('option:selected').val();
             		console.log('sortby: ', sortBy);
