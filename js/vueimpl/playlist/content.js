@@ -124,15 +124,7 @@ static createVue(elementId){
                 },
 
                 searchVideos: function (event, track) {
-                    let curArticle = $(event.target).closest('article');
-                    $page.setLoading(curArticle, true);
-                    let callBack = function (success = false) {
-                        if (!success) {
-                            console.log('error for searching vidéos for song');
-                        }
-                        $page.setLoading(curArticle);
-                    };
-                    $player.searchSong(track, callBack);
+                    $page.loader.searchSong(track);
                 },
                 
                 setVideo(vid) {
