@@ -80,7 +80,7 @@ static createVue(elementId){
                         $page.PLAY_CONTROL.PLAY_CONTROL = false;
                     }
                     if (track.PLAYLIST === 'search') {
-                        $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = track.VIDEO_ID;
+                        $page.myVues.playlist.search.menu.$data.SEARCH_VIDEO_ID = track.VIDEO_ID;
                     }
 
                     track.PLAY_CONTROL = !track.PLAY_CONTROL;
