@@ -49,6 +49,7 @@ class YouTube extends DefaultJson {
                          $this->jsonError('invalid Arguments');
                }
           } catch (Exception $err) {
+               die('>>>'.$err);
                $this->jsonError('unbekannter Fehler: ' . $err->getMessage());
           }
      }
