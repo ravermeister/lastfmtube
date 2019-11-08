@@ -57,7 +57,15 @@ class LibvuePlaylistMenu {
             	},
                 loadPage: function (user, pageNum) {
                 	let sortBy = $(this.$el).find('#topsongs-sortby')
-                		.children('option:selected').val();                	
+                		.children('option:selected').val(); 
+                	
+                	if(pageNum < 0) {
+                		pageNum = 1;
+                	} else if(pageNum > this.$data.MAX_PAGES) {
+                		pageNum = this.$data.MAX_PAGES;
+                	} else if(pageNum === this.$data.CUR_PAGE) {
+                		return;
+                	}
                     $page.loader.loadPage($page.loader.currentPage, {
                     	pnum: pageNum,
                     	lfmuser: user,
