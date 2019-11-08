@@ -21,7 +21,7 @@
 				</button>
 			</div>
 
-			<div class="field third">
+			<div class="field third" style="width: 25%;">
 				<label> {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}}
 					{{MAX_PAGES}} </label>
 				<button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
@@ -29,8 +29,7 @@
 					<span class="fas fa-step-backward fa-2x"></span>
 				</button>
 				<button @click.prevent="loadNextPage(null, CUR_PAGE, MAX_PAGES)"
-					title="Next Page"
-					style="padding-top: 5px; width: 25%; float: right;">
+					title="Next Page" style="padding-top: 5px; float: right;">
 					<span class="fas fa-step-forward fa-2x"></span>
 				</button>
 			</div>
