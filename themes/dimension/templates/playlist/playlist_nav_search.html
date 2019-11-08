@@ -22,19 +22,17 @@
 			</div>
 
 			<div class="field third">
-				<div>
-					<label> {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}}
-						{{MAX_PAGES}} </label>
-					<button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
-						title="Previous Page" style="padding-top: 5px; float: left;">
-						<span class="fas fa-step-backward fa-2x"></span>
-					</button>
+				<label> {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}}
+					{{MAX_PAGES}} </label>
+				<button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
+					title="Previous Page" style="padding-top: 5px; float: left;">
+					<span class="fas fa-step-backward fa-2x"></span>
+				</button>
 
-					<button @click.prevent="loadNextPage(null, CUR_PAGE, MAX_PAGES)"
-						title="Next Page" style="padding-top: 5px; float: right;">
-						<span class="fas fa-step-forward fa-2x"></span>
-					</button>
-				</div>
+				<button @click.prevent="loadNextPage(null, CUR_PAGE, MAX_PAGES)"
+					title="Next Page" style="padding-top: 5px; float: right;">
+					<span class="fas fa-step-forward fa-2x"></span>
+				</button>
 			</div>
 		</div>
 	</form>
