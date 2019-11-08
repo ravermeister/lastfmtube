@@ -140,7 +140,6 @@ class LibvuePlaylistMenu {
                 		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
                 	}
                 	
-                	console.log('needle', needle, 'vid', vid);
                     $playlist.saveVideo(needle);
                 },
 
