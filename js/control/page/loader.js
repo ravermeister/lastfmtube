@@ -225,7 +225,7 @@ class PageLoader {
 // Search Result List
 			case this.pages.playlist.search.value:
 				if(needle === null) {
-					console.log('no search needle provided, abort load search');
+					console.log('no search needle provided, abort load search ', pageData);
 					return;
 				}
 				
