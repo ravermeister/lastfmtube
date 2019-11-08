@@ -71,13 +71,14 @@ class PlaylistController {
                     tracks[cnt] = track;
                 }
             }
-            
-            if(pageNum > maxPages) {
+            if(pageNum === null || pageNum < 1) {
+            	pageNum = 1
+            } else if(pageNum > maxPages) {
             	pageNum = maxPages;
             }
 
             let perPage = parseInt($page.settings.general.tracksPerPage);
-            let startPos = pageNum * perPage;
+            let startPos = (pageNum - 1) * perPage;
             let endPos = startPos + perPage;
             
             console.log('search start:', startPos, 'end: ', endPos);
