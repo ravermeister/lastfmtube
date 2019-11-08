@@ -142,9 +142,9 @@ static createVue(elementId){
                 	let needle = null;
                 	if(this === $page.myVues.playlist.search.content) {
                 		needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
-                		needle = $page.createNeedle(needle.artist, needle.title);
+                		needle = $page.createNeedle(needle.artist, needle.title, needle.videoId);
                 	} else {
-                		needle = $page.createNeedle(track.ARTIST, track.TITLE);
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
                 	}
                     $playlist.deleteVideo(needle);
                 }
