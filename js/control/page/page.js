@@ -123,40 +123,6 @@ class PageController {
         });
     }
 
-    setCurrentPlaylist(playlist = null) {
-
-    	
-    	if (playlist === null || playlist === 'video' || $page.isCurrentPlaylist(playlist))
-            return;
-    	
-        if(playlist === 'search') {
-        	$page.SEARCH_RETURN_PLAYLIST = $page.PLAYLIST;
-        	if($page.SEARCH_RETURN_PLAYLIST === null) {
-        		$page.SEARCH_RETURN_PLAYLIST = 'lastfm';	
-        	}
-        }
-
-        $page.PLAYLIST = playlist;
-        $page.myVues.updateAll({
-        		PLAYLIST: playlist
-        });
-
-        if (!$player.isPlaying() ||
-            'undefined' === typeof $player.currentTrackData.track ||
-            $player.currentTrackData.track === null ||
-            $player.currentTrackData.track.PLAYLIST === playlist) {
-        }
-
-    }
-
-    isCurrentPlaylist(playlist) {
-        return (
-            typeof playlist !== 'undefined' &&
-            this.PLAYLIST === playlist
-        );
-    }
-
-
     createNeedle(artist = '', title = '', videoId = '') {
         return {
             artist: artist,

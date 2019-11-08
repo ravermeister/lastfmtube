@@ -94,7 +94,6 @@ class LibvueUser {
                     let openurl = function (success) {
                         if (success) {
                             let article = $('article[name=playlist-container]');
-                            $page.setCurrentPlaylist('lastfm');
                             user.PLAY_CONTROL = '';
                             $page.myVues.userlist.header.title.$data.LOADING = false;
                             location.replace('#' + $(article).attr('id'));

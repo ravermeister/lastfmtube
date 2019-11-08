@@ -22,35 +22,35 @@ class Menu {
         this.search = {
             LOGO: pageControl.icons.search.big,
             TEXT: 'Search',
-            PAGE: 'playlist',
+            PAGE: pageControl.loader.pages.playlist.search.value,
             HREF: ''
         };
 
         this.lastfm = {
             LOGO: pageControl.icons.headphones.big,
             TEXT: 'Last.fm',
-            PAGE: 'playlist',
+            PAGE: pageControl.loader.pages.playlist.lastfm.value,
             HREF: ''
         };
 
         this.userlist = {
             LOGO: pageControl.icons.user.big,
             TEXT: 'My Songs',
-            PAGE: 'playlist',
+            PAGE: pageControl.loader.pages.playlist.user.value,
             HREF: ''
         };
 
         this.topsongs = {
             LOGO: pageControl.icons.star.big,
             TEXT: 'Top Songs',
-            PAGE: 'playlist',
+            PAGE: pageControl.loader.pages.playlist.topsongs.value,
             HREF: ''
         };
 
         this.topuser = {
             LOGO: pageControl.icons.trophy.big,
             TEXT: 'Top User',
-            PAGE: 'playlist',
+            PAGE: pageControl.loader.pages.user.topuser.value,
             HREF: ''
         };
 

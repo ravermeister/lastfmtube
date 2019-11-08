@@ -79,7 +79,7 @@ static createVue(elementId){
                     if ($page.PLAY_CONTROL !== null && $page.PLAY_CONTROL !== track) {
                         $page.PLAY_CONTROL.PLAY_CONTROL = false;
                     }
-                    if (track.PLAYLIST === 'search') {
+                    if (track.PLAYLIST === $page.loader.pages.playlist.search.value) {
                         $page.myVues.playlist.search.menu.$data.SEARCH_VIDEO_ID = track.VIDEO_ID;
                     }
 
