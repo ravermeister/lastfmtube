@@ -50,7 +50,7 @@ class Menu {
         this.topuser = {
             LOGO: pageControl.icons.trophy.big,
             TEXT: 'Top User',
-            PAGE: pageControl.loader.pages.user.topuser.value,
+            PAGE: pageControl.loader.pages.userlist.topuser.value,
             HREF: ''
         };
 
