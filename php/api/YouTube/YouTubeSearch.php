@@ -178,7 +178,7 @@ class YouTubeSearch {
                }
           } catch (Exception $e) {
                Functions::getInstance()->logMessage('A service error occurred: ' . $e->getMessage());
-               throw e;
+               throw $e;
           }
 
           return $video_list;
