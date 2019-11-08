@@ -90,6 +90,8 @@ class LibvuePlaylistMenu {
                     if ('undefined' !== typeof json.LIST_MENU) {
                         this.$applyData(json.LIST_MENU);
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
+                    } else {                    	
+                    	this.$applyData(json);
                     }
                 },
 
