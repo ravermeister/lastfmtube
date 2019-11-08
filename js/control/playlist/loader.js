@@ -147,7 +147,6 @@ class PlaylistLoader {
         let request =
             'php/json/page/YouTube.php?action=search&size=50&needle='
         		+ needle.asVar();
-        console.log('request', request);
         $.getJSON(request, function (json) {
 
             let trackCnt = json.data.value.length;
