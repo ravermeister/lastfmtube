@@ -134,9 +134,7 @@ static createVue(elementId){
                 		needle = $page.createNeedle(needle.artist, needle.title, vid);
                 	} else {
                 		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
-                	}
-                	
-                	console.log('>>>', needle);
+                	}                	
                     $playlist.saveVideo(needle);
                 },
                 
@@ -144,9 +142,9 @@ static createVue(elementId){
                 	let needle = null;
                 	if(this === $page.myVues.playlist.search.content) {
                 		let needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
-                		needle = $page.createNeedle(needle.artist, needle.title, vid);
+                		needle = $page.createNeedle(needle.artist, needle.title);
                 	} else {
-                		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE);
                 	}
                 	
                     $playlist.deleteVideo(needle);
