@@ -35,7 +35,7 @@ class PlaylistController {
         });
     }
 
-    loadSearchResult(needle, callBack = null) {
+    loadSearchResult(needle, pageNum = 1, callBack = null) {
 
         let request =
             'php/json/page/YouTube.php?action=search' +
@@ -72,13 +72,20 @@ class PlaylistController {
                 }
             }
             
+            if(pageNum > maxPages) {
+            	pageNum = maxPages;
+            }
+
+            let startPos = (pageNum*$page.settings.general.tracksPerPage);
+            let endPos = startPos+$page.settings.general.tracksPerPage;
+            
             let searchData = {
                 HEADER: {
                     TEXT: 'Search Results'
                 },
 
                 LIST_MENU: {
-                    CUR_PAGE: 1,
+                    CUR_PAGE: pageNum,
                     MAX_PAGES: maxPages,
                     PLAYLIST: 'search',
                     SAVED_VIDEO_ID: savedVid,
@@ -86,7 +93,7 @@ class PlaylistController {
                     SEARCH_RESULT: tracks
                 },
 
-                TRACKS: tracks.slice(0, $page.settings.general.tracksPerPage)
+                TRACKS: tracks.slice(startPos, endPos)
             };
            
             

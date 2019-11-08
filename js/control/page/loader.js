@@ -225,6 +225,11 @@ class PageLoader {
 // Search Result List
 			case this.pages.playlist.search.value:
 				if(needle === null) {
+					
+					if(isCurrentPage(page)) {
+						
+					}
+					
 					console.log('no search needle provided, abort load search ', pageData);
 					return;
 				}
@@ -250,7 +255,7 @@ class PageLoader {
 		}	
 	}
 
-    searchSong(track) {
+    searchSong(track, pageNum = 1) {
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         
         if (!needle.isValid()) {
@@ -258,8 +263,11 @@ class PageLoader {
             return;
         }
         
+        
+        
         this.loadPage(this.pages.playlist.search, {
-        	needle: needle
+        	needle: needle,
+        	pnum: pageNum
         });
     }
     
