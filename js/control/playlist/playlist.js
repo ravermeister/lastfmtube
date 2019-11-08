@@ -78,7 +78,7 @@ class PlaylistController {
                 },
 
                 LIST_MENU: {
-                    CUR_PAGE: pageNum,
+                    CUR_PAGE: 1,
                     MAX_PAGES: maxPages,
                     PLAYLIST: 'search',
                     SAVED_VIDEO_ID: savedVid,
