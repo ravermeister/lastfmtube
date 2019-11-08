@@ -115,7 +115,7 @@ class YouTube extends DefaultJson {
                     'LASTPLAY' => '',
                     'VIDEO_ID' => $video->getVideoId(),
                     'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'search',
+                    'PLAYLIST' => 'playlist.search',
                     'PLAYSTATE' => ''
                );
           }
