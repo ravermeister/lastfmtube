@@ -131,8 +131,8 @@ class PlaylistController {
             });            
             updateVue($page.myVues.playlist.lastfm, needle);
             updateVue($page.myVues.playlist.topsongs, needle);
-            
-            console.log($page.loader.lastPage);
+                        
+            console.log('last page' , $page.loader.lastPage.value, 'data:', data);
             
         }).fail(function (xhr) {
         	$page.loader.setLoading();

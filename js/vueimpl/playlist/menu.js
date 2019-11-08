@@ -48,7 +48,7 @@ class LibvuePlaylistMenu {
             methods: {            	
             	sortBy: function(event) { 
             		let sortBy = $(event.target).children('option:selected').val();
-                    $page.loader.loadPage($page.loader.currentPage, {
+                    $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
                     	pnum: this.$data.CUR_PAGE,
                     	sortby: sortBy
                     });         		
@@ -66,7 +66,7 @@ class LibvuePlaylistMenu {
                 	} else if(pageNum === this.$data.CUR_PAGE) {
                 		return;
                 	}
-                    $page.loader.loadPage($page.loader.currentPage, {
+                    $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
                     	pnum: pageNum,
                     	lfmuser: user,
                     	sortby: sortBy

@@ -9,9 +9,25 @@
 class PageLoader {
 
 	constructor() {
-		
-		this.lastPage = null;
-		this.currentPage = null;
+		this.pageInfo = {
+				currentPage: {
+					value: null,
+					data: null
+				},
+				
+				lastPage: {
+					value: null,
+					data: null
+				},
+				
+				update: function(page, pageData) {
+					lastPage = currentPage;
+					currentPage = {
+							value: page,
+							data: pageData
+					};
+				} 
+		};
 		
 		this.pages = {
 			
@@ -160,7 +176,7 @@ class PageLoader {
 
 	isCurrentPage(page) {
 		if(page === null || page === '') return false;		
-		return this.currentPage === page;
+		return this.currentPage.value === page;
 	}
 	
 	loadMenu(menu = null, pageData) {
@@ -182,7 +198,10 @@ class PageLoader {
 			self.setLoading(lastPage);
 			
 			self.lastPage = self.currentPage;
-			self.currentPage = page;
+			self.currentPage = {
+					value: page,
+					data: pageData
+			};
 			
 			self.setLocation('#'+page.selector);
 			if(vue !== null && data !== null) {		
