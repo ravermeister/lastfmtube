@@ -146,11 +146,9 @@ class PlaylistController {
             if (vue !== $page.myVues.playlist.search) {
             	if(vue.content.$data.TRACKS === null) return;
                 vue.content.$data.TRACKS.forEach(function (track) {                	
-                	console.log(track.TITLE,'|', track.VIDEO_ID, '<track before needle >', needle);
                     if (track.VIDEO_ID === needle.videoId) {
                         track.VIDEO_ID = '';
                     }
-                	console.log(track.TITLE,'|', track.VIDEO_ID, '<track after needle >', needle);
                 });
             } else {
                 vue.menu.SAVED_VIDEO_ID = '';
