@@ -26,12 +26,12 @@
 					</span></td>
 					<td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"
 						style="cursor: pointer"><i
-						v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
+						v-if="TRACK.PLAYLIST !== 'playlist.search' && TRACK.VIDEO_ID !== ''"
 						v-bind:title="'Video: ' + TRACK.VIDEO_ID">* {{TRACK.ARTIST}}</i> <span
 						v-else="v-else">{{TRACK.ARTIST}}</span></td>
 					<td class="TRACK_TITLE" @click="togglePlayControl(TRACK);"
 						style="cursor: pointer"><i
-						v-if="TRACK.PLAYLIST !== 'search' && TRACK.VIDEO_ID !== ''"
+						v-if="TRACK.PLAYLIST !== 'playlist.search' && TRACK.VIDEO_ID !== ''"
 						v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i> <span
 						v-else="v-else">{{TRACK.TITLE}}</span> <span style="float: right;"
 						v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE"> <span
@@ -47,7 +47,7 @@
 						@click="playTrack(TRACK);" title="Play" class="button smaller">
 							<span class="fa fa-play"></span>
 					</a> <a @click="setVideo(TRACK, $('#search_videourl').val());"
-						v-if="TRACK.PLAYLIST === 'search'" title="set as Video"
+						v-if="TRACK.PLAYLIST === 'playlist.search'" title="set as Video"
 						class="button smaller"> <span class="fas fa-save"></span>
 					</a> <a @click="addToUserList($event, TRACK);" title="add to Playlist"
 						v-else-if="TRACK.PLAYLIST !== 'userlist'" class="button smaller">
@@ -59,7 +59,7 @@
 						v-if="TRACK.PLAYLIST === 'userlist'" class="button smaller"> <span
 							class="fas fa-trash-alt"></span>
 					</a> <a @click="searchVideos($event, TRACK);"
-						v-if="TRACK.PLAYLIST !== 'search'"
+						v-if="TRACK.PLAYLIST !== 'playlist.search'"
 						title="search alternative Video" class="button smaller"> <span
 							class="fa fa-search"></span>
 					</a> <a @click="unsetVideo(TRACK);" title="delete alternative Video"
@@ -68,10 +68,10 @@
 					</a>
 
 						<div style="float: right">
-							<span v-show="TRACK.PLAYLIST !== 'search'"> <i
+							<span v-show="TRACK.PLAYLIST !== 'playlist.search'"> <i
 								v-show="TRACK.LASTFM_ISPLAYING === true">{{TRACK.LASTPLAY}}</i>
 								<span v-show="TRACK.LASTFM_ISPLAYING !== true">{{TRACK.LASTPLAY}}</span>
-							</span> <span v-show="TRACK.PLAYLIST === 'search'">Video:
+							</span> <span v-show="TRACK.PLAYLIST === 'playlist.search'">Video:
 								{{TRACK.VIDEO_ID}}</span>
 						</div></td>
 				</tr>
