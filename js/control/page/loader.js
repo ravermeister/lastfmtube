@@ -257,9 +257,10 @@ class PageLoader {
             console.error('needle is invalid exit search');
             return;
         }
-
         
-        this.loadPage('search', null, needle);
+        this.loadPage(this.pages.playlist.search, {
+        	needle: needle
+        });
     }
     
     
@@ -271,9 +272,7 @@ class PageLoader {
     	} else if(page === this.pages.base) {
     		page = this.pages.video.youtube;
     	}
-
-    	this.setLoading();
-    	this.setLocation('#'+page.selector);
+    	this.loadPage(page);
     }
     
     setLocation(href) {
