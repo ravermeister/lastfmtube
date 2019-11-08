@@ -145,8 +145,8 @@ class PlaylistLoader {
     loadSearchResult(needle, pageNum = 1, callBack = null) {
 
         let request =
-            'php/json/page/YouTube.php?action=search' +
-            '&size=50&needle=' + needle.asVar();
+            'php/json/page/YouTube.php?action=search&size=50&needle='
+        		+ needle.asVar();
         
         $.getJSON(request, function (json) {
 
@@ -165,7 +165,7 @@ class PlaylistLoader {
                         ARTIST: '',
                         TITLE: ytvid.TITLE,
                         VIDEO_ID: ytvid.VIDEO_ID,
-                        PLAYLIST: 'search',
+                        PLAYLIST: $page.loader.pages.playlist.search.value,
                         PLAYCOUNT: null,
                         PLAYSTATE: '',
                         PLAY_CONTROL: ''
