@@ -145,8 +145,8 @@ class PlaylistController {
         let updateVue = function (vue) {
             if (vue !== $page.myVues.playlist.search) {
             	if(vue.content.$data.TRACKS === null) return;
-            	console.log(track.TITLE, '<title | video_id>', track.VIDEO_ID)
-                vue.content.$data.TRACKS.forEach(function (track) {
+                vue.content.$data.TRACKS.forEach(function (track) {                	
+                	console.log(track.TITLE, '<title | video_id>', track.VIDEO_ID)
                     if (track.VIDEO_ID === needle.videoId) {
                         track.VIDEO_ID = '';
                     }
