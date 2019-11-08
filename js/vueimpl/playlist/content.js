@@ -39,7 +39,7 @@ static createVue(elementId){
                     let curIndex = tracks.indexOf(track);
 
                     $playlist.removeUserTrack(curIndex);
-                    $playlist.loadCustomerList(curPage);
+                    $playlist.loader.loadCustomerList(curPage);
 
                     tracks = $page.myVues.playlist.content.$data.TRACKS;
                     if (tracks.length > 0) {
@@ -53,7 +53,7 @@ static createVue(elementId){
 
                 clearUserList: function () {
                     $playlist.setUserTracks();
-                    $playlist.loadCustomerList();
+                    $playlist.loader.loadCustomerList();
                 },
 
                 togglePlay: function (track) {

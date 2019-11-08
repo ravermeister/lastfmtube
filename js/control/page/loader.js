@@ -200,7 +200,7 @@ class PageLoader {
 		switch(page.value) {
 // Topsongs
 			case this.pages.playlist.topsongs.value:
-				$playlist.loadTopSongs(pageNum, function(result, data){
+				$playlist.loader.loadTopSongs(pageNum, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.topsongs, data);
 					}
@@ -208,7 +208,7 @@ class PageLoader {
 			break;
 // User Playlist
 			case this.pages.playlist.user.value:
-				$playlist.loadCustomerList(pageNum, function(result, data){
+				$playlist.loader.loadCustomerList(pageNum, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.user, data);
 					}
@@ -216,7 +216,7 @@ class PageLoader {
 			break;
 // Last.fm Playlist
 			case this.pages.playlist.lastfm.value:
-				$playlist.loadLastFmList(pageNum, lfmUser, function(result, data){
+				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.lastfm, data);
 					}
@@ -234,14 +234,14 @@ class PageLoader {
 					}
 				}
 				
-				$playlist.loadSearchResult(needle, pageNum, function(result, data){
+				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.search, data);
 					}
 				});
 			break;
 			case this.pages.userlist.topuser.value:
-				$playlist.loadTopUser(pageNum, function(result, data){
+				$playlist.loader.loadTopUser(pageNum, function(result, data){
 					if(result) {			
 						finished($page.myVues.playlist.user, data);
 					}

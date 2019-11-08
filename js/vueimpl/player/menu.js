@@ -28,7 +28,7 @@ class LibvuePlayerMenu {
                 addToUserList: function () {
                     $playlist.addUserTrack($player.currentTrackData.track);
                     if ($page.PLAYLIST === 'userlist') {
-                        $playlist.loadCustomerList($page.myVues.playlist.menu.$data.CUR_PAGE);
+                        $playlist.loader.loadCustomerList($page.myVues.playlist.menu.$data.CUR_PAGE);
                     }
                 },
                 searchVideo: function (event) {

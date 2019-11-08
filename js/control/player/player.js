@@ -264,7 +264,7 @@ class PlayerController {
             this.currentTrackData.videoId = videoId;
             this.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
             if($page.myVues.video.youtube.comments.showComments) {
-            	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
+            	$playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
             }
         } else {
             if (this.errorLoopCount > this.maxErrorLoop) {
@@ -278,7 +278,7 @@ class PlayerController {
                 // load the default video
                 this.loadDefaultVideo();
                 if($page.myVues.video.youtube.comments.showComments) {
-                	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
+                	$playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
                 }
                 return;
             }
