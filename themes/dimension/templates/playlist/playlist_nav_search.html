@@ -13,7 +13,7 @@
 
 			<div class="field third">
 				<label for="saveYouTubeSearch" v-html="SAVED_TITLE"></label>
-				<button @click.prevent="setVideo($('#search_videourl').val());"
+				<button @click.prevent="setVideo(null, $('#search_videourl').val());"
 					id="saveYouTubeSearch" title="Save Video for Song"
 					style="padding-top: 5px;">
 					<span class="fas fa-save fa-2x"></span>
