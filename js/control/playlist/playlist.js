@@ -125,7 +125,7 @@ class PlaylistController {
                 }
             }
             $playlist.setUserTracks(userTracks);
-            $page.setLoading();
+            $page.loader.setLoading();
             $page.myVues.playlist.user.update({
                 TRACKS: userTracks
             });            
@@ -133,7 +133,7 @@ class PlaylistController {
             updateVue($page.myVues.playlist.topsongs); 
             
         }).fail(function (xhr) {
-        	$page.setLoading();
+        	$page.loader.setLoading();
             $.logXhr(xhr);
         });
     }
@@ -181,7 +181,7 @@ class PlaylistController {
                 }
             }
             $playlist.setUserTracks(userTracks);
-            $page.setLoading();
+            $page.loader.setLoading();
             $page.myVues.playlist.user.update({
                 TRACKS: userTracks
             });            
@@ -189,7 +189,7 @@ class PlaylistController {
             updateVue($page.myVues.playlist.topsongs);            
             
         }).fail(function (xhr) {
-            $page.setLoading();
+            $page.loader.setLoading();
             $.logXhr(xhr);
         });
     }

@@ -196,11 +196,13 @@ class PageLoader {
 				pageData.needle : null;
 		let lfmUser = pageData !== null && ('undefined' !== typeof pageData.lfmuser) ?
 				pageData.lfmuser : null;
+		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
+				pageData.sortby : null;
 		
 		switch(page.value) {
 // Topsongs
 			case this.pages.playlist.topsongs.value:
-				$playlist.loader.loadTopSongs(pageNum, function(result, data){
+				$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
 					if(result) {						
 						finished($page.myVues.playlist.topsongs, data);
 					}

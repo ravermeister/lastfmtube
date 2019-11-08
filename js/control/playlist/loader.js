@@ -228,25 +228,25 @@ class PlaylistLoader {
         });
     }
     
-    loadTopSongs(pageNum = 1, callBack = null) {
+    loadTopSongs(pageNum = 1, sortBy = null, callBack = null) {
 
-    	let sortBy = $page.myVues.playlist.topsongs.menu.$data.SORTBY.SELECTED;
+    	let request = 'php/json/page/Playlist.php?list=topsongs&page=' + pageNum;
+    	if(sortBy !== null) {
+    		request += '&sortby='+sortBy
+    	}
     	
-        $.getJSON('php/json/page/Playlist.php?list=topsongs' + 
-        		'&page=' + pageNum + 
-        		'&sortby=' + sortBy, 
-        		function (json) {					
-					try {
-					    if (typeof callBack === 'function') {
-					        callBack(true, json.data.value);
-					    } else {
-							$page.myVues.playlist.topsongs.update(json.data.value);
-					    }					
-					} catch (e) {
-					    console.error('error in load topsongs list callback function', e);
-					    console.error('Callback: ', callBack);
-					    console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
-					}
+        $.getJSON(request, function (json) {					
+			try {
+			    if (typeof callBack === 'function') {
+			        callBack(true, json.data.value);
+			    } else {
+					$page.myVues.playlist.topsongs.update(json.data.value);
+			    }					
+			} catch (e) {
+			    console.error('error in load topsongs list callback function', e);
+			    console.error('Callback: ', callBack);
+			    console.error('page: ', pageNum, ' user: ', user, ' callback ', callBack);
+			}
             }).fail(function (xhr) {
 
             $.logXhr(xhr);

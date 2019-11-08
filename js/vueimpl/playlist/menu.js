@@ -46,11 +46,11 @@ class LibvuePlaylistMenu {
             },
 
             methods: {
-            	sortBy: function(event) {           		
-                    $page.setLoading(PageController.article.playlist.dom(), true);
-                    $page.loadList(this.$data.CUR_PAGE, null, function () {
-                        $page.setLoading(PageController.article.playlist.dom());
-                    });            		
+            	sortBy: function(sortBy) { 
+                    $page.loader.loadPage($page.loader.currentPage, {
+                    	pnum: this.$data.CUR_PAGE,
+                    	sortby: sortBy
+                    });         		
             		return true;
             		
             	},
