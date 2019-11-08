@@ -149,10 +149,10 @@ class PageLoader {
 		if(vue !== null) {	
 			if('undefined' !== typeof vue.header.title) {				
 				vue.header.title.$data.LOADING = active;
-				//playlist etc.
+				// playlist etc.
 			} else {
 				vue.header.$data.LOADING = active;
-				//youtube
+				// youtube
 			}
 		}
 	}
@@ -224,14 +224,14 @@ class PageLoader {
 			break;
 // Search Result List
 			case this.pages.playlist.search.value:
-				if(needle === null) {
-					
-					if(isCurrentPage(page)) {
-						
+				if(needle === null) {					
+					if(this.isCurrentPage(page)) {
+						needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;			        
 					}
-					
-					console.log('no search needle provided, abort load search ', pageData);
-					return;
+					if(needle === null) {								
+						console.log('no search needle provided, abort load search ', pageData);
+						return;
+					}
 				}
 				
 				$playlist.loadSearchResult(needle, pageNum, function(result, data){
@@ -247,7 +247,7 @@ class PageLoader {
 					}
 				});
 			break;
-//			Top Last.fm User
+// Top Last.fm User
 // YouTube Player View
 			case this.pages.video.youtube.value:				
 					finished();
