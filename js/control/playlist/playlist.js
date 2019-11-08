@@ -130,7 +130,9 @@ class PlaylistController {
                 TRACKS: userTracks
             });            
             updateVue($page.myVues.playlist.lastfm, needle);
-            updateVue($page.myVues.playlist.topsongs, needle); 
+            updateVue($page.myVues.playlist.topsongs, needle);
+            
+            console.log($page.SEARCH_RETURN_PLAYLIST);
             
         }).fail(function (xhr) {
         	$page.loader.setLoading();
