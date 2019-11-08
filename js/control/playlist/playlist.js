@@ -81,6 +81,7 @@ class PlaylistController {
             let endPos = startPos + perPage;
             
             console.log('search start:', startPos, 'end: ', endPos);
+            console.log('pnum', pageNum, 'perpage', $page.settings.general.tracksPerPage);
             
             let searchData = {
                 HEADER: {
