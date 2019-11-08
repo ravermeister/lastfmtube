@@ -110,12 +110,13 @@ class LibvuePlaylistMenu {
                 },
 
                 setVideo: function (vid) {
-                    $page.myVues.playlist.setVideo(vid);
+                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                    $playlist.saveVideo(vid);
                 },
 
                 unsetVideo: function (event, track) {
                     let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
-                    $page.myVues.playlist.unsetVideo(needle);
+                    $playlist.deleteVideo(needle);
                 }
             }
         });

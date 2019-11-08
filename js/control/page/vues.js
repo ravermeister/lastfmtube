@@ -61,6 +61,16 @@ class VueController {
             	topuser: new LibvueUser('userlist-topuser-container'),
             },
 
+            setVideo: function(videoId){
+            	this.playlist.user.setVideo(videoId);
+            	this.playlist.lastfm.setVideo(videoId);
+            },
+            
+            unsetVideo: function(needle) {
+            	this.playlist.user.unsetVideo(needle);
+            	this.playlist.lastfm.unsetVideo(needle);            	
+            },
+            
             updateAll: function (json) {            	
                 this.main.update(json);                
                 this.playlist.lastfm.update(json);

@@ -34,40 +34,16 @@ class LibvuePlaylist {
 
     setVideo(videoId = '') {
     	let self = this;
-        let callback = function (success) {
-            if (success) {
-                self.menu.$data.SAVED_VIDEO_ID = videoId;
-                return;
-            }
-            console.log('error saving video id');
-        };
-        
         let needle = $page.createNeedle(
             self.menu.$data.SEARCH_NEEDLE.artist,
             self.menu.$data.SEARCH_NEEDLE.title,
             videoId
         );
-
-        $page.saveVideo(needle, callback);
+        $page.saveVideo(needle);
     }
 
-    unsetVideo(needle = null) {
-    	let self = this;
-        let callback = function (success = false) {
-            if (success) {
-                if (self.menu.$data.PLAYLIST !== 'search') {
-                    self.content.$data.TRACKS.forEach(function (track) {
-                        if (track.VIDEO_ID === needle.videoId) {
-                            track.VIDEO_ID = '';
-                        }
-                    });
-                } else {
-                    self.menu.SAVED_VIDEO_ID = '';
-                }
-            }
-        };
-
-        $page.deleteVideo(needle, callback);
+    unsetVideo(needle = null) {    	
+        $page.deleteVideo(needle);
     }
 
     getTracks(json) {
