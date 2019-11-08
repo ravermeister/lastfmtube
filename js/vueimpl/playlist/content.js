@@ -127,7 +127,7 @@ static createVue(elementId){
                     $page.loader.searchSong(track);
                 },
                 
-                setVideo(vid) {
+                setVideo(track, vid) {
                     let needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
                     $playlist.saveVideo(needle);
                 },

@@ -46,7 +46,7 @@
 					<td colspan="3" style="vertical-align: middle; border: 0"><a
 						@click="playTrack(TRACK);" title="Play" class="button smaller">
 							<span class="fa fa-play"></span>
-					</a> <a @click="setVideo($('#search_videourl').val());"
+					</a> <a @click="setVideo(TRACK, $('#search_videourl').val());"
 						v-if="TRACK.PLAYLIST === 'search'" title="set as Video"
 						class="button smaller"> <span class="fas fa-save"></span>
 					</a> <a @click="addToUserList($event, TRACK);" title="add to Playlist"
