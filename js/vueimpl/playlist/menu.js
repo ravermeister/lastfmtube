@@ -121,9 +121,21 @@ class LibvuePlaylistMenu {
                     $player.playerWindow.ytPlayer.loadVideoById(videoId);
                 },
 
-                setVideo: function (vid) {
-                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
-                    $playlist.saveVideo(vid);
+                setVideo: function (track = null, vid) {
+                	let needle = null;
+                	if(track === null && this.$data.SEARCH_NEEDLE !== null) {
+                		console.log(SEARCH_NEEDLE);
+                		needle = $page.createNeedle(
+                				this.$data.SEARCH_NEEDLE.ARTIST, 
+                				this.$data.SEARCH_NEEDLE.TITLE, 
+                				vid
+                		);                		
+                	} else {                		
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                	}
+                	
+                	console.log('needle', needle, 'vid', vid);
+                    $playlist.saveVideo(needle);
                 },
 
                 unsetVideo: function (event, track) {
