@@ -203,7 +203,7 @@ class PlayerController {
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
-
+        console.log('load track', track);
         this.setCurrentTrack(track);
 
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
