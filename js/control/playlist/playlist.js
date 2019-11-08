@@ -76,8 +76,9 @@ class PlaylistController {
             	pageNum = maxPages;
             }
 
-            let startPos = (pageNum*$page.settings.general.tracksPerPage);
-            let endPos = startPos+$page.settings.general.tracksPerPage;
+            let perPage = parseInt($page.settings.general.tracksPerPage);
+            let startPos = pageNum * perPage;
+            let endPos = startPos + perPage;
             
             console.log('search start:', startPos, 'end: ', endPos);
             
