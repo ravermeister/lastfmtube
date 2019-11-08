@@ -130,7 +130,7 @@ static createVue(elementId){
                 setVideo(track, vid) {
                 	let needle = null;
                 	if(this === $page.myVues.playlist.search.content) {
-                		let needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
+                		needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
                 		needle = $page.createNeedle(needle.artist, needle.title, vid);
                 	} else {
                 		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
