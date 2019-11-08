@@ -21,8 +21,8 @@ class PageLoader {
 				},
 				
 				update: function(page, pageData) {
-					lastPage = currentPage;
-					currentPage = {
+					this.lastPage = currentPage;
+					this.currentPage = {
 							value: page,
 							data: pageData
 					};
