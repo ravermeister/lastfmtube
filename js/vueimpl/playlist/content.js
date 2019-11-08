@@ -128,14 +128,26 @@ static createVue(elementId){
                 },
                 
                 setVideo(track, vid) {
-                	console.log('track', track, 'vid', vid);
-                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                	let needle = null;
+                	if(this === $page.myVues.playlist.search.content) {
+                		let needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
+                		needle = $page.createNeedle(needle.artist, needle.title, vid);
+                	} else {
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                	}
+                	
                     $playlist.saveVideo(needle);
                 },
                 
                 unsetVideo(track) {
-                	console.log('track', track);
-                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+                	let needle = null;
+                	if(this === $page.myVues.playlist.search.content) {
+                		let needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
+                		needle = $page.createNeedle(needle.artist, needle.title, vid);
+                	} else {
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                	}
+                	
                     $playlist.deleteVideo(needle);
                 }
             }
