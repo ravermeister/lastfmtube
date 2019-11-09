@@ -238,18 +238,17 @@ class PlayerController {
             needle.applyData(search);
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {
-            if (typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ', request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ', xhr.status,
-                    '\n\nerror: ', xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
-            
-            loadNextAfterError();
+        	console.log(xhr);
+//            if (typeof xhr === 'object' && xhr !== null) {
+//                console.error(
+//                    'request: ', request,
+//                    '\n\nresponse: ', xhr.responseText,
+//                    '\n\nstatus: ', xhr.status,
+//                    '\n\nerror: ', xhr.statusText
+//                );
+//            } else {
+//                console.log('request: ', request, 'error');
+//            }            
         });
     }
     
