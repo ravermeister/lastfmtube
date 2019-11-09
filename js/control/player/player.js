@@ -257,9 +257,9 @@ class PlayerController {
         	let errMsg = null;
         	if (typeof xhr === 'object' && xhr !== null) {
         		try {
-        			let jsonErr = SON.parse(xhr.responseText);
+        			let jsonErr = JSON.parse(xhr.responseText);
         			if('undefined' !== typeof jsonErr.data.type.value.error.message) {
-        				jsonErr = jsonErr.data.type.value.error.message;        				
+        				errMsg = jsonErr.data.type.value.error.message;        				
         			}
         		} catch (e) {}
             }     
