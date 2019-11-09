@@ -55,9 +55,10 @@ class PlayerController {
         });
         this.addErrorListener(function () {
         	self.errorLoopCount++;
-
-            if ($page.myVues.playlist.menu.$data.PLAYLIST === 'search') {
-                $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = '';
+            let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+            
+            if (curVue.menu.$data.PLAYLIST === 'search') {
+                curVue.menu.$data.SEARCH_VIDEO_ID = '';
             }
 
             if (self.errorLoopCount >= self.maxErrorLoop) {
@@ -96,14 +97,14 @@ class PlayerController {
     }
 
     loadNextSong() {
-    	
-        let tracks = $page.myVues.playlist.content.$data.TRACKS;
+    	let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+        let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
         
         let curTrack = this.currentTrackData.track;
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
-        let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
+        let curPage = parseInt(curVue.menu.$data.CUR_PAGE);
         
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
@@ -113,7 +114,7 @@ class PlayerController {
         }
         
         if (isLast || nextIndex >= tracks.length) {
-            let playlist = $page.myVues.playlist.menu;
+            let playlist = curVue.menu;
             let curPage = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
@@ -124,7 +125,6 @@ class PlayerController {
             $page.loadList(curPage, user, function (success) {
                 try {
                     if (!success) return;
-                    let tracks = $page.myVues.playlist.content.$data.TRACKS;
                     self.loadSong(tracks[0]);
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
@@ -143,9 +143,12 @@ class PlayerController {
 
         let curTrack = this.currentTrackData.track;
         if (curTrack === null) return;
-        let tracks = $page.myVues.playlist.content.$data.TRACKS;
+    	
+        let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+        let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
-        let isLast = ($page.myVues.playlist.menu.$data.CUR_PAGE *
+        
+        let isLast = (curVue.menu.$data.CUR_PAGE *
             $page.settings.general.tracksPerPage) === parseInt(curTrack.NR);
         let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracksPerPage) - 2;
 
@@ -156,10 +159,10 @@ class PlayerController {
         if (isLast) {
             prevIndex = tracks.length - 2;
         } else if (prevIndex < 0) {
-            let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
+            let curPage = curVue.menu.$data.CUR_PAGE;
             if ('undefined' === typeof curPage) curPage = 1;
-            let maxPages = $page.myVues.playlist.menu.$data.MAX_PAGES;
-            let user = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            let maxPages = curVue.menu.$data.MAX_PAGES;
+            let user = curVue.menu.$data.LASTFM_USER_NAME;
 
             if ((curPage - 1) < 1) curPage = maxPages;
             else curPage--;
@@ -167,7 +170,6 @@ class PlayerController {
             let self = this;
             $page.loadList(curPage, user, function (success) {
                 if (!success) return;
-                tracks = $page.myVues.playlist.content.$data.TRACKS;
                 self.loadSong(tracks[tracks.length - 1]);
             });
             return;
@@ -264,12 +266,15 @@ class PlayerController {
     }
 
     loadVideo(videoId = null) {
+
+    	let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             this.playerWindow.ytPlayer.loadVideoById(videoId);
             this.commentsLoaded = false;
             
             this.currentTrackData.videoId = videoId;
-            this.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            this.currentTrackData.lfmUser = curVue.menu.$data.LASTFM_USER_NAME;
             if($page.myVues.video.youtube.comments.showComments) {
             	$playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
             }
