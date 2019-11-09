@@ -256,13 +256,7 @@ class PlayerController {
         	let errMsg = null;
             
         	if (typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ', request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ', xhr.status,
-                    '\n\nerror: ', xhr.statusText
-                );
-            
+//                console.error('request: ', request, 'response', response);
                 
                 console.log(xhr.responseText);
                 JSON.parse(xhr.responseText);
