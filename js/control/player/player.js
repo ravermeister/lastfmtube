@@ -98,6 +98,7 @@ class PlayerController {
 
     loadNextSong() {
     	let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+    	console.log('>>>', curVue);
         let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
         
