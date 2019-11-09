@@ -74,6 +74,7 @@ class Icons {
     }
 	
 	 getPageIcon(selector = null) {
+		 console.log('selector icon', selecor);
         if (selector === null) return this.diamond.big;
         switch (selector) {        	
             case this.pageControl.loader.pages.playlist.topsongs.value:
