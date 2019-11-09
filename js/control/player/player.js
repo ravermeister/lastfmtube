@@ -207,9 +207,17 @@ class PlayerController {
         	return;
         
         let self = this;
-        let loadNextAfterError = function() {
+        let loadNextAfterError = function(errMsg) {
             if (self.errorLoopCount > self.maxErrorLoop) {
-                console.error('maximum error loop reached');
+                console.error('maximum error loop reached');                
+                alert(errMsg);
+                
+                // load the default video
+                self.loadDefaultVideo();
+                $page.myVues.video.youtube.comments.showComments = false;
+// if($page.myVues.video.youtube.comments.showComments) {
+// $playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
+// }
                 return;
             }
             self.errorLoopCount++;
@@ -239,16 +247,28 @@ class PlayerController {
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {
         	console.log(xhr);
-//            if (typeof xhr === 'object' && xhr !== null) {
-//                console.error(
-//                    'request: ', request,
-//                    '\n\nresponse: ', xhr.responseText,
-//                    '\n\nstatus: ', xhr.status,
-//                    '\n\nerror: ', xhr.statusText
-//                );
-//            } else {
-//                console.log('request: ', request, 'error');
-//            }            
+        	let alertMessage = null;
+            if (typeof xhr === 'object' && xhr !== null) {
+                console.error(
+                    'request: ', request,
+                    '\n\nresponse: ', xhr.responseText,
+                    '\n\nstatus: ', xhr.status,
+                    '\n\nerror: ', xhr.statusText
+                );
+                let jsonErr = JSON.parse(xhr.responseText);
+                let message = null;
+                if('undefined' !== typeof jsonErr && 
+                	'undefined' !== typeof jsonErr.message) {
+                	alertMessage = json.message;
+                } else {
+                	alertMessage = "Error, couldn't find any Songs on Youtube.\n\n" 
+                		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
+                		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
+                		+ "If you know what to do, to get a higher Limit let me know :)"
+                }
+            } else {
+                console.log('request: ', request, 'error');
+            }            
         });
     }
     
@@ -280,17 +300,6 @@ class PlayerController {
         } else {
             if (this.errorLoopCount > this.maxErrorLoop) {
                 console.error('maximum error loop reached');
-                alert("Error, couldn't find any Songs on Youtube.\n\n" 
-                		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
-                		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
-                		+ "If you know what to do, to get a higher Limit let me know :)"
-                );
-                
-                // load the default video
-                this.loadDefaultVideo();
-                if($page.myVues.video.youtube.comments.showComments) {
-                	$playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
-                }
                 return;
             }
             
