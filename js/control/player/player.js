@@ -251,15 +251,13 @@ class PlayerController {
         }).done(function (search) {
             needle.applyData(search);
             self.loadVideo(needle.videoId);
-        }).fail(function (xhr) {
-        	
+        }).fail(function (xhr) {        	
         	console.error(xhr);
         	let errMsg = null;
         	if (typeof xhr === 'object' && xhr !== null) {
         		try {
-        			let jsonErr = JSON.parse(xhr.responseText);
-        			if('undefined' !== typeof jsonErr.data.type.value.error.message) {
-        				errMsg = jsonErr.data.type.value.error.message;        				
+        			if('undefined' !== typeof xhr.responseJSON) {
+        				errMsg = xhr.responseJSON.data.value.error.message;        				
         			}
         		} catch (e) {}
             }     
