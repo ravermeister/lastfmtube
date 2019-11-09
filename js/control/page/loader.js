@@ -163,6 +163,8 @@ class PageLoader {
 		}
 		
 		let vue = $page.myVues.forPage(currentPage);
+		console.log('page', currentPage, 'vue', vue);
+		
 		if(vue !== null) {	
 			if('undefined' !== typeof vue.header.title) {				
 				vue.header.title.$data.LOADING = active;
