@@ -203,7 +203,17 @@ class PlayerController {
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
-        console.log('load track', track);
+
+        let loadNextAfterError = function() {
+            if (this.errorLoopCount > this.maxErrorLoop) {
+                console.error('maximum error loop reached');
+                return;
+            }
+            this.errorLoopCount++;
+            if (this.loadNextOnError) this.loadNextSong();
+        }
+
+        
         this.setCurrentTrack(track);
 
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
@@ -213,12 +223,7 @@ class PlayerController {
         }
 
         if (!needle.isValid()) {
-            if (this.errorLoopCount > this.maxErrorLoop) {
-                console.error('maximum error loop reached');
-                return;
-            }
-            this.errorLoopCount++;
-            if (this.loadNextOnError) this.loadNextSong();
+        	loadNextAfterError();
             return;
         }
 
@@ -241,6 +246,8 @@ class PlayerController {
             } else {
                 console.log('request: ', request, 'error');
             }
+            
+            loadNextAfterError();
         });
     }
     
@@ -300,7 +307,7 @@ class PlayerController {
         if (curTrack === null) return false;        
         let checkNr = curTrack.PLAYLIST !== 'topsongs';
 
-        //isEqual
+        // isEqual
         return (
             curTrack === track || (
                 (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&
