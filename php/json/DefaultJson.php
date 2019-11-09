@@ -106,7 +106,6 @@ abstract class DefaultJson implements JsonInterface {
           }
      }
 
-
      public function get() {}
 
      public function post() {}
@@ -123,7 +122,7 @@ abstract class DefaultJson implements JsonInterface {
           $json['data']['value'] = $msg;
 
           self::setResponseHeader(500);
-          die(('handler: ' . $this->apiName . ', method: ' . $this->currentMethod . ', error: ' . $msg));
+          die($json);
           // return json_encode($json);
      }
 
