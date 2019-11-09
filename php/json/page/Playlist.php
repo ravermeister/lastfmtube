@@ -130,7 +130,7 @@ class Playlist extends DefaultJson {
                     'LASTFM_ISPLAYING' => $track->isPlaying(),
                     'VIDEO_ID' => $videoId,
                     'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'lastfm',
+                    'PLAYLIST' => 'playlist.lastfm',
                     'PLAYSTATE' => ''
                );
           }
@@ -239,7 +239,7 @@ class Playlist extends DefaultJson {
                     'PLAYCOUNT' => $track['playcount'],
                     'VIDEO_ID' => $videoId,
                     'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'topsongs',
+                    'PLAYLIST' => 'playlist.topsongs',
                     'PLAYSTATE' => ''
                );
                $uniqueTracks[$trackId] = $pTrack;
