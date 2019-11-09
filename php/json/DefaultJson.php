@@ -122,8 +122,8 @@ abstract class DefaultJson implements JsonInterface {
           $json['data']['value'] = $msg;
 
           self::setResponseHeader(500);
-          die($json);
-          // return json_encode($json);
+          // die(('handler: ' . $this->apiName . ', method: ' . $this->currentMethod . ', error: ' . $msg));
+          die(json_encode($json));
      }
 
      public static function setResponseHeader($status, $msg = false) {
