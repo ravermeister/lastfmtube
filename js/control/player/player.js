@@ -207,10 +207,16 @@ class PlayerController {
         	return;
         
         let self = this;
-        let loadNextAfterError = function(errMsg) {
+        let loadNextAfterError = function(errMsg = null) {
             if (self.errorLoopCount > self.maxErrorLoop) {
-                console.error('maximum error loop reached');                
-                alert(errMsg);
+                console.error('maximum error loop reached');      
+                
+            	let msg = "Error, couldn't find any Songs on Youtube.\n\n" 
+            		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
+            		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
+            		+ "If you know what to do, to get a higher Limit let me know :)";
+                if(errMsg !== null) msg = errMsg;
+                alert(msg);
                 
                 // load the default video
                 self.loadDefaultVideo();
@@ -247,28 +253,26 @@ class PlayerController {
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {
         	console.log(xhr);
-        	let alertMessage = null;
-            if (typeof xhr === 'object' && xhr !== null) {
+        	let errMsg = null;
+            
+        	if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
                     'request: ', request,
                     '\n\nresponse: ', xhr.responseText,
                     '\n\nstatus: ', xhr.status,
                     '\n\nerror: ', xhr.statusText
                 );
-                let jsonErr = JSON.parse(xhr.responseText);
-                let message = null;
+            
+                let jsonErr = JSON.parse('{'+xhr.responseText+'}');
                 if('undefined' !== typeof jsonErr && 
                 	'undefined' !== typeof jsonErr.message) {
-                	alertMessage = json.message;
-                } else {
-                	alertMessage = "Error, couldn't find any Songs on Youtube.\n\n" 
-                		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
-                		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
-                		+ "If you know what to do, to get a higher Limit let me know :)"
+                	errMsg = json.message;
                 }
             } else {
                 console.log('request: ', request, 'error');
-            }            
+            }     
+        	
+        	loadNextAfterError(errMsg);
         });
     }
     
