@@ -256,7 +256,7 @@ class PlayerController {
         	console.error(xhr);
         	let errMsg = null;
         	if (typeof xhr === 'object' && xhr !== null) {
-        		let jsonErr = $.parseJSON(xhr.responseText);
+        		let jsonErr = eval("(" + xhr.responseText + ")");
         		console.log('>>>>>', jsonErr);
                 if('undefined' !== typeof xhr.responseText && 
                 	'undefined' !== typeof xhr.responseText.message) {
