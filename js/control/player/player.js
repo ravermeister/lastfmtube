@@ -258,8 +258,8 @@ class PlayerController {
         		try {
         			if('undefined' !== typeof xhr.responseJSON) {
         				errMsg = xhr.responseJSON.data.value.error.message;  
-        				errMsg = errMsg.replace('your', 'our')
-        					.replace('you', 'we');
+        				errMsg = errMsg.replace('your', 'our').replace('you', 'we')
+        					.replace('<a href="', '').replace('">').replace('"</a>', '');
         			}
         		} catch (e) {}
             }     
