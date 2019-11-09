@@ -132,7 +132,9 @@ class PlaylistController {
             updateVue($page.myVues.playlist.lastfm, needle);
             updateVue($page.myVues.playlist.topsongs, needle);
                         
-            console.log('last page' , $page.loader.pageInfo.lastPage.value, 'data:', $page.loader.pageInfo.lastPage.data);
+            $page.loadPage($page.loader.pageInfo.lastPage.value, 
+            		$page.loader.pageInfo.lastPage.data
+            );
             
         }).fail(function (xhr) {
         	$page.loader.setLoading();
