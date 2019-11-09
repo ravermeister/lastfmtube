@@ -257,7 +257,7 @@ class PlayerController {
         	let errMsg = null;
             
         	if (typeof xhr === 'object' && xhr !== null) {
-        		console.log(xhr.responseText.message);
+        		console.log('>>>>>', xhr.responseText.message);
                 if('undefined' !== typeof xhr.responseText && 
                 	'undefined' !== typeof xhr.responseText.message) {
                 	errMsg = json.message;
