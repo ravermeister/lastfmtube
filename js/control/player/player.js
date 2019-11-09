@@ -122,7 +122,10 @@ class PlayerController {
             else curPage++;
 
             let self = this;
-            $page.loadList(curPage, user, function (success) {
+            $page.loader.loadPage($page.loader.pageInfo.currentPage, {
+            	pnum: curPage,
+            	lfmuser: user
+            }, function (success) {
                 try {
                     if (!success) return;
                     self.loadSong(tracks[0]);
@@ -168,7 +171,10 @@ class PlayerController {
             else curPage--;
             
             let self = this;
-            $page.loadList(curPage, user, function (success) {
+            $page.loader.loadList($page.loader.pageInfo.currentPage, {
+            	pnum: curPage,
+            	lfmuser: user
+            }, function (success) {
                 if (!success) return;
                 self.loadSong(tracks[tracks.length - 1]);
             });

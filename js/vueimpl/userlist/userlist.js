@@ -91,22 +91,14 @@ class LibvueUser {
                 loadUser: function (user) {
                     if (user.PLAY_CONTROL !== 'play') return;
 
-                    let openurl = function (success) {
-                        if (success) {
-                            let article = $('article[name=playlist-container]');
-                            user.PLAY_CONTROL = '';
-                            $page.myVues.userlist.header.title.$data.LOADING = false;
-                            location.replace('#' + $(article).attr('id'));
-                            return;
-                        }
-                        user.PLAY_CONTROL = '';
-                        $page.myVues.userlist.header.title.$data.LOADING = false;
-                        
-                    };
-                    
                     user.PLAY_CONTROL = 'loading';
                     $page.myVues.userlist.header.title.$data.LOADING = true;
-                    $page.loadList(1, user.NAME, openurl, 'lastfm');
+                    $page.loadPage($page.loader.pages.playlist.lastfm, {
+                    	pnum: 1, 
+                    	lfmuser: user.NAME
+                    }, function(){
+                    	user.PLAY_CONTROL = '';
+                    });
                 }
             }
         });
