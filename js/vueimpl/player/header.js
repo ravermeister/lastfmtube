@@ -31,8 +31,8 @@ class LibvuePlayerHeader {
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 /**
-                 * @return {string}
-                 */
+				 * @return {string}
+				 */
                 TRACK_NR: function () {
                     let playlist = this.PLAYLIST === null ? 'lastfm' :
                         this.PLAYLIST;
@@ -43,6 +43,7 @@ class LibvuePlayerHeader {
                     		return '';
                     	}
                     }
+                    console.log('TRACK_NR: ', this.CURRENT_TRACK, 'playlist', this.PLAYLIST);
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
                     }

@@ -204,8 +204,10 @@ class PlayerController {
         }
 
         this.currentTrackData.track = track;
-        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
-        if (track.PLAYLIST !== 'search') $page.myVues.video.youtube.header.SEARCH_TRACK = track;
+        $page.myVues.video.youtube.header.CURRENT_TRACK = track;
+        if (track.PLAYLIST !== 'search') {
+        	$page.myVues.video.youtube.header.SEARCH_TRACK = track;
+        }
         this.setCurrentState('load');
     }
 
