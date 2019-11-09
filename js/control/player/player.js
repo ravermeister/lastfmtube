@@ -253,18 +253,7 @@ class PlayerController {
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {        	
         	console.error(xhr);
-        	let errMsg = null;
-        	if (typeof xhr === 'object' && xhr !== null) {
-        		try {
-        			if('undefined' !== typeof xhr.responseJSON) {
-        				errMsg = xhr.responseJSON.data.value.error.message;  
-        				errMsg = errMsg.replace('your', 'our').replace('you', 'we')
-        					.replace('<a href="', '').replace('">').replace('"</a>', '');
-        			}
-        		} catch (e) {}
-            }     
-        	
-        	loadNextAfterError(errMsg);
+        	loadNextAfterError();
         });
     }
     
