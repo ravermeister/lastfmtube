@@ -219,8 +219,8 @@ class PlayerController {
                 
             	let msg = 
             		"Error, couldn't find any Songs on Youtube.\n\n" 
-            		+ "probably the requests to Last.fm/Youtube hit their API limits.\n"
-            		+ "e.g at YouTube you only have 10000 requests per day for free (as a private User).\n" 
+            		+ "probably the requests to Last.fm/Youtube hit their API limits. "
+            		+ "e.g at YouTube you only have 10000 requests per day for free (as a private User). " 
             		+ "If you know how to get a higher API limit, please let me know :)\n\n"
             		+ "Note, the request Count is resetted at midnight Pacific Time (PT)";
             	
