@@ -67,9 +67,7 @@ class HotKeys {
     	hotkeys('ctrl+1', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault();    		
-
-    		$page.loader.setLoading(null, true);    		
-    		$page.loader.loadPage($page.loader.pages.base);
+    		$page.loader.loadPage($page.loader.pages.video.youtube);
     	});
     	
     	hotkeys('ctrl+2', function(event, handler){
@@ -81,19 +79,19 @@ class HotKeys {
     	hotkeys('ctrl+3', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-      		$page.loadPage($page.loader.pages.playlist.user);    		
+      		$page.loader.loadPage($page.loader.pages.playlist.user);    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault();     		
-    		$page.loadPage($page.loader.pages.playlist.topsongs);    		
+    		$page.loader.loadPage($page.loader.pages.playlist.topsongs);    		
     	});
     	
     	hotkeys('ctrl+5', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.loadPage($page.loader.pages.user.topuser);    		
+    		$page.loader.loadPage($page.loader.pages.user.topuser);    		
     	});
     	
     	/**
