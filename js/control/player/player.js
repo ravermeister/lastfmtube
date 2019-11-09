@@ -228,7 +228,6 @@ class PlayerController {
             return;
         }
 
-        let self = this;
         let request = 'php/json/page/YouTube.php?action=search&needle=' + needle.asVar();
         $.ajax(request, {
             dataType: 'json',
