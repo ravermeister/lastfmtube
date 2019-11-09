@@ -91,7 +91,7 @@ class HotKeys {
     	hotkeys('ctrl+5', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		$page.loader.loadPage($page.loader.pages.user.topuser);    		
+    		$page.loader.loadPage($page.loader.pages.userlist.topuser);    		
     	});
     	
     	/**
