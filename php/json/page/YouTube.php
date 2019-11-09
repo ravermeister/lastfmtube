@@ -31,9 +31,10 @@ class YouTube extends DefaultJson {
           die($data);
      }
 
-    /**
-     * @return array|mixed|void
-     */
+     /**
+      *
+      * @return array|mixed|void
+      */
      public function get() {
           try {
                switch (self::getVar('action', '')) {
@@ -49,17 +50,23 @@ class YouTube extends DefaultJson {
                          $this->jsonError('invalid Arguments');
                }
           } catch (Exception $err) {
-               $this->jsonError('unbekannter Fehler: ' . $err->getMessage());
+               $msg = $err->getMessage();
+               $jsonMsg = json_decode($msg);
+               if (isset($jsonMsg['message'])) {
+                    $this->jsonError($json['message'])
+               } else {
+                    $this->jsonError($err->getMessage());
+               }
           }
      }
 
-    /**
-     *
-     * @param string $videoId
-     * @param bool $page
-     * @param int $limit
-     * @return array|void
-     */
+     /**
+      *
+      * @param string $videoId
+      * @param bool $page
+      * @param int $limit
+      * @return array|void
+      */
      private function loadVideoComments($videoId = '', $page = false, $limit = 7) {
           if (strlen($videoId) == 0) return;
 
@@ -122,10 +129,11 @@ class YouTube extends DefaultJson {
           return $tracks;
      }
 
-    /**
-     * @return array|mixed|void
-     * @throws Exception
-     */
+     /**
+      *
+      * @return array|mixed|void
+      * @throws Exception
+      */
      public function post() {
           switch (self::getVar('action', '')) {
                case 'save-video':
@@ -137,10 +145,11 @@ class YouTube extends DefaultJson {
           }
      }
 
-    /**
-     * @return array
-     * @throws Exception
-     */
+     /**
+      *
+      * @return array
+      * @throws Exception
+      */
      private function saveVideo() {
           $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
           $title = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));
@@ -163,10 +172,11 @@ class YouTube extends DefaultJson {
           return $track;
      }
 
-    /**
-     * @return array
-     * @throws Exception
-     */
+     /**
+      *
+      * @return array
+      * @throws Exception
+      */
      private function deleteVideo() {
           $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
           $title = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));
