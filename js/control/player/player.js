@@ -252,7 +252,8 @@ class PlayerController {
             needle.applyData(search);
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {
-        	console.log(xhr);
+        	
+//        	console.error(xhr);
         	let errMsg = null;
             
         	if (typeof xhr === 'object' && xhr !== null) {
@@ -264,8 +265,6 @@ class PlayerController {
                 	'undefined' !== typeof jsonErr.message) {
                 	errMsg = json.message;
                 }
-            } else {
-                console.log('request: ', request, 'error');
             }     
         	
         	loadNextAfterError(errMsg);
