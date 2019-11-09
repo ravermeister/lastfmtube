@@ -206,7 +206,6 @@ class PlaylistLoader {
            
             
             if (typeof callBack === 'function') {
-            	console.log('data', searchData);
                 callBack(true, searchData);
             } else {
             	$page.myVues.playlist.search.update(searchData);
