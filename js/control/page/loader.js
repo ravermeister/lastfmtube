@@ -151,18 +151,19 @@ class PageLoader {
 	}
 	
 	setLoading(currentPage = null, active = false) {
+		
 		if(currentPage === null) {
-			currentPage = this.pageInfo.currentPage;
+			currentPage = this.pageInfo.currentPage.value;
 		}
 				
 		$page.myVues.main.logo.$data.PAGE_LOADER = active ?
-				$page.icons.loader.bigger : $page.icons.diamond.bigger;		
-		if(currentPage === null) {
+				$page.icons.loader.bigger : $page.icons.diamond.bigger;	
+		
+		if(currentPage === null || 'undefined' === typeof currentPage) {
 			return;
 		}
 		
 		let vue = $page.myVues.forPage(currentPage);
-		console.log('>>>', currentPage, 'vue', vue);
 		if(vue !== null) {	
 			if('undefined' !== typeof vue.header.title) {				
 				vue.header.title.$data.LOADING = active;
@@ -195,7 +196,7 @@ class PageLoader {
         this.setLoading(lastPage, true);
         
 		let finished = function(vue = null, data = null){
-			self.setLoading(lastPage);
+			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);
 			
 			self.setLocation('#'+page.selector);
