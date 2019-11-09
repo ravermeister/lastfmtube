@@ -215,12 +215,15 @@ class PlayerController {
         let self = this;
         let loadNextAfterError = function(errMsg = null) {
             if (self.errorLoopCount > self.maxErrorLoop) {
-                console.error('maximum error loop reached');      
+                console.error('maximum error loop reached');     
                 
-            	let msg = "Error, couldn't find any Songs on Youtube.\n\n" 
-            		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
-            		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
-            		+ "If you know what to do, to get a higher Limit let me know :)";
+            	let msg = 
+            		"Error, couldn't find any Songs on Youtube.\n\n" 
+            		+ "probably the requests to Last.fm/Youtube hit their API limits.\n"
+            		+ "e.g at YouTube you only have 10000 requests per day for free (as a private User).\n" 
+            		+ "If you know how to get a higher API limit, please let me know :)\n\n"
+            		+ "Note, the request Count is resetted at midnight Pacific Time (PT)";
+            	
                 if(errMsg !== null) msg = errMsg;
                 alert(msg);
                 
