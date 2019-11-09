@@ -203,14 +203,15 @@ class PlayerController {
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
-
+        
+        let self = this;
         let loadNextAfterError = function() {
-            if (this.errorLoopCount > this.maxErrorLoop) {
+            if (self.errorLoopCount > self.maxErrorLoop) {
                 console.error('maximum error loop reached');
                 return;
             }
-            this.errorLoopCount++;
-            if (this.loadNextOnError) this.loadNextSong();
+            self.errorLoopCount++;
+            if (self.loadNextOnError) self.loadNextSong();
         }
 
         
