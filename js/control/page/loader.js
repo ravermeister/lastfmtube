@@ -153,7 +153,7 @@ class PageLoader {
 	setLoading(currentPage = null, active = false) {
 		
 		if(currentPage === null) {
-			currentPage = this.currentPage;
+			currentPage = this.pageInfo.currentPage;
 		}
 				
 		$page.myVues.main.logo.$data.PAGE_LOADER = active ?
@@ -163,7 +163,6 @@ class PageLoader {
 		}
 		
 		let vue = $page.myVues.forPage(currentPage);
-		console.log('page', currentPage, 'vue', vue);
 		
 		if(vue !== null) {	
 			if('undefined' !== typeof vue.header.title) {				
@@ -178,7 +177,7 @@ class PageLoader {
 
 	isCurrentPage(page) {
 		if(page === null || page === '') return false;		
-		return this.currentPage.value === page;
+		return this.pageInfo.currentPage.value === page;
 	}
 	
 	loadMenu(menu = null, pageData) {
@@ -191,7 +190,7 @@ class PageLoader {
 	loadPage(page = null, pageData = null) {
 
 		if(page === null) return;	
-		let lastPage = this.currentPage;
+		let lastPage = this.pageInfo.currentPage;
 		
         let self = this;
         this.setLoading(lastPage, true);
