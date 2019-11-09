@@ -193,7 +193,7 @@ class PageLoader {
 		let lastPage = this.pageInfo.currentPage;
 		
         let self = this;
-        this.setLoading(lastPage, true);
+        this.setLoading(lastPage.value, true);
         
 		let finished = function(vue = null, data = null){
 			self.setLoading(lastPage.value);
