@@ -263,7 +263,9 @@ class PlayerController {
                     '\n\nerror: ', xhr.statusText
                 );
             
-                let jsonErr = JSON.parse('{'+xhr.responseText+'}');
+                
+                console.log(xhr.responseText);
+                JSON.parse(xhr.responseText);
                 if('undefined' !== typeof jsonErr && 
                 	'undefined' !== typeof jsonErr.message) {
                 	errMsg = json.message;
