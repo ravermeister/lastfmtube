@@ -28,9 +28,9 @@ class PlaylistLoader {
     	
     	$.getJSON(request, function(json){
     		if(pagetoken===false) {    			
-    			$page.myVues.youtube.comments.update(json.data.value);   		
+    			$page.myVues.video.youtube.comments.update(json.data.value);   		
     		} else {
-    			$page.myVues.youtube.comments.append(json.data.value);
+    			$page.myVues.video.youtube.comments.append(json.data.value);
     		}
     		
     		$player.commentsLoaded = true;
