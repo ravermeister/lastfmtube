@@ -57,7 +57,7 @@ class PlayerController {
         	self.errorLoopCount++;
             let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
             
-            if (curVue.menu.$data.PLAYLIST === 'search') {
+            if (curVue.menu.$data.PLAYLIST === 'playlist.search') {
                 curVue.menu.$data.SEARCH_VIDEO_ID = '';
             }
 
@@ -205,7 +205,7 @@ class PlayerController {
 
         this.currentTrackData.track = track;
         $page.myVues.video.youtube.header.CURRENT_TRACK = track;
-        if (track.PLAYLIST !== 'search') {
+        if (track.PLAYLIST !== 'playlist.search') {
         	$page.myVues.video.youtube.header.SEARCH_TRACK = track;
         }
         this.setCurrentState('load');

@@ -32,15 +32,15 @@ class LibvuePlayerMenu {
                     }
                 },
                 searchVideo: function (event) {
-                    if ($page.myVues.youtube.header.SEARCH_TRACK === null) return;
+                    if ($page.myVues.video.youtube.header.SEARCH_TRACK === null) return;
 
-                    $page.myVues.youtube.header.$data.LOADING = true;
-                    $player.searchSong($page.myVues.youtube.header.SEARCH_TRACK, function () {
-                        $page.myVues.youtube.header.$data.LOADING = false;
+                    $page.myVues.video.youtube.header.$data.LOADING = true;
+                    $player.searchSong($page.myVues.video.youtube.header.SEARCH_TRACK, function () {
+                        $page.myVues.video.youtube.header.$data.LOADING = false;
                     }, true);
                 },
                 showComments: function(event) {                	
-                	$page.myVues.youtube.comments.toggleVisibility();
+                	$page.myVues.video.youtube.comments.toggleVisibility();
                 	
                 }
             }
