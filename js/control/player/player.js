@@ -256,12 +256,12 @@ class PlayerController {
         	console.error(xhr);
         	let errMsg = null;
         	if (typeof xhr === 'object' && xhr !== null) {
-        		let jsonErr = eval("(" + xhr.responseText + ")");
-        		console.log('>>>>>', jsonErr);
-                if('undefined' !== typeof xhr.responseText && 
-                	'undefined' !== typeof xhr.responseText.message) {
-                	errMsg = json.message;
-                }
+        		try {
+        			let jsonErr = SON.parse(xhr.responseText);
+        			if('undefined' !== typeof jsonErr.data.type.value.error.message) {
+        				jsonErr = jsonErr.data.type.value.error.message;        				
+        			}
+        		} catch (e) {}
             }     
         	
         	loadNextAfterError(errMsg);
