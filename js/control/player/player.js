@@ -253,16 +253,14 @@ class PlayerController {
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {
         	
-//        	console.error(xhr);
+// console.error(xhr);
         	let errMsg = null;
             
         	if (typeof xhr === 'object' && xhr !== null) {
-//                console.error('request: ', request, 'response', response);
-                
-                console.log(xhr.responseText);
-                JSON.parse(xhr.responseText);
-                if('undefined' !== typeof jsonErr && 
-                	'undefined' !== typeof jsonErr.message) {
+// console.error('request: ', request, 'response', response);
+             
+                if('undefined' !== typeof xhr.responseText && 
+                	'undefined' !== typeof xhr.responseText.message) {
                 	errMsg = json.message;
                 }
             }     
