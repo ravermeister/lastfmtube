@@ -151,7 +151,6 @@ class PageLoader {
 	}
 	
 	setLoading(currentPage = null, active = false) {
-		console.log('>>>', currentPage);
 		if(currentPage === null) {
 			currentPage = this.pageInfo.currentPage;
 		}
@@ -163,7 +162,7 @@ class PageLoader {
 		}
 		
 		let vue = $page.myVues.forPage(currentPage);
-		
+		console.log('>>>', currentPage, 'vue', vue);
 		if(vue !== null) {	
 			if('undefined' !== typeof vue.header.title) {				
 				vue.header.title.$data.LOADING = active;
