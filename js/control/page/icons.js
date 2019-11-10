@@ -76,6 +76,8 @@ class Icons {
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
         let pages = this.pageControl.loader.pages; 
+        let isLastfm = (selector === pages.playlist.lastfm.value || selector === pages.playlist.lastfm.selector);
+        console.log('selector', selector, 'is lfm', isLastfm)
         switch (selector) {
             case pages.playlist.lastfm.value:
             case pages.playlist.lastfm.selecor:
