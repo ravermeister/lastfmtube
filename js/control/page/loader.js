@@ -101,11 +101,8 @@ class PageLoader {
 				let isPlaylist = (page === this.playlist.lastfm ||
 				page === this.playlist.topsongs ||
 				page === this.playlist.user);
-					
-				console.log('check is playlist: ', isPlaylist);
-				return isPlaylist;
 				
-			
+				return isPlaylist;
 			},
 			
 			getByValue: function(aValue) {
