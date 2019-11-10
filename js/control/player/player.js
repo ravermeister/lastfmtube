@@ -324,7 +324,7 @@ class PlayerController {
     isCurrentTrack(track) {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null) return false;        
-        let checkNr = curTrack.PLAYLIST !== 'topsongs';
+        let checkNr = curTrack.PLAYLIST !== 'playlist.topsongs';
 
         // isEqual
         return (

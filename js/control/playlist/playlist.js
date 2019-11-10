@@ -217,12 +217,12 @@ class PlaylistController {
         	if(!trackSongPlay) return;
         	$page.trackSongPlay(track);
         };
-        let updateCurrentTrack = function(newTrack){        	
+        let updateCurrentTrack = function(newTrack){  
         	if(newTrack.ARTIST === $player.currentTrackData.ARTIST &&
-             	   newTrack.TITLE === $player.currentTrackData.TITLE) {        		
-             	$player.currentTrackData.LASTPLAY = newTrack.LASTPLAY;
-             	$player.currentTrackData.PLAYCOUNT = newTrack.PLAYCOUNT;
-             	$player.currentTrackData.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
+             	   newTrack.TITLE === $player.currentTrackData.TITLE) {      		
+             	$player.currentTrackData.track.LASTPLAY = newTrack.LASTPLAY;
+             	$player.currentTrackData.track.PLAYCOUNT = newTrack.PLAYCOUNT;
+             	$player.currentTrackData.track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;             	
             }
         };
              
