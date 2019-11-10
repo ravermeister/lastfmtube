@@ -227,7 +227,7 @@ class PlaylistController {
         		curTrack.TITLE === track.TITLE) {
         		
         		track.NR = curTrack.NR;
-        		track.LASTFM_ISPLAYLING = curTrack.LASTFM_ISPLAYLING;
+        		track.LASTFM_ISPLAYING = curTrack.LASTFM_ISPLAYING;
         		track.PLAYLIST = curTrack.PLAYLIST;
         		track.PLAYSTATE = curTrack.PLAYSTATE;
         		track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
@@ -235,7 +235,6 @@ class PlaylistController {
         		
         		$player.currentTrackData.track = track;
         		$page.myVues.video.youtube.header.CURRENT_TRACK = track;
-        		console.log('current track updated!');
         	}
         };
              
