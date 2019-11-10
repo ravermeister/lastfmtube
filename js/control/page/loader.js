@@ -29,17 +29,15 @@ class PageLoader {
 				
 				update: function(page, pageData) {							
 					
-					this.lastPage = this.currentPage;
+					this.lastPage = this.currentPage;					
+					if(self.pages.isPlaylist(this.lastPage.value)) {
+						this.lastPlaylist = this.lastPage;
+					}					
+					
 					this.currentPage = {
 							value: page,
 							data: pageData
 					};
-					
-					if(self.pages.isPlaylist(this.lastPage.value)) {
-						this.lastPlaylist = this.lastPage;
-					}
-					
-					console.log(this.lastPage, 'is playlist', self.pages.isPlaylist(this.lastPage.value), 'last playlist', this.lastPlaylist);
 				} 
 			};
 		
