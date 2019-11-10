@@ -101,7 +101,6 @@ class PlayerController {
     	if(curPage === $page.loader.pages.video.youtube) {
     		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
     	}
-    	console.log('curpage: ', curPage);
     	
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
