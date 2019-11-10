@@ -225,7 +225,6 @@ class PlaylistController {
         		playerCurTrack.PLAYCOUNT = newTrack.PLAYCOUNT;
         		playerCurTrack.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
              	$page.myVues.video.youtube.header.CURRENT_TRACK = playerCurTrack;
-             	console.log('...and updated cur track...', newTrack, 'player.cur', $player.currentTrackData.track);
             }
         };
              
