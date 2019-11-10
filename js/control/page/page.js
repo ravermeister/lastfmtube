@@ -239,13 +239,13 @@ class PageController {
         	
 // console.log('before track count: ',
 // $page.myVues.video.youtube.header.CURRENT_TRACK);
-// $playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true);
-// $playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
-// $playlist.updateSongPlayCount($page.myVues.playlist.user, json);
+ $playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true);
+ $playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
+ $playlist.updateSongPlayCount($page.myVues.playlist.user, json);
 // console.log('force update');
         	console.log('before', $page.myVues.video.youtube.header.$data);
         	$page.myVues.video.youtube.header.update({        		
-        		PLAYLIST: 'playlist.lastfm',
+//        		PLAYLIST: 'playlist.lastfm',
         		CURRENT_TRACK: $player.currentTrackData.track
         	}); 
         	$page.myVues.video.youtube.header.$forceUpdate();
