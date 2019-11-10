@@ -75,21 +75,22 @@ class Icons {
 	
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
+        let pages = this.pageControl.loader.pages; 
         switch (selector) {        	
-            case this.pageControl.loader.pages.playlist.topsongs.value:
-            case this.pageControl.loader.pages.playlist.topsongs.selecor:
+            case pages.playlist.topsongs.value:
+            case pages.playlist.topsongs.selecor:
                 return this.star;
-            case this.pageControl.loader.pages.userlist.topuser.value:
-            case this.pageControl.loader.pages.userlist.topuser.selecor:
+            case pages.userlist.topuser.value:
+            case pages.userlist.topuser.selecor:
                 return this.trophy;
-            case this.pageControl.loader.pages.playlist.user.value:
-            case this.pageControl.loader.pages.playlist.user.selector:
+            case pages.playlist.user.value:
+            case pages.playlist.user.selector:
                 return this.user;
-            case this.pageControl.loader.pages.video.youtube.value:
-            case this.pageControl.loader.pages.video.youtube.selector:
+            case pages.video.youtube.value:
+            case pages.video.youtube.selector:
                 return this.youtube;
-            case this.pageControl.loader.pages.playlist.search.value:
-            case this.pageControl.loader.pages.playlist.search.selector:
+            case pages.playlist.search.value:
+            case pages.playlist.search.selector:
             	if($page.SEARCH_RETURN_PLAYLIST !== null) {
             		return this.getPageIcon($page.SEARCH_RETURN_PLAYLIST);
             	}
