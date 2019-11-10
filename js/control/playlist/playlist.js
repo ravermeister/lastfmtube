@@ -219,10 +219,13 @@ class PlaylistController {
         };
         let updateTrack = function(track){  
         	if(newTrack.ARTIST === track.ARTIST &&
-             	   newTrack.TITLE === track.TITLE) {      		
-        		track.LASTPLAY = newTrack.LASTPLAY;
-        		track.PLAYCOUNT = newTrack.PLAYCOUNT;
-        		track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
+             	   newTrack.TITLE === track.TITLE) {     
+        		newTrack.NR = track.NR
+        		newTrack.VIDEO_ID = track.VIDEO_ID;
+        		track = newTrack;
+// track.LASTPLAY = newTrack.LASTPLAY;
+// track.PLAYCOUNT = newTrack.PLAYCOUNT;
+// track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
             }
         };
              
