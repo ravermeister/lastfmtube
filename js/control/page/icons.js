@@ -97,6 +97,7 @@ class Icons {
             	}
                 return this.search;
             default:
+            	console.log('selector',selector,'is default');
                 return this.headphones;
         }
 
