@@ -251,8 +251,8 @@ class PageLoader {
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);			
 			self.setLocation('#'+page.selector);
-			console.log('>> last', lastPage, 'youtube', self.pages.video.youtube);
-			if(lastPage === self.pages.video.youtube) {
+
+			if(lastPage.value === self.pages.video.youtube) {
 				
 				/**
 				 * BUG, because the playlist window updates too when the
