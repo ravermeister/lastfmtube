@@ -35,11 +35,11 @@ class PageLoader {
 							data: pageData
 					};
 					
-					if(self.pages.isPlaylist(this.lastPage)) {
+					if(self.pages.isPlaylist(this.lastPage.value)) {
 						this.lastPlaylist = this.lastPage;
 					}
 					
-					console.log(this.lastPage, 'is playlist', self.pages.isPlaylist(this.lastPage), 'last playlist', this.lastPlaylist);
+					console.log(this.lastPage, 'is playlist', self.pages.isPlaylist(this.lastPage.value), 'last playlist', this.lastPlaylist);
 				} 
 			};
 		
