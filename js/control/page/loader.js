@@ -233,20 +233,36 @@ class PageLoader {
         this.setLoading(lastPage.value, true);
         
 		let finished = function(vue = null, data = null, autoplay = false){
-			self.setLoading(lastPage.value);
-			self.pageInfo.update(page, pageData);
 			
-			self.setLocation('#'+page.selector);
-			if(vue !== null && data !== null) {		
-				vue.update(data);
-				if(page !== $page.loader.pages.playlist.search) {		
-					$page.myVues.updateAll({
-						PLAYLIST: page.value
-					});
+			let updateVueAndLoad = function(vue, data, autoplay){
+				if(vue !== null && data !== null) {		
+					vue.update(data);
+					if($page.loader.pages.isPlaylist(page)) {
+						$page.myVues.updateAll({
+							PLAYLIST: page.value
+						});
+					}
 				}
-			}
-			if(autoplay) {
-				$player.loadNextSong();
+				if(autoplay) {
+					$player.loadNextSong();
+				}
+			};
+			
+			self.setLoading(lastPage.value);
+			self.pageInfo.update(page, pageData);			
+			self.setLocation('#'+page.selector);
+
+			if(lastPage === self.pages.video.youtube) {
+				
+				/**
+				 * BUG, because the playlist window 
+				 * updates too when the PLAYLIST var is updated,
+				 * we will wait a little bit when the player window is 
+				 * the current view, sothat the page navigation feels smooth. 
+				 */
+				setTimeout(500, updateVueAndLoad, vue, data, autoplay);
+			} else {				
+				updateVueAndLoad(vue, data, autoplay);
 			}
 		};  
 		
