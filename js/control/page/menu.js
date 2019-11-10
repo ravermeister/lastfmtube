@@ -15,7 +15,7 @@ class Menu {
         this.youtube = {
             LOGO: pageControl.icons.youtube.big,
             TEXT: 'YouTube',
-            PAGE: 'video',
+            PAGE: pageControl.loader.pages.video.youtube.value,
             HREF: ''
         };
 
