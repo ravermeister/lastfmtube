@@ -301,8 +301,14 @@ class PlayerController {
     }
 
     loadVideo(videoId = null) {
-
-    	let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+    	let curPage = $page.loader.pageInfo.currentPage.value;
+    	if(curPage === $page.loader.pages.video.youtube) {
+    		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
+    	} else if(!$page.loader.pages.isPlaylist(curPage)) {
+    		curPage = $page.loader.pageInfo.lastPlaylist.value;
+    	}
+    	
+    	let curVue = $page.myVues.forPage(curPage);
 
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             this.playerWindow.ytPlayer.loadVideoById(videoId);
