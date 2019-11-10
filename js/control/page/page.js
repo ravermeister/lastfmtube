@@ -237,12 +237,16 @@ class PageController {
             }
         }).done(function (json) {
         	
-            let isTopSongPlaylist = $page.myVues.playlist.menu.$data.PLAYLIST === 'topsongs';
-            let trackList = $page.myVues.playlist.content.$data.TRACKS;
+        	let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+        	if(curVue === $page.myVues.video.youtube) {
+        		curVue = $page.myVues.forPage($page.loader.pageInfo.lastPage.value);
+        	}
+            let isTopSongPlaylist = curVue.menu.$data.PLAYLIST === 'topsongs';
+            let trackList = curVue.content.$data.TRACKS;
             let oldTrack = null;
 
-            for (let cnt = 0; cnt < $page.myVues.playlist.content.$data.TRACKS.length; cnt++) {
-                let track = $page.myVues.playlist.content.$data.TRACKS[cnt];
+            for (let cnt = 0; cnt < curVue.content.$data.TRACKS.length; cnt++) {
+                let track = curVue.content.$data.TRACKS[cnt];
                 if (
                     track.ARTIST === chartJson.data.value.artist &&
                     track.TITLE === chartJson.data.value.title
@@ -264,11 +268,11 @@ class PageController {
                 newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(chartJson.data.value.pos));
 
                 if (trackList.length === 0) {
-                    $page.myVues.playlist.content.$data.TRACKS.push(newTrack);
+                    curVue.content.$data.TRACKS.push(newTrack);
                     return;
                 }
 
-                if ($page.myVues.playlist.content.$data.TRACKS[0].NR > newTrack.NR) {
+                if (curVue.content.$data.TRACKS[0].NR > newTrack.NR) {
                     return; // we are higher than first pos in list
                 }
 
@@ -276,23 +280,23 @@ class PageController {
                 for (let cnt = 0; cnt < trackList.length; cnt++) {
                     let curTrack = trackList[cnt];
                     if (!trackInserted && curTrack.NR >= newTrack.NR) {
-                        $page.myVues.playlist.content.$data.TRACKS.splice(cnt, 0, newTrack);
+                        curVue.content.$data.TRACKS.splice(cnt, 0, newTrack);
                         trackInserted = true;
                     } else if (trackInserted) {
                         curTrack.NR = (parseInt(curTrack.NR) + 1);
                     }
                 }
 
-                if ($page.myVues.playlist.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
-                    $page.myVues.playlist.content.$data.TRACKS.splice(
+                if (curVue.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
+                    curVue.content.$data.TRACKS.splice(
                     	$page.settings.general.tracksPerPage,
-                        $page.myVues.playlist.content.$data.TRACKS.length
+                        curVue.content.$data.TRACKS.length
                     );
 
-                    let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
-                    let maxPages = parseInt($page.myVues.playlist.menu.$data.MAX_PAGES);
+                    let curPage = parseInt(curVue.menu.$data.CUR_PAGE);
+                    let maxPages = parseInt(curVue.menu.$data.MAX_PAGES);
                     if (curPage === maxPages) {
-                        $page.myVues.playlist.menu.$data.MAX_PAGES = maxPages;
+                        curVue.menu.$data.MAX_PAGES = maxPages;
                     }
                 }
 
