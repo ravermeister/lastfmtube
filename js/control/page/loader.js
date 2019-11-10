@@ -36,6 +36,7 @@ class PageLoader {
 							value: page,
 							data: pageData
 					};
+					console.log(self.pages);
 					if(self.pages.isPlaylist(this.lastPage)) {
 						this.lastPlaylist = this.lastPage;
 					}
