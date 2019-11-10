@@ -147,7 +147,7 @@ class PageLoader {
 					case 'userlist.topuser':						
 						return this.userlist.topuser;
 					case '/lastfm':
-					case 'playlist-lastfm-container':
+					case this.playlist.lastfm.selector:
 						return this.playlist.lastfm;
 //					case this.playlist.topsongs.location:
 //					case this.playlist.topsongs.selector:
