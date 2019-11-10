@@ -218,11 +218,13 @@ class PlaylistController {
         	$page.trackSongPlay(track);
         };
         let updateCurrentTrack = function(newTrack){  
-        	if(newTrack.ARTIST === $player.currentTrackData.track.ARTIST &&
-             	   newTrack.TITLE === $player.currentTrackData.track.TITLE) {      		
-             	$player.currentTrackData.track.LASTPLAY = newTrack.LASTPLAY;
-             	$player.currentTrackData.track.PLAYCOUNT = newTrack.PLAYCOUNT;
-             	$player.currentTrackData.track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;             
+        	let playerCurTrack = $player.currentTrackData.track;
+        	if(newTrack.ARTIST === playerCurTrack.ARTIST &&
+             	   newTrack.TITLE === playerCurTrack.TITLE) {      		
+        		playerCurTrack.LASTPLAY = newTrack.LASTPLAY;
+        		playerCurTrack.PLAYCOUNT = newTrack.PLAYCOUNT;
+        		playerCurTrack.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
+             	$page.myVues.video.youtube.header.CURRENT_TRACK = playerCurTrack;
              	console.log('...and updated cur track...', newTrack, 'player.cur', $player.currentTrackData.track);
             }
         };
