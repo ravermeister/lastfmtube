@@ -217,13 +217,12 @@ class PlaylistController {
         	if(!trackSongPlay) return;
         	$page.trackSongPlay(track);
         };
-        let updateCurrentTrack = function(newTrack){  
-        	let playerCurTrack = $player.currentTrackData.track;
-        	if(newTrack.ARTIST === playerCurTrack.ARTIST &&
-             	   newTrack.TITLE === playerCurTrack.TITLE) {      		
-        		playerCurTrack.LASTPLAY = newTrack.LASTPLAY;
-        		playerCurTrack.PLAYCOUNT = newTrack.PLAYCOUNT;
-        		playerCurTrack.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
+        let updateTrack = function(track){  
+        	if(newTrack.ARTIST === track.ARTIST &&
+             	   newTrack.TITLE === track.TITLE) {      		
+        		track.LASTPLAY = newTrack.LASTPLAY;
+        		track.PLAYCOUNT = newTrack.PLAYCOUNT;
+        		track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
             }
         };
              
@@ -247,12 +246,12 @@ class PlaylistController {
         			vue.content.$data.TRACKS.push(newTrack);
         		}
         	}
-            updateCurrentTrack(newTrack);
             doTrackSongPlay(newTrack);
         } else {        	
-        	updateCurrentTrack(oldTrack);
+        	updateTrack(oldTrack);
         	doTrackSongPlay(oldTrack);
         }
-
+        
+        updateTrack($player.currentTrackData.track);
     }
 }
