@@ -197,10 +197,11 @@ class PlaylistController {
         });
     }
     
-    updateSongPlayCount(vue, json, trackSongPlay = false) {
+    updateSongPlayCount(vue, json, updateCurrent, trackSongPlay = false) {
     	    	
         let isTopSongPlaylist = (vue === $page.myVues.playlist.topsongs);
         let newTrack = LibvuePlaylist.createEmptyTrack();
+        
         newTrack.ARTIST = json.data.value.artist;
         newTrack.TITLE = json.data.value.title;
         newTrack.LASTPLAY = json.data.value.lastplayed;
@@ -218,15 +219,18 @@ class PlaylistController {
         	$page.trackSongPlay(track);
         };
         let updateTrack = function(track){  
-        	if(newTrack.ARTIST === track.ARTIST &&
-             	   newTrack.TITLE === track.TITLE) {     
-        		newTrack.NR = track.NR
-        		newTrack.VIDEO_ID = track.VIDEO_ID;
-        		track = newTrack;
-// track.LASTPLAY = newTrack.LASTPLAY;
-// track.PLAYCOUNT = newTrack.PLAYCOUNT;
-// track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
-            }
+        	if(!updateCurrent) return;
+        	
+        	let curTrack = $player.currentTrackData.track;
+        	if(curTrack !== null && 
+        		curTrack.ARTIST === track.ARTIST &&
+        		curTrack.TITLE === track.TITLE) {
+        		track.NR = curTrack.NR;
+        		track.VIDEO_ID = curTrack.VIDEO_ID;
+        		$player.currentTrackData.track = track;
+        		$page.myVues.youtube.header.CURRENT_TRACK = track;
+        		console.log('current track updated!');
+        	}
         };
              
         let trackList = vue.content.$data.TRACKS;
