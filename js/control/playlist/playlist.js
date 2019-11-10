@@ -228,7 +228,7 @@ class PlaylistController {
         		track.NR = curTrack.NR;
         		track.VIDEO_ID = curTrack.VIDEO_ID;
         		$player.currentTrackData.track = track;
-        		$page.myVues.youtube.header.CURRENT_TRACK = track;
+        		$page.myVues.video.youtube.header.CURRENT_TRACK = track;
         		console.log('current track updated!');
         	}
         };
