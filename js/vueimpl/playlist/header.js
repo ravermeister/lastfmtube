@@ -18,9 +18,8 @@ class LibvuePlaylistHeader {
 		    },
 		    computed: {
                 LOGO: function () {
-                    let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
-                        this.PLAYLIST;
-                    let icon = $page.icons.getPageIcon(playlist); 
+                	console.log('get logo for', elementId);
+                    let icon = $page.icons.getPageIcon(elementId);
                     return this.LOADING ? icon.animatedBig : icon.big;
                 }
 		    },
