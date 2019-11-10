@@ -203,7 +203,6 @@ class PageLoader {
 			if(vue !== null && data !== null) {		
 				vue.update(data);
 				if(page !== $page.loader.pages.playlist.search) {		
-					console.log('update ', page.value);
 					$page.myVues.updateAll({
 						PLAYLIST: page.value
 					});

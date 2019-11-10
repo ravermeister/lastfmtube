@@ -97,12 +97,12 @@ class PlayerController {
     }
 
     loadNextSong() {
-    	let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
-    	if(curVue === $page.myVues.playlist.search || 
-        		curVue === $page.myVues.video.youtube) {
-        		curVue = $page.myVues.forPage($page.loader.pageInfo.lastPage.value);
-        }
+    	let curPage = $page.loader.pageInfo.currentPage.value;
+    	if(curPage === $page.loader.pages.video.youtube) {
+    		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
+    	}
     	
+    	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
         

@@ -195,7 +195,7 @@ class PlaylistLoader {
                 LIST_MENU: {
                     CUR_PAGE: pageNum,
                     MAX_PAGES: maxPages,
-                    PLAYLIST: 'search',
+                    PLAYLIST: 'playlist.search',
                     SAVED_VIDEO_ID: savedVid,
                     SEARCH_NEEDLE: needle,
                     SEARCH_RESULT: tracks
