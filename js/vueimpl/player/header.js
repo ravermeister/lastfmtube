@@ -48,7 +48,7 @@ class LibvuePlayerHeader {
                     }
 
                     let tnr = '#' + this.CURRENT_TRACK.NR;
-                    console.log(this.CURRENT_TRACK,'<<<<');
+                    console.log(this.CURRENT_TRACK,'<<<< >>>>', $player.currentTrackData.track);
                     if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
                         tnr += ' ';
                         if (parseInt(this.CURRENT_TRACK.PLAYCOUNT_CHANGE) > 0) {
