@@ -211,7 +211,7 @@ class PageLoader {
         let self = this;
         this.setLoading(lastPage.value, true);
         
-		let finished = function(vue = null, data = null){
+		let finished = function(vue = null, data = null, autoplay = false){
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);
 			
@@ -224,6 +224,9 @@ class PageLoader {
 					});
 				}
 			}
+			if(autoplay) {
+				$player.loadNextSong();
+			}
 		};  
 		
 		let pageNum = pageData !== null && ('undefined' !== typeof pageData.pnum) ?
@@ -234,13 +237,15 @@ class PageLoader {
 				pageData.lfmuser : null;
 		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
 				pageData.sortby : null;
+		let autoPlay =  pageData !== null && ('undefined' !== typeof pageData.autoplay) ?
+				pageData.autoplay : false; 
 		
 		switch(page.value) {
 // Topsongs
 			case this.pages.playlist.topsongs.value:
 				$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.topsongs, data);
+						finished($page.myVues.playlist.topsongs, data, autoPlay);
 					}
 				});
 			break;
@@ -248,7 +253,7 @@ class PageLoader {
 			case this.pages.playlist.user.value:
 				$playlist.loader.loadCustomerList(pageNum, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.user, data);
+						finished($page.myVues.playlist.user, data, autoPlay);
 					}
 				});
 			break;
@@ -256,7 +261,7 @@ class PageLoader {
 			case this.pages.playlist.lastfm.value:
 				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.lastfm, data);
+						finished($page.myVues.playlist.lastfm, data, autoPlay);
 					}
 				});
 			break;
@@ -274,21 +279,21 @@ class PageLoader {
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
-						finished($page.myVues.playlist.search, data);												
+						finished($page.myVues.playlist.search, data, autoPlay);												
 					}
 				});
 			break;
 			case this.pages.userlist.topuser.value:
 				$playlist.loader.loadTopUser(pageNum, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.user, data);
+						finished($page.myVues.playlist.user, data, autoPlay);
 					}
 				});
 			break;
 // Top Last.fm User
 // YouTube Player View
 			case this.pages.video.youtube.value:				
-					finished();
+					finished(null, null, autoPlay);
 			break;
 		}	
 	}
@@ -300,9 +305,7 @@ class PageLoader {
             console.error('needle is invalid exit search');
             return;
         }
-        
-        
-        
+ 
         this.loadPage(this.pages.playlist.search, {
         	needle: needle,
         	pnum: pageNum
@@ -312,13 +315,37 @@ class PageLoader {
     
     initURL() {
     	let page = this.pages.getByLocation();
+    	let loadDefaultPlaylist = false;
+    	let self = this;
+    	
     	if(page === null) {
     		console.log('unkown url: ', location.href);
     		return;
-    	} else if(page === this.pages.base) {
+    	} else if(page === this.pages.base || page === this.pages.playlist.search) {
     		page = this.pages.video.youtube;
+    		loadDefaultPlaylist = true;
+    	} else if(page === this.pages.userlist.topuser || 
+    			page === this.pages.vide.youtube) {
+    		loadDefaultPlaylist = true;
     	}
-    	this.loadPage(page);
+    	
+    	let pageData = {
+    			pnum: 1,
+    			autoplay: $player.autoPlay
+    	}
+    	
+    	if(loadDefaultPlaylist) {
+			$playlist.loader.loadLastFmList(1, null, function(result, data){
+				if(result) {
+					$page.myVues.playlist.lastfm.update(data);					
+					self.pageInfo.update(page, pageData);
+					self.loadPage(page, pageData);
+				}
+			});
+    	} else {
+    		self.loadPage(page, pageData);
+    	}
+    	
     }
     
     setLocation(href) {
