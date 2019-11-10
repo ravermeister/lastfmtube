@@ -364,6 +364,7 @@ class PageLoader {
 				}
 			});
     	} else {
+    		console.log('load page', page);
     		self.loadPage(page, pageData);
     	}
     	
