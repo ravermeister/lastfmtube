@@ -337,7 +337,12 @@ class PageLoader {
     	if(loadDefaultPlaylist) {
 			$playlist.loader.loadLastFmList(1, null, function(result, data){
 				if(result) {
-					$page.myVues.playlist.lastfm.update(data);					
+					$page.myVues.playlist.lastfm.update(data);		
+					if(page !== $page.loader.pages.playlist.search) {		
+						$page.myVues.updateAll({
+							PLAYLIST: self.pages.playlist.lastfm.value
+						});
+					}
 					self.pageInfo.update(page, pageData);
 					self.loadPage(page, pageData);
 				}
