@@ -195,8 +195,8 @@ class PageController {
             }
         }).done(function (userJson) {
 
-            for (let cnt in $page.myVues.userlist.content.$data.USER) {
-                let user = $page.myVues.userlist.content.$data.USER[cnt];
+            for (let cnt in $page.myVues.userlist.topuser.content.$data.USER) {
+                let user = $page.myVues.userlist.topuser.content.$data.USER[cnt];
 
                 if (user.NAME === userJson.data.value.username) {
                     user.PLAYCOUNT = userJson.data.value.playcount;
