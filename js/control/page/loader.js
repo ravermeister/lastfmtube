@@ -149,9 +149,9 @@ class PageLoader {
 					case this.playlist.lastfm.location:
 					case this.playlist.lastfm.selector:
 						return this.playlist.lastfm;
-//					case this.playlist.topsongs.location:
-//					case this.playlist.topsongs.selector:
-//						return this.playlist.topsongs;
+					case this.playlist.topsongs.location:
+					case this.playlist.topsongs.selector:
+						return this.playlist.topsongs;
 //					case this.playlist.user.location:
 //					case this.playlist.user.selector:
 //						return this.playlist.user;
