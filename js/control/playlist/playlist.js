@@ -222,6 +222,7 @@ class PlaylistController {
         
         
         let trackList = vue.content.$data.TRACKS;
+        let oldTrack = null;
         for (let cnt = 0; cnt < vue.content.$data.TRACKS.length; cnt++) {
             let track = vue.content.$data.TRACKS[cnt];
             if (
