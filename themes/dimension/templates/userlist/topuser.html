@@ -1,0 +1,52 @@
+<article id="userlist-topuser-container" name="userlist-topuser-container">
+
+	<div class="page-header-nav">
+		<template v-for="MENU in MENUS">
+		<div class="btn-nav">
+			<a v-bind:title="MENU.TEXT" class="button"
+				@click.prevent="$page.loader.loadMenu(MENU, null);">
+				<div v-bind:class="MENU.LOGO"></div>
+			</a>
+		</div>
+		</template>
+	</div>
+
+	<div class="page-header-title">
+		<h2 class="major" style="vertical-align: middle;">
+			<span v-bind:class="LOGO"></span> <span>{{TEXT}}</span>
+		</h2>
+	</div>
+
+	<section class="page-content">
+		<div class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>{{USER_NR}}</th>
+						<th>{{USER_NAME}}</th>
+						<th>{{USER_LASTPLAY}}</th>
+						<th>{{USER_PLAYCOUNT}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<template inline-template="inline-template" v-for="USR in USER">
+					<tr
+						@mouseover="USR.PLAY_CONTROL = USR.PLAY_CONTROL === '' ? 'play' : USR.PLAY_CONTROL"
+						@mouseout="USR.PLAY_CONTROL = USR.PLAY_CONTROL === 'play' ? '' : USR.PLAY_CONTROL"
+						style="cursor: pointer">
+						<td @click.prevent="loadUser(USR)"><span
+							v-show="USR.PLAY_CONTROL === 'play'" class="fa fa-play"></span> <span
+							v-show="USR.PLAY_CONTROL === 'loading'"
+							class="fa fa-spinner faa-spin animated"></span> <span
+							v-show="USR.PLAY_CONTROL === ''">{{USR.NR}}</span></td>
+						<td>{{USR.NAME}}</td>
+						<td>{{USR.LASTPLAY}}</td>
+						<td>{{USR.PLAYCOUNT}} <span style="float: right;">{{USR.PLAYCOUNT_CHANGE}}</span>
+						</td>
+					</tr>
+					</template>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</article>

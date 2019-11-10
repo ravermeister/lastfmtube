@@ -10,7 +10,6 @@ namespace LastFmTube\Json\Page;
 
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
-use LastFmTube\Api\LastFm\Track;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
@@ -64,10 +63,12 @@ class Playlist extends DefaultJson {
           if ($this->isValidUser($user)) {
                if (strcmp($_SESSION['music']['lastfm_user'], $user) != 0) {
                     $_SESSION['music']['lastfm_user'] = $user;
-                    $pageNum = false;
+                    $pageNum = 1;
                }
           } else if (! $this->isValidUser($_SESSION['music']['lastfm_user'])) {
                $_SESSION['music']['lastfm_user'] = $settings['general']['lastfm_defaultuser'];
+               $user = $_SESSION['music']['lastfm_user'];
+               $pageNum = 1;
           }
 
           $lfmapi->setUser($_SESSION['music']['lastfm_user']);
@@ -129,7 +130,7 @@ class Playlist extends DefaultJson {
                     'LASTFM_ISPLAYING' => $track->isPlaying(),
                     'VIDEO_ID' => $videoId,
                     'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'lastfm',
+                    'PLAYLIST' => 'playlist.lastfm',
                     'PLAYSTATE' => ''
                );
           }
@@ -238,7 +239,7 @@ class Playlist extends DefaultJson {
                     'PLAYCOUNT' => $track['playcount'],
                     'VIDEO_ID' => $videoId,
                     'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'topsongs',
+                    'PLAYLIST' => 'playlist.topsongs',
                     'PLAYSTATE' => ''
                );
                $uniqueTracks[$trackId] = $pTrack;

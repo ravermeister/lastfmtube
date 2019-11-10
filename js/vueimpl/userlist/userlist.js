@@ -8,10 +8,13 @@
 /***/
 class LibvueUser {
 
-    constructor() {
+    constructor(elementId) {
+    	
+    	this.elementId = elementId;
+    	
         this.header = {
             title: new Vue({
-                el: '#user-container>.page-header-title>h2',
+                el: '#'+elementId+'>.page-header-title>h2',
                 data: {
                     HEADER: '',
                     TEXT: '',
@@ -21,8 +24,8 @@ class LibvueUser {
                 
                 computed: {
                     LOGO: function () {
-                        let icon = PageController.icons.getPlaylistIcon(this.$data.TYPE);
-                        return this.$data.LOADING ? icon.animatedBig : icon.big;
+                        let icon = $page.icons.getPageIcon(elementId);
+                        return this.LOADING ? icon.animatedBig : icon.big;
                     }
                 },
                 
@@ -36,13 +39,13 @@ class LibvueUser {
             }),
 
             menu: new Vue({
-                el: '#user-container>.page-header-nav',
+                el: '#'+elementId+'>.page-header-nav',
                 data: {
                     TYPE: ''
                 },
                 computed: {
                     MENUS: function () {
-                        return this.$getMenuForPlaylist(this.TYPE);
+                        return $page.menu.getMenu(this.TYPE);
                     }
                 },
 
@@ -58,7 +61,7 @@ class LibvueUser {
 
 
         this.content = new Vue({
-            el: '#user-container>.page-content',
+            el: '#'+elementId+'>.page-content',
             data: {
                 USER_NR: 'Nr',
                 USER_NAME: 'Name',
@@ -88,23 +91,14 @@ class LibvueUser {
                 loadUser: function (user) {
                     if (user.PLAY_CONTROL !== 'play') return;
 
-                    let openurl = function (success) {
-                        if (success) {
-                            let article = $('article[name=playlist-container]');
-                            $page.setCurrentPlaylist('lastfm');
-                            user.PLAY_CONTROL = '';
-                            $page.myVues.userlist.header.title.$data.LOADING = false;
-                            location.href = '#' + $(article).attr('id');
-                            return;
-                        }
-                        user.PLAY_CONTROL = '';
-                        $page.myVues.userlist.header.title.$data.LOADING = false;
-                        
-                    };
-                    
                     user.PLAY_CONTROL = 'loading';
                     $page.myVues.userlist.header.title.$data.LOADING = true;
-                    $page.loadList(1, user.NAME, openurl, 'lastfm');
+                    $page.loadPage($page.loader.pages.playlist.lastfm, {
+                    	pnum: 1, 
+                    	lfmuser: user.NAME
+                    }, function(){
+                    	user.PLAY_CONTROL = '';
+                    });
                 }
             }
         });

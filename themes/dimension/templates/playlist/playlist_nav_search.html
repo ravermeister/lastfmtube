@@ -1,0 +1,38 @@
+<section class="page-nav">
+	<form @submit.prevent="loadPage(null, $('#search_page').val())">
+		<div class="fields">
+
+			<div class="field third">
+				<label for="search_videourl"><a href="//youtube.com"
+					target="_blank">Youtube Video</a></label> <input type="text"
+					name="playlist_video" id="search_videourl"
+					@mouseup="selectOnMouseUp($event)"
+					v-on:input="normalizeYouTubeUrl($event)"
+					v-bind:value="SEARCH_VIDEO_ID" />
+			</div>
+
+			<div class="field third">
+				<label for="saveYouTubeSearch" v-html="SAVED_TITLE"></label>
+				<button
+					@click.prevent="setVideo(null, $('#search_videourl').val());"
+					id="saveYouTubeSearch" title="Save Video for Song"
+					style="padding-top: 5px;">
+					<span class="fas fa-save fa-2x"></span>
+				</button>
+			</div>
+
+			<div class="field third" style="width: 20%;">
+				<label> {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}}
+					{{MAX_PAGES}} </label>
+				<button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
+					title="Previous Page" style="padding-top: 5px; float: left;">
+					<span class="fas fa-step-backward fa-2x"></span>
+				</button>
+				<button @click.prevent="loadNextPage(null, CUR_PAGE, MAX_PAGES)"
+					title="Next Page" style="padding-top: 5px; float: right;">
+					<span class="fas fa-step-forward fa-2x"></span>
+				</button>
+			</div>
+		</div>
+	</form>
+</section>

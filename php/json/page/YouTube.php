@@ -10,8 +10,6 @@ namespace LastFmTube\Json\Page;
 
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
-use LastFmTube\Api\YouTube\VideoComments;
-use LastFmTube\Api\YouTube\YouTubeVideo;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
@@ -33,9 +31,10 @@ class YouTube extends DefaultJson {
           die($data);
      }
 
-    /**
-     * @return array|mixed|void
-     */
+     /**
+      *
+      * @return array|mixed|void
+      */
      public function get() {
           try {
                switch (self::getVar('action', '')) {
@@ -51,17 +50,17 @@ class YouTube extends DefaultJson {
                          $this->jsonError('invalid Arguments');
                }
           } catch (Exception $err) {
-               $this->jsonError('unbekannter Fehler: ' . $err->getMessage());
+               $this->jsonError($err->getMessage());
           }
      }
 
-    /**
-     *
-     * @param string $videoId
-     * @param bool $page
-     * @param int $limit
-     * @return array|void
-     */
+     /**
+      *
+      * @param string $videoId
+      * @param bool $page
+      * @param int $limit
+      * @return array|void
+      */
      private function loadVideoComments($videoId = '', $page = false, $limit = 7) {
           if (strlen($videoId) == 0) return;
 
@@ -117,17 +116,18 @@ class YouTube extends DefaultJson {
                     'LASTPLAY' => '',
                     'VIDEO_ID' => $video->getVideoId(),
                     'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'search',
+                    'PLAYLIST' => 'playlist.search',
                     'PLAYSTATE' => ''
                );
           }
           return $tracks;
      }
 
-    /**
-     * @return array|mixed|void
-     * @throws Exception
-     */
+     /**
+      *
+      * @return array|mixed|void
+      * @throws Exception
+      */
      public function post() {
           switch (self::getVar('action', '')) {
                case 'save-video':
@@ -139,10 +139,11 @@ class YouTube extends DefaultJson {
           }
      }
 
-    /**
-     * @return array
-     * @throws Exception
-     */
+     /**
+      *
+      * @return array
+      * @throws Exception
+      */
      private function saveVideo() {
           $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
           $title = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));
@@ -165,10 +166,11 @@ class YouTube extends DefaultJson {
           return $track;
      }
 
-    /**
-     * @return array
-     * @throws Exception
-     */
+     /**
+      *
+      * @return array
+      * @throws Exception
+      */
      private function deleteVideo() {
           $artist = trim($this->funcs->decodeHTML(self::getVar('artist', '', $_POST)));
           $title = trim($this->funcs->decodeHTML(self::getVar('title', '', $_POST)));

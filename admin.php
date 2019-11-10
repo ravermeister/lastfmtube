@@ -40,24 +40,26 @@ class AdminControl {
      private function generateSiteMap($outfile) {
           echo 'generating sitemap...';
           try {
-              $sitemap = new SiteMap('https://lastfm.rimkus.it', $outfile);
-              $sitemap->addURL('/topsongs');
-              $sitemap->addURL('/lastfm');
-              $sitemap->addURL('/users');
-              $sitemap->addURL('/video');
-              $sitemap->addURL('/personal');
-              $sitemap->create(true);
+               $sitemap = new SiteMap('https://lastfm.rimkus.it', $outfile);
+               $sitemap->addURL('/topsongs');
+               $sitemap->addURL('/lastfm');
+               $sitemap->addURL('/users');
+               $sitemap->addURL('/video');
+               $sitemap->addURL('/personal');
+               $sitemap->create(true);
           } catch (Exception $err) {
-              Functions::getInstance()->logMessage('Error: '.$err->getMessage());
+               Functions::getInstance()->logMessage('Error: ' . $err->getMessage());
           }
 
           echo "finished\n";
      }
 
-    /**
-     * @param $csvGlob
-     * @throws Exception
-     */
+     /**
+      *
+      * @param
+      *             $csvGlob
+      * @throws Exception
+      */
      private function initReplacements($csvGlob) {
           $csvFiles = glob($csvGlob);
           echo 'initalize Database connection...';
@@ -80,14 +82,56 @@ class AdminControl {
           echo " done\n";
      }
 
-     public function printHelp() {
-          echo "Usage:\n " . "-generateSiteMap file=sitemap.xml - create Sitemap.xml\n" . " -importReplacements glob=/path/*/to/*.csv - import replacements from csv files\n";
+     /*
+      * php delete function that deals with directories recursively
+      */
+     private function deleteFiles($target) {
+          if (is_dir($target)) {
+
+               $files = glob($target . '*', GLOB_MARK); // GLOB_MARK adds a slash to directories returned
+
+               foreach ($files as $file) {
+                    $this->deleteFiles($file);
+               }
+
+               if (is_dir($target)) {
+                    rmdir($target);
+               } else if (is_file($target)) {
+                    unlink($target);
+               }
+          } elseif (is_file($target)) {
+               unlink($target);
+          }
      }
 
-    /**
-     * @return int
-     * @throws Exception
-     */
+     private function clearTempFiles() {
+          $settings = Functions::getInstance()->getSettings();
+          $tmpdir = dirname(__FILE__) . '/' . $settings['general']['tmpdir'];
+          echo 'clearing temp directory >' . $tmpdir . '< ...';
+          if (is_dir($tmpdir)) {
+               $this->deleteFiles($tmpdir);
+               if (! is_dir($tmpdir)) {
+                    mkdir($tmpdir, 0777, true);
+               }
+          }
+          echo "Done\n";
+     }
+
+     public function printHelp() {
+          //@formatter:off
+          echo "\n==========\n" .
+               "Usage:\n" . 
+               "-generateSiteMap file=sitemap.xml ===> create Sitemap.xml\n" . 
+               "-importReplacements glob=/path/*/to/*.csv ===> import replacements from csv files\n" .
+               "-cleanTempDir ===> clean Temporary files, such as generated templates etc.\n";
+          // @formatter:on
+     }
+
+     /**
+      *
+      * @return int
+      * @throws Exception
+      */
      public function process() {
           if ($this->hasArg('-generateSiteMap')) {
                $outfile = $this->argVal('file=');
@@ -107,6 +151,11 @@ class AdminControl {
                return 0;
           }
 
+          if ($this->hasArg('-cleanTempDir')) {
+               $this->clearTempFiles();
+               return 0;
+          }
+
           return 1;
      }
 }
@@ -117,12 +166,11 @@ if (strcmp(php_sapi_name(), 'cli') !== 0) {
 
 $control = new AdminControl();
 try {
-    $exitCode = $control->process();
+     $exitCode = $control->process();
 } catch (Exception $e) {
-    echo 'Error occured: '.$e->getMessage();
-    $exitCode = -1;
+     echo 'Error occured: ' . $e->getMessage();
+     $exitCode = - 1;
 }
-
 
 if ($exitCode != 0) {
      $control->printHelp();

@@ -15,19 +15,13 @@ class HotKeys {
 	static init() {
 		
 		if(HotKeys.globalInit === true) return;
-		
-		let toggleLoading = function(loading = false) {			
-    		$page.setLoading(PageController.article.user.dom(), loading);
-    		$page.setLoading(PageController.article.playlist.dom(), loading);
-    		$page.setLoading(PageController.article.video.dom(), loading);
-		};
-		
+
 		// always use hotkeys for all elements.
 		// see https://www.npmjs.com/package/hotkeys-js#filter
 		hotkeys.filter = function(event){
 			  return true;
 		};
-		
+
     	hotkeys('left', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault();     		
@@ -73,51 +67,31 @@ class HotKeys {
     	hotkeys('ctrl+1', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault();    		
-
-    		toggleLoading(true);    		
-    		$page.loadPage('video', function(){
-    			toggleLoading();
-    		});
+    		$page.loader.loadPage($page.loader.pages.video.youtube);
     	});
     	
     	hotkeys('ctrl+2', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-
-    		toggleLoading(true);
-    		$page.loadPage('lastfm', function(){
-    			toggleLoading();
-    		});
+    		$page.loader.loadPage($page.loader.pages.playlist.lastfm);
     	});
     	
     	hotkeys('ctrl+3', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		
-    		toggleLoading(true);
-    		$page.loadPage('personal', function(){
-    			toggleLoading();
-    		});    		
+      		$page.loader.loadPage($page.loader.pages.playlist.user);    		
     	});
     	
     	hotkeys('ctrl+4', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
-    		event.preventDefault(); 
-    		
-    		toggleLoading(true);
-    		$page.loadPage('topsongs', function(){
-    			toggleLoading();
-    		});    		
+    		event.preventDefault();     		
+    		$page.loader.loadPage($page.loader.pages.playlist.topsongs);    		
     	});
     	
     	hotkeys('ctrl+5', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-
-    		toggleLoading(true);
-    		$page.loadPage('users', function(){
-    			toggleLoading();
-    		});    		
+    		$page.loader.loadPage($page.loader.pages.userlist.topuser);    		
     	});
     	
     	/**

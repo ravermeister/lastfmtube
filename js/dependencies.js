@@ -90,12 +90,15 @@ define ('vuedata', [
 define('page', [
 	'control/page/icons',
 	'control/page/menu',
+	'control/page/loader',
+	'control/page/vues',
 	'control/page/hotkeys',
 	'control/page/page',
 	'control/player/track',
 	'control/player/timer',
 	'control/player/window',
 	'control/player/player',
+	'control/playlist/loader',
 	'control/playlist/playlist'
 ]);
 

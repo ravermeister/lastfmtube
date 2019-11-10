@@ -8,20 +8,20 @@
 /***/
 class LibvuePlaylistHeader {
 	
-	static createTitleVue() {
+	static createTitleVue(elementId) {
+		
 		return new Vue({
-		    el: '#playlist-container>.page-header-title>h2',
+		    el: '#'+elementId+'>.page-header-title>h2',
 		    data: {
 		        TEXT: '',
 		        PLAYLIST: '',
 		        LOADING: false
 		    },
 		    computed: {
-		        LOGO: function () {
-		        	let playlist = this.PLAYLIST === null ? 'lastfm' : this.PLAYLIST;
-		            let icon = PageController.icons.getPlaylistIcon(playlist);
-		            return this.LOADING ? icon.animatedBig : icon.big;
-		        }
+                LOGO: function () {
+                    let icon = $page.icons.getPageIcon(elementId);
+                    return this.LOADING ? icon.animatedBig : icon.big;
+                }
 		    },
 		    methods: {
 		        update: function (json) {
@@ -33,25 +33,31 @@ class LibvuePlaylistHeader {
 		});
 	}
 	
-	static createMenuVue(){
+	static createMenuVue(elementId){
 		return new Vue({
-		    el: '#playlist-container>.page-header-nav',
+		    el: '#'+elementId+'>.page-header-nav',
 	        data: {
-	            PLAYLIST: null
+	            PLAYLIST: '',
 	        },
-	
 	        computed: {
 	            MENUS: function () {
-	            	return this.$getMenuForPlaylist(this.$data.PLAYLIST);
+                    return $page.menu.getMenu(elementId);
 	            }
-	        }
+	        },
+		    methods: {
+		        update: function (json) {
+		            if ('undefined' !== typeof json.HEADER) {
+		                this.$applyData(json.HEADER);
+		            }
+		        }
+		    }
 		});
 	}
 	
-	static createVue() {
+	static createVue(elementId) {
 		return {
-				title :  LibvuePlaylistHeader.createTitleVue(),			
-				menu : LibvuePlaylistHeader.createMenuVue() 
+				title :  LibvuePlaylistHeader.createTitleVue(elementId),			
+				menu : LibvuePlaylistHeader.createMenuVue(elementId) 
 		};
 	}
 }

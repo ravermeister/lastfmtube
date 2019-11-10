@@ -26,9 +26,10 @@ class Page extends DefaultJson {
           die($data);
      }
 
-    /**
-     * @return array|mixed|void
-     */
+     /**
+      *
+      * @return array|mixed|void
+      */
      public function get() {
           switch (self::getVar('action', '')) {
                case 'init':
@@ -85,46 +86,36 @@ class Page extends DefaultJson {
           return array(
                'TOPUSER' => array(
                     'TEXT' => $locale['menu']['topuser'],
-                    'PAGE' => 'user-container',
-                    'LDATA' => 'topuser'
+                    'PAGE' => 'userlist.topuser',
                ),
                'TOPSONGS' => array(
                     'TEXT' => $locale['menu']['topsongs'],
-                    'PAGE' => 'playlist-container',
-                    'LDATA' => 'topsongs'
+                    'PAGE' => 'playlist.topsongs'
                ),
                'LASTFM' => array(
                     'TEXT' => $locale['menu']['lastfm'],
-                    'PAGE' => 'playlist-container',
-                    'LDATA' => 'lastfm'
+                    'PAGE' => 'playlist.lastfm'
                ),
                'SEARCH' => array(
                     'TEXT' => $locale['menu']['search'],
-                    'PAGE' => 'playlist-container',
-                    'LDATA' => 'search'
+                    'PAGE' => 'playlist.search'
                ),
                'USERLIST' => array(
                     'TEXT' => $locale['menu']['userlist'],
-                    'PAGE' => 'playlist-container',
-                    'LDATA' => 'userlist'
+                    'PAGE' => 'playlist.user'
                ),
                'YTPLAYER' => array(
                     'TEXT' => $locale['menu']['youtube'],
-                    'PAGE' => 'video-container',
-                    'LDATA' => 'video'
-               ),
-               'LIVE' => array(
-                    'TEXT' => $locale['menu']['live'],
-                    'PAGE' => 'playlist-container',
-                    'LDATA' => 'topsongs'
+                    'PAGE' => 'video.youtube'
                )
           );
      }
 
-    /**
-     * @return array|int|mixed|void
-     * @throws Exception
-     */
+     /**
+      *
+      * @return array|int|mixed|void
+      * @throws Exception
+      */
      public function post() {
           switch (self::getVar('action', '')) {
                case 'save-trackplay':
@@ -132,9 +123,9 @@ class Page extends DefaultJson {
                case 'save-userplay':
                     return $this->saveUserPlay();
                     break;
-              default:
-                  $this->jsonError('invalid arguments');
-                  break;
+               default:
+                    $this->jsonError('invalid arguments');
+                    break;
           }
      }
 

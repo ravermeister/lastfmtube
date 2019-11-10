@@ -55,9 +55,10 @@ class PlayerController {
         });
         this.addErrorListener(function () {
         	self.errorLoopCount++;
-
-            if ($page.myVues.playlist.menu.$data.PLAYLIST === 'search') {
-                $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = '';
+            let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
+            
+            if (curVue.menu.$data.PLAYLIST === 'playlist.search') {
+                curVue.menu.$data.SEARCH_VIDEO_ID = '';
             }
 
             if (self.errorLoopCount >= self.maxErrorLoop) {
@@ -96,38 +97,47 @@ class PlayerController {
     }
 
     loadNextSong() {
+    	let curPage = $page.loader.pageInfo.currentPage.value;
+    	if(curPage === $page.loader.pages.video.youtube) {
+    		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
+    	} else if(!$page.loader.pages.isPlaylist(curPage)) {
+    		curPage = $page.loader.pageInfo.lastPlaylist.value;
+    	}
     	
-        let tracks = $page.myVues.playlist.content.$data.TRACKS;
+    	let curVue = $page.myVues.forPage(curPage);    	
+        let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
         
         let curTrack = this.currentTrackData.track;
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
-        let curPage = parseInt($page.myVues.playlist.menu.$data.CUR_PAGE);
+        let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
         
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
-        let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
+        let isLast = curNr !== null &&  (curPageNum * tracksPerPage) === curNr;
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
         
         if (isLast || nextIndex >= tracks.length) {
-            let playlist = $page.myVues.playlist.menu;
-            let curPage = playlist.$data.CUR_PAGE;
+            let playlist = curVue.menu;
+            let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
-            if ((curPage + 1) > maxPages) curPage = 1;
-            else curPage++;
+            if ((curPageNum + 1) > maxPages) curPageNum = 1;
+            else curPageNum++;
 
             let self = this;
-            $page.loadList(curPage, user, function (success) {
+            $page.loader.loadPage($page.loader.pageInfo.currentPage, {
+            	pnum: curPageNum,
+            	lfmuser: user
+            }, function (success) {
                 try {
                     if (!success) return;
-                    let tracks = $page.myVues.playlist.content.$data.TRACKS;
                     self.loadSong(tracks[0]);
                 } catch (e) {
-                    console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
+                    console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
                 }
             });
 
@@ -143,9 +153,19 @@ class PlayerController {
 
         let curTrack = this.currentTrackData.track;
         if (curTrack === null) return;
-        let tracks = $page.myVues.playlist.content.$data.TRACKS;
+    	
+    	let curPage = $page.loader.pageInfo.currentPage.value;
+    	if(curPage === $page.loader.pages.video.youtube) {
+    		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
+    	} else if(!$page.loader.pages.isPlaylist(curPage)) {
+    		curPage = $page.loader.pageInfo.lastPlaylist.value;
+    	}
+        
+        let curVue = $page.myVues.forPage(curPage);        
+        let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
-        let isLast = ($page.myVues.playlist.menu.$data.CUR_PAGE *
+        
+        let isLast = (curVue.menu.$data.CUR_PAGE *
             $page.settings.general.tracksPerPage) === parseInt(curTrack.NR);
         let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracksPerPage) - 2;
 
@@ -156,18 +176,20 @@ class PlayerController {
         if (isLast) {
             prevIndex = tracks.length - 2;
         } else if (prevIndex < 0) {
-            let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
-            if ('undefined' === typeof curPage) curPage = 1;
-            let maxPages = $page.myVues.playlist.menu.$data.MAX_PAGES;
-            let user = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
+            let curPageNum = curVue.menu.$data.CUR_PAGE;
+            if ('undefined' === typeof curPageNum) curPageNum = 1;
+            let maxPages = curVue.menu.$data.MAX_PAGES;
+            let user = curVue.menu.$data.LASTFM_USER_NAME;
 
-            if ((curPage - 1) < 1) curPage = maxPages;
-            else curPage--;
+            if ((curPageNum - 1) < 1) curPageNum = maxPages;
+            else curPageNum--;
             
             let self = this;
-            $page.loadList(curPage, user, function (success) {
+            $page.loader.loadPage($page.loader.pageInfo.currentPage, {
+            	pnum: curPageNum,
+            	lfmuser: user
+            }, function (success) {
                 if (!success) return;
-                tracks = $page.myVues.playlist.content.$data.TRACKS;
                 self.loadSong(tracks[tracks.length - 1]);
             });
             return;
@@ -186,8 +208,10 @@ class PlayerController {
         }
 
         this.currentTrackData.track = track;
-        $page.myVues.youtube.header.$data.CURRENT_TRACK = track;
-        if (track.PLAYLIST !== 'search') $page.myVues.youtube.header.SEARCH_TRACK = track;
+        $page.myVues.video.youtube.header.CURRENT_TRACK = track;
+        if (track.PLAYLIST !== 'playlist.search') {
+        	$page.myVues.video.youtube.header.SEARCH_TRACK = track;
+        }
         this.setCurrentState('load');
     }
 
@@ -195,7 +219,7 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
         curTrack.PLAYSTATE = newState;
-        $page.myVues.youtube.menu.$data.PLAYSTATE = newState;
+        $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
     }
 
     loadSong(track) {
@@ -203,7 +227,41 @@ class PlayerController {
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
+        
+        let self = this;
+        let loadNextAfterError = function(errMsg = null) {
+            if (self.errorLoopCount > self.maxErrorLoop) {
+                console.error('maximum error loop reached');     
+                
+            	let msg = 
+            		"Error, couldn't find any Songs on Youtube.\n\n" 
+            		+ "probably the requests to Last.fm/Youtube hit their API limits. "
+            		+ "e.g at YouTube you only have 10000 requests per day for free (as a private User). " 
+            		+ "If you know how to get a higher API limit, please let me know :)\n\n"
+            		+ "Note, the request Count is resetted at midnight Pacific Time (PT)";
+            	
+                if(errMsg !== null) msg = errMsg;
+                alert(msg);
+                
+                // load the default video
+                self.loadDefaultVideo();
+                $page.myVues.video.youtube.comments.showComments = false;
+// if($page.myVues.video.youtube.comments.showComments) {
+// $playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
+// }
+                return;
+            }
+            self.errorLoopCount++;
+            if (self.loadNextOnError) {
+            	if('previous' === self.loadDirectionOnError) {            		
+            		self.loadPreviousSong();
+            	} else {
+            		self.loadNextSong();
+            	}
+            }
+        }
 
+        
         this.setCurrentTrack(track);
 
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
@@ -213,16 +271,10 @@ class PlayerController {
         }
 
         if (!needle.isValid()) {
-            if (this.errorLoopCount > this.maxErrorLoop) {
-                console.error('maximum error loop reached');
-                return;
-            }
-            this.errorLoopCount++;
-            if (this.loadNextOnError) this.loadNextSong();
+        	loadNextAfterError();
             return;
         }
 
-        let self = this;
         let request = 'php/json/page/YouTube.php?action=search&needle=' + needle.asVar();
         $.ajax(request, {
             dataType: 'json',
@@ -230,57 +282,9 @@ class PlayerController {
         }).done(function (search) {
             needle.applyData(search);
             self.loadVideo(needle.videoId);
-        }).fail(function (xhr) {
-            if (typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ', request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ', xhr.status,
-                    '\n\nerror: ', xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
-        });
-    }
-
-    searchSong(track, callBack = null, loadPage = false) {
-        let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
-        
-        if (!needle.isValid()) {
-            console.error('needle is invalid exit search');
-            return;
-        }
-
-        let myCallBack = function(result) {
-       	
-        	if(result && loadPage) {  		
-        		$page.load('search');
-        	} 
-        	
-        	if (typeof callBack === 'function') {
-    			callBack(result);
-    		}
-    	};
-        
-        let request =
-            'php/json/page/YouTube.php?action=search' +
-            '&size=50&needle=' + needle.asVar();
-        $.getJSON(request, function (json) {
-        	$playlist.loadSearchResult(needle, json, 1, myCallBack);            
-        }).fail(function (xhr) {
-            if (typeof xhr === 'object' && xhr !== null) {
-                console.error(
-                    'request: ', request,
-                    '\n\nresponse: ', xhr.responseText,
-                    '\n\nstatus: ', xhr.status,
-                    '\n\nerror: ', xhr.statusText
-                );
-            } else {
-                console.log('request: ', request, 'error');
-            }
-            
-            myCallBack(false);
+        }).fail(function (xhr) {        	
+        	console.error(xhr);
+        	loadNextAfterError();
         });
     }
     
@@ -297,29 +301,27 @@ class PlayerController {
     }
 
     loadVideo(videoId = null) {
+    	let curPage = $page.loader.pageInfo.currentPage.value;
+    	if(curPage === $page.loader.pages.video.youtube) {
+    		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
+    	} else if(!$page.loader.pages.isPlaylist(curPage)) {
+    		curPage = $page.loader.pageInfo.lastPlaylist.value;
+    	}
+    	
+    	let curVue = $page.myVues.forPage(curPage);
+
         if (typeof videoId !== 'undefined' && videoId !== null && videoId.length > 0) {
             this.playerWindow.ytPlayer.loadVideoById(videoId);
             this.commentsLoaded = false;
             
             this.currentTrackData.videoId = videoId;
-            this.currentTrackData.lfmUser = $page.myVues.playlist.menu.$data.LASTFM_USER_NAME;
-            if($page.myVues.youtube.comments.showComments) {
-            	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
+            this.currentTrackData.lfmUser = curVue.menu.$data.LASTFM_USER_NAME;
+            if($page.myVues.video.youtube.comments.showComments) {
+            	$playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
             }
         } else {
             if (this.errorLoopCount > this.maxErrorLoop) {
                 console.error('maximum error loop reached');
-                alert("Error, couldn't find any Songs on Youtube.\n\n" 
-                		+ "probably the Requests to Last.fm/Youtube exceeded their API Limits. "
-                		+ "E.g at YouTube you only have 10000 Requests per day for free (for personal use). " 
-                		+ "If you know what to do, to get a higher Limit let me know :)"
-                );
-                
-                // load the default video
-                this.loadDefaultVideo();
-                if($page.myVues.youtube.comments.showComments) {
-                	$playlist.loadVideoCommentList(this.currentTrackData.videoId);
-                }
                 return;
             }
             
@@ -338,9 +340,9 @@ class PlayerController {
     isCurrentTrack(track) {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null) return false;        
-        let checkNr = curTrack.PLAYLIST !== 'topsongs';
+        let checkNr = curTrack.PLAYLIST !== 'playlist.topsongs';
 
-        //isEqual
+        // isEqual
         return (
             curTrack === track || (
                 (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&

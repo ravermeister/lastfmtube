@@ -8,9 +8,9 @@
 /***/
 class LibvuePlayerMenu {
 	
-	static createVue(){
+	static createVue(elementId){
 		return new Vue({
-            el: '#video-container>#player-menu',
+            el: '#'+elementId+'>#player-menu',
             data: {
                 PLAYSTATE: ''
             },
@@ -27,21 +27,13 @@ class LibvuePlayerMenu {
                 },
                 addToUserList: function () {
                     $playlist.addUserTrack($player.currentTrackData.track);
-                    if ($page.PLAYLIST === 'userlist') {
-                        $playlist.loadCustomerList($page.myVues.playlist.menu.$data.CUR_PAGE);
-                    }
                 },
                 searchVideo: function (event) {
-                    if ($page.myVues.youtube.header.SEARCH_TRACK === null) return;
-
-                    $page.myVues.youtube.header.$data.LOADING = true;
-                    $player.searchSong($page.myVues.youtube.header.SEARCH_TRACK, function () {
-                        $page.myVues.youtube.header.$data.LOADING = false;
-                    }, true);
+                    if ($page.myVues.video.youtube.header.SEARCH_TRACK === null) return;
+                    $page.loader.searchSong($page.myVues.video.youtube.header.SEARCH_TRACK);
                 },
                 showComments: function(event) {                	
-                	$page.myVues.youtube.comments.toggleVisibility();
-                	
+                	$page.myVues.video.youtube.comments.toggleVisibility();                	
                 }
             }
         });

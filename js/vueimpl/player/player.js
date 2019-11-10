@@ -8,10 +8,13 @@
 /***/
 class LibvueVideo {
 
-    constructor() {
-    	this.header = LibvuePlayerHeader.createVue();
-        this.menu = LibvuePlayerMenu.createVue();        
-        this.comments = LibvuePlayerComments.createVue();
+    constructor(elementId) {
+    	
+    	this.elementId = elementId;
+    	
+    	this.header = LibvuePlayerHeader.createVue(elementId);
+        this.menu = LibvuePlayerMenu.createVue(elementId);        
+        this.comments = LibvuePlayerComments.createVue(elementId);
     }
 
 

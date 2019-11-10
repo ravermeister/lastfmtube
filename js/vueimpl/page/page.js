@@ -30,18 +30,14 @@ class LibvueMainpage {
             data: {
                 TITLE: '',
                 TEXT: '',
-                MENUS: [{
-                    NAME: '',
-                    LDATA: '',
-                    PAGE: ''
-                }]
+                MENUS: []
             },
 
             methods: {
 
                 loadMenu(menu, event) {
                     // if (!$player.isReady) return;
-                    $page.load(menu.PAGE, menu.LDATA);
+                    $page.loader.loadMenu(menu);
                 }
             }
         });
@@ -55,7 +51,11 @@ class LibvueMainpage {
         }
 
         if ('undefined' !== typeof json.basemenu) {
-            this.menu.$data.MENUS = json.basemenu;
+        	this.menu.$data.MENUS = $page.menu.getMenu('default');
+        }
+        
+        if ('undefined' !== typeof json.listmenu) {
+        	json = json.listmenu;
         }
     }
 }

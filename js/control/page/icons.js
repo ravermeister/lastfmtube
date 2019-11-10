@@ -24,7 +24,8 @@ class Icon {
 }
 
 class Icons {
-	constructor(){
+	constructor(pageController){	
+		
         this.play = new Icon('fa-play');
         this.pause = new Icon('fa-pause');
         this.stop = new Icon('fa-stop');
@@ -71,25 +72,36 @@ class Icons {
         return null;
     }
 	
-	 getPlaylistIcon(playlist = null) {
-        if (playlist === null) return this.diamond.big;
-        switch (playlist) {
-            case 'topsongs':
-                return this.star;
-            case 'topuser':
-            case 'user-container':
-                return this.trophy;
-            case 'userlist':
+	 getPageIcon(selector = null) {
+        if (selector === null) return this.diamond.big;
+        let pages = $page.loader.pages; 
+                
+        switch (selector) {
+        	case pages.playlist.topsongs.value:
+        	case pages.playlist.topsongs.selector:
+        		return this.star;
+        		
+        	case pages.userlist.topuser.value:
+        	case pages.userlist.topuser.selector:
+        		return this.trophy;
+        	
+            case pages.playlist.user.value:
+            case pages.playlist.user.selector:
                 return this.user;
-            case 'youtube':
+                
+            case pages.video.youtube.value:
+            case pages.video.youtube.selector:
                 return this.youtube;
-            case 'search':
+                
+            case pages.playlist.search.value:
+            case pages.playlist.search.selector:
             	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-            		return this.getPlaylistIcon($page.SEARCH_RETURN_PLAYLIST);
+            		return this.getPageIcon($page.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
-            default:
-                return this.headphones;
+                
+           default:
+        	   return this.headphones;
         }
 
     }

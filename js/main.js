@@ -11,7 +11,8 @@ let $player = null;
 let $playlist = null;
 let $page = null;
 
-// Enable navigation prompt, set to null to disable
+// Enable navigation prompt (warning before leaving page), set to null to
+// disable
 window.onbeforeunload = function() {
 	return true;
 };
@@ -26,18 +27,19 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 	$page = new PageController();
 
 	$page.init(function() {
-		$playlist.loadLastFmList(1, null, function() {
-
-			// maybe set it to page...
+		try {
 			require([ 'analytics' ], function(analytics) {
-				PageController.analytics = analytics;
+				$page.analytics = analytics;
 			});
+		} catch (error) {
+			console.log('error initializing Google analytics: ', error);
+		}
 
-			$player.initWindow(function() {
-				HotKeys.init();
-				$player.autoPlay = true;
-				$page.initURL();
-			});
+		$player.initWindow(function() {
+			HotKeys.init();
+			$player.autoPlay = true;
+			$page.loader.initURL();
+			$page.loader.setLoading();
 		});
 	});
 });

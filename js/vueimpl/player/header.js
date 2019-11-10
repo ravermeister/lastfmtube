@@ -8,9 +8,9 @@
 /***/
 class LibvuePlayerHeader {
 	
-	static createVue() {
+	static createVue(elementId) {
 		return new Vue({
-            el: '#video-container>h2',
+            el: '#'+elementId+'>h2',
             data: {
                 PLAYLIST: null,
                 CURRENT_TRACK: null,
@@ -19,35 +19,36 @@ class LibvuePlayerHeader {
             },
             computed: {
                 TEXT: function () {
-                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                    let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
                         this.PLAYLIST;
                     let menu = $page.menu.getMenuItem(playlist);
                     return menu.TEXT;
                 },
                 LOGO: function () {
-                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                    let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
                         this.PLAYLIST;
-                    let icon = PageController.icons.getPlaylistIcon(playlist);
+                    let icon = $page.icons.getPageIcon(playlist); 
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
                 /**
-                 * @return {string}
-                 */
+				 * @return {string}
+				 */
                 TRACK_NR: function () {
-                    let playlist = this.PLAYLIST === null ? 'lastfm' :
+                    let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
                         this.PLAYLIST;
-                    if(this.PLAYLIST === 'search') {
+                    if(this.PLAYLIST === 'playlist.search') {
                     	if($page.SEARCH_RETURN_PLAYLIST !== null) {
                     		playlist = $page.SEARCH_RETURN_PLAYLIST;
                     	} else {
                     		return '';
                     	}
                     }
+
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
                     }
 
-                    let tnr = '#' + this.CURRENT_TRACK.NR;
+                    let tnr = '#' + this.CURRENT_TRACK.NR;                   
                     if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
                         tnr += ' ';
                         if (parseInt(this.CURRENT_TRACK.PLAYCOUNT_CHANGE) > 0) {
@@ -66,35 +67,8 @@ class LibvuePlayerHeader {
                 },
 
                 loadMenu: function (playlist, event) {
-
-                    if ('search' === playlist) {
-                    	/**
-						 * menu typeof undefined is a dirty hack we should find
-						 * a better way to prevent the search result from
-						 * showing up again...
-						 */
-                    	if((typeof menu) === 'undefined') {
-                    		playlist = $page.SEARCH_RETURN_PLAYLIST;
-                    	} else {                    		
-                    		let vue = this;
-                    		this.$data.LOADING = true;
-                    		let callback = function (success) {
-                    			vue.$data.LOADING = false;
-                    			location.href = '#' + menu.PLAYLIST;
-                    		};
-                    		$player.searchSong(this.$data.SEARCH_TRACK, callback);
-                    		return;
-                    	}
-                    }
-                    
-                    if ('video' === playlist) playlist = $page.PLAYLIST;
-                    if (playlist === null) playlist = 'lastfm';
-                    if(playlist === $page.PLAYLIST) {
-                        location.href = '#' + playlist;
-                    } else {
-                        let menu = $page.menu.getMenuItem(playlist);
-                        this.$loadListMenu(menu, event);
-                    }
+                	let page = $page.loader.pageInfo.lastPlaylist;
+                	$page.loader.loadPage(page.value, page.data);
                 }
             }
         });

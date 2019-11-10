@@ -8,43 +8,50 @@
 /***/
 class Menu {
 
-    constructor(icons) {
-
+    constructor(pageControl) {
+    	
+    	this.pageControl = pageControl;
+    	    	
         this.youtube = {
-            LOGO: icons.youtube.big,
+            LOGO: pageControl.icons.youtube.big,
             TEXT: 'YouTube',
-            PAGE: 'video'
+            PAGE: pageControl.loader.pages.video.youtube.value,
+            HREF: ''
         };
 
         this.search = {
-            LOGO: icons.search.big,
+            LOGO: pageControl.icons.search.big,
             TEXT: 'Search',
-            PAGE: 'playlist',
-            LDATA: 'search'
+            PAGE: pageControl.loader.pages.playlist.search.value,
+            HREF: ''
         };
 
         this.lastfm = {
-            LOGO: icons.headphones.big,
+            LOGO: pageControl.icons.headphones.big,
             TEXT: 'Last.fm',
-            PAGE: 'playlist'
+            PAGE: pageControl.loader.pages.playlist.lastfm.value,
+            HREF: ''
         };
 
         this.userlist = {
-            LOGO: icons.user.big,
+            LOGO: pageControl.icons.user.big,
             TEXT: 'My Songs',
-            PAGE: 'playlist'
+            PAGE: pageControl.loader.pages.playlist.user.value,
+            HREF: ''
         };
 
         this.topsongs = {
-            LOGO: icons.star.big,
+            LOGO: pageControl.icons.star.big,
             TEXT: 'Top Songs',
-            PAGE: 'playlist'
+            PAGE: pageControl.loader.pages.playlist.topsongs.value,
+            HREF: ''
         };
 
         this.topuser = {
-            LOGO: icons.trophy.big,
+            LOGO: pageControl.icons.trophy.big,
             TEXT: 'Top User',
-            PAGE: 'playlist'
+            PAGE: pageControl.loader.pages.userlist.topuser.value,
+            HREF: ''
         };
 
         this.defaultMenu = [
@@ -58,109 +65,152 @@ class Menu {
     }
 
     updateData(json) {
+    	
         if ('undefined' !== typeof json.listmenu) json = json.listmenu;
+        let self = this;
+    	let createHref = function(menu) {
 
+    		let page = null;
+    		if(menu !== null && menu.PAGE !== null) {
+    			page = self.pageControl.loader.pages.getByValue(menu.PAGE);    			
+    		}else {
+    			page = self.pageControl.loader.pages.base;
+    		}
+    		
+    		return '#'+page.selector;
+    	};
+        
         if ('undefined' !== typeof json.YTPLAYER.TEXT) this.youtube.TEXT = json.YTPLAYER.TEXT;
-        if ('undefined' !== typeof json.YTPLAYER.PAGE) this.youtube.PAGE = json.YTPLAYER.PAGE;
-        if ('undefined' !== typeof json.YTPLAYER.LDATA) this.youtube.LDATA = json.YTPLAYER.LDATA;
+        if ('undefined' !== typeof json.YTPLAYER.PAGE) {
+        	this.youtube.PAGE = json.YTPLAYER.PAGE;
+        	this.youtube.HREF = createHref(this.youtube);  
+        }
 
         if ('undefined' !== typeof json.LASTFM.TEXT) this.lastfm.TEXT = json.LASTFM.TEXT;
-        if ('undefined' !== typeof json.LASTFM.PAGE) this.lastfm.PAGE = json.LASTFM.PAGE;
-        if ('undefined' !== typeof json.LASTFM.LDATA) this.lastfm.LDATA = json.LASTFM.LDATA;
+        if ('undefined' !== typeof json.LASTFM.PAGE) {
+        	this.lastfm.PAGE = json.LASTFM.PAGE;
+        	this.lastfm.HREF = createHref(this.lastfm);  
+
+        }
 
         if ('undefined' !== typeof json.USERLIST.TEXT) this.userlist.TEXT = json.USERLIST.TEXT;
-        if ('undefined' !== typeof json.USERLIST.PAGE) this.userlist.PAGE = json.USERLIST.PAGE;
-        if ('undefined' !== typeof json.USERLIST.LDATA) this.userlist.LDATA = json.USERLIST.LDATA;
+        if ('undefined' !== typeof json.USERLIST.PAGE) {
+        	this.userlist.PAGE = json.USERLIST.PAGE;
+        	this.userlist.HREF = createHref(this.userlist);  
+
+        }
 
         if ('undefined' !== typeof json.TOPSONGS.TEXT) this.topsongs.TEXT = json.TOPSONGS.TEXT;
-        if ('undefined' !== typeof json.TOPSONGS.PAGE) this.topsongs.PAGE = json.TOPSONGS.PAGE;
-        if ('undefined' !== typeof json.TOPSONGS.LDATA) this.topsongs.LDATA = json.TOPSONGS.LDATA;
+        if ('undefined' !== typeof json.TOPSONGS.PAGE) {
+        	this.topsongs.PAGE = json.TOPSONGS.PAGE;
+        	this.topsongs.HREF = createHref(this.topsongs);  
 
+        }
+        
         if ('undefined' !== typeof json.TOPUSER.TEXT) this.topuser.TEXT = json.TOPUSER.TEXT;
-        if ('undefined' !== typeof json.TOPUSER.PAGE) this.topuser.PAGE = json.TOPUSER.PAGE;
-        if ('undefined' !== typeof json.TOPUSER.LDATA) this.topuser.LDATA = json.TOPUSER.LDATA;
-
+        if ('undefined' !== typeof json.TOPUSER.PAGE) {
+        	this.topuser.PAGE = json.TOPUSER.PAGE; 
+        	this.topuser.HREF = createHref(this.topuser);  
+        }                
     }
 
-    getMenuItem(playlist) {
-        switch (playlist) {
+    getMenuItem(menuId) {
+
+        switch (menuId) {
             case 'youtube':
             case 'video':
             case 'video-container':
+            case this.pageControl.loader.pages.video.youtube.value:
+            case this.pageControl.loader.pages.video.youtube.selector:
                 return this.youtube;
             case 'topuser':
+            case this.pageControl.loader.pages.userlist.topuser.value:
+            case this.pageControl.loader.pages.userlist.topuser.selector:
                 return this.topuser;
             case 'topsongs':
+            case this.pageControl.loader.pages.playlist.topsongs.value:
+            case this.pageControl.loader.pages.playlist.topsongs.selector:
                 return this.topsongs;
             case 'userlist':
+            case this.pageControl.loader.pages.playlist.user.value:
+            case this.pageControl.loader.pages.playlist.user.selector:
                 return this.userlist;
             case 'search':
-            	if($page.SEARCH_RETURN_PLAYLIST !== null) {
-            		return this.getMenuItem($page.SEARCH_RETURN_PLAYLIST);
+            case this.pageControl.loader.pages.playlist.search.value:
+            case this.pageControl.loader.pages.playlist.search.selector:
+            	if(this.pageControl.SEARCH_RETURN_PLAYLIST !== null) {
+            		return this.getMenuItem(this.pageControl.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
-            default:
             case 'lastfm':
-            case 'default':
-            case 'playlist-container':
+            case this.pageControl.loader.pages.playlist.lastfm.value:
+            case this.pageControl.loader.pages.playlist.lastfm.selector:
                 return this.lastfm;
+        	default: 
+                return null;
         }
     }
 
-    getMenu(playlist) {
+    getMenu(menuId) {
 
-        let list = [];
-        switch (playlist) {
+        switch (menuId) {
+        	case 'all':
+            case 'default':
+            	return this.defaultMenu;
             case 'youtube':
             case 'video':
-            case 'video-container':
-                list = [
+            case this.pageControl.loader.pages.video.youtube.value:
+            case this.pageControl.loader.pages.video.youtube.selector:
+                return [
                     this.lastfm,
                     this.userlist,
                     this.topsongs,
                     this.topuser
                 ];
-                break;
-            case 'lastfm':
-            case 'default':
-            case 'playlist-container':
-                list = [
-                    this.youtube,
-                    this.userlist,
-                    this.topsongs,
-                    this.topuser
-                ];
-                break;
             case 'topuser':
-            case 'search':
-                list = [
+            case 'user.topuser':
+            case 'user-topuser-container':
+            case this.pageControl.loader.pages.userlist.topuser.value:
+            case this.pageControl.loader.pages.userlist.topuser.selecor:
+            	return [
                     this.youtube,
                     this.lastfm,
+                    this.userlist,
                     this.topsongs,
-                    this.userlist
                 ];
-                break;
             case 'topsongs':
-                list = [
+            case 'playlist.topsongs':
+            case 'playlist-topsongs-container':
+            case this.pageControl.loader.pages.playlist.topsongs.value:
+            case this.pageControl.loader.pages.playlist.topsongs.selecor:
+                return [
                     this.youtube,
                     this.lastfm,
                     this.userlist,
                     this.topuser
                 ];
-                break;
             case 'userlist':
-                list = [
+            case 'playlist-user-container':
+            case 'playlist.user':
+            case this.pageControl.loader.pages.playlist.user.value:
+            case this.pageControl.loader.pages.playlist.user.selector:
+                return [
                     this.youtube,
                     this.lastfm,
                     this.topsongs,
                     this.topuser
                 ];
-                break;
+            case 'lastfm':
+            case this.pageControl.loader.pages.playlist.lastfm.value:
+            case this.pageControl.loader.pages.playlist.lastfm.selector:
+                return [
+                    this.youtube,
+                    this.userlist,
+                    this.topsongs,
+                    this.topuser
+                ];
             default:
-                list = [];
-                break;
+                return null;
         }
-
-        return list;
     }
 }

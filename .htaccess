@@ -7,11 +7,11 @@
     RewriteEngine On
     ## page navigation for better url for better crawling results
 
-    RewriteRule ^video(.*) /index.php$1
-    RewriteRule ^topsongs(.*) /index.php$1
-    RewriteRule ^users(.*) /index.php$1
-    RewriteRule ^lastfm(.*) /index.php$1
-    RewriteRule ^personal(.*) /index.php$1
+    RewriteRule ^video(.*) /#video-youtube-container
+    RewriteRule ^topsongs(.*) /#playlist-topsongs-container
+    RewriteRule ^users(.*) /#user-topuser-container
+    RewriteRule ^lastfm(.*) /#playlist-lastfm-container
+    RewriteRule ^personal(.*) /#playlist-user-container
 </IfModule>
 
 <IfModule mod_deflate.c>

@@ -8,9 +8,9 @@
 /***/
 class LibvuePlaylistContent {
 	
-static createVue(){
+static createVue(elementId){
 	return new Vue({
-            el: '#playlist-container>.page-content',
+            el: '#'+elementId+'>.page-content',
             data: {
                 TRACK_NR: 'Nr',
                 TRACK_ARTIST: 'Artist',
@@ -39,7 +39,7 @@ static createVue(){
                     let curIndex = tracks.indexOf(track);
 
                     $playlist.removeUserTrack(curIndex);
-                    $playlist.loadCustomerList(curPage);
+                    $playlist.loader.loadCustomerList(curPage);
 
                     tracks = $page.myVues.playlist.content.$data.TRACKS;
                     if (tracks.length > 0) {
@@ -53,7 +53,7 @@ static createVue(){
 
                 clearUserList: function () {
                     $playlist.setUserTracks();
-                    $playlist.loadCustomerList();
+                    $playlist.loader.loadCustomerList();
                 },
 
                 togglePlay: function (track) {
@@ -79,8 +79,8 @@ static createVue(){
                     if ($page.PLAY_CONTROL !== null && $page.PLAY_CONTROL !== track) {
                         $page.PLAY_CONTROL.PLAY_CONTROL = false;
                     }
-                    if (track.PLAYLIST === 'search') {
-                        $page.myVues.playlist.menu.$data.SEARCH_VIDEO_ID = track.VIDEO_ID;
+                    if (track.PLAYLIST === $page.loader.pages.playlist.search.value) {
+                        $page.myVues.playlist.search.menu.$data.SEARCH_VIDEO_ID = track.VIDEO_ID;
                     }
 
                     track.PLAY_CONTROL = !track.PLAY_CONTROL;
@@ -124,27 +124,31 @@ static createVue(){
                 },
 
                 searchVideos: function (event, track) {
-                    let curArticle = $(event.target).closest('article');
-                    $page.setLoading(curArticle, true);
-                    let callBack = function (success = false) {
-                        if (!success) {
-                            console.log('error for searching vidéos for song');
-                        }
-                        $page.setLoading(curArticle);
-                    };
-                    $player.searchSong(track, callBack);
+                    $page.loader.searchSong(track);
                 },
                 
-                setVideo(vid) {
-                    $page.myVues.playlist.setVideo(vid);
+                setVideo(track, vid) {
+                	let needle = null;
+                	if(this === $page.myVues.playlist.search.content) {
+                		needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
+                		needle = $page.createNeedle(needle.artist, needle.title, vid);
+                	} else {
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                	}                	
+                    $playlist.saveVideo(needle);
                 },
                 
                 unsetVideo(track) {
-                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
-                    $page.myVues.playlist.unsetVideo(needle);
+                	let needle = null;
+                	if(this === $page.myVues.playlist.search.content) {
+                		needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
+                		needle = $page.createNeedle(needle.artist, needle.title, needle.videoId);
+                	} else {
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+                	}
+                    $playlist.deleteVideo(needle);
                 }
             }
         });
-	}
-	
+	}	
 }

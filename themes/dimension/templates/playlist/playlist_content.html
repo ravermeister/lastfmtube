@@ -1,0 +1,82 @@
+<section class="page-content">
+	<div class="table-wrapper">
+		<table>
+			<thead>
+				<tr>
+					<th>{{TRACK_NR}}</th>
+					<th>{{TRACK_ARTIST}}</th>
+					<th>{{TRACK_TITLE}}</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<template inline-template="inline-template" v-for="TRACK in TRACKS">
+				<tr @mouseover="showPlay(TRACK, true)"
+					@mouseout="showPlay(TRACK, false);" v-bind:title="trackInfo(TRACK)">
+					<td class="TRACK_NR" style="cursor: pointer;"
+						@click="togglePlay(TRACK)"><span
+						v-show="TRACK.PLAYSTATE === 'stop'" class="fa fa-play"></span> <span
+						v-show="TRACK.PLAYSTATE === 'pause'" class="fa fa-pause"></span> <span
+						v-show="TRACK.PLAYSTATE === 'play'"
+						class="fa fa-play faa-flash animated"></span> <span
+						v-show="TRACK.PLAYSTATE === 'load'"
+						class="fa fa-spinner faa-spin animated"></span> <span
+						v-show="TRACK.PLAYSTATE === ''"> {{TRACK.NR}}<span
+							v-show="'undefined' !== typeof TRACK.PLAYCOUNT && TRACK.PLAYCOUNT !== null">&nbsp;({{TRACK.PLAYCOUNT}})</span>
+					</span></td>
+					<td class="TRACK_ARTIST" @click="togglePlayControl(TRACK);"
+						style="cursor: pointer"><i
+						v-if="TRACK.PLAYLIST !== 'playlist.search' && TRACK.VIDEO_ID !== ''"
+						v-bind:title="'Video: ' + TRACK.VIDEO_ID">* {{TRACK.ARTIST}}</i> <span
+						v-else="v-else">{{TRACK.ARTIST}}</span></td>
+					<td class="TRACK_TITLE" @click="togglePlayControl(TRACK);"
+						style="cursor: pointer"><i
+						v-if="TRACK.PLAYLIST !== 'playlist.search' && TRACK.VIDEO_ID !== ''"
+						v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i> <span
+						v-else="v-else">{{TRACK.TITLE}}</span> <span style="float: right;"
+						v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE"> <span
+							v-show="TRACK.PLAYCOUNT_CHANGE > 0">{{TRACK.PLAYCOUNT_CHANGE}}▲</span>
+							<span
+							v-show="TRACK.PLAYCOUNT_CHANGE <= 0 || TRACK.PLAYCOUNT_CHANGE == ''">▲</span>
+					</span></td>
+				</tr>
+
+				<transition name="fade">
+				<tr v-if="TRACK.PLAY_CONTROL" ref="TRACK_CONTROL_ROW">
+					<td colspan="3" style="vertical-align: middle; border: 0"><a
+						@click="playTrack(TRACK);" title="Play" class="button smaller">
+							<span class="fa fa-play"></span>
+					</a> <a @click="setVideo(TRACK, $('#search_videourl').val());"
+						v-if="TRACK.PLAYLIST === 'playlist.search'" title="set as Video"
+						class="button smaller"> <span class="fas fa-save"></span>
+					</a> <a @click="addToUserList($event, TRACK);" title="add to Playlist"
+						v-else-if="TRACK.PLAYLIST !== 'userlist'" class="button smaller">
+							<span class="fas fa-user-plus"></span>
+					</a> <a @click="removeFromUserList(TRACKS, TRACK);"
+						title="remove from Playlist" v-else="v-else"
+						class="button smaller"> <span class="fas fa-user-times"></span>
+					</a> <a @click="clearUserList();" title="clear Playlist"
+						v-if="TRACK.PLAYLIST === 'userlist'" class="button smaller"> <span
+							class="fas fa-trash-alt"></span>
+					</a> <a @click="searchVideos($event, TRACK);"
+						v-if="TRACK.PLAYLIST !== 'playlist.search'"
+						title="search alternative Video" class="button smaller"> <span
+							class="fa fa-search"></span>
+					</a> <a @click="unsetVideo(TRACK);" title="delete alternative Video"
+						v-if="TRACK.VIDEO_ID !== ''" class="button smaller"> <span
+							class="fas fa-trash-alt"></span>
+					</a>
+
+						<div style="float: right">
+							<span v-show="TRACK.PLAYLIST !== 'playlist.search'"> <i
+								v-show="TRACK.LASTFM_ISPLAYING === true">{{TRACK.LASTPLAY}}</i>
+								<span v-show="TRACK.LASTFM_ISPLAYING !== true">{{TRACK.LASTPLAY}}</span>
+							</span> <span v-show="TRACK.PLAYLIST === 'playlist.search'">Video:
+								{{TRACK.VIDEO_ID}}</span>
+						</div></td>
+				</tr>
+				</transition> </template>
+			</tbody>
+		</table>
+	</div>
+</section>

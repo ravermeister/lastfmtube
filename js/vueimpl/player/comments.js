@@ -8,9 +8,9 @@
 /***/
 class LibvuePlayerComments {
 	
-	static createVue() {
+	static createVue(elementId) {
 		return new Vue({
-            el: '#video-container>#video-comments',
+            el: '#'+elementId+'>#video-comments',
             data: {
             	showComments: false,
             	videoId: '',
@@ -59,7 +59,7 @@ class LibvuePlayerComments {
                 toggleVisibility: function() {                	
                 	this.$data.showComments = !this.$data.showComments;
                 	if(this.$data.showComments) {
-                		$playlist.loadVideoCommentList($player.currentTrackData.videoId);
+                		$playlist.loader.loadVideoCommentList($player.currentTrackData.videoId);
                 	}
                 },
                 loadMore: function() {
@@ -67,7 +67,7 @@ class LibvuePlayerComments {
                 	if(undefined === pinfo.NEXT || false === pinfo.NEXT) {
                 		return;
                 	} 
-                	$playlist.loadVideoCommentList($player.currentTrackData.videoId, pinfo.NEXT);
+                	$playlist.loader.loadVideoCommentList($player.currentTrackData.videoId, pinfo.NEXT);
                 }
             }
         });

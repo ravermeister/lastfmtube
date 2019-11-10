@@ -8,9 +8,9 @@
 /***/
 class LibvuePlaylistMenu {
 	
-	static createVue(){
+	static createVue(elementId){
 		return new Vue({
-            el: '#playlist-container>.page-nav',
+            el: '#'+elementId+'>.page-nav',
             data: {
                 LASTFM_USER_NAME_LABEL: 'User',
                 LASTFM_USER_NAME: '',
@@ -45,34 +45,31 @@ class LibvuePlaylistMenu {
                 }
             },
 
-            methods: {
-            	sortBy: function(event) {           		
-                    $page.setLoading(PageController.article.playlist.dom(), true);
-                    $page.loadList(this.$data.CUR_PAGE, null, function () {
-                        $page.setLoading(PageController.article.playlist.dom());
-                    });            		
+            methods: {            	
+            	sortBy: function(event) { 
+            		let sortBy = $(event.target).children('option:selected').val();
+                    $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
+                    	pnum: this.$data.CUR_PAGE,
+                    	sortby: sortBy
+                    });         		
             		return true;
             		
             	},
                 loadPage: function (user, pageNum) {
-                    if (this.$data.PLAYLIST === 'search') {
-                        let start = (pageNum - 1) * $page.settings.general.tracksPerPage;
-                        let end = pageNum * $page.settings.general.tracksPerPage;
-                        let tracks = [];
-                        if (this.$data.SEARCH_RESULT.length > start) {
-                            tracks = this.$data.SEARCH_RESULT.slice(start, end);
-                        }
-
-                        $page.myVues.playlist.content.update({
-                            TRACKS: tracks
-                        });
-                        this.$data.CUR_PAGE = pageNum;
-                        return;
-                    }
-
-                    $page.setLoading(PageController.article.playlist.dom(), true);
-                    $page.loadList(pageNum, user, function () {
-                        $page.setLoading(PageController.article.playlist.dom());
+                	let sortBy = $(this.$el).find('#topsongs-sortby')
+                		.children('option:selected').val(); 
+                	
+                	if(pageNum < 0) {
+                		pageNum = 1;
+                	} else if(pageNum > this.$data.MAX_PAGES) {
+                		pageNum = this.$data.MAX_PAGES;
+                	} else if(pageNum === this.$data.CUR_PAGE) {
+                		return;
+                	}
+                    $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
+                    	pnum: pageNum,
+                    	lfmuser: user,
+                    	sortby: sortBy
                     });
                 },
 
@@ -89,11 +86,11 @@ class LibvuePlaylistMenu {
                 },
 
                 update: function (json) {
-
                     if ('undefined' !== typeof json.LIST_MENU) {
                         this.$applyData(json.LIST_MENU);
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
                     }
+                    this.$applyData(json);
                 },
 
                 selectOnMouseUp: function (event) {
@@ -124,13 +121,25 @@ class LibvuePlaylistMenu {
                     $player.playerWindow.ytPlayer.loadVideoById(videoId);
                 },
 
-                setVideo: function (vid) {
-                    $page.myVues.playlist.setVideo(vid);
+                setVideo: function (track = null, vid) {
+                	let needle = null;
+                	if(track === null && this.$data.SEARCH_NEEDLE !== null) {
+                		
+                		needle = $page.createNeedle(
+                				this.$data.SEARCH_NEEDLE.artist, 
+                				this.$data.SEARCH_NEEDLE.title, 
+                				vid
+                		);                		
+                	} else {                		
+                		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                	}
+                	
+                    $playlist.saveVideo(needle);
                 },
 
                 unsetVideo: function (event, track) {
                     let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
-                    $page.myVues.playlist.unsetVideo(needle);
+                    $playlist.deleteVideo(needle);
                 }
             }
         });

@@ -8,7 +8,6 @@
  *******************************************************************************/
 namespace LastFmTube\Api\YouTube;
 
-use Google_Service_YouTube_SearchListResponse;
 use LastFmTube\Util\Functions;
 use Exception;
 use Google_Client;
@@ -165,7 +164,7 @@ class YouTubeSearch {
                               $video->setVideoID($vid);
 
                               if (in_array($vid, $this->ignoreVids)) {
-                                   continue; // skip ignored video
+                                   continue 2; // skip ignored video
                               }
                               $video_list[] = $video;
                               break;
@@ -179,6 +178,7 @@ class YouTubeSearch {
                }
           } catch (Exception $e) {
                Functions::getInstance()->logMessage('A service error occurred: ' . $e->getMessage());
+               throw $e;
           }
 
           return $video_list;
