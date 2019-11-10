@@ -76,13 +76,13 @@ class Icons {
         if (selector === null) return this.diamond.big;
         let pages = $page.loader.pages; 
         if(pages.playlist.lastfm.value || pages.playlist.lastfm.selecor) {
-        	console.log('>',selector,'< is lastfm icon value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selecor);
+        	console.log('>',selector,'< is lastfm icon value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selector);
         	return this.headphones;
         } else if(pages.playlist.topsongs.value || pages.playlist.topsongs.selecor) {
-        	console.log('>',selector,'< is topsongs icon value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selecor);
+        	console.log('>',selector,'< is topsongs icon value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selector);
             return this.star;
         } else if(pages.userlist.topuser.value || pages.userlist.topuser.selecor) {
-        	console.log('>',selector,'< is lastfm topuser value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selecor);
+        	console.log('>',selector,'< is lastfm topuser value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selector);
             return this.trophy;
         }
                 
