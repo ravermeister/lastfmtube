@@ -102,7 +102,7 @@ class Icons {
 					 icon = this.headphones;
 			 }
 			 
-			 console.log('selector', selector, 'icon', icon);
+			 console.log('selector', selector, 'icon', icon, 'topsongs', this.pageControl.loader.pages.playlist.topsongs.value);
 			 return icon;
 		 }
 
