@@ -75,14 +75,18 @@ class Icons {
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
         let pages = $page.loader.pages; 
-        console.log('pages', pages);
+        if(pages.playlist.lastfm.value || pages.playlist.lastfm.selecor) {
+        	console.log('>',selector,'< is lastfm icon');
+        	return this.headphones;
+        } else if(pages.playlist.topsongs.value || pages.playlist.topsongs.selecor) {
+        	console.log('>',selector,'< is topsongs icon');
+            return this.star;
+        } else if(pages.userlist.topuser.value || pages.userlist.topuser.selecor) {
+        	console.log('>',selector,'< is lastfm topuser');
+            return this.trophy;
+        }
+                
         switch (selector) {
-            case pages.playlist.topsongs.value:
-            case pages.playlist.topsongs.selecor:
-                return this.star;
-            case pages.userlist.topuser.value:
-            case pages.userlist.topuser.selecor:
-                return this.trophy;
             case pages.playlist.user.value:
             case pages.playlist.user.selector:
                 return this.user;
@@ -95,12 +99,6 @@ class Icons {
             		return this.getPageIcon($page.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
-            case pages.playlist.lastfm.value:
-            case pages.playlist.lastfm.selecor:
-            case 'playlist-lastfm-container':
-            case 'playlist.lastfm':
-// default:
-                return this.headphones;
         }
 
     }
