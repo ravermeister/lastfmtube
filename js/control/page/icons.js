@@ -75,31 +75,33 @@ class Icons {
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
         let pages = $page.loader.pages; 
-    	console.log('curselector',selector,'value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selector);
-    	console.log('curselector',selector,'value', pages.playlist.topsongs.value, 'selector', pages.playlist.topsongs.selector);
-    	console.log('curselector',selector,'value', pages.playlist.user.value, 'selector', pages.playlist.user.selector);
-
-        if(selector === pages.playlist.lastfm.value || selector === pages.playlist.lastfm.selecor) {
-        	return this.headphones;
-        } else if(selector === pages.playlist.topsongs.value || selector === pages.playlist.topsongs.selecor) {
-            return this.star;
-        } else if(selector === pages.userlist.topuser.value || selector === pages.userlist.topuser.selecor) {
-            return this.trophy;
-        }
                 
         switch (selector) {
+        	case pages.playlist.topsongs.value:
+        	case pages.playlist.topsongs.selector:
+        		return this.star;
+        		
+        	case pages.userlist.topuser.value:
+        	case pages.userlist.topuser.selector:
+        		return this.trophy;
+        	
             case pages.playlist.user.value:
             case pages.playlist.user.selector:
                 return this.user;
+                
             case pages.video.youtube.value:
             case pages.video.youtube.selector:
                 return this.youtube;
+                
             case pages.playlist.search.value:
             case pages.playlist.search.selector:
             	if($page.SEARCH_RETURN_PLAYLIST !== null) {
             		return this.getPageIcon($page.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
+                
+           default:
+        	   return this.headphones;
         }
 
     }
