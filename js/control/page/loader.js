@@ -140,6 +140,8 @@ class PageLoader {
 				let hash = getHash(location.href);
 				if(hash.length > 0) path = hash;
 
+				console.log('path: ', path);
+				
 				switch(path) {
 					case this.userlist.topuser.location:
 					case this.userlist.topuser.selector:						
