@@ -243,8 +243,11 @@ class PageController {
 // $playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
 // $playlist.updateSongPlayCount($page.myVues.playlist.user, json);
 // console.log('force update');
+        	console.log('before', $page.myVues.video.youtube.header.$data);
         	$page.myVues.video.youtube.header.PLAYLIST = 'playlist.topsongs';
         	$page.myVues.video.youtube.header.$forceUpdate();
+        	console.log('after', $page.myVues.video.youtube.header.$data);
+
 // console.log('after track count: ',
 // $page.myVues.video.youtube.header.CURRENT_TRACK);
              	
