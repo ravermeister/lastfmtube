@@ -44,7 +44,7 @@ class LibvuePlayerHeader {
                     	}
                     }
                     
-                    console.log('TRACK_NR playlist', playlist, 'CURTRACK', this.CURRENT_TRACK);
+                    console.log('YT PLAYER TRACK_NR for plist', playlist, 'CURTRACK', this.CURRENT_TRACK);
                     
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
