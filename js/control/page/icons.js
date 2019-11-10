@@ -74,43 +74,31 @@ class Icons {
     }
 	
 	 getPageIcon(selector = null) {
-
-		 let icon = this.diamond.big;
-		 if (selector !== null) {			 
-			 switch (selector) {        	
-				 case this.pageControl.loader.pages.playlist.topsongs.value:
-				 case this.pageControl.loader.pages.playlist.topsongs.selecor:
-					 icon = this.star;
-					 break;
-				 case this.pageControl.loader.pages.userlist.topuser.value:
-				 case this.pageControl.loader.pages.userlist.topuser.selecor:
-					 icon = this.trophy;
-					 break;
-				 case this.pageControl.loader.pages.playlist.user.value:
-				 case this.pageControl.loader.pages.playlist.user.selector:
-					 icon = this.user;
-					 break;
-				 case this.pageControl.loader.pages.video.youtube.value:
-				 case this.pageControl.loader.pages.video.youtube.selector:
-					 icon = this.youtube;
-					 break;
-				 case this.pageControl.loader.pages.playlist.search.value:
-				 case this.pageControl.loader.pages.playlist.search.selector:
-					 if($page.SEARCH_RETURN_PLAYLIST !== null) {
-						 icon = this.getPageIcon($page.SEARCH_RETURN_PLAYLIST);
-					 } else {						 
-						 icon = this.search;
-					 }
-					 break;
-				 default:
-					 console.log('selector default');
-					 icon = this.headphones;
-					 break;
-			 }
-			 
-			 console.log('selector', selector, 'icon', icon, 'topsongs', this.pageControl.loader.pages.playlist.topsongs.value);
-			 return icon;
-		 }
+        if (selector === null) return this.diamond.big;
+        switch (selector) {        	
+            case this.pageControl.loader.pages.playlist.topsongs.value:
+            case this.pageControl.loader.pages.playlist.topsongs.selecor:
+            	console.log('selector',selector,'is topsongs');
+                return this.star;
+            case this.pageControl.loader.pages.userlist.topuser.value:
+            case this.pageControl.loader.pages.userlist.topuser.selecor:
+            	console.log('selector',selector,'is topuser');
+                return this.trophy;
+            case this.pageControl.loader.pages.playlist.user.value:
+            case this.pageControl.loader.pages.playlist.user.selector:
+                return this.user;
+            case this.pageControl.loader.pages.video.youtube.value:
+            case this.pageControl.loader.pages.video.youtube.selector:
+                return this.youtube;
+            case this.pageControl.loader.pages.playlist.search.value:
+            case this.pageControl.loader.pages.playlist.search.selector:
+            	if($page.SEARCH_RETURN_PLAYLIST !== null) {
+            		return this.getPageIcon($page.SEARCH_RETURN_PLAYLIST);
+            	}
+                return this.search;
+            default:
+                return this.headphones;
+        }
 
     }
 }
