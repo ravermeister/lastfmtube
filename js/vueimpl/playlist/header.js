@@ -9,6 +9,7 @@
 class LibvuePlaylistHeader {
 	
 	static createTitleVue(elementId) {
+		
 		return new Vue({
 		    el: '#'+elementId+'>.page-header-title>h2',
 		    data: {
