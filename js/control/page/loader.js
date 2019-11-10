@@ -100,6 +100,7 @@ class PageLoader {
 			},
 			
 			isPlaylist: function(page) {
+				console.log('check is playlist!');
 				return 
 				page === this.playlist.lastfm ||
 				page === this.playlist.topsongs ||
