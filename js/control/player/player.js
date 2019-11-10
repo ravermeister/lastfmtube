@@ -101,6 +101,7 @@ class PlayerController {
     	if(curPage === $page.loader.pages.video.youtube) {
     		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
     	}
+    	console.log('curpage: ', curPage);
     	
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
@@ -109,10 +110,10 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
-        let curPage = parseInt(curVue.menu.$data.CUR_PAGE);
+        let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
         
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
-        let isLast = curNr !== null &&  (curPage * tracksPerPage) === curNr;
+        let isLast = curNr !== null &&  (curPageNum * tracksPerPage) === curNr;
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
@@ -120,22 +121,22 @@ class PlayerController {
         
         if (isLast || nextIndex >= tracks.length) {
             let playlist = curVue.menu;
-            let curPage = playlist.$data.CUR_PAGE;
+            let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
-            if ((curPage + 1) > maxPages) curPage = 1;
-            else curPage++;
+            if ((curPageNum + 1) > maxPages) curPageNum = 1;
+            else curPageNum++;
 
             let self = this;
             $page.loader.loadPage($page.loader.pageInfo.currentPage, {
-            	pnum: curPage,
+            	pnum: curPageNum,
             	lfmuser: user
             }, function (success) {
                 try {
                     if (!success) return;
                     self.loadSong(tracks[0]);
                 } catch (e) {
-                    console.error('inside callback', e, ' curpage: ', curPage, 'maxpage: ', maxPages);
+                    console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
                 }
             });
 
@@ -152,12 +153,13 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null) return;
     	
-        let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
-    	if(curVue === $page.myVues.playlist.search || 
-        		curVue === $page.myVues.video.youtube) {
-        		curVue = $page.myVues.forPage($page.loader.pageInfo.lastPage.value);
-        }
+    	let curPage = $page.loader.pageInfo.currentPage.value;
+    	if(curPage === $page.loader.pages.video.youtube) {
+    		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
+    	}
+    	console.log('curpage: ', curPage);
         
+        let curVue = $page.myVues.forPage(curPage);        
         let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
         
@@ -172,17 +174,17 @@ class PlayerController {
         if (isLast) {
             prevIndex = tracks.length - 2;
         } else if (prevIndex < 0) {
-            let curPage = curVue.menu.$data.CUR_PAGE;
-            if ('undefined' === typeof curPage) curPage = 1;
+            let curPageNum = curVue.menu.$data.CUR_PAGE;
+            if ('undefined' === typeof curPageNum) curPageNum = 1;
             let maxPages = curVue.menu.$data.MAX_PAGES;
             let user = curVue.menu.$data.LASTFM_USER_NAME;
 
-            if ((curPage - 1) < 1) curPage = maxPages;
-            else curPage--;
+            if ((curPageNum - 1) < 1) curPageNum = maxPages;
+            else curPageNum--;
             
             let self = this;
             $page.loader.loadPage($page.loader.pageInfo.currentPage, {
-            	pnum: curPage,
+            	pnum: curPageNum,
             	lfmuser: user
             }, function (success) {
                 if (!success) return;
