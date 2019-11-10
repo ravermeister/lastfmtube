@@ -201,27 +201,31 @@ class PlaylistController {
     	    	
         let isTopSongPlaylist = (vue === $page.myVues.playlist.topsongs);
         let newTrack = LibvuePlaylist.createEmptyTrack();
-        newTrack.NR = json.data.value.pos;
-        newTrack.ARTIST = json.data.value.artist;
-        newTrack.TITLE = json.data.value.title;
         newTrack.LASTPLAY = json.data.value.lastplayed;
         newTrack.PLAYCOUNT = json.data.value.playcount;
-        newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(json.data.value.pos));
-        console.log(json, newTrack);
+        /**
+		 * TODO: somehow we have to calculate the new position if we are in
+		 * topsongs playlist and want to jump back to the track from the
+		 * playlist view
+		 */
+        newTrack.PLAYCOUNT_CHANGE = 0; 
+        
+        
         let doTrackSongPlay = function(track){
         	if(!trackSongPlay) return;
         	$page.trackSongPlay(track);
         };
-        
-
-        
-        if(!isTopSongPlaylist) {
+        let updateCurrentTrack = function(newTrack){
         	if(newTrack.ARTIST === $player.currentTrackData.ARTIST &&
-        	   newTrack.TITLE === $player.currentTrackData.TITLE) {
-        		$player.currentTrackData.NR = newTrack.NR;
-        		$player.currentTrackData.LASTPLAY = newTrack.LASTPLAY;
-        		$player.currentTrackData.PLAYCOUNT = newTrack.PLAYCOUNT;
-        	}
+             	   newTrack.TITLE === $player.currentTrackData.TITLE) {
+             	$player.currentTrackData.LASTPLAY = newTrack.LASTPLAY;
+             	$player.currentTrackData.PLAYCOUNT = newTrack.PLAYCOUNT;
+             	$player.currentTrackData.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
+            }
+        };
+
+        if(!isTopSongPlaylist) {
+        	updateCurrentTrack(newTrack);
         	if(trackSongPlay) {
         		doTrackSongPlay(newTrack);
         	}
@@ -275,19 +279,12 @@ class PlaylistController {
                     vue.menu.$data.MAX_PAGES = maxPages;
                 }
             }
+            updateCurrentTrack(newTrack);
             doTrackSongPlay(newTrack);
             return;
         }
 
-        oldTrack.LASTPLAY = json.data.value.lastplayed;
-        if (isTopSongPlaylist) {
-            oldTrack.PLAYCOUNT = json.data.value.playcount;
-            oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(json.data.value.pos));
-            if ($player.isCurrentTrack(oldTrack)) {
-                oldTrack.NR = oldTrack.NR + '';
-            }
-        }
-        
+        updateCurrentTrack(oldTrack);
         doTrackSongPlay(oldTrack);
     }
 }

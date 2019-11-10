@@ -50,7 +50,6 @@ class LibvuePlayerHeader {
                     let tnr = '#' + this.CURRENT_TRACK.NR;
                     if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
                         tnr += ' ';
-                        console.log('>>>', this.CURRENT_TRACK.PLAYCOUNT_CHANGE);
                         if (parseInt(this.CURRENT_TRACK.PLAYCOUNT_CHANGE) > 0) {
                             tnr += this.CURRENT_TRACK.PLAYCOUNT_CHANGE;
                         }
