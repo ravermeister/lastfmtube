@@ -313,6 +313,7 @@ class PageLoader {
     
     initURL() {
     	let page = this.pages.getByLocation();
+    	console.log('load page: ', page);
     	let loadDefaultPlaylist = false;
     	let self = this;
     	
