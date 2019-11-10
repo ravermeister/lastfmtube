@@ -253,7 +253,7 @@ class PlaylistController {
         if(updateCurrent) {
         	let curTrack = $player.currentTrackData.track;        	
         	if(curTrack !== null) {
-        		curTrack = updateTrack($page.clone(curTrack));
+        		curTrack = updateTrack(PageController.clone(curTrack));
     			
         		$player.currentTrackData.track = curTrack;
     			$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
