@@ -76,7 +76,10 @@ class Icons {
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
         let pages = this.pageControl.loader.pages; 
-        switch (selector) {        	
+        switch (selector) {
+            case pages.playlist.lastfm.value:
+            case pages.playlist.lastfm.selecor:
+                return this.headphones;
             case pages.playlist.topsongs.value:
             case pages.playlist.topsongs.selecor:
                 return this.star;
@@ -95,8 +98,7 @@ class Icons {
             		return this.getPageIcon($page.SEARCH_RETURN_PLAYLIST);
             	}
                 return this.search;
-            default:
-                return this.headphones;
+
         }
 
     }
