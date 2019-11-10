@@ -148,19 +148,19 @@ class PageLoader {
 						return this.userlist.topuser;
 					case '/lastfm':
 					case 'playlist-lastfm-container':
-						return this.playlist.lastfm.location;
-					case this.playlist.topsongs.location:
-					case this.playlist.topsongs.selector:
-						return this.playlist.topsongs;
-					case this.playlist.user.location:
-					case this.playlist.user.selector:
-						return this.playlist.user;
-					case this.playlist.search.location:
-					case this.playlist.search.selector:
-						return this.playlist.search;
-					case this.video.youtube.location:
-					case this.video.youtube.selector:
-						return this.video.youtube;
+						return this.playlist.lastfm;
+//					case this.playlist.topsongs.location:
+//					case this.playlist.topsongs.selector:
+//						return this.playlist.topsongs;
+//					case this.playlist.user.location:
+//					case this.playlist.user.selector:
+//						return this.playlist.user;
+//					case this.playlist.search.location:
+//					case this.playlist.search.selector:
+//						return this.playlist.search;
+//					case this.video.youtube.location:
+//					case this.video.youtube.selector:
+//						return this.video.youtube;
 					default:
 						return this.base;
 				}
@@ -336,7 +336,7 @@ class PageLoader {
     	let page = this.pages.getByLocation();
     	let loadDefaultPlaylist = false;
     	let self = this;
-    	
+    	console.log('load page:',page);
     	if(page === null || page === this.pages.base || 
     		page === this.pages.playlist.search) {
     		
