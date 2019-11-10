@@ -75,9 +75,9 @@ class Icons {
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
         let pages = $page.loader.pages; 
-    	console.log('value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selector);
-    	console.log('value', pages.playlist.topsongs.value, 'selector', pages.playlist.topsongs.selector);
-    	console.log('value', pages.playlist.user.value, 'selector', pages.playlist.user.selector);
+    	console.log('curselector',selector,'value', pages.playlist.lastfm.value, 'selector', pages.playlist.lastfm.selector);
+    	console.log('curselector',selector,'value', pages.playlist.topsongs.value, 'selector', pages.playlist.topsongs.selector);
+    	console.log('curselector',selector,'value', pages.playlist.user.value, 'selector', pages.playlist.user.selector);
 
         if(selector === pages.playlist.lastfm.value || selector === pages.playlist.lastfm.selecor) {
         	return this.headphones;
