@@ -107,19 +107,19 @@ class PageLoader {
 			
 			getByValue: function(aValue) {
 				switch(aValue) {
-					case 'playlist.lastfm':
+					case this.playlist.lastfm.value:
 						return this.playlist.lastfm;
-					case 'playlist.search':
+					case this.playlist.search.value:
 						return this.playlist.search;
-					case 'playlist.topsongs':
+					case this.playlist.topsongs.value:
 						return this.playlist.topsongs;
-					case 'playlist.user':
+					case this.playlist.user.value:
 						return this.playlist.user;
-					case 'userlist.topuser':
+					case this.userlist.topuser.value:
 						return this.userlist.topuser;
-					case 'video.youtube':
+					case this.video.youtube.value:
 						return this.video.youtube;
-					case 'base':
+					case this.base.value:
 						return this.base;
 					default:
 						return null;
@@ -127,6 +127,15 @@ class PageLoader {
 			},
 			
 			getByLocation: function() {
+				let getHash = function(url)  {
+					let idx = url.indexOf("#");
+					return idx != -1 ? url.substring(idx+1) : "";
+				};
+				
+				let path = location.pathname;
+				let hash = getHash(location.href);
+				console.log('path', path, 'hash', hash);
+				
 				switch(location.pathname) {
 					case this.userlist.topuser.location:
 						return this.userlist.topuser;
@@ -313,7 +322,6 @@ class PageLoader {
     
     initURL() {
     	let page = this.pages.getByLocation();
-    	console.log('load page: ', page);
     	let loadDefaultPlaylist = false;
     	let self = this;
     	
