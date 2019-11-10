@@ -19,10 +19,7 @@ class LibvuePlaylistHeader {
 		    },
 		    computed: {
                 LOGO: function () {
-                	console.log('>>', $page.loader.pages.playlist.lastfm.selector);
                     let icon = $page.icons.getPageIcon(elementId);
-                    let icon2 = $page.icons.getPageIcon(this.PLAYLIST);
-                    console.log('get logo for', elementId, 'icon', icon, 'playlist', this.PLAYLIST, 'icon2', icon2);
                     return this.LOADING ? icon.animatedBig : icon.big;
                 }
 		    },
