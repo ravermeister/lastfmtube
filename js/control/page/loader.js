@@ -261,7 +261,7 @@ class PageLoader {
 				 * feels smooth.
 				 */
 				console.log('set timeout');
-				setTimeout(updateVueAndLoad, 250, vue, data, autoplay);
+				setTimeout(updateVueAndLoad, 300, vue, data, autoplay);
 			} else {				
 				updateVueAndLoad(vue, data, autoplay);
 			}
