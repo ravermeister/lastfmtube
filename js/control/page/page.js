@@ -237,94 +237,18 @@ class PageController {
             }
         }).done(function (json) {
         	
-        	let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
-        	if(curVue === $page.myVues.video.youtube) {
-        		curVue = $page.myVues.forPage($page.loader.pageInfo.lastPage.value);
-        	}
-            let isTopSongPlaylist = curVue.menu.$data.PLAYLIST === 'topsongs';
-            let trackList = curVue.content.$data.TRACKS;
-            let oldTrack = null;
-
-            for (let cnt = 0; cnt < curVue.content.$data.TRACKS.length; cnt++) {
-                let track = curVue.content.$data.TRACKS[cnt];
-                if (
-                    track.ARTIST === json.data.value.artist &&
-                    track.TITLE === json.data.value.title
-                ) {
-                    oldTrack = track;
-                    break;
-                }
-            }
-
-            if (oldTrack === null) {
-                if (!isTopSongPlaylist) return;
-
-                let newTrack = LibvuePlaylist.createEmptyTrack();
-                newTrack.NR = json.data.value.pos;
-                newTrack.ARTIST = json.data.value.artist;
-                newTrack.TITLE = json.data.value.title;
-                newTrack.LASTPLAY = json.data.value.lastplayed;
-                newTrack.PLAYCOUNT = json.data.value.playcount;
-                newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(json.data.value.pos));
-
-                if (trackList.length === 0) {
-                    curVue.content.$data.TRACKS.push(newTrack);
-                    return;
-                }
-
-                if (curVue.content.$data.TRACKS[0].NR > newTrack.NR) {
-                    return; // we are higher than first pos in list
-                }
-
-                let trackInserted = false;
-                for (let cnt = 0; cnt < trackList.length; cnt++) {
-                    let curTrack = trackList[cnt];
-                    if (!trackInserted && curTrack.NR >= newTrack.NR) {
-                        curVue.content.$data.TRACKS.splice(cnt, 0, newTrack);
-                        trackInserted = true;
-                    } else if (trackInserted) {
-                        curTrack.NR = (parseInt(curTrack.NR) + 1);
-                    }
-                }
-
-                if (curVue.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
-                    curVue.content.$data.TRACKS.splice(
-                    	$page.settings.general.tracksPerPage,
-                        curVue.content.$data.TRACKS.length
-                    );
-
-                    let curPage = parseInt(curVue.menu.$data.CUR_PAGE);
-                    let maxPages = parseInt(curVue.menu.$data.MAX_PAGES);
-                    if (curPage === maxPages) {
-                        curVue.menu.$data.MAX_PAGES = maxPages;
-                    }
-                }
-
-                $page.trackSongPlay(newTrack);
-                return;
-            }
-
-            oldTrack.LASTPLAY = json.data.value.lastplayed;
-            if (isTopSongPlaylist) {
-                oldTrack.PLAYCOUNT = json.data.value.playcount;
-                oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(json.data.value.pos));
-                if ($player.isCurrentTrack(oldTrack)) {
-                    oldTrack.NR = oldTrack.NR + '';
-                }
-            }
-            $page.trackSongPlay(oldTrack);
-        	
-        	
-//         		console.log('before track count: ', $page.myVues.video.youtube.header.CURRENT_TRACK);
-//                $playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true);
-//                $playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
-//                $playlist.updateSongPlayCount($page.myVues.playlist.user, json);
-//                console.log('force update');
-//                $page.myVues.video.youtube.header.$forceUpdate();
-//             	console.log('after track count: ', $page.myVues.video.youtube.header.CURRENT_TRACK);
+// console.log('before track count: ',
+// $page.myVues.video.youtube.header.CURRENT_TRACK);
+// $playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true);
+// $playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
+// $playlist.updateSongPlayCount($page.myVues.playlist.user, json);
+// console.log('force update');
+        	$page.myVues.video.youtube.header.PLAYLIST = 'playlist.topsongs';
+        	$page.myVues.video.youtube.header.$forceUpdate();
+// console.log('after track count: ',
+// $page.myVues.video.youtube.header.CURRENT_TRACK);
              	
-            }
-        ).fail(function (xhr) {
+        }).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {
                 console.error(
                     '\n\nresponse: ', xhr.responseText,
