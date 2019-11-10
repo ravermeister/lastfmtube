@@ -196,4 +196,89 @@ class PlaylistController {
             $.logXhr(xhr);
         });
     }
+    
+    updateSongPlayCount(vue, json, trackSongPlay = false) {
+    	    	
+        let isTopSongPlaylist = (vue === $page.myVues.playlist.topsongs);
+        let newTrack = LibvuePlaylist.createEmptyTrack();
+        newTrack.NR = json.data.value.pos;
+        newTrack.ARTIST = json.data.value.artist;
+        newTrack.TITLE = json.data.value.title;
+        newTrack.LASTPLAY = json.data.value.lastplayed;
+        newTrack.PLAYCOUNT = json.data.value.playcount;
+        newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(json.data.value.pos));
+        let doTrackSongPlay = function(track){
+        	if(!trackSongPlay) return;
+        	$page.trackSongPlay(track);
+        };
+
+        
+        if(!isTopSongPlaylist) {
+        	if(trackSongPlay) {
+        		doTrackSongPlay(newTrack);
+        	}
+        	return;
+        }
+        
+        
+        let trackList = vue.content.$data.TRACKS;
+        for (let cnt = 0; cnt < vue.content.$data.TRACKS.length; cnt++) {
+            let track = vue.content.$data.TRACKS[cnt];
+            if (
+                track.ARTIST === json.data.value.artist &&
+                track.TITLE === json.data.value.title
+            ) {
+                oldTrack = track;
+                break;
+            }
+        }
+
+        if (oldTrack === null) {
+            if (trackList.length === 0) {
+                vue.content.$data.TRACKS.push(newTrack);
+                return;
+            }
+
+            if (vue.content.$data.TRACKS[0].NR > newTrack.NR) {
+                return; // we are higher than first pos in list
+            }
+
+            let trackInserted = false;
+            for (let cnt = 0; cnt < trackList.length; cnt++) {
+                let curTrack = trackList[cnt];
+                if (!trackInserted && curTrack.NR >= newTrack.NR) {
+                    vue.content.$data.TRACKS.splice(cnt, 0, newTrack);
+                    trackInserted = true;
+                } else if (trackInserted) {
+                    curTrack.NR = (parseInt(curTrack.NR) + 1);
+                }
+            }
+
+            if (vue.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
+                vue.content.$data.TRACKS.splice(
+                	$page.settings.general.tracksPerPage,
+                    vue.content.$data.TRACKS.length
+                );
+
+                let curPage = parseInt(vue.menu.$data.CUR_PAGE);
+                let maxPages = parseInt(vue.menu.$data.MAX_PAGES);
+                if (curPage === maxPages) {
+                    vue.menu.$data.MAX_PAGES = maxPages;
+                }
+            }
+            doTrackSongPlay(newTrack);
+            return;
+        }
+
+        oldTrack.LASTPLAY = json.data.value.lastplayed;
+        if (isTopSongPlaylist) {
+            oldTrack.PLAYCOUNT = json.data.value.playcount;
+            oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(json.data.value.pos));
+            if ($player.isCurrentTrack(oldTrack)) {
+                oldTrack.NR = oldTrack.NR + '';
+            }
+        }
+        
+        doTrackSongPlay(oldTrack);
+    }
 }

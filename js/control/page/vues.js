@@ -80,6 +80,7 @@ class VueController {
                 this.userlist.topuser.update(json);
             },
             
+                      
             forPage: function(page) {
             	switch(page) {
             		case $page.loader.pages.base:
