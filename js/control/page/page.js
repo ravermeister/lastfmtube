@@ -242,7 +242,7 @@ class PageController {
 //             	$page.myVues.video.youtube.header.CURRENT_TRACK = $player.currentTrackData.track;
              	console.log('after track count: ', 
              			$page.myVues.video.youtube.header.CURRENT_TRACK);
-             	console.log('after track count: ', $page.myVues.video.header.TRACK_NR);
+             	console.log('after track count: ', $page.myVues.video.youtube.header.TRACK_NR);
              	
             }
         ).fail(function (xhr) {
