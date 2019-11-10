@@ -38,6 +38,8 @@ class PageLoader {
 					if(self.pages.isPlaylist(this.lastPage)) {
 						this.lastPlaylist = this.lastPage;
 					}
+					
+					console.log(this.lastPage, 'is playlist', self.pages.isPlaylist(this.lastPage), 'last playlist', this.lastPlaylist);
 				} 
 			};
 		
