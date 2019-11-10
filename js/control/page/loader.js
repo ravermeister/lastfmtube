@@ -153,7 +153,7 @@ class PageLoader {
 					case this.playlist.topsongs.selector:
 						return this.playlist.topsongs;
 					case this.playlist.user.location:
-					case 'playlist-user-container':
+					case this.playlist.user.selector:
 						return this.playlist.user;
 //					case this.playlist.search.location:
 //					case this.playlist.search.selector:
