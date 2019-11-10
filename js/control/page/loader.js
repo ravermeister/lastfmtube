@@ -346,7 +346,6 @@ class PageLoader {
     			page === this.pages.video.youtube) {
     		loadDefaultPlaylist = true;
     	}
-    	console.log('load page:',page);
     	let pageData = {
     			pnum: 1
     	};
@@ -366,7 +365,6 @@ class PageLoader {
 				}
 			});
     	} else {
-    		console.log('load page', page);
     		self.loadPage(page, pageData);
     	}
     	
