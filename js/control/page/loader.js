@@ -132,22 +132,32 @@ class PageLoader {
 					return idx != -1 ? url.substring(idx+1) : "";
 				};
 				
+				/**
+				 * prefer the hashes over path values as we do not use path for
+				 * now
+				 */
 				let path = location.pathname;
 				let hash = getHash(location.href);
-				console.log('path', path, 'hash', hash);
-				
-				switch(location.pathname) {
+				if(hash.length > 0) path = hash;
+
+				switch(path) {
 					case this.userlist.topuser.location:
+					case this.userlist.topuser.selector:						
 						return this.userlist.topuser;
 					case this.playlist.lastfm.location:
+					case this.playlist.lastfm.selector:
 						return this.playlist.lastfm.location;
 					case this.playlist.topsongs.location:
+					case this.playlist.topsongs.selector:
 						return this.playlist.topsongs;
 					case this.playlist.user.location:
+					case this.playlist.user.selector:
 						return this.playlist.user;
 					case this.playlist.search.location:
+					case this.playlist.search.selector:
 						return this.playlist.search;
 					case this.video.youtube.location:
+					case this.video.youtube.selector:
 						return this.video.youtube;
 					default:
 						return this.base;
@@ -325,10 +335,9 @@ class PageLoader {
     	let loadDefaultPlaylist = false;
     	let self = this;
     	
-    	if(page === null) {
-    		console.log('unkown url: ', location.href);
-    		return;
-    	} else if(page === this.pages.base || page === this.pages.playlist.search) {
+    	if(page === null || page === this.pages.base || 
+    		page === this.pages.playlist.search) {
+    		
     		page = this.pages.video.youtube;
     		loadDefaultPlaylist = true;
     	} else if(page === this.pages.userlist.topuser || 
