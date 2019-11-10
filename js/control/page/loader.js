@@ -155,12 +155,12 @@ class PageLoader {
 					case this.playlist.user.location:
 					case this.playlist.user.selector:
 						return this.playlist.user;
-//					case this.playlist.search.location:
-//					case this.playlist.search.selector:
-//						return this.playlist.search;
-//					case this.video.youtube.location:
-//					case this.video.youtube.selector:
-//						return this.video.youtube;
+					case this.playlist.search.location:
+					case this.playlist.search.selector:
+						return this.playlist.search;
+					case this.video.youtube.location:
+					case this.video.youtube.selector:
+						return this.video.youtube;
 					default:
 						return this.base;
 				}
