@@ -216,8 +216,10 @@ class PlaylistController {
         	$page.trackSongPlay(track);
         };
         let updateCurrentTrack = function(newTrack){
+        	console.log('old >', oldTrack,' new >', newTrack);
+        	
         	if(newTrack.ARTIST === $player.currentTrackData.ARTIST &&
-             	   newTrack.TITLE === $player.currentTrackData.TITLE) {
+             	   newTrack.TITLE === $player.currentTrackData.TITLE) {        		
              	$player.currentTrackData.LASTPLAY = newTrack.LASTPLAY;
              	$player.currentTrackData.PLAYCOUNT = newTrack.PLAYCOUNT;
              	$player.currentTrackData.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
