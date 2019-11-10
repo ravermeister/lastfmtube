@@ -223,7 +223,8 @@ class PlaylistController {
              	   newTrack.TITLE === $player.currentTrackData.TITLE) {      		
              	$player.currentTrackData.track.LASTPLAY = newTrack.LASTPLAY;
              	$player.currentTrackData.track.PLAYCOUNT = newTrack.PLAYCOUNT;
-             	$player.currentTrackData.track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;             	
+             	$player.currentTrackData.track.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;             
+             	console.log('...and updated cur track...', newTrack, 'player.cur', $player.currentTrackData.track);
             }
         };
              
