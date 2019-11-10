@@ -106,7 +106,7 @@ class ChartTimer {
 				// greater
                 
                 /** debug * */
-                /** lfmScrobbleDuration = 3; * */ 
+                lfmScrobbleDuration = 3;
                 
                 self.clearTimer();
                 self.timerStart = new Date();
