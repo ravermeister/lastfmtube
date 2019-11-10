@@ -251,7 +251,7 @@ class PageLoader {
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);			
 			self.setLocation('#'+page.selector);
-
+			console.log('>> last', lastPage);
 			if(lastPage === self.pages.video.youtube) {
 				
 				/**
