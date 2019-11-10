@@ -143,11 +143,11 @@ class PageLoader {
 				console.log('path: ', path);
 				
 				switch(path) {
-					case this.userlist.topuser.location:
-					case this.userlist.topuser.selector:						
+					case '/topuser':
+					case 'userlist.topuser':						
 						return this.userlist.topuser;
-					case this.playlist.lastfm.location:
-					case this.playlist.lastfm.selector:
+					case '/lastfm':
+					case 'playlist-lastfm-container':
 						return this.playlist.lastfm.location;
 					case this.playlist.topsongs.location:
 					case this.playlist.topsongs.selector:
