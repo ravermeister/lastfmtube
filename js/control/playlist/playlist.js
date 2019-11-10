@@ -200,42 +200,21 @@ class PlaylistController {
     updateSongPlayCount(vue, json, updateCurrent, trackSongPlay = false) {
     	    	
         let isTopSongPlaylist = (vue === $page.myVues.playlist.topsongs);
-        let newTrack = LibvuePlaylist.createEmptyTrack();
-        
-        newTrack.ARTIST = json.data.value.artist;
-        newTrack.TITLE = json.data.value.title;
-        newTrack.LASTPLAY = json.data.value.lastplayed;
-        newTrack.PLAYCOUNT = json.data.value.playcount;
-        /**
-		 * TODO: somehow we have to calculate the new position if we are in
-		 * topsongs playlist and want to jump back to the track from the
-		 * playlist view
-		 */
-        newTrack.PLAYCOUNT_CHANGE = 0; 
-        
-        
+
         let doTrackSongPlay = function(track){
-        	if(!trackSongPlay) return;
         	$page.trackSongPlay(track);
         };
         let updateTrack = function(track){  
-        	if(!updateCurrent) return;
-        	
-        	let curTrack = $player.currentTrackData.track;
-        	if(curTrack !== null && 
-        		curTrack.ARTIST === track.ARTIST &&
-        		curTrack.TITLE === track.TITLE) {
-        		
-        		track.NR = curTrack.NR;
-        		track.LASTFM_ISPLAYING = curTrack.LASTFM_ISPLAYING;
-        		track.PLAYLIST = curTrack.PLAYLIST;
-        		track.PLAYSTATE = curTrack.PLAYSTATE;
-        		track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
-        		track.VIDEO_ID = curTrack.VIDEO_ID;
-        		
-        		$player.currentTrackData.track = track;
-        		$page.myVues.video.youtube.header.CURRENT_TRACK = track;
-        	}
+            /**
+    		 * TODO: somehow we have to calculate the new position if we are in
+    		 * topsongs playlist and want to jump back to the track from the
+    		 * playlist view
+    		 */
+        	track.PLAYCOUNT_CHANGE = 0;
+        	track.LASTPLAY = chartJson.data.value.lastplayed;
+            track.PLAYCOUNT = chartJson.data.value.playcount;
+            
+        	return track;
         };
              
         let trackList = vue.content.$data.TRACKS;
@@ -251,15 +230,35 @@ class PlaylistController {
             }
         }
 
-        if (oldTrack === null && isTopSongPlaylist) {
-        	console.log('istopsongs', isTopSongPlaylist, 'vue', vue);
+        if(oldTrack !== null) {
+        	updateTrack(oldTrack);
+        } else if (isTopSongPlaylist) {
     		if (trackList.length <= (vue.content.$data.MAX_PAGES - 2)) {
+    			let newTrack = LibvuePlaylist.createEmptyTrack();    			
     			newTrack.NR = trackList.length;
+    			newTrack.ARTIST = json.data.value.artist;
+    			newTrack.TITLE =  json.data.value.title;
+    			newTrack.LASTPLAY = chartJson.data.value.lastplayed;
+    			newTrack.LASTFM_ISPLAYING = true;
+    			newTrack.PLAY_CONTROL = '',
+    			newTrack.PLAYLIST = $page.loader.pages.playlist.topsongs.value,
+    			newTrack.PLAYSTATE = 'playling';
+    			
     			vue.content.$data.TRACKS.push(newTrack);
     		}
         }
         
-    	doTrackSongPlay(newTrack);        
-        updateTrack(newTrack);
+        if(trackSongPlay) {
+        	doTrackSongPlay(newTrack);
+        }
+        if(updateCurrent) {
+        	let curTrack = $player.currentTrackData.track;        	
+        	if(curTrack !== null) {
+        		curTrack = updateTrack($page.clone(curTrack));
+    			
+        		$player.currentTrackData.track = curTrack;
+    			$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
+        	}
+        }
     }
 }
