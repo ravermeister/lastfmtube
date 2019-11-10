@@ -240,6 +240,8 @@ class PageController {
                 $playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true);
                 $playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
                 $playlist.updateSongPlayCount($page.myVues.playlist.user, json);
+                console.log('force update');
+                $page.myVues.video.youtube.header.$forceUpdate();
              	console.log('after track count: ', $page.myVues.video.youtube.header.CURRENT_TRACK);
              	
             }
