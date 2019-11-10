@@ -248,7 +248,13 @@ class PlayerController {
                 return;
             }
             self.errorLoopCount++;
-            if (self.loadNextOnError) self.loadNextSong();
+            if (self.loadNextOnError) {
+            	if('previous' === self.loadDirectionOnError) {            		
+            		self.loadPreviousSong();
+            	} else {
+            		self.loadNextSong();
+            	}
+            }
         }
 
         
