@@ -245,7 +245,7 @@ class PageController {
 // console.log('force update');
         	console.log('before', $page.myVues.video.youtube.header.$data);
         	$page.myVues.video.youtube.header.update({        		
-        		PLALIST: 'playlist.lastfm',
+        		PLAYLIST: 'playlist.lastfm',
         		CURRENT_TRACK: $player.currentTrackData.track
         	}); 
         	$page.myVues.video.youtube.header.$forceUpdate();
