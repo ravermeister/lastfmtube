@@ -365,7 +365,7 @@ class PageLoader {
 				}
 			});
     	} else {
-    		self.loadPage(page, pageData);
+    		self.loadPage(page, pageData, $player.autoPlay);
     	}
     	
     }
