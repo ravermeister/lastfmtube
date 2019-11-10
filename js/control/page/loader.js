@@ -341,7 +341,7 @@ class PageLoader {
     		page = this.pages.video.youtube;
     		loadDefaultPlaylist = true;
     	} else if(page === this.pages.userlist.topuser || 
-    			page === this.pages.vide.youtube) {
+    			page === this.pages.video.youtube) {
     		loadDefaultPlaylist = true;
     	}
     	
