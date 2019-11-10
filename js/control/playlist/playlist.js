@@ -224,8 +224,6 @@ class PlaylistController {
         		playerCurTrack.LASTPLAY = newTrack.LASTPLAY;
         		playerCurTrack.PLAYCOUNT = newTrack.PLAYCOUNT;
         		playerCurTrack.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
-             	$page.myVues.video.youtube.header.CURRENT_TRACK = playerCurTrack;
-             	console.log('songplay count!');
             }
         };
              
