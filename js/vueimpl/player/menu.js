@@ -33,15 +33,10 @@ class LibvuePlayerMenu {
                 },
                 searchVideo: function (event) {
                     if ($page.myVues.video.youtube.header.SEARCH_TRACK === null) return;
-
-                    $page.myVues.video.youtube.header.$data.LOADING = true;
-                    $page.loader.searchSong($page.myVues.video.youtube.header.SEARCH_TRACK, function () {
-                        $page.myVues.video.youtube.header.$data.LOADING = false;
-                    }, true);
+                    $page.loader.searchSong($page.myVues.video.youtube.header.SEARCH_TRACK);
                 },
                 showComments: function(event) {                	
-                	$page.myVues.video.youtube.comments.toggleVisibility();
-                	
+                	$page.myVues.video.youtube.comments.toggleVisibility();                	
                 }
             }
         });
