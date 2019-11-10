@@ -203,7 +203,7 @@ class PageLoader {
 		this.loadPage(page, pageData);
 	}
 	
-	loadPage(page = null, pageData = null) {
+	loadPage(page = null, pageData = null, autoPlay = false) {
 
 		if(page === null) return;	
 		let lastPage = this.pageInfo.currentPage;
@@ -237,8 +237,6 @@ class PageLoader {
 				pageData.lfmuser : null;
 		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
 				pageData.sortby : null;
-		let autoPlay =  pageData !== null && ('undefined' !== typeof pageData.autoplay) ?
-				pageData.autoplay : false; 
 		
 		switch(page.value) {
 // Topsongs
@@ -330,9 +328,8 @@ class PageLoader {
     	}
     	
     	let pageData = {
-    			pnum: 1,
-    			autoplay: $player.autoPlay
-    	}
+    			pnum: 1
+    	};
     	
     	if(loadDefaultPlaylist) {
 			$playlist.loader.loadLastFmList(pageData.pnum, null, function(result, data){
@@ -345,7 +342,7 @@ class PageLoader {
 					}
 					
 					self.pageInfo.update(self.pages.playlist.lastfm, pageData);
-					self.loadPage(page, pageData);
+					self.loadPage(page, pageData, $player.autoPlay);
 				}
 			});
     	} else {
