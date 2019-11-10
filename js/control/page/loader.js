@@ -9,6 +9,8 @@
 class PageLoader {
 
 	constructor() {
+		let self = this;
+		
 		this.pageInfo = {
 				currentPage: {
 					value: null,
@@ -34,7 +36,7 @@ class PageLoader {
 							value: page,
 							data: pageData
 					};
-					if(this.pages.isPlaylist(this.lastPage)) {
+					if(self.pages.isPlaylist(this.lastPage)) {
 						this.lastPlaylist = this.lastPage;
 					}
 				} 
