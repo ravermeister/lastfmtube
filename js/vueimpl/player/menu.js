@@ -35,7 +35,7 @@ class LibvuePlayerMenu {
                     if ($page.myVues.video.youtube.header.SEARCH_TRACK === null) return;
 
                     $page.myVues.video.youtube.header.$data.LOADING = true;
-                    $playlist.loader.searchSong($page.myVues.video.youtube.header.SEARCH_TRACK, function () {
+                    $page.loader.searchSong($page.myVues.video.youtube.header.SEARCH_TRACK, function () {
                         $page.myVues.video.youtube.header.$data.LOADING = false;
                     }, true);
                 },
