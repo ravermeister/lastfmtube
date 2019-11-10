@@ -246,19 +246,14 @@ class PlaylistController {
             }
         }
 
-        if (oldTrack === null) {
-        	if(isTopSongPlaylist) {        		
-        		if (trackList.length <= (vue.$data.MAX_PAGES - 2)) {
-        			newTrack.NR = trackList.length;
-        			vue.content.$data.TRACKS.push(newTrack);
-        		}
-        	}
-            doTrackSongPlay(newTrack);
-        } else {        	
-        	updateTrack(oldTrack);
-        	doTrackSongPlay(oldTrack);
+        if (oldTrack === null && isTopSongPlaylist) {
+    		if (trackList.length <= (vue.$data.MAX_PAGES - 2)) {
+    			newTrack.NR = trackList.length;
+    			vue.content.$data.TRACKS.push(newTrack);
+    		}
         }
         
-        updateTrack($player.currentTrackData.track);
+    	doTrackSongPlay(newTrack);        
+        updateTrack(newTrack);
     }
 }
