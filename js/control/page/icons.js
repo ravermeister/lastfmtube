@@ -97,7 +97,7 @@ class Icons {
             	}
                 return this.search;
             default:
-            	console.log('selector',selector,'is default');
+            	console.log('selector',selector,'is default', (selector === this.pageControl.loader.pages.playlist.topsongs.value));
                 return this.headphones;
         }
 
