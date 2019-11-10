@@ -78,11 +78,9 @@ class Icons {
         switch (selector) {        	
             case this.pageControl.loader.pages.playlist.topsongs.value:
             case this.pageControl.loader.pages.playlist.topsongs.selecor:
-            	console.log('selector',selector,'is topsongs');
                 return this.star;
             case this.pageControl.loader.pages.userlist.topuser.value:
             case this.pageControl.loader.pages.userlist.topuser.selecor:
-            	console.log('selector',selector,'is topuser');
                 return this.trophy;
             case this.pageControl.loader.pages.playlist.user.value:
             case this.pageControl.loader.pages.playlist.user.selector:
@@ -97,7 +95,6 @@ class Icons {
             	}
                 return this.search;
             default:
-            	console.log('selector',selector,'is default', (selector === this.pageControl.loader.pages.playlist.topsongs.value));
                 return this.headphones;
         }
 
