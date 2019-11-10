@@ -239,9 +239,7 @@ class PageController {
                 $playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true);
                 $playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
                 $playlist.updateSongPlayCount($page.myVues.playlist.user, json);
-                $page.myVues.video.youtube.header.update({
-                	CURRENT_TRACK: $player.currentTrackData.track
-                });
+                
             }
         ).fail(function (xhr) {
             if (typeof xhr === 'object' && xhr !== null) {

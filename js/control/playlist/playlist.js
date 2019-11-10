@@ -201,6 +201,8 @@ class PlaylistController {
     	    	
         let isTopSongPlaylist = (vue === $page.myVues.playlist.topsongs);
         let newTrack = LibvuePlaylist.createEmptyTrack();
+        newTrack.ARTIST = json.data.value.artist;
+        newTrack.TITLE = json.data.value.title;
         newTrack.LASTPLAY = json.data.value.lastplayed;
         newTrack.PLAYCOUNT = json.data.value.playcount;
         /**
