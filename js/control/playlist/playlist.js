@@ -252,7 +252,8 @@ class PlaylistController {
         }
 
         if (oldTrack === null && isTopSongPlaylist) {
-    		if (trackList.length <= (vue.$data.MAX_PAGES - 2)) {
+        	console.log('istopsongs', isTopSongPlaylist, 'vue', vue);
+    		if (trackList.length <= (vue.content.$data.MAX_PAGES - 2)) {
     			newTrack.NR = trackList.length;
     			vue.content.$data.TRACKS.push(newTrack);
     		}
