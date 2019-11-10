@@ -211,9 +211,16 @@ class PlaylistController {
         	if(!trackSongPlay) return;
         	$page.trackSongPlay(track);
         };
+        
 
         
         if(!isTopSongPlaylist) {
+        	if(newTrack.ARTIST === $player.currentTrackData.ARTIST &&
+        	   newTrack.TITLE === $player.currentTrackData.TITLE) {
+        		$player.currentTrackData.NR = newTrack.NR;
+        		$player.currentTrackData.LASTPLAY = newTrack.LASTPLAY;
+        		$player.currentTrackData.PLAYCOUNT = newTrack.PLAYCOUNT;
+        	}
         	if(trackSongPlay) {
         		doTrackSongPlay(newTrack);
         	}
