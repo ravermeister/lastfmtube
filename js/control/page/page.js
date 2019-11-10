@@ -248,8 +248,8 @@ class PageController {
             for (let cnt = 0; cnt < curVue.content.$data.TRACKS.length; cnt++) {
                 let track = curVue.content.$data.TRACKS[cnt];
                 if (
-                    track.ARTIST === chartJson.data.value.artist &&
-                    track.TITLE === chartJson.data.value.title
+                    track.ARTIST === json.data.value.artist &&
+                    track.TITLE === json.data.value.title
                 ) {
                     oldTrack = track;
                     break;
@@ -260,12 +260,12 @@ class PageController {
                 if (!isTopSongPlaylist) return;
 
                 let newTrack = LibvuePlaylist.createEmptyTrack();
-                newTrack.NR = chartJson.data.value.pos;
-                newTrack.ARTIST = chartJson.data.value.artist;
-                newTrack.TITLE = chartJson.data.value.title;
-                newTrack.LASTPLAY = chartJson.data.value.lastplayed;
-                newTrack.PLAYCOUNT = chartJson.data.value.playcount;
-                newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(chartJson.data.value.pos));
+                newTrack.NR = json.data.value.pos;
+                newTrack.ARTIST = json.data.value.artist;
+                newTrack.TITLE = json.data.value.title;
+                newTrack.LASTPLAY = json.data.value.lastplayed;
+                newTrack.PLAYCOUNT = json.data.value.playcount;
+                newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(json.data.value.pos));
 
                 if (trackList.length === 0) {
                     curVue.content.$data.TRACKS.push(newTrack);
@@ -304,10 +304,10 @@ class PageController {
                 return;
             }
 
-            oldTrack.LASTPLAY = chartJson.data.value.lastplayed;
+            oldTrack.LASTPLAY = json.data.value.lastplayed;
             if (isTopSongPlaylist) {
-                oldTrack.PLAYCOUNT = chartJson.data.value.playcount;
-                oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(chartJson.data.value.pos));
+                oldTrack.PLAYCOUNT = json.data.value.playcount;
+                oldTrack.PLAYCOUNT_CHANGE = (parseInt(oldTrack.NR) - parseInt(json.data.value.pos));
                 if ($player.isCurrentTrack(oldTrack)) {
                     oldTrack.NR = oldTrack.NR + '';
                 }
