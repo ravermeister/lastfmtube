@@ -25,7 +25,6 @@ class Icon {
 
 class Icons {
 	constructor(pageController){	
-		this.pageControl = pageController;
 		
         this.play = new Icon('fa-play');
         this.pause = new Icon('fa-pause');
@@ -75,7 +74,7 @@ class Icons {
 	
 	 getPageIcon(selector = null) {
         if (selector === null) return this.diamond.big;
-        let pages = this.pageControl.loader.pages; 
+        let pages = $page.loader.pages; 
         switch (selector) {
             case pages.playlist.topsongs.value:
             case pages.playlist.topsongs.selecor:
