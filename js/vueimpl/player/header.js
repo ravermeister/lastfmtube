@@ -67,7 +67,8 @@ class LibvuePlayerHeader {
                 },
 
                 loadMenu: function (playlist, event) {
-                	let page = $page.loader.pageInfo.lastPlaylist;                	
+                	let page = $page.loader.pageInfo.lastPlaylist;
+                	console.log('>>>', page);
                 	$page.loader.loadPage(page.value, page.data);
                 }
             }
