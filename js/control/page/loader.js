@@ -20,12 +20,23 @@ class PageLoader {
 					data: null
 				},
 				
-				update: function(page, pageData) {
+				lastPlaylist: {
+					value: null,
+					data: null
+				},
+				
+				update: function(page, pageData) {					
+					let self = this;
+					
+					
 					this.lastPage = this.currentPage;
 					this.currentPage = {
 							value: page,
 							data: pageData
 					};
+					if(this.pages.isPlaylist(this.lastPage)) {
+						this.lastPlaylist = this.lastPage;
+					}
 				} 
 		};
 		
@@ -86,7 +97,13 @@ class PageLoader {
 				}
 			},
 			
+			isPlaylist: function(page) {
+				return 
+				page === this.playlist.lastfm ||
+				page === this.playlist.topsongs ||
+				page === this.playlist.user;
 			
+			},
 			
 			getByValue: function(aValue) {
 				switch(aValue) {
