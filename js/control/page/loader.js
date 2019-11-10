@@ -11,6 +11,36 @@ class PageLoader {
 	constructor() {
 		let self = this;
 
+		this.pageInfo = {
+				currentPage: {
+					value: null,
+					data: null
+				},
+				
+				lastPage: {
+					value: null,
+					data: null
+				},
+				
+				lastPlaylist: {
+					value: null,
+					data: null
+				},
+				
+				update: function(page, pageData) {							
+					
+					this.lastPage = this.currentPage;
+					this.currentPage = {
+							value: page,
+							data: pageData
+					};
+					
+					if(self.pages.isPlaylist(this.lastPage)) {
+						this.lastPlaylist = this.lastPage;
+					}
+				} 
+			};
+		
 		this.pages = {				
 			base: {
 				value: 'base',
@@ -133,40 +163,7 @@ class PageLoader {
 						return null;
 				}
 			}
-		}
-		
-		this.pageInfo = {
-			currentPage: {
-				value: null,
-				data: null
-			},
-			
-			lastPage: {
-				value: null,
-				data: null
-			},
-			
-			lastPlaylist: {
-				value: null,
-				data: null
-			},
-			
-			update: function(page, pageData) {					
-				let self = this;
-				
-				
-				this.lastPage = this.currentPage;
-				this.currentPage = {
-						value: page,
-						data: pageData
-				};
-				console.log(self.pages);
-				if(self.pages.isPlaylist(this.lastPage)) {
-					this.lastPlaylist = this.lastPage;
-				}
-			} 
-		};
-				
+		}						
 	}
 	
 	setLoading(currentPage = null, active = false) {
