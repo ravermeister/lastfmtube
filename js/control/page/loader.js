@@ -335,7 +335,7 @@ class PageLoader {
     	}
     	
     	if(loadDefaultPlaylist) {
-			$playlist.loader.loadLastFmList(1, null, function(result, data){
+			$playlist.loader.loadLastFmList(pageData.pnum, null, function(result, data){
 				if(result) {
 					$page.myVues.playlist.lastfm.update(data);		
 					if(page !== $page.loader.pages.playlist.search) {		
@@ -343,7 +343,8 @@ class PageLoader {
 							PLAYLIST: self.pages.playlist.lastfm.value
 						});
 					}
-					self.pageInfo.update(page, pageData);
+					
+					self.pageInfo.update(self.pages.playlist.lastfm, pageData);
 					self.loadPage(page, pageData);
 				}
 			});
