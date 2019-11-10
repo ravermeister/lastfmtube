@@ -260,7 +260,7 @@ class PageLoader {
 				 * we will wait a little bit when the player window is 
 				 * the current view, sothat the page navigation feels smooth. 
 				 */
-				setTimeout(500, updateVueAndLoad, vue, data, autoplay);
+				setTimeout(updateVueAndLoad, 500, vue, data, autoplay);
 			} else {				
 				updateVueAndLoad(vue, data, autoplay);
 			}
