@@ -181,7 +181,7 @@ class PlayerController {
             else curPage--;
             
             let self = this;
-            $page.loader.loadList($page.loader.pageInfo.currentPage, {
+            $page.loader.loadPage($page.loader.pageInfo.currentPage, {
             	pnum: curPage,
             	lfmuser: user
             }, function (success) {
