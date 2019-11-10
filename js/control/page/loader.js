@@ -251,14 +251,14 @@ class PageLoader {
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);			
 			self.setLocation('#'+page.selector);
-			console.log('>> last', lastPage);
+			console.log('>> last', lastPage, 'youtube', self.pages.video.youtube);
 			if(lastPage === self.pages.video.youtube) {
 				
 				/**
-				 * BUG, because the playlist window 
-				 * updates too when the PLAYLIST var is updated,
-				 * we will wait a little bit when the player window is 
-				 * the current view, sothat the page navigation feels smooth. 
+				 * BUG, because the playlist window updates too when the
+				 * PLAYLIST var is updated, we will wait a little bit when the
+				 * player window is the current view, sothat the page navigation
+				 * feels smooth.
 				 */
 				console.log('set timeout');
 				setTimeout(updateVueAndLoad, 1000, vue, data, autoplay);
