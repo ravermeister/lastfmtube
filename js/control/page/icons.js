@@ -96,6 +96,8 @@ class Icons {
                 return this.search;
             case pages.playlist.lastfm.value:
             case pages.playlist.lastfm.selecor:
+            case 'playlist-lastfm-container':
+            case 'playlist.lastfm':
 // default:
                 return this.headphones;
         }
