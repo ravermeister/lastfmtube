@@ -223,16 +223,7 @@ class PlaylistController {
              	$player.currentTrackData.PLAYCOUNT_CHANGE = newTrack.PLAYCOUNT_CHANGE;
             }
         };
-
-        if(!isTopSongPlaylist) {
-        	updateCurrentTrack(newTrack);
-        	if(trackSongPlay) {
-        		doTrackSongPlay(newTrack);
-        	}
-        	return;
-        }
-        
-        
+             
         let trackList = vue.content.$data.TRACKS;
         let oldTrack = null;
         for (let cnt = 0; cnt < vue.content.$data.TRACKS.length; cnt++) {
@@ -247,44 +238,18 @@ class PlaylistController {
         }
 
         if (oldTrack === null) {
-            if (trackList.length === 0) {
-                vue.content.$data.TRACKS.push(newTrack);
-                return;
-            }
-
-            if (vue.content.$data.TRACKS[0].NR > newTrack.NR) {
-                return; // we are higher than first pos in list
-            }
-
-            let trackInserted = false;
-            for (let cnt = 0; cnt < trackList.length; cnt++) {
-                let curTrack = trackList[cnt];
-                if (!trackInserted && curTrack.NR >= newTrack.NR) {
-                    vue.content.$data.TRACKS.splice(cnt, 0, newTrack);
-                    trackInserted = true;
-                } else if (trackInserted) {
-                    curTrack.NR = (parseInt(curTrack.NR) + 1);
-                }
-            }
-
-            if (vue.content.$data.TRACKS.length > $page.settings.general.tracksPerPage) {
-                vue.content.$data.TRACKS.splice(
-                	$page.settings.general.tracksPerPage,
-                    vue.content.$data.TRACKS.length
-                );
-
-                let curPage = parseInt(vue.menu.$data.CUR_PAGE);
-                let maxPages = parseInt(vue.menu.$data.MAX_PAGES);
-                if (curPage === maxPages) {
-                    vue.menu.$data.MAX_PAGES = maxPages;
-                }
-            }
+        	if(isTopSongPlaylist) {        		
+        		if (trackList.length <= (vue.$data.MAX_PAGES - 2)) {
+        			newTrack.NR = trackList.length;
+        			vue.content.$data.TRACKS.push(newTrack);
+        		}
+        	}
             updateCurrentTrack(newTrack);
             doTrackSongPlay(newTrack);
-            return;
+        } else {        	
+        	updateCurrentTrack(oldTrack);
+        	doTrackSongPlay(oldTrack);
         }
 
-        updateCurrentTrack(oldTrack);
-        doTrackSongPlay(oldTrack);
     }
 }
