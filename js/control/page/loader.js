@@ -202,9 +202,11 @@ class PageLoader {
 			self.setLocation('#'+page.selector);
 			if(vue !== null && data !== null) {		
 				vue.update(data);
-				$page.myVues.updateAll({
-					PLAYLIST: page.value
-				});
+				if(page !== $page.myVues.playlist.search) {					
+					$page.myVues.updateAll({
+						PLAYLIST: page.value
+					});
+				}
 			}
 		};  
 		
