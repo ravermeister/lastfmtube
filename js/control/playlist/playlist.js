@@ -225,8 +225,14 @@ class PlaylistController {
         	if(curTrack !== null && 
         		curTrack.ARTIST === track.ARTIST &&
         		curTrack.TITLE === track.TITLE) {
+        		
         		track.NR = curTrack.NR;
+        		track.LASTFM_ISPLAYLING = curTrack.LASTFM_ISPLAYLING;
+        		track.PLAYLIST = curTrack.PLAYLIST;
+        		track.PLAYSTATE = curTrack.PLAYSTATE;
+        		track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
         		track.VIDEO_ID = curTrack.VIDEO_ID;
+        		
         		$player.currentTrackData.track = track;
         		$page.myVues.video.youtube.header.CURRENT_TRACK = track;
         		console.log('current track updated!');
