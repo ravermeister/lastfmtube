@@ -207,6 +207,7 @@ class PlaylistController {
         newTrack.LASTPLAY = json.data.value.lastplayed;
         newTrack.PLAYCOUNT = json.data.value.playcount;
         newTrack.PLAYCOUNT_CHANGE = (parseInt(newTrack.NR) - parseInt(json.data.value.pos));
+        console.log(json, newTrack);
         let doTrackSongPlay = function(track){
         	if(!trackSongPlay) return;
         	$page.trackSongPlay(track);
