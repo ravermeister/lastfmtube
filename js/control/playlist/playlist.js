@@ -211,8 +211,8 @@ class PlaylistController {
     		 * playlist view
     		 */
         	track.PLAYCOUNT_CHANGE = 0;
-        	track.LASTPLAY = chartJson.data.value.lastplayed;
-            track.PLAYCOUNT = chartJson.data.value.playcount;
+        	track.LASTPLAY = json.data.value.lastplayed;
+            track.PLAYCOUNT = json.data.value.playcount;
             
         	return track;
         };
@@ -232,25 +232,24 @@ class PlaylistController {
 
         if(oldTrack !== null) {
         	updateTrack(oldTrack);
+            if(trackSongPlay) {
+            	doTrackSongPlay(oldTrack);
+            }
         } else if (isTopSongPlaylist) {
     		if (trackList.length <= (vue.content.$data.MAX_PAGES - 2)) {
     			let newTrack = LibvuePlaylist.createEmptyTrack();    			
     			newTrack.NR = trackList.length;
     			newTrack.ARTIST = json.data.value.artist;
     			newTrack.TITLE =  json.data.value.title;
-    			newTrack.LASTPLAY = chartJson.data.value.lastplayed;
+    			newTrack.LASTPLAY = json.data.value.lastplayed;
     			newTrack.LASTFM_ISPLAYING = true;
     			newTrack.PLAY_CONTROL = '',
     			newTrack.PLAYLIST = $page.loader.pages.playlist.topsongs.value,
-    			newTrack.PLAYSTATE = 'playling';
-    			
+    			newTrack.PLAYSTATE = 'playling';    			
     			vue.content.$data.TRACKS.push(newTrack);
     		}
         }
-        
-        if(trackSongPlay) {
-        	doTrackSongPlay(newTrack);
-        }
+
         if(updateCurrent) {
         	let curTrack = $player.currentTrackData.track;        	
         	if(curTrack !== null) {
