@@ -13,6 +13,11 @@ use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class Requirements extends DefaultJson {
 
      public function __construct() {

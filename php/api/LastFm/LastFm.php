@@ -12,6 +12,11 @@ use KubAT\PhpSimple\HtmlDomParser;
 use LastFmTube\Util\Functions;
 use simple_html_dom\simple_html_dom;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class LastFm {
 
      private $base_url = 'http://ws.audioscrobbler.com/2.0';

@@ -10,7 +10,11 @@ namespace LastFmTube\Api\YouTube;
 
 use Google_Service_YouTube_CommentThreadListResponse;
 
-
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class VideoComments {
 
      /**

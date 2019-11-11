@@ -13,6 +13,11 @@ use Exception;
 use Google_Client;
 use Google_Service_YouTube;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class YouTubeSearch {
 
      /*

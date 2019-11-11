@@ -9,7 +9,11 @@
 namespace LastFmTube\Util;
 
 /**
- * Merge Theme Tempplates together.
+ * Merge Theme Tempplates together (and optionally cache it). <br />
+ * <b>Note, the Template is only re-genareted if the <u>main</u>
+ * Template changes, sub- Template changes are <u>not</u> recocgnized. 
+ * For re-generating the template after a sub-template has changed, 
+ * delete the cache file in the temp directory (for now). </b>
  *
  * @author Jonny Rimkus<jonny@rimkus.it>
  *        

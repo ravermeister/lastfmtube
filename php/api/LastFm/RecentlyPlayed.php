@@ -8,8 +8,14 @@
  *******************************************************************************/
 namespace LastFmTube\Api\LastFm;
 
-use simple_html_dom\simple_html_dom;
 
+use KubAT\PhpSimple\HtmlDomParser;
+
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class RecentlyPlayed {
 
      private $page;
@@ -23,7 +29,7 @@ class RecentlyPlayed {
      /**
       * RecentlyPlayed constructor.
       *
-      * @param simple_html_dom $html
+      * @param HtmlDomParser $html
       */
      function __construct(&$html) {
           /**

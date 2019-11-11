@@ -8,6 +8,11 @@
  *******************************************************************************/
 namespace LastFmTube\Api\YouTube;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class YouTubeVideo {
 
      var $video_id;
