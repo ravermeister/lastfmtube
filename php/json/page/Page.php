@@ -15,6 +15,11 @@ use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class Page extends DefaultJson {
 
      public static function process($returnOutput = false) {

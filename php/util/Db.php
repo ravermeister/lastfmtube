@@ -14,9 +14,9 @@ use PDOException;
 use PDOStatement;
 
 /**
- * Class Db
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
  *
- * @package LastFmTube\Util
  */
 class Db {
 

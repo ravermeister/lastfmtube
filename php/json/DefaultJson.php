@@ -13,6 +13,11 @@ require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 use LastFmTube\Util\Functions;
 use Exception;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 abstract class DefaultJson implements JsonInterface {
 
      protected $apiName;

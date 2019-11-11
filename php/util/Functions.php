@@ -16,6 +16,11 @@ use DateTime;
 use Exception;
 use Locale;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class Functions {
 
      private static $instance;

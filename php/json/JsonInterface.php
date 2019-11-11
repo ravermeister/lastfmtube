@@ -8,6 +8,11 @@
  *******************************************************************************/
 namespace LastFmTube\Json;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 interface JsonInterface {
 
     /**

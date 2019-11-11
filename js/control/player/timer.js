@@ -83,16 +83,16 @@ class ChartTimer {
 
     createTimer(track) {
         // duration is send when metadata arrives from youtube,
-        // so delay max. 5 a second before checking duration
-        let delay = 500; // ms
-        let maxDelayCnt = 10; // 10x500 ms
+        // so delay max. 3 second before checking duration
+        let delay = 300; // ms
+        let maxDelayCnt = 10; // 10x300 ms
         let delayCnt = 0;
         let self = this;
         let durationTimer = setInterval(function () {
             if (delayCnt >= maxDelayCnt) {
-                clearInterval(durationTimer);
-                // console.error('can not start timer, no duration received from
-				// youtube');
+                self.clearTimer();
+                clearInterval(durationTimer);               
+                console.error('can not start chart timer, no duration received from youtube');
                 return;
             }
 
@@ -106,7 +106,7 @@ class ChartTimer {
 				// greater
                 
                 /** debug * */
-                /** lfmScrobbleDuration = 10; **/
+                /** lfmScrobbleDuration = 10; * */
                 
                 self.clearTimer();
                 self.timerStart = new Date();
@@ -121,7 +121,7 @@ class ChartTimer {
                 if (self.log)
                     console.log('timer created, remaining: ', self.timerRemaining);
 
-                if (self.log) clearInterval(durationTimer);
+                clearInterval(durationTimer);
             }
             delayCnt++;
         }, delay);

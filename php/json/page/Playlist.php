@@ -16,6 +16,11 @@ use LastFmTube\Util\Functions;
 use DateTime;
 use Exception;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class Playlist extends DefaultJson {
 
      public static function process($returnOutput = false) {

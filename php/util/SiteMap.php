@@ -12,6 +12,11 @@ use Exception;
 use Icamys\SitemapGenerator\SitemapGenerator;
 use DateTime;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class SiteMap {
 
      /**

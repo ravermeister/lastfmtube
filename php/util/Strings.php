@@ -8,6 +8,11 @@
  *******************************************************************************/
 namespace LastFmTube\Util;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class Strings {
 
      public static function startsWith($haystack, $needle) {

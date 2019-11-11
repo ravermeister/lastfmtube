@@ -11,6 +11,11 @@ namespace LastFmTube\Api\YouTube;
 use Google_Service_YouTube_Comment;
 use LastFmTube\Util\Functions;
 
+/**
+ * 
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *
+ */
 class VideoComment {
 
      /**
