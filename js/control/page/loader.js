@@ -245,11 +245,7 @@ class PageLoader {
 					}	
 				}
 							
-				if('previous' === autoPlay) {
-					$player.setCurrentTrack();
-					$player.loadPreviousSong();
-				} else if('next' === autoPlay || autoPlay){			
-					$player.setCurrentTrack();
+				if(autoPlay) {		
 					$player.loadNextSong();
 				}	
 			};

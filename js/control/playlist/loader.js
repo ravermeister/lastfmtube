@@ -278,7 +278,7 @@ class PlaylistLoader {
     	
 		switch(page.value) {
 			// Topsongs
-			case $page.pages.playlist.topsongs.value:
+			case $page.loader.pages.playlist.topsongs.value:
 				$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
 					if(result) {						
 						callBack($page.myVues.playlist.topsongs, data);
@@ -286,7 +286,7 @@ class PlaylistLoader {
 				});
 			break;
 			// User Playlist
-			case $page.pages.playlist.user.value:
+			case $page.loader.pages.playlist.user.value:
 				$playlist.loader.loadCustomerList(pageNum, function(result, data){
 					if(result) {						
 						callBack($page.myVues.playlist.topsongs, data);
@@ -294,7 +294,7 @@ class PlaylistLoader {
 				});
 			break;
 			// Last.fm Playlist
-			case $page.pages.playlist.lastfm.value:
+			case $page.loader.pages.playlist.lastfm.value:
 				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
 					if(result) {						
 						callBack($page.myVues.playlist.topsongs, data);
@@ -302,7 +302,7 @@ class PlaylistLoader {
 				});
 			break;
 			// Search Result List
-			case this.pages.playlist.search.value:
+			case $page.loader.pages.playlist.search.value:
 				if(needle === null) {					
 					if(this.isCurrentPage(page)) {
 						needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;			        

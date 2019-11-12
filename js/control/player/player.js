@@ -128,14 +128,21 @@ class PlayerController {
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPageNum + 1) > maxPages) curPageNum = 1;
             else curPageNum++;
-
-            console.log('is last track', curPageNum);
-            let self = this;
-            $page.loader.loadPage(curPage, {
-            	pnum: curPageNum,
+            let pageData = {
+                pnum: curPageNum,
             	lfmuser: user
-            }, 'next');
+            };
             
+            console.log('is last track', curPageNum, 'isps: ',
+            		$page.loader.pages.isPlaylist(curPage));
+            let self = this;
+            $playlist.loader.load(page, pageData, function(vue, data){
+    			$page.loader.pageInfo.currentPage.data = pageData;	
+    			vue.update(data);
+    			
+    	        let tracks = curVue.content.$data.TRACKS;
+    	        this.loadSong(tracks[0]);
+            });
             return;
         } else if (nextIndex < 0) {
             nextIndex = 0;
