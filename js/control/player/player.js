@@ -269,7 +269,7 @@ class PlayerController {
 // if($page.myVues.video.youtube.comments.showComments) {
 // $playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
 // }
-                $page.setLoading();
+                $page.loader.setLoading();
                 return;
             }
             self.errorLoopCount++;
@@ -340,7 +340,7 @@ class PlayerController {
             	$playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
             }
             
-            $page.setLoading();
+            $page.loader.setLoading();
         } else {
             if (this.errorLoopCount > this.maxErrorLoop) {
                 console.error('maximum error loop reached');
