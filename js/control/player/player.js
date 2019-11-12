@@ -209,6 +209,7 @@ class PlayerController {
                     	console.error('error loading next track after end of page');
                     	return;
                     }
+                    console.log('load song', getTracks(tracksPerPage-1));
                     self.loadSong(getTracks(tracksPerPage-1));
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
