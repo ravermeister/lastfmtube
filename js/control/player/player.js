@@ -197,8 +197,7 @@ class PlayerController {
             this.setCurrentState();
             this.currentTrackData.track = null;
         }
-        if(track === null) return;
-        console.log('track>', track);
+        if(track === null || 'undefined' === typeof track) return;
         
         this.currentTrackData.track = track;
         $page.myVues.video.youtube.header.CURRENT_TRACK = track;
