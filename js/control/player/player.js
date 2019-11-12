@@ -208,7 +208,7 @@ class PlayerController {
             return;
         }
 
-        this.loadSong(track[prevIndex]);
+        this.loadSong(tracks[prevIndex]);
     }
 
     setCurrentTrack(track, force = false) {
