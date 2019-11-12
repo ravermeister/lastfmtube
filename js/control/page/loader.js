@@ -242,20 +242,19 @@ class PageLoader {
 						$page.myVues.updateAll({
 							PLAYLIST: page.value
 						});	
-					}
-
-					console.log('>>> autplay', autoPlay);
-					
-					if('previous' === autoPlay) {
-						$player.setCurrentTrack();
-						$player.loadPreviousSong();
-					} else if('next' === autoPlay || autoPlay){			
-						console.log('>>> autplay', autoPlay);
-						$player.setCurrentTrack();
-						$player.loadNextSong();
-					}		
+					}	
 				}
+			
+				console.log('>>> autplay', autoPlay);
 				
+				if('previous' === autoPlay) {
+					$player.setCurrentTrack();
+					$player.loadPreviousSong();
+				} else if('next' === autoPlay || autoPlay){			
+					console.log('>>> autplay', autoPlay);
+					$player.setCurrentTrack();
+					$player.loadNextSong();
+				}	
 			};
 			
 			self.setLoading(lastPage.value);
