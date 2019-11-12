@@ -113,8 +113,9 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;        
-        let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
+        let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
+        let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
@@ -172,7 +173,8 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;        
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
-        let prevIndex = isFirst ? tracks.length - 2 : curNr - 2;
+        let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
+        let prevIndex = isLast ? tracks.length - 2 : (curNr % tracksPerPage) - 2;
     	
 
         if(this.loadNextOnError) {
@@ -210,8 +212,8 @@ class PlayerController {
             return;
         }
 
-        console.log(tracks[curNr - 2], tracks);
-        this.loadSong(tracks[curNr - 2]);
+        console.log(tracks[prevIndex], tracks);
+        this.loadSong(tracks[prevIndex]);
     }
 
     setCurrentTrack(track, force = false) {
