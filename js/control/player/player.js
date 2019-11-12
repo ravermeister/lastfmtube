@@ -168,11 +168,11 @@ class PlayerController {
         if (tracks === null || tracks.length === 0) return;    	
 
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
-        let curTrack = this.currentTrackData.track;
+    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
         
+        let curTrack = this.currentTrackData.track;        
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
-        let isFirst = curNr !== null &&  
-    	(curNr === ((curPageNum - 1) * tracksPerPage) + 1);
+        let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let prevIndex = isFirst ? tracks.length - 2 : curNr - 2;
     	
 
