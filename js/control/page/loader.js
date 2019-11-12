@@ -244,14 +244,13 @@ class PageLoader {
 					}
 				}
 
-				if(autoPlay){			
-					let isNum = Number.isInteger(autoPlay);
+				let isNum = Number.isInteger(autoPlay);
+				if(isNum) {
 					console.log('>>> autplay', autoPlay,'isNum', isNum);
-					if(isNum) {
-						$player.loadSong(autoPlay);
-					} else {						
-						$player.loadNextSong();
-					}
+					$player.loadSong(autoPlay);
+				} else if(autoPlay){			
+					console.log('>>> autplay', autoPlay,'isNum', isNum);
+					$player.loadNextSong();
 				}				
 			};
 			
