@@ -202,7 +202,7 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = vue.content.$data.TRACKS;
-    	        self.loadSong(tracks[tracks.length - 2]);
+    	        self.loadSong(tracks[tracks.length - 1]);
             });
             return;
         }
