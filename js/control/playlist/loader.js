@@ -261,4 +261,64 @@ class PlaylistLoader {
             }
         });
     }
+    
+    load(page, pageData, callBack) {
+    	if(!$page.loader.pages.isPlaylist(page)) {
+    		return;
+    	}
+    	
+		let pageNum = pageData !== null && ('undefined' !== typeof pageData.pnum) ?
+				pageData.pnum : 1;
+		let needle = pageData !== null && ('undefined' !== typeof pageData.needle) ?
+				pageData.needle : null;
+		let lfmUser = pageData !== null && ('undefined' !== typeof pageData.lfmuser) ?
+				pageData.lfmuser : null;
+		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
+				pageData.sortby : null;
+    	
+		switch(page.value) {
+			// Topsongs
+			case $page.loader.pages.playlist.topsongs.value:
+				$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
+					if(result) {						
+						callBack($page.myVues.playlist.topsongs, data);
+					}
+				});
+			break;
+			// User Playlist
+			case $page.loader.pages.playlist.user.value:
+				$playlist.loader.loadCustomerList(pageNum, function(result, data){
+					if(result) {						
+						callBack($page.myVues.playlist.topsongs, data);
+					}
+				});
+			break;
+			// Last.fm Playlist
+			case $page.loader.pages.playlist.lastfm.value:
+				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
+					if(result) {						
+						callBack($page.myVues.playlist.topsongs, data);
+					}
+				});
+			break;
+			// Search Result List
+			case $page.loader.pages.playlist.search.value:
+				if(needle === null) {					
+					if(this.isCurrentPage(page)) {
+						needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;			        
+					}
+					if(needle === null) {								
+						console.log('no search needle provided, abort load search ', pageData);
+						return;
+					}
+				}
+				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
+					if(result) {	
+						data.SEARCH_NEEDLE = needle;	
+						callBack($page.myVues.playlist.topsongs, data);												
+					}
+				});
+			break;
+		}	
+    }
 }

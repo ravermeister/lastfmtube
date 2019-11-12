@@ -110,6 +110,7 @@ class PlayerController {
 
     	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
+    	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;        
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
@@ -119,26 +120,37 @@ class PlayerController {
         	this.loadDirectionOnError = 'next';
         }
         
-        if (isLast || nextIndex >= tracksPerPage) {
+        if (isLast || nextIndex > tracksPerPage) {
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPageNum + 1) > maxPages) curPageNum = 1;
             else curPageNum++;
-
-            console.log('is last track', curPageNum);
-            let self = this;
-            $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
-            	pnum: curPageNum,
+            let pageData = {
+                pnum: curPageNum,
             	lfmuser: user
-            }, true);
+            };
             
+            let self = this;
+            $playlist.loader.load(curPage, pageData, function(vue, data){
+    			if($page.loader.pageInfo.currentPage.value === curPage)	{
+    				$page.loader.pageInfo.currentPage.data = pageData;
+    			} else if($page.loader.pageInfo.lastPage.value === curPage) {
+    				$page.loader.pageInfo.lastPage.data = pageData;
+    			}else if($page.loader.pageInfo.lastPlaylist.value === curPage) {
+    				$page.loader.pageInfo.lastPlaylist.data = pageData;
+    			}
+    			vue.update(data);
+    			
+    	        let tracks = vue.content.$data.TRACKS;
+    	        self.loadSong(tracks[0]);
+            });
             return;
         } else if (nextIndex < 0) {
             nextIndex = 0;
         }
-        
+
         this.loadSong(tracks[nextIndex]);
     }
 
@@ -154,39 +166,48 @@ class PlayerController {
         let tracks = curVue.content.$data.TRACKS;
         if (tracks === null || tracks.length === 0) return;    	
 
-        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
-    	let prevIndex = tracksPerPage - 2;    	
-    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
+        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
         let curTrack = this.currentTrackData.track;
-        
-        if (curTrack !== null) {        	
-        	let curNr = curTrack !== null ? parseInt(curTrack.NR) : 0;
-        	prevIndex = (parseInt(curNr) % tracksPerPage) - 2;
-        }
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage - 1;
+        let prevIndex = (parseInt(curNr) % tracksPerPage) - 1;
     	
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
         }
         
-        if (prevIndex < 0) {
-            let curPageNum = curVue.menu.$data.CUR_PAGE;
-            if ('undefined' === typeof curPageNum) curPageNum = 1;
-            let maxPages = curVue.menu.$data.MAX_PAGES;
-            let user = curVue.menu.$data.LASTFM_USER_NAME;
-
+        let self = this;
+        if(prevIndex <= 0) {   
+            let playlist = curVue.menu;
+            let curPageNum = playlist.$data.CUR_PAGE;
+            let maxPages = playlist.$data.MAX_PAGES;
+            let user = playlist.$data.LASTFM_USER_NAME;
+            console.log('curpage', curPageNum);
             if ((curPageNum - 1) < 1) curPageNum = maxPages;
-            else curPageNum--;
-            console.log('is first track', curPageNum);
-            let self = this;
-            $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
-            	pnum: curPageNum,
+            else curPageNum--;            
+            let pageData = {
+                pnum: curPageNum,
             	lfmuser: user
-            }, 'previous');
+            };
+            
+            let self = this;
+            $playlist.loader.load(curPage, pageData, function(vue, data){
+    			if($page.loader.pageInfo.currentPage.value === curPage)	{
+    				$page.loader.pageInfo.currentPage.data = pageData;
+    			} else if($page.loader.pageInfo.lastPage.value === curPage) {
+    				$page.loader.pageInfo.lastPage.data = pageData;
+    			}else if($page.loader.pageInfo.lastPlaylist.value === curPage) {
+    				$page.loader.pageInfo.lastPlaylist.data = pageData;
+    			}
+    			vue.update(data);
+    			
+    	        let tracks = vue.content.$data.TRACKS;
+    	        self.loadSong(tracks[tracks.length - 2]);
+            });
             return;
         }
 
-        this.loadSong(track[prevIndex]);
+        this.loadSong(tracks[prevIndex]);
     }
 
     setCurrentTrack(track, force = false) {
@@ -197,7 +218,8 @@ class PlayerController {
             this.setCurrentState();
             this.currentTrackData.track = null;
         }
-
+        if(track === null || 'undefined' === typeof track) return;
+        
         this.currentTrackData.track = track;
         $page.myVues.video.youtube.header.CURRENT_TRACK = track;
         if (track.PLAYLIST !== 'playlist.search') {
@@ -209,12 +231,14 @@ class PlayerController {
     setCurrentState(newState = '') {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
+
         curTrack.PLAYSTATE = newState;
         $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
     }
 
     loadSong(track) {
-
+    	console.log('load track', track);
+    	
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
@@ -330,7 +354,8 @@ class PlayerController {
 
     isCurrentTrack(track) {
         let curTrack = this.currentTrackData.track;
-        if (curTrack === null) return false;        
+        if(curTrack === null || track === null || 'undefined' === typeof track) return false;
+        
         let checkNr = curTrack.PLAYLIST !== 'playlist.topsongs';
 
         // isEqual
