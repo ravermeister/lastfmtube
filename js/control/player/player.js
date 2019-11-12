@@ -110,7 +110,6 @@ class PlayerController {
 
     	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
-    	console.log('cur page', curPage.value, 'pnum', curPageNum);
     	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;        
@@ -169,13 +168,10 @@ class PlayerController {
 
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let prevIndex = tracksPerPage - 2;    	
-    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
         let curTrack = this.currentTrackData.track;
-        
-        if (curTrack !== null) {        	
-        	let curNr = curTrack !== null ? parseInt(curTrack.NR) : 0;
-        	prevIndex = (parseInt(curNr) % tracksPerPage) - 2;
-        }
+   
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 0;
+        prevIndex = (parseInt(curNr) % tracksPerPage) - 1;
     	
 
         if(this.loadNextOnError) {
@@ -183,21 +179,33 @@ class PlayerController {
         }
         
         let self = this;
-        if(curNr < 0) {        	
-        	$playlist.loader.load(curPage, pageData, function(vue, data){
-        		if($page.loader.pageInfo.currentPage.value === curPage)	{
-        			$page.loader.pageInfo.currentPage.data = pageData;
-        		} else if($page.loader.pageInfo.lastPage.value === curPage) {
-        			$page.loader.pageInfo.lastPage.data = pageData;
-        		}else if($page.loader.pageInfo.lastPlaylist.value === curPage) {
-        			$page.loader.pageInfo.lastPlaylist.data = pageData;
-        		}
-        		vue.update(data);
-        		
-        		let tracks = vue.content.$data.TRACKS;
-        		self.loadSong(tracks.length - 2);
-        	});
-        	return;
+        if(curNr <= 0) {   
+            let playlist = curVue.menu;
+            let curPageNum = playlist.$data.CUR_PAGE;
+            let maxPages = playlist.$data.MAX_PAGES;
+            let user = playlist.$data.LASTFM_USER_NAME;
+            if ((curPageNum - 1) < 1) curPageNum = maxPages;
+            else curPageNum--;
+            let pageData = {
+                pnum: curPageNum,
+            	lfmuser: user
+            };
+            
+            let self = this;
+            $playlist.loader.load(curPage, pageData, function(vue, data){
+    			if($page.loader.pageInfo.currentPage.value === curPage)	{
+    				$page.loader.pageInfo.currentPage.data = pageData;
+    			} else if($page.loader.pageInfo.lastPage.value === curPage) {
+    				$page.loader.pageInfo.lastPage.data = pageData;
+    			}else if($page.loader.pageInfo.lastPlaylist.value === curPage) {
+    				$page.loader.pageInfo.lastPlaylist.data = pageData;
+    			}
+    			vue.update(data);
+    			
+    	        let tracks = vue.content.$data.TRACKS;
+    	        self.loadSong(tracks.length - 2);
+            });
+            return;
         }
 
         this.loadSong(track[prevIndex]);
