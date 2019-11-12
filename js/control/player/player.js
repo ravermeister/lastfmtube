@@ -110,7 +110,7 @@ class PlayerController {
 
     	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
-    	console.log(curPageNum, '<<< cur page');
+    	console.log('cur page', curPage.value, 'pnum', curPageNum);
     	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;        
