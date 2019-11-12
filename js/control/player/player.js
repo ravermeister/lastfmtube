@@ -119,7 +119,7 @@ class PlayerController {
         	this.loadDirectionOnError = 'next';
         }
         
-        if (isLast || nextIndex >= tracksPerPage) {
+        if (isLast || nextIndex > tracksPerPage) {
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
