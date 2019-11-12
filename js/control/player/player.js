@@ -145,7 +145,6 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = vue.content.$data.TRACKS;
-    	        console.log('after page load', tracks[0]);
     	        self.loadSong(tracks[0]);
             });
             return;
@@ -183,21 +182,22 @@ class PlayerController {
         	this.loadDirectionOnError = 'previous';
         }
         
-        if (prevIndex < 0) {
-            let curPageNum = curVue.menu.$data.CUR_PAGE;
-            if ('undefined' === typeof curPageNum) curPageNum = 1;
-            let maxPages = curVue.menu.$data.MAX_PAGES;
-            let user = curVue.menu.$data.LASTFM_USER_NAME;
-
-            if ((curPageNum - 1) < 1) curPageNum = maxPages;
-            else curPageNum--;
-            console.log('is first track', curPageNum);
-            let self = this;
-            $page.loader.loadPage(curPage, {
-            	pnum: curPageNum,
-            	lfmuser: user
-            }, 'previous');
-            return;
+        let self = this;
+        if(curNr < 0) {        	
+        	$playlist.loader.load(curPage, pageData, function(vue, data){
+        		if($page.loader.pageInfo.currentPage.value === curPage)	{
+        			$page.loader.pageInfo.currentPage.data = pageData;
+        		} else if($page.loader.pageInfo.lastPage.value === curPage) {
+        			$page.loader.pageInfo.lastPage.data = pageData;
+        		}else if($page.loader.pageInfo.lastPlaylist.value === curPage) {
+        			$page.loader.pageInfo.lastPlaylist.data = pageData;
+        		}
+        		vue.update(data);
+        		
+        		let tracks = vue.content.$data.TRACKS;
+        		self.loadSong(tracks.length - 2);
+        	});
+        	return;
         }
 
         this.loadSong(track[prevIndex]);
