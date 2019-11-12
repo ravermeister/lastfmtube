@@ -243,12 +243,14 @@ class PageLoader {
 							PLAYLIST: page.value
 						});	
 						
-						let isNum = Number.isInteger(autoPlay);
-						if(isNum) {					
+						
+						if('previous' === autoPlay) {
 							console.log('>>> autplay', autoPlay,'isNum', isNum);
-							$player.loadSong(autoPlay);
+							$player.setCurrentTrack();
+							$player.loadPreviousSong();
 						} else if(autoPlay){			
 							console.log('>>> autplay', autoPlay,'isNum', isNum);
+							$player.setCurrentTrack();
 							$player.loadNextSong();
 						}				
 					}
