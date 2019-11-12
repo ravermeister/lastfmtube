@@ -131,7 +131,7 @@ class PlayerController {
 
             console.log('is last track', curPageNum);
             let self = this;
-            $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
+            $page.loader.loadPage(curPage, {
             	pnum: curPageNum,
             	lfmuser: user
             }, 'next');
@@ -181,7 +181,7 @@ class PlayerController {
             else curPageNum--;
             console.log('is first track', curPageNum);
             let self = this;
-            $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
+            $page.loader.loadPage(curPage, {
             	pnum: curPageNum,
             	lfmuser: user
             }, 'previous');

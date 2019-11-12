@@ -261,4 +261,67 @@ class PlaylistLoader {
             }
         });
     }
+    
+    load(page, pageData) {
+    	if(!$page.loader.pages.isPlaylist(page)) {
+    		return;
+    	}
+    	
+		switch(page.value) {
+			// Topsongs
+						case this.pages.playlist.topsongs.value:
+							$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
+								if(result) {						
+									finished($page.myVues.playlist.topsongs, data, autoPlay);
+								}
+							});
+						break;
+			// User Playlist
+						case this.pages.playlist.user.value:
+							$playlist.loader.loadCustomerList(pageNum, function(result, data){
+								if(result) {						
+									finished($page.myVues.playlist.user, data, autoPlay);
+								}
+							});
+						break;
+			// Last.fm Playlist
+						case this.pages.playlist.lastfm.value:
+							$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
+								if(result) {						
+									finished($page.myVues.playlist.lastfm, data, autoPlay);
+								}
+							});
+						break;
+			// Search Result List
+						case this.pages.playlist.search.value:
+							if(needle === null) {					
+								if(this.isCurrentPage(page)) {
+									needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;			        
+								}
+								if(needle === null) {								
+									console.log('no search needle provided, abort load search ', pageData);
+									return;
+								}
+							}
+							$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
+								if(result) {	
+									data.SEARCH_NEEDLE = needle;	
+									finished($page.myVues.playlist.search, data, autoPlay);												
+								}
+							});
+						break;
+						case this.pages.userlist.topuser.value:
+							$playlist.loader.loadTopUser(pageNum, function(result, data){
+								if(result) {						
+									finished($page.myVues.userlist.topuser, data, autoPlay);
+								}
+							});
+						break;
+			// Top Last.fm User
+			// YouTube Player View
+						case this.pages.video.youtube.value:				
+								finished(null, null, autoPlay);
+						break;
+					}	
+    }
 }
