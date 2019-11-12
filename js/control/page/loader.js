@@ -245,9 +245,9 @@ class PageLoader {
 					}	
 				}
 							
-				if(autoPlay) {		
-					$player.loadNextSong();
-				}	
+//				if(autoPlay) {		
+//					$player.loadNextSong();
+//				}	
 			};
 			
 			self.setLoading(lastPage.value);
