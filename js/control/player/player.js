@@ -146,6 +146,7 @@ class PlayerController {
                     	console.error('error loading next track after end of page');
                     	return;
                     }
+                    console.log('load song', getTracks(0));
                     self.loadSong(getTrack(0));
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
@@ -200,7 +201,7 @@ class PlayerController {
             else curPageNum--;
             console.log('is first track', curPageNum);
             let self = this;
-            $page.loader.loadPage($page.loader.pageInfo.currentPage, {
+            $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
             	pnum: curPageNum,
             	lfmuser: user
             }, function (success) {
