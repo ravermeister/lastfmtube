@@ -169,6 +169,7 @@ class PlayerController {
 
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
         let curTrack = this.currentTrackData.track;
+        
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let prevTrackNr = (parseInt(curNr) % tracksPerPage) - 1;
     	
@@ -177,6 +178,7 @@ class PlayerController {
         	this.loadDirectionOnError = 'previous';
         }
         
+        console.log('curnr', curNr);
         let self = this;
         if(prevTrackNr <= 0) {   
             let playlist = curVue.menu;
