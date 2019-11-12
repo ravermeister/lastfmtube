@@ -243,9 +243,10 @@ class PageLoader {
 							PLAYLIST: page.value
 						});	
 					}
+
+					console.log('>>> autplay', autoPlay);
 					
 					if('previous' === autoPlay) {
-						console.log('>>> autplay', autoPlay);
 						$player.setCurrentTrack();
 						$player.loadPreviousSong();
 					} else if('next' === autoPlay || autoPlay){			
