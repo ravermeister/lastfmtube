@@ -133,14 +133,13 @@ class PlayerController {
             	lfmuser: user
             };
             
-            console.log('is last track', curPageNum, 'isps: ',
-            		$page.loader.pages.isPlaylist(curPage));
             let self = this;
             $playlist.loader.load(curPage, pageData, function(vue, data){
     			$page.loader.pageInfo.currentPage.data = pageData;	
     			vue.update(data);
     			
     	        let tracks = curVue.content.$data.TRACKS;
+    	        console.log('after page load', curPage, ' track', tracks[0]);
     	        self.loadSong(tracks[0]);
             });
             return;
