@@ -244,7 +244,11 @@ class PageLoader {
 					}
 				}
 				if(autoplay) {
-					$player.loadNextSong();
+					if('previous') {
+						$player.loadPreviousSong();
+					} else {						
+						$player.loadNextSong();
+					}
 				}
 			};
 			

@@ -106,20 +106,18 @@ class PlayerController {
     	}
     	let curVue = $page.myVues.forPage(curPage);    	
     	
-    	let getTrack = function(pos) {
-        	
+    	let getTrack = function(pos) {        	
             let tracks = curVue.content.$data.TRACKS;
             if (tracks.length === 0 || (tracks.length-1) < pos) return null;
             return tracks[pos];
     	};
         
+    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
+    	let prevIndex = tracksPerPage - 2;    	
+    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
         let curTrack = this.currentTrackData.track;
-        if (curTrack === null) return;
-        
-        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
-        let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
-        
+        let curTrack = this.currentTrackData.track;
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;        
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  (curPageNum * tracksPerPage) === curNr;
 
@@ -140,19 +138,8 @@ class PlayerController {
             $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
             	pnum: curPageNum,
             	lfmuser: user
-            }, function (success) {
-                try {
-                    if (!success) {
-                    	console.error('error loading next track after end of page');
-                    	return;
-                    }
-                    console.log('load song', getTracks(0));
-                    self.loadSong(getTrack(0));
-                } catch (e) {
-                    console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
-                }
-            });
-
+            }, true);
+            
             return;
         } else if (nextIndex < 0) {
             nextIndex = 0;
@@ -178,14 +165,16 @@ class PlayerController {
             return tracks[pos];
     	};
     	
+    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
+    	let prevIndex = tracksPerPage - 2;    	
+    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
         let curTrack = this.currentTrackData.track;
-        if (curTrack === null) return;
-    	
-        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
-        let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
         
-        let prevIndex = (parseInt(curNr) % tracksPerPage) - 2;
+        if (curTrack !== null) {        	
+        	let curNr = curTrack !== null ? parseInt(curTrack.NR) : 0;
+        	prevIndex = (parseInt(curNr) % tracksPerPage) - 2;
+        }
+    	
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
@@ -204,18 +193,7 @@ class PlayerController {
             $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
             	pnum: curPageNum,
             	lfmuser: user
-            }, function (success) {
-                try {
-                    if (!success) {
-                    	console.error('error loading next track after end of page');
-                    	return;
-                    }
-                    console.log('load song', getTracks(tracksPerPage-1));
-                    self.loadSong(getTracks(tracksPerPage-1));
-                } catch (e) {
-                    console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
-                }
-            });
+            }, 'previous');
             return;
         }
 
