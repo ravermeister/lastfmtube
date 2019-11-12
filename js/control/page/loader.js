@@ -243,13 +243,11 @@ class PageLoader {
 						});
 					}
 				}
-				if(autoplay) {
-					if('previous') {
-						$player.loadPreviousSong();
-					} else {						
-						$player.loadNextSong();
-					}
-				}
+				if('previous' === autoPlay) {
+					$player.loadPreviousSong();
+				} else if(autoPlay){						
+					$player.loadNextSong();
+				}				
 			};
 			
 			self.setLoading(lastPage.value);
@@ -260,10 +258,9 @@ class PageLoader {
 				
 				/**
 				 * BUG, because the youtube player window updates too when the
-				 * PLAYLIST var of the vue implementations are updated, 
-				 * we will wait a little bit when the 
-				 * player window is the current view, sothat the page navigation
-				 * feels smooth.
+				 * PLAYLIST var of the vue implementations are updated, we will
+				 * wait a little bit when the player window is the current view,
+				 * sothat the page navigation feels smooth.
 				 */
 				setTimeout(updateVueAndLoad, 300, vue, data, autoplay);
 			} else {				
