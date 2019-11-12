@@ -54,9 +54,10 @@ class PlayerController {
             }
         });
         this.addErrorListener(function () {
-        	self.errorLoopCount++;
+        	self.errorLoopCount++;        	
             let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
             
+            $player.setLoading();
             if (curVue.menu.$data.PLAYLIST === 'playlist.search') {
                 curVue.menu.$data.SEARCH_VIDEO_ID = '';
             }
@@ -97,7 +98,7 @@ class PlayerController {
     }
 
     loadNextSong() {
-
+    	
     	let curPage = $page.loader.pageInfo.currentPage.value;
     	if(curPage === $page.loader.pages.video.youtube) {
     		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
@@ -120,7 +121,9 @@ class PlayerController {
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
-        console.log('islast', isLast ? 'true' : 'false', 'curnr', curNr, ((curNr-((curPageNum - 1) * tracksPerPage)) % tracks.length));
+        
+        $page.loader.setLoading(null, true);
+        
         if (isLast || nextIndex > tracksPerPage) {
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
@@ -180,8 +183,8 @@ class PlayerController {
         	this.loadDirectionOnError = 'previous';
         }
         
-        console.log('curnr', curNr, 'previndex', prevIndex, 'isfirst', isFirst);
-        let self = this;
+        $page.loader.setLoading(null, true);
+        
         if(isFirst) {   
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
@@ -211,7 +214,6 @@ class PlayerController {
             return;
         }
 
-        console.log(tracks[prevIndex], tracks);
         this.loadSong(tracks[prevIndex]);
     }
 
@@ -246,7 +248,6 @@ class PlayerController {
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
-        
         let self = this;
         let loadNextAfterError = function(errMsg = null) {
             if (self.errorLoopCount > self.maxErrorLoop) {
@@ -268,6 +269,7 @@ class PlayerController {
 // if($page.myVues.video.youtube.comments.showComments) {
 // $playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
 // }
+                $page.setLoading();
                 return;
             }
             self.errorLoopCount++;
@@ -280,16 +282,14 @@ class PlayerController {
             }
         }
 
-        
+        $page.loader.setLoading(null, true);
         this.setCurrentTrack(track);
 
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         if (needle.isValid(true)) {
-            this.loadVideo(needle.videoId);
+            this.loadVideo(needle.videoId);            
             return;
-        }
-
-        if (!needle.isValid()) {
+        } else if (!needle.isValid()) {
         	loadNextAfterError();
             return;
         }
@@ -303,6 +303,7 @@ class PlayerController {
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {        	
         	console.error(xhr);
+        	$page.setLoading();
         	loadNextAfterError();
         });
     }
@@ -338,6 +339,8 @@ class PlayerController {
             if($page.myVues.video.youtube.comments.showComments) {
             	$playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
             }
+            
+            $page.setLoading();
         } else {
             if (this.errorLoopCount > this.maxErrorLoop) {
                 console.error('maximum error loop reached');
