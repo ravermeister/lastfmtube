@@ -168,8 +168,8 @@ class PlayerController {
 
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
         let curTrack = this.currentTrackData.track;
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage - 1;
-        let prevIndex = (parseInt(curNr) % tracksPerPage) - 1;
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
+        let prevTrackNr = (parseInt(curNr) % tracksPerPage) - 1;
     	
 
         if(this.loadNextOnError) {
@@ -182,7 +182,6 @@ class PlayerController {
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
-            console.log('curpage', curPageNum);
             if ((curPageNum - 1) < 1) curPageNum = maxPages;
             else curPageNum--;            
             let pageData = {
@@ -207,7 +206,7 @@ class PlayerController {
             return;
         }
 
-        this.loadSong(tracks[prevIndex]);
+        this.loadSong(tracks[prevTrackNr - 1]);
     }
 
     setCurrentTrack(track, force = false) {
