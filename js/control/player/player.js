@@ -197,7 +197,9 @@ class PlayerController {
             this.setCurrentState();
             this.currentTrackData.track = null;
         }
-
+        if(track === null) return;
+        
+        
         this.currentTrackData.track = track;
         $page.myVues.video.youtube.header.CURRENT_TRACK = track;
         if (track.PLAYLIST !== 'playlist.search') {
