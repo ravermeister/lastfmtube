@@ -303,7 +303,7 @@ class PlayerController {
             self.loadVideo(needle.videoId);
         }).fail(function (xhr) {        	
         	console.error(xhr);
-        	$page.setLoading();
+        	$page.loader.setLoading();
         	loadNextAfterError();
         });
     }
