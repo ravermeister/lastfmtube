@@ -136,7 +136,7 @@ class PlayerController {
             console.log('is last track', curPageNum, 'isps: ',
             		$page.loader.pages.isPlaylist(curPage));
             let self = this;
-            $playlist.loader.load(page, pageData, function(vue, data){
+            $playlist.loader.load(curPage, pageData, function(vue, data){
     			$page.loader.pageInfo.currentPage.data = pageData;	
     			vue.update(data);
     			
