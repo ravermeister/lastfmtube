@@ -105,13 +105,9 @@ class PlayerController {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
     	let curVue = $page.myVues.forPage(curPage);    	
-    	
-    	let getTrack = function(pos) {        	
-            let tracks = curVue.content.$data.TRACKS;
-            if (tracks.length === 0 || (tracks.length-1) < pos) return null;
-            return tracks[pos];
-    	};
-        
+        let tracks = curVue.content.$data.TRACKS;
+        if (tracks.length === 0 || (tracks.length-1) < pos) return;    	
+
     	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
         let curTrack = this.currentTrackData.track;
@@ -123,7 +119,7 @@ class PlayerController {
         	this.loadDirectionOnError = 'next';
         }
         
-        if (isLast || nextIndex >= tracks.length) {
+        if (isLast || nextIndex >= tracksPerPage) {
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
@@ -143,7 +139,7 @@ class PlayerController {
             nextIndex = 0;
         }
         
-        this.loadSong(getTrack(nextIndex));
+        this.loadSong(tracks[nextIndex]);
     }
 
     loadPreviousSong() {
@@ -155,13 +151,8 @@ class PlayerController {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
     	let curVue = $page.myVues.forPage(curPage);    	
-    	
-    	let getTrack = function(pos) {
-        	
-            let tracks = curVue.content.$data.TRACKS;
-            if (tracks.length === 0 || (tracks.length-1) < pos) return null;
-            return tracks[pos];
-    	};
+        let tracks = curVue.content.$data.TRACKS;
+        if (tracks.length === 0 || (tracks.length-1) < pos) return;   
     	
     	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let prevIndex = tracksPerPage - 2;    	
@@ -195,7 +186,7 @@ class PlayerController {
             return;
         }
 
-        this.loadSong(getTrack(prevIndex));
+        this.loadSong(track[prevIndex]);
     }
 
     setCurrentTrack(track, force = false) {
