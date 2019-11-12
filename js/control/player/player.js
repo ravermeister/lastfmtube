@@ -97,18 +97,25 @@ class PlayerController {
     }
 
     loadNextSong() {
+
     	let curPage = $page.loader.pageInfo.currentPage.value;
     	if(curPage === $page.loader.pages.video.youtube) {
     		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
-    	
     	let curVue = $page.myVues.forPage(curPage);    	
-        let tracks = curVue.content.$data.TRACKS;
-        if (tracks.length === 0) return;
+    	
+    	let getTrack = function(pos) {
+        	
+            let tracks = curVue.content.$data.TRACKS;
+            if (tracks.length === 0 || (tracks.length-1) < pos) return null;
+            return tracks[pos];
+    	};
         
         let curTrack = this.currentTrackData.track;
+        if (curTrack === null) return;
+        
         let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
         let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
@@ -121,7 +128,6 @@ class PlayerController {
         }
         
         if (isLast || nextIndex >= tracks.length) {
-        	console.log('is last track');
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
@@ -129,6 +135,7 @@ class PlayerController {
             if ((curPageNum + 1) > maxPages) curPageNum = 1;
             else curPageNum++;
 
+            console.log('is last track', curPageNum);
             let self = this;
             $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
             	pnum: curPageNum,
@@ -139,7 +146,7 @@ class PlayerController {
                     	console.error('error loading next track after end of page');
                     	return;
                     }
-                    self.loadNextSong();
+                    self.loadSong(getTrack(0));
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
                 }
@@ -155,27 +162,35 @@ class PlayerController {
 
     loadPreviousSong() {
 
-        let curTrack = this.currentTrackData.track;
-        if (curTrack === null) return;
-    	
     	let curPage = $page.loader.pageInfo.currentPage.value;
     	if(curPage === $page.loader.pages.video.youtube) {
     		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
+    	let curVue = $page.myVues.forPage(curPage);    	
+    	
+    	let getTrack = function(pos) {
+        	
+            let tracks = curVue.content.$data.TRACKS;
+            if (tracks.length === 0 || (tracks.length-1) < pos) return null;
+            return tracks[pos];
+    	};
+    	
+        let curTrack = this.currentTrackData.track;
+        if (curTrack === null) return;
+    	
+        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;
+        let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
         
-        let curVue = $page.myVues.forPage(curPage);        
-        let tracks = curVue.content.$data.TRACKS;
-        if (tracks.length === 0) return;
-
-        let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracksPerPage) - 2;
+        let prevIndex = (parseInt(curNr) % tracksPerPage) - 2;
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
         }
         
-        if (prevIndex < 0 || prevIndex < 0) {
+        if (prevIndex < 0) {
             let curPageNum = curVue.menu.$data.CUR_PAGE;
             if ('undefined' === typeof curPageNum) curPageNum = 1;
             let maxPages = curVue.menu.$data.MAX_PAGES;
@@ -183,7 +198,7 @@ class PlayerController {
 
             if ((curPageNum - 1) < 1) curPageNum = maxPages;
             else curPageNum--;
-            
+            console.log('is first track', curPageNum);
             let self = this;
             $page.loader.loadPage($page.loader.pageInfo.currentPage, {
             	pnum: curPageNum,
@@ -194,7 +209,7 @@ class PlayerController {
                     	console.error('error loading next track after end of page');
                     	return;
                     }
-                    self.loadPreviousSong();
+                    self.loadSong(getTracks(tracksPerPage-1));
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
                 }
