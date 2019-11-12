@@ -180,7 +180,7 @@ class PlayerController {
         	this.loadDirectionOnError = 'previous';
         }
         
-        console.log('curnr', curNr, 'previndex', prevIndex);
+        console.log('curnr', curNr, 'previndex', prevIndex, 'isfirst', isFirst);
         let self = this;
         if(isFirst) {   
             let playlist = curVue.menu;
@@ -211,6 +211,7 @@ class PlayerController {
             return;
         }
 
+        console.log(tracks[curNr - 2], tracks);
         this.loadSong(tracks[curNr - 2]);
     }
 
