@@ -248,7 +248,7 @@ class PageLoader {
 							console.log('>>> autplay', autoPlay);
 							$player.setCurrentTrack();
 							$player.loadPreviousSong();
-						} else if(autoPlay){			
+						} else if('next' === autoPlay || autoPlay){			
 							console.log('>>> autplay', autoPlay);
 							$player.setCurrentTrack();
 							$player.loadNextSong();
