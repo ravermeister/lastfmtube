@@ -135,11 +135,17 @@ class PlayerController {
             
             let self = this;
             $playlist.loader.load(curPage, pageData, function(vue, data){
-    			$page.loader.pageInfo.currentPage.data = pageData;	
+    			if($page.loader.pageInfo.currentPage.value === curPage)	{
+    				$page.loader.pageInfo.currentPage.data = pageData;
+    			} else if($page.loader.pageInfo.lastPage.value === curPage) {
+    				$page.loader.pageInfo.lastPage.data = pageData;
+    			}else if($page.loader.pageInfo.lastPlaylist.value === curPage) {
+    				$page.loader.pageInfo.lastPlaylist.data = pageData;
+    			}
     			vue.update(data);
     			
-    	        let tracks = curVue.content.$data.TRACKS;
-    	        console.log('after page load', curPage, 'data', data, ' track', tracks[0]);
+    	        let tracks = vue.content.$data.TRACKS;
+    	        console.log('after page load', tracks[0]);
     	        self.loadSong(tracks[0]);
             });
             return;
