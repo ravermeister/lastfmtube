@@ -151,6 +151,10 @@ class PlayerController {
             nextIndex = 0;
         }
         
+        if(tracks.length < nextIndex) {
+        	console.log(nextIndex, '<>', tracks.length);
+        	this.loadSong(tracks.length - 1);
+        }
         this.loadSong(tracks[nextIndex]);
     }
 
