@@ -166,12 +166,10 @@ class PlayerController {
         let tracks = curVue.content.$data.TRACKS;
         if (tracks === null || tracks.length === 0) return;    	
 
-        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
-    	let prevIndex = tracksPerPage - 2;    	
+        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
         let curTrack = this.currentTrackData.track;
-   
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 0;
-        prevIndex = (parseInt(curNr) % tracksPerPage) - 1;
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage - 1;
+        let prevIndex = (parseInt(curNr) % tracksPerPage) - 1;
     	
 
         if(this.loadNextOnError) {
@@ -179,7 +177,8 @@ class PlayerController {
         }
         
         let self = this;
-        if(curNr <= 0) {   
+        console.log('curnr', curNr);
+        if(curNr < 0) {   
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
