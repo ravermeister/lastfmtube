@@ -289,7 +289,7 @@ class PlaylistLoader {
 			case $page.loader.pages.playlist.user.value:
 				$playlist.loader.loadCustomerList(pageNum, function(result, data){
 					if(result) {						
-						callBack($page.myVues.playlist.topsongs, data);
+						callBack($page.myVues.playlist.user, data);
 					}
 				});
 			break;
@@ -297,7 +297,7 @@ class PlaylistLoader {
 			case $page.loader.pages.playlist.lastfm.value:
 				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
 					if(result) {						
-						callBack($page.myVues.playlist.topsongs, data);
+						callBack($page.myVues.playlist.lastfm, data);
 					}
 				});
 			break;

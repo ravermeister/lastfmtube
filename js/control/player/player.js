@@ -237,8 +237,7 @@ class PlayerController {
     }
 
     loadSong(track) {
-    	console.log('load track', track);
-    	
+   	
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
