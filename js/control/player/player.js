@@ -115,12 +115,12 @@ class PlayerController {
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : null;        
         let nextIndex = curNr !== null ? (curNr % tracksPerPage) : 0;
         let isLast = curNr !== null &&  
-        	(curNr-(curPageNum * tracksPerPage)) % tracks.length == 0;
+        	(curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length == 0;
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
-        console.log('islast', isLast, 'curnr', curNr, ((curNr-(curPageNum * tracksPerPage)) % tracks.length));
+        console.log('islast', isLast, 'curnr', curNr, ((curNr-((curPageNum - 1) * tracksPerPage)) % tracks.length));
         if (isLast || nextIndex > tracksPerPage) {
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
