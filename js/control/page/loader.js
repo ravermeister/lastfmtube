@@ -243,10 +243,15 @@ class PageLoader {
 						});
 					}
 				}
-				if('previous' === autoPlay) {
-					$player.loadPreviousSong();
-				} else if(autoPlay){						
-					$player.loadNextSong();
+
+				if(autoPlay){			
+					let isNum = !isNan(autoPlay);
+					console.log('>>> autplay', autoPlay,'isNum', isNum);
+					if(!isNan(autPlay)) {
+						$player.loadSong(autoPlay);
+					} else {						
+						$player.loadNextSong();
+					}
 				}				
 			};
 			

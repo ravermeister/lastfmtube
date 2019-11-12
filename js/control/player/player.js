@@ -132,7 +132,7 @@ class PlayerController {
             $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
             	pnum: curPageNum,
             	lfmuser: user
-            }, true);
+            }, 0);
             
             return;
         } else if (nextIndex < 0) {
@@ -182,7 +182,7 @@ class PlayerController {
             $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
             	pnum: curPageNum,
             	lfmuser: user
-            }, 'previous');
+            }, prevIndex);
             return;
         }
 
