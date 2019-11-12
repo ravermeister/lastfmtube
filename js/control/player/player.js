@@ -209,6 +209,7 @@ class PlayerController {
     setCurrentState(newState = '') {
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
+        console.log(curTrack,'<<<<');
         curTrack.PLAYSTATE = newState;
         $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
     }
