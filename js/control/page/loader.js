@@ -245,9 +245,9 @@ class PageLoader {
 				}
 
 				if(autoPlay){			
-					let isNum = !isNan(autoPlay);
+					let isNum = Number.isInteger(autoPlay);
 					console.log('>>> autplay', autoPlay,'isNum', isNum);
-					if(!isNan(autPlay)) {
+					if(isNum) {
 						$player.loadSong(autoPlay);
 					} else {						
 						$player.loadNextSong();
