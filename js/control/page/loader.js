@@ -228,30 +228,32 @@ class PageLoader {
 
 		if(page === null) return;	
 		let lastPage = this.pageInfo.currentPage;
-		
         let self = this;
+        
         this.setLoading(lastPage.value, true);
         
 		let finished = function(vue = null, data = null, autoplay = false){
 			
 			let updateVueAndLoad = function(vue, data, autoplay){
 				if(vue !== null && data !== null) {		
+					let isPlaylist = $page.loader.pages.isPlaylist(page);
 					vue.update(data);
-					if($page.loader.pages.isPlaylist(page)) {
+					if(isPlaylist) {
 						$page.myVues.updateAll({
 							PLAYLIST: page.value
-						});
+						});	
+						
+						let isNum = Number.isInteger(autoPlay);
+						if(isNum) {					
+							console.log('>>> autplay', autoPlay,'isNum', isNum);
+							$player.loadSong(autoPlay);
+						} else if(autoPlay){			
+							console.log('>>> autplay', autoPlay,'isNum', isNum);
+							$player.loadNextSong();
+						}				
 					}
 				}
-
-				let isNum = Number.isInteger(autoPlay);
-				if(isNum) {
-					console.log('>>> autplay', autoPlay,'isNum', isNum);
-					$player.loadSong(autoPlay);
-				} else if(autoPlay){			
-					console.log('>>> autplay', autoPlay,'isNum', isNum);
-					$player.loadNextSong();
-				}				
+				
 			};
 			
 			self.setLoading(lastPage.value);
@@ -327,7 +329,7 @@ class PageLoader {
 			case this.pages.userlist.topuser.value:
 				$playlist.loader.loadTopUser(pageNum, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.user, data, autoPlay);
+						finished($page.myVues.userlist.topuser, data, autoPlay);
 					}
 				});
 			break;
