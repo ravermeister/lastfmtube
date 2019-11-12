@@ -245,11 +245,11 @@ class PageLoader {
 						
 						
 						if('previous' === autoPlay) {
-							console.log('>>> autplay', autoPlay,'isNum', isNum);
+							console.log('>>> autplay', autoPlay);
 							$player.setCurrentTrack();
 							$player.loadPreviousSong();
 						} else if(autoPlay){			
-							console.log('>>> autplay', autoPlay,'isNum', isNum);
+							console.log('>>> autplay', autoPlay);
 							$player.setCurrentTrack();
 							$player.loadNextSong();
 						}				
