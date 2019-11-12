@@ -177,8 +177,7 @@ class PlayerController {
         }
         
         let self = this;
-        console.log('curnr', prevIndex);
-        if(prevIndex < 0) {   
+        if(prevIndex <= 0) {   
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
@@ -202,7 +201,7 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = vue.content.$data.TRACKS;
-    	        self.loadSong(tracks.length - 2);
+    	        self.loadSong(tracks[tracks.length - 2]);
             });
             return;
         }
