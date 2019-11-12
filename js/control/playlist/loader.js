@@ -262,17 +262,26 @@ class PlaylistLoader {
         });
     }
     
-    load(page, pageData) {
+    load(page, pageData, callBack) {
     	if(!$page.loader.pages.isPlaylist(page)) {
     		return;
     	}
+    	
+		let pageNum = pageData !== null && ('undefined' !== typeof pageData.pnum) ?
+				pageData.pnum : 1;
+		let needle = pageData !== null && ('undefined' !== typeof pageData.needle) ?
+				pageData.needle : null;
+		let lfmUser = pageData !== null && ('undefined' !== typeof pageData.lfmuser) ?
+				pageData.lfmuser : null;
+		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
+				pageData.sortby : null;
     	
 		switch(page.value) {
 			// Topsongs
 			case $page.pages.playlist.topsongs.value:
 				$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.topsongs, data, autoPlay);
+						callBack($page.myVues.playlist.topsongs, data);
 					}
 				});
 			break;
@@ -280,7 +289,7 @@ class PlaylistLoader {
 			case $page.pages.playlist.user.value:
 				$playlist.loader.loadCustomerList(pageNum, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.user, data, autoPlay);
+						callBack($page.myVues.playlist.topsongs, data);
 					}
 				});
 			break;
@@ -288,7 +297,7 @@ class PlaylistLoader {
 			case $page.pages.playlist.lastfm.value:
 				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.lastfm, data, autoPlay);
+						callBack($page.myVues.playlist.topsongs, data);
 					}
 				});
 			break;
@@ -306,22 +315,10 @@ class PlaylistLoader {
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
-						finished($page.myVues.playlist.search, data, autoPlay);												
+						callBack($page.myVues.playlist.topsongs, data);												
 					}
 				});
 			break;
-			case this.pages.userlist.topuser.value:
-				$playlist.loader.loadTopUser(pageNum, function(result, data){
-					if(result) {						
-						finished($page.myVues.userlist.topuser, data, autoPlay);
-					}
-				});
-			break;
-			// Top Last.fm User
-			// YouTube Player View
-				case this.pages.video.youtube.value:				
-						finished(null, null, autoPlay);
-				break;
-			}	
+		}	
     }
 }
