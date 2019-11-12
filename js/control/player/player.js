@@ -150,11 +150,7 @@ class PlayerController {
         } else if (nextIndex < 0) {
             nextIndex = 0;
         }
-        
-        if(tracks.length < nextIndex) {
-        	console.log(nextIndex, '<>', tracks.length);
-        	this.loadSong(tracks.length - 1);
-        }
+
         this.loadSong(tracks[nextIndex]);
     }
 
@@ -241,7 +237,8 @@ class PlayerController {
     }
 
     loadSong(track) {
-
+    	console.log('load track', track);
+    	
         // console.log(this.playerWindow.ytPlayer);
         if (this.playerWindow === null || this.playerWindow.ytPlayer === null) 
         	return;
