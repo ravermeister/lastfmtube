@@ -228,24 +228,26 @@ class PageLoader {
 
 		if(page === null) return;	
 		let lastPage = this.pageInfo.currentPage;
-		
         let self = this;
+        
         this.setLoading(lastPage.value, true);
         
-		let finished = function(vue = null, data = null, autoplay = false){
+		let finished = function(vue = null, data = null){
 			
-			let updateVueAndLoad = function(vue, data, autoplay){
-				if(vue !== null && data !== null) {		
+			let updateVueAndLoad = function(vue, data){
+				if(vue !== null && data !== null) {	
+					let isPlaylist = $page.loader.pages.isPlaylist(page);
 					vue.update(data);
-					if($page.loader.pages.isPlaylist(page)) {
+					if(isPlaylist) {
 						$page.myVues.updateAll({
 							PLAYLIST: page.value
-						});
-					}
+						});	
+					}	
 				}
-				if(autoplay) {
+							
+				if(autoPlay) {		
 					$player.loadNextSong();
-				}
+				}	
 			};
 			
 			self.setLoading(lastPage.value);
@@ -256,16 +258,21 @@ class PageLoader {
 				
 				/**
 				 * BUG, because the youtube player window updates too when the
-				 * PLAYLIST var of the vue implementations are updated, 
-				 * we will wait a little bit when the 
-				 * player window is the current view, sothat the page navigation
-				 * feels smooth.
+				 * PLAYLIST var of the vue implementations are updated, we will
+				 * wait a little bit when the player window is the current view,
+				 * sothat the page navigation feels smooth.
 				 */
-				setTimeout(updateVueAndLoad, 300, vue, data, autoplay);
+				setTimeout(updateVueAndLoad, 300, vue, data);
 			} else {				
-				updateVueAndLoad(vue, data, autoplay);
+				updateVueAndLoad(vue, data);
 			}
 		};  
+		
+		
+		if(this.pages.isPlaylist(page)) {
+			$playlist.loader.load(page, pageData, finished);
+			return;
+		}
 		
 		let pageNum = pageData !== null && ('undefined' !== typeof pageData.pnum) ?
 				pageData.pnum : 1;
@@ -277,59 +284,17 @@ class PageLoader {
 				pageData.sortby : null;
 		
 		switch(page.value) {
-// Topsongs
-			case this.pages.playlist.topsongs.value:
-				$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
-					if(result) {						
-						finished($page.myVues.playlist.topsongs, data, autoPlay);
-					}
-				});
-			break;
-// User Playlist
-			case this.pages.playlist.user.value:
-				$playlist.loader.loadCustomerList(pageNum, function(result, data){
-					if(result) {						
-						finished($page.myVues.playlist.user, data, autoPlay);
-					}
-				});
-			break;
-// Last.fm Playlist
-			case this.pages.playlist.lastfm.value:
-				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
-					if(result) {						
-						finished($page.myVues.playlist.lastfm, data, autoPlay);
-					}
-				});
-			break;
-// Search Result List
-			case this.pages.playlist.search.value:
-				if(needle === null) {					
-					if(this.isCurrentPage(page)) {
-						needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;			        
-					}
-					if(needle === null) {								
-						console.log('no search needle provided, abort load search ', pageData);
-						return;
-					}
-				}
-				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
-					if(result) {	
-						data.SEARCH_NEEDLE = needle;	
-						finished($page.myVues.playlist.search, data, autoPlay);												
-					}
-				});
-			break;
+			// Top Last.fm User
 			case this.pages.userlist.topuser.value:
 				$playlist.loader.loadTopUser(pageNum, function(result, data){
 					if(result) {						
-						finished($page.myVues.playlist.user, data, autoPlay);
+						finished($page.myVues.userlist.topuser, data);
 					}
 				});
 			break;
-// Top Last.fm User
-// YouTube Player View
+			// YouTube Player View
 			case this.pages.video.youtube.value:				
-					finished(null, null, autoPlay);
+					finished(null, null);
 			break;
 		}	
 	}
