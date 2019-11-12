@@ -141,7 +141,7 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = curVue.content.$data.TRACKS;
-    	        this.loadSong(tracks[0]);
+    	        self.loadSong(tracks[0]);
             });
             return;
         } else if (nextIndex < 0) {
