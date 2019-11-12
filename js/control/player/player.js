@@ -143,8 +143,8 @@ class PlayerController {
         } else if (nextIndex < 0) {
             nextIndex = 0;
         }
-
-        this.loadSong(tracks[nextIndex]);
+        
+        this.loadSong(getTrack(nextIndex));
     }
 
     loadPreviousSong() {
@@ -196,7 +196,7 @@ class PlayerController {
             return;
         }
 
-        this.loadSong(tracks[prevIndex]);
+        this.loadSong(getTrack(prevIndex));
     }
 
     setCurrentTrack(track, force = false) {
