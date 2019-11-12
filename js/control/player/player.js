@@ -139,7 +139,7 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = curVue.content.$data.TRACKS;
-    	        console.log('after page load', curPage, ' track', tracks[0]);
+    	        console.log('after page load', curPage, 'data', data, ' track', tracks[0]);
     	        self.loadSong(tracks[0]);
             });
             return;
