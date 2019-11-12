@@ -106,7 +106,7 @@ class PlayerController {
     	}
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
-        if (tracks.length === 0 || (tracks.length-1) < pos) return;    	
+        if (tracks === null || tracks.length === 0) return;    	
 
     	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
@@ -152,9 +152,9 @@ class PlayerController {
     	}
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
-        if (tracks.length === 0 || (tracks.length-1) < pos) return;   
-    	
-    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
+        if (tracks === null || tracks.length === 0) return;    	
+
+        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
     	let prevIndex = tracksPerPage - 2;    	
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
         let curTrack = this.currentTrackData.track;
