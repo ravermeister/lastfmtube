@@ -177,8 +177,8 @@ class PlayerController {
         }
         
         let self = this;
-        console.log('curnr', curNr);
-        if(curNr < 0) {   
+        console.log('curnr', prevIndex);
+        if(prevIndex < 0) {   
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
