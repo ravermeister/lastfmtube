@@ -235,7 +235,8 @@ class PageLoader {
 		let finished = function(vue = null, data = null){
 			
 			let updateVueAndLoad = function(vue, data){
-				if(vue !== null && data !== null) {		
+				if(vue !== null && data !== null) {	
+					console.log(vue, '>>>>>', data);
 					let isPlaylist = $page.loader.pages.isPlaylist(page);
 					vue.update(data);
 					if(isPlaylist) {
