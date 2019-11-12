@@ -121,6 +121,7 @@ class PlayerController {
         }
         
         if (isLast || nextIndex >= tracks.length) {
+        	console.log('is last track');
             let playlist = curVue.menu;
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
@@ -129,13 +130,16 @@ class PlayerController {
             else curPageNum++;
 
             let self = this;
-            $page.loader.loadPage($page.loader.pageInfo.currentPage, {
+            $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
             	pnum: curPageNum,
             	lfmuser: user
             }, function (success) {
                 try {
-                    if (!success) return;
-                    self.loadSong(tracks[0]);
+                    if (!success) {
+                    	console.error('error loading next track after end of page');
+                    	return;
+                    }
+                    self.loadNextSong();
                 } catch (e) {
                     console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
                 }
@@ -164,18 +168,14 @@ class PlayerController {
         let curVue = $page.myVues.forPage(curPage);        
         let tracks = curVue.content.$data.TRACKS;
         if (tracks.length === 0) return;
-        
-        let isLast = (curVue.menu.$data.CUR_PAGE *
-            $page.settings.general.tracksPerPage) === parseInt(curTrack.NR);
+
         let prevIndex = (parseInt(curTrack.NR) % $page.settings.general.tracksPerPage) - 2;
 
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
         }
         
-        if (isLast) {
-            prevIndex = tracks.length - 2;
-        } else if (prevIndex < 0) {
+        if (prevIndex < 0 || prevIndex < 0) {
             let curPageNum = curVue.menu.$data.CUR_PAGE;
             if ('undefined' === typeof curPageNum) curPageNum = 1;
             let maxPages = curVue.menu.$data.MAX_PAGES;
@@ -189,8 +189,15 @@ class PlayerController {
             	pnum: curPageNum,
             	lfmuser: user
             }, function (success) {
-                if (!success) return;
-                self.loadSong(tracks[tracks.length - 1]);
+                try {
+                    if (!success) {
+                    	console.error('error loading next track after end of page');
+                    	return;
+                    }
+                    self.loadPreviousSong();
+                } catch (e) {
+                    console.error('inside callback', e, ' curpage: ', curPageNum, 'maxpage: ', maxPages);
+                }
             });
             return;
         }
