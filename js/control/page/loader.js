@@ -318,7 +318,7 @@ class PageLoader {
     	let page = this.pages.getByLocation();
     	let loadDefaultPlaylist = false;
     	let self = this;
-    	console.log('load page from location: ', page);
+
     	if(page === null || page === this.pages.base || 
     		page === this.pages.playlist.search) {
     		
