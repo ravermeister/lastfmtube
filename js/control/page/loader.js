@@ -141,26 +141,24 @@ class PageLoader {
 				let path = location.pathname;
 				let hash = getHash(location.href);
 				if(hash.length > 0) path = hash;
-
-// console.log('path: ', path);
-				
+								
 				switch(path) {
-					case this.userlist.topuser.location:
+					case this.userlist.topuser.path:
 					case this.userlist.topuser.selector:					
 						return this.userlist.topuser;
-					case this.playlist.lastfm.location:
+					case this.playlist.lastfm.path:
 					case this.playlist.lastfm.selector:
 						return this.playlist.lastfm;
-					case this.playlist.topsongs.location:
+					case this.playlist.topsongs.path:
 					case this.playlist.topsongs.selector:
 						return this.playlist.topsongs;
-					case this.playlist.user.location:
+					case this.playlist.user.path:
 					case this.playlist.user.selector:
 						return this.playlist.user;
-					case this.playlist.search.location:
+					case this.playlist.search.path:
 					case this.playlist.search.selector:
 						return this.playlist.search;
-					case this.video.youtube.location:
+					case this.video.youtube.path:
 					case this.video.youtube.selector:
 						return this.video.youtube;
 					default:
@@ -255,7 +253,7 @@ class PageLoader {
 			
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);	
-			self.setLocation('#'+page.selector);
+			self.setLocation('/#'+page.selector);
 
 			if(lastPage.value === self.pages.video.youtube) {
 				
@@ -320,7 +318,7 @@ class PageLoader {
     	let page = this.pages.getByLocation();
     	let loadDefaultPlaylist = false;
     	let self = this;
-    	
+
     	if(page === null || page === this.pages.base || 
     		page === this.pages.playlist.search) {
     		
