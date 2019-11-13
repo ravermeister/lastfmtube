@@ -36,7 +36,7 @@ class PlaylistController {
             LASTPLAY: track.LASTPLAY,
             VIDEO_ID: track.VIDEO_ID,
             PLAY_CONTROL: '',
-            PLAYLIST: 'userlist',
+            PLAYLIST: $page.loader.pages.playlist.user.value,
             PLAYSTATE: ''
         };
 
