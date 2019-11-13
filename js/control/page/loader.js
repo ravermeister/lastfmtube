@@ -117,6 +117,7 @@ class PageLoader {
 						return this.playlist.search;
 					case this.playlist.topsongs.value:
 					case this.playlist.topsongs.path:
+						console.log('return topsongs!!');
 						return this.playlist.topsongs;
 					case this.playlist.user.value:
 					case this.playlist.user.path:
