@@ -95,7 +95,7 @@ class LibvuePlayerHeader {
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 
 	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST) {
-                    	
+                    	console.log('playlist: ', this.CURRENT_TRACK.PLAYLIST);
 	                	let page = $page.loader.pages.getByValue(this.CURRENT_TRACK.PLAYLIST);
 	                	let curNr = this.CURRENT_TRACK.NR;
 	                	let tracksPerPage = $page.settings.general.tracksPerPage;
