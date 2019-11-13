@@ -160,6 +160,7 @@ class PageLoader {
 						return this.playlist.lastfm;
 					case this.playlist.topsongs.location:
 					case this.playlist.topsongs.selector:
+						console.log('return topsongs for location!!');
 						return this.playlist.topsongs;
 					case this.playlist.user.location:
 					case this.playlist.user.selector:
