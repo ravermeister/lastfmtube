@@ -21,12 +21,26 @@ class LibvuePlayerHeader {
                 TEXT: function () {
                     let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
                         this.PLAYLIST;
+
+                    if(this.CURRENT_TRACK !== null && 
+                    	this.CURRENT_TRACK.PLAYLIST !== null && 
+                    	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
+                    	playlist = this.CURRENT_TRACK.PLAYLIST;
+                    }
+                    
                     let menu = $page.menu.getMenuItem(playlist);
                     return menu.TEXT;
                 },
                 LOGO: function () {
                     let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
                         this.PLAYLIST;
+                    
+                    if(this.CURRENT_TRACK !== null && 
+	                	this.CURRENT_TRACK.PLAYLIST !== null && 
+	                	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
+	                	playlist = this.CURRENT_TRACK.PLAYLIST;
+                    }
+                    
                     let icon = $page.icons.getPageIcon(playlist); 
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
@@ -67,8 +81,21 @@ class LibvuePlayerHeader {
                 },
 
                 loadMenu: function (playlist, event) {
-                	let page = $page.loader.pageInfo.lastPlaylist;
-                	$page.loader.loadPage(page.value, page.data);
+
+                    if(this.CURRENT_TRACK !== null && 
+	                	this.CURRENT_TRACK.PLAYLIST !== null && 
+	                	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
+	                	let page = $page.loader.pages.getByValue(this.CURRENT_TRACK.PLAYLIST);
+	                	let pageNum = parseInt(this.CURRENT_TRACK.NR / $page.settings.tracksPerPage);
+	                	console.log('load page: ', page, 'with pnum', pageNum, 'for tracknr', this.CURRENT_TRACK.NR);
+	                	$page.loader.loadPage(page, {
+	                		pnum: pageNum
+	                	});
+                    } else {
+                    	let page = $page.loader.pageInfo.lastPlaylist;
+                    	$page.loader.loadPage(page.value, page.data);
+                    }
+
                 }
             }
         });
