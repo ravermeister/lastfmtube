@@ -212,7 +212,8 @@ class PlaylistController {
     		 */
         	track.PLAYCOUNT_CHANGE = 0;
         	track.LASTPLAY = json.data.value.lastplayed;
-            track.PLAYCOUNT = json.data.value.playcount;
+//            track.PLAYCOUNT = json.data.value.playcount;
+        	track.PLAYCOUNT++;
             
         	return track;
         };
