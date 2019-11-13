@@ -22,6 +22,7 @@ class LibvuePlayerHeader {
                     let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
                         this.PLAYLIST;
 
+                    console.log('>>>', this.CURRENT_TRACK);
                     if(this.CURRENT_TRACK !== null && 
                     	this.CURRENT_TRACK.PLAYLIST !== null && 
                     	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
@@ -35,6 +36,7 @@ class LibvuePlayerHeader {
                     let playlist = this.PLAYLIST === null ? 'playlist.lastfm' :
                         this.PLAYLIST;
                     
+                    console.log('>>>', this.CURRENT_TRACK);
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 
 	                	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
