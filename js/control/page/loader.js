@@ -252,7 +252,6 @@ class PageLoader {
 			
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);	
-			console.log('load page: ', page.selector);
 			
 			self.setLocation('#'+page.selector);
 
@@ -270,8 +269,8 @@ class PageLoader {
 			}
 		};  
 		
-		
-		if(this.pages.isPlaylist(page)) {
+		let isSearch = page === self.pages.playlist.search;
+		if(this.pages.isPlaylist(page) || isSearch) {
 			$playlist.loader.load(page, pageData, finished);
 			return;
 		}
