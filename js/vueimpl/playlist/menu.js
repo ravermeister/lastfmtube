@@ -66,6 +66,7 @@ class LibvuePlaylistMenu {
                 	} else if(pageNum === this.$data.CUR_PAGE) {
                 		return;
                 	}
+                	console.log('final page ', pageNum);
                     $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
                     	pnum: pageNum,
                     	lfmuser: user,
