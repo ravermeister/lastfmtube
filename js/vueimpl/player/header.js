@@ -81,7 +81,7 @@ class LibvuePlayerHeader {
                 },
 
                 loadMenu: function (playlist, event) {
-                	console.log('loadMenu!!');
+                	console.log('loadMenu!!', this.CURRENT_TRACK);
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 
 	                	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
