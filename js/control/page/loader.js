@@ -232,7 +232,7 @@ class PageLoader {
         
         this.setLoading(lastPage.value, true);
         
-		let finished = function(vue = null, data = null){
+		let finished = function(vue = null, data = null, success = false){
 			
 			let updateVueAndLoad = function(vue, data){
 
@@ -252,6 +252,8 @@ class PageLoader {
 			};
 			
 			self.setLoading(lastPage.value);
+			if(!success) return;
+			
 			self.pageInfo.update(page, pageData);	
 			self.setLocation('/#'+page.selector);
 
