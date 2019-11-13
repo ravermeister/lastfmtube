@@ -23,9 +23,10 @@ class LibvuePlayerHeader {
                         this.PLAYLIST;
 
                     if(this.CURRENT_TRACK !== null && 
-                    	this.CURRENT_TRACK.PLAYLIST !== null && 
-                    	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
-                    	playlist = this.CURRENT_TRACK.PLAYLIST;
+	                	this.CURRENT_TRACK.PLAYLIST !== null && 
+	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST) {
+	                	
+	                	playlist = this.CURRENT_TRACK.PLAYLIST;
                     }
                     
                     let menu = $page.menu.getMenuItem(playlist);
@@ -37,10 +38,11 @@ class LibvuePlayerHeader {
                     
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 
-	                	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
+	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST) {
+	                	
 	                	playlist = this.CURRENT_TRACK.PLAYLIST;
                     }
-                    
+
                     let icon = $page.icons.getPageIcon(playlist); 
                     return this.LOADING ? icon.animatedBig : icon.big;
                 },
@@ -56,7 +58,15 @@ class LibvuePlayerHeader {
                     	} else {
                     		return '';
                     	}
+                    } 
+                    
+                    if(this.CURRENT_TRACK !== null && 
+	                	this.CURRENT_TRACK.PLAYLIST !== null && 
+	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST) {
+	                	
+	                	playlist = this.CURRENT_TRACK.PLAYLIST;
                     }
+
 
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
                         return '';
