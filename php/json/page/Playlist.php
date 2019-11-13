@@ -236,7 +236,7 @@ class Playlist extends DefaultJson {
                $videoId = is_array($videoId) && isset($videoId[0]['url']) ? $videoId[0]['url'] : '';
 
                $pTrack = array(
-                    'NR' => ($offset + $cnt + 1),
+                    'NR' => ($cnt + 1),
                     'ARTIST' => $track['artist'],
                     'TITLE' => $track['title'],
                     'LASTPLAY' => $this->funcs->formatDate($track['lastplayed']),
