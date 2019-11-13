@@ -91,7 +91,7 @@ class PageLoader {
 				
 				user: {
 					value: 'playlist.user',
-					path: '/userlist',
+					path: '/personal',
 					selector: 'playlist-user-container',
 					element: $('article[id='+this.selector+']')
 				}
