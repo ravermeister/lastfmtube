@@ -380,7 +380,7 @@ class Functions {
           $this->initSettings(true);
      }
 
-     public function sortTracksByDate(&$tracks, $offset = 0, $asc = false) {
+     public function sortTracksByDate(&$tracks, $asc = false) {
          if ($asc) {
                $sorted = usort($tracks, function ($trackA, $trackB) {
                     return self::sortArrayByDateAsc($trackA, $trackB);
@@ -392,12 +392,12 @@ class Functions {
           }
 
           for ($cnt = 0; $cnt < sizeof($tracks); $cnt ++) {
-               $tracks[$cnt]['NR'] = $offset + ($cnt + 1);
+               $tracks[$cnt]['NR'] = $cnt + 1;
           }
           return $sorted;
      }
 
-     public function sortTracksByPlayCount(&$tracks, $offset = 0, $asc = false) {
+     public function sortTracksByPlayCount(&$tracks, $asc = false) {
          if ($asc === true) {
                $sorted = usort($tracks, function ($trackA, $trackB) {
                     return self::sortArrayByPlayCountAsc($trackA, $trackB);
@@ -409,7 +409,7 @@ class Functions {
           }
 
           for ($cnt = 0; $cnt < sizeof($tracks); $cnt ++) {
-               $tracks[$cnt]['NR'] = $offset + ($cnt + 1);
+               $tracks[$cnt]['NR'] = $cnt + 1;
           }
           return $sorted;
      }
