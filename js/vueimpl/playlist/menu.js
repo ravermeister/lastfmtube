@@ -58,7 +58,7 @@ class LibvuePlaylistMenu {
                 loadPage: function (user, pageNum) {
                 	let sortBy = $(this.$el).find('#topsongs-sortby')
                 		.children('option:selected').val(); 
-                	
+                	console.log(pageNum, '< page | max pages >' ,this.$data.MAX_PAGES)
                 	if(pageNum < 0) {
                 		pageNum = 1;
                 	} else if(pageNum > this.$data.MAX_PAGES) {
