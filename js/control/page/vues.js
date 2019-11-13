@@ -76,7 +76,7 @@ class VueController {
                 this.playlist.lastfm.update(json);
                 this.playlist.user.update(json);
                 this.playlist.search.update(json);   
-                console.log(this.playlist.search.menu.$data);
+                console.log(this.playlist.search.header.menu.$data);
                 this.video.youtube.update(json);
                 this.userlist.topuser.update(json);
             },
