@@ -137,7 +137,10 @@ class PlayerController {
             };
             
             let self = this;
-            $playlist.loader.load(curPage, pageData, function(vue, data){
+            $playlist.loader.load(curPage, pageData, function(vue, data, success = false){
+            	
+    			if(!success) return;
+            	
     			if($page.loader.pageInfo.currentPage.value === curPage)	{
     				$page.loader.pageInfo.currentPage.data = pageData;
     			} else if($page.loader.pageInfo.lastPage.value === curPage) {
@@ -198,7 +201,10 @@ class PlayerController {
             };
             
             let self = this;
-            $playlist.loader.load(curPage, pageData, function(vue, data){
+            $playlist.loader.load(curPage, pageData, function(vue, data, success){
+            	
+    			if(!success) return;
+            	
     			if($page.loader.pageInfo.currentPage.value === curPage)	{
     				$page.loader.pageInfo.currentPage.data = pageData;
     			} else if($page.loader.pageInfo.lastPage.value === curPage) {
@@ -266,9 +272,6 @@ class PlayerController {
                 // load the default video
                 self.loadDefaultVideo();
                 $page.myVues.video.youtube.comments.showComments = false;
-// if($page.myVues.video.youtube.comments.showComments) {
-// $playlist.loader.loadVideoCommentList(this.currentTrackData.videoId);
-// }
                 $page.loader.setLoading();
                 return;
             }

@@ -280,25 +280,19 @@ class PlaylistLoader {
 			// Topsongs
 			case $page.loader.pages.playlist.topsongs.value:
 				$playlist.loader.loadTopSongs(pageNum, sortBy, function(result, data){
-					if(result) {						
-						callBack($page.myVues.playlist.topsongs, data);
-					}
+					callBack($page.myVues.playlist.topsongs, data, result);
 				});
 			break;
 			// User Playlist
 			case $page.loader.pages.playlist.user.value:
 				$playlist.loader.loadCustomerList(pageNum, function(result, data){
-					if(result) {						
-						callBack($page.myVues.playlist.user, data);
-					}
+					callBack($page.myVues.playlist.user, data, result);
 				});
 			break;
 			// Last.fm Playlist
 			case $page.loader.pages.playlist.lastfm.value:
 				$playlist.loader.loadLastFmList(pageNum, lfmUser, function(result, data){
-					if(result) {						
-						callBack($page.myVues.playlist.lastfm, data);
-					}
+					callBack($page.myVues.playlist.lastfm, data, result);
 				});
 			break;
 			// Search Result List
@@ -315,8 +309,8 @@ class PlaylistLoader {
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
-						callBack($page.myVues.playlist.search, data);												
 					}
+					callBack($page.myVues.playlist.search, data, result);												
 				});
 			break;
 		}	
