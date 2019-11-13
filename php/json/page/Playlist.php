@@ -256,6 +256,8 @@ class Playlist extends DefaultJson {
                $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
           }
 
+          die(print_r($uniqueTracks));
+          
           $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
           if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
