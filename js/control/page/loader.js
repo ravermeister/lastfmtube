@@ -252,7 +252,7 @@ class PageLoader {
 			
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);	
-			
+			console.log('location: ', page.selector);
 			self.setLocation('#'+page.selector);
 
 			if(lastPage.value === self.pages.video.youtube) {
@@ -270,7 +270,9 @@ class PageLoader {
 		};  
 		
 		let isSearch = page === self.pages.playlist.search;
+		console.log('isSearch', isSearch);
 		if(this.pages.isPlaylist(page) || isSearch) {
+			console.log('finished!');
 			$playlist.loader.load(page, pageData, finished);
 			return;
 		}
