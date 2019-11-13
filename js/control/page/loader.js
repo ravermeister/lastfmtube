@@ -110,18 +110,25 @@ class PageLoader {
 			getByValue: function(aValue) {
 				switch(aValue) {
 					case this.playlist.lastfm.value:
+					case this.playlist.lastfm.path:
 						return this.playlist.lastfm;
 					case this.playlist.search.value:
+					case this.playlist.search.path:
 						return this.playlist.search;
 					case this.playlist.topsongs.value:
+					case this.playlist.topsongs.path:
 						return this.playlist.topsongs;
 					case this.playlist.user.value:
+					case this.playlist.user.path:
 						return this.playlist.user;
 					case this.userlist.topuser.value:
+					case this.userlist.topuser.path:
 						return this.userlist.topuser;
 					case this.video.youtube.value:
+					case this.video.youtube.path:
 						return this.video.youtube;
 					case this.base.value:
+					case this.base.path:
 						return this.base;
 					default:
 						return null;
