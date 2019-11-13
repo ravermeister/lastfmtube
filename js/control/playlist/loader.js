@@ -315,7 +315,7 @@ class PlaylistLoader {
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
-						callBack($page.myVues.playlist.topsongs, data);												
+						callBack($page.myVues.playlist.search, data);												
 					}
 				});
 			break;
