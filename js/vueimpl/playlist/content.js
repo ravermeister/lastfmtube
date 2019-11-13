@@ -101,6 +101,7 @@ static createVue(elementId){
                                 if ($player.isCurrentTrack(track)) {
                                     track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
                                     track.PLAYSTATE = curTrack.PLAYSTATE;
+                                    track.PLAYCOUNT_CHANGE = curTrack.PLAYCOUNT_CHANGE;
                                     $player.currentTrackData.track = track;
                                 }
                                 newTracks[cnt] = track;
