@@ -225,7 +225,9 @@ class PageLoader {
 	}
 	
 	loadPage(page = null, pageData = null, autoPlay = false) {
-
+		
+		console.log('load page: ', page);
+		
 		if(page === null) return;	
 		let lastPage = this.pageInfo.currentPage;
         let self = this;
