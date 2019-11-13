@@ -110,25 +110,18 @@ class PageLoader {
 			getByValue: function(aValue) {
 				switch(aValue) {
 					case this.playlist.lastfm.value:
-					case this.playlist.lastfm.path:
 						return this.playlist.lastfm;
 					case this.playlist.search.value:
-					case this.playlist.search.path:
 						return this.playlist.search;
 					case this.playlist.topsongs.value:
-					case this.playlist.topsongs.path:
 						return this.playlist.topsongs;
 					case this.playlist.user.value:
-					case this.playlist.user.path:
 						return this.playlist.user;
 					case this.userlist.topuser.value:
-					case this.userlist.topuser.path:
 						return this.userlist.topuser;
 					case this.video.youtube.value:
-					case this.video.youtube.path:
 						return this.video.youtube;
 					case this.base.value:
-					case this.base.path:
 						return this.base;
 					default:
 						return null;
@@ -148,27 +141,24 @@ class PageLoader {
 				let path = location.pathname;
 				let hash = getHash(location.href);
 				if(hash.length > 0) path = hash;
-				
-				console.log('path: ', path);
-				
+								
 				switch(path) {
-					case this.userlist.topuser.location:
+					case this.userlist.topuser.path:
 					case this.userlist.topuser.selector:					
 						return this.userlist.topuser;
-					case this.playlist.lastfm.location:
+					case this.playlist.lastfm.path:
 					case this.playlist.lastfm.selector:
 						return this.playlist.lastfm;
-					case this.playlist.topsongs.location:
+					case this.playlist.topsongs.path:
 					case this.playlist.topsongs.selector:
-						console.log('return topsongs for location!!');
 						return this.playlist.topsongs;
-					case this.playlist.user.location:
+					case this.playlist.user.path:
 					case this.playlist.user.selector:
 						return this.playlist.user;
-					case this.playlist.search.location:
+					case this.playlist.search.path:
 					case this.playlist.search.selector:
 						return this.playlist.search;
-					case this.video.youtube.location:
+					case this.video.youtube.path:
 					case this.video.youtube.selector:
 						return this.video.youtube;
 					default:
