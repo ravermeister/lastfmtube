@@ -97,11 +97,13 @@ class PageLoader {
 				}
 			},
 			
-			isPlaylist: function(page) {
+			isPlaylist: function(page, includeSearch = false) {
 				let isPlaylist = (page === this.playlist.lastfm ||
 				page === this.playlist.topsongs ||
 				page === this.playlist.user);
-				
+				if(!isPlaylist && includeSearch) {
+					isPlaylist = page === this.playlist.search;
+				}
 				return isPlaylist;
 			},
 			
@@ -269,10 +271,7 @@ class PageLoader {
 			}
 		};  
 		
-		let isSearch = page === self.pages.playlist.search;
-		console.log('isSearch', isSearch);
-		if(this.pages.isPlaylist(page) || isSearch) {
-			console.log('finished!');
+		if(this.pages.isPlaylist(page, true)) {
 			$playlist.loader.load(page, pageData, finished);
 			return;
 		}

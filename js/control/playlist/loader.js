@@ -263,7 +263,7 @@ class PlaylistLoader {
     }
     
     load(page, pageData, callBack) {
-    	if(!$page.loader.pages.isPlaylist(page)) {
+    	if(!$page.loader.pages.isPlaylist(page, true)) {
     		return;
     	}
     	
@@ -276,7 +276,6 @@ class PlaylistLoader {
 		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
 				pageData.sortby : null;
     	
-		console.log('load ', page.value, 'search is', $page.loader.pages.playlist.search.value);
 		switch(page.value) {
 			// Topsongs
 			case $page.loader.pages.playlist.topsongs.value:
