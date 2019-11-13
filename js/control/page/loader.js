@@ -140,6 +140,7 @@ class PageLoader {
 				 */
 				let path = location.pathname;
 				let hash = getHash(location.href);
+				console.log('pathname',path, 'hash', hash);
 				if(hash.length > 0) path = hash;
 
 // console.log('path: ', path);
