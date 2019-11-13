@@ -89,9 +89,9 @@ class PlaylistLoader {
 
         let data = {
 	        HEADER: {
-	            PLAYLIST: $page.menu.getMenuItem('userlist').PLAYLIST,
-	            TEXT: $page.menu.getMenuItem('userlist').TEXT,
-	            URL: $page.menu.getMenuItem('userlist').LDATA
+	            PLAYLIST: $page.menu.getMenuItem($page.loader.pages.playlist.user.value).PLAYLIST,
+	            TEXT: $page.menu.getMenuItem($page.loader.pages.playlist.user.value).TEXT,
+	            URL: $page.menu.getMenuItem($page.loader.pages.playlist.user.value).LDATA
 	        },
 	
 	        TRACKS: tracks
@@ -100,7 +100,7 @@ class PlaylistLoader {
         if (typeof callBack === 'function') {
             callBack(true, data);
         } else {
-            $page.myVues.playlist.update(data);
+            $page.myVues.playlist.user.update(data);
         }
     }
     
