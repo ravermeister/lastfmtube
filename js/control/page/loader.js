@@ -300,6 +300,8 @@ class PageLoader {
 	}
 
     searchSong(track, pageNum = 1) {
+    	console.log('searxh song: ', track, 'page', pageNum);
+    	
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         
         if (!needle.isValid()) {
