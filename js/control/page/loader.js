@@ -237,6 +237,7 @@ class PageLoader {
 		let finished = function(vue = null, data = null){
 			
 			let updateVueAndLoad = function(vue, data){
+				console.log('update ', vue, 'with ', data);
 				if(vue !== null && data !== null) {	
 					let isPlaylist = $page.loader.pages.isPlaylist(page);
 					vue.update(data);
@@ -254,7 +255,6 @@ class PageLoader {
 			
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);	
-			console.log('location: ', page.selector);
 			self.setLocation('#'+page.selector);
 
 			if(lastPage.value === self.pages.video.youtube) {
