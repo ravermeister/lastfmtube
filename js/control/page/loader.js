@@ -251,7 +251,9 @@ class PageLoader {
 			};
 			
 			self.setLoading(lastPage.value);
-			self.pageInfo.update(page, pageData);			
+			self.pageInfo.update(page, pageData);	
+			console.log('load page: ', page.selector);
+			
 			self.setLocation('#'+page.selector);
 
 			if(lastPage.value === self.pages.video.youtube) {
@@ -299,9 +301,7 @@ class PageLoader {
 		}	
 	}
 
-    searchSong(track, pageNum = 1) {
-    	console.log('searxh song: ', track, 'page', pageNum);
-    	
+    searchSong(track, pageNum = 1) {    	
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         
         if (!needle.isValid()) {
