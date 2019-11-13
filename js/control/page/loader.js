@@ -140,9 +140,7 @@ class PageLoader {
 				 */
 				let path = location.pathname;
 				let hash = getHash(location.href);
-				console.log('pathname',path, 'hash', hash);
 				if(hash.length > 0) path = hash;
-				location.pathname = '';
 				
 // console.log('path: ', path);
 				
@@ -257,7 +255,7 @@ class PageLoader {
 			
 			self.setLoading(lastPage.value);
 			self.pageInfo.update(page, pageData);	
-			self.setLocation('#'+page.selector);
+			self.setLocation('/#'+page.selector);
 
 			if(lastPage.value === self.pages.video.youtube) {
 				
