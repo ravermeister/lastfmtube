@@ -84,7 +84,7 @@ class LibvuePlayerHeader {
                 	console.log('loadMenu!!', this.CURRENT_TRACK);
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 
-	                	!'playlist.search' === this.CURRENT_TRACK.PLAYLIST) {
+	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST) {
 	                	let page = $page.loader.pages.getByValue(this.CURRENT_TRACK.PLAYLIST);
 	                	let pageNum = parseInt(this.CURRENT_TRACK.NR / $page.settings.tracksPerPage);
 	                	console.log('load page: ', page, 'with pnum', pageNum, 'for tracknr', this.CURRENT_TRACK.NR);
