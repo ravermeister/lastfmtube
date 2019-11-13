@@ -225,7 +225,8 @@ class PageLoader {
 	}
 	
 	loadPage(page = null, pageData = null, autoPlay = false) {
-
+		
+		
 		if(page === null) return;	
 		let lastPage = this.pageInfo.currentPage;
         let self = this;
@@ -251,12 +252,11 @@ class PageLoader {
 				}	
 			};
 			
-			self.setLoading(lastPage.value);
-			if(!success) return;
-			
+			self.setLoading(lastPage.value);			
 			self.pageInfo.update(page, pageData);	
 			self.setLocation('/#'+page.selector);
-
+			if(!success) return;
+			
 			if(lastPage.value === self.pages.video.youtube) {
 				
 				/**
