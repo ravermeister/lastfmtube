@@ -97,11 +97,13 @@ class PageLoader {
 				}
 			},
 			
-			isPlaylist: function(page) {
+			isPlaylist: function(page, includeSearch = false) {
 				let isPlaylist = (page === this.playlist.lastfm ||
 				page === this.playlist.topsongs ||
 				page === this.playlist.user);
-				
+				if(!isPlaylist && includeSearch) {
+					isPlaylist = page === this.playlist.search;
+				}
 				return isPlaylist;
 			},
 			
@@ -235,6 +237,7 @@ class PageLoader {
 		let finished = function(vue = null, data = null){
 			
 			let updateVueAndLoad = function(vue, data){
+
 				if(vue !== null && data !== null) {	
 					let isPlaylist = $page.loader.pages.isPlaylist(page);
 					vue.update(data);
@@ -251,7 +254,7 @@ class PageLoader {
 			};
 			
 			self.setLoading(lastPage.value);
-			self.pageInfo.update(page, pageData);			
+			self.pageInfo.update(page, pageData);	
 			self.setLocation('#'+page.selector);
 
 			if(lastPage.value === self.pages.video.youtube) {
@@ -268,8 +271,7 @@ class PageLoader {
 			}
 		};  
 		
-		
-		if(this.pages.isPlaylist(page)) {
+		if(this.pages.isPlaylist(page, true)) {
 			$playlist.loader.load(page, pageData, finished);
 			return;
 		}
@@ -299,7 +301,7 @@ class PageLoader {
 		}	
 	}
 
-    searchSong(track, pageNum = 1) {
+    searchSong(track, pageNum = 1) {    	
         let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
         
         if (!needle.isValid()) {

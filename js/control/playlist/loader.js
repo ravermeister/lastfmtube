@@ -263,7 +263,7 @@ class PlaylistLoader {
     }
     
     load(page, pageData, callBack) {
-    	if(!$page.loader.pages.isPlaylist(page)) {
+    	if(!$page.loader.pages.isPlaylist(page, true)) {
     		return;
     	}
     	
@@ -315,7 +315,7 @@ class PlaylistLoader {
 				$playlist.loader.loadSearchResult(needle, pageNum, function(result, data){
 					if(result) {	
 						data.SEARCH_NEEDLE = needle;	
-						callBack($page.myVues.playlist.topsongs, data);												
+						callBack($page.myVues.playlist.search, data);												
 					}
 				});
 			break;

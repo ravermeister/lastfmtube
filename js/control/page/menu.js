@@ -156,6 +156,9 @@ class Menu {
         switch (menuId) {
         	case 'all':
             case 'default':
+            case 'search':
+            case 'playlist.search':
+            case 'playlist-search-container':
             	return this.defaultMenu;
             case 'youtube':
             case 'video':
