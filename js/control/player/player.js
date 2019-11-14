@@ -105,6 +105,7 @@ class PlayerController {
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
+    	
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
         if (tracks === null || tracks.length === 0) return;    	

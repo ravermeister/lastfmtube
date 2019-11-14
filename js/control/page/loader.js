@@ -246,8 +246,8 @@ class PageLoader {
 						});	
 					}	
 				}
-							
-				if(autoPlay) {		
+
+				if(autoPlay) {	
 					$player.loadNextSong();
 				}	
 			};
@@ -289,14 +289,12 @@ class PageLoader {
 			// Top Last.fm User
 			case this.pages.userlist.topuser.value:
 				$playlist.loader.loadTopUser(pageNum, function(result, data){
-					if(result) {						
-						finished($page.myVues.userlist.topuser, data);
-					}
+					finished($page.myVues.userlist.topuser, data, result);
 				});
 			break;
 			// YouTube Player View
 			case this.pages.video.youtube.value:				
-					finished(null, null);
+					finished(null, null, true);
 			break;
 		}	
 	}
