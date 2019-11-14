@@ -24,7 +24,8 @@ class LibvuePlayerHeader {
 
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 
-	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST) {
+	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST &&
+	                	'undefined' !== this.CURRENT_TRACK.PLAYLIST) {
 	                	
 	                	playlist = this.CURRENT_TRACK.PLAYLIST;
                     }
