@@ -69,6 +69,7 @@ class LibvuePlayerHeader {
 
 
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
+                    	console.log('will not update track nr!');
                         return '';
                     }
 
