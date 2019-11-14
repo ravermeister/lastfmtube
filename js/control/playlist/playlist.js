@@ -264,8 +264,7 @@ class PlaylistController {
         	if(curTrack !== null) {
         		updateTrack(curTrack);     		
         	}        	
-        	curTrack = $page.myVues.video.youtute.header.CURRENT_TRACK;
-        	console.log('cur', curTrack);
+        	curTrack = $page.myVues.video.youtube.header.CURRENT_TRACK;
         	if(curTrack !== null) {
         		updateTrack(curTrack);     		
         	}           	
