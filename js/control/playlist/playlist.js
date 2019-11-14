@@ -262,8 +262,19 @@ class PlaylistController {
         if(updateCurrent) {
         	let curTrack = $player.currentTrackData.track;        	
         	if(curTrack !== null) {
-        		updateTrack(curTrack);
-        	}
+        		updateTrack(curTrack);     		
+        	}       
+        	
+        	/**
+        	 * TODO: in the youtube libvue implementation,
+        	 * initialize the CURRENT_TRACK with an empty
+        	 * Structure of the Track json from the backend.
+        	 * then it should react on attribute changes, 
+        	 * and the update above should be enough
+        	 */
+        	curTrack = PageController.clone(curTrack);
+        	$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
+        	
         }
     }
 }
