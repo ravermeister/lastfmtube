@@ -265,8 +265,10 @@ class PlaylistController {
         		updateTrack(curTrack);     		
         	}        	
         	curTrack = $page.myVues.video.youtube.header.CURRENT_TRACK;
+        	console.log('cur',curTrack);
         	if(curTrack !== null) {
-        		updateTrack(curTrack);     		
+        		updateTrack(curTrack);  
+        		console.log('cur2',curTrack);
         	}           	
         }
     }
