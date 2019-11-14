@@ -230,7 +230,6 @@ class PlaylistController {
              
         let oldTrack = null;
         for (let track in vue.content.$data.TRACKS) {
-            let track = vue.content.$data.TRACKS[cnt];
             if (
                 track.ARTIST === json.data.value.artist &&
                 track.TITLE === json.data.value.title
