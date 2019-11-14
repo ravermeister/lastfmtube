@@ -41,7 +41,7 @@ static createVue(elementId){
                     $playlist.removeUserTrack(curIndex);
                     $playlist.loader.loadCustomerList(curPage);
 
-                    tracks = $page.myVues.playlist.content.$data.TRACKS;
+                    tracks = $page.myVues.playlist.user.content.$data.TRACKS;
                     if (tracks.length > 0) {
                         if (tracks.length > curIndex) {
                             this.togglePlayControl(tracks[curIndex]);
