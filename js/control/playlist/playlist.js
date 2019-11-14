@@ -20,7 +20,8 @@ class PlaylistController {
     getUserTracks() {
         let userStore = this.userStore;
         if (!userStore.isSet('userlist.tracks')) userStore.set('userlist.tracks', []);
-        return userStore.get('userlist.tracks');
+        let tracks = userStore.get('userlist.tracks');
+        console.log('user track: ', tracks);
     }
 
     setUserTracks(tracks = []) {
