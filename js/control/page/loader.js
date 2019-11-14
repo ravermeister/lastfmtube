@@ -246,7 +246,7 @@ class PageLoader {
 						});	
 					}	
 				}
-							
+
 				if(autoPlay) {	
 					console.log('load next song!');
 					$player.loadNextSong();
@@ -256,6 +256,7 @@ class PageLoader {
 			self.setLoading(lastPage.value);			
 			self.pageInfo.update(page, pageData);	
 			self.setLocation('/#'+page.selector);
+			console.log('success:', success);
 			if(!success) return;
 			
 			if(lastPage.value === self.pages.video.youtube) {
@@ -290,14 +291,12 @@ class PageLoader {
 			// Top Last.fm User
 			case this.pages.userlist.topuser.value:
 				$playlist.loader.loadTopUser(pageNum, function(result, data){
-					if(result) {						
-						finished($page.myVues.userlist.topuser, data);
-					}
+					finished($page.myVues.userlist.topuser, data, result);
 				});
 			break;
 			// YouTube Player View
 			case this.pages.video.youtube.value:				
-					finished(null, null);
+					finished(null, null, true);
 			break;
 		}	
 	}
