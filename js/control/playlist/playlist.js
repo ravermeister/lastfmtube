@@ -262,10 +262,12 @@ class PlaylistController {
         if(updateCurrent) {
         	let curTrack = $player.currentTrackData.track;        	
         	if(curTrack !== null) {
-        		updateTrack(curTrack);
-        		$player.currentTrackData.track = curTrack;
-        		$page.myVues.video.youtute.header.CURRENT_TRACK = curTrack;        		
-        	}
+        		updateTrack(curTrack);     		
+        	}        	
+        	curTrack = $page.myVues.video.youtute.header.CURRENT_TRACK;
+        	if(curTrack !== null) {
+        		updateTrack(curTrack);     		
+        	}           	
         }
     }
 }
