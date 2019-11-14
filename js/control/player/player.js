@@ -228,10 +228,9 @@ class PlayerController {
         if (!force && this.isCurrentTrack(track)) return;
 
         let curTrack = this.currentTrackData.track;
-
-        $page.QUICKPLAY_TRACK = null;
         if (curTrack !== null) {
             this.setCurrentState();
+            console.log('curtrack: ', curTrack);
             this.currentTrackData.track = null;
         }
         if(track === null || 'undefined' === typeof track) return;
