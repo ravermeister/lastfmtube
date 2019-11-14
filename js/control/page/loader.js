@@ -248,7 +248,6 @@ class PageLoader {
 				}
 
 				if(autoPlay) {	
-					console.log('load next song!');
 					$player.loadNextSong();
 				}	
 			};
@@ -256,7 +255,6 @@ class PageLoader {
 			self.setLoading(lastPage.value);			
 			self.pageInfo.update(page, pageData);	
 			self.setLocation('/#'+page.selector);
-			console.log('success:', success);
 			if(!success) return;
 			
 			if(lastPage.value === self.pages.video.youtube) {
