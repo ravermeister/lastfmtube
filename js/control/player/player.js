@@ -229,7 +229,8 @@ class PlayerController {
 
         let curTrack = this.currentTrackData.track;
         if (curTrack !== null) {
-            this.setCurrentState();       
+            this.setCurrentState(); 
+            this.currentTrackData.track.NR='666';
             this.currentTrackData.track = null;
         }
         if(track === null || 'undefined' === typeof track) return;
