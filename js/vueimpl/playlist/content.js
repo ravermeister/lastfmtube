@@ -35,7 +35,7 @@ static createVue(elementId){
                 },
 
                 removeFromUserList: function (tracks, track) {
-                    let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
+                    let curPage = $page.myVues.playlist.user.menu.$data.CUR_PAGE;
                     let curIndex = tracks.indexOf(track);
 
                     $playlist.removeUserTrack(curIndex);
