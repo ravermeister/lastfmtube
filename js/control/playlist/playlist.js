@@ -49,7 +49,7 @@ class PlaylistController {
         let tracks = this.getUserTracks();
         if (index >= tracks.length || index < 0 || tracks.length === 0) return;
         
-        let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
+        let pageNum = $page.myVues.playlist.user.menu.$data.CUR_PAGE;
         let offset = ((pageNum - 1) * $page.settings.general.tracksPerPage);
         tracks.splice(offset + index, 1);
         this.setUserTracks(tracks);
@@ -228,10 +228,8 @@ class PlaylistController {
         	return track;
         };
              
-        let trackList = vue.content.$data.TRACKS;
         let oldTrack = null;
-        for (let cnt = 0; cnt < vue.content.$data.TRACKS.length; cnt++) {
-            let track = vue.content.$data.TRACKS[cnt];
+        for (let track in vue.content.$data.TRACKS) {
             if (
                 track.ARTIST === json.data.value.artist &&
                 track.TITLE === json.data.value.title
@@ -247,7 +245,7 @@ class PlaylistController {
             	doTrackSongPlay(oldTrack);
             }
         } else if (isTopSongPlaylist) {
-    		if (trackList.length <= (vue.content.$data.MAX_PAGES - 2)) {
+    		if (vue.content.$data.TRACKS.length <= (vue.content.$data.MAX_PAGES - 2)) {
     			let newTrack = LibvuePlaylist.createEmptyTrack();    			
     			newTrack.NR = trackList.length;
     			newTrack.ARTIST = json.data.value.artist;
@@ -264,11 +262,19 @@ class PlaylistController {
         if(updateCurrent) {
         	let curTrack = $player.currentTrackData.track;        	
         	if(curTrack !== null) {
-        		curTrack = updateTrack(PageController.clone(curTrack));
-    			
-        		$player.currentTrackData.track = curTrack;
-    			$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
-        	}
+        		updateTrack(curTrack);     		
+        	}       
+        	
+        	/**
+        	 * TODO: in the youtube libvue implementation,
+        	 * initialize the CURRENT_TRACK with an empty
+        	 * Structure of the Track json from the backend.
+        	 * then it should react on attribute changes, 
+        	 * and the update above should be enough
+        	 */
+        	curTrack = PageController.clone(curTrack);
+        	$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
+        	
         }
     }
 }

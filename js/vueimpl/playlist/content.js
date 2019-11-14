@@ -35,13 +35,13 @@ static createVue(elementId){
                 },
 
                 removeFromUserList: function (tracks, track) {
-                    let curPage = $page.myVues.playlist.menu.$data.CUR_PAGE;
+                    let curPage = $page.myVues.playlist.user.menu.$data.CUR_PAGE;
                     let curIndex = tracks.indexOf(track);
 
                     $playlist.removeUserTrack(curIndex);
                     $playlist.loader.loadCustomerList(curPage);
 
-                    tracks = $page.myVues.playlist.content.$data.TRACKS;
+                    tracks = $page.myVues.playlist.user.content.$data.TRACKS;
                     if (tracks.length > 0) {
                         if (tracks.length > curIndex) {
                             this.togglePlayControl(tracks[curIndex]);

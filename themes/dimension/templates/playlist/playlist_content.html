@@ -50,13 +50,13 @@
 						v-if="TRACK.PLAYLIST === 'playlist.search'" title="set as Video"
 						class="button smaller"> <span class="fas fa-save"></span>
 					</a> <a @click="addToUserList($event, TRACK);" title="add to Playlist"
-						v-else-if="TRACK.PLAYLIST !== 'playlist.userlist'" class="button smaller">
+						v-else-if="TRACK.PLAYLIST !== 'playlist.user'" class="button smaller">
 							<span class="fas fa-user-plus"></span>
 					</a> <a @click="removeFromUserList(TRACKS, TRACK);"
 						title="remove from Playlist" v-else="v-else"
 						class="button smaller"> <span class="fas fa-user-times"></span>
 					</a> <a @click="clearUserList();" title="clear Playlist"
-						v-if="TRACK.PLAYLIST === 'playlist.userlist'" class="button smaller"> <span
+						v-if="TRACK.PLAYLIST === 'playlist.user'" class="button smaller"> <span
 							class="fas fa-trash-alt"></span>
 					</a> <a @click="searchVideos($event, TRACK);"
 						v-if="TRACK.PLAYLIST !== 'playlist.search'"
