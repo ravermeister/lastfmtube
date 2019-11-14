@@ -49,7 +49,7 @@ class PlaylistController {
         let tracks = this.getUserTracks();
         if (index >= tracks.length || index < 0 || tracks.length === 0) return;
         
-        let pageNum = $page.myVues.playlist.menu.$data.CUR_PAGE;
+        let pageNum = $page.myVues.playlist.user.menu.$data.CUR_PAGE;
         let offset = ((pageNum - 1) * $page.settings.general.tracksPerPage);
         tracks.splice(offset + index, 1);
         this.setUserTracks(tracks);
