@@ -13,8 +13,8 @@ class LibvuePlayerHeader {
             el: '#'+elementId+'>h2',
             data: {
                 PLAYLIST: null,
-                CURRENT_TRACK: new TrackData(),
-                SEARCH_TRACK: new TrackData(),
+                CURRENT_TRACK: {},
+                SEARCH_TRACK: {},
                 LOADING: false
             },
             computed: {
