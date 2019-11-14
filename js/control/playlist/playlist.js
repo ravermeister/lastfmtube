@@ -228,9 +228,8 @@ class PlaylistController {
         	return track;
         };
              
-        let trackList = vue.content.$data.TRACKS;
         let oldTrack = null;
-        for (let cnt = 0; cnt < vue.content.$data.TRACKS.length; cnt++) {
+        for (let track in vue.content.$data.TRACKS) {
             let track = vue.content.$data.TRACKS[cnt];
             if (
                 track.ARTIST === json.data.value.artist &&
@@ -247,7 +246,7 @@ class PlaylistController {
             	doTrackSongPlay(oldTrack);
             }
         } else if (isTopSongPlaylist) {
-    		if (trackList.length <= (vue.content.$data.MAX_PAGES - 2)) {
+    		if (vue.content.$data.TRACKS.length <= (vue.content.$data.MAX_PAGES - 2)) {
     			let newTrack = LibvuePlaylist.createEmptyTrack();    			
     			newTrack.NR = trackList.length;
     			newTrack.ARTIST = json.data.value.artist;
@@ -264,10 +263,10 @@ class PlaylistController {
         if(updateCurrent) {
         	let curTrack = $player.currentTrackData.track;        	
         	if(curTrack !== null) {
-        		curTrack = updateTrack(PageController.clone(curTrack));
-    			
-        		$player.currentTrackData.track = curTrack;
-    			$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
+        		updateTrack(curTrack);
+//        		curTrack = updateTrack(PageController.clone(curTrack));    			
+//        		$player.currentTrackData.track = curTrack;
+//    			$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
         	}
         }
     }
