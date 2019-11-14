@@ -247,7 +247,8 @@ class PageLoader {
 					}	
 				}
 							
-				if(autoPlay) {		
+				if(autoPlay) {	
+					console.log('load next song!');
 					$player.loadNextSong();
 				}	
 			};
