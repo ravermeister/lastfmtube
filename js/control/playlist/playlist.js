@@ -263,9 +263,6 @@ class PlaylistController {
         	let curTrack = $player.currentTrackData.track;        	
         	if(curTrack !== null) {
         		updateTrack(curTrack);
-//        		curTrack = updateTrack(PageController.clone(curTrack));    			
-//        		$player.currentTrackData.track = curTrack;
-//    			$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
         	}
         }
     }
