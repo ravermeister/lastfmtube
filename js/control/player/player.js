@@ -244,7 +244,6 @@ class PlayerController {
     }
 
     setCurrentState(newState = '') {
-    	console.log('set State >',newState,'<');
     	
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
