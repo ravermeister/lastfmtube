@@ -13,8 +13,8 @@ class LibvuePlayerHeader {
             el: '#'+elementId+'>h2',
             data: {
                 PLAYLIST: null,
-                CURRENT_TRACK: {},
-                SEARCH_TRACK: {},
+                CURRENT_TRACK: null,
+                SEARCH_TRACK: null,
                 LOADING: false
             },
             computed: {
@@ -25,7 +25,7 @@ class LibvuePlayerHeader {
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 
 	                	'playlist.search' !== this.CURRENT_TRACK.PLAYLIST) {
-	                	console.log('>>>>', this.CURRENT_TRACK);
+	                	
 	                	playlist = this.CURRENT_TRACK.PLAYLIST;
                     }
                     
@@ -69,7 +69,6 @@ class LibvuePlayerHeader {
 
 
                     if ((this.CURRENT_TRACK === null || this.CURRENT_TRACK.PLAYLIST !== playlist)) {
-                    	console.log('will not update track nr!');
                         return '';
                     }
 
