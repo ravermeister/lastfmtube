@@ -298,7 +298,7 @@ class PlaylistLoader {
 			// Search Result List
 			case $page.loader.pages.playlist.search.value:
 				if(needle === null) {					
-					if($page.loader.isCurrentPage(page)) {
+					if($page.loader.pages.isCurrent(page)) {
 						needle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;			        
 					}
 					if(needle === null) {								
