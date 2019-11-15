@@ -107,6 +107,11 @@ class PageLoader {
 				return isPlaylist;
 			},
 			
+			isCurrent: function(page) {
+				if(page === null || page === '') return false;		
+				return this.pageInfo.currentPage.value === page;
+			},
+			
 			getByValue: function(aValue) {
 				switch(aValue) {
 					case this.playlist.lastfm.value:
@@ -210,11 +215,6 @@ class PageLoader {
 				// youtube
 			}
 		}
-	}
-
-	isCurrentPage(page) {
-		if(page === null || page === '') return false;		
-		return this.pageInfo.currentPage.value === page;
 	}
 	
 	loadMenu(menu = null, pageData) {
