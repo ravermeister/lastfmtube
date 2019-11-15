@@ -57,7 +57,7 @@ class PlayerController {
         	self.errorLoopCount++;        	
             let curVue = $page.myVues.forPage($page.loader.pageInfo.currentPage.value);
             
-            $player.setLoading();
+            $page.loader.setLoading();
             if (curVue.menu.$data.PLAYLIST === 'playlist.search') {
                 curVue.menu.$data.SEARCH_VIDEO_ID = '';
             }
