@@ -14,7 +14,6 @@ CREATE TABLE trackplay (
 )
 ;
 
-
 DROP TABLE IF EXISTS lfmuserplay
 ;
 
@@ -36,7 +35,6 @@ CREATE TABLE fimport (
 )
 ;
 
-
 DROP TABLE IF EXISTS replacement
 ;
 
@@ -51,4 +49,3 @@ CREATE TABLE replacement (
   FOREIGN KEY (import_file_sha) REFERENCES fimport(shasum) ON DELETE CASCADE
 )
 ;
-
