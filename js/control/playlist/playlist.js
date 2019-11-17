@@ -220,6 +220,7 @@ class PlaylistController {
                 track.TITLE === json.data.value.title
             ) {
                 oldTrack = track;
+                console.log('old', oldTrack, 'track', track);
                 break;
             }
         }
