@@ -800,82 +800,166 @@ ul.actions.fit.stacked {
 	ul
 	
 	
+	
+	
+	
+	
 	.actions
+	
+	
+	
+	
 	
 	
 	:not
 	
+	
+	
 	 
+	
+	
 	
 	(
 	.fixed
 	
+	
+	
 	 
+	
+	
 	
 	)
 	{
 	-moz-flex-direction
 	
 	
+	
+	
+	
+	
 	:
+	
+	
 	
 	 
 	
+	
+	
 	column
+	
+	
+	
+	
 	
 	
 	;
 	-webkit-flex-direction
 	
 	
+	
+	
+	
+	
 	:
+	
+	
 	
 	 
 	
+	
+	
 	column
+	
+	
+	
+	
 	
 	
 	;
 	-ms-flex-direction
 	
 	
+	
+	
+	
+	
 	:
+	
+	
 	
 	 
 	
+	
+	
 	column
+	
+	
+	
+	
 	
 	
 	;
 	flex-direction
 	
 	
+	
+	
+	
+	
 	:
+	
+	
 	
 	 
 	
+	
+	
 	column
+	
+	
+	
+	
 	
 	
 	;
 	margin-left
 	
 	
+	
+	
+	
+	
 	:
 	
+	
+	
 	 
+	
+	
 	
 	0;
 	width
 	
 	
+	
+	
+	
+	
 	:
 	
+	
+	
 	 
+	
+	
 	
 	100%
 	!
 	important
+	
+	
+	
+	
 	
 	
 	;
@@ -1674,7 +1758,6 @@ body {
 }
 
 /************************************************************/
-
 #main #video-container, #main #video {
 	padding: 0.5rem 0.5rem 0 0.5rem;
 }
@@ -1749,6 +1832,8 @@ input[type="number"] {
 .track-playcount {
 	font-size: small;
 	position: relative;
-	bottom: 15px;
-	left: 8px;
+	bottom: 7px;
+	left: 7px;
+	float: right;
+	white-space: nowrap;
 }
