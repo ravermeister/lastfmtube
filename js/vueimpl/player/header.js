@@ -107,7 +107,8 @@ class LibvuePlayerHeader {
 						 * current_track
 						 */
 	                	let sortBy = this.CURRENT_TRACK.SORTBY;
-	                	if($page.loader.pageInfo.lastPlaylist.value === page) {
+	                	if(sortBy === null || 'undefined' === typeof sortBy 
+	                		&& $page.loader.pageInfo.lastPlaylist.value === page) {	                		
 	                		sortBy = $page.loader.pageInfo.lastPlaylist.data.sortby;
 	                	}
 	                	$page.loader.loadPage(page, {
