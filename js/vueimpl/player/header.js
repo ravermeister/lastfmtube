@@ -74,10 +74,6 @@ class LibvuePlayerHeader {
 
                     let tnr = '#' + this.CURRENT_TRACK.NR;                   
                     if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
-                        tnr += ' ';
-                        if (parseInt(this.CURRENT_TRACK.PLAYCOUNT_CHANGE) > 0) {
-                            tnr += this.CURRENT_TRACK.PLAYCOUNT_CHANGE;
-                        }
                         tnr += '▲';
                     }
                     return tnr;
@@ -98,6 +94,10 @@ class LibvuePlayerHeader {
 
 	                	let page = $page.loader.pages.getByValue(this.CURRENT_TRACK.PLAYLIST);
 	                	let curNr = this.CURRENT_TRACK.NR;
+	                    if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
+	                    	curNr -= this.CURRENT_TRACK.PLAYCOUNT_CHANGE;
+	                    }
+	                    
 	                	let tracksPerPage = $page.settings.general.tracksPerPage;
 	                	let pageNum = parseInt(curNr / tracksPerPage);
 	                	if((curNr % tracksPerPage) > 0) pageNum++;

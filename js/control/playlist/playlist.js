@@ -206,7 +206,6 @@ class PlaylistController {
         };
         let updateTrack = function(track){  
         	let pchange = track.NR - json.data.value.NR;
-        	console.log('playchange', pchange, 'track', track, 'json', json.data.value);
         	track.PLAYCOUNT_CHANGE = pchange;
         	track.LASTPLAY = json.data.value.LASTPLAY;
             track.PLAYCOUNT = json.data.value.PLAYCOUNT;
