@@ -94,27 +94,32 @@ class LibvuePlayerHeader {
 
 	                	let page = $page.loader.pages.getByValue(this.CURRENT_TRACK.PLAYLIST);
 	                	let curNr = this.CURRENT_TRACK.NR;
-	                    if ('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
-	                    	curNr -= this.CURRENT_TRACK.PLAYCOUNT_CHANGE;
-	                    }
+	                    let pageData = {};
+	                	
+	                	/**
+						 * if playlist is topsongs, fetch sortBy option from
+						 * current_track and decrease the position nr by
+						 * playcount change if it was tracked
+						 */
+	                	if ('playlist.topsongs' === this.CURRENT_TRACK.PLAYLIST) {
+		                	let sortBy = this.CURRENT_TRACK.SORTBY;
+		                	if(sortBy === null || 'undefined' === typeof sortBy 
+		                		&& $page.loader.pageInfo.lastPlaylist.value === page) {	                		
+		                		sortBy = $page.loader.pageInfo.lastPlaylist.data.sortby;
+		                	}
+		                	pageData.sortby = sortBy;
+		                	
+	                    	if('undefined' !== typeof this.CURRENT_TRACK.PLAYCOUNT_CHANGE) {
+	                    		curNr -= this.CURRENT_TRACK.PLAYCOUNT_CHANGE;
+	                    	}
+	                	} 
 	                    
 	                	let tracksPerPage = $page.settings.general.tracksPerPage;
 	                	let pageNum = parseInt(curNr / tracksPerPage);
 	                	if((curNr % tracksPerPage) > 0) pageNum++;
-	                	
-	                	/**
-						 * if playlist is topsongs, fetch sortBy option from
-						 * current_track
-						 */
-	                	let sortBy = this.CURRENT_TRACK.SORTBY;
-	                	if(sortBy === null || 'undefined' === typeof sortBy 
-	                		&& $page.loader.pageInfo.lastPlaylist.value === page) {	                		
-	                		sortBy = $page.loader.pageInfo.lastPlaylist.data.sortby;
-	                	}
-	                	$page.loader.loadPage(page, {
-	                		pnum: pageNum,
-	                		sortby: sortBy
-	                	});
+	                	pageData.pnum = pageNum;
+
+	                	$page.loader.loadPage(page, pageData);
                     } else {
                     	let page = $page.loader.pageInfo.lastPlaylist;
                     	$page.loader.loadPage(page.value, page.data);
