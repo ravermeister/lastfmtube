@@ -222,12 +222,10 @@ class PlaylistController {
         				track.TITLE === json.data.value.TITLE
         		) {
         			oldTrack = track;
-        			console.log('old', oldTrack, 'track', track);
         			break;
         		}
         	}
         }
-        console.log('old', oldTrack);
         
         if(oldTrack !== null) {
         	updateTrack(oldTrack);
