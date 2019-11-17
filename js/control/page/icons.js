@@ -36,7 +36,7 @@ class Icons {
         this.diamond = new Icon('fas fa-gem');
         this.headphones = new Icon('fas fa-headphones');
         this.check = new Icon('fas fa-check');
-        this.loader = new Icon('fa fa-spinner faa-spin animated');
+        this.loader = new Icon('fas fa-compact-disc faa-spin animated');
         this.star = new Icon('fas fa-star');
         this.trophy = new Icon('fas fa-trophy');
         this.user = new Icon('fas fa-user');
