@@ -114,7 +114,9 @@ class PlayerController {
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
     	
         let curTrack = this.currentTrackData.track;
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;        
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
+        console.log('load curNr', curNr);
+        
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
