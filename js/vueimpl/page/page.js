@@ -13,7 +13,7 @@ class LibvueMainpage {
         this.logo = new Vue({
             el: '#header>.logo',
             data: {
-                PAGE_LOADER: 'fas fa-atom faa-spin animated fa-3x'
+                PAGE_LOADER: 'fas fa-compact-disc faa-spin animated fa-3x'
             }
         });
 
