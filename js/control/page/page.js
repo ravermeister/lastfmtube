@@ -219,16 +219,16 @@ class PageController {
         });
     }
 
-    saveChartTrack(track, callback = null) {
+    saveChartTrack(needle, callback = null) {
     	console.log('save chart:', track);
     	
         $.ajax('php/json/page/Page.php?&action=save-trackplay', {
             dataType: 'json',
             method: 'POST',
             data: {
-                artist: track.artist,
-                title: track.title,
-                sortby: track.sortby
+                artist: needle.artist,
+                title: needle.title,
+                sortby: needle.sortby
             }
         }).done(function (json) {
 

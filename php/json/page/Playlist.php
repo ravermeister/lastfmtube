@@ -154,22 +154,26 @@ class Playlist extends DefaultJson {
       * @throws Exception
       */
      private function getTopSongs($pageNum = 1, $sortby = false) {
+
+          /**
+           * TODO: the code below can be merged with Page#saveTrackPlay
+           * find a good place where the common code can be shared
+           */
+          
+          $db = Db::getInstance();
           $settings = $this->funcs->getSettings();
           $locale = $this->funcs->getLocale();
           $sort_bydate = $locale['playlist']['control']['sortby']['date'];
           $sort_bypcount = $locale['playlist']['control']['sortby']['playcount'];
+          $limit = $settings['general']['tracks_perpage'];
+          $offset = ($pageNum - 1) * $limit;
 
           if ($sortby === false || ! (strcmp($sortby, $sort_bydate) === 0 || strcmp($sortby, $sort_bypcount) === 0)) {
                $sortby = $locale['playlist']['control']['sortby']['playcount'];
           }
 
-          $db = Db::getInstance();
-          $limit = $settings['general']['tracks_perpage'];
-          $offset = ($pageNum - 1) * $limit;
-
           $orderby = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'lastplayed' : 'playcount';
           $orderbysecond = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'playcount' : 'lastplayed';
-
           $topsongs = $db->query('SELECT_ORDERED_TRACKPLAY', array(
                'orderby' => $orderby,
                'orderbysecond' => $orderbysecond

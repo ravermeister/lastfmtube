@@ -145,17 +145,35 @@ class Page extends DefaultJson {
                $this->jsonError('can not save trackplay, insufficient data');
           }
 
-          /**
-           *
-           * @var \LastFmTube\Util\Db $db
-           */
           $db = Db::getInstance();
           $this->funcs->normalizeTrack($artist, $title);
           $db->updateTrackPlay($artist, $title);
 
-          $sortby = trim($this->funcs->decodeHTML(self::getVar('sortby', false, $_POST)));
+          
+          /**
+           * TODO: the code below can be merged with Playlist#getTopSongs
+           * find a good place where the common code can be shared
+           */
+
+          $locale = $this->funcs->getLocale();
+          $sort_bydate = $locale['playlist']['control']['sortby']['date'];
+          $sort_bypcount = $locale['playlist']['control']['sortby']['playcount'];
           $playlist = trim($this->funcs->decodeHTML(self::getVar('playlist', 'playlist.topsongs', $_POST)));
-          $topsongs = $db->query('SELECT_ALL_TRACKPLAY');
+          $sortby = trim($this->funcs->decodeHTML(self::getVar('sortby', false, $_POST)));
+          if ($sortby === false || ! (strcmp($sortby, $sort_bydate) === 0 || strcmp($sortby, $sort_bypcount) === 0)) {
+               $sortby = $locale['playlist']['control']['sortby']['playcount'];
+          }
+
+          $orderby = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'lastplayed' : 'playcount';
+          $orderbysecond = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'playcount' : 'lastplayed';
+          $topsongs = $db->query('SELECT_ORDERED_TRACKPLAY', array(
+               'orderby' => $orderby,
+               'orderbysecond' => $orderbysecond
+          ));
+
+          if (! is_array($topsongs)) {
+               $topsongs = array();
+          }
           $topsongs = $this->funcs->normalizePlaylist($topsongs, $playlist, $sortby);
 
           foreach ($topsongs as $track) {
