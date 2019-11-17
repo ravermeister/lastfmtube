@@ -33,11 +33,10 @@
 						style="cursor: pointer"><i
 						v-if="TRACK.PLAYLIST !== 'playlist.search' && TRACK.VIDEO_ID !== ''"
 						v-bind:title="'Video: ' + TRACK.VIDEO_ID">{{TRACK.TITLE}}</i> <span
-						v-else="v-else">{{TRACK.TITLE}}</span> <span style="float: right;"
+						v-else="v-else">{{TRACK.TITLE}}</span> <span class="track-playcount"
 						v-show="'undefined' !== typeof TRACK.PLAYCOUNT_CHANGE"> <span
-							v-show="TRACK.PLAYCOUNT_CHANGE > 0">{{TRACK.PLAYCOUNT_CHANGE}}▲</span>
-							<span
-							v-show="TRACK.PLAYCOUNT_CHANGE <= 0 || TRACK.PLAYCOUNT_CHANGE == ''">▲</span>
+							v-show="TRACK.PLAYCOUNT_CHANGE > 0">{{TRACK.PLAYCOUNT_CHANGE}}</span>
+							<span>▲</span>
 					</span></td>
 				</tr>
 
@@ -50,14 +49,14 @@
 						v-if="TRACK.PLAYLIST === 'playlist.search'" title="set as Video"
 						class="button smaller"> <span class="fas fa-save"></span>
 					</a> <a @click="addToUserList($event, TRACK);" title="add to Playlist"
-						v-else-if="TRACK.PLAYLIST !== 'playlist.user'" class="button smaller">
-							<span class="fas fa-user-plus"></span>
+						v-else-if="TRACK.PLAYLIST !== 'playlist.user'"
+						class="button smaller"> <span class="fas fa-user-plus"></span>
 					</a> <a @click="removeFromUserList(TRACKS, TRACK);"
 						title="remove from Playlist" v-else="v-else"
 						class="button smaller"> <span class="fas fa-user-times"></span>
 					</a> <a @click="clearUserList();" title="clear Playlist"
-						v-if="TRACK.PLAYLIST === 'playlist.user'" class="button smaller"> <span
-							class="fas fa-trash-alt"></span>
+						v-if="TRACK.PLAYLIST === 'playlist.user'" class="button smaller">
+							<span class="fas fa-trash-alt"></span>
 					</a> <a @click="searchVideos($event, TRACK);"
 						v-if="TRACK.PLAYLIST !== 'playlist.search'"
 						title="search alternative Video" class="button smaller"> <span
