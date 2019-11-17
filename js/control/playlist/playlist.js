@@ -220,6 +220,7 @@ class PlaylistController {
         		
         		if('undefined' === typeof track.ARTIST || 
         				'undefined' === typeof track.TITLE) {
+        			console.log('wie geht das verdammt???');
         			continue;
         		}
         		
