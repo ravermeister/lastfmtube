@@ -33,7 +33,7 @@ class Icons {
         this.search = new Icon('fa fa-search');
         this.plus = new Icon('fa-plus');
         this.minus = new Icon('fa-minus');
-        this.diamond = new Icon('fa fa-diamond');
+        this.diamond = new Icon('fas fa-gem');
         this.headphones = new Icon('fas fa-headphones');
         this.check = new Icon('fas fa-check');
         this.loader = new Icon('fa fa-spinner faa-spin animated');
