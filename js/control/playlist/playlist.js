@@ -215,15 +215,22 @@ class PlaylistController {
              
         let oldTrack = null;
         console.log('>>>>', vue.content.$data.TRACKS);
-        for (let track in vue.content.$data.TRACKS) {
-            if (
-                track.ARTIST === json.data.value.artist &&
-                track.TITLE === json.data.value.title
-            ) {
-                oldTrack = track;
-                console.log('old', oldTrack, 'track', track);
-                break;
-            }
+        if('undefined' !== typeof vue.content.$data.TRACKS) {        	
+        	for (let track in vue.content.$data.TRACKS) {
+        		
+        		if('undefined' === typeof track.ARTIST || 
+        				'undefined' === typeof track.TITLE) {
+        			continue;
+        		}
+        		
+        		if (track.ARTIST === json.data.value.artist &&
+        				track.TITLE === json.data.value.title
+        		) {
+        			oldTrack = track;
+        			console.log('old', oldTrack, 'track', track);
+        			break;
+        		}
+        	}
         }
         console.log('old', oldTrack);
         
@@ -255,12 +262,11 @@ class PlaylistController {
         	}       
         	
         	/**
-        	 * TODO: in the youtube libvue implementation,
-        	 * initialize the CURRENT_TRACK with an empty
-        	 * Structure of the Track json from the backend.
-        	 * then it should react on attribute changes, 
-        	 * and the update above should be enough
-        	 */
+			 * TODO: in the youtube libvue implementation, initialize the
+			 * CURRENT_TRACK with an empty Structure of the Track json from the
+			 * backend. then it should react on attribute changes, and the
+			 * update above should be enough
+			 */
         	curTrack = PageController.clone(curTrack);
         	$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
         	
