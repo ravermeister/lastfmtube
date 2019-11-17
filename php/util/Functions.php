@@ -92,6 +92,62 @@ class Functions {
           $this->settings['database']['dbinit_file'] = self::normalizePath($this->basedir, $this->settings['database']['dbinit_file']);
           $this->settings['general']['lang'] = 'en';
      }
+     
+     public function normalizePlaylist($tracks, $playlist = 'playlist.topsongs', $sortby = false) {
+          $uniqueTracks = array();
+          $db = Db::getInstance();
+          
+          for ($cnt = 0; $cnt < sizeof($tracks); $cnt ++) {
+               $track = $tracks[$cnt];
+               $normalizedArtist = &$track['artist'];
+               $normalizedTitle = &$track['title'];
+               
+               // Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
+               self::normalizeTrack($normalizedArtist, $normalizedTitle);
+               // $track['artist'] = $normalizedArtist;
+               // $track['title'] = $normalizedTitle;
+               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
+               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
+               
+               $trackId = $track['artist'] . '-' . $track['title'];
+               if (array_key_exists($trackId, $uniqueTracks)) {
+                    $uniqueTrack = $uniqueTracks[$trackId];
+                    $uniqueTrack['PLAYCOUNT'] = ((int) $uniqueTrack['PLAYCOUNT']) + ((int) $track['playcount']);
+                    
+                    $date1 = new DateTime($uniqueTrack['LASTPLAY']);
+                    $date2 = new DateTime($this->funcs->formatDate($track['lastplayed']));
+                    if ($date2 > $date1) {
+                         $uniqueTrack['LASTPLAY'] = $track['lastplayed'];
+                    }
+                    
+                    $uniqueTracks[$trackId] = $uniqueTrack;
+                    continue;
+               }
+               
+               $videoId = $db->query('GET_VIDEO', array(
+                    'artist' => $track['artist'],
+                    'title' => $track['title']
+               ));
+               $videoId = is_array($videoId) && isset($videoId[0]['url']) ? $videoId[0]['url'] : '';
+               
+               $pTrack = array(
+                    'NR' => ($cnt + 1),
+                    'ARTIST' => $track['artist'],
+                    'TITLE' => $track['title'],
+                    'LASTPLAY' => $this->funcs->formatDate($track['lastplayed']),
+                    'LASTFM_ISPLAYING' => false,
+                    'PLAYCOUNT' => $track['playcount'],
+                    'VIDEO_ID' => $videoId,
+                    'PLAY_CONTROL' => false,
+                    'PLAYLIST' => $playlist,
+                    'PLAYSTATE' => '',
+                    'SORTBY' => $sortby
+               );
+               $uniqueTracks[$trackId] = $pTrack;
+          }
+          $uniqueTracks = array_values($uniqueTracks);
+          return $uniqueTracks;
+     }
 
     /**
      * @param $artist

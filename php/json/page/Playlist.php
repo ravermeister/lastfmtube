@@ -12,14 +12,12 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
-use LastFmTube\Util\Functions;
-use DateTime;
 use Exception;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 class Playlist extends DefaultJson {
 
@@ -31,25 +29,26 @@ class Playlist extends DefaultJson {
           die($data);
      }
 
-    /**
-     * @return array|mixed|void
-     */
+     /**
+      *
+      * @return array|mixed|void
+      */
      function get() {
-         try {
-             switch (self::getVar('list', '')) {
-                 case 'playlist':
-                     return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
-                 case 'topsongs':
-                     return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
-                 case 'topuser':
-                     return $this->getTopUser(self::getVar('page', 1));
-                 default:
-                     $this->jsonError('invalid arguments');
-                     break;
-             }
-         } catch (Exception $err) {
-             $this->jsonError('error in get: '.$err->getMessage());
-         }
+          try {
+               switch (self::getVar('list', '')) {
+                    case 'playlist':
+                         return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
+                    case 'topsongs':
+                         return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
+                    case 'topuser':
+                         return $this->getTopUser(self::getVar('page', 1));
+                    default:
+                         $this->jsonError('invalid arguments');
+                         break;
+               }
+          } catch (Exception $err) {
+               $this->jsonError('error in get: ' . $err->getMessage());
+          }
      }
 
      /**
@@ -117,8 +116,8 @@ class Playlist extends DefaultJson {
 
           for ($cnt = 0; $cnt < sizeof($tracks); $cnt ++) {
 
-              /** @var Track $track */
-              $track = $tracks[$cnt];
+               /** @var Track $track */
+               $track = $tracks[$cnt];
                $track->normalize();
 
                $videoId = $db->query('GET_VIDEO', array(
@@ -147,12 +146,13 @@ class Playlist extends DefaultJson {
           return (isset($user) && $user !== false && $user != null && strlen(filter_var($user, FILTER_SANITIZE_STRING)) > 0);
      }
 
-    /**
-     * @param int $pageNum
-     * @param bool $sortby
-     * @return array
-     * @throws Exception
-     */
+     /**
+      *
+      * @param int $pageNum
+      * @param bool $sortby
+      * @return array
+      * @throws Exception
+      */
      private function getTopSongs($pageNum = 1, $sortby = false) {
           $settings = $this->funcs->getSettings();
           $locale = $this->funcs->getLocale();
@@ -166,97 +166,27 @@ class Playlist extends DefaultJson {
           $db = Db::getInstance();
           $limit = $settings['general']['tracks_perpage'];
           $offset = ($pageNum - 1) * $limit;
-          $trackCnt = $db->query('SELECT_TRACKPLAY_NUM_ROWS');
-          $trackCnt = (int) ($trackCnt === false ? 1 : $trackCnt['cnt']);
 
           $orderby = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'lastplayed' : 'playcount';
           $orderbysecond = strcmp($sortby, $locale['playlist']['control']['sortby']['date']) === 0 ? 'playcount' : 'lastplayed';
 
-          $topsongs = $db->query('SELECT_TRACKPLAY', array(
-               /**
-                *
-                * @fixme: the multiplier 4 is used for checking
-                * duplicates after the track artist and title string normalization.
-                * We should have a better and performant way
-                * to calculate the track rank after the duplicates were merged together.
-                *
-                * I set the limit to the rowcount of the tracks sothat we search
-                * the complete play history of all tracks!!!
-                * add the commented limit if performance is worse!
-                */
-               /* 'limit' => $limit * 3, */
-               'limit' => $trackCnt,
+          $topsongs = $db->query('SELECT_ORDERED_TRACKPLAY', array(
                'orderby' => $orderby,
-               'orderbysecond' => $orderbysecond,
-
-               /**
-                * we need offset 0, becaus we calculate
-                * the finaly result of songs (merging duplicates)
-                * and recalculate the total page count
-                */
-               'offset' => 0
+               'orderbysecond' => $orderbysecond
           ));
 
-         if (! is_array($topsongs)) {
+          if (! is_array($topsongs)) {
                $topsongs = array();
           }
 
-          $uniqueTracks = array();
-          for ($cnt = 0; $cnt < sizeof($topsongs); $cnt ++) {
-               $track = $topsongs[$cnt];
-               $normalizedArtist = &$track['artist'];
-               $normalizedTitle = &$track['title'];
+          $uniqueTracks = $this->funcs->normalizePlaylist($topsongs, 'playlist.topsongs', $sortby);
 
-               // Functions::getInstance()->logMessage('before topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
-               Functions::normalizeTrack($normalizedArtist, $normalizedTitle);
-               // $track['artist'] = $normalizedArtist;
-               // $track['title'] = $normalizedTitle;
-               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
-               // Functions::getInstance()->logMessage('after topsonsgs normalize, artist: >' . $track['artist'] . '<, title: >' . $track['title'] . '<');
-
-               $trackId = $track['artist'] . '-' . $track['title'];
-               if (array_key_exists($trackId, $uniqueTracks)) {
-                    $uniqueTrack = $uniqueTracks[$trackId];
-                    $uniqueTrack['PLAYCOUNT'] = ((int) $uniqueTrack['PLAYCOUNT']) + ((int) $track['playcount']);
-
-                    $date1 = new DateTime($uniqueTrack['LASTPLAY']);
-                    $date2 = new DateTime($this->funcs->formatDate($track['lastplayed']));
-                    if ($date2 > $date1) {
-                         $uniqueTrack['LASTPLAY'] = $track['lastplayed'];
-                    }
-
-                    $uniqueTracks[$trackId] = $uniqueTrack;
-                    continue;
-               }
-
-               $videoId = $db->query('GET_VIDEO', array(
-                    'artist' => $track['artist'],
-                    'title' => $track['title']
-               ));
-               $videoId = is_array($videoId) && isset($videoId[0]['url']) ? $videoId[0]['url'] : '';
-
-               $pTrack = array(
-                    'NR' => ($cnt + 1),
-                    'ARTIST' => $track['artist'],
-                    'TITLE' => $track['title'],
-                    'LASTPLAY' => $this->funcs->formatDate($track['lastplayed']),
-                    'LASTFM_ISPLAYING' => false,
-                    'PLAYCOUNT' => $track['playcount'],
-                    'VIDEO_ID' => $videoId,
-                    'PLAY_CONTROL' => false,
-                    'PLAYLIST' => 'playlist.topsongs',
-                    'PLAYSTATE' => '',
-                    'SORTBY' => $sortby
-               );
-               $uniqueTracks[$trackId] = $pTrack;
-          }
-          $uniqueTracks = array_values($uniqueTracks);
           if (strcmp($sortby, $sort_bydate) === 0) {
                $this->funcs->sortTracksByDate($uniqueTracks);
           } else {
                $this->funcs->sortTracksByPlayCount($uniqueTracks);
           }
-          
+
           $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
           if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
@@ -300,12 +230,13 @@ class Playlist extends DefaultJson {
           return $page;
      }
 
-    /**
-     * @param int $pageNum
-     * @param bool $user
-     * @return array
-     * @throws Exception
-     */
+     /**
+      *
+      * @param int $pageNum
+      * @param bool $user
+      * @return array
+      * @throws Exception
+      */
      private function getTopUser($pageNum = 1, $user = false) {
           if ($user !== false) {
                if (strcmp($_SESSION['music']['lastfm_user'], $user) != 0) {

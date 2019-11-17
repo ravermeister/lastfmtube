@@ -219,21 +219,15 @@ class PageController {
         });
     }
 
-    saveChartTrack(needle, callback = null) {
-    	    	
-        if (!needle.isValid()) {
-            if (callback !== null) {
-                callback(false);
-            }
-            return;
-        }
+    saveChartTrack(track, callback = null) {
 
         $.ajax('php/json/page/Page.php?&action=save-trackplay', {
             dataType: 'json',
             method: 'POST',
             data: {
-                artist: needle.artist,
-                title: needle.title
+                artist: track.artist,
+                title: track.title,
+                sortby: track.sortby
             }
         }).done(function (json) {
 

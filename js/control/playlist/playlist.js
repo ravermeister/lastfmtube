@@ -205,25 +205,10 @@ class PlaylistController {
         	$page.trackSongPlay(track);
         };
         let updateTrack = function(track){  
-            /**
-    		 * TODO: somehow we have to calculate the new position if we are in
-    		 * topsongs playlist and want to jump back to the track from the
-    		 * playlist view.
-    		 * 
-    		 * It is currently not possible becuse
-    		 * the playcount which is returned IS NOT CORRECT, 
-    		 * see reason in the comment below.
-    		 */
-        	track.PLAYCOUNT_CHANGE = 0;
-        	track.LASTPLAY = json.data.value.lastplayed;
-        	/**
-        	 * wrong, because we dont sum up the regex patterns
-        	 * in page.php and therefore get a wrong playcount result.
-        	 * we simply can increment by 1 because 
-        	 * playcount IS ALWAYS incremented by 1!
-        	 */
-//            track.PLAYCOUNT = json.data.value.playcount;
-        	track.PLAYCOUNT++;
+
+        	track.PLAYCOUNT_CHANGE = track.NR - json.data.value.NR;
+        	track.LASTPLAY = json.data.value.LASTPLAY;
+            track.PLAYCOUNT = json.data.value.PLAYCOUNT;
             
         	return track;
         };

@@ -195,23 +195,18 @@ class Db {
                     VALUES(:artist, :title, 1, :lastplayed, :lastplay_ip)
 			',
 
-               'SELECT_TRACKPLAY' => '
+               'SELECT_ALL_TRACKPLAY' => '
+                    SELECT artist, title, playcount, lastplayed, lastplay_ip, url
+                    FROM trackplay
+                    WHERE playcount > 0;
+			',
+               
+               'SELECT_ORDERED_TRACKPLAY' => '
                     SELECT artist, title, playcount, lastplayed, lastplay_ip, url
                     FROM trackplay
                     WHERE playcount > 0
-                    ORDER BY :orderby DESC, :orderbysecond DESC
-                    LIMIT :limit OFFSET :offset;
+                    ORDER BY :orderby DESC, :orderbysecond DESC;
 			',
-
-               'SELECT_TRACKPLAY_NUM_ROWS' => '
-                    SELECT COUNT(*) AS cnt FROM trackplay;
-               ',
-
-               'SELECT_TRACKPLAY_BY_TRACK' => '
-                    SELECT artist, title, playcount, lastplayed, lastplay_ip, url 
-                    FROM trackplay
-                    WHERE artist =:artist AND title = :title;
-               ',
 
                'GET_VIDEO' => '
 				SELECT url FROM trackplay 
@@ -452,7 +447,7 @@ class Db {
                'title' => $title
           ));
           if ($upres !== false && $this->statements['UPDATE_TRACKPLAY']->rowCount() == 1) {
-               return $this->readChartForUpdate($artist, $title);
+               return true;
           }
 
           $this->statements['INSERT_TRACKPLAY']->execute(array(
@@ -461,18 +456,7 @@ class Db {
                'lastplayed' => $lastvisit,
                'lastplay_ip' => $_SERVER['REMOTE_ADDR']
           ));
-          $track = $this->readChartForUpdate($artist, $title);
-          return $track;
-     }
-
-     private function readChartForUpdate($artist, $title) {
-          $this->statements['SELECT_TRACKPLAY_BY_TRACK']->execute(array(
-               'artist' => $artist,
-               'title' => $title
-          ));
-          $data = $this->statements['SELECT_TRACKPLAY_BY_TRACK']->fetchAll(PDO::FETCH_ASSOC);
-          if (sizeof($data) < 1) return - 1;
-          return $data[0];
+          return true;
      }
 
      public function getReplaceTrackMap($reload = false) {

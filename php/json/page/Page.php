@@ -16,9 +16,9 @@ use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 class Page extends DefaultJson {
 
@@ -91,7 +91,7 @@ class Page extends DefaultJson {
           return array(
                'TOPUSER' => array(
                     'TEXT' => $locale['menu']['topuser'],
-                    'PAGE' => 'userlist.topuser',
+                    'PAGE' => 'userlist.topuser'
                ),
                'TOPSONGS' => array(
                     'TEXT' => $locale['menu']['topsongs'],
@@ -145,9 +145,26 @@ class Page extends DefaultJson {
                $this->jsonError('can not save trackplay, insufficient data');
           }
 
-          $data = Db::getInstance()->updateTrackPlay($artist, $title);
+          /**
+           *
+           * @var \LastFmTube\Util\Db $db
+           */
+          $db = Db::getInstance();
+          $this->funcs->normalizeTrack($artist, $title);
+          $db->updateTrackPlay($artist, $title);
 
-          return $data;
+          $sortby = trim($this->funcs->decodeHTML(self::getVar('sortby', false, $_POST)));
+          $playlist = trim($this->funcs->decodeHTML(self::getVar('playlist', 'playlist.topsongs', $_POST)));
+          $topsongs = $db->query('SELECT_ALL_TRACKPLAY');
+          $topsongs = $this->funcs->normalizePlaylist($topsongs, $playlist, $sortby);
+
+          foreach ($topsongs as $track) {
+               if (strcmp($track['ARTIST'], $artist) === 0 && strcmp($track['TITLE'], $title) === 0) {
+                    return $track;
+               }
+          }
+
+          $this->jsonError('something went wrong, track not found after saving playcount...');
      }
 
      /**
