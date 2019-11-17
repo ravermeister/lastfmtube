@@ -156,7 +156,7 @@ class Playlist extends DefaultJson {
      private function getTopSongs($pageNum = 1, $sortby = false) {
 
           /**
-           * TODO: the code below can be merged with Page#saveTrackPlay
+           * TODO: the code below can be merged with Page.php#saveTrackPlay
            * find a good place where the common code can be shared
            */
           

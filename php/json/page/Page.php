@@ -151,7 +151,7 @@ class Page extends DefaultJson {
 
           
           /**
-           * TODO: the code below can be merged with Playlist#getTopSongs
+           * TODO: the code below can be merged with Playlist.php#getTopSongs
            * find a good place where the common code can be shared
            */
 
