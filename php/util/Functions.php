@@ -115,7 +115,7 @@ class Functions {
                     $uniqueTrack['PLAYCOUNT'] = ((int) $uniqueTrack['PLAYCOUNT']) + ((int) $track['playcount']);
                     
                     $date1 = new DateTime($uniqueTrack['LASTPLAY']);
-                    $date2 = new DateTime($this->funcs->formatDate($track['lastplayed']));
+                    $date2 = new DateTime($this->formatDate($track['lastplayed']));
                     if ($date2 > $date1) {
                          $uniqueTrack['LASTPLAY'] = $track['lastplayed'];
                     }
@@ -134,7 +134,7 @@ class Functions {
                     'NR' => ($cnt + 1),
                     'ARTIST' => $track['artist'],
                     'TITLE' => $track['title'],
-                    'LASTPLAY' => $this->funcs->formatDate($track['lastplayed']),
+                    'LASTPLAY' => $this->formatDate($track['lastplayed']),
                     'LASTFM_ISPLAYING' => false,
                     'PLAYCOUNT' => $track['playcount'],
                     'VIDEO_ID' => $videoId,
