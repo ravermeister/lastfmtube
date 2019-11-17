@@ -223,7 +223,8 @@ class PlaylistController {
                 break;
             }
         }
-
+        console.log('old', oldTrack);
+        
         if(oldTrack !== null) {
         	updateTrack(oldTrack);
             if(trackSongPlay) {
@@ -233,9 +234,9 @@ class PlaylistController {
     		if (vue.content.$data.TRACKS.length <= (vue.content.$data.MAX_PAGES - 2)) {
     			let newTrack = LibvuePlaylist.createEmptyTrack();    			
     			newTrack.NR = trackList.length;
-    			newTrack.ARTIST = json.data.value.artist;
-    			newTrack.TITLE =  json.data.value.title;
-    			newTrack.LASTPLAY = json.data.value.lastplayed;
+    			newTrack.ARTIST = json.data.value.ARTIST;
+    			newTrack.TITLE =  json.data.value.TITLE;
+    			newTrack.LASTPLAY = json.data.value.LASTPLAYED;
     			newTrack.LASTFM_ISPLAYING = true;
     			newTrack.PLAY_CONTROL = '',
     			newTrack.PLAYLIST = $page.loader.pages.playlist.topsongs.value,
@@ -245,7 +246,8 @@ class PlaylistController {
         }
 
         if(updateCurrent) {
-        	let curTrack = $player.currentTrackData.track;        	
+        	let curTrack = $player.currentTrackData.track;        
+        	console.log('cur', curTrack);
         	if(curTrack !== null) {
         		updateTrack(curTrack);     		
         	}       
