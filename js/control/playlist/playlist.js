@@ -216,13 +216,9 @@ class PlaylistController {
         let oldTrack = null;
         console.log('>>>>', vue.content.$data.TRACKS);
         if('undefined' !== typeof vue.content.$data.TRACKS) {        	
-        	for (let track in vue.content.$data.TRACKS) {
-        		
-        		if('undefined' === typeof track.ARTIST || 
-        				'undefined' === typeof track.TITLE) {
-        			console.log('undefined track: ', track);
-        			continue;
-        		}
+        	for (let cnt in vue.content.$data.TRACKS) {        		
+        		let track = vue.content.$data.TRACKS[cnt];
+        		console.log('track', track);
         		
         		if (track.ARTIST === json.data.value.artist &&
         				track.TITLE === json.data.value.title
