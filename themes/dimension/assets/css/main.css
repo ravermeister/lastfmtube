@@ -1836,4 +1836,5 @@ input[type="number"] {
 	left: 7px;
 	float: right;
 	white-space: nowrap;
+	z-index: -1;
 }
