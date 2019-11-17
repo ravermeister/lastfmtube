@@ -16,9 +16,10 @@
 <!--// the main app can start async -->
 <script src="js/main.js" type="text/javascript" async="async"></script>
 
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.11.2/css/all.css" 
-	integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" 
-	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+	integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN"
+	crossorigin="anonymous">
 
 <link rel="stylesheet" href="themes/dimension/assets/css/main.css" />
 <link rel="stylesheet"
@@ -62,7 +63,7 @@
 			<nav>
 				<ul>
 					<li v-for="MENU in MENUS"><a href="/"
-					@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
+						@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -74,17 +75,17 @@
 			{{TEMPLATE}}templates/video/youtube.html{{/TEMPLATE}}
 
 			<!-- Playlist Last.fm -->
-			{{TEMPLATE}}templates/playlist/lastfm.html{{/TEMPLATE}}			
+			{{TEMPLATE}}templates/playlist/lastfm.html{{/TEMPLATE}}
 
 			<!-- Playlist Topsongs -->
 			{{TEMPLATE}}templates/playlist/topsongs.html{{/TEMPLATE}}
 
 			<!-- Playlist User -->
 			{{TEMPLATE}}templates/playlist/user.html{{/TEMPLATE}}
-			
+
 			<!-- Playlist Search -->
-			{{TEMPLATE}}templates/playlist/search.html{{/TEMPLATE}}			
-			
+			{{TEMPLATE}}templates/playlist/search.html{{/TEMPLATE}}
+
 			<!-- Userlist (Topuser) -->
 			{{TEMPLATE}}templates/userlist/topuser.html{{/TEMPLATE}}
 
