@@ -52,7 +52,8 @@ class ChartTimer {
             track.title,
             track.video
         );
-
+        needle.sortby = track.sortby;
+        
         this.clearTimer();
         $page.saveChartTrack(needle);
         if ('undefined' !== typeof track.lfmuser &&
@@ -106,7 +107,7 @@ class ChartTimer {
 				// greater
                 
                 /** debug * */
-                /** lfmScrobbleDuration = 10;**/
+                /** lfmScrobbleDuration = 10; **/
                 
                 self.clearTimer();
                 self.timerStart = new Date();
@@ -146,16 +147,17 @@ class ChartTimer {
         let track = {
             artist: curTrack.ARTIST,
             title: curTrack.TITLE,
-            video: $player.currentTrackData.videoId,
-            lfmuser: $player.currentTrackData.lfmUser,
+            video: curTrack.videoId,
+            lfmuser: curTrack.lfmUser,
+            sortby: curTrack.SORTBY,
+            playlist: curTrack.PLAYLIST,
             duration: 0,
             equals: function (other) {
                 return (
                     'undefined' !== typeof other &&
                     other !== null &&
                     this.artist === other.artist &&
-                    this.title === other.title &&
-                    this.video === other.video
+                    this.title === other.title
                 );
             }
         };

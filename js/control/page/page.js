@@ -220,20 +220,14 @@ class PageController {
     }
 
     saveChartTrack(needle, callback = null) {
-    	    	
-        if (!needle.isValid()) {
-            if (callback !== null) {
-                callback(false);
-            }
-            return;
-        }
-
+    	
         $.ajax('php/json/page/Page.php?&action=save-trackplay', {
             dataType: 'json',
             method: 'POST',
             data: {
                 artist: needle.artist,
-                title: needle.title
+                title: needle.title,
+                sortby: needle.sortby
             }
         }).done(function (json) {
 
