@@ -798,55 +798,171 @@ ul.actions.fit.stacked {
 
 @media screen and (max-width: 480px) {
 	ul
+	
+	
+	
+	
+	
+	
 	.actions
+	
+	
+	
+	
+	
+	
 	:not
+	
+	
+	
 	 
+	
+	
+	
 	(
 	.fixed
+	
+	
+	
 	 
+	
+	
+	
 	)
 	{
 	-moz-flex-direction
-	:
-	 
-	column
-	;
 	
-		
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	 
+	
+	
+	
+	column
+	
+	
+	
+	
+	
+	
+	;
 	-webkit-flex-direction
-	:
-	 
-	column
-	;
 	
-		
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	 
+	
+	
+	
+	column
+	
+	
+	
+	
+	
+	
+	;
 	-ms-flex-direction
-	:
-	 
-	column
-	;
 	
-		
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	 
+	
+	
+	
+	column
+	
+	
+	
+	
+	
+	
+	;
 	flex-direction
-	:
-	 
-	column
-	;
 	
-		
-	margin-left
+	
+	
+	
+	
+	
 	:
+	
+	
+	
 	 
+	
+	
+	
+	column
+	
+	
+	
+	
+	
+	
+	;
+	margin-left
+	
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	 
+	
+	
+	
 	0;
 	width
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
 	 
+	
+	
+	
 	100%
 	!
 	important
+	
+	
+	
+	
+	
+	
 	;
-	
-	
 }
 
 ul.actions:not (.fixed ) li {
@@ -880,7 +996,7 @@ ul.actions:not (.fixed ) li input[type="submit"], ul.actions:not (.fixed
 
 ul.actions:not (.fixed ) li input[type="submit"].icon:before, ul.actions:not
 		 (.fixed ) li input[type="reset"].icon:before, ul.actions:not (.fixed 
-	) li input[type="button"].icon:before, ul.actions:not (.fixed ) li button.icon:before,
+	 ) li input[type="button"].icon:before, ul.actions:not (.fixed ) li button.icon:before,
 	ul.actions:not (.fixed
 		 ) li .button.icon:before {
 	margin-left: -0.5em;
@@ -1520,7 +1636,7 @@ body.is-preload #header .content .inner {
 	-ms-transition: opacity 0.325s ease-in-out, -ms-transform 0.325s
 		ease-in-out;
 	transition: opacity 0.325s ease-in-out, transform 0.325s ease-in-out;
-	padding: 3.5rem 1.5rem 0.5rem 1.5rem;	
+	padding: 3.5rem 1.5rem 0.5rem 1.5rem;
 	position: relative;
 	width: 60rem;
 	max-width: 100%;
@@ -1645,8 +1761,9 @@ body {
 #main #video-container, #main #video {
 	padding: 0.5rem 0.5rem 0 0.5rem;
 }
-#main #video-container, #main #video h2,
-#main #video-container, #main #video h2.major {	
+
+#main #video-container, #main #video h2, #main #video-container, #main #video h2.major
+	{
 	margin: 0;
 	margin-block-start: 0;
 	margin-block-end: 1rem;
@@ -1664,7 +1781,7 @@ body {
 }
 
 #main article .page-content {
-	padding: 
+	padding:
 }
 
 #main article .btn-nav {
@@ -1692,9 +1809,11 @@ body {
 	margin: 0 0.5rem 0 0.5rem;
 	float: left;
 }
+
 #footer .a2a_kit {
-	display:inline-block;
+	display: inline-block;
 }
+
 #footer .a2a_kit a {
 	text-decoration: none;
 }
@@ -1708,4 +1827,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 input[type="number"] {
 	-moz-appearance: textfield;
+}
+
+.track-playcount {
+	font-size: small;
+	position: relative;
+	bottom: 7px;
+	left: 7px;
+	float: right;
+	white-space: nowrap;
+	z-index: -1;
 }

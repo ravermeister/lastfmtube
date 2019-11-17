@@ -205,40 +205,28 @@ class PlaylistController {
         	$page.trackSongPlay(track);
         };
         let updateTrack = function(track){  
-            /**
-    		 * TODO: somehow we have to calculate the new position if we are in
-    		 * topsongs playlist and want to jump back to the track from the
-    		 * playlist view.
-    		 * 
-    		 * It is currently not possible becuse
-    		 * the playcount which is returned IS NOT CORRECT, 
-    		 * see reason in the comment below.
-    		 */
-        	track.PLAYCOUNT_CHANGE = 0;
-        	track.LASTPLAY = json.data.value.lastplayed;
-        	/**
-        	 * wrong, because we dont sum up the regex patterns
-        	 * in page.php and therefore get a wrong playcount result.
-        	 * we simply can increment by 1 because 
-        	 * playcount IS ALWAYS incremented by 1!
-        	 */
-//            track.PLAYCOUNT = json.data.value.playcount;
-        	track.PLAYCOUNT++;
+        	let pchange = track.NR - json.data.value.NR;
+        	track.PLAYCOUNT_CHANGE = pchange;
+        	track.LASTPLAY = json.data.value.LASTPLAY;
+            track.PLAYCOUNT = json.data.value.PLAYCOUNT;
             
         	return track;
         };
              
         let oldTrack = null;
-        for (let track in vue.content.$data.TRACKS) {
-            if (
-                track.ARTIST === json.data.value.artist &&
-                track.TITLE === json.data.value.title
-            ) {
-                oldTrack = track;
-                break;
-            }
+        if('undefined' !== typeof vue.content.$data.TRACKS) {        	
+        	for (let cnt in vue.content.$data.TRACKS) {        		
+        		let track = vue.content.$data.TRACKS[cnt];
+        		
+        		if (track.ARTIST === json.data.value.ARTIST &&
+        				track.TITLE === json.data.value.TITLE
+        		) {
+        			oldTrack = track;
+        			break;
+        		}
+        	}
         }
-
+        
         if(oldTrack !== null) {
         	updateTrack(oldTrack);
             if(trackSongPlay) {
@@ -248,9 +236,9 @@ class PlaylistController {
     		if (vue.content.$data.TRACKS.length <= (vue.content.$data.MAX_PAGES - 2)) {
     			let newTrack = LibvuePlaylist.createEmptyTrack();    			
     			newTrack.NR = trackList.length;
-    			newTrack.ARTIST = json.data.value.artist;
-    			newTrack.TITLE =  json.data.value.title;
-    			newTrack.LASTPLAY = json.data.value.lastplayed;
+    			newTrack.ARTIST = json.data.value.ARTIST;
+    			newTrack.TITLE =  json.data.value.TITLE;
+    			newTrack.LASTPLAY = json.data.value.LASTPLAYED;
     			newTrack.LASTFM_ISPLAYING = true;
     			newTrack.PLAY_CONTROL = '',
     			newTrack.PLAYLIST = $page.loader.pages.playlist.topsongs.value,
@@ -260,18 +248,17 @@ class PlaylistController {
         }
 
         if(updateCurrent) {
-        	let curTrack = $player.currentTrackData.track;        	
+        	let curTrack = $player.currentTrackData.track;        
         	if(curTrack !== null) {
         		updateTrack(curTrack);     		
         	}       
         	
         	/**
-        	 * TODO: in the youtube libvue implementation,
-        	 * initialize the CURRENT_TRACK with an empty
-        	 * Structure of the Track json from the backend.
-        	 * then it should react on attribute changes, 
-        	 * and the update above should be enough
-        	 */
+			 * TODO: in the youtube libvue implementation, initialize the
+			 * CURRENT_TRACK with an empty Structure of the Track json from the
+			 * backend. then it should react on attribute changes, and the
+			 * update above should be enough
+			 */
         	curTrack = PageController.clone(curTrack);
         	$page.myVues.video.youtube.header.CURRENT_TRACK = curTrack;
         	
