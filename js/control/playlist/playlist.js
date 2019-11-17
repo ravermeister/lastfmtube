@@ -214,6 +214,7 @@ class PlaylistController {
         };
              
         let oldTrack = null;
+        console.log('>>>>', vue.content.$data.TRACKS);
         for (let track in vue.content.$data.TRACKS) {
             if (
                 track.ARTIST === json.data.value.artist &&
