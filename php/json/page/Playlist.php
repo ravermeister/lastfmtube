@@ -183,15 +183,14 @@ class Playlist extends DefaultJson {
                $topsongs = array();
           }
 
-          $uniqueTracks = $this->funcs->normalizePlaylist($topsongs, 'playlist.topsongs', $sortby);
-
+          $topsongs = $this->funcs->normalizePlaylist($topsongs, 'playlist.topsongs', $sortby);
           if (strcmp($sortby, $sort_bydate) === 0) {
-               $this->funcs->sortTracksByDate($uniqueTracks);
+               $this->funcs->sortTracksByDate($topsongs);
           } else {
-               $this->funcs->sortTracksByPlayCount($uniqueTracks);
+               $this->funcs->sortTracksByPlayCount($topsongs);
           }
 
-          $maxpages = ((int) (sizeof($uniqueTracks) / $limit));
+          $maxpages = ((int) (sizeof($topsongs) / $limit));
           if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
           $page = array(
@@ -230,7 +229,7 @@ class Playlist extends DefaultJson {
           $page['TRACKS'] = array();
           if ($topsongs === 0 || ! is_array($topsongs)) return $page;
 
-          $page['TRACKS'] = array_slice($uniqueTracks, $offset, $limit);
+          $page['TRACKS'] = array_slice($topsongs, $offset, $limit);
           return $page;
      }
 

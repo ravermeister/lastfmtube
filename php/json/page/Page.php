@@ -175,7 +175,11 @@ class Page extends DefaultJson {
                $topsongs = array();
           }
           $topsongs = $this->funcs->normalizePlaylist($topsongs, $playlist, $sortby);
-
+          if (strcmp($sortby, $sort_bydate) === 0) {
+               $this->funcs->sortTracksByDate($topsongs);
+          } else {
+               $this->funcs->sortTracksByPlayCount($topsongs);
+          }
           foreach ($topsongs as $track) {
                if (strcmp($track['ARTIST'], $artist) === 0 && strcmp($track['TITLE'], $title) === 0) {
                     return $track;
