@@ -9,6 +9,18 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
 
+<link rel="stylesheet" href="themes/dimension/assets/css/main.css" />
+<link rel="stylesheet"
+	href="themes/dimension/assets/css/comment-box.css" />
+<noscript>
+	<link rel="stylesheet" href="themes/dimension/assets/css/noscript.css" />
+</noscript>
+<!-- 
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.11.2/css/all.css" 
+	integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" 
+	crossorigin="anonymous" />
+ -->
+
 
 <script src="js/lib/requirejs/require.js" type="text/javascript"></script>
 <!--// these dependencies must be loaded sync! //-->
@@ -16,18 +28,6 @@
 <!--// the main app can start async -->
 <script src="js/main.js" type="text/javascript" async="async"></script>
 
-<!-- 
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.11.2/css/all.css" 
-	integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" 
-	crossorigin="anonymous" />
- -->
- 
-<link rel="stylesheet" href="themes/dimension/assets/css/main.css" />
-<link rel="stylesheet"
-	href="themes/dimension/assets/css/comment-box.css" />
-<noscript>
-	<link rel="stylesheet" href="themes/dimension/assets/css/noscript.css" />
-</noscript>
 
 </head>
 <body class="is-preload">
@@ -64,7 +64,7 @@
 			<nav>
 				<ul>
 					<li v-for="MENU in MENUS"><a href="/"
-					@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
+						@click.prevent="loadMenu(MENU, $event);">{{MENU.TEXT}}</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -76,17 +76,17 @@
 			{{TEMPLATE}}templates/video/youtube.html{{/TEMPLATE}}
 
 			<!-- Playlist Last.fm -->
-			{{TEMPLATE}}templates/playlist/lastfm.html{{/TEMPLATE}}			
+			{{TEMPLATE}}templates/playlist/lastfm.html{{/TEMPLATE}}
 
 			<!-- Playlist Topsongs -->
 			{{TEMPLATE}}templates/playlist/topsongs.html{{/TEMPLATE}}
 
 			<!-- Playlist User -->
 			{{TEMPLATE}}templates/playlist/user.html{{/TEMPLATE}}
-			
+
 			<!-- Playlist Search -->
-			{{TEMPLATE}}templates/playlist/search.html{{/TEMPLATE}}			
-			
+			{{TEMPLATE}}templates/playlist/search.html{{/TEMPLATE}}
+
 			<!-- Userlist (Topuser) -->
 			{{TEMPLATE}}templates/userlist/topuser.html{{/TEMPLATE}}
 
