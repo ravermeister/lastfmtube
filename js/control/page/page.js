@@ -220,7 +220,6 @@ class PageController {
     }
 
     saveChartTrack(needle, callback = null) {
-    	console.log('save chart:', needle);
     	
         $.ajax('php/json/page/Page.php?&action=save-trackplay', {
             dataType: 'json',

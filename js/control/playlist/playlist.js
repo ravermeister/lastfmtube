@@ -249,7 +249,6 @@ class PlaylistController {
 
         if(updateCurrent) {
         	let curTrack = $player.currentTrackData.track;        
-        	console.log('cur', curTrack);
         	if(curTrack !== null) {
         		updateTrack(curTrack);     		
         	}       
