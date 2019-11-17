@@ -29,7 +29,7 @@ class Icons {
         this.play = new Icon('fa-play');
         this.pause = new Icon('fa-pause');
         this.stop = new Icon('fa-stop');
-        this.youtube = new Icon('fab fa-youtube');
+        this.youtube = new Icon('fab fa-youtube-square');
         this.search = new Icon('fa fa-search');
         this.plus = new Icon('fa-plus');
         this.minus = new Icon('fa-minus');
