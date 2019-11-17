@@ -250,10 +250,10 @@ class Playlist extends DefaultJson {
                $uniqueTracks[$trackId] = $pTrack;
           }
           $uniqueTracks = array_values($uniqueTracks);
-          if (strcmp($sortby, $sort_bydate) == 0) {
-               $this->funcs->sortTracksByDate($uniqueTracks, $offset);
+          if (strcmp($sortby, $sort_bydate) === 0) {
+               $this->funcs->sortTracksByDate($uniqueTracks);
           } else {
-               $this->funcs->sortTracksByPlayCount($uniqueTracks, $offset);
+               $this->funcs->sortTracksByPlayCount($uniqueTracks);
           }
           
           $maxpages = ((int) (sizeof($uniqueTracks) / $limit));

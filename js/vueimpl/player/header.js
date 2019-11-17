@@ -107,12 +107,9 @@ class LibvuePlayerHeader {
 						 * pagedata
 						 */
 	                	let sortBy = null;
-	                	if($page.loader.pageInfo.currentPage.value === page) {
-	                		sortBy = $page.loader.pageInfo.currentPage.data.sortBy;
-	                	} if($page.loader.pageInfo.lastPlaylist.value === page) {
-	                		sortBy = $page.loader.pageInfo.lastPlaylist.data.sortBy;
+	                	if($page.loader.pageInfo.lastPlaylist.value === page) {
+	                		sortBy = $page.loader.pageInfo.lastPlaylist.data.sortby;
 	                	}
-	                	console.log('pageInfo:', $page.loader.pageInfo);
 	                	$page.loader.loadPage(page, {
 	                		pnum: pageNum,
 	                		sortby: sortBy
