@@ -115,7 +115,7 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
-        console.log('load curNr', curNr);
+        console.log('load next from curTrack', curTrack);
         
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
