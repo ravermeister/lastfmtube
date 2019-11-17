@@ -104,9 +104,9 @@ class LibvuePlayerHeader {
 	                	
 	                	/**
 						 * if playlist is topsongs, fetch sortBy option from
-						 * pagedata
+						 * current_track
 						 */
-	                	let sortBy = null;
+	                	let sortBy = this.CURRENT_TRACK.SORTBY;
 	                	if($page.loader.pageInfo.lastPlaylist.value === page) {
 	                		sortBy = $page.loader.pageInfo.lastPlaylist.data.sortby;
 	                	}
