@@ -50,10 +50,10 @@ class ChartTimer {
         let needle = $page.createNeedle(
             track.artist,
             track.title,
-            track.video,
-            track.sortby
+            track.video
         );
-
+        needle.sortby = track.sortby;
+        
         this.clearTimer();
         $page.saveChartTrack(needle);
         if ('undefined' !== typeof track.lfmuser &&
