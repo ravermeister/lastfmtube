@@ -247,6 +247,7 @@ class PlayerController {
         if(track === null || 'undefined' === typeof track) return;
         
         this.currentTrackData.track = track;
+        this.currentTrackData.aliasList = [];
         $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         if (track.PLAYLIST !== 'playlist.search') {
         	$page.myVues.video.youtube.header.$data.SEARCH_TRACK = track;
@@ -258,11 +259,12 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
-
+        let aliasList = this.currentTrackData.aliasList;
+        
         curTrack.PLAYSTATE = newState;
         $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
-        for(let cnt=0; cnt<this.currentTrackData.aliasList.length; cnt++) {
-        	curTrack.aliasList[cnt].PLAYSTATE = newState;
+        for(let cnt=0; cnt<aliasList.length; cnt++) {
+        	aliasListaliasList[cnt].PLAYSTATE = newState;
         }
     }
 
