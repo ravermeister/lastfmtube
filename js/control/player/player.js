@@ -211,7 +211,7 @@ class PlayerController {
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
         let isFirst = curTrack !== null && (curNr % tracksPerPage) == 1; 
-        let prevIndex = isFirst ? tracks.length - 2 : (curNr % tracksPerPage) - 2;	
+        let prevIndex = curTrack !== null ? (curNr % tracksPerPage) - 2 : tracksPerPage;	
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
         }
