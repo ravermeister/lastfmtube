@@ -107,6 +107,7 @@ class PlayerController {
     	}
     	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
     	let curTrack = this.currentTrackData.track;
+    	let loadPage = false;    	
     	if(curTrack !== null 
     		&& curTrack.PLAYLIST !== null
     		&& 'undefined' !== typeof curTrack.PLAYLIST
@@ -117,27 +118,31 @@ class PlayerController {
     		}
     	} 
     	let curVue = $page.myVues.forPage(curPage);    	
-        let tracks = curVue.content.$data.TRACKS;
-        if (tracks === null || tracks.length === 0) return;  
-    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
+    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);    	
+    	if(curTrack !== null) {
+    		let trackPage = parseInt(curTrack.NR / tracksPerPage);
+    		if( (curTrack.NR % tracksPerPage) > 0) trackPage++;
+    		if(curPageNum != trackPage) {
+    			curPageNum = trackPage;
+    			loadPage = true;
+    		}
+    	}
     	
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
-        let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
-        
+    	
         $page.loader.setLoading(null, true);
-        
-        if (isLast || nextIndex > tracksPerPage) {
+        let tracks = null;
+        if (loadPage) {
             let playlist = curVue.menu;
-            let curPageNum = parseInt(playlist.$data.CUR_PAGE);
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
-            if ((curPageNum + 1) > maxPages) curPageNum = 1;
-            else curPageNum++;
+            if(isLast) curPageNum++;
+            if (curPageNum > maxPages) curPageNum = 1;
             let pageData = {
                 pnum: curPageNum,
             	lfmuser: user
@@ -158,14 +163,17 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = vue.content.$data.TRACKS;
-    	        self.loadSong(tracks[0]);
+    	        if (tracks === null || tracks.length === 0) return;     
+    	        if(nextIndex >= tracks.length) nextIndex = track.length -1;
+    	        self.loadSong(tracks[nextIndex]);
             });
-            return;
-        } else if (nextIndex < 0) {
-            nextIndex = 0;
+        } else {
+            tracks = curVue.content.$data.TRACKS;
+            if (tracks === null || tracks.length === 0) return;  
+	        if(nextIndex >= tracks.length) nextIndex = track.length -1;
+            this.loadSong(tracks[nextIndex]);
         }
 
-        this.loadSong(tracks[nextIndex]);
     }
 
     loadPreviousSong() {
