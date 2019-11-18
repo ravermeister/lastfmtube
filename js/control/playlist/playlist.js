@@ -206,11 +206,15 @@ class PlaylistController {
         };
         let updateTrack = function(track){
         	let pchange = 0;
-        	// only calculate change for topsongs
+        	// only calculate change for topsongs and youtube page
         	// (other playlists don't make sense)
-        	if($page.loader.pages.playlist.topsongs === json.data.value.PLAYLIST) {        		
-        		pchange = track.NR - json.data.value.NR;
+        	switch(json.data.value.PLAYLIST) {
+        		case $page.loader.pages.playlist.topsongs.value:
+        		case $page.loader.pages.video.youtube.value:
+        			pchange = track.NR - json.data.value.NR;
+        			break;
         	}
+        	
         	track.PLAYCOUNT_CHANGE = pchange;
         	track.LASTPLAY = json.data.value.LASTPLAY;
             track.PLAYCOUNT = json.data.value.PLAYCOUNT;
