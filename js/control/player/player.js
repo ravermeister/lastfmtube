@@ -105,7 +105,6 @@ class PlayerController {
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
-    	
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
         if (tracks === null || tracks.length === 0) return;    	
@@ -115,11 +114,9 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
-        
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
-
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
@@ -128,8 +125,8 @@ class PlayerController {
         
         if (isLast || nextIndex > tracksPerPage) {
             let playlist = curVue.menu;
-            let curPageNum = playlist.$data.CUR_PAGE;
-            let maxPages = playlist.$data.MAX_PAGES;
+            let curPageNum = parseInt(playlist.$data.CUR_PAGE);
+            let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPageNum + 1) > maxPages) curPageNum = 1;
             else curPageNum++;
@@ -182,8 +179,7 @@ class PlayerController {
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
-        let prevIndex = isLast ? tracks.length - 2 : (curNr % tracksPerPage) - 2;
-    	
+        let prevIndex = isLast ? tracks.length - 2 : (curNr % tracksPerPage) - 2;	
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
         }
@@ -192,8 +188,8 @@ class PlayerController {
         
         if(isFirst) {   
             let playlist = curVue.menu;
-            let curPageNum = playlist.$data.CUR_PAGE;
-            let maxPages = playlist.$data.MAX_PAGES;
+            let curPageNum = parseInt(playlist.$data.CUR_PAGE);
+            let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPageNum - 1) < 1) curPageNum = maxPages;
             else curPageNum--;            
