@@ -30,7 +30,7 @@ class PlayerController {
         this.stateChangeListeners = [];
         this.ytStatus = {};
         this.commentsLoaded = false;
-        this.currentTrackData = new TrackData();
+        this.currentTrackData = new TrackData();        
         this.chartTimer = new ChartTimer(this);
         
         let self = this;
@@ -115,7 +115,6 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
-        console.log('load next from curTrack', curTrack);
         
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
@@ -226,6 +225,16 @@ class PlayerController {
         this.loadSong(tracks[prevIndex]);
     }
 
+    addCurrentTrackAlias(track) {
+        let curTrack = this.currentTrackData.track;
+        if (curTrack !== null) {
+            track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
+            track.PLAYSTATE = curTrack.PLAYSTATE;
+            track.PLAYCOUNT_CHANGE = curTrack.PLAYCOUNT_CHANGE;
+            this.currentTrackData.aliasList.push(track);
+        }    	
+    }
+    
     setCurrentTrack(track, force = false) {
         if (!force && this.isCurrentTrack(track)) return;
 
@@ -238,9 +247,10 @@ class PlayerController {
         if(track === null || 'undefined' === typeof track) return;
         
         this.currentTrackData.track = track;
-        $page.myVues.video.youtube.header.CURRENT_TRACK = track;
+        this.currentTrackData.aliasList = [];
+        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         if (track.PLAYLIST !== 'playlist.search') {
-        	$page.myVues.video.youtube.header.SEARCH_TRACK = track;
+        	$page.myVues.video.youtube.header.$data.SEARCH_TRACK = track;
         }
         this.setCurrentState('load');
     }
@@ -249,9 +259,13 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
-
+        let aliasList = this.currentTrackData.aliasList;
+        
         curTrack.PLAYSTATE = newState;
         $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
+        for(let cnt=0; cnt<aliasList.length; cnt++) {
+        	aliasList[cnt].PLAYSTATE = newState;
+        }
     }
 
     loadSong(track) {

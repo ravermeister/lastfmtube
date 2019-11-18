@@ -12,6 +12,7 @@ class TrackData {
 	    this.track = null;
 	    this.videoId = null;
 	    this.playlistTitle = null;
+	    this.aliasList = [];
 	}
 
     validTrack() {
@@ -30,5 +31,5 @@ class TrackData {
 
     validVideo() {
         return this.videoId !== null && this.videoId.length > 0;
-    }
+    }    
 }
