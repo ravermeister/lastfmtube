@@ -120,6 +120,7 @@ class PlayerController {
         if(curTrack!==null && isVideoPage) {
         	let ytCurTrack = $page.myVues.video.youtube.header.$data.CURRENT_TRACK;
         	if($player.isCurrentTrack(ytCurTrack)) {
+        		console.log('>>>', ytCurTrack);
         		curNr = ytCurTrack.NR;
         	}
         }
