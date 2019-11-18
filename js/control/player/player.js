@@ -91,7 +91,7 @@ class PlayerController {
         this.stateChangeListeners.push(l);
     }
 
-    removeStateChangeListeners() {
+    removeStateChangeListeners(l) {
         let index = this.stateChangeListeners.indexOf(l);
         if (index < 0 || index >= this.stateChangeListeners.length) return;
         this.stateChangeListeners.splice(index, 1);
