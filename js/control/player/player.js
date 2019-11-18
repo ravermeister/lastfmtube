@@ -123,11 +123,12 @@ class PlayerController {
         		console.log('>>>', ytCurTrack);
         		curNr = ytCurTrack.NR;
         	}
+        	console.log('new Nr', curNr);
         }
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
-
+        console.log('final nr: ', curNr);
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
