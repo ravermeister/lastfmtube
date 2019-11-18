@@ -101,7 +101,7 @@ class LibvuePlayerHeader {
 						 * current_track and decrease the position nr by
 						 * playcount change if it was tracked
 						 */
-	                    console.log(this.CURRENT_TRACK.PLAYLIST, '<<<<');
+	                    console.log(this.CURRENT_TRACK, '<<<< curnr>>>', curNr);
 	                	if ('playlist.topsongs' === this.CURRENT_TRACK.PLAYLIST) {
 		                	let sortBy = this.CURRENT_TRACK.SORTBY;
 		                	if(sortBy === null || 'undefined' === typeof sortBy 
