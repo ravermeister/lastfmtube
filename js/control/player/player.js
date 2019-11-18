@@ -129,15 +129,15 @@ class PlayerController {
     	}
     	
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
-        let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
+        let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
     	
         $page.loader.setLoading(null, true);
         let tracks = null;
-        if (loadPage) {
+        if (loadPage || isLast) {
             let playlist = curVue.menu;
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
