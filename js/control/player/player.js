@@ -100,12 +100,14 @@ class PlayerController {
     loadNextSong() {
     	
     	let curPage = $page.loader.pageInfo.currentPage.value;
+    	let isVideoPage = false;
     	if(curPage === $page.loader.pages.video.youtube) {
+    		isVideoPage = true;
     		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
-    	
+
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
         if (tracks === null || tracks.length === 0) return;    	
@@ -115,7 +117,12 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
-        
+        if(curTrack!==null && isVideoPage) {
+        	let ytCurTrack = $page.loader.pages.video.youtube.header.$data.CURRENT_TRACK;
+        	if($player.isCurrentTrack(ytCurTrack)) {
+        		curNr = ytCurTrack.NR;
+        	}
+        }
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
@@ -166,7 +173,9 @@ class PlayerController {
     loadPreviousSong() {
 
     	let curPage = $page.loader.pageInfo.currentPage.value;
+    	let isVideoPage = false;
     	if(curPage === $page.loader.pages.video.youtube) {
+    		isVideoPage = true;
     		curPage = $page.loader.pages.getByValue($page.myVues.video.youtube.header.$data.PLAYLIST);
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
@@ -180,6 +189,12 @@ class PlayerController {
         
         let curTrack = this.currentTrackData.track;        
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
+        if(curTrack!==null && isVideoPage) {
+        	let ytCurTrack = $page.loader.pages.video.youtube.header.$data.CURRENT_TRACK;
+        	if($player.isCurrentTrack(ytCurTrack)) {
+        		curNr = ytCurTrack.NR;
+        	}
+        }
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
         let prevIndex = isLast ? tracks.length - 2 : (curNr % tracksPerPage) - 2;
