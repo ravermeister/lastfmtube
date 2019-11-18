@@ -118,7 +118,7 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
         if(curTrack!==null && isVideoPage) {
-        	let ytCurTrack = $page.loader.pages.video.youtube.header.$data.CURRENT_TRACK;
+        	let ytCurTrack = $page.myVues.video.youtube.header.$data.CURRENT_TRACK;
         	if($player.isCurrentTrack(ytCurTrack)) {
         		curNr = ytCurTrack.NR;
         	}
@@ -190,7 +190,7 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;        
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         if(curTrack!==null && isVideoPage) {
-        	let ytCurTrack = $page.loader.pages.video.youtube.header.$data.CURRENT_TRACK;
+        	let ytCurTrack = $page.myVues.video.youtube.header.$data.CURRENT_TRACK;
         	if($player.isCurrentTrack(ytCurTrack)) {
         		curNr = ytCurTrack.NR;
         	}
