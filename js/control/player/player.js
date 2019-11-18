@@ -110,7 +110,7 @@ class PlayerController {
     	if(curTrack !== null 
     		&& curTrack.PLAYLIST !== null
     		&& 'undefined' !== typeof curTrack.PLAYLIST
-    		&& curTrack.PLAYLIST !== $page.loader.pages.video.youtube.value) {
+    		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
     		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
     		if(curTrackPage !== null) {
     			curPage = curTrackPage;
@@ -181,7 +181,7 @@ class PlayerController {
     	if(curTrack !== null 
     		&& curTrack.PLAYLIST !== null
     		&& 'undefined' !== typeof curTrack.PLAYLIST
-    		&& curTrack.PLAYLIST !== $page.loader.pages.video.youtube.value) {
+    		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
     		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
     		if(curTrackPage !== null) {
     			curPage = curTrackPage;
