@@ -128,7 +128,7 @@ class PlayerController {
     		}
     	}
     	
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;
         let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
         if(this.loadNextOnError) {
