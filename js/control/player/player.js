@@ -262,7 +262,7 @@ class PlayerController {
 
         curTrack.PLAYSTATE = newState;
         $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
-        for(let cnt=0; cnt<curTrack.aliasList.length; cnt++) {
+        for(let cnt=0; cnt<this.currentTrackData.aliasList.length; cnt++) {
         	curTrack.aliasList[cnt] = PLAYSTATE;
         }
     }
