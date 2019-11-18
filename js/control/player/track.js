@@ -12,7 +12,7 @@ class TrackData {
 	    this.track = null;
 	    this.videoId = null;
 	    this.playlistTitle = null;
-	    this.aliasList = array();
+	    this.aliasList = [];
 	}
 
     validTrack() {
