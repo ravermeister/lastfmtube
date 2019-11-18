@@ -11,9 +11,6 @@ class LibvuePlayerMenu {
 	static createVue(elementId){
 		return new Vue({
             el: '#'+elementId+'>#player-menu',
-            data: {
-                PLAYSTATE: ''
-            },
             methods: {
                 togglePlay(play = false) {
                 	$player.togglePlay(play);

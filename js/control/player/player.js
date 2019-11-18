@@ -30,7 +30,7 @@ class PlayerController {
         this.stateChangeListeners = [];
         this.ytStatus = {};
         this.commentsLoaded = false;
-        this.currentTrackData = new TrackData();
+        this.currentTrackData = new TrackData();        
         this.chartTimer = new ChartTimer(this);
         
         let self = this;
@@ -226,6 +226,16 @@ class PlayerController {
         this.loadSong(tracks[prevIndex]);
     }
 
+    addCurrentTrackAlias(track) {
+        let curTrack = this.currentTrackData.track;
+        if (curTrack !== null) {
+            track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
+            track.PLAYSTATE = curTrack.PLAYSTATE;
+            track.PLAYCOUNT_CHANGE = curTrack.PLAYCOUNT_CHANGE;
+            this.currentTrackData.aliasList.push(track);
+        }    	
+    }
+    
     setCurrentTrack(track, force = false) {
         if (!force && this.isCurrentTrack(track)) return;
 
@@ -251,7 +261,9 @@ class PlayerController {
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
 
         curTrack.PLAYSTATE = newState;
-        $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
+        for(let cnt=0; cnt<curTrack.aliasList.length; cnt++) {
+        	curTrack.aliasList[cnt] = PLAYSTATE;
+        }
     }
 
     loadSong(track) {

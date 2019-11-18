@@ -194,8 +194,10 @@ class PageController {
                 user: lfmuser
             }
         }).done(function (userJson) {
-
-            for (let cnt in $page.myVues.userlist.topuser.content.$data.USER) {
+        	let users = page.myVues.userlist.topuser.content.$data.USER;
+        	if(!Array.isArray(users)) return;
+        	
+            for (let cnt=0; cnt<users.length; cnt++) {
                 let user = $page.myVues.userlist.topuser.content.$data.USER[cnt];
 
                 if (user.NAME === userJson.data.value.username) {

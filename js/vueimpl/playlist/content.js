@@ -99,9 +99,7 @@ static createVue(elementId){
                             for (let cnt = 0; cnt < json.TRACKS.length; cnt++) {
                                 let track = json.TRACKS[cnt];
                                 if ($player.isCurrentTrack(track)) {
-                                    track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
-                                    track.PLAYSTATE = curTrack.PLAYSTATE;
-                                    track.PLAYCOUNT_CHANGE = curTrack.PLAYCOUNT_CHANGE;
+                                    $player.addCurrentTrackAlias(track);
                                 }
                                 newTracks[cnt] = track;
                             }

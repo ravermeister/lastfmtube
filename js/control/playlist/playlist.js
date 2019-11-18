@@ -215,7 +215,7 @@ class PlaylistController {
              
         let oldTrack = null;
         if('undefined' !== typeof vue.content.$data.TRACKS) {        	
-        	for (let cnt in vue.content.$data.TRACKS) {        		
+        	for (let cnt=0; cnt<vue.content.$data.TRACKS.length; cnt++) {        		
         		let track = vue.content.$data.TRACKS[cnt];
         		
         		if (track.ARTIST === json.data.value.ARTIST &&
