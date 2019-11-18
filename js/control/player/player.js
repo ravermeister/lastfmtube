@@ -131,7 +131,6 @@ class PlayerController {
             let curPageNum = parseInt(playlist.$data.CUR_PAGE);
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
-            console.log('cur', curPageNum, 'max', maxPages);
             if ((curPageNum + 1) > maxPages) curPageNum = 1;
             else curPageNum++;
             let pageData = {
@@ -193,8 +192,8 @@ class PlayerController {
         
         if(isFirst) {   
             let playlist = curVue.menu;
-            let curPageNum = playlist.$data.CUR_PAGE;
-            let maxPages = playlist.$data.MAX_PAGES;
+            let curPageNum = parseInt(playlist.$data.CUR_PAGE);
+            let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPageNum - 1) < 1) curPageNum = maxPages;
             else curPageNum--;            
