@@ -105,14 +105,22 @@ class PlayerController {
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
+    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
+    	let curTrack = this.currentTrackData.track;
+    	if(curTrack !== null 
+    		&& curTrack.PLAYLIST !== null
+    		&& 'undefined' !== typeof curTrack.PLAYLIST
+    		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
+    		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
+    		if(curTrackPage !== null) {
+    			curPage = curTrackPage;
+    		}
+    	} 
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
-        if (tracks === null || tracks.length === 0) return;    	
-
-    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
+        if (tracks === null || tracks.length === 0) return;  
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
     	
-        let curTrack = this.currentTrackData.track;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;   
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
@@ -168,14 +176,22 @@ class PlayerController {
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
+    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
+    	let curTrack = this.currentTrackData.track;        
+    	if(curTrack !== null 
+    		&& curTrack.PLAYLIST !== null
+    		&& 'undefined' !== typeof curTrack.PLAYLIST
+    		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
+    		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
+    		if(curTrackPage !== null) {
+    			curPage = curTrackPage;
+    		}
+    	} 
     	let curVue = $page.myVues.forPage(curPage);    	
         let tracks = curVue.content.$data.TRACKS;
         if (tracks === null || tracks.length === 0) return;    	
-
-        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
         
-        let curTrack = this.currentTrackData.track;        
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
         let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
