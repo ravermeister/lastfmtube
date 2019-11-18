@@ -131,6 +131,7 @@ class PlayerController {
             let curPageNum = playlist.$data.CUR_PAGE;
             let maxPages = playlist.$data.MAX_PAGES;
             let user = playlist.$data.LASTFM_USER_NAME;
+            console.log('cur', curPageNum, 'max', maxPages);
             if ((curPageNum + 1) > maxPages) curPageNum = 1;
             else curPageNum++;
             let pageData = {
