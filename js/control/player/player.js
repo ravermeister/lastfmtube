@@ -250,7 +250,7 @@ class PlayerController {
     			
     	        let tracks = vue.content.$data.TRACKS;
     	        if (tracks === null || tracks.length === 0) return;     
-    	        if(prevIndex >= tracks.length) prevIndex = track.length -1;
+    	        if(prevIndex >= tracks.length) prevIndex = tracks.length -1;
     	        self.loadSong(tracks[prevIndex]);
             });
         } else {
