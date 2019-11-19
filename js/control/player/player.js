@@ -211,6 +211,7 @@ class PlayerController {
         let tracks = curVue.content.$data.TRACKS;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let isFirst = curTrack !== null && (curNr % tracksPerPage) == 1; 
+        let isLast = curTrack !== null && (curNr % tracksPerPage) == 0 || ((curNr % tracksPerPage) == tracks.length);
         let prevIndex = curTrack !== null ? (curNr % tracksPerPage) - 2 : tracksPerPage;	
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
@@ -253,7 +254,8 @@ class PlayerController {
     	        self.loadSong(tracks[prevIndex]);
             });
         } else {
-            if (tracks === null || tracks.length === 0) return;   
+            if (tracks === null || tracks.length === 0) return;  
+            if(isLast) prevIndex = prevIndex = tracks.length-2; 
             if(prevIndex < 0) prevIndex = tracks.length-1;
         	this.loadSong(tracks[prevIndex]);
         }
