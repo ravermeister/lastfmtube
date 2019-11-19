@@ -295,8 +295,8 @@ class PlayerController {
         
         this.currentTrackData.track = track;
         this.currentTrackData.aliasList = [];
-        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         if (track.PLAYLIST !== 'playlist.search') {
+        	$page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         	$page.myVues.video.youtube.header.$data.SEARCH_TRACK = track;
         }
         this.setCurrentState('load');
