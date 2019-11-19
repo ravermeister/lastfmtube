@@ -434,7 +434,7 @@ class PlayerController {
         
         let checkNr = curTrack.PLAYLIST !== $page.loader.pages.playlist.topsongs.value;
         let checkVideo = curTrack.PLAYLIST === $page.loader.pages.video.youtube.value;
-        
+        console.log('>> checkVideo', checkVideo, curTrack.VIDEO_ID,' <= curTrack trackToCheck=> ',track.VIDEO_ID)
         // isEqual
         return (
         	(checkVideo && curTrack.VIDEO_ID === track.VIDEO_ID)
