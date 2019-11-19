@@ -30,7 +30,7 @@ class PlayerController {
         this.stateChangeListeners = [];
         this.ytStatus = {};
         this.commentsLoaded = false;
-        this.currentTrackData = new TrackData();
+        this.currentTrackData = new TrackData();        
         this.chartTimer = new ChartTimer(this);
         
         let self = this;
@@ -91,7 +91,7 @@ class PlayerController {
         this.stateChangeListeners.push(l);
     }
 
-    removeStateChangeListeners() {
+    removeStateChangeListeners(l) {
         let index = this.stateChangeListeners.indexOf(l);
         if (index < 0 || index >= this.stateChangeListeners.length) return;
         this.stateChangeListeners.splice(index, 1);
@@ -105,33 +105,45 @@ class PlayerController {
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
-    	
+    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
+    	let curTrack = this.currentTrackData.track;
+    	let loadPage = false;    	
+    	if(curTrack !== null 
+    		&& curTrack.PLAYLIST !== null
+    		&& 'undefined' !== typeof curTrack.PLAYLIST
+    		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
+    		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
+    		if(curTrackPage !== null) {
+    			curPage = curTrackPage;
+    		}
+    	} 
     	let curVue = $page.myVues.forPage(curPage);    	
-        let tracks = curVue.content.$data.TRACKS;
-        if (tracks === null || tracks.length === 0) return;    	
-
-    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);
-    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
+    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);    	
+    	if(curTrack !== null) {
+    		let trackPage = parseInt(curTrack.NR / tracksPerPage);
+    		if( (curTrack.NR % tracksPerPage) > 0) trackPage++;
+    		if(curPageNum != trackPage) {
+    			curPageNum = trackPage;
+    			loadPage = true;
+    		}
+    	}
     	
-        let curTrack = this.currentTrackData.track;
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;        
-        let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
-        let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;
+        let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
-
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
-        
+    	
         $page.loader.setLoading(null, true);
+        let tracks = null;
         
-        if (isLast || nextIndex > tracksPerPage) {
+        if (loadPage || isLast) {
             let playlist = curVue.menu;
-            let curPageNum = playlist.$data.CUR_PAGE;
-            let maxPages = playlist.$data.MAX_PAGES;
+            let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
-            if ((curPageNum + 1) > maxPages) curPageNum = 1;
-            else curPageNum++;
+            if(isLast) curPageNum++;
+            if (curPageNum > maxPages) curPageNum = 1;
             let pageData = {
                 pnum: curPageNum,
             	lfmuser: user
@@ -152,14 +164,17 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = vue.content.$data.TRACKS;
-    	        self.loadSong(tracks[0]);
+    	        if (tracks === null || tracks.length === 0) return;     
+    	        if(nextIndex >= tracks.length) nextIndex = track.length -1;
+    	        self.loadSong(tracks[nextIndex]);
             });
-            return;
-        } else if (nextIndex < 0) {
-            nextIndex = 0;
+        } else {
+            tracks = curVue.content.$data.TRACKS;
+            if (tracks === null || tracks.length === 0) return;  
+	        if(nextIndex >= tracks.length) nextIndex = track.length -1;
+            this.loadSong(tracks[nextIndex]);
         }
 
-        this.loadSong(tracks[nextIndex]);
     }
 
     loadPreviousSong() {
@@ -170,32 +185,50 @@ class PlayerController {
     	} else if(!$page.loader.pages.isPlaylist(curPage)) {
     		curPage = $page.loader.pageInfo.lastPlaylist.value;
     	}
-    	let curVue = $page.myVues.forPage(curPage);    	
-        let tracks = curVue.content.$data.TRACKS;
-        if (tracks === null || tracks.length === 0) return;    	
-
-        let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
+    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  	
+    	let curTrack = this.currentTrackData.track;   
+    	let loadPage = false;
+    	if(curTrack !== null 
+    		&& curTrack.PLAYLIST !== null
+    		&& 'undefined' !== typeof curTrack.PLAYLIST
+    		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
+    		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
+    		if(curTrackPage !== null) {
+    			curPage = curTrackPage;
+    		}
+    	} 
+    	let curVue = $page.myVues.forPage(curPage);    	   	
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
-        
-        let curTrack = this.currentTrackData.track;        
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
-        let isFirst = (curNr === ((curPageNum - 1) * tracksPerPage) + 1);
-        let isLast = (curNr - ((curPageNum - 1) * tracksPerPage)) % tracks.length === 0;
-        let prevIndex = isLast ? tracks.length - 2 : (curNr % tracksPerPage) - 2;
+    	if(curTrack !== null) {
+    		let trackPage = parseInt(curTrack.NR / tracksPerPage);
+    		if( (curTrack.NR % tracksPerPage) > 0) trackPage++;
+    		if(curPageNum != trackPage) {
+    			curPageNum = trackPage;
+    			loadPage = true;
+    		}
+    	}
     	
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
+        let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
+        let isFirst = curTrack !== null && (curNr % tracksPerPage) == 1; 
+        let prevIndex = curTrack !== null ? (curNr % tracksPerPage) - 2 : tracksPerPage;	
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'previous';
         }
         
         $page.loader.setLoading(null, true);
+        let tracks = null;
         
-        if(isFirst) {   
+        if (loadPage || isFirst) {
             let playlist = curVue.menu;
-            let curPageNum = playlist.$data.CUR_PAGE;
-            let maxPages = playlist.$data.MAX_PAGES;
+            let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
             if ((curPageNum - 1) < 1) curPageNum = maxPages;
-            else curPageNum--;            
+            if (isFirst) {
+            	prevIndex = tracksPerPage-1;
+            	curPageNum--;            
+            }
+            
             let pageData = {
                 pnum: curPageNum,
             	lfmuser: user
@@ -216,14 +249,28 @@ class PlayerController {
     			vue.update(data);
     			
     	        let tracks = vue.content.$data.TRACKS;
-    	        self.loadSong(tracks[tracks.length - 1]);
+    	        if (tracks === null || tracks.length === 0) return;     
+    	        if(prevIndex >= tracks.length) prevIndex = track.length -1;
+    	        self.loadSong(tracks[prevIndex]);
             });
-            return;
+        } else {
+            let tracks = curVue.content.$data.TRACKS;
+            if (tracks === null || tracks.length === 0) return;            
+        	this.loadSong(tracks[prevIndex]);
         }
 
-        this.loadSong(tracks[prevIndex]);
     }
 
+    addCurrentTrackAlias(track) {
+        let curTrack = this.currentTrackData.track;
+        if (curTrack !== null) {
+            track.PLAY_CONTROL = curTrack.PLAY_CONTROL;
+            track.PLAYSTATE = curTrack.PLAYSTATE;
+            track.PLAYCOUNT_CHANGE = curTrack.PLAYCOUNT_CHANGE;
+            this.currentTrackData.aliasList.push(track);
+        }    	
+    }
+    
     setCurrentTrack(track, force = false) {
         if (!force && this.isCurrentTrack(track)) return;
 
@@ -236,9 +283,10 @@ class PlayerController {
         if(track === null || 'undefined' === typeof track) return;
         
         this.currentTrackData.track = track;
-        $page.myVues.video.youtube.header.CURRENT_TRACK = track;
+        this.currentTrackData.aliasList = [];
+        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         if (track.PLAYLIST !== 'playlist.search') {
-        	$page.myVues.video.youtube.header.SEARCH_TRACK = track;
+        	$page.myVues.video.youtube.header.$data.SEARCH_TRACK = track;
         }
         this.setCurrentState('load');
     }
@@ -247,9 +295,13 @@ class PlayerController {
     	
         let curTrack = this.currentTrackData.track;
         if (curTrack === null || curTrack.PLAYSTATE === newState) return;
-
+        let aliasList = this.currentTrackData.aliasList;
+        
         curTrack.PLAYSTATE = newState;
         $page.myVues.video.youtube.menu.$data.PLAYSTATE = newState;
+        for(let cnt=0; cnt<aliasList.length; cnt++) {
+        	aliasList[cnt].PLAYSTATE = newState;
+        }
     }
 
     loadSong(track) {

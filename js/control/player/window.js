@@ -33,8 +33,7 @@ class PlayerWindow {
         };
 
         let onStateChange = function (event) {
-
-            for (let cnt in $player.stateChangeListeners) {
+            for (let cnt=0; cnt<$player.stateChangeListeners.length; cnt++) {
                 let listener = $player.stateChangeListeners[cnt];
                 if ('function' !== typeof listener) continue;
                 listener(event);
@@ -42,14 +41,14 @@ class PlayerWindow {
         };
         let onError = function (event) {
             console.error('youtube player error', event);
-            for (let cnt in $player.errorListeners) {
+            for (let cnt=0; cnt<$player.errorListeners.length; cnt++) {
                 let listener = $player.errorListeners[cnt];
                 if ('function' !== typeof listener) continue;
                 listener(event);
             }
         };
 		
-		//console.log('player: w', width, 'h', height, 'vid', video);
+		// console.log('player: w', width, 'h', height, 'vid', video);
 	    this.ytPlayer = new YT.Player('player-container', {
 	
 	        height: height,
