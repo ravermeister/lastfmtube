@@ -118,7 +118,7 @@ class PlayerController {
     		}
     	} 
     	let curVue = $page.myVues.forPage(curPage);    	
-    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);    	
+    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);    
     	if(curTrack !== null) {
     		let trackPage = parseInt(curTrack.NR / tracksPerPage);
     		if( (curTrack.NR % tracksPerPage) > 0) trackPage++;
@@ -126,8 +126,7 @@ class PlayerController {
     			curPageNum = trackPage;
     			loadPage = true;
     		}
-    	}
-    	
+    	}   
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;
         let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
@@ -144,6 +143,7 @@ class PlayerController {
             let user = playlist.$data.LASTFM_USER_NAME;
             if(isLast) curPageNum++;
             if (curPageNum > maxPages) curPageNum = 1;
+            console.log('cur', curPageNum, 'max', maxPages);
             let pageData = {
                 pnum: curPageNum,
             	lfmuser: user
@@ -198,7 +198,7 @@ class PlayerController {
     		}
     	} 
     	let curVue = $page.myVues.forPage(curPage);    	   	
-    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);	
+    	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
     	if(curTrack !== null) {
     		let trackPage = parseInt(curTrack.NR / tracksPerPage);
     		if( (curTrack.NR % tracksPerPage) > 0) trackPage++;
@@ -206,8 +206,7 @@ class PlayerController {
     			curPageNum = trackPage;
     			loadPage = true;
     		}
-    	}
-    	
+    	}    	
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
         let isFirst = curTrack !== null && (curNr % tracksPerPage) == 1; 
