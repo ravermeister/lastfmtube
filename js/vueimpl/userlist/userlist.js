@@ -96,8 +96,6 @@ class LibvueUser {
                     $page.loader.loadPage($page.loader.pages.playlist.lastfm, {
                     	pnum: 1, 
                     	lfmuser: user.NAME
-                    }, function(){
-                    	user.PLAY_CONTROL = '';
                     });
                 }
             }
