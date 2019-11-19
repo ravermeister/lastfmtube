@@ -38,7 +38,6 @@ class ChartTimer {
     }
 
     handleTimerEvent() {
-    	console.log('handle timer event! ', this.timerTrack);
     	
         let track = this.timerTrack;
         if ('undefined' === typeof track || track === null) {
@@ -109,7 +108,7 @@ class ChartTimer {
 				// greater
                 
                 /** debug * */
-                lfmScrobbleDuration = 20;
+                /**lfmScrobbleDuration = 20;**/
                 
                 self.clearTimer();
                 self.timerStart = new Date();
