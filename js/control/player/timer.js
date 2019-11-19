@@ -38,7 +38,8 @@ class ChartTimer {
     }
 
     handleTimerEvent() {
-   	
+    	console.log('handle timer event! ', this.timerTrack);
+    	
         let track = this.timerTrack;
         if ('undefined' === typeof track || track === null) {
             if (this.log) console.log('timer event invalid track', track);
@@ -137,9 +138,15 @@ class ChartTimer {
         }
 
         if (this.log) console.log('resume timer with remaining time: ', this.timerRemaining);
-
+        
+        let self = this;
         this.timerStart = new Date();
-        this.timer = setTimeout(this.handleTimerEvent, (this.timerRemaining * 1000));
+        this.timer = setTimeout(
+        	function() {
+        		self.handleTimerEvent();
+			},
+			(this.timerRemaining * 1000)
+       	);
     }
 
     start() {
