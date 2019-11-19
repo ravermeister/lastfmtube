@@ -433,7 +433,7 @@ class PlayerController {
         if(curTrack === null || track === null || 'undefined' === typeof track) return false;
         
         let checkNr = curTrack.PLAYLIST !== $page.loader.pages.playlist.topsongs.value;
-        let checkVideo = curTrack.PLAYLIST === $page.loader.pages.video.search.value;
+        let checkVideo = curTrack.PLAYLIST === $page.loader.pages.playlist.search.value;
 
         // isEqual
         return (
