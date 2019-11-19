@@ -127,15 +127,15 @@ class PlayerController {
     			loadPage = true;
     		}
     	}   
+    	let tracks = curVue.content.$data.TRACKS;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : 1;
-        let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
+        let isLast = curTrack !== null && (curNr % tracksPerPage) == 0 || ((curNr % tracksPerPage) == tracks.length);
         let nextIndex = curTrack !== null ? (curNr % tracksPerPage) : 0;
         if(this.loadNextOnError) {
         	this.loadDirectionOnError = 'next';
         }
     	
         $page.loader.setLoading(null, true);
-        let tracks = null;
         
         if (loadPage || isLast) {
             let playlist = curVue.menu;
@@ -169,7 +169,6 @@ class PlayerController {
     	        self.loadSong(tracks[nextIndex]);
             });
         } else {
-            tracks = curVue.content.$data.TRACKS;
             if (tracks === null || tracks.length === 0) return;  
 	        if(nextIndex >= tracks.length) nextIndex = 0;
             this.loadSong(tracks[nextIndex]);
@@ -206,9 +205,9 @@ class PlayerController {
     			curPageNum = trackPage;
     			loadPage = true;
     		}
-    	}    	
+    	}    
+        let tracks = curVue.content.$data.TRACKS;
         let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
-        let isLast = curTrack !== null && (curNr % tracksPerPage) == 0;
         let isFirst = curTrack !== null && (curNr % tracksPerPage) == 1; 
         let prevIndex = curTrack !== null ? (curNr % tracksPerPage) - 2 : tracksPerPage;	
         if(this.loadNextOnError) {
@@ -216,8 +215,7 @@ class PlayerController {
         }
         
         $page.loader.setLoading(null, true);
-        let tracks = null;
-        
+
         if (loadPage || isFirst) {
             let playlist = curVue.menu;
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
@@ -247,13 +245,12 @@ class PlayerController {
     			}
     			vue.update(data);
     			
-    	        let tracks = vue.content.$data.TRACKS;
+    	        tracks = vue.content.$data.TRACKS;
     	        if (tracks === null || tracks.length === 0) return;     
     	        if(prevIndex >= tracks.length) prevIndex = tracks.length -1;
     	        self.loadSong(tracks[prevIndex]);
             });
         } else {
-            let tracks = curVue.content.$data.TRACKS;
             if (tracks === null || tracks.length === 0) return;   
             if(prevIndex < 0) prevIndex = tracks.length-1;
         	this.loadSong(tracks[prevIndex]);
