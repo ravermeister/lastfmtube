@@ -141,9 +141,11 @@ class PlayerController {
             let playlist = curVue.menu;
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
-            if(isLast) curPageNum++;
+            if(isLast) {
+            	nextIndex = 0;
+            	curPageNum++;
+            }
             if (curPageNum > maxPages) curPageNum = 1;
-            console.log('cur', curPageNum, 'max', maxPages);
             let pageData = {
                 pnum: curPageNum,
             	lfmuser: user
