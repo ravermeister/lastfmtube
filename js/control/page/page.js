@@ -229,7 +229,8 @@ class PageController {
             data: {
                 artist: needle.artist,
                 title: needle.title,
-                sortby: needle.sortby
+                sortby: needle.sortby,
+                playlist: needle.playlist
             }
         }).done(function (json) {
 

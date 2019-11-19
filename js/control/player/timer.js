@@ -53,6 +53,7 @@ class ChartTimer {
             track.video
         );
         needle.sortby = track.sortby;
+        needle.playlist = track.playlist;
         
         this.clearTimer();
         $page.saveChartTrack(needle);
