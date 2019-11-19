@@ -222,11 +222,11 @@ class PlayerController {
             let playlist = curVue.menu;
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
-            if ((curPageNum - 1) < 1) curPageNum = maxPages;
             if (isFirst) {
             	prevIndex = tracksPerPage-1;
-            	curPageNum--;            
+            	curPageNum--;
             }
+            if (curPageNum < 1) curPageNum = maxPages;
             
             let pageData = {
                 pnum: curPageNum,
