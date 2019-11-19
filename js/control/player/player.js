@@ -115,7 +115,7 @@ class PlayerController {
     		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
     		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
     		if(curTrackPage !== null) {
-    			curTrackPageIsCurrent = curTrackPage === curPage;
+    			curTrackPageIsCurrent = curTrackPage === $page.loader.pageInfo.currentPage.value;
     			curPage = curTrackPage;
     		}
     	} 
@@ -201,14 +201,14 @@ class PlayerController {
     		&& curTrack.PLAYLIST !== $page.loader.pages.playlist.search.value) {
     		let curTrackPage = $page.loader.pages.getByValue(curTrack.PLAYLIST);
     		if(curTrackPage !== null) {
-    			curTrackPageIsCurrent = curTrackPage === curPage;
+    			curTrackPageIsCurrent = curTrackPage === $page.loader.pageInfo.currentPage.value;
     			curPage = curTrackPage;
     		}
     	} 
     	let curVue = $page.myVues.forPage(curPage);    	   	
     	let curPageNum = parseInt(curVue.menu.$data.CUR_PAGE);
+        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
     	if(curTrack !== null) {
-    		let curNr = parseInt(curTrack.NR);
     		if(curTrackPageIsCurrent && curTrack.PLAYCOUNT_CHANGE > 0) {
     			curNr -= parseInt(curTrack.PLAYCOUNT_CHANGE);
     		} 
@@ -220,7 +220,6 @@ class PlayerController {
     		}
     	}     
         let tracks = curVue.content.$data.TRACKS;
-        let curNr = curTrack !== null ? parseInt(curTrack.NR) : tracksPerPage;
         let isFirst = curTrack !== null && (curNr % tracksPerPage) == 1; 
         let isLast = curTrack !== null && (curNr % tracksPerPage) == 0 || ((curNr % tracksPerPage) == tracks.length);
         let prevIndex = curTrack !== null ? (curNr % tracksPerPage) - 2 : tracksPerPage;	
