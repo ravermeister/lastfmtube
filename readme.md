@@ -40,8 +40,8 @@ up | Volume Up | Player | | ctrl+2 | Last.fm Playlist | Page Navigation
 down | Volume Down | Player | | ctrl+3 | Custom User Playlist | Page Navigation 
 left | *Rewind Track | Player | | ctrl+4 | Topsongs Playlist | Page Navigation 
 right | *Fast Forward Track | Player | | ctrl+5 | Last.fm Users | Page Navigation
-ctrl+left | Previous Track | Player | | ctrl+pageUp | next Page | Playlist Navigation | 
-ctrl+right | Next Track | Player | | ctrl+pageDown | previous Page | Playlist Navigation | 
+ctrl+left | Previous Track | Player | | ctrl+shift+right | next Page | Playlist Navigation | 
+ctrl+right | Next Track | Player | | ctrl+shift+left | previous Page | Playlist Navigation | 
  
 *The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards.
 

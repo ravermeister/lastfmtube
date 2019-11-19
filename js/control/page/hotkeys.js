@@ -94,7 +94,7 @@ class HotKeys {
     		$page.loader.loadPage($page.loader.pages.userlist.topuser);    		
     	});
     	
-    	hotkeys('ctrl+pageup', function(event, handler){
+    	hotkeys('ctrl+shift+right', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
     		let curPage = $page.loader.currentPage.value;
@@ -103,7 +103,7 @@ class HotKeys {
     		curVue.menu.loadNextPage();
     	});
     	
-    	hotkeys('ctrl+pagedown', function(event, handler){
+    	hotkeys('ctrl+shift+left', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
     		let curPage = $page.loader.currentPage.value;
