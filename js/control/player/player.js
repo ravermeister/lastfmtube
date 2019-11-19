@@ -125,6 +125,7 @@ class PlayerController {
     		let curNr = parseInt(curTrack.NR);
     		if(curTrackPageIsCurrent && curTrack.PLAYCOUNT_CHANGE > 0) {
     			curNr -= parseInt(curTrack.PLAYCOUNT_CHANGE);
+    			console.log('>>>>', curNr);
     		} 
     		let trackPage = parseInt(curNr / tracksPerPage);
     		if( (curNr % tracksPerPage) > 0) trackPage++;
