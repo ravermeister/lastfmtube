@@ -171,8 +171,7 @@ class PlayerController {
         } else {
             tracks = curVue.content.$data.TRACKS;
             if (tracks === null || tracks.length === 0) return;  
-	        if(nextIndex >= tracks.length) nextIndex = tracks.length -1;
-	        if(nextIndex === curNr) nextIndex = 0;
+	        if(nextIndex >= tracks.length) nextIndex = 0;
             this.loadSong(tracks[nextIndex]);
         }
 
@@ -256,7 +255,8 @@ class PlayerController {
             });
         } else {
             let tracks = curVue.content.$data.TRACKS;
-            if (tracks === null || tracks.length === 0) return;            
+            if (tracks === null || tracks.length === 0) return;   
+            if(prevIndex < 0) prevIndex = tracks.length-1;
         	this.loadSong(tracks[prevIndex]);
         }
 
