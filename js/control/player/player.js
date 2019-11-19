@@ -432,11 +432,13 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         if(curTrack === null || track === null || 'undefined' === typeof track) return false;
         
-        let checkNr = curTrack.PLAYLIST !== 'playlist.topsongs';
-
+        let checkNr = curTrack.PLAYLIST !== $page.loader.pages.playlist.topsongs.value;
+        let checkVideo = curTrack.PLAYLIST === $page.loader.pages.video.youtube.value;
+        
         // isEqual
         return (
-            curTrack === track || (
+        	(checkVideo && curTrack.VIDEO_ID === track.VIDEO_ID)
+            || curTrack === track || (
                 (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&
                 curTrack.PLAYLIST === track.PLAYLIST &&
                 curTrack.ARTIST === track.ARTIST &&
