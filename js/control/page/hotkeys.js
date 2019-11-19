@@ -97,7 +97,7 @@ class HotKeys {
     	hotkeys('ctrl+shift+right', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		let curPage = $page.loader.currentPage.value;
+    		let curPage = $page.loader.pageInfo.currentPage.value;
     		if(!$page.loader.pages.isPlaylist(curPage)) return;    		
     		let curVue = $page.myVues.forPage(curPage);
     		curVue.menu.loadNextPage();
@@ -106,7 +106,7 @@ class HotKeys {
     	hotkeys('ctrl+shift+left', function(event, handler){
     		// Prevent the default refresh event under WINDOWS system
     		event.preventDefault(); 
-    		let curPage = $page.loader.currentPage.value;
+    		let curPage = $page.loader.pageInfo.currentPage.value;
     		if(!$page.loader.pages.isPlaylist(curPage)) return;    		
     		let curVue = $page.myVues.forPage(curPage);
     		curVue.menu.loadPreviousPage();
