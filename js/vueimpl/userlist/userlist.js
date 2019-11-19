@@ -92,7 +92,7 @@ class LibvueUser {
                     if (user.PLAY_CONTROL !== 'play') return;
 
                     user.PLAY_CONTROL = 'loading';
-                    $page.myVues.userlist.header.title.$data.LOADING = true;
+                    $page.myVues.userlist.topuser.header.title.$data.LOADING = true;
                     $page.loadPage($page.loader.pages.playlist.lastfm, {
                     	pnum: 1, 
                     	lfmuser: user.NAME
