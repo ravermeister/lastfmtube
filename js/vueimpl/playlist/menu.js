@@ -76,13 +76,21 @@ class LibvuePlaylistMenu {
                     });
                 },
 
-                loadNextPage: function (user, pageNum, maxPages) {
-                    pageNum++;
+                loadNextPage: function (user = null, pageNum = null, maxPages = null) {
+                	if(user === null) user = this.$data.LASTFM_USER_NAME;
+                	if(pageNum === null) pageNum = parseInt(this.$data.CUR_PAGE);
+                	if(maxPages === null) maxPages = parseInt(this.$data.MAX_PAGES);                	
+                    
+                	pageNum++;
                     if (pageNum > maxPages) pageNum = 1;
                     this.loadPage(user, pageNum);
                 },
 
-                loadPrevPage: function (user, pageNum, maxPages) {
+                loadPrevPage: function (user = null, pageNum = null, maxPages = null) {
+                	if(user === null) user = this.$data.LASTFM_USER_NAME;
+                	if(pageNum === null) pageNum = parseInt(this.$data.CUR_PAGE);
+                	if(maxPages === null) maxPages = parseInt(this.$data.MAX_PAGES);   
+                	
                     pageNum--;
                     if (pageNum <= 0) pageNum = maxPages;
                     this.loadPage(user, pageNum);

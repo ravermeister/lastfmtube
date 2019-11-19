@@ -94,6 +94,24 @@ class HotKeys {
     		$page.loader.loadPage($page.loader.pages.userlist.topuser);    		
     	});
     	
+    	hotkeys('ctrl+shift+right', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		let curPage = $page.loader.pageInfo.currentPage.value;
+    		if(!$page.loader.pages.isPlaylist(curPage)) return;    		
+    		let curVue = $page.myVues.forPage(curPage);
+    		curVue.menu.loadNextPage();
+    	});
+    	
+    	hotkeys('ctrl+shift+left', function(event, handler){
+    		// Prevent the default refresh event under WINDOWS system
+    		event.preventDefault(); 
+    		let curPage = $page.loader.pageInfo.currentPage.value;
+    		if(!$page.loader.pages.isPlaylist(curPage)) return;    		
+    		let curVue = $page.myVues.forPage(curPage);
+    		curVue.menu.loadPrevPage();
+    	});
+    	
     	/**
 		 * TODO: add hotkeys for search, and find out how to override youtube
 		 * iframe key capturing
