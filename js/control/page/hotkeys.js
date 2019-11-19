@@ -109,7 +109,7 @@ class HotKeys {
     		let curPage = $page.loader.pageInfo.currentPage.value;
     		if(!$page.loader.pages.isPlaylist(curPage)) return;    		
     		let curVue = $page.myVues.forPage(curPage);
-    		curVue.menu.loadPreviousPage();
+    		curVue.menu.loadPrevPage();
     	});
     	
     	/**
