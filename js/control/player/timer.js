@@ -13,7 +13,7 @@ class ChartTimer {
         this.timerRemaining = null;
         this.timerTrack = null;
         this.timer = null;
-        this.log = true;
+        this.log = false;
         this.lastChartLfmUser = null;
         this.player = player;
         this.init();
@@ -109,7 +109,7 @@ class ChartTimer {
 				// greater
                 
                 /** debug * */
-                lfmScrobbleDuration = 20;
+                /**lfmScrobbleDuration = 20;**/
                 
                 self.clearTimer();
                 self.timerStart = new Date();
