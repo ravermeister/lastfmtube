@@ -93,7 +93,7 @@ class LibvueUser {
 
                     user.PLAY_CONTROL = 'loading';
                     $page.myVues.userlist.topuser.header.title.$data.LOADING = true;
-                    $page.loadPage($page.loader.pages.playlist.lastfm, {
+                    $page.loader.loadPage($page.loader.pages.playlist.lastfm, {
                     	pnum: 1, 
                     	lfmuser: user.NAME
                     }, function(){
