@@ -39,7 +39,7 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 			HotKeys.init();
 			$player.autoPlay = true;
 			$page.loader.initURL();
-			$page.loader.setLoading();
+//			$page.loader.setLoading();
 		});
 	});
 });
