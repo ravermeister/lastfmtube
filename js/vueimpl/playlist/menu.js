@@ -137,19 +137,20 @@ class LibvuePlaylistMenu {
                 	if(track === null && this.$data.SEARCH_NEEDLE !== null) {
                 		
                 		needle = $page.createNeedle(
+                				track, 
                 				this.$data.SEARCH_NEEDLE.artist, 
                 				this.$data.SEARCH_NEEDLE.title, 
                 				vid
                 		);                		
                 	} else {                		
-                		needle = $page.createNeedle(track.ARTIST, track.TITLE, vid);
+                		needle = $page.createNeedle(track, '', '', vid);
                 	}
                 	
                     $playlist.saveVideo(needle);
                 },
 
                 unsetVideo: function (event, track) {
-                    let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+                    let needle = $page.createNeedle(track);
                     $playlist.deleteVideo(needle);
                 }
             }

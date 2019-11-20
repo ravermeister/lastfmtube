@@ -14,7 +14,6 @@ class LibvuePlayerHeader {
             data: {
                 PLAYLIST: null,
                 CURRENT_TRACK: null,
-                SEARCH_TRACK: null,
                 LOADING: false
             },
             computed: {

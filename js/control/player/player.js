@@ -296,9 +296,14 @@ class PlayerController {
         this.currentTrackData.track = track;
         this.currentTrackData.aliasList = [];
         $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
-        if (track.PLAYLIST !== 'playlist.search') {
-        	$page.myVues.video.youtube.header.$data.SEARCH_TRACK = track;
+        if($page.loader.pages.playlist.search.value === track.PLAYLIST) {        	
+        	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
+        	if('undefined' !== typeof searchNeedle
+        		&& searchNeedle.track !== null) {
+        		$page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchNeedle.track;
+        	}
         }
+        
         this.setCurrentState('load');
     }
 
@@ -354,7 +359,7 @@ class PlayerController {
         $page.loader.setLoading(null, true);
         this.setCurrentTrack(track);
 
-        let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+        let needle = $page.createNeedle(track);
         if (needle.isValid(true)) {
             this.loadVideo(needle.videoId);            
             return;
@@ -432,11 +437,13 @@ class PlayerController {
         let curTrack = this.currentTrackData.track;
         if(curTrack === null || track === null || 'undefined' === typeof track) return false;
         
-        let checkNr = curTrack.PLAYLIST !== 'playlist.topsongs';
+        let checkNr = curTrack.PLAYLIST !== $page.loader.pages.playlist.topsongs.value;
+        let checkVideo = curTrack.PLAYLIST === $page.loader.pages.playlist.search.value;
 
         // isEqual
         return (
-            curTrack === track || (
+        	(checkVideo && curTrack.VIDEO_ID === track.VIDEO_ID)
+            || curTrack === track || (
                 (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&
                 curTrack.PLAYLIST === track.PLAYLIST &&
                 curTrack.ARTIST === track.ARTIST &&
