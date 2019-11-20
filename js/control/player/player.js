@@ -142,13 +142,12 @@ class PlayerController {
     	
         $page.loader.setLoading(null, true);
         
-        if (loadPage || isLast) {
-        	
+        if (loadPage || isLast) {        	
             let playlist = curVue.menu;
             console.log('>>>', playlist.$data);
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
-            let sortBy = playlist.$data.SORTBY;
+            let sortBy = playlist.$data.SORTBY.SELECTED;
             
             if(isLast) {
             	nextIndex = 0;
