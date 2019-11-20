@@ -143,9 +143,9 @@ class PlayerController {
         $page.loader.setLoading(null, true);
         
         if (loadPage || isLast) {
-        	console.log('>>>', playlist.$data);
         	
             let playlist = curVue.menu;
+            console.log('>>>', playlist.$data);
             let maxPages = parseInt(playlist.$data.MAX_PAGES);
             let user = playlist.$data.LASTFM_USER_NAME;
             let sortBy = playlist.$data.SORTBY;
