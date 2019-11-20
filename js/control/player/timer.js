@@ -47,11 +47,7 @@ class ChartTimer {
 
         if (this.log) console.log('handle timer event create needle from track');
 
-        let needle = $page.createNeedle(
-            track.artist,
-            track.title,
-            track.video
-        );
+        let needle = $page.createNeedle(track);
         needle.sortby = track.sortby;
         needle.playlist = track.playlist;
         

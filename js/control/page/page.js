@@ -123,11 +123,12 @@ class PageController {
         });
     }
 
-    createNeedle(artist = '', title = '', videoId = '') {
+    createNeedle(origTrack = null, artist = '', title = '', videoId = '') {
         return {
-            artist: artist,
-            title: title,
-            videoId: videoId,
+            artist: origTrack !== null && artist === '' ? origTrack.ARTIST : artist,
+            title: origTrack !== null && title === '' ? origTrack.TITLE : title,
+            videoId: origTrack !== null && videoId === '' ? origTrack.VIDEO_ID : videoId,
+            track: origTrack,
             asVar: function (raw = false) {
                 if (
                     typeof this.artist === 'undefined' ||

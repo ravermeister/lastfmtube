@@ -29,8 +29,7 @@ class LibvuePlayerMenu {
                     $playlist.addUserTrack($player.currentTrackData.track);
                 },
                 searchVideo: function (event) {
-                    if ($page.myVues.video.youtube.header.SEARCH_TRACK === null) return;
-                    $page.loader.searchSong($page.myVues.video.youtube.header.SEARCH_TRACK);
+                    $page.loader.searchSong($player.currentTrackData.track);
                 },
                 showComments: function(event) {                	
                 	$page.myVues.video.youtube.comments.toggleVisibility();                	
