@@ -124,11 +124,12 @@ class PageController {
     }
 
     createNeedle(origTrack = null, artist = '', title = '', videoId = '') {
-    	console.log('create needle: ', 'tr', origTrack, 'art', artist, 'title', title, 'vid', videoId)
         return {
             artist: origTrack !== null && artist === '' ? origTrack.ARTIST : artist,
             title: origTrack !== null && title === '' ? origTrack.TITLE : title,
             videoId: origTrack !== null && videoId === '' ? origTrack.VIDEO_ID : videoId,
+            playlist: origTrack === null ? null : origTrack.PLAYLIST,
+            sortby: origTrack === null ? null : origTrack.SORTBY, 
             track: origTrack,
             asVar: function (raw = false) {
                 if (

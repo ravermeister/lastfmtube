@@ -100,7 +100,7 @@ class Playlist extends DefaultJson {
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
                     'PLAYLIST_LOAD' => $locale['playlist']['control']['load'],
-                    'playlist' => 'playlist.lastfm'
+                    'PLAYLIST' => 'playlist.lastfm'
                ),
                // lastfm navigation (pages/username)
 
@@ -132,6 +132,7 @@ class Playlist extends DefaultJson {
                     'TITLE' => $track->getTitle(),
                     'LASTPLAY' => $track->isPlaying() ? $locale['playlist']['nowplaying'] : $this->funcs->formatDate($track->getDateofPlay()),
                     'LASTFM_ISPLAYING' => $track->isPlaying(),
+                    'LASTFM_USER_NAME' => $lfmapi->getUser(),
                     'VIDEO_ID' => $videoId,
                     'PLAY_CONTROL' => false,
                     'PLAYLIST' => 'playlist.lastfm',
@@ -159,7 +160,6 @@ class Playlist extends DefaultJson {
            * TODO: the code below can be merged with Page.php#saveTrackPlay
            * find a good place where the common code can be shared
            */
-          
           $db = Db::getInstance();
           $settings = $this->funcs->getSettings();
           $locale = $this->funcs->getLocale();
@@ -205,7 +205,7 @@ class Playlist extends DefaultJson {
                'LIST_MENU' => array(
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
-                    'playlist' => 'playlist.topsongs',
+                    'PLAYLIST' => 'playlist.topsongs',
                     'SORTBY' => array(
                          'LABEL' => $locale['playlist']['control']['sortby']['label'],
                          'SELECTED' => $sortby,

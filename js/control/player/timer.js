@@ -11,7 +11,7 @@ class ChartTimer {
 
         this.timerStart = null;
         this.timerRemaining = null;
-        this.timerTrack = null;
+        this.timerTrackData = null;
         this.timer = null;
         this.log = false;
         this.lastChartLfmUser = null;
@@ -39,7 +39,7 @@ class ChartTimer {
 
     handleTimerEvent() {
     	
-        let track = this.timerTrack;
+        let trackData = this.timerTrackData;
         if ('undefined' === typeof track || track === null) {
             if (this.log) console.log('timer event invalid track', track);
             return;
@@ -47,21 +47,19 @@ class ChartTimer {
 
         if (this.log) console.log('handle timer event create needle from track');
 
-        let needle = $page.createNeedle(track);
-        needle.sortby = track.sortby;
-        needle.playlist = track.playlist;
-        
+        let needle = $page.createNeedle(trackData.track);
+
         this.clearTimer();
         $page.saveChartTrack(needle);
-        if ('undefined' !== typeof track.lfmuser &&
-            track.lfmuser !== '' &&
-            this.lastChartLfmUser !== track.lfmuser) {
+        if ('undefined' !== typeof trackData.track.LASTFM_USER_NAME
+        	&& trackData.track.LASTFM_USER_NAME !== '' 
+        	&& this.lastChartLfmUser !== trackData.track.LASTFM_USER_NAME) {
             if (this.log) console.log('handle save user chart');
-            $page.saveChartUser(track.lfmuser);
-            this.lastChartLfmUser = track.lfmuser;
+            $page.saveChartUser(trackData.track.LASTFM_USER_NAME);
+            this.lastChartLfmUser = trackData.track.LASTFM_USER_NAME;
         } else if (this.log) {
             console.log(
-                'wont save user chart >', track.lfmuser,
+                'wont save user chart >', trackData.track.LASTFM_USER_NAME,
                 '< <-track timer-> >', this.lastChartLfmUser, '<'
             );
         }
@@ -74,12 +72,12 @@ class ChartTimer {
         clearTimeout(this.timer);
         this.timerStart = null;
         this.timerRemaining = null;
-        this.timerTrack = null;
+        this.timerTrackData = null;
         this.timer = null;
     }
 
 
-    createTimer(track) {
+    createTimer(trackData) {
         // duration is send when metadata arrives from youtube,
         // so delay max. 3 second before checking duration
         let delay = 300; // ms
@@ -96,9 +94,9 @@ class ChartTimer {
 
             let vidDuration = $player.playerWindow.ytPlayer.getDuration();
             if (vidDuration > 0) {
-                track.duration = vidDuration;
+                trackData.duration = vidDuration;
 
-                let lfmScrobbleDuration = (track.duration / 2) | 0;
+                let lfmScrobbleDuration = (trackData.duration / 2) | 0;
                 if (lfmScrobbleDuration > 120) lfmScrobbleDuration = 120;
                 // last.fm scrobble rule: half length of song or 2 min. if
 				// greater
@@ -109,7 +107,7 @@ class ChartTimer {
                 self.clearTimer();
                 self.timerStart = new Date();
                 self.timerRemaining = lfmScrobbleDuration;
-                self.timerTrack = track;
+                self.timerTrackData = trackData;
                 self.timer = setTimeout(
                 	function() {
                 		self.handleTimerEvent();
@@ -125,10 +123,10 @@ class ChartTimer {
         }, delay);
     }
 
-    resume(track) {
-        if (!this.timerTrack.equals(track)) {
+    resume(trackData) {
+        if (!this.timerTrackData.equals(trackData)) {
             if (this.log) console.log('timer track not current track, create new timer');
-            this.createTimer(track);
+            this.createTimer(trackData);
             return;
         }
 
@@ -147,27 +145,22 @@ class ChartTimer {
     start() {
         if (!$player.currentTrackData.validTrack() && $player.currentTrackData.validVideo()) return;
         let curTrack = $player.currentTrackData.track;
-        let track = {
-            artist: curTrack.ARTIST,
-            title: curTrack.TITLE,
-            video: curTrack.videoId,
-            lfmuser: curTrack.lfmUser,
-            sortby: curTrack.SORTBY,
-            playlist: curTrack.PLAYLIST,
+        let trackData = {
+        	track: curTrack,
             duration: 0,
             equals: function (other) {
                 return (
                     'undefined' !== typeof other &&
-                    other !== null &&
-                    this.artist === other.artist &&
-                    this.title === other.title
+                    other !== null &&                    
+                    this.track.ARTIST === other.track.ARTIST &&
+                    this.track.TITLE === other.track.TITLE
                 );
             }
         };
         if (this.timerStart === null) {
-            this.createTimer(track);
+            this.createTimer(trackData);
         } else {
-            this.resume(track);
+            this.resume(trackData);
         }
     }
 
