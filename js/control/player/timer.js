@@ -149,7 +149,7 @@ class ChartTimer {
     start() {
         if (!$player.currentTrackData.validTrack() && $player.currentTrackData.validVideo()) return;
         let curTrack = $player.currentTrackData.track;
-        let curTrackVideo = $player.currentTrackData.validVideo(); 
+        let curTrackVideo = $player.currentTrackData.videoId; 
         let trackData = {
         	track: curTrack,
         	curVideoId: curTrackVideo,
