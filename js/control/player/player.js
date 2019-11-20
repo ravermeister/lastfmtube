@@ -293,21 +293,10 @@ class PlayerController {
         
         if(track === null || 'undefined' === typeof track) return;
         
-        if (track.PLAYLIST !== 'playlist.search') {
-            this.currentTrackData.track = track;
-            this.currentTrackData.aliasList = [];
-        	$page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
-        	$page.myVues.video.youtube.header.$data.SEARCH_TRACK = track;
-        } else {
-        	console.log('>>>', $page.myVues.video.youtube.header.$data);
-        	let searchTrack = $page.myVues.video.youtube.header.$data.SEARCH_TRACK;
-            this.currentTrackData.track = searchTrack;
-            $page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchTrack; 
-            if(!this.isCurrentTrack(curTrack)) {            	
-            	this.currentTrackData.aliasList = [];
-            }
-            this.addCurrentTrackAlias(track);
-        }
+        this.currentTrackData.track = track;
+        this.currentTrackData.aliasList = [];
+        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
+        
         this.setCurrentState('load');
     }
 
@@ -363,7 +352,7 @@ class PlayerController {
         $page.loader.setLoading(null, true);
         this.setCurrentTrack(track);
 
-        let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+        let needle = $page.createNeedle(track);
         if (needle.isValid(true)) {
             this.loadVideo(needle.videoId);            
             return;

@@ -296,7 +296,7 @@ class PageLoader {
 
     searchSong(track, pageNum = 1) {    	
         
-    	let needle = $page.createNeedle(track.ARTIST, track.TITLE, track.VIDEO_ID);
+    	let needle = $page.createNeedle(track);
     	
         if (!needle.isValid()) {
             console.error('needle is invalid exit search');

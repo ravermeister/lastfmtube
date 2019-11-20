@@ -32,20 +32,6 @@ class LibvuePlaylist {
         };
     }
 
-    setVideo(videoId = '') {
-    	let self = this;
-        let needle = $page.createNeedle(
-            self.menu.$data.SEARCH_NEEDLE.artist,
-            self.menu.$data.SEARCH_NEEDLE.title,
-            videoId
-        );
-        $page.saveVideo(needle);
-    }
-
-    unsetVideo(needle = null) {    	
-        $page.deleteVideo(needle);
-    }
-
     getTracks(json) {
         let pdata = {};
         if ('undefined' !== typeof json.playlist.LIST.HEADER)
