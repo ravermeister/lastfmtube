@@ -298,14 +298,15 @@ class PlayerController {
             this.currentTrackData.aliasList = [];
         	$page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         	$page.myVues.video.youtube.header.$data.SEARCH_TRACK = track;
-        } else {        	
+        } else {
+        	console.log('>>>', $page.myVues.video.youtube.header.$data);
         	let searchTrack = $page.myVues.video.youtube.header.$data.SEARCH_TRACK;
             this.currentTrackData.track = searchTrack;
             $page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchTrack; 
             if(!this.isCurrentTrack(curTrack)) {            	
             	this.currentTrackData.aliasList = [];
             }
-            this.currentTrackData.aliasList.push(track);
+            this.addCurrentTrackAlias(track);
         }
         this.setCurrentState('load');
     }
