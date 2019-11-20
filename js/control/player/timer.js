@@ -48,7 +48,6 @@ class ChartTimer {
         if (this.log) console.log('handle timer event: create needle from track');
 
         let needle = $page.createNeedle(trackData.track);
-        console.log('>', needle.videoId.length, '>>', needle);
         if(needle.videoId.length <= 0) needle.videoId = trackData.curVideoId;
         this.clearTimer();
         
