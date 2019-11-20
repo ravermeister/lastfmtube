@@ -124,6 +124,7 @@ class PageController {
     }
 
     createNeedle(origTrack = null, artist = '', title = '', videoId = '') {
+    	console.log('create needle: ', 'tr', origTrack, 'art', artist, 'title', title, 'vid', videoId)
         return {
             artist: origTrack !== null && artist === '' ? origTrack.ARTIST : artist,
             title: origTrack !== null && title === '' ? origTrack.TITLE : title,
