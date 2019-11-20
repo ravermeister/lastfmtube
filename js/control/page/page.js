@@ -203,7 +203,7 @@ class PageController {
                 user: lfmuser
             }
         }).done(function (userJson) {
-        	let users = page.myVues.userlist.topuser.content.$data.USER;
+        	let users = $page.myVues.userlist.topuser.content.$data.USER;
         	if(!Array.isArray(users)) return;
         	
             for (let cnt=0; cnt<users.length; cnt++) {
