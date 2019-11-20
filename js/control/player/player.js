@@ -305,6 +305,7 @@ class PlayerController {
             if(!this.isCurrentTrack(curTrack)) {            	
             	this.currentTrackData.aliasList = [];
             }
+            this.currentTrackData.aliasList.push(track);
         }
         this.setCurrentState('load');
     }
