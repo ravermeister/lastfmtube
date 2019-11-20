@@ -132,10 +132,7 @@ class PageController {
             			origTrack !== null ? origTrack.TITLE : null,
             					
             videoId:	videoId !== null && videoId.length > 0 ? videoId :
-            			origTrack !== null && origTrack.VIDEO_ID !== null 
-            			&& 'undefined' !== typeof origTrack.VIDEO_ID 
-            			&& origTrack.VIDEO_ID.length > 0 
-            			? origTrack.VIDEO_ID : videoId,
+            			origTrack !== null ? origTrack.VIDEO_ID : null,
             		
             playlist: origTrack === null ? null : origTrack.PLAYLIST,
             sortby: origTrack === null ? null : origTrack.SORTBY, 
