@@ -45,12 +45,15 @@ class ChartTimer {
             return;
         }
 
-        if (this.log) console.log('handle timer event create needle from track');
+        if (this.log) console.log('handle timer event: create needle from track');
 
         let needle = $page.createNeedle(trackData.track);
-
+        if(needle.videoId.length <= 0) needle.videoId = trackData.curVideoId;
         this.clearTimer();
+        
+        if(this.log) console.log('handle timer event: needle created: ', needle);        
         $page.saveChartTrack(needle);
+        
         if ('undefined' !== typeof trackData.track.LASTFM_USER_NAME
         	&& trackData.track.LASTFM_USER_NAME !== '' 
         	&& this.lastChartLfmUser !== trackData.track.LASTFM_USER_NAME) {
@@ -145,9 +148,11 @@ class ChartTimer {
     start() {
         if (!$player.currentTrackData.validTrack() && $player.currentTrackData.validVideo()) return;
         let curTrack = $player.currentTrackData.track;
+        let curTrackVideo = $player.currentTrackData.validVideo(); 
         let trackData = {
         	track: curTrack,
-            duration: 0,
+        	curVideoId: curTrackVideo,
+        	duration: 0,
             equals: function (other) {
                 return (
                     'undefined' !== typeof other &&

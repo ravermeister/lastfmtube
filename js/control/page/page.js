@@ -125,9 +125,18 @@ class PageController {
 
     createNeedle(origTrack = null, artist = '', title = '', videoId = '') {
         return {
-            artist: origTrack !== null && artist === '' ? origTrack.ARTIST : artist,
-            title: origTrack !== null && title === '' ? origTrack.TITLE : title,
-            videoId: origTrack !== null && videoId === '' ? origTrack.VIDEO_ID : videoId,
+            artist: 	artist !== null && artist.length > 0 ? artist : 
+            			origTrack !== null ? origTrack.ARTIST : null,
+            					
+            title: 		title !== null && title.length > 0 ? title :
+            			origTrack !== null ? origTrack.TITLE : null,
+            					
+            videoId:	videoId !== null && videoId.length > 0 ? videoId :
+            			origTrack !== null && origTrack.VIDEO_ID !== null 
+            			&& 'undefined' !== typeof origTrack.VIDEO_ID 
+            			&& origTrack.VIDEO_ID.length > 0 
+            			? origTrack.VIDEO_ID : videoId,
+            		
             playlist: origTrack === null ? null : origTrack.PLAYLIST,
             sortby: origTrack === null ? null : origTrack.SORTBY, 
             track: origTrack,
