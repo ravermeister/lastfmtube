@@ -48,6 +48,7 @@ class LibvuePlaylistMenu {
             methods: {            	
             	sortBy: function(event) { 
             		let sortBy = $(event.target).children('option:selected').val();
+            		this.SORTBY.SELECTED = sortBy;
                     $page.loader.loadPage($page.loader.pageInfo.currentPage.value, {
                     	pnum: this.$data.CUR_PAGE,
                     	sortby: sortBy
