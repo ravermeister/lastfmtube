@@ -125,9 +125,17 @@ class PageController {
 
     createNeedle(origTrack = null, artist = '', title = '', videoId = '') {
         return {
-            artist: origTrack !== null && artist === '' ? origTrack.ARTIST : artist,
-            title: origTrack !== null && title === '' ? origTrack.TITLE : title,
-            videoId: origTrack !== null && videoId === '' ? origTrack.VIDEO_ID : videoId,
+            artist: 	artist !== null && artist.length > 0 ? artist : 
+            			origTrack !== null ? origTrack.ARTIST : null,
+            					
+            title: 		title !== null && title.length > 0 ? title :
+            			origTrack !== null ? origTrack.TITLE : null,
+            					
+            videoId:	videoId !== null && videoId.length > 0 ? videoId :
+            			origTrack !== null ? origTrack.VIDEO_ID : null,
+            		
+            playlist: origTrack === null ? null : origTrack.PLAYLIST,
+            sortby: origTrack === null ? null : origTrack.SORTBY, 
             track: origTrack,
             asVar: function (raw = false) {
                 if (
@@ -195,7 +203,7 @@ class PageController {
                 user: lfmuser
             }
         }).done(function (userJson) {
-        	let users = page.myVues.userlist.topuser.content.$data.USER;
+        	let users = $page.myVues.userlist.topuser.content.$data.USER;
         	if(!Array.isArray(users)) return;
         	
             for (let cnt=0; cnt<users.length; cnt++) {
