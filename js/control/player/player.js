@@ -296,9 +296,10 @@ class PlayerController {
         this.currentTrackData.track = track;
         this.currentTrackData.aliasList = [];
         $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
-        if($page.loader.pages.playlist.search === track.PLAYLIST) {
+        if($page.loader.pages.playlist.search === track.PLAYLIST) {        	
         	let searchNeedle = $page.loader.pages.playlist.search.menu.$data.SEARCH_NEEDLE;
-        	if('undefinde' !== typeof searchNeedle
+        	console.log('>>>', $page.loader.pages.playlist.search.menu.$data);
+        	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
         		$page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchNeedle.track;
         	}
