@@ -169,9 +169,6 @@ class PlaylistLoader {
                         PLAYSTATE: '',
                         PLAY_CONTROL: ''
                     };
-                    if ($player.isCurrentTrack(track)) {
-                        track.VIDEO_ID = ytvid.VIDEO_ID;
-                    }
                     tracks[cnt] = track;
                 }
             }
