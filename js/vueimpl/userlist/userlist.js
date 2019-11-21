@@ -83,6 +83,7 @@ class LibvueUser {
             
             computed: {
                 SORTED_USER: function() {
+                	console.log('compute sorted user');
                     return this.USER.sort((a,b) => {
                       let modifier = 1;
                       if(this.currentSortDir === 'desc') modifier = -1;
