@@ -75,7 +75,22 @@ class LibvueUser {
                     PLAYCOUNT: '',
                     PLAY_CONTROL: '',
                     PLAYCOUNT_CHANGE: ''
-                }]
+                }],
+                
+                currentSort:'PLAYCOUNT',
+                currentSortDir:'asc'
+            },
+            
+            computed: {
+                SORTED_USER: function() {
+                    return this.USER.sort((a,b) => {
+                      let modifier = 1;
+                      if(this.currentSortDir === 'desc') modifier = -1;
+                      if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+                      if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                      return 0;
+                    });
+                }
             },
 
             methods: {
@@ -97,6 +112,14 @@ class LibvueUser {
                     	pnum: 1, 
                     	lfmuser: user.NAME
                     });
+                },
+                
+                sort: function(s) {
+                    // if s == current sort, reverse
+                    if(s === this.currentSort) {
+                      this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+                    }
+                    this.currentSort = s;
                 }
             }
         });
