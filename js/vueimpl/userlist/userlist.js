@@ -78,7 +78,7 @@ class LibvueUser {
                 }],
                 
                 currentSort:'USER_PLAYCOUNT',
-                currentSortDir:'asc'
+                currentSortDir:'desc'
             },
             
             computed: {
