@@ -30,7 +30,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<template inline-template="inline-template" v-for="USR in USER">
+					<template inline-template="inline-template" v-for="USR in SORTED_USER">
 					<tr
 						@mouseover="USR.PLAY_CONTROL = USR.PLAY_CONTROL === '' ? 'play' : USR.PLAY_CONTROL"
 						@mouseout="USR.PLAY_CONTROL = USR.PLAY_CONTROL === 'play' ? '' : USR.PLAY_CONTROL"
