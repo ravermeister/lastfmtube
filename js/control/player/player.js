@@ -466,7 +466,6 @@ class PlayerController {
         
         if(isEqual(curTrack, track)) return true;
         else if(checkAlias) {
-        	console.log('check alias tracks:', this.currentTrackData.aliasList);
         	for(let cnt=0;cnt<this.currentTrackData.aliasList.length; cnt++){
         		let aliasTrack = this.currentTrackData.aliasList[cnt];
         		if(isEqual(aliasTrack, track)) return true;
