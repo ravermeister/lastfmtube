@@ -295,16 +295,24 @@ class PlayerController {
         }
         
         if(track === null || 'undefined' === typeof track) return;
-        
-        this.currentTrackData.track = track;
-        this.currentTrackData.aliasList = [];
-        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
+        let aliasTracks = null;
         if($page.loader.pages.playlist.search.value === track.PLAYLIST) {        	
         	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
         	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
-        		$page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchNeedle.track;
+        		let newTrack = searchNeedle.track;
+        		newTrack.VIDEO_ID = track.VIDEO_ID;   		
+        		aliasTracks = [track];
+        		
+        		track = newTrack;
         	}
+        }
+
+        this.currentTrackData.track = track;
+        this.currentTrackData.aliasList = [];
+        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
+        if(aliasTracks !== null) {
+        	Array.prototype.push.apply(this.currentTrackData.aliasList, aliasTracks);
         }
         
         this.setCurrentState('load');
@@ -436,7 +444,8 @@ class PlayerController {
     }
 
 
-    isCurrentTrack(track) {
+    isCurrentTrack(track, checkAlias=true) {
+    	
         let curTrack = this.currentTrackData.track;
         if(curTrack === null || track === null || 'undefined' === typeof track) return false;
         
@@ -444,14 +453,25 @@ class PlayerController {
         let checkVideo = curTrack.PLAYLIST === $page.loader.pages.playlist.search.value;
 
         // isEqual
-        return (
-        	(checkVideo && curTrack.VIDEO_ID === track.VIDEO_ID)
-            || curTrack === track || (
-                (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&
-                curTrack.PLAYLIST === track.PLAYLIST &&
-                curTrack.ARTIST === track.ARTIST &&
-                curTrack.TITLE === track.TITLE
-            ));
+        let isEqual = function(track1, track2){
+        	return ((checkVideo && track1.VIDEO_ID === track2.VIDEO_ID)
+            || track1 === track2 || (
+                (!checkNr || parseInt(track1.NR) === parseInt(track2.NR)) &&
+                track1.PLAYLIST === track2.PLAYLIST &&
+                track1.ARTIST === track2.ARTIST &&
+                track1.TITLE === track2.TITLE
+            ));        	
+        };
+
+        
+        if(isEqual(curTrack, track)) return true;
+        else if(checkAlias) {
+        	for(let cnt=0;cnt<this.currentTrackData.aliasList.length; cnt++){
+        		let aliasTrack = this.currentTrackData.aliasList[cnt];
+        		if(isEqual(aliasTrack, track)) return true;
+        	}
+        }
+        return false;
     }
 
     isPlaying() {
