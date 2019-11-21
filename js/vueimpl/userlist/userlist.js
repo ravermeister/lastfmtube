@@ -85,8 +85,8 @@ class LibvueUser {
                 SORTED_USER: function() {
                     return this.USER.sort((a,b) => {
                       let modifier = 1;
-                      console.log('compute sorted user', 
-                    		  a[this.currentSort] ,'<>', b[this.currentSort]);
+                      console.log('compute sorted user', this.currentSort, 
+                    		  a ,'<>', b);
                       if(this.currentSortDir === 'desc') modifier = -1;
                       if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
                       if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
@@ -117,7 +117,6 @@ class LibvueUser {
                 },
                 
                 sort: function(s) {
-                	console.log('>>>', s, '>', this.currentSort);
                     // if s == current sort, reverse
                     if(s === this.currentSort) {
                       this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
