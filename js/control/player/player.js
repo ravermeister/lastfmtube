@@ -310,8 +310,7 @@ class PlayerController {
         			} else {
         				return searchTnr;
         			}
-        		}
-        		track.NR =
+        		};
         		aliasTrack = searchNeedle.track;
         	}
         }
