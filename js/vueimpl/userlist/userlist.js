@@ -86,7 +86,7 @@ class LibvueUser {
                     return this.USER.sort((a,b) => {
                       let modifier = 1;
                       if(this.currentSortDir === 'desc') modifier = -1;
-                      console.log(this.currentSort,'<>', this.USER_LASTPLAY);
+                      console.log(this.currentSort);
                       
                       switch(this.currentSort) {
                     	  case 'USER_NR':
@@ -98,12 +98,12 @@ class LibvueUser {
                     		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_PLAYCOUNT':
-                    		  if(a.USER_PLAYCOUNT < b.USER_PLAYCOUNT) return -1 * modifier;
-                    		  if(a.USER_PLAYCOUNT > b.USER_PLAYCOUNT) return 1 * modifier;                    		  
+                    		  if(a.PLAYCOUNT < b._PLAYCOUNT) return -1 * modifier;
+                    		  if(a.PLAYCOUNT > b.PLAYCOUNT) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_LASTPLAY':
-                    		  if(a.USER_LASTPLAY < b.USER_LASTPLAY) return -1 * modifier;
-                    		  if(a.USER_LASTPLAY > b.USER_LASTPLAY) return 1 * modifier;                    		  
+                    		  if(a.LASTPLAY < b.LASTPLAY) return -1 * modifier;
+                    		  if(a.LASTPLAY > b.LASTPLAY) return 1 * modifier;                    		  
                     		  break;                    		  
                       }
                       return 0;
