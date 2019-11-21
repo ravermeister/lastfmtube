@@ -300,13 +300,11 @@ class PlayerController {
         	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
         	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
-        		let clonedTrack = PageController.clone(track);
-        		clonedTrack.NR = searchNeedle.track.NR;
-        		clonedTrack.ARTIST = searchNeedle.track.ARTIST;
-        		clonedTrack.TITLE = searchNeedle.track.TITLE;        		
-        		aliasTracks = [searchNeedle.track, track];
+        		let newTrack = searchNeedle.track;
+        		newTrack.VIDEO_ID = track.VIDEO_ID;   		
+        		aliasTracks = [track];
         		
-        		track = clonedTrack;
+        		track = newTrack;
         	}
         }
         console.log('track: ', track);
