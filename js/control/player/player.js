@@ -295,29 +295,26 @@ class PlayerController {
         }
         
         if(track === null || 'undefined' === typeof track) return;
-        let aliasTrack = null;
+        let aliasTracks = null;
         if($page.loader.pages.playlist.search.value === track.PLAYLIST) {        	
         	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
         	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
-//        		track.ARTIST = searchNeedle.track.ARTIST;
-//        		track.TITLE = searchNeedle.track.TITLE;
-        		let tnr = track.NR;
-        		let searchTnr = searchNeedle.track.NR;
-        		track.NR = function(){
-        			if($page.loader.pages.playlist.search === $page.loader.pageInfo.currentPage.value) {
-        				return tnr;
-        			} else {
-        				return searchTnr;
-        			}
-        		};
-        		aliasTrack = searchNeedle.track;
+        		let clonedTrack = PageController.clone(track);
+        		clonedTrack.NR = searchNeedle.track.NR;
+        		clonedTrack.ARTIST = searchNeedle.track.ARTIST;
+        		clonedTrack.TITLE = searchNeedle.track.TITLE;        		
+        		aliasTracks = [searchNeedle.track, track];
+        		
+        		track = clonedTrack;
         	}
         }
         this.currentTrackData.track = track;
         this.currentTrackData.aliasList = [];
         $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
-        if(aliasTrack !== null) this.addCurrentTrackAlias(aliasTrack);
+        if(aliasTracks !== null) {
+        	Array.prototype.push.apply(this.currentTrackData.aliasList, aliasTracks);
+        }
         
         this.setCurrentState('load');
     }
