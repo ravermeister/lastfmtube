@@ -445,6 +445,7 @@ class PlayerController {
 
 
     isCurrentTrack(track) {
+    	
         let curTrack = this.currentTrackData.track;
         if(curTrack === null || track === null || 'undefined' === typeof track) return false;
         
@@ -452,14 +453,23 @@ class PlayerController {
         let checkVideo = curTrack.PLAYLIST === $page.loader.pages.playlist.search.value;
 
         // isEqual
-        return (
-        	(checkVideo && curTrack.VIDEO_ID === track.VIDEO_ID)
-            || curTrack === track || (
-                (!checkNr || parseInt(curTrack.NR) === parseInt(track.NR)) &&
-                curTrack.PLAYLIST === track.PLAYLIST &&
-                curTrack.ARTIST === track.ARTIST &&
-                curTrack.TITLE === track.TITLE
-            ));
+        let isEqual = function(track1, track2){
+        	return ((checkVideo && track1.VIDEO_ID === track2.VIDEO_ID)
+            || track1 === track2 || (
+                (!checkNr || parseInt(track1.NR) === parseInt(track2.NR)) &&
+                track1.PLAYLIST === track2.PLAYLIST &&
+                track1.ARTIST === track2.ARTIST &&
+                track1.TITLE === track2.TITLE
+            ));        	
+        };
+
+        
+        if(isEqual(curTrack, track)) return true;
+        for(let cnt=0;cnt<this.currentTrackData.aliasList.length; cnt++){
+        	let aliasTrack = this.currentTrackData.aliasList[cnt];
+            if(isEqual(aliasTrack, track)) return true;
+        }
+        return false;
     }
 
     isPlaying() {

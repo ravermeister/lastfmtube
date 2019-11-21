@@ -31,5 +31,5 @@ class TrackData {
 
     validVideo() {
         return this.videoId !== null && this.videoId.length > 0;
-    }    
+    } 
 }
