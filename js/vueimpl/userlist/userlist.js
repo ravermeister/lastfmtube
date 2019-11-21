@@ -77,7 +77,7 @@ class LibvueUser {
                     PLAYCOUNT_CHANGE: ''
                 }],
                 
-                currentSort:'PLAYCOUNT',
+                currentSort:'USER_PLAYCOUNT',
                 currentSortDir:'asc'
             },
             
@@ -98,7 +98,7 @@ class LibvueUser {
                     		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_PLAYCOUNT':
-                    		  if(a.PLAYCOUNT < b._PLAYCOUNT) return -1 * modifier;
+                    		  if(a.PLAYCOUNT < b.PLAYCOUNT) return -1 * modifier;
                     		  if(a.PLAYCOUNT > b.PLAYCOUNT) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_LASTPLAY':
