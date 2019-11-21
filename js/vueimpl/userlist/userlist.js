@@ -103,8 +103,8 @@ class LibvueUser {
                     		  console.log(a.PLAYCOUNT ,'<>', b.PLAYCOUNT)
                     		  let aCnt = parseInt(a.PLAYCOUNT);
                     		  let bCnt = parseInt(b.PLAYCOUNT);
-                    		  if(aCnt < bcnt) return -1 * modifier;
-                    		  if(aCnt > bcnt) return 1 * modifier;                    		  
+                    		  if(aCnt < bCnt) return -1 * modifier;
+                    		  if(aCnt > bCnt) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_LASTPLAY':
                     		  if(a.LASTPLAY < b.LASTPLAY) return -1 * modifier;
