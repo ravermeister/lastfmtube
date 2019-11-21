@@ -298,16 +298,19 @@ class PlayerController {
         
         this.currentTrackData.track = track;
         this.currentTrackData.aliasList = [];
-//        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
-//        if($page.loader.pages.playlist.search.value === track.PLAYLIST) {        	
-//        	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
-//        	if('undefined' !== typeof searchNeedle
-//        		&& searchNeedle.track !== null) {
-//        		$page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchNeedle.track;
-//        	}
-//        }
-        if($page.loader.pages.playlist.search.value !== track.PLAYLIST) {        	
-        	$page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
+        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
+        if($page.loader.pages.playlist.search.value === track.PLAYLIST) {        	
+        	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
+        	if('undefined' !== typeof searchNeedle
+        		&& searchNeedle.track !== null) {
+        		$page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchNeedle.track;
+        		if(searchNeedle.track.TITLE === track.TITLE 
+        			&& searchNeedle.track.ARTIST === track.ARTIST) {
+        			this.addCurrentTrackAlias(
+        					$page.myVues.video.youtube.header.$data.CURRENT_TRACK
+        			);
+        		}
+        	}
         }
         
         this.setCurrentState('load');
