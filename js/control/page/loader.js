@@ -272,15 +272,20 @@ class PageLoader {
 							? $player.currentTrackData.track.PLAYLIST : null;
 				
 		if(this.pages.isPlaylist(page, true)) {
-			//load page of current song if page is current song playlist		
-			console.log('curtrack', curTrackPlaylist, ' >>', page.value);
-			if(page.value === curTrackPlaylist) {
-		    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  
-				let curTnr = $player.currentTrackData.track.NR;
-				let pnum = parseInt(curTnr / tracksPerPage);
-				if(curTnr % tracksPerPage > 0) pnum++;
-				pageData.pnum = pnum;
+			if(pageData === null || pageData.pnum === null
+				|| 'undefined' === typeof pageData.pnum) {
+				
+				// load page of current song if page is current song playlist
+				console.log('curtrack', curTrackPlaylist, ' >>', page.value);
+				if(page.value === curTrackPlaylist) {
+					let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  
+					let curTnr = $player.currentTrackData.track.NR;
+					let pnum = parseInt(curTnr / tracksPerPage);
+					if(curTnr % tracksPerPage > 0) pnum++;
+					pageData.pnum = pnum;
+				}
 			}
+			
 			$playlist.loader.load(page, pageData, finished);
 			return;
 		}
