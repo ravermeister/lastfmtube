@@ -115,6 +115,7 @@ class LibvueUser {
                 },
                 
                 sort: function(s) {
+                	console.log('>>>', s, '>', this.currentSort);
                     // if s == current sort, reverse
                     if(s === this.currentSort) {
                       this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
