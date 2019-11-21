@@ -189,9 +189,9 @@ class Playlist extends DefaultJson {
           } else {
                $this->funcs->sortTracksByPlayCount($topsongs);
           }
-
-          $maxpages = ((int) (sizeof($topsongs) / $limit));
-          if (($maxpages % $limit) > 0 || $maxpages <= 0) $maxpages ++;
+          $songcnt=sizeof($topsongs);
+          $maxpages = ((int) ($songcnt / $limit));
+          if (($songcnt % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
           $page = array(
 
