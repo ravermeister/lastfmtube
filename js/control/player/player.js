@@ -300,8 +300,10 @@ class PlayerController {
         	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
         	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
-        		aliasTrack = track;
-        		track = searchNeedle.track;
+        		track.ARTIST = searchNeedle.ARTIST;
+        		track.TITLE = searchNeedle.TITLE;
+        		track.NR = searchNeedle.NR;
+        		aliasTrack = searchNeedle.track;
         	}
         }
         this.currentTrackData.track = track;
