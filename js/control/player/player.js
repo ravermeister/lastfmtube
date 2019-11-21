@@ -295,16 +295,20 @@ class PlayerController {
         }
         
         if(track === null || 'undefined' === typeof track) return;
+        let aliasTrack = null;
         if($page.loader.pages.playlist.search.value === track.PLAYLIST) {        	
         	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
         	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
+        		aliasTrack = track;
         		track = searchNeedle.track;
         	}
         }
         this.currentTrackData.track = track;
         this.currentTrackData.aliasList = [];
         $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
+        if(aliasTrack !== null) this.addCurrentTrackAlias(aliasTrack);
+        
         this.setCurrentState('load');
     }
 
