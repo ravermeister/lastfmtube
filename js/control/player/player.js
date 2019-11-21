@@ -295,24 +295,16 @@ class PlayerController {
         }
         
         if(track === null || 'undefined' === typeof track) return;
-        
-        this.currentTrackData.track = track;
-        this.currentTrackData.aliasList = [];
-        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         if($page.loader.pages.playlist.search.value === track.PLAYLIST) {        	
         	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
         	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
-        		$page.myVues.video.youtube.header.$data.CURRENT_TRACK = searchNeedle.track;
-        		if(searchNeedle.track.TITLE === track.TITLE 
-        			&& searchNeedle.track.ARTIST === track.ARTIST) {
-        			this.addCurrentTrackAlias(
-        					$page.myVues.video.youtube.header.$data.CURRENT_TRACK
-        			);
-        		}
+        		track = searchNeedle.track;
         	}
         }
-        
+        this.currentTrackData.track = track;
+        this.currentTrackData.aliasList = [];
+        $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
         this.setCurrentState('load');
     }
 
