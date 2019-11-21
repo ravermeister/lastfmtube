@@ -266,7 +266,21 @@ class PageLoader {
 			}
 		};  
 		
+		
+		let curTrackPlaylist = $player.currentTrackData !== null
+							&& $player.currentTrackData.track !== null
+							? $player.currentTrackData.track.PLAYLIST : null;
+				
 		if(this.pages.isPlaylist(page, true)) {
+			//load page of current song if page is current song playlist		
+			console.log('curtrack', curTrackPlaylist, ' >>', page.value);
+			if(page.value === curTrackPlaylist) {
+		    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  
+				let curTnr = $player.currentTrackData.track.NR;
+				let pnum = parseInt(curTnr / tracksPerPage);
+				if(curTnr % tracksPerPage > 0) pnum++;
+				pageData.pnum = pnum;
+			}
 			$playlist.loader.load(page, pageData, finished);
 			return;
 		}
@@ -279,19 +293,6 @@ class PageLoader {
 				pageData.lfmuser : null;
 		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
 				pageData.sortby : null;
-		
-		let curTrackPlaylist = $player.currentTrackData !== null
-							&& $player.currentTrackData.track !== null
-							? $player.currentTrackData.track.PLAYLIST : null;
-		
-		//load page of current song if page is current song playlist					
-		if(page.value === curTrackPlaylist) {
-	    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  
-			let curTnr = $player.currentTrackData.track.NR;
-			let pnum = parseInt(curTnr / tracksPerPage);
-			if(curTnr % tracksPerPage > 0) pnum++;
-			pageData.pnum = pnum;
-		}
 		
 		switch(page.value) {
 			// Top Last.fm User
