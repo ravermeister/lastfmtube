@@ -282,6 +282,7 @@ class PageLoader {
 					let curTnr = $player.currentTrackData.track.NR;
 					let pnum = parseInt(curTnr / tracksPerPage);
 					if(curTnr % tracksPerPage > 0) pnum++;
+					if(pageData === null) pageData = {};
 					pageData.pnum = pnum;
 				}
 			}
