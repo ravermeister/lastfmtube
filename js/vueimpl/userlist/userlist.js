@@ -90,8 +90,10 @@ class LibvueUser {
                       
                       switch(this.currentSort) {
                     	  case 'USER_NR':
-                    		  if(a.NR < b.NR) return -1 * modifier;
-                    		  if(a.NR > b.NR) return 1 * modifier;
+                    		  let aNr = parseInt(a.NR);
+                    		  let bNr = parseInt(b.NR);
+                    		  if(aNr < bNr) return -1 * modifier;
+                    		  if(aNr > bNr) return 1 * modifier;  
                     		  break;
                     	  case 'USER_NAME':
                     		  if(a.NAME < b.NAME) return -1 * modifier;
@@ -99,8 +101,10 @@ class LibvueUser {
                     		  break;
                     	  case 'USER_PLAYCOUNT':
                     		  console.log(a.PLAYCOUNT ,'<>', b.PLAYCOUNT)
-                    		  if(a.PLAYCOUNT < b.PLAYCOUNT) return -1 * modifier;
-                    		  if(a.PLAYCOUNT > b.PLAYCOUNT) return 1 * modifier;                    		  
+                    		  let aCnt = parseInt(a.PLAYCOUNT);
+                    		  let bCnt = parseInt(b.PLAYCOUNT);
+                    		  if(aCnt < bcnt) return -1 * modifier;
+                    		  if(aCnt > bcnt) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_LASTPLAY':
                     		  if(a.LASTPLAY < b.LASTPLAY) return -1 * modifier;
