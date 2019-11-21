@@ -82,44 +82,28 @@ class LibvueUser {
             },
             
             computed: {
-                SORTED_USER: function() {
+                SORTED_USER: function() {	
                     return this.USER.sort((a,b) => {
                       let modifier = 1;
-                      let curSortChar = '▲'
-                      if(this.currentSortDir === 'desc') {
-                    	  curSortChar = '▼';
-                    	  modifier = -1;
-                      }
-                      
-                      let resetText = function(){                    	  
-                    	  this.USER_NR = this.USER_NR.replace('▲', '').replace('▼', '');
-                    	  this.USER_NAME = this.USER_NAME.replace('▲', '').replace('▼', '');
-                    	  this.USER_PLAYCOUNT = this.USER_PLAYCOUNT.replace('▲', '').replace('▼', '');
-                    	  this.USER_LASTPLAY = this.USER_LASTPLAY.replace('▲', '').replace('▼', '');
-                      }
-                                            
+                      if(this.currentSortDir === 'desc') modifier = -1;                                                                 
                       switch(this.currentSort) {
                     	  case 'USER_NR':
-                    		  this.USER_NR += curSortChar;
                     		  let aNr = parseInt(a.NR);
                     		  let bNr = parseInt(b.NR);
                     		  if(aNr < bNr) return -1 * modifier;
                     		  if(aNr > bNr) return 1 * modifier;  
                     		  break;
                     	  case 'USER_NAME':
-                    		  this.USER_NAME += curSortChar;
                     		  if(a.NAME < b.NAME) return -1 * modifier;
                     		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_PLAYCOUNT':
-                    		  this.USER_PLAYCOUNT += curSortChar;
                     		  let aCnt = parseInt(a.PLAYCOUNT);
                     		  let bCnt = parseInt(b.PLAYCOUNT);
                     		  if(aCnt < bCnt) return -1 * modifier;
                     		  if(aCnt > bCnt) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_LASTPLAY':
-                    		  this.USER_LASTPLAY += curSortChar;
                     		  if(a.LASTPLAY < b.LASTPLAY) return -1 * modifier;
                     		  if(a.LASTPLAY > b.LASTPLAY) return 1 * modifier;                    		  
                     		  break;                    		  
@@ -150,13 +134,33 @@ class LibvueUser {
                     });
                 },
                 
-                sort: function(s) {
-                    // if s == current sort, reverse
-                    if(s === this.currentSort) {
-                      this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
-                    }
-                    this.currentSort = s;
-                }
+				sort: function(sort) {
+				    // if s == current sort, reverse
+					if(sort === this.currentSort) {
+						this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';						
+					}
+				    this.currentSort = sort;
+				    let sortChar = this.currentSortDir==='asc'?'▲':'▼';
+				    this.USER_NR = this.USER_NR.replace('▲', '').replace('▼', '');
+				    this.USER_NAME = this.USER_NAME.replace('▲', '').replace('▼', '');
+				    this.USER_PLAYCOUNT = this.USER_PLAYCOUNT.replace('▲', '').replace('▼', '');
+				    this.USER_LASTPLAY = this.USER_LASTPLAY.replace('▲', '').replace('▼', '');
+
+                      switch(this.currentSort) {
+                    	  case 'USER_NR':
+                    		  this.USER_NR += sortChar;
+                    		  break;
+                    	  case 'USER_NAME':
+                    		  this.USER_NAME += sortChar;                  		  
+                    		  break;
+                    	  case 'USER_PLAYCOUNT':
+                    		  this.USER_PLAYCOUNT += sortChar;                		  
+                    		  break;
+                    	  case 'USER_LASTPLAY':
+                    		  this.USER_LASTPLAY += sortChar;                  		  
+                    		  break;                    		  
+                      }
+				}
             }
         });
     }
