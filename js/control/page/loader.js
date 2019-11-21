@@ -280,6 +280,19 @@ class PageLoader {
 		let sortBy = pageData !== null && ('undefined' !== typeof pageData.sortby) ?
 				pageData.sortby : null;
 		
+		let curTrackPlaylist = $player.currentTrackData !== null
+							&& $player.currentTrackData.track !== null
+							? $player.currentTrackData.track.PLAYLIST : null;
+		
+		//load page of current song if page is current song playlist					
+		if(page.value === curTrackPlaylist) {
+	    	let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  
+			let curTnr = $player.currentTrackData.track.NR;
+			let pnum = parseInt(curTnr / tracksPerPage);
+			if(curTnr % tracksPerPage > 0) pnum++;
+			pageData.pnum = pnum;
+		}
+		
 		switch(page.value) {
 			// Top Last.fm User
 			case this.pages.userlist.topuser.value:
