@@ -300,9 +300,18 @@ class PlayerController {
         	let searchNeedle = $page.myVues.playlist.search.menu.$data.SEARCH_NEEDLE;
         	if('undefined' !== typeof searchNeedle
         		&& searchNeedle.track !== null) {
-        		track.ARTIST = searchNeedle.track.ARTIST;
-        		track.TITLE = searchNeedle.track.TITLE;
-        		track.NR = searchNeedle.track.NR;
+//        		track.ARTIST = searchNeedle.track.ARTIST;
+//        		track.TITLE = searchNeedle.track.TITLE;
+        		let tnr = track.NR;
+        		let searchTnr = searchNeedle.track.NR;
+        		track.NR = function(){
+        			if($page.loader.pages.playlist.search === $page.loader.pageInfo.currentPage.value) {
+        				return tnr;
+        			} else {
+        				return searchTnr;
+        			}
+        		}
+        		track.NR =
         		aliasTrack = searchNeedle.track;
         	}
         }
