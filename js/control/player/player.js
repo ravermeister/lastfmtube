@@ -309,6 +309,7 @@ class PlayerController {
         		track = clonedTrack;
         	}
         }
+        console.log('track: ', track);
         this.currentTrackData.track = track;
         this.currentTrackData.aliasList = [];
         $page.myVues.video.youtube.header.$data.CURRENT_TRACK = track;
