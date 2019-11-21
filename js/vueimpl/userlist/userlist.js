@@ -86,7 +86,6 @@ class LibvueUser {
                     return this.USER.sort((a,b) => {
                       let modifier = 1;
                       if(this.currentSortDir === 'desc') modifier = -1;
-                      console.log(this.currentSort);
                       
                       switch(this.currentSort) {
                     	  case 'USER_NR':
@@ -100,7 +99,6 @@ class LibvueUser {
                     		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_PLAYCOUNT':
-                    		  console.log(a.PLAYCOUNT ,'<>', b.PLAYCOUNT)
                     		  let aCnt = parseInt(a.PLAYCOUNT);
                     		  let bCnt = parseInt(b.PLAYCOUNT);
                     		  if(aCnt < bCnt) return -1 * modifier;
