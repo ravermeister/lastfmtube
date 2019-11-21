@@ -85,8 +85,19 @@ class LibvueUser {
                 SORTED_USER: function() {
                     return this.USER.sort((a,b) => {
                       let modifier = 1;
-                      if(this.currentSortDir === 'desc') modifier = -1;
+                      let curSortChar = '▲'
+                      if(this.currentSortDir === 'desc') {
+                    	  curSortChar = '▼';
+                    	  modifier = -1;
+                      }
                       
+                      let resetText = function(){                    	  
+                    	  USER_NR = USER_NR.replace('▲', '').replace('▼', '');
+                    	  USER_NAME = USER_NAME.replace('▲', '').replace('▼', '');
+                    	  USER_PLAYCOUNT = USER_PLAYCOUNT.replace('▲', '').replace('▼', '');
+                    	  USER_LASTPLAY = USER_LASTPLAY.replace('▲', '').replace('▼', '');
+                      }
+                                            
                       switch(this.currentSort) {
                     	  case 'USER_NR':
                     		  let aNr = parseInt(a.NR);
