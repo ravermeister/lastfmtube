@@ -98,6 +98,7 @@ class LibvueUser {
                     		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_PLAYCOUNT':
+                    		  console.log(a.PLAYCOUNT ,'<>', b.PLAYCOUNT)
                     		  if(a.PLAYCOUNT < b.PLAYCOUNT) return -1 * modifier;
                     		  if(a.PLAYCOUNT > b.PLAYCOUNT) return 1 * modifier;                    		  
                     		  break;
