@@ -92,30 +92,34 @@ class LibvueUser {
                       }
                       
                       let resetText = function(){                    	  
-                    	  USER_NR = USER_NR.replace('▲', '').replace('▼', '');
-                    	  USER_NAME = USER_NAME.replace('▲', '').replace('▼', '');
-                    	  USER_PLAYCOUNT = USER_PLAYCOUNT.replace('▲', '').replace('▼', '');
-                    	  USER_LASTPLAY = USER_LASTPLAY.replace('▲', '').replace('▼', '');
+                    	  this.USER_NR = this.USER_NR.replace('▲', '').replace('▼', '');
+                    	  this.USER_NAME = this.USER_NAME.replace('▲', '').replace('▼', '');
+                    	  this.USER_PLAYCOUNT = this.USER_PLAYCOUNT.replace('▲', '').replace('▼', '');
+                    	  this.USER_LASTPLAY = this.USER_LASTPLAY.replace('▲', '').replace('▼', '');
                       }
                                             
                       switch(this.currentSort) {
                     	  case 'USER_NR':
+                    		  this.USER_NR += curSortChar;
                     		  let aNr = parseInt(a.NR);
                     		  let bNr = parseInt(b.NR);
                     		  if(aNr < bNr) return -1 * modifier;
                     		  if(aNr > bNr) return 1 * modifier;  
                     		  break;
                     	  case 'USER_NAME':
+                    		  this.USER_NAME += curSortChar;
                     		  if(a.NAME < b.NAME) return -1 * modifier;
                     		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_PLAYCOUNT':
+                    		  this.USER_PLAYCOUNT += curSortChar;
                     		  let aCnt = parseInt(a.PLAYCOUNT);
                     		  let bCnt = parseInt(b.PLAYCOUNT);
                     		  if(aCnt < bCnt) return -1 * modifier;
                     		  if(aCnt > bCnt) return 1 * modifier;                    		  
                     		  break;
                     	  case 'USER_LASTPLAY':
+                    		  this.USER_LASTPLAY += curSortChar;
                     		  if(a.LASTPLAY < b.LASTPLAY) return -1 * modifier;
                     		  if(a.LASTPLAY > b.LASTPLAY) return 1 * modifier;                    		  
                     		  break;                    		  
