@@ -85,11 +85,25 @@ class LibvueUser {
                 SORTED_USER: function() {
                     return this.USER.sort((a,b) => {
                       let modifier = 1;
-                      console.log('compute sorted user', this.currentSort, 
-                    		  a ,'<>', b);
                       if(this.currentSortDir === 'desc') modifier = -1;
-                      if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-                      if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+                      switch(this.currentSort) {
+                    	  case USER_NR:
+                    		  if(a.NR < b.NR) return -1 * modifier;
+                    		  if(a.NR > b.NR) return 1 * modifier;
+                    		  break;
+                    	  case USER_NAME:
+                    		  if(a.NAME < b.NR) return -1 * modifier;
+                    		  if(a.NAME > b.NR) return 1 * modifier;                    		  
+                    		  break;
+                    	  case USER_PLAYCOUNT:
+                    		  if(a.USER_PLAYCOUNT < b.USER_PLAYCOUNT) return -1 * modifier;
+                    		  if(a.USER_PLAYCOUNT > b.USER_PLAYCOUNT) return 1 * modifier;                    		  
+                    		  break;
+                    	  case USER_LASTPLAY:
+                    		  if(a.USER_LASTPLAY < b.USER_LASTPLAY) return -1 * modifier;
+                    		  if(a.USER_LASTPLAY > b.USER_LASTPLAY) return 1 * modifier;                    		  
+                    		  break;                    		  
+                      }
                       return 0;
                     });
                 }
