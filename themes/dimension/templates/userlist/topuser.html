@@ -1,4 +1,5 @@
-<article id="userlist-topuser-container" name="userlist-topuser-container">
+<article id="userlist-topuser-container"
+	name="userlist-topuser-container">
 
 	<div class="page-header-nav">
 		<template v-for="MENU in MENUS">
@@ -21,15 +22,15 @@
 		<div class="table-wrapper">
 			<table>
 				<thead>
-					<tr>
-						<th>{{USER_NR}}</th>
-						<th>{{USER_NAME}}</th>
-						<th>{{USER_LASTPLAY}}</th>
-						<th>{{USER_PLAYCOUNT}}</th>
+					<tr style="cursor: pointer;">
+						<th @click="sort('USER_NR')">{{USER_NR}}</th>
+						<th @click="sort('USER_NAME')">{{USER_NAME}}</th>
+						<th @click="sort('USER_LASTPLAY')">{{USER_LASTPLAY}}</th>
+						<th @click="sort('USER_PLAYCOUNT')">{{USER_PLAYCOUNT}}</th>
 					</tr>
 				</thead>
 				<tbody>
-					<template inline-template="inline-template" v-for="USR in USER">
+					<template inline-template="inline-template" v-for="USR in SORTED_USER">
 					<tr
 						@mouseover="USR.PLAY_CONTROL = USR.PLAY_CONTROL === '' ? 'play' : USR.PLAY_CONTROL"
 						@mouseout="USR.PLAY_CONTROL = USR.PLAY_CONTROL === 'play' ? '' : USR.PLAY_CONTROL"
