@@ -91,6 +91,11 @@ static createVue(elementId){
                     if ('undefined' !== typeof json.LIST_HEADER) {
                         this.$applyData(json.LIST_HEADER);
                     }
+                    
+                    if ('undefined' !== typeof json.content
+                    	&& 'undefined' !== typeof json.content.LIST_HEADER) {
+                        this.$applyData(json.content.LIST_HEADER);
+                    }                    
 
                     if ('undefined' !== typeof json.TRACKS) {
                         let newTracks = [];
