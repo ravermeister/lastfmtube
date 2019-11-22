@@ -117,6 +117,7 @@ class LibvueUser {
                 update: function (json) {
                     if (typeof json.LIST_HEADER !== 'undefined') {
                         this.$applyData(json.LIST_HEADER);
+                        this.setSortChar();
                     }
                     if (typeof json.USER !== 'undefined') {
                         this.$applyData(json);
@@ -134,12 +135,7 @@ class LibvueUser {
                     });
                 },
                 
-				sort: function(sort) {
-				    // if s == current sort, reverse
-					if(sort === this.currentSort) {
-						this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';						
-					}
-				    this.currentSort = sort;
+                setSortChar: function() {
 				    let sortChar = this.currentSortDir==='asc'?' ▲':' ▼';
 				    this.USER_NR = this.USER_NR.replace(' ▲', '').replace(' ▼', '');
 				    this.USER_NAME = this.USER_NAME.replace(' ▲', '').replace(' ▼', '');
@@ -160,6 +156,15 @@ class LibvueUser {
                     		  this.USER_LASTPLAY += sortChar;                  		  
                     		  break;                    		  
                       }
+                },
+                
+				sort: function(sort) {
+				    // if s == current sort, reverse
+					if(sort === this.currentSort) {
+						this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';						
+					}
+				    this.currentSort = sort;
+				    this.setSortChar();
 				}
             }
         });
