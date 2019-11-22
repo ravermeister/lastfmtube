@@ -96,11 +96,14 @@ class LibvuePlayerHeader {
 	                    let pageData = {};
 	                	
 	                	/**
+	                	 * TODO: duplicate code: this is handled in control/page/loader.js#loadPage() too.
+	                	 * we should merge this somehow. Maybe we can wrap it in a method into loader..
+	                	 *  
 						 * if playlist is topsongs, fetch sortBy option from
 						 * current_track and decrease the position nr by
 						 * playcount change if it was tracked
 						 */
-	                	if ('playlist.topsongs' === this.CURRENT_TRACK.PLAYLIST) {
+	                	if ($page.loader.pages.playlist.topsongs.value === this.CURRENT_TRACK.PLAYLIST) {
 		                	let sortBy = this.CURRENT_TRACK.SORTBY;
 		                	if(sortBy === null || 'undefined' === typeof sortBy 
 		                		&& $page.loader.pageInfo.lastPlaylist.value === page) {	                		
