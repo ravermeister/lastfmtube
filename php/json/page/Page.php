@@ -69,10 +69,12 @@ class Page extends DefaultJson {
           return array(
                'TITLE' => $locale['site']['title'],
                'TEXT' => $locale['site']['header'],
-               'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
-               'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
-               'PLAYLIST_LOAD' => $locale['playlist']['control']['load'],
-               'MENU' => $this->getBaseMenu()
+               'MENU' => $this->getBaseMenu(),
+               'PAGE_NAVIGATION' => array(
+                    'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
+                    'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
+                    'PLAYLIST_LOAD' => $locale['playlist']['control']['load']
+               )
           );
           // header content
      }
