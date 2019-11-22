@@ -807,6 +807,7 @@ ul.actions.fit.stacked {
 	}
 }
 
+
 ul.actions:not (.fixed ) li {
 	-moz-flex-grow: 1;
 	-webkit-flex-grow: 1;
