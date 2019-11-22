@@ -119,6 +119,11 @@ class LibvueUser {
                         this.$applyData(json.LIST_HEADER);
                         this.setSortChar();
                     }
+                    if ('undefined' !== typeof json.content
+                        	&& 'undefined' !== typeof json.content.LIST_HEADER) {
+                            this.$applyData(json.content.LIST_HEADER);
+                            this.setSortChar();
+                    }    
                     if (typeof json.USER !== 'undefined') {
                         this.$applyData(json);
                     }
