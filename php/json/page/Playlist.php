@@ -189,7 +189,7 @@ class Playlist extends DefaultJson {
           } else {
                $this->funcs->sortTracksByPlayCount($topsongs);
           }
-          $songcnt=sizeof($topsongs);
+          $songcnt = sizeof($topsongs);
           $maxpages = ((int) ($songcnt / $limit));
           if (($songcnt % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
@@ -203,6 +203,8 @@ class Playlist extends DefaultJson {
                ),
 
                'LIST_MENU' => array(
+                    'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
+                    'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
                     'PLAYLIST' => 'playlist.topsongs',
