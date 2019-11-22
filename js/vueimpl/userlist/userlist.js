@@ -137,10 +137,10 @@ class LibvueUser {
                 
                 setSortChar: function() {
 				    let sortChar = this.currentSortDir==='asc'?' ▲':' ▼';
-				    this.USER_NR = this.USER_NR.replace(' ▲', '').replace(' ▼', '');
-				    this.USER_NAME = this.USER_NAME.replace(' ▲', '').replace(' ▼', '');
-				    this.USER_PLAYCOUNT = this.USER_PLAYCOUNT.replace(' ▲', '').replace( '▼', '');
-				    this.USER_LASTPLAY = this.USER_LASTPLAY.replace(' ▲', '').replace(' ▼', '');
+				    this.USER_NR = this.USER_NR.replace(' ▲', '  ').replace(' ▼', '  ');
+				    this.USER_NAME = this.USER_NAME.replace(' ▲', '  ').replace(' ▼', '  ');
+				    this.USER_PLAYCOUNT = this.USER_PLAYCOUNT.replace(' ▲', '  ').replace( '▼', '  ');
+				    this.USER_LASTPLAY = this.USER_LASTPLAY.replace(' ▲', '  ').replace(' ▼', '  ');
 
                       switch(this.currentSort) {
                     	  case 'USER_NR':
