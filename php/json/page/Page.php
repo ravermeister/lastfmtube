@@ -74,6 +74,18 @@ class Page extends DefaultJson {
                     'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
                     'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
                     'PLAYLIST_LOAD' => $locale['playlist']['control']['load']
+               ),
+               'LIST_HEADER' => array(
+                    'TRACK_NR' => $locale['playlist']['header']['nr'],
+                    'TRACK_ARTIST' => $locale['playlist']['header']['artist'],
+                    'TRACK_TITLE' => $locale['playlist']['header']['title'],
+                    'TRACK_LASTPLAY' => $locale['playlist']['header']['lastplay'],
+                    'TRACK_PLAYCOUNT' => $locale['playlist']['header']['playcount'],
+
+                    'USER_NR' => $locale['playlist']['header']['nr'],
+                    'USER_NAME' => $locale['playlist']['header']['name'],
+                    'USER_LASTPLAY' => $locale['playlist']['header']['lastplay'],
+                    'USER_PLAYCOUNT' => $locale['playlist']['header']['playcount']
                )
           );
           // header content

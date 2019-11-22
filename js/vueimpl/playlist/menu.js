@@ -101,9 +101,9 @@ class LibvuePlaylistMenu {
                     if ('undefined' !== typeof json.LIST_MENU) {
                         this.$applyData(json.LIST_MENU);
                         this.SEARCH_VIDEO_ID = this.SAVED_VIDEO_ID;
-                    } else if('undefined' !== typeof json.content &&
-                    		'undefined' !== typeof json.content.PAGE_NAVIGATION) {
-                    	this.$applyData(json.content.PAGE_NAVIGATION);
+                    } 
+                    if('undefined' !== typeof json.content) {
+                		this.$applyData(json.content.PAGE_NAVIGATION);                		
                     }
                     this.$applyData(json);
                 },
