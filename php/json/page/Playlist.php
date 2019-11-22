@@ -95,21 +95,11 @@ class Playlist extends DefaultJson {
                'LIST_MENU' => array(
                     'LASTFM_USER_NAME_LABEL' => $locale['playlist']['control']['user'],
                     'LASTFM_USER_NAME' => $lfmapi->getUser(),
-                    'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
-                    'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
-                    'PLAYLIST_LOAD' => $locale['playlist']['control']['load'],
-                    'PLAYLIST' => 'playlist.lastfm'
+                    'PLAYLIST' => 'playlist.lastfm'                    
                ),
                // lastfm navigation (pages/username)
-
-               'LIST_HEADER' => array(
-                    'TRACK_NR' => $locale['playlist']['header']['nr'],
-                    'TRACK_ARTIST' => $locale['playlist']['header']['artist'],
-                    'TRACK_TITLE' => $locale['playlist']['header']['title'],
-                    'TRACK_LASTPLAY' => $locale['playlist']['header']['lastplay']
-               )
           );
 
           $page['TRACKS'] = array();
@@ -189,7 +179,7 @@ class Playlist extends DefaultJson {
           } else {
                $this->funcs->sortTracksByPlayCount($topsongs);
           }
-          $songcnt=sizeof($topsongs);
+          $songcnt = sizeof($topsongs);
           $maxpages = ((int) ($songcnt / $limit));
           if (($songcnt % $limit) > 0 || $maxpages <= 0) $maxpages ++;
 
@@ -216,14 +206,6 @@ class Playlist extends DefaultJson {
                     )
                ),
                // lastfm navigation (pages/username)
-
-               'LIST_HEADER' => array(
-                    'TRACK_NR' => $locale['playlist']['header']['nr'],
-                    'TRACK_ARTIST' => $locale['playlist']['header']['artist'],
-                    'TRACK_TITLE' => $locale['playlist']['header']['title'],
-                    'TRACK_LASTPLAY' => $locale['playlist']['header']['lastplay'],
-                    'TRACK_PLAYCOUNT' => $locale['playlist']['header']['playcount']
-               )
           );
 
           $page['TRACKS'] = array();
@@ -277,13 +259,6 @@ class Playlist extends DefaultJson {
                     'CUR_PAGE' => $pageNum
                ),
                // lastfm navigation (pages/username)
-
-               'LIST_HEADER' => array(
-                    'USER_NR' => $locale['playlist']['header']['nr'],
-                    'USER_NAME' => $locale['playlist']['header']['name'],
-                    'USER_LASTPLAY' => $locale['playlist']['header']['lastplay'],
-                    'USER_PLAYCOUNT' => $locale['playlist']['header']['playcount']
-               )
           );
 
           $page['USER'] = array();

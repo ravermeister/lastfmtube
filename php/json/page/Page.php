@@ -65,10 +65,28 @@ class Page extends DefaultJson {
      }
 
      private function getBase() {
+          $locale = $this->funcs->getLocale();
           return array(
-               'TITLE' => $this->funcs->getLocale()['site']['title'],
-               'TEXT' => $this->funcs->getLocale()['site']['header'],
-               'MENU' => $this->getBaseMenu()
+               'TITLE' => $locale['site']['title'],
+               'TEXT' => $locale['site']['header'],
+               'MENU' => $this->getBaseMenu(),
+               'PAGE_NAVIGATION' => array(
+                    'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
+                    'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
+                    'PLAYLIST_LOAD' => $locale['playlist']['control']['load']
+               ),
+               'LIST_HEADER' => array(
+                    'TRACK_NR' => $locale['playlist']['header']['nr'],
+                    'TRACK_ARTIST' => $locale['playlist']['header']['artist'],
+                    'TRACK_TITLE' => $locale['playlist']['header']['title'],
+                    'TRACK_LASTPLAY' => $locale['playlist']['header']['lastplay'],
+                    'TRACK_PLAYCOUNT' => $locale['playlist']['header']['playcount'],
+
+                    'USER_NR' => $locale['playlist']['header']['nr'],
+                    'USER_NAME' => $locale['playlist']['header']['name'],
+                    'USER_LASTPLAY' => $locale['playlist']['header']['lastplay'],
+                    'USER_PLAYCOUNT' => $locale['playlist']['header']['playcount']
+               )
           );
           // header content
      }
@@ -148,7 +166,6 @@ class Page extends DefaultJson {
           $this->funcs->normalizeTrack($artist, $title);
           $db->updateTrackPlay($artist, $title);
 
-          
           /**
            * TODO: the code below can be merged with Playlist.php#getTopSongs
            * find a good place where the common code can be shared

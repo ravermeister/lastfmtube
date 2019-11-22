@@ -73,9 +73,12 @@ class VueController {
             
             updateAll: function (json) {            	
                 this.main.update(json);                
+                
                 this.playlist.lastfm.update(json);
                 this.playlist.user.update(json);
-                this.playlist.search.update(json);   
+                this.playlist.topsongs.update(json);
+                this.playlist.search.update(json);  
+                
                 this.video.youtube.update(json);
                 this.userlist.topuser.update(json);
             },

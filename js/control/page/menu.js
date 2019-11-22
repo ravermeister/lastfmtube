@@ -11,7 +11,7 @@ class Menu {
     constructor(pageControl) {
     	
     	this.pageControl = pageControl;
-    	    	
+    	
         this.youtube = {
             LOGO: pageControl.icons.youtube.big,
             TEXT: 'YouTube',
