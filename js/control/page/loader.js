@@ -274,7 +274,7 @@ class PageLoader {
 		if(this.pages.isPlaylist(page, true)) {
 			if(pageData === null || pageData.pnum === null
 				|| 'undefined' === typeof pageData.pnum) {
-				
+				console.log('load page of current track');
 				// load page of current song if page is current song playlist
 				if(page.value === curTrackPlaylist) {
 					let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  
