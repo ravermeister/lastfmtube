@@ -796,7 +796,6 @@ ul.actions.fit.stacked {
 	width: 100%;
 }
 
-/**
 @media screen and (max-width: 480px) {
 	ul.actions:not (.fixed ){
 		-moz-flex-direction: column;
@@ -807,7 +806,7 @@ ul.actions.fit.stacked {
 		width: 100% ! important;
 	}
 }
-**/
+
 
 ul.actions:not (.fixed ) li {
 	-moz-flex-grow: 1;
