@@ -65,9 +65,13 @@ class Page extends DefaultJson {
      }
 
      private function getBase() {
+          $locale = $this->funcs->getLocale();
           return array(
-               'TITLE' => $this->funcs->getLocale()['site']['title'],
-               'TEXT' => $this->funcs->getLocale()['site']['header'],
+               'TITLE' => $locale['site']['title'],
+               'TEXT' => $locale['site']['header'],
+               'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
+               'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
+               'PLAYLIST_LOAD' => $locale['playlist']['control']['load'],
                'MENU' => $this->getBaseMenu()
           );
           // header content
@@ -148,7 +152,6 @@ class Page extends DefaultJson {
           $this->funcs->normalizeTrack($artist, $title);
           $db->updateTrackPlay($artist, $title);
 
-          
           /**
            * TODO: the code below can be merged with Playlist.php#getTopSongs
            * find a good place where the common code can be shared

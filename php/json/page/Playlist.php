@@ -95,12 +95,9 @@ class Playlist extends DefaultJson {
                'LIST_MENU' => array(
                     'LASTFM_USER_NAME_LABEL' => $locale['playlist']['control']['user'],
                     'LASTFM_USER_NAME' => $lfmapi->getUser(),
-                    'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
-                    'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
-                    'PLAYLIST_LOAD' => $locale['playlist']['control']['load'],
-                    'PLAYLIST' => 'playlist.lastfm'
+                    'PLAYLIST' => 'playlist.lastfm'                    
                ),
                // lastfm navigation (pages/username)
 
@@ -203,8 +200,6 @@ class Playlist extends DefaultJson {
                ),
 
                'LIST_MENU' => array(
-                    'CUR_PAGE_LABEL' => $locale['playlist']['control']['page'],
-                    'PAGES_OF_LABEL' => $locale['playlist']['control']['pageof'],
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
                     'PLAYLIST' => 'playlist.topsongs',
