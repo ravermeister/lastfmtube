@@ -279,7 +279,7 @@ class PageLoader {
 					let curTrack = $player.currentTrackData.track;
 					let tracksPerPage = parseInt($page.settings.general.tracksPerPage);  
 					let curTnr = curTrack.NR;
-					
+					if(pageData === null) pageData = {};
                 	/**
 					 * if playlist is topsongs, fetch sortBy option from
 					 * current_track and decrease the position nr by playcount
@@ -300,7 +300,6 @@ class PageLoader {
                 	
 					let pnum = parseInt(curTnr / tracksPerPage);
 					if(curTnr % tracksPerPage > 0) pnum++;
-					if(pageData === null) pageData = {};
 					pageData.pnum = pnum;
 				}
 			}
