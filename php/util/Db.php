@@ -14,9 +14,9 @@ use PDOException;
 use PDOStatement;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 class Db {
 
@@ -59,6 +59,7 @@ class Db {
 
      /**
       * Db constructor.
+      *
       * @throws Exception
       */
      private function __construct() {
@@ -73,9 +74,17 @@ class Db {
 
      public function connect() {
           if ($this->isConnected()) return;
+
           $settings = Functions::getInstance()->getSettings();
-          $this->pdo = new PDO($settings['database']['dsn']);
-          $this->createdb();
+          $dbDsn = $settings['database']['dsn'];
+          try {
+               $this->pdo = new PDO($dbDsn);
+               $this->createdb();
+          } catch (\Exception $ex) {
+               $msg = 'Fehler beim laden der Datenbank >'.$dbDsn.'<';
+               $err = new \Exception($msg, 500, $ex);
+               throw $err;
+          }
      }
 
      public function isConnected() {
@@ -200,7 +209,7 @@ class Db {
                     FROM trackplay
                     WHERE playcount > 0;
 			',
-               
+
                'SELECT_ORDERED_TRACKPLAY' => '
                     SELECT artist, title, playcount, lastplayed, lastplay_ip, url
                     FROM trackplay
