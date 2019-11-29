@@ -115,7 +115,6 @@ abstract class DefaultJson implements JsonInterface {
                     'message' => $err->getMessage(),
                     'trace' => $err->getTraceAsString()
                ));
-               die($jsonError.'<<<<');
                $this->jsonError($jsonError);
                return $jsonError;
           }
@@ -130,7 +129,6 @@ abstract class DefaultJson implements JsonInterface {
      public function delete() {}
 
      protected function jsonError($msg) {
-          die('!!!!!!!!'.$msg);
           $json = array();
           $json['handler'] = $this->apiName;
           $json['method'] = $this->currentMethod;
