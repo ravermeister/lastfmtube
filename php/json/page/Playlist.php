@@ -62,8 +62,12 @@ class Playlist extends DefaultJson {
           $settings = $this->funcs->getSettings();
           $lfmapi = $this->funcs->getLfmApi();
           $locale = $this->funcs->getLocale();
-          $db = Db::getInstance();
-          die('slowly2');
+          
+          try {               
+               $db = Db::getInstance();
+          } catch(\PDOException $pdoErr) {
+               die(print_r($pdoErr));
+          }
           
           if ($this->isValidUser($user)) {
                if (strcmp($_SESSION['music']['lastfm_user'], $user) != 0) {
