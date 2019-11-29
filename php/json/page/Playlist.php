@@ -37,8 +37,7 @@ class Playlist extends DefaultJson {
           try {
                switch (self::getVar('list', '')) {
                     case 'playlist':
-                         $retval = $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
-                         die('>>>>>>>>>>>'. $retval);
+                         return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
                     case 'topsongs':
                          return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
                     case 'topuser':
@@ -63,6 +62,7 @@ class Playlist extends DefaultJson {
           $settings = $this->funcs->getSettings();
           $lfmapi = $this->funcs->getLfmApi();
           $locale = $this->funcs->getLocale();
+          die('slowly');
           $db = Db::getInstance();
 
           if ($this->isValidUser($user)) {
