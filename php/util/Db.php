@@ -14,9 +14,9 @@ use PDOException;
 use PDOStatement;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 class Db {
 
@@ -59,6 +59,7 @@ class Db {
 
      /**
       * Db constructor.
+      *
       * @throws Exception
       */
      private function __construct() {
@@ -74,8 +75,13 @@ class Db {
      public function connect() {
           if ($this->isConnected()) return;
           $settings = Functions::getInstance()->getSettings();
-          $this->pdo = new PDO($settings['database']['dsn']);
-          $this->createdb();
+          $dsn = $settings['database']['dsn'];
+          try {
+               $this->pdo = new PDO($dsn);
+               $this->createdb();
+          } catch (PDOException $ex) {
+               throw new Exception('Error initializin the database!', - 103, $ex);
+          }
      }
 
      public function isConnected() {
@@ -89,10 +95,11 @@ class Db {
      public function createdb() {
           if ($this->validate()) return false;
           $this->connect();
-          $sqlf = file_get_contents(Functions::getInstance()->getSettings()['database']['dbinit_file']);
+          $initsqlf = Functions::getInstance()->getSettings()['database']['dbinit_file'];
+          $sqlf = file_get_contents($initsqlf);
           if ($sqlf === false) {
-               Functions::getInstance()->logMessage('Error could not open initdb sql file');
-               return $sqlf;
+               throw new Exception('Error could not open initdb sql file >' . $initsqlf . '<');
+               return false;
           }
 
           $this->pdo->exec($sqlf);
@@ -200,7 +207,7 @@ class Db {
                     FROM trackplay
                     WHERE playcount > 0;
 			',
-               
+
                'SELECT_ORDERED_TRACKPLAY' => '
                     SELECT artist, title, playcount, lastplayed, lastplay_ip, url
                     FROM trackplay
