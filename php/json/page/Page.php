@@ -14,7 +14,6 @@ use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
 use Exception;
-use PDOException;
 
 /**
  *
@@ -24,16 +23,12 @@ use PDOException;
 class Page extends DefaultJson {
 
      public static function process($returnOutput = false) {
-          try {               
           /** @var Page $instance */
           $instance = new Page();
           $data = $instance->handleRequest();
           $data = $instance->jsonData($data);
           if ($returnOutput) return $data;
           die($data);
-          } catch (Exception | PDOException $err) {
-               self::jsonError('error in get: ' . $err->getMessage());
-          }
      }
 
      /**

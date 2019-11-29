@@ -12,6 +12,7 @@ require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
 use LastFmTube\Util\Functions;
 use Exception;
+use PDOException;
 
 /**
  * 
@@ -105,7 +106,7 @@ abstract class DefaultJson implements JsonInterface {
                          return $this->jsonError('unbekannte Action:' . $_SERVER['REQUEST_METHOD']);
                }
                // @formatter:on
-          } catch (Exception $err) {
+          } catch (PDOException | Exception $err) {
                $this->jsonError($err);
                return null;
           }

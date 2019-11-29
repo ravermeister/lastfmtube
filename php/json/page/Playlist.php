@@ -13,7 +13,6 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
-use PDOException;
 
 /**
  *
@@ -23,16 +22,11 @@ use PDOException;
 class Playlist extends DefaultJson {
 
      public static function process($returnOutput = false) {
-          try {
-               $instance = new Playlist();
-               $data = $instance->handleRequest();
-               $data = $instance->jsonData($data);
-               if ($returnOutput) return $data;
-               die($data);
-          } catch (Exception | PDOException $err) {
-               die('>>>');
-               self::jsonError('error in get: ' . $err->getMessage());
-          }
+          $instance = new Playlist();
+          $data = $instance->handleRequest();
+          $data = $instance->jsonData($data);
+          if ($returnOutput) return $data;
+          die($data);
      }
 
      /**
