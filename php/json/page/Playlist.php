@@ -30,6 +30,7 @@ class Playlist extends DefaultJson {
                if ($returnOutput) return $data;
                die($data);
           } catch (Exception | PDOException $err) {
+               die('>>>');
                self::jsonError('error in get: ' . $err->getMessage());
           }
      }
