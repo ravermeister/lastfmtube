@@ -77,12 +77,8 @@ class Db {
 
           $settings = Functions::getInstance()->getSettings();
           $dsn = $settings['database']['dsn'];
-          try {
-               $this->pdo = new PDO($dsn);
-               $this->createdb();
-          } catch (PDOException $ex) {
-               throw new Exception('Error initializin the database!', - 103, $ex);
-          }
+          $this->pdo = new PDO($dsn);
+          $this->createdb();
      }
 
      public function isConnected() {
