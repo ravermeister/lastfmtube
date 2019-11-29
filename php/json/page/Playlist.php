@@ -35,10 +35,10 @@ class Playlist extends DefaultJson {
       */
      function get() {
           try {
-               die('wtf2000');
                switch (self::getVar('list', '')) {
                     case 'playlist':
-                         return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
+                         $retval = $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
+                         die('>>>>>>>>>>>'. $retval);
                     case 'topsongs':
                          return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
                     case 'topuser':
