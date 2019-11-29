@@ -15,9 +15,9 @@ use Exception;
 use PDOException;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 abstract class DefaultJson implements JsonInterface {
 
@@ -107,8 +107,15 @@ abstract class DefaultJson implements JsonInterface {
                }
                // @formatter:on
           } catch (PDOException | Exception $err) {
-               $this->jsonError($err);
-               return null;
+               $this->funcs->logMessage('Exception occured: ' . $err->getMessage());
+               $this->funcs->logMessage($err->getTraceAsString());
+               $errData = array(
+                    'code' => $err->getCode(),
+                    'message' => $err->getMessage(),
+                    'trace' => $err->getTraceAsString()
+               );
+               $this->jsonError($errData);
+               return $errData;
           }
      }
 
@@ -128,7 +135,7 @@ abstract class DefaultJson implements JsonInterface {
           try {
                $json['data']['value'] = json_decode($msg);
           } catch (Exception $e) {
-               $json['data']['value'] = $msg;               
+               $json['data']['value'] = $msg;
           }
 
           self::setResponseHeader(500);
