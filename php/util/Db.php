@@ -76,14 +76,12 @@ class Db {
           if ($this->isConnected()) return;
 
           $settings = Functions::getInstance()->getSettings();
-          $dbDsn = $settings['database']['dsn'];
+          $dsn = $settings['database']['dsn'];
           try {
-               $this->pdo = new PDO($dbDsn);
+               $this->pdo = new PDO($dsn);
                $this->createdb();
-          } catch (\Exception $ex) {
-               $msg = 'Fehler beim laden der Datenbank >'.$dbDsn.'<';
-               $err = new \Exception($msg, 500, $ex);
-               throw $err;
+          } catch (PDOException $ex) {
+               throw new Exception('Error initializin the database!', - 103, $ex);
           }
      }
 
@@ -98,10 +96,11 @@ class Db {
      public function createdb() {
           if ($this->validate()) return false;
           $this->connect();
-          $sqlf = file_get_contents(Functions::getInstance()->getSettings()['database']['dbinit_file']);
+          $initsqlf = Functions::getInstance()->getSettings()['database']['dbinit_file'];
+          $sqlf = file_get_contents($initsqlf);
           if ($sqlf === false) {
-               Functions::getInstance()->logMessage('Error could not open initdb sql file');
-               return $sqlf;
+               throw new Exception('Error could not open initdb sql file >' . $initsqlf . '<');
+               return false;
           }
 
           $this->pdo->exec($sqlf);
