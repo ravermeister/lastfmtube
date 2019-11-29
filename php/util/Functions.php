@@ -51,16 +51,11 @@ class Functions {
      private function __construct($file = false) {
           $this->settingsFile = $file;
           $this->basedir = dirname(__FILE__) . '/../..';
-         try {
-             $this->initSettings();
-             $this->initLogFile();
-             $this->initLocale();
-             $this->initInstances();
-             $this->initSiteMapGenerator();
-         } catch (Exception $e) {
-             //$e->getMessage();
-         }
-
+          $this->initSettings();
+          $this->initLogFile();
+          $this->initLocale();
+          $this->initInstances();
+          $this->initSiteMapGenerator();
      }
 
     /**

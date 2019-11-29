@@ -34,20 +34,16 @@ class Playlist extends DefaultJson {
       * @return array|mixed|void
       */
      function get() {
-          try {
-               switch (self::getVar('list', '')) {
-                    case 'playlist':
-                         return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
-                    case 'topsongs':
-                         return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
-                    case 'topuser':
-                         return $this->getTopUser(self::getVar('page', 1));
-                    default:
-                         $this->jsonError('invalid arguments');
-                         break;
-               }
-          } catch (Exception $err) {
-               $this->jsonError('error in get: ' . $err->getMessage());
+          switch (self::getVar('list', '')) {
+               case 'playlist':
+                    return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
+               case 'topsongs':
+                    return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
+               case 'topuser':
+                    return $this->getTopUser(self::getVar('page', 1));
+               default:
+                    $this->jsonError('invalid arguments');
+                    break;
           }
      }
 
@@ -97,8 +93,8 @@ class Playlist extends DefaultJson {
                     'LASTFM_USER_NAME' => $lfmapi->getUser(),
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
-                    'PLAYLIST' => 'playlist.lastfm'                    
-               ),
+                    'PLAYLIST' => 'playlist.lastfm'
+               )
                // lastfm navigation (pages/username)
           );
 
@@ -204,7 +200,7 @@ class Playlist extends DefaultJson {
                               $locale['playlist']['control']['sortby']['playcount']
                          )
                     )
-               ),
+               )
                // lastfm navigation (pages/username)
           );
 
@@ -257,7 +253,7 @@ class Playlist extends DefaultJson {
                'LIST_MENU' => array(
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum
-               ),
+               )
                // lastfm navigation (pages/username)
           );
 
