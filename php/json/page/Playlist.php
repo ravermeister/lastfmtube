@@ -35,6 +35,7 @@ class Playlist extends DefaultJson {
       */
      function get() {
           try {
+               die('wtf2000');
                switch (self::getVar('list', '')) {
                     case 'playlist':
                          return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
