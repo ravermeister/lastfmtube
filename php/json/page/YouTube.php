@@ -15,9 +15,9 @@ use LastFmTube\Util\Db;
 use Exception;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 class YouTube extends DefaultJson {
 

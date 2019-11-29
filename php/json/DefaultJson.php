@@ -12,11 +12,12 @@ require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
 use LastFmTube\Util\Functions;
 use Exception;
+use PDOException;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 abstract class DefaultJson implements JsonInterface {
 
@@ -105,9 +106,17 @@ abstract class DefaultJson implements JsonInterface {
                          return $this->jsonError('unbekannte Action:' . $_SERVER['REQUEST_METHOD']);
                }
                // @formatter:on
-          } catch (Exception $err) {
-               $this->jsonError($err);
-               return null;
+          } catch (PDOException | Exception $err) {
+               $this->funcs->logMessage('Exception occured: ' . $err->getMessage());
+               $this->funcs->logMessage($err->getTraceAsString());
+
+               $jsonError = json_encode(array(
+                    'code' => $err->getCode(),
+                    'message' => $err->getMessage(),
+                    'trace' => $err->getTraceAsString()
+               ));
+               $this->jsonError($jsonError);
+               return $jsonError;
           }
      }
 
@@ -127,7 +136,7 @@ abstract class DefaultJson implements JsonInterface {
           try {
                $json['data']['value'] = json_decode($msg);
           } catch (Exception $e) {
-               $json['data']['value'] = $msg;               
+               $json['data']['value'] = $msg;
           }
 
           self::setResponseHeader(500);
