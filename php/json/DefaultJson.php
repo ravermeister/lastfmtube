@@ -107,6 +107,7 @@ abstract class DefaultJson implements JsonInterface {
                }
                // @formatter:on
           } catch (PDOException | Exception $err) {
+               die('>>>>wtf');
                $this->funcs->logMessage('Exception occured: ' . $err->getMessage());
                $this->funcs->logMessage($err->getTraceAsString());
                $errData = array(
