@@ -13,6 +13,7 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
+use PDOException;
 
 /**
  *
@@ -22,11 +23,15 @@ use Exception;
 class Playlist extends DefaultJson {
 
      public static function process($returnOutput = false) {
-          $instance = new Playlist();
-          $data = $instance->handleRequest();
-          $data = $instance->jsonData($data);
-          if ($returnOutput) return $data;
-          die($data);
+          try {
+               $instance = new Playlist();
+               $data = $instance->handleRequest();
+               $data = $instance->jsonData($data);
+               if ($returnOutput) return $data;
+               die($data);
+          } catch (Exception | PDOException $err) {
+               self::jsonError('error in get: ' . $err->getMessage());
+          }
      }
 
      /**
@@ -34,20 +39,16 @@ class Playlist extends DefaultJson {
       * @return array|mixed|void
       */
      function get() {
-          try {
-               switch (self::getVar('list', '')) {
-                    case 'playlist':
-                         return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
-                    case 'topsongs':
-                         return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
-                    case 'topuser':
-                         return $this->getTopUser(self::getVar('page', 1));
-                    default:
-                         $this->jsonError('invalid arguments');
-                         break;
-               }
-          } catch (Exception $err) {
-               $this->jsonError('error in get: ' . $err->getMessage());
+          switch (self::getVar('list', '')) {
+               case 'playlist':
+                    return $this->getLastFm(self::getVar('user', false), self::getVar('page', 1));
+               case 'topsongs':
+                    return $this->getTopSongs(self::getVar('page', 1), self::getVar('sortby', false));
+               case 'topuser':
+                    return $this->getTopUser(self::getVar('page', 1));
+               default:
+                    $this->jsonError('invalid arguments');
+                    break;
           }
      }
 
@@ -62,13 +63,8 @@ class Playlist extends DefaultJson {
           $settings = $this->funcs->getSettings();
           $lfmapi = $this->funcs->getLfmApi();
           $locale = $this->funcs->getLocale();
-          
-          try {               
-               $db = Db::getInstance();
-          } catch(\PDOException $pdoErr) {
-               die(print_r($pdoErr));
-          }
-          
+          $db = Db::getInstance();
+
           if ($this->isValidUser($user)) {
                if (strcmp($_SESSION['music']['lastfm_user'], $user) != 0) {
                     $_SESSION['music']['lastfm_user'] = $user;
@@ -102,8 +98,8 @@ class Playlist extends DefaultJson {
                     'LASTFM_USER_NAME' => $lfmapi->getUser(),
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum,
-                    'PLAYLIST' => 'playlist.lastfm'                    
-               ),
+                    'PLAYLIST' => 'playlist.lastfm'
+               )
                // lastfm navigation (pages/username)
           );
 
@@ -209,7 +205,7 @@ class Playlist extends DefaultJson {
                               $locale['playlist']['control']['sortby']['playcount']
                          )
                     )
-               ),
+               )
                // lastfm navigation (pages/username)
           );
 
@@ -262,7 +258,7 @@ class Playlist extends DefaultJson {
                'LIST_MENU' => array(
                     'MAX_PAGES' => $maxpages,
                     'CUR_PAGE' => $pageNum
-               ),
+               )
                // lastfm navigation (pages/username)
           );
 

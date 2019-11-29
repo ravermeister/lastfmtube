@@ -10,10 +10,11 @@ namespace LastFmTube\Json\Page;
 
 require_once dirname(__FILE__) . '/../DefaultJson.php';
 
-use Exception;
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use LastFmTube\Util\Functions;
+use Exception;
+use PDOException;
 
 /**
  *
@@ -23,12 +24,16 @@ use LastFmTube\Util\Functions;
 class Page extends DefaultJson {
 
      public static function process($returnOutput = false) {
+          try {               
           /** @var Page $instance */
           $instance = new Page();
           $data = $instance->handleRequest();
           $data = $instance->jsonData($data);
           if ($returnOutput) return $data;
           die($data);
+          } catch (Exception | PDOException $err) {
+               self::jsonError('error in get: ' . $err->getMessage());
+          }
      }
 
      /**

@@ -13,11 +13,12 @@ require_once dirname(__FILE__) . '/../DefaultJson.php';
 use LastFmTube\Json\DefaultJson;
 use LastFmTube\Util\Db;
 use Exception;
+use PDOException;
 
 /**
- * 
- * @author Jonny Rimkus<jonny@rimkus.it>
  *
+ * @author Jonny Rimkus<jonny@rimkus.it>
+ *        
  */
 class YouTube extends DefaultJson {
 
@@ -29,11 +30,15 @@ class YouTube extends DefaultJson {
      }
 
      public static function process($returnOutput = false) {
-          $instance = new YouTube();
-          $data = $instance->handleRequest();
-          $data = $instance->jsonData($data);
-          if ($returnOutput) return $data;
-          die($data);
+          try {
+               $instance = new YouTube();
+               $data = $instance->handleRequest();
+               $data = $instance->jsonData($data);
+               if ($returnOutput) return $data;
+               die($data);
+          } catch (Exception | PDOException $err) {
+               self::jsonError('error in get: ' . $err->getMessage());
+          }
      }
 
      /**
