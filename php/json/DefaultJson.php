@@ -115,6 +115,7 @@ abstract class DefaultJson implements JsonInterface {
                     'message' => $err->getMessage(),
                     'trace' => $err->getTraceAsString()
                ));
+
                $this->jsonError($jsonError);
                return $jsonError;
           }
@@ -138,7 +139,6 @@ abstract class DefaultJson implements JsonInterface {
           } catch (Exception $e) {
                $json['data']['value'] = $msg;
           }
-
           self::setResponseHeader(500);
           die(json_encode($json));
      }
