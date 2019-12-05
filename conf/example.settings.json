@@ -1,30 +1,30 @@
 {
-	"general": {
-		"domain": "https://lfmtube.domain",
-		"baseurl": "/path/to/project/root/dir",
-		"lang": "en",
-		"logfile": "conf/logs/lastfmtube.log",
-		"tmpdir" : "tmp",
-		"playerwidth": "100%",
-		"playerheight": "auto",
-		"theme": "dimension",
-		"lastfm_defaultuser": "lastfm default user",
-		"tracks_perpage": 25,
-		"sitemap_file": "/sitemap.xml",
-		"error_video": "qPg6GL6wuHE",
-		"autosave_videos": "true"
-	},
-	"database": {
-		"dsn": "database dsn",
-		"dbinit_file": "conf/init.db.sql"
-	},
-	"api": {
-		"lastfm": {
-			"user": "lastfm user",
-			"key": "lastfm api key"
-		},
-		"youtube": {
-			"key": "youtube api key"
-		}
-	}
+    "general": {
+        "domain": "https://lfmtube.domain",
+        "baseurl": "/path/to/project/root/dir",
+        "lang": "en",
+        "logfile": "tmp/lastfmtube.log",
+        "tmpdir": "tmp",
+        "playerwidth": "100%",
+        "playerheight": "auto",
+        "theme": "dimension",
+        "lastfm_defaultuser": "lastfm default user",
+        "tracks_perpage": 25,
+        "sitemap_file": "/sitemap.xml",
+        "error_video": "qPg6GL6wuHE",
+        "autosave_videos": "true"
+    },
+    "database": {
+        "dsn": "database dsn",
+        "dbinit_file": "conf/init.db.sql"
+    },
+    "api": {
+        "lastfm": {
+            "user": "lastfm user",
+            "key": "lastfm api key"
+        },
+        "youtube": {
+            "key": "youtube api key"
+        }
+    }
 }
