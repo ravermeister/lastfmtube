@@ -1,42 +1,14 @@
-version: '3'
+version: "3.3"
 
 services:
     web:
         container_name: lastfmtube
-        image: nginx:latest
+        build:
+            context: .
+            dockerfile: dev.Dockerfile
         ports:
             - "80:80"
-        links:
-            - php
-        depends_on:
-            - php
         volumes:
-            - .:/lfmtube
-            - ./conf/docker/nginx.conf:/etc/nginx/conf.d/default.conf
-        networks:
-            nginxnet:
-                ipv4_address: 172.18.0.10
+            - /var/www/html/vendor
+            - .:/var/www/html
         restart: always
-
-    php:
-        container_name: php
-        image: php:7-fpm
-        ports:
-            - "9000:9000"
-        build:
-            context: ./conf/docker
-            dockerfile: php
-        volumes:
-            - .:/lfmtube
-            - ./conf/docker/phplog.conf:/usr/local/etc/php-fpm.d/log.conf
-        networks:
-            nginxnet:
-                ipv4_address: 172.18.0.20
-        restart: always
-
-networks:
-    nginxnet:
-        ipam:
-            driver: default
-            config:
-                - subnet: 172.18.0.0/16
