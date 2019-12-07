@@ -1,4 +1,6 @@
 #!/bin/bash
+# Jonny Rimkus <jonny@rimkus.it>
+# 06.12.2019
 
 doCheck(){
 	if [ ! -f "./conf/settings.json" ]; then
