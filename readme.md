@@ -18,7 +18,15 @@ Demo | https://lastfm.rimkus.it
 4. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API](https://www.last.fm/api/) key
 5. create a [Youtube User](https://www.youtube.com) with a [Developer API](https://developers.google.com/youtube/v3) Key
 6. enter the API keys in the `settings.json`
-7. open http://example.com/lfmtube and enjoy
+7. open [http://example.com/lfmtube](http://example.com/lfmtube) and enjoy
+
+## Docker
+1. copy the file `conf/example.settings.json` to `conf/settings.json`
+2. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API]
+3. create a [Youtube User](https://www.youtube.com) with a [Developer API](https://developers.google.com/youtube/v3) Key
+4. enter the API keys in the `settings.json`
+5. run `docker.sh` or `docker.bat`
+6. open [http://localhost](http://localhost) and enjoy
 
 # About
 The [Last.fm Youtube Radio](https://lastfm.rimkus.it) searches and plays the listened tracks of a given [Last.fm User](https://www.last.fm/user/ravermeister)  on [YouTube](https://youtube.com). It is possible to search for alternative Youtube Videos or enter a video url directly. The Tracks which have a fixed Video Id will have a **'*'** prefixed. You can create your own playlist via menu 'add to playlist'. Additionally there is a Chart list which will be updated each time a song is heared. The Chart Counter works as follows:

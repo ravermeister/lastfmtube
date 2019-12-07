@@ -5,7 +5,7 @@ services:
         container_name: lastfmtube
         build:
             context: .
-            dockerfile: dev.Dockerfile
+            dockerfile: lastfmtube.Dockerfile
         ports:
             - "80:80"
         volumes:
