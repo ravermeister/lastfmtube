@@ -11,7 +11,7 @@ doCheck(){
 
 doStart() {
 	docker-compose up -d
-	docker exec -it lastfmtube sqlite3 /tmp/lfmdocker.db < ./conf/init.db.sql  
+	docker exec -it lastfmtube sqlite3 /tmp/lfmdocker.db < ./conf/init.db.sql
 	docker exec -it lastfmtube ls -l /tmp
 	docker exec -it lastfmtube chown root:www-data /tmp/lfmdocker.db
 	docker exec -it lastfmtube chmod g+w /tmp/lfmdocker.db
