@@ -20,7 +20,7 @@ Demo | https://lastfm.rimkus.it
 6. enter the API keys in the `settings.json`
 7. open [http://example.com/lfmtube](http://example.com/lfmtube) and enjoy
 
-## Docker
+# Docker
 1. copy the file `conf/example.settings.json` to `conf/settings.json`
 2. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API](https://www.last.fm/api/) key
 3. create a [Youtube User](https://www.youtube.com) with a [Developer API](https://developers.google.com/youtube/v3) Key
