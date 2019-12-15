@@ -18,3 +18,5 @@ composer\.lock
 sitemap.xml
 robots.txt
 sitemap.xml.gz
+my_api_key.txt
+show_informations.php
