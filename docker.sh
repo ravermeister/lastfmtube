@@ -17,7 +17,7 @@ doStart() {
 }
 
 doStop(){
-	docker stop lastfmtube
+	docker-compose down
 }
 
 usage(){
