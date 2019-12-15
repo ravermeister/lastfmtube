@@ -22,7 +22,7 @@ Demo | https://lastfm.rimkus.it
 
 ## Docker
 1. copy the file `conf/example.settings.json` to `conf/settings.json`
-2. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API]
+2. create a [Last.fm User](https://www.last.fm/user/ravermeister) with a [Developer API](https://www.last.fm/api/) key
 3. create a [Youtube User](https://www.youtube.com) with a [Developer API](https://developers.google.com/youtube/v3) Key
 4. enter the API keys in the `settings.json`
 5. run `docker.sh` or `docker.bat`
