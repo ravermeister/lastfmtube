@@ -1,21 +1,21 @@
 {
     "general": {
-        "domain": "https://lfmtube.domain",
-        "baseurl": "/path/to/project/root/dir",
+        "domain": "http://localhost",
+        "baseurl": "/var/www/html",
         "lang": "en",
         "logfile": "tmp/lastfmtube.log",
         "tmpdir": "tmp",
         "playerwidth": "100%",
         "playerheight": "auto",
         "theme": "dimension",
-        "lastfm_defaultuser": "lastfm default user",
+        "lastfm_defaultuser": "ravermeister",
         "tracks_perpage": 25,
         "sitemap_file": "/sitemap.xml",
         "error_video": "qPg6GL6wuHE",
         "autosave_videos": "true"
     },
     "database": {
-        "dsn": "database dsn",
+        "dsn": "sqlite:/tmp/lfmdocker.db",
         "dbinit_file": "conf/init.db.sql"
     },
     "api": {
