@@ -57,7 +57,7 @@ ctrl+right | Next Track | Player | | ctrl+shift+left | previous Page | Playlist 
 You can send any Title to your personal song list (will be stored in browser cache), which is saved during a browser restart.
 
 ## Listen to other Last.fm User's Song Timeline
-You can sarch any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
+You can search any [Last.fm User](https://www.last.fm/user/ravermeister) and listen to the Song Timeline.
 
 ## Admin interface
 There is an admin php cli Interface for Importing the replacement.csv Files and generating the sitemap.xml file.  
