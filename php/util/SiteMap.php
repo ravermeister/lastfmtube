@@ -60,7 +60,8 @@ class SiteMap {
 
      public function __construct($domain, $file = 'sitemap.xml', $indexfile = 'sitemap-index.xml', $compress = true) {
           $this->domain = $domain;
-          $this->generator = new SitemapGenerator($this->domain);
+          $basedir = dirname(__FILE__).'/../../';
+          $this->generator = new SitemapGenerator($this->domain, $basedir);
 
           // will create also compressed (gzipped) sitemap
           $this->generator->createGZipFile = $compress;
@@ -70,10 +71,10 @@ class SiteMap {
           $this->generator->maxURLsPerSitemap = 10000;
 
           // sitemap file name
-          $this->generator->sitemapFileName = $file;
+          $this->generator->setSitemapFileName($file);
 
           // sitemap index file name
-          $this->generator->sitemapIndexFileName = $indexfile;
+          $this->generator->setSitemapIndexFileName($indexfile);
      }
 
     /**
@@ -108,8 +109,9 @@ class SiteMap {
       * @return SiteMap for better chaining
       */
      public function create($submit = false) {
-          $this->generator->createSitemap();
-          $this->generator->writeSitemap();
+          $this->generator->flush();
+          $this->generator->finalize();
+          $this->generator->updateRobots();
           if ($submit) $this->submitSiteMap();
           return $this;
      }
