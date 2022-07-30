@@ -10,7 +10,6 @@ class PageController {
 
     constructor() {
 
-        this.analytics = null;
         this.icons = new Icons(this);
         this.settings = {};
         this.isReady = false;
@@ -24,27 +23,6 @@ class PageController {
         this.myVues = {};
 		VueController.applyVueMethods();
         this.applyJQueryMethods();
-    }
-    
-
-    trackPlaylist(playlist) {
-        if (!this.isFunction(this.analytics)) return;
-        this.analytics('send', {
-            'hitType': 'event',
-            'eventCategory': playlist,
-            'eventAction': 'view',
-            'eventLabel': 'Playlist'
-        });
-    }
-
-    trackSongPlay(track) {
-    	if (!this.isFunction(this.analytics)) return;
-    	this.analytics('send', {
-            'hitType': 'event',
-            'eventCategory': (track.artist + ' ' + track.title),
-            'eventAction': 'play',
-            'eventLabel': 'Track played'
-        });
     }
 
     applyJQueryMethods() {
@@ -243,7 +221,7 @@ class PageController {
             }
         }).done(function (json) {
 
-        	$playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true, true);
+        	$playlist.updateSongPlayCount($page.myVues.playlist.lastfm, json, true);
         	$playlist.updateSongPlayCount($page.myVues.playlist.topsongs, json);
         	$playlist.updateSongPlayCount($page.myVues.playlist.user, json); 
              	
