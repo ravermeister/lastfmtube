@@ -26,7 +26,7 @@ requirejs
 				],
 
 				// the Vue lib
-				VueLib : [
+				vue : [
 					'//unpkg.com/vue/dist/vue.global.prod',
 					'lib/vuejs/vue.global.prod'
 				],
@@ -62,7 +62,8 @@ requirejs
 
 			shim : {
 				'Vue' : {
-					deps: [ 'VueLib' ]
+					deps: [ 'vue' ],
+					exports: ['Vue']
 				},
 
 				'themeDir/main' : {
