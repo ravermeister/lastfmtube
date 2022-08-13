@@ -16,9 +16,9 @@ class VueController {
     static applyVueMethods() {
     	
     	if(VueController.vueMethodsApplied === true) return;
-        console.log('Vue', window.Vue);
+        let vue = window.Vue
 
-        Vue.prototype.$applyData = function (json, log = false) {
+        vue.config.globalProperties.$applyData = function (json, log = false) {
 
             if (typeof this === 'undefined' || this === null) {
                 console.error('Error, vue instance not found. Json: ', json, ', Vue: ', this);
