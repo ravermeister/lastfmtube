@@ -33,10 +33,10 @@ requirejs
 
 				// Vue RequireJS loader
 				// required for using vue components
-				vue : [ 
-					'//unpkg.com/require-vuejs/dist/require-vuejs.min',
-					'lib/vuejs/vue-requirejs.min' 
-				],
+				// vue : [
+				// 	'//unpkg.com/require-vuejs/dist/require-vuejs.min',
+				// 	'lib/vuejs/vue-requirejs.min'
+				// ],
 
 				// Storage js
 				Storages : [ 
