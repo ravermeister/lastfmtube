@@ -9,8 +9,8 @@
 class LibvuePlaylistHeader {
 	
 	static createTitleVue(elementId) {
-		
-		return new Vue({
+		const { createApp } = Vue
+		return createApp({
 		    el: '#'+elementId+'>.page-header-title>h2',
 		    data: {
 		        TEXT: '',
@@ -34,7 +34,8 @@ class LibvuePlaylistHeader {
 	}
 	
 	static createMenuVue(elementId){
-		return new Vue({
+		const { createApp } = Vue
+		return createApp({
 		    el: '#'+elementId+'>.page-header-nav',
 	        data: {
 	            PLAYLIST: '',
