@@ -16,7 +16,9 @@ class VueController {
     static applyVueMethods() {
     	
     	if(VueController.vueMethodsApplied === true) return;
-        console.log('Vue', Vue);
+        console.log('Vue', Window.Vue);
+        console.log('vue', Window.vue);
+
         Vue.prototype.$applyData = function (json, log = false) {
 
             if (typeof this === 'undefined' || this === null) {
