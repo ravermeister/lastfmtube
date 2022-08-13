@@ -33,7 +33,7 @@ requirejs
 
 				// Vue RequireJS loader
 				// required for using vue components
-				vue : [
+				vue2 : [
 					'//unpkg.com/requirejs-vue@1.1.5/requirejs-vue',
 					'lib/vuejs/vue-requirejs.min'
 				],
