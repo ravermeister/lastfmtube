@@ -48,7 +48,7 @@ class LibvueMainpage {
 
     update(json) {
         if ('undefined' !== typeof json.content) {
-            this.content._component.$data.PAGE_HEADER = json.content.TITLE;
+            this.content._component.data.PAGE_HEADER = json.content.TITLE;
             this.content.$data.PAGE_WELCOME = json.content.TEXT;
         }
 
