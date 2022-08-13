@@ -52,8 +52,8 @@ class LibvueMainpage {
 
     update(json) {
         if ('undefined' !== typeof json.content) {
-            this.content.$data.PAGE_HEADER = json.content.TITLE;
-            this.content.$data.PAGE_WELCOME = json.content.TEXT;
+            this.content.PAGE_HEADER = json.content.TITLE;
+            this.content.PAGE_WELCOME = json.content.TEXT;
         }
 
         if ('undefined' !== typeof json.basemenu) {
