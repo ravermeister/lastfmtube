@@ -27,8 +27,8 @@ requirejs
 
 				// the Vue lib
 				Vue : [ 
-					'//unpkg.com/vue@2.7.8/dist/vue.min',
-					'lib/vuejs/vue.min'
+					'//unpkg.com/vue/dist/vue.global.prod',
+					'lib/vuejs/vue.global.prod'
 				],
 
 				// Vue RequireJS loader
