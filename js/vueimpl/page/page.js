@@ -49,11 +49,11 @@ class LibvueMainpage {
     update(json) {
         if ('undefined' !== typeof json.content) {
             this.content._component.data.PAGE_HEADER = json.content.TITLE;
-            this.content.$data.PAGE_WELCOME = json.content.TEXT;
+            this.content._component.data.PAGE_WELCOME = json.content.TEXT;
         }
 
         if ('undefined' !== typeof json.basemenu) {
-        	this.menu.$data.MENUS = $page.menu.getMenu('default');
+        	this.menu._component.data.MENUS = $page.menu.getMenu('default');
         }
         
         if ('undefined' !== typeof json.listmenu) {
