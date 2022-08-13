@@ -26,7 +26,7 @@ requirejs
 				],
 
 				// the Vue lib
-				Vue : [
+				vue : [
 					'//unpkg.com/vue/dist/vue.global.prod',
 					'lib/vuejs/vue.global.prod'
 				],
