@@ -62,7 +62,6 @@ requirejs
 
 			shim : {
 				'Vue' : {
-					exports : [ 'Vue' ],
 					deps: ['vueLib']
 				},
 
