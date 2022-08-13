@@ -22,7 +22,8 @@ require([ 'Storages', 'vue' , 'page' ], function(Storages) {
 	window.Storages = Storages;
 	const { createApp } = Vue
 	window.Vue = createApp({});
-
+	console.log('app', window.Vue)
+	console.log('Vue', Vue)
 	$player = new PlayerController(Storages);
 	$playlist = new PlaylistController();
 	$page = new PageController();
