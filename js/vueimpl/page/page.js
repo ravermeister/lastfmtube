@@ -57,7 +57,7 @@ class LibvueMainpage {
         }
 
         if ('undefined' !== typeof json.basemenu) {
-        	this.menu.$data.MENUS = $page.menu.getMenu('default');
+        	this.menu.MENUS = $page.menu.getMenu('default');
         }
         
         if ('undefined' !== typeof json.listmenu) {
