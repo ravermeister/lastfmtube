@@ -11,9 +11,10 @@ class LibvueUser {
     constructor(elementId) {
     	
     	this.elementId = elementId;
-    	
+        const { createApp } = Vue
         this.header = {
-            title: new Vue({
+
+            title: createApp({
                 el: '#'+elementId+'>.page-header-title>h2',
                 data: {
                     HEADER: '',
@@ -38,7 +39,7 @@ class LibvueUser {
                 }
             }),
 
-            menu: new Vue({
+            menu: createApp({
                 el: '#'+elementId+'>.page-header-nav',
                 data: {
                     TYPE: ''
@@ -60,7 +61,7 @@ class LibvueUser {
         };
 
 
-        this.content = new Vue({
+        this.content = createApp({
             el: '#'+elementId+'>.page-content',
             data: {
                 USER_NR: 'Nr',
