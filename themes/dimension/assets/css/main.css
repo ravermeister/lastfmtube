@@ -398,6 +398,7 @@ input, select, textarea {
 	input[type="password"],
 	input[type="email"],
 	input[type="tel"],
+	input[type="number"],
 	select,
 	textarea {
 		-moz-appearance: none;
@@ -1733,7 +1734,6 @@ input, select, textarea {
 /* Hide HTML5 Up and Down arrows. */
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
 {
-	background-color: transparent;
 	-webkit-appearance: none;
 	margin: 0;
 }
