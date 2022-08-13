@@ -33,8 +33,8 @@ requirejs
 
 				// Vue RequireJS loader
 				// required for using vue components
-				vue2 : [
-					'//unpkg.com/requirejs-vue@1.1.5/requirejs-vue',
+				vue : [
+					'//unpkg.com/require-vuejs/dist/require-vuejs.min',
 					'lib/vuejs/vue-requirejs.min'
 				],
 
@@ -62,7 +62,8 @@ requirejs
 
 			shim : {
 				'Vue' : {
-					exports : [ 'Vue' ]
+					exports : [ 'Vue' ],
+					deps: [ 'vue' ]
 				},
 
 				'themeDir/main' : {
