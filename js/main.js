@@ -17,9 +17,10 @@ window.onbeforeunload = function() {
 	return true;
 };
 
-require([ 'Storages', 'vue' , 'page' ], function(Storages) {
+require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 
 	window.Storages = Storages;
+	window.Vue = Vue;
 
 	$player = new PlayerController(Storages);
 	$playlist = new PlaylistController();
