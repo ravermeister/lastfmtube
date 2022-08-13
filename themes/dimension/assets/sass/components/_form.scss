@@ -159,7 +159,7 @@
 		z-index: -1;
 
 		& + label {
-			@include icon;
+			@include icon(false, solid);
 			@include vendor('user-select', 'none');
 			color: _palette(fg);
 			cursor: pointer;
@@ -183,11 +183,11 @@
 				display: inline-block;
 				height: (_size(element-height) * 0.6);
 				left: 0;
-				//line-height: (_size(element-height) * 0.575);
-				line-height: calc(#{_size(element-height) * 0.575} + 0em);
+				line-height: (_size(element-height) * 0.6);
+				//line-height: calc(#{_size(element-height) * 0.6} + 0em);
 				position: absolute;
 				text-align: center;
-				top: -0.125rem;
+				top: -0.15rem;
 				width: (_size(element-height) * 0.6);
 			}
 		}

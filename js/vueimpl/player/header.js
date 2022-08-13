@@ -85,7 +85,7 @@ class LibvuePlayerHeader {
                     this.$applyData(json);
                 },
 
-                loadMenu: function (playlist, event) {
+                loadMenu: function (/*playlist, event*/) {
 
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 

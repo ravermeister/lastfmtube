@@ -137,7 +137,7 @@ class LibvuePlaylistMenu {
                 },
 
                 setVideo: function (track = null, vid) {
-                	let needle = null;
+                	let needle;
                 	if(track === null && this.$data.SEARCH_NEEDLE !== null) {
                 		
                 		needle = $page.createNeedle(

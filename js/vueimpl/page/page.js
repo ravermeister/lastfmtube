@@ -35,7 +35,7 @@ class LibvueMainpage {
 
             methods: {
 
-                loadMenu(menu, event) {
+                loadMenu(menu, _) {
                     // if (!$player.isReady) return;
                     $page.loader.loadMenu(menu);
                 }
@@ -53,9 +53,11 @@ class LibvueMainpage {
         if ('undefined' !== typeof json.basemenu) {
         	this.menu.$data.MENUS = $page.menu.getMenu('default');
         }
-        
-        if ('undefined' !== typeof json.listmenu) {
-        	json = json.listmenu;
-        }
+
+        // we do not need the page content data
+        // if ('undefined' !== typeof json.listmenu) {
+        // 	json = json.listmenu;
+        //     console.warn("we don't know what to do with ",json)
+        // }
     }
 }

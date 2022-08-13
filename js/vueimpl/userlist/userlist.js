@@ -91,21 +91,21 @@ class LibvueUser {
                     		  let aNr = parseInt(a.NR);
                     		  let bNr = parseInt(b.NR);
                     		  if(aNr < bNr) return -1 * modifier;
-                    		  if(aNr > bNr) return 1 * modifier;  
+                    		  if(aNr > bNr) return modifier;
                     		  break;
                     	  case 'USER_NAME':
                     		  if(a.NAME < b.NAME) return -1 * modifier;
-                    		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
+                    		  if(a.NAME > b.NAME) return modifier;
                     		  break;
                     	  case 'USER_PLAYCOUNT':
                     		  let aCnt = parseInt(a.PLAYCOUNT);
                     		  let bCnt = parseInt(b.PLAYCOUNT);
                     		  if(aCnt < bCnt) return -1 * modifier;
-                    		  if(aCnt > bCnt) return 1 * modifier;                    		  
+                    		  if(aCnt > bCnt) return modifier;
                     		  break;
                     	  case 'USER_LASTPLAY':
                     		  if(a.LASTPLAY < b.LASTPLAY) return -1 * modifier;
-                    		  if(a.LASTPLAY > b.LASTPLAY) return 1 * modifier;                    		  
+                    		  if(a.LASTPLAY > b.LASTPLAY) return modifier;
                     		  break;                    		  
                       }
                       return 0;

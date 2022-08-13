@@ -28,10 +28,10 @@ class LibvuePlayerMenu {
                 addToUserList: function () {
                     $playlist.addUserTrack($player.currentTrackData.track);
                 },
-                searchVideo: function (event) {
+                searchVideo: function (_) {
                     $page.loader.searchSong($player.currentTrackData.track);
                 },
-                showComments: function(event) {                	
+                showComments: function(_) {
                 	$page.myVues.video.youtube.comments.toggleVisibility();                	
                 }
             }
