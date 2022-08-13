@@ -26,14 +26,14 @@ requirejs
 				],
 
 				// the Vue lib
-				vueLib : [
+				Vue : [
 					'//unpkg.com/vue/dist/vue.global.prod',
 					'lib/vuejs/vue.global.prod'
 				],
 
 				// Vue RequireJS loader
 				// required for using vue components
-				Vue : [
+				vueRequire : [
 					'//unpkg.com/require-vuejs/dist/require-vuejs.min',
 					'lib/vuejs/vue-requirejs.min'
 				],
@@ -61,10 +61,6 @@ requirejs
 			},
 
 			shim : {
-				'Vue' : {
-					deps: ['vueLib']
-				},
-
 				'themeDir/main' : {
 					deps : [ 'jquery' ]
 				},
