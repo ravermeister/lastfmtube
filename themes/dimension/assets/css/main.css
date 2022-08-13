@@ -1668,3 +1668,85 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
+
+/************************************************************/
+#main #video-container, #main #video {
+	padding: 0.5rem 0.5rem 0 0.5rem;
+}
+
+#main #video-container, #main #video h2, #main #video-container, #main #video h2.major
+{
+	margin: 0;
+	margin-block-start: 0;
+	margin-block-end: 1rem;
+	padding: 0 0 0.5rem 0.5rem;
+}
+
+#main article .page-header-title {
+	clear: both;
+}
+
+#main article .page-header-nav {
+	position: relative;
+	top: -2rem;
+	left: -0.5rem;
+}
+
+#main article .page-content {
+	padding:
+}
+
+#main article .btn-nav {
+	float: left;
+	margin: 0 3px 0 3px;
+}
+
+#main article .btn-nav a {
+	vertical-align: center;
+	text-align: center;
+	padding-top: 4px;
+}
+
+#main article .btn-nav a span {
+	display: inline-block;
+}
+
+#main article .btn-page-nav button {
+	line-height: 0;
+	padding: 0 0.3rem 0 0.3rem;
+	float: left;
+}
+
+#main article .btn-page-nav input[type=submit] {
+	margin: 0 0.5rem 0 0.5rem;
+	float: left;
+}
+
+#footer .a2a_kit {
+	display: inline-block;
+}
+
+#footer .a2a_kit a {
+	text-decoration: none;
+}
+
+/* Hide HTML5 Up and Down arrows. */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button
+{
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+.track-playcount {
+	font-size: small;
+	position: relative;
+	bottom: 7px;
+	left: 7px;
+	float: right;
+	white-space: nowrap;
+	z-index: -1;
+}
