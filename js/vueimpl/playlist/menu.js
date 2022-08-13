@@ -9,7 +9,8 @@
 class LibvuePlaylistMenu {
 	
 	static createVue(elementId){
-		return new Vue({
+        const { createApp } = Vue
+		return createApp({
             el: '#'+elementId+'>.page-nav',
             data: {
                 LASTFM_USER_NAME_LABEL: 'User',
@@ -137,7 +138,7 @@ class LibvuePlaylistMenu {
                 },
 
                 setVideo: function (track = null, vid) {
-                	let needle = null;
+                	let needle;
                 	if(track === null && this.$data.SEARCH_NEEDLE !== null) {
                 		
                 		needle = $page.createNeedle(

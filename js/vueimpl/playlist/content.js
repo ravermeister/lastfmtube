@@ -9,7 +9,8 @@
 class LibvuePlaylistContent {
 	
 static createVue(elementId){
-	return new Vue({
+    const { createApp } = Vue
+	return createApp({
             el: '#'+elementId+'>.page-content',
             data: {
                 TRACK_NR: 'Nr',
