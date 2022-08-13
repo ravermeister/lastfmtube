@@ -20,6 +20,7 @@ window.onbeforeunload = function() {
 require([ 'vue', 'Storages', 'page' ], function(Storages) {
 
 	console.log(">>>>>VUE: ", Vue);
+	console.log(">>>>>VUE: ", Storages);
 
 	window.Storages = Storages;
 	window.Vue = Vue;
