@@ -17,10 +17,9 @@ window.onbeforeunload = function() {
 	return true;
 };
 
-require([ 'Storages', 'page' ], function(vue, Storages) {
+require([ 'vue', 'Storages', 'page' ], function(Storages) {
 
 	console.log(">>>>>VUE: ", Vue);
-	console.log(">>>>>VUE: ", vue);
 
 	window.Storages = Storages;
 	window.Vue = Vue;
