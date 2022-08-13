@@ -1692,9 +1692,9 @@ input, select, textarea {
 	left: -0.5rem;
 }
 
-#main article .page-content {
-	padding: 0px;
-}
+/*#main article .page-content {*/
+/*	padding: 0px;*/
+/*}*/
 
 #main article .btn-nav {
 	float: left;
