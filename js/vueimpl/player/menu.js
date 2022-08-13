@@ -9,7 +9,8 @@
 class LibvuePlayerMenu {
 	
 	static createVue(elementId){
-		return new Vue({
+        const { createApp } = Vue
+		return createApp({
             el: '#'+elementId+'>#player-menu',
             data: {
                 PLAYSTATE: ''
@@ -28,10 +29,10 @@ class LibvuePlayerMenu {
                 addToUserList: function () {
                     $playlist.addUserTrack($player.currentTrackData.track);
                 },
-                searchVideo: function (event) {
+                searchVideo: function (_) {
                     $page.loader.searchSong($player.currentTrackData.track);
                 },
-                showComments: function(event) {                	
+                showComments: function(_) {
                 	$page.myVues.video.youtube.comments.toggleVisibility();                	
                 }
             }

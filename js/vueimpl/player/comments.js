@@ -9,7 +9,8 @@
 class LibvuePlayerComments {
 	
 	static createVue(elementId) {
-		return new Vue({
+		const { createApp } = Vue
+		return createApp({
             el: '#'+elementId+'>#video-comments',
             data: {
             	showComments: false,

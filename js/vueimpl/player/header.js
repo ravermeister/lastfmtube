@@ -9,7 +9,8 @@
 class LibvuePlayerHeader {
 	
 	static createVue(elementId) {
-		return new Vue({
+		const { createApp } = Vue
+		return createApp({
             el: '#'+elementId+'>h2',
             data: {
                 PLAYLIST: null,
