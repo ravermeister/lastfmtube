@@ -63,7 +63,7 @@ requirejs
 			shim : {
 				'Vue' : {
 					deps: [ 'vue' ],
-					exports: ['Vue']
+					exports: ['vue']
 				},
 
 				'themeDir/main' : {
