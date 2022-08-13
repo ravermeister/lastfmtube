@@ -62,7 +62,8 @@ requirejs
 
 			shim : {
 				'Vue' : {
-					deps : [ 'vueLib' ]
+					deps : [ 'vueLib' ],
+					exports: ['vue']
 				},
 				'themeDir/main' : {
 					deps : [ 'jquery' ]
