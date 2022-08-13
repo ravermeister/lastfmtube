@@ -20,8 +20,6 @@ window.onbeforeunload = function() {
 require([ 'Storages', 'vue' , 'page' ], function(Storages) {
 
 	window.Storages = Storages;
-	const { createApp } = Vue
-	window.Vue = createApp({});
 
 	$player = new PlayerController(Storages);
 	$playlist = new PlaylistController();

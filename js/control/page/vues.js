@@ -16,7 +16,8 @@ class VueController {
     static applyVueMethods() {
     	
     	if(VueController.vueMethodsApplied === true) return;
-        let vue = window.Vue
+        const { createApp } = Vue
+        let vue = createApp({});
 
         vue.config.globalProperties.$applyData = function (json, log = false) {
 

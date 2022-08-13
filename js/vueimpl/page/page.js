@@ -8,16 +8,18 @@
 /***/
 class LibvueMainpage {
 
-    constructor() {
 
-        this.logo = new Vue({
+    constructor() {
+        const { createApp } = Vue
+
+        this.logo = createApp({
             el: '#header>.logo',
             data: {
                 PAGE_LOADER: 'fas fa-compact-disc faa-spin animated fa-3x'
             }
         });
 
-        this.content = new Vue({
+        this.content = createApp({
             el: '#header>.content',
             data: {
                 PAGE_HEADER: 'Last.fm Youtbe Radio',
@@ -25,7 +27,7 @@ class LibvueMainpage {
             }
         });
 
-        this.menu = new Vue({
+        this.menu = createApp({
             el: '#header>nav',
             data: {
                 TITLE: '',
@@ -35,7 +37,7 @@ class LibvueMainpage {
 
             methods: {
 
-                loadMenu(menu, event) {
+                loadMenu(menu, _) {
                     // if (!$player.isReady) return;
                     $page.loader.loadMenu(menu);
                 }
