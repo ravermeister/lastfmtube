@@ -11,18 +11,15 @@ class LibvueUser {
     constructor(elementId) {
     	
     	this.elementId = elementId;
-        const { createApp } = Vue
+    	
         this.header = {
-
-            title: createApp({
+            title: new Vue({
                 el: '#'+elementId+'>.page-header-title>h2',
-                data() {
-                    return {
-                        HEADER: '',
-                        TEXT: '',
-                        TYPE: '',
-                        LOADING: false
-                    }
+                data: {
+                    HEADER: '',
+                    TEXT: '',
+                    TYPE: '',
+                    LOADING: false
                 },
                 
                 computed: {
@@ -41,12 +38,10 @@ class LibvueUser {
                 }
             }),
 
-            menu: createApp({
+            menu: new Vue({
                 el: '#'+elementId+'>.page-header-nav',
-                data() {
-                    return {
-                        TYPE: ''
-                    }
+                data: {
+                    TYPE: ''
                 },
                 computed: {
                     MENUS: function () {
@@ -65,27 +60,25 @@ class LibvueUser {
         };
 
 
-        this.content = createApp({
+        this.content = new Vue({
             el: '#'+elementId+'>.page-content',
-            data() {
-                return {
-                    USER_NR: 'Nr',
-                    USER_NAME: 'Name',
-                    USER_PLAYCOUNT: 'Played',
-                    USER_LASTPLAY: 'Last Played',
+            data: {
+                USER_NR: 'Nr',
+                USER_NAME: 'Name',
+                USER_PLAYCOUNT: 'Played',
+                USER_LASTPLAY: 'Last Played',
 
-                    USER: [{
-                        NR: '',
-                        NAME: '',
-                        LASTPLAY: '',
-                        PLAYCOUNT: '',
-                        PLAY_CONTROL: '',
-                        PLAYCOUNT_CHANGE: ''
-                    }],
-
-                    currentSort:'USER_PLAYCOUNT',
-                    currentSortDir:'desc'
-                }
+                USER: [{
+                    NR: '',
+                    NAME: '',
+                    LASTPLAY: '',
+                    PLAYCOUNT: '',
+                    PLAY_CONTROL: '',
+                    PLAYCOUNT_CHANGE: ''
+                }],
+                
+                currentSort:'USER_PLAYCOUNT',
+                currentSortDir:'desc'
             },
             
             computed: {
@@ -98,21 +91,21 @@ class LibvueUser {
                     		  let aNr = parseInt(a.NR);
                     		  let bNr = parseInt(b.NR);
                     		  if(aNr < bNr) return -1 * modifier;
-                    		  if(aNr > bNr) return 1 * modifier;  
+                    		  if(aNr > bNr) return modifier;
                     		  break;
                     	  case 'USER_NAME':
                     		  if(a.NAME < b.NAME) return -1 * modifier;
-                    		  if(a.NAME > b.NAME) return 1 * modifier;                    		  
+                    		  if(a.NAME > b.NAME) return modifier;
                     		  break;
                     	  case 'USER_PLAYCOUNT':
                     		  let aCnt = parseInt(a.PLAYCOUNT);
                     		  let bCnt = parseInt(b.PLAYCOUNT);
                     		  if(aCnt < bCnt) return -1 * modifier;
-                    		  if(aCnt > bCnt) return 1 * modifier;                    		  
+                    		  if(aCnt > bCnt) return modifier;
                     		  break;
                     	  case 'USER_LASTPLAY':
                     		  if(a.LASTPLAY < b.LASTPLAY) return -1 * modifier;
-                    		  if(a.LASTPLAY > b.LASTPLAY) return 1 * modifier;                    		  
+                    		  if(a.LASTPLAY > b.LASTPLAY) return modifier;
                     		  break;                    		  
                       }
                       return 0;

@@ -26,9 +26,9 @@ requirejs
 				],
 
 				// the Vue lib
-				vue : [
-					'//unpkg.com/vue/dist/vue.global.prod',
-					'lib/vuejs/vue.global.prod'
+				Vue : [
+					'//unpkg.com/vue@2.7.8/dist/vue.min',
+					'lib/vuejs/vue.min'
 				],
 
 				// Storage js

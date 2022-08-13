@@ -9,15 +9,13 @@
 class LibvuePlaylistHeader {
 	
 	static createTitleVue(elementId) {
-		const { createApp } = Vue
-		return createApp({
+		
+		return new Vue({
 		    el: '#'+elementId+'>.page-header-title>h2',
-		    data() {
-		        return {
-					TEXT: '',
-					PLAYLIST: '',
-					LOADING: false
-				}
+		    data: {
+		        TEXT: '',
+		        PLAYLIST: '',
+		        LOADING: false
 		    },
 		    computed: {
                 LOGO: function () {
@@ -36,13 +34,10 @@ class LibvuePlaylistHeader {
 	}
 	
 	static createMenuVue(elementId){
-		const { createApp } = Vue
-		return createApp({
+		return new Vue({
 		    el: '#'+elementId+'>.page-header-nav',
-	        data() {
-	            return {
-					PLAYLIST: '',
-				}
+	        data: {
+	            PLAYLIST: '',
 	        },
 	        computed: {
 	            MENUS: function () {

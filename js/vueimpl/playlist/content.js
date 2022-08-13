@@ -9,17 +9,14 @@
 class LibvuePlaylistContent {
 	
 static createVue(elementId){
-    const { createApp } = Vue
-	return createApp({
+	return new Vue({
             el: '#'+elementId+'>.page-content',
-            data() {
-                return {
-                    TRACK_NR: 'Nr',
-                    TRACK_ARTIST: 'Artist',
-                    TRACK_TITLE: 'Title',
-                    TRACK_LASTPLAY: 'Lastplay',
-                    TRACKS: [LibvuePlaylist.createEmptyTrack()]
-                }
+            data: {
+                TRACK_NR: 'Nr',
+                TRACK_ARTIST: 'Artist',
+                TRACK_TITLE: 'Title',
+                TRACK_LASTPLAY: 'Lastplay',
+                TRACKS: [LibvuePlaylist.createEmptyTrack()]
             },
 
             methods: {
@@ -155,6 +152,6 @@ static createVue(elementId){
                     $playlist.deleteVideo(needle);
                 }
             }
-        }).mount();
+        });
 	}	
 }

@@ -9,30 +9,27 @@
 class LibvuePlaylistMenu {
 	
 	static createVue(elementId){
-        const { createApp } = Vue
-		return createApp({
+		return new Vue({
             el: '#'+elementId+'>.page-nav',
-            data() {
-                return {
-                    LASTFM_USER_NAME_LABEL: 'User',
-                    LASTFM_USER_NAME: '',
-                    CUR_PAGE_LABEL: 'Page',
-                    PAGES_OF_LABEL: 'of',
-                    MAX_PAGES: 0,
-                    CUR_PAGE: 0,
-                    PLAYLIST_LOAD: 'Load',
-                    PLAYLIST: '',
-                    SORTBY: {
-                        LABEL: 'Sort by',
-                        VALUES: ['Playcount', 'Date'],
-                        SELECTED: 'Playcount',
-                    },
+            data: {
+                LASTFM_USER_NAME_LABEL: 'User',
+                LASTFM_USER_NAME: '',
+                CUR_PAGE_LABEL: 'Page',
+                PAGES_OF_LABEL: 'of',
+                MAX_PAGES: 0,
+                CUR_PAGE: 0,
+                PLAYLIST_LOAD: 'Load',
+                PLAYLIST: '',
+                SORTBY: {
+                	LABEL: 'Sort by',
+                	VALUES: ['Playcount', 'Date'],
+                	SELECTED: 'Playcount',                	
+                },
 
-                    SAVED_VIDEO_ID: '',
-                    SEARCH_VIDEO_ID: '',
-                    SEARCH_NEEDLE: null,
-                    SEARCH_RESULT: []
-                }
+                SAVED_VIDEO_ID: '',
+                SEARCH_VIDEO_ID: '',
+                SEARCH_NEEDLE: null,
+                SEARCH_RESULT: []
             },
 
             computed: {

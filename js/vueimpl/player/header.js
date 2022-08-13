@@ -9,15 +9,12 @@
 class LibvuePlayerHeader {
 	
 	static createVue(elementId) {
-		const { createApp } = Vue
-		return createApp({
+		return new Vue({
             el: '#'+elementId+'>h2',
-            data() {
-				return {
-					PLAYLIST: null,
-					CURRENT_TRACK: null,
-					LOADING: false
-				}
+            data: {
+                PLAYLIST: null,
+                CURRENT_TRACK: null,
+                LOADING: false
             },
             computed: {
                 TEXT: function () {
@@ -88,7 +85,7 @@ class LibvuePlayerHeader {
                     this.$applyData(json);
                 },
 
-                loadMenu: function (playlist, event) {
+                loadMenu: function (/*playlist, event*/) {
 
                     if(this.CURRENT_TRACK !== null && 
 	                	this.CURRENT_TRACK.PLAYLIST !== null && 

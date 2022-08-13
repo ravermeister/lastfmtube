@@ -9,13 +9,10 @@
 class LibvuePlayerMenu {
 	
 	static createVue(elementId){
-        const { createApp } = Vue
-		return createApp({
+		return new Vue({
             el: '#'+elementId+'>#player-menu',
-            data() {
-                return {
-                    PLAYSTATE: ''
-                }
+            data: {
+                PLAYSTATE: ''
             },
             methods: {
                 togglePlay(play = false) {

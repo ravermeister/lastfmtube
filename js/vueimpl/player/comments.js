@@ -9,16 +9,13 @@
 class LibvuePlayerComments {
 	
 	static createVue(elementId) {
-		const { createApp } = Vue
-		return createApp({
+		return new Vue({
             el: '#'+elementId+'>#video-comments',
-            data() {
-            	return {
-					showComments: false,
-					videoId: '',
-					pageinfo: {},
-					commentData: [],
-				}
+            data: {
+            	showComments: false,
+            	videoId: '',
+            	pageinfo: {},
+            	commentData: [],
             },
             computed: {
         		showLoadMore: function() {        			

@@ -8,35 +8,29 @@
 /***/
 class LibvueMainpage {
 
-
     constructor() {
-        const { createApp } = Vue
 
-        this.logo = createApp({
+        this.logo = new Vue({
             el: '#header>.logo',
-            data() {
-                return {
-                    PAGE_LOADER: 'fas fa-compact-disc faa-spin animated fa-3x'
-                }
+            data: {
+                PAGE_LOADER: 'fas fa-compact-disc faa-spin animated fa-3x'
             }
         });
-        this.content = createApp({
+
+        this.content = new Vue({
             el: '#header>.content',
-            data() {
-                return {
-                    PAGE_HEADER: 'Last.fm Youtbe Radio',
-                    PAGE_WELCOME: 'under construction'
-                }
+            data: {
+                PAGE_HEADER: 'Last.fm Youtbe Radio',
+                PAGE_WELCOME: 'under construction'
             }
         });
-        this.menu = createApp({
+
+        this.menu = new Vue({
             el: '#header>nav',
-            data() {
-                return {
-                    TITLE: '',
-                    TEXT: '',
-                    MENUS: []
-                }
+            data: {
+                TITLE: '',
+                TEXT: '',
+                MENUS: []
             },
 
             methods: {
@@ -52,16 +46,17 @@ class LibvueMainpage {
 
     update(json) {
         if ('undefined' !== typeof json.content) {
-            this.content.PAGE_HEADER = json.content.TITLE;
-            this.content.PAGE_WELCOME = json.content.TEXT;
+            this.content.$data.PAGE_HEADER = json.content.TITLE;
+            this.content.$data.PAGE_WELCOME = json.content.TEXT;
         }
 
         if ('undefined' !== typeof json.basemenu) {
-        	this.menu.MENUS = $page.menu.getMenu('default');
+        	this.menu.$data.MENUS = $page.menu.getMenu('default');
         }
         
         if ('undefined' !== typeof json.listmenu) {
         	json = json.listmenu;
+            console.warn("we don't know what to do with ",json)
         }
     }
 }
