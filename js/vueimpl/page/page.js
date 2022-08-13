@@ -14,25 +14,29 @@ class LibvueMainpage {
 
         this.logo = createApp({
             el: '#header>.logo',
-            data: {
-                PAGE_LOADER: 'fas fa-compact-disc faa-spin animated fa-3x'
+            data() {
+                return {
+                    PAGE_LOADER: 'fas fa-compact-disc faa-spin animated fa-3x'
+                }
             }
         });
-
         this.content = createApp({
             el: '#header>.content',
-            data: {
-                PAGE_HEADER: 'Last.fm Youtbe Radio',
-                PAGE_WELCOME: 'under construction'
+            data() {
+                return {
+                    PAGE_HEADER: 'Last.fm Youtbe Radio',
+                    PAGE_WELCOME: 'under construction'
+                }
             }
         });
-
         this.menu = createApp({
             el: '#header>nav',
-            data: {
-                TITLE: '',
-                TEXT: '',
-                MENUS: []
+            data() {
+                return {
+                    TITLE: '',
+                    TEXT: '',
+                    MENUS: []
+                }
             },
 
             methods: {
@@ -48,12 +52,12 @@ class LibvueMainpage {
 
     update(json) {
         if ('undefined' !== typeof json.content) {
-            this.content._component.data.PAGE_HEADER = json.content.TITLE;
-            this.content._component.data.PAGE_WELCOME = json.content.TEXT;
+            this.content.$data.PAGE_HEADER = json.content.TITLE;
+            this.content.$data.PAGE_WELCOME = json.content.TEXT;
         }
 
         if ('undefined' !== typeof json.basemenu) {
-        	this.menu._component.data.MENUS = $page.menu.getMenu('default');
+        	this.menu.$data.MENUS = $page.menu.getMenu('default');
         }
         
         if ('undefined' !== typeof json.listmenu) {

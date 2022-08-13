@@ -12,12 +12,14 @@ static createVue(elementId){
     const { createApp } = Vue
 	return createApp({
             el: '#'+elementId+'>.page-content',
-            data: {
-                TRACK_NR: 'Nr',
-                TRACK_ARTIST: 'Artist',
-                TRACK_TITLE: 'Title',
-                TRACK_LASTPLAY: 'Lastplay',
-                TRACKS: [LibvuePlaylist.createEmptyTrack()]
+            data() {
+                return {
+                    TRACK_NR: 'Nr',
+                    TRACK_ARTIST: 'Artist',
+                    TRACK_TITLE: 'Title',
+                    TRACK_LASTPLAY: 'Lastplay',
+                    TRACKS: [LibvuePlaylist.createEmptyTrack()]
+                }
             },
 
             methods: {
@@ -153,6 +155,6 @@ static createVue(elementId){
                     $playlist.deleteVideo(needle);
                 }
             }
-        });
+        }).mount();
 	}	
 }

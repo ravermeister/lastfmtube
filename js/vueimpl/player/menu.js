@@ -12,8 +12,10 @@ class LibvuePlayerMenu {
         const { createApp } = Vue
 		return createApp({
             el: '#'+elementId+'>#player-menu',
-            data: {
-                PLAYSTATE: ''
+            data() {
+                return {
+                    PLAYSTATE: ''
+                }
             },
             methods: {
                 togglePlay(play = false) {

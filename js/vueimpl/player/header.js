@@ -12,10 +12,12 @@ class LibvuePlayerHeader {
 		const { createApp } = Vue
 		return createApp({
             el: '#'+elementId+'>h2',
-            data: {
-                PLAYLIST: null,
-                CURRENT_TRACK: null,
-                LOADING: false
+            data() {
+				return {
+					PLAYLIST: null,
+					CURRENT_TRACK: null,
+					LOADING: false
+				}
             },
             computed: {
                 TEXT: function () {

@@ -16,11 +16,13 @@ class LibvueUser {
 
             title: createApp({
                 el: '#'+elementId+'>.page-header-title>h2',
-                data: {
-                    HEADER: '',
-                    TEXT: '',
-                    TYPE: '',
-                    LOADING: false
+                data() {
+                    return {
+                        HEADER: '',
+                        TEXT: '',
+                        TYPE: '',
+                        LOADING: false
+                    }
                 },
                 
                 computed: {
@@ -41,8 +43,10 @@ class LibvueUser {
 
             menu: createApp({
                 el: '#'+elementId+'>.page-header-nav',
-                data: {
-                    TYPE: ''
+                data() {
+                    return {
+                        TYPE: ''
+                    }
                 },
                 computed: {
                     MENUS: function () {
@@ -63,23 +67,25 @@ class LibvueUser {
 
         this.content = createApp({
             el: '#'+elementId+'>.page-content',
-            data: {
-                USER_NR: 'Nr',
-                USER_NAME: 'Name',
-                USER_PLAYCOUNT: 'Played',
-                USER_LASTPLAY: 'Last Played',
+            data() {
+                return {
+                    USER_NR: 'Nr',
+                    USER_NAME: 'Name',
+                    USER_PLAYCOUNT: 'Played',
+                    USER_LASTPLAY: 'Last Played',
 
-                USER: [{
-                    NR: '',
-                    NAME: '',
-                    LASTPLAY: '',
-                    PLAYCOUNT: '',
-                    PLAY_CONTROL: '',
-                    PLAYCOUNT_CHANGE: ''
-                }],
-                
-                currentSort:'USER_PLAYCOUNT',
-                currentSortDir:'desc'
+                    USER: [{
+                        NR: '',
+                        NAME: '',
+                        LASTPLAY: '',
+                        PLAYCOUNT: '',
+                        PLAY_CONTROL: '',
+                        PLAYCOUNT_CHANGE: ''
+                    }],
+
+                    currentSort:'USER_PLAYCOUNT',
+                    currentSortDir:'desc'
+                }
             },
             
             computed: {

@@ -12,10 +12,12 @@ class LibvuePlaylistHeader {
 		const { createApp } = Vue
 		return createApp({
 		    el: '#'+elementId+'>.page-header-title>h2',
-		    data: {
-		        TEXT: '',
-		        PLAYLIST: '',
-		        LOADING: false
+		    data() {
+		        return {
+					TEXT: '',
+					PLAYLIST: '',
+					LOADING: false
+				}
 		    },
 		    computed: {
                 LOGO: function () {
@@ -37,8 +39,10 @@ class LibvuePlaylistHeader {
 		const { createApp } = Vue
 		return createApp({
 		    el: '#'+elementId+'>.page-header-nav',
-	        data: {
-	            PLAYLIST: '',
+	        data() {
+	            return {
+					PLAYLIST: '',
+				}
 	        },
 	        computed: {
 	            MENUS: function () {
