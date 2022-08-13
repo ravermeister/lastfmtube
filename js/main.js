@@ -27,14 +27,6 @@ require([ 'Vue', 'Storages', 'page' ], function(Vue, Storages) {
 	$page = new PageController();
 
 	$page.init(function() {
-		try {
-			require([ 'analytics' ], function(analytics) {
-				$page.analytics = analytics;
-			});
-		} catch (error) {
-			console.log('error initializing Google analytics: ', error);
-		}
-
 		$player.initWindow(function() {
 			HotKeys.init();
 			$player.autoPlay = true;

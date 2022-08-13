@@ -197,13 +197,10 @@ class PlaylistController {
         });
     }
     
-    updateSongPlayCount(vue, json, updateCurrent, trackSongPlay = false) {
+    updateSongPlayCount(vue, json, updateCurrent) {
     	    	
         let isTopSongPlaylist = (vue === $page.myVues.playlist.topsongs);
 
-        let doTrackSongPlay = function(track){
-        	$page.trackSongPlay(track);
-        };
         let updateTrack = function(track){
         	let pchange = 0;
         	// only calculate change for topsongs and youtube page
@@ -238,9 +235,6 @@ class PlaylistController {
         
         if(oldTrack !== null) {
         	updateTrack(oldTrack);
-            if(trackSongPlay) {
-            	doTrackSongPlay(oldTrack);
-            }
         } else if (isTopSongPlaylist) {
     		if (vue.content.$data.TRACKS.length <= (vue.content.$data.MAX_PAGES - 2)) {
     			let newTrack = LibvuePlaylist.createEmptyTrack();    			
