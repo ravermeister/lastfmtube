@@ -11,7 +11,7 @@
 					v-bind:value="SEARCH_VIDEO_ID" />
 			</div>
 
-			<div class="field third" style="max-width: 85px;">
+			<div class="field third" style="min-width: 70px; max-width: 90px;">
 				<label for="saveYouTubeSearch" v-html="SAVED_TITLE"></label>
 				<button
 					@click.prevent="setVideo(null, $('#search_videourl').val());"
@@ -21,7 +21,7 @@
 				</button>
 			</div>
 
-			<div class="field third" style="min-width: 172px;">
+			<div class="field third" style="min-width: 172px; max-width: 200px">
 				<label> {{CUR_PAGE_LABEL}} {{CUR_PAGE}} {{PAGES_OF_LABEL}}
 					{{MAX_PAGES}} </label>
 				<button @click.prevent="loadPrevPage(null, CUR_PAGE, MAX_PAGES)"
