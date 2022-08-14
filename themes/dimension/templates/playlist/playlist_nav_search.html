@@ -2,7 +2,7 @@
 	<form @submit.prevent="loadPage(null, $('#search_page').val())">
 		<div class="fields">
 
-			<div class="field third">
+			<div class="field third" style="min-width: 200px;">
 				<label for="search_videourl"><a href="//youtube.com"
 					target="_blank">Youtube Video</a></label> <input type="text"
 					name="playlist_video" id="search_videourl"
@@ -11,7 +11,7 @@
 					v-bind:value="SEARCH_VIDEO_ID" />
 			</div>
 
-			<div class="field third">
+			<div class="field third" style="max-width: 85px;">
 				<label for="saveYouTubeSearch" v-html="SAVED_TITLE"></label>
 				<button
 					@click.prevent="setVideo(null, $('#search_videourl').val());"
