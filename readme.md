@@ -1,11 +1,11 @@
-Author | Jonny Rimkus &lt;jonny@rimkus.it&gt;
------- | ---------------------------
-Website | https://www.rimkus.it
-License | http://www.wtfpl.net/
-Demo | https://lastfm.rimkus.it
+| Author  | Jonny Rimkus &lt;jonny@rimkus.it&gt; |
+|---------|--------------------------------------|
+| Website | https://www.rimkus.it                |
+| License | http://www.wtfpl.net/                |
+| Demo    | https://lastfm.rimkus.it             |
 
 # Requirements
-* PHP >= 5.6 (last test with 7.3)
+* PHP >= 5.6 (last test with 8.0)
 * PHP PDO SQLite tested (any PDO DB should work, but untested)
 * Composer (See `composer.json`)
 * [Lastf.fm](https://last.fm) Account with [API Support](https://www.last.fm/api/)
@@ -41,16 +41,23 @@ The Timer is designed to stop when player is paused, and will continue when the 
 ## Hotkeys
 The following global Shortcut keys are supported:
  
-Key binding | Command | Control |   | Key binding | Command | Control  
------------ | ------- | ------- | - | ----------- | ------- | -----   
-space | Play/Pause | Player | | ctrl+1 | Player Window | Page Navigation
-up | Volume Up | Player | | ctrl+2 | Last.fm Playlist | Page Navigation
-down | Volume Down | Player | | ctrl+3 | Custom User Playlist | Page Navigation 
-left | *Rewind Track | Player | | ctrl+4 | Topsongs Playlist | Page Navigation 
-right | *Fast Forward Track | Player | | ctrl+5 | Last.fm Users | Page Navigation
-ctrl+left | Previous Track | Player | | ctrl+shift+right | next Page | Playlist Navigation | 
-ctrl+right | Next Track | Player | | ctrl+shift+left | previous Page | Playlist Navigation | 
- 
+| Key binding      | Command              | Control             |  
+|------------------|----------------------|---------------------|
+| space            | Play/Pause           | Player              |
+| up               | Volume Up            | Player              |
+| down             | Volume Down          | Player              |     
+| left             | *Rewind Track        | Player              |     
+| right            | *Fast Forward Track  | Player              |     
+| ctrl+left        | Previous Track       | Player              |      
+| ctrl+right       | Next Track           | Player              |      
+| ctrl+1           | Player Window        | Page Navigation     |
+| ctrl+2           | Last.fm Playlist     | Page Navigation     |
+| ctrl+3           | Custom User Playlist | Page Navigation     |
+| ctrl+4           | Topsongs Playlist    | Page Navigation     |
+| ctrl+5           | Last.fm Users        | Page Navigation     |
+| ctrl+shift+right | next Page            | Playlist Navigation |
+| ctrl+shift+left  | previous Page        | Playlist Navigation |
+
 *The forward/rewind amount of time is increased when the functions is called fast in a row, and resetted to default afterwards.
 
 ## Personal Songlist
