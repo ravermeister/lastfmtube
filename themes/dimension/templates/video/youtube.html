@@ -1,0 +1,122 @@
+<article id="video-youtube-container" name="video-youtube-container">
+
+	<h2 class="major">
+		<a @click.prevent="loadMenu(PLAYLIST, $event);"
+			style="border: 0; cursor: pointer;"> <i v-bind:class="LOGO"></i>&nbsp;{{TEXT}}
+			{{TRACK_NR}}
+		</a>
+	</h2>
+
+	<!-- youtube embed: html5 method -->
+	<div id="player-container"></div>
+
+
+	<div id="player-menu"
+		style="margin-top: 1.5rem; margin-bottom: 0.5rem;">
+
+		<div class="btn-nav">
+			<a @click.prevent="togglePlay()" class="button medium"
+				title="Pause Track" v-show="PLAYSTATE === ''"> <span
+				class="fas fa-pause fa-2x"></span>
+			</a>
+		</div>
+		<div class="btn-nav">
+			<a @click.prevent="togglePlay()" class="button medium"
+				title="Pause Track"
+				v-show="PLAYSTATE === 'play' || PLAYSTATE === 'load'"> <span
+				class="fas fa-pause faa-flash animated  fa-2x"></span>
+			</a>
+		</div>
+		<div class="btn-nav">
+			<a @click.prevent="togglePlay()" class="button medium"
+				title="Play Track" v-show="PLAYSTATE === 'pause'"> <span
+				class="fas fa-play  fa-2x"></span>
+			</a>
+		</div>
+		<div class="btn-nav">
+			<a @click.prevent="prev()" class="button medium"
+				title="Previous Track"> <span class="fas fa-backward  fa-2x"></span>
+			</a>
+		</div>
+		<div class="btn-nav">
+			<a @click.prevent="next()" class="button medium" title="Next Track">
+				<span class="fas fa-forward  fa-2x"></span>
+			</a>
+		</div>
+
+		<div class="btn-nav">
+			<a @click.prevent="addToUserList()" class="button medium"
+				title="add to My Playlist"> <span
+				class="fas fa-user-plus  fa-2x"></span>
+			</a>
+		</div>
+
+		<div class="btn-nav">
+			<a @click.prevent="searchVideo($event)" class="button medium"
+				title="search alternative Track"> <span
+				class="fas fa-search  fa-2x"></span>
+			</a>
+		</div>
+
+		<div class="btn-nav">
+			<a @click.prevent="showComments($event)" class="button medium"
+				title="show Video Comments"> <span class="far fa-comment fa-2x"></span>
+			</a>
+		</div>
+	</div>
+
+	<br /> <br />
+
+
+	<div id="video-comments" v-if="showComments" class="comments-container">
+
+		<h4>Comments</h4>
+
+		<span v-if="showLoadMore">
+			<button id="comment-top" class="btn-loadmore" @click="loadMore();">Load
+				More</button>
+			<button class="btn-jump" onclick="location.href='#comment-bottom';">∇
+				Down</button>
+		</span>
+
+		<template v-for="comment in commentData">
+		<div class="dialogbox">
+			<div class="body">
+				<span class="tip tip-left"></span>
+				<div class="message">
+					<div class="dialogbox-user">
+						<a v-bind:href="comment.userchannel"
+							v-bind:title="comment.username + '\'s Channel'" target="_blank">
+							<img v-bind:src="comment.useravatar" />
+						</a>
+					</div>
+
+					<div class="dialogbox-text" v-html="comment.text"></div>
+
+
+					<div class="dialogbox-footer">
+						<div class="footer-content">
+							<span>{{comment.date}}</span> <span> <a
+								v-bind:href="comment.userchannel"
+								v-bind:title="comment.username + '\'s Channel'" target="_blank">
+									{{comment.username}} </a>
+							</span>
+						</div>
+						<div class="dialogbox-likes">
+							<span> <i class="far fa-thumbs-up"></i> {{comment.likes}}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</template>
+
+		<span v-if="showLoadMore">
+			<button id="comment-bottom" class="btn-loadmore" @click="loadMore();">Load
+				More</button>
+			<button class="btn-jump" onclick="location.href='#comment-top';">∆
+				Up</button>
+		</span>
+	</div>
+</article>
