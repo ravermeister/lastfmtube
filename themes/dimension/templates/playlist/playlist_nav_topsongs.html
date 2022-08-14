@@ -1,0 +1,42 @@
+<section class="page-nav">
+
+	<form @submit.prevent="loadPage(null, $('#topsongs_curpage').val())">
+		<div class="fields">
+
+			<div class="field third">
+				<label for="topsongs_curpage"> {{CUR_PAGE_LABEL}} </label> <input
+					type="number" name="topsongs_curpage" id="topsongs_curpage"
+					v-bind:value="CUR_PAGE" @mouseup="selectOnMouseUp($event)" />
+			</div>
+
+			<div class="field third btn-page-nav" style="width: initial;">
+				<label> {{CUR_PAGE}} {{PAGES_OF_LABEL}} {{MAX_PAGES}} </label>
+
+				<button type="button"
+					@click.prevent="loadPrevPage(null, $('#topsongs_curpage').val(), MAX_PAGES)"
+					title="Previous Page">
+					<span class="fas fa-step-backward fa-2x"></span>
+				</button>
+
+				<input type="submit" name="playlist_load" id="playlist_load"
+					v-bind:value="PLAYLIST_LOAD" />
+
+				<button type="button"
+					@click.prevent="loadNextPage(null, $('#topsongs_curpage').val(), MAX_PAGES)"
+					title="Next Page">
+					<span class="fas fa-step-forward fa-2x"></span>
+				</button>
+			</div>
+
+			<div class="field third">
+				<label>{{SORTBY.LABEL}}</label> <select id="topsongs-sortby"
+					v-model="SORTBY.SELECTED" @change="sortBy(event)">
+					<template v-for="VALUE in SORTBY.VALUES">
+					<option>{{VALUE}}</option>
+					</template>
+				</select>
+			</div>
+		</div>
+
+	</form>
+</section>

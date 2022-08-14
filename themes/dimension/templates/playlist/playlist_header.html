@@ -1,0 +1,16 @@
+<div class="page-header-nav">
+	<template v-for="MENU in MENUS">
+	<div class="btn-nav">
+		<a v-bind:title="MENU.TEXT" class="button"
+			@click.prevent="$page.loader.loadMenu(MENU, null);">
+			<div v-bind:class="MENU.LOGO"></div>
+		</a>
+	</div>
+	</template>
+</div>
+
+<div class="page-header-title">
+	<h2 class="major" style="vertical-align: middle;">
+		<span v-bind:class="LOGO"></span> <span>{{TEXT}}</span>
+	</h2>
+</div>
