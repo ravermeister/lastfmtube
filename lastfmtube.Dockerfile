@@ -1,10 +1,14 @@
 FROM php:8.0-alpine
 
-RUN apk add --no-cache composer php8-pdo php8-pdo_sqlite php8-intl php8-gd php8-sqlite3 sqlite php8-zip
+RUN apk add --no-cache \
+	composer lighttpd \
+	zlib-dev libpng-dev sqlite sqlite-dev icu-dev libzip-dev libxml2-dev \
+	&& docker-php-ext-install gd xml pdo pdo_sqlite intl zip ctype \
+	&& docker-php-ext-enable gd xml pdo pdo_sqlite intl zip ctype
 
 WORKDIR '/var/www/html'
 
 COPY composer.json .
-RUN composer install
+RUN php /usr/bin/composer.phar install
 
 EXPOSE 80
