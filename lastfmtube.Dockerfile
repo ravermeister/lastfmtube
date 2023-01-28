@@ -1,6 +1,6 @@
-FROM phpearth/php:7.3-nginx
+FROM php:8.0-alpine
 
-RUN apk add --no-cache composer php7.3-pdo php7.3-pdo_sqlite php7.3-intl php7.3-gd php7.3-sqlite3 sqlite php7.3-zip
+RUN apk add --no-cache composer php8-pdo php8-pdo_sqlite php8-intl php8-gd php8-sqlite3 sqlite php8-zip
 
 WORKDIR '/var/www/html'
 
