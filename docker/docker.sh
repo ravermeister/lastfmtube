@@ -3,7 +3,7 @@
 # 06.12.2019
 
 doCheck(){
-	if [ ! -f "./conf/settings.json" ]; then
+	if [ ! -f "../conf/settings.json" ]; then
 		echo "settings.json is missing"
 		exit 1
 	fi
